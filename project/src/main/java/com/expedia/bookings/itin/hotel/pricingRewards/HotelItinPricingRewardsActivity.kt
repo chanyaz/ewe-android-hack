@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinViewReceiptWidget
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
@@ -20,6 +19,8 @@ import com.expedia.bookings.itin.scopes.HotelItinViewReceiptScope
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.ActivityLauncher
+import com.expedia.bookings.itin.utils.FeatureProvider
+import com.expedia.bookings.itin.utils.FeatureSource
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
@@ -71,6 +72,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     var tripsTracking: ITripsTracking = TripsTracking
+    var features: FeatureSource = FeatureProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +92,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         summaryViewModel = HotelItinPricingSummaryViewModel(summaryScope)
         pricingSummaryView.viewModel = summaryViewModel
 
-        val viewReceiptScope = HotelItinViewReceiptScope(stringProvider, hotelRepo, this, tripsTracking, webViewLauncher, Features.all.viewReceipt)
+        val viewReceiptScope = HotelItinViewReceiptScope(stringProvider, hotelRepo, this, tripsTracking, webViewLauncher, features)
         val viewReceiptViewModel = HotelItinViewReceiptViewModel(viewReceiptScope)
         receiptButton.viewModel = viewReceiptViewModel
 

@@ -3,13 +3,13 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
-import com.expedia.bookings.itin.helpers.MockFeature
+import com.expedia.bookings.itin.helpers.MockFeatureProvider
 import com.expedia.bookings.itin.helpers.MockHotelRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
-import com.expedia.bookings.itin.scopes.HasFeature
+import com.expedia.bookings.itin.scopes.HasFeatureProvider
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -38,7 +38,7 @@ class HotelItinViewReceiptViewModelTest {
         showReceiptTestObserver.assertValueCount(1)
         showReceiptTestObserver.assertValuesAndClear(Unit)
 
-        scope.mockFeature.featureEnabled = false
+        scope.mockFeatureProvider.featureEnabled = false
         showReceiptTestObserver.assertNoValues()
         viewModel.itinObserver.onChanged(ItinMocker.hotelDetailsExpediaCollect)
         showReceiptTestObserver.assertNoValues()
@@ -57,7 +57,7 @@ class HotelItinViewReceiptViewModelTest {
         viewModel.itinObserver.onChanged(ItinMocker.hotelDetailsNoPriceDetails)
         showReceiptTestObserver.assertNoValues()
 
-        scope.mockFeature.featureEnabled = false
+        scope.mockFeatureProvider.featureEnabled = false
         showReceiptTestObserver.assertNoValues()
         viewModel.itinObserver.onChanged(ItinMocker.hotelDetailsNoPriceDetails)
         showReceiptTestObserver.assertNoValues()
@@ -84,7 +84,7 @@ class HotelItinViewReceiptViewModelTest {
 
         assertFalse(viewModel.shouldShowViewReceipt(hotelCollectItin, hotelCollectItin.firstHotel()))
 
-        scope.mockFeature.featureEnabled = false
+        scope.mockFeatureProvider.featureEnabled = false
         assertFalse(viewModel.shouldShowViewReceipt(hotelItin, hotelItin.firstHotel()))
     }
 
@@ -119,7 +119,7 @@ class HotelItinViewReceiptViewModelTest {
     }
 }
 
-class MockHotelItinViewReceiptScope : HasHotelRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeature {
+class MockHotelItinViewReceiptScope : HasHotelRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeatureProvider {
     override val strings: StringSource = MockStringProvider()
     override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     val viewReceiptTracking = MockTripsTracking()
@@ -127,6 +127,6 @@ class MockHotelItinViewReceiptScope : HasHotelRepo, HasStringProvider, HasLifecy
     override val itinHotelRepo = MockHotelRepo()
     val webLauncherMock = MockWebViewLauncher()
     override val webViewLauncher: IWebViewLauncher = webLauncherMock
-    val mockFeature = MockFeature()
-    override val feature = mockFeature
+    val mockFeatureProvider = MockFeatureProvider()
+    override val features = mockFeatureProvider
 }

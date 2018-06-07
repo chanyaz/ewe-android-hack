@@ -1,13 +1,13 @@
 package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
-import com.expedia.bookings.features.Feature
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.ActivityLauncher
+import com.expedia.bookings.itin.utils.FeatureSource
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
@@ -21,8 +21,8 @@ data class HotelItinDetailsScope(
         override val tripsTracking: ITripsTracking,
         override val activityLauncher: ActivityLauncher,
         override val abacus: AbacusSource,
-        override val feature: Feature
-) : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher, HasTripsTracking, HasActivityLauncher, HasAbacusProvider, HasFeature
+        override val features: FeatureSource
+) : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher, HasTripsTracking, HasActivityLauncher, HasAbacusProvider, HasFeatureProvider
 
 data class HotelItinToolbarScope(
         override val strings: StringSource,
@@ -43,8 +43,8 @@ data class HotelItinViewReceiptScope(
         override val lifecycleOwner: LifecycleOwner,
         override val tripsTracking: ITripsTracking,
         override val webViewLauncher: IWebViewLauncher,
-        override val feature: Feature
-) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeature
+        override val features: FeatureSource
+) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeatureProvider
 
 data class HotelItinTaxiViewModelScope(
         override val itinHotelRepo: ItinHotelRepoInterface,

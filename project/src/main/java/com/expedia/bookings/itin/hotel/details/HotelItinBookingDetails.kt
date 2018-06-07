@@ -11,7 +11,6 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.trips.ItinCardDataHotel
-import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinBookingInfoCardView
 import com.expedia.bookings.itin.common.ItinLinkOffCardView
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
@@ -20,6 +19,8 @@ import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.ActivityLauncher
+import com.expedia.bookings.itin.utils.FeatureProvider
+import com.expedia.bookings.itin.utils.FeatureSource
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.itin.utils.WebViewLauncher
@@ -40,6 +41,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
     var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
     val webViewLauncher: IWebViewLauncher = WebViewLauncher(context)
     val tripsTracking: ITripsTracking = TripsTracking
+    var features: FeatureSource = FeatureProvider
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_booking_details, this)
@@ -59,7 +61,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
                 itin.firstHotel()?.let { hotel ->
                     newPriceSummaryCard.visibility = View.VISIBLE
                     val activityLauncher = ActivityLauncher(context)
-                    val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking, activityLauncher, abacusProvider, Features.all.tripsGlassbox)
+                    val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking, activityLauncher, abacusProvider, features)
                     val vm = HotelItinPriceSummaryButtonViewModel(scope)
                     newPriceSummaryCard.viewModel = vm
                 }
