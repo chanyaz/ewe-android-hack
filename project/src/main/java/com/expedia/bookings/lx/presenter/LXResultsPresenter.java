@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.account.graphics.ArrowXDrawable;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.LXState;
@@ -60,7 +61,6 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import com.expedia.bookings.BuildConfig;
 
 public class LXResultsPresenter extends Presenter {
 
@@ -240,6 +240,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
+		sortFilterWidget.doneButtonClicked.subscribe(unit -> onLXFilterDoneClicked());
 	}
 
 	@Override
@@ -541,8 +542,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	@Subscribe
-	public void onLXFilterDoneClicked(Events.LXFilterDoneClicked event) {
+	public void onLXFilterDoneClicked() {
 		if (isUserBucketedForCategoriesTest) {
 			show(searchResultsWidget, FLAG_CLEAR_TOP);
 		}

@@ -157,10 +157,6 @@ public class Events {
 		// ignore
 	}
 
-	public static class LXFilterDoneClicked {
-		//ignore
-	}
-
 	public static class LXNewSearch {
 		public String locationName;
 		public LocalDate startDate;

@@ -44,6 +44,7 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 import kotlin.Unit;
 
 
@@ -58,6 +59,7 @@ public class LXSortFilterWidget extends LinearLayout {
 	private boolean clearTextFromReset = false;
 	private boolean skippedFirstFilter = false;
 	private boolean filterSelected = false;
+	public PublishSubject<Unit> doneButtonClicked = PublishSubject.create();
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -324,7 +326,7 @@ public class LXSortFilterWidget extends LinearLayout {
 					dynamicFeedbackWidget.animateDynamicFeedbackWidget();
 				}
 				else {
-					Events.post(new Events.LXFilterDoneClicked());
+					doneButtonClicked.onNext(Unit.INSTANCE);
 					if (isActivityFilterApplied()) {
 						OmnitureTracking.trackLinkLXTextSearch();
 					}
