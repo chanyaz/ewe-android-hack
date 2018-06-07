@@ -45,6 +45,7 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -292,9 +293,10 @@ class PhoneLaunchActivityTest {
         activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_LAUNCH
         activity.supportFragmentManager.beginTransaction().add(tripListFragment, "TRIP_LIST_FRAGMENT").commitNow()
 
-        assertFalse(mockTripsTracking.trackTripListVisited)
+        assertNull(mockTripsTracking.trackTripListVisited)
         activity.toolbar.tabLayout.getTabAt(1)?.select()
-        assertTrue(mockTripsTracking.trackTripListVisited)
+        assertNotNull(mockTripsTracking.trackTripListVisited)
+        assertEquals(0, mockTripsTracking.trackTripListVisited)
     }
 
     @Test

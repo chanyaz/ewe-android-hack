@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,25 +11,19 @@ import com.expedia.bookings.R
 import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBottomNavigationBarEnabled
-import com.expedia.bookings.utils.isBrandColorEnabled
+import com.expedia.bookings.widget.DisableableViewPager
 
-class TripListFragment : Fragment() {
-    private val tripToolbar: Toolbar by bindView(R.id.trip_list_toolbar)
+class TripListFragment : Fragment(), TabLayout.OnTabSelectedListener {
     private val tripTabLayout: TabLayout by bindView(R.id.trip_list_tabs)
+    private val viewPager: DisableableViewPager by bindView(R.id.trip_list_viewpager)
 
-    //TODO inject dependency from dagger
     var tripsTracking: ITripsTracking = TripsTracking
-
-    companion object {
-        val UPCOMING_TAB = 0
-        val PAST_TAB = 1
-        val CANCELLED_TAB = 2
-    }
+    lateinit var viewModel: ITripListFragmentViewModel
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
+        viewModel = TripListFragmentViewModel(tripsTracking)
         if (context is TripListFragmentListener) {
             val listener: TripListFragmentListener = context
             listener.onTripListFragmentAttached(this)
@@ -45,31 +37,30 @@ class TripListFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //toolbar and colors ab tests
-        handleToolbarAndTabColorForBrandColorsTest()
-        handleToolbarVisibilityAndTabColorForBottomNavTest()
+        viewPager.offscreenPageLimit = Integer.MAX_VALUE
+        viewPager.setPageSwipingEnabled(false)
+        viewPager.adapter = TripListAdapter(context)
+        tripTabLayout.setupWithViewPager(viewPager)
+        tripTabLayout.addOnTabSelectedListener(this)
     }
 
-    private fun handleToolbarAndTabColorForBrandColorsTest() {
-        if (isBrandColorEnabled(context)) {
-            val brandColor = ContextCompat.getColor(context, R.color.brand_primary)
-            tripToolbar.setBackgroundColor(brandColor)
-            tripTabLayout.setBackgroundColor(brandColor)
-            tripTabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.brand_secondary))
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        tripTabLayout.removeOnTabSelectedListener(this)
     }
 
-    private fun handleToolbarVisibilityAndTabColorForBottomNavTest() {
-        if (isBottomNavigationBarEnabled(context)) {
-            tripToolbar.visibility = View.VISIBLE
-            tripTabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.white))
-        } else {
-            tripToolbar.visibility = View.GONE
-        }
+    override fun onTabReselected(tab: TabLayout.Tab) {
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab) {
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab) {
+        viewModel.tabSelectedSubject.onNext(tab.position)
     }
 
     fun trackTripListVisit() {
-        tripsTracking.trackTripListVisit(tripTabLayout.selectedTabPosition)
+        viewModel.tripListVisitTrackingSubject.onNext(tripTabLayout.selectedTabPosition)
     }
 
     interface TripListFragmentListener {

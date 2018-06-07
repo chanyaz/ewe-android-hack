@@ -3,7 +3,7 @@ package com.expedia.bookings.itin.helpers
 import com.expedia.bookings.tracking.ITripsTracking
 
 class MockTripsTracking : ITripsTracking {
-    var trackTripListVisited = false
+    var trackTripListVisited: Int? = null
     var trackTripFolderAbTest = false
 
     var trackItinHotelViewReceiptCalled = false
@@ -55,7 +55,7 @@ class MockTripsTracking : ITripsTracking {
     }
 
     override fun trackTripListVisit(tabPosition: Int) {
-        trackTripListVisited = true
+        trackTripListVisited = tabPosition
     }
 
     override fun trackTripFolderAbTest() {

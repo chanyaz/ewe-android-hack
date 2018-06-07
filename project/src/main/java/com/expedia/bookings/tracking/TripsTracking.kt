@@ -3,7 +3,7 @@ package com.expedia.bookings.tracking
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripUtils
-import com.expedia.bookings.itin.triplist.TripListFragment
+import com.expedia.bookings.itin.triplist.TripListTabs
 import com.mobiata.android.Log
 
 object TripsTracking : OmnitureTracking(), ITripsTracking {
@@ -26,9 +26,9 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     override fun trackTripListVisit(tabPosition: Int) {
         var pageName = ""
         when (tabPosition) {
-            TripListFragment.UPCOMING_TAB -> pageName = ITIN_LIST_UPCOMING_TAB
-            TripListFragment.PAST_TAB -> pageName = ITIN_LIST_PAST_TAB
-            TripListFragment.CANCELLED_TAB -> pageName = ITIN_LIST_CANCELLED_TAB
+            TripListTabs.UPCOMING_TAB.value -> pageName = ITIN_LIST_UPCOMING_TAB
+            TripListTabs.PAST_TAB.value -> pageName = ITIN_LIST_PAST_TAB
+            TripListTabs.CANCELLED_TAB.value -> pageName = ITIN_LIST_CANCELLED_TAB
         }
         val s = createTrackPageLoadEventBase(pageName)
         s.appendEvents("event63")
