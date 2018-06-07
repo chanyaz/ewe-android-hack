@@ -17,7 +17,6 @@ import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
