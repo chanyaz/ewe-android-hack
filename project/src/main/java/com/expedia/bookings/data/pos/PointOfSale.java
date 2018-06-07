@@ -125,9 +125,6 @@ public class PointOfSale {
 	// Whether to show activities on this POS
 	private boolean mSupportsLx;
 
-	// Whether to show gound transport on this POS
-	private boolean mSupportsGT;
-
 	// Whether to show packages on this POS
 	private boolean mSupportsPackages;
 
@@ -668,8 +665,6 @@ public class PointOfSale {
 			return mSupportsCars || mSupportsCarsWebView;
 		case LX:
 			return mSupportsLx;
-		case TRANSPORT:
-			return mSupportsGT;
 		case FLIGHTS:
 			return mSupportsFlights;
 		case HOTELS:
@@ -1351,7 +1346,6 @@ public class PointOfSale {
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
-		pos.mSupportsGT = data.optBoolean("gtEnabled");
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mSupportsPackagesHSRHeader = data.optBoolean("packagesHSRHeaderEnabled", false);
 		pos.mSupportsPackagesHSRIncludesHeader = data.optBoolean("packagesHSRIncludesHeaderEnabled", false);

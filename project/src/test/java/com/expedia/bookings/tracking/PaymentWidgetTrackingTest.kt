@@ -48,13 +48,6 @@ class PaymentWidgetTrackingTest {
     }
 
     @Test
-    fun testPaymentEditTrackingForTransport() {
-        val eventName = "App.LX-GT.Checkout.Payment.Edit.Info"
-        OmnitureTracking.trackCheckoutPayment(LineOfBusiness.TRANSPORT)
-        OmnitureTestUtils.assertStateTracked(eventName, OmnitureMatchers.withEvars(mapOf(18 to eventName)), mockAnalyticsProvider)
-    }
-
-    @Test
     fun testPaymentEnterNewCardTrackingForFlights() {
         OmnitureTracking.trackShowPaymentEnterNewCard(LineOfBusiness.FLIGHTS_V2)
         OmnitureTestUtils.assertLinkTracked("Flight Checkout", "App.Flight.CKO.Payment.EnterManually", OmnitureMatchers.withEvars(HashMap<Int, String>()), mockAnalyticsProvider)

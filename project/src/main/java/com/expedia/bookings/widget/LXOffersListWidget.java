@@ -21,7 +21,6 @@ import butterknife.OnClick;
 import io.reactivex.subjects.PublishSubject;
 
 public class LXOffersListWidget extends android.widget.LinearLayout {
-	private boolean isGroundTransport;
 	private String activityId;
 	private String promoDiscountType;
 	private String activityDiscountType;
@@ -60,7 +59,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 				availableOffers.add(offer);
 			}
 		}
-		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject, isGroundTransport, activityId, promoDiscountType, activityDiscountType);
+		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject, activityId, promoDiscountType, activityDiscountType);
 
 		offerContainer.removeAllViews();
 
@@ -109,10 +108,6 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			}
 		});
 		return availableOffers;
-	}
-
-	public void setIsFromGroundTransport(boolean isGroundTransport) {
-		this.isGroundTransport = isGroundTransport;
 	}
 
 	public void setActivityId(String activityId) {

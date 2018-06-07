@@ -150,8 +150,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	SegmentedLinearInterpolator mIGalleryScroll;
 	public PublishSubject<Unit> mapClickSubject =  PublishSubject.create();
 
-	private boolean isGroundTransport;
-
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -220,7 +218,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public void onShowActivityDetails(ActivityDetailsResponse activityDetails) {
 		//  Track Product Information on load of this Local Expert Information screen.
-		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams, isGroundTransport, lxState.getPromoDiscountType());
+		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams, lxState.getPromoDiscountType());
 		this.activityDetails = activityDetails;
 		offers.setActivityId(activityDetails.id);
 		offers.setPromoDiscountType(lxState.getPromoDiscountType());
@@ -247,7 +245,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		buttonSelected.setChecked(true);
 		buttonSelected.setSelected(true);
 		//  Track Link to track Change of dates.
-		OmnitureTracking.trackLinkLXChangeDate(isGroundTransport);
+		OmnitureTracking.trackLinkLXChangeDate();
 		buildOffersSection(dateSelected);
 	}
 
@@ -539,11 +537,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		int from = getScrollY();
 		int to = from != 0 ? 0 : mInitialScrollTop;
 		animateScrollY(from, to);
-	}
-
-	public void setIsFromGroundTransport(boolean isGroundTransport) {
-		this.isGroundTransport = isGroundTransport;
-		offers.setIsFromGroundTransport(isGroundTransport);
 	}
 
 	@VisibleForTesting

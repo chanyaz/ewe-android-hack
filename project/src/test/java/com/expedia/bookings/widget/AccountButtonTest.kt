@@ -17,7 +17,6 @@ import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
-import com.expedia.bookings.data.trips.TripBucketItemTransport
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserJSONHelper
 import com.expedia.bookings.test.MockHotelServiceTestRule
@@ -225,12 +224,10 @@ class AccountButtonTest {
     @Test
     fun testNullRewardsOtherThanHotelV2AndFlights() {
         Db.getTripBucket().add(TripBucketItemLX(LXCreateTripResponse()))
-        Db.getTripBucket().add(TripBucketItemTransport(LXCreateTripResponse()))
         val packageCreateTripResponse = MultiItemApiCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.LX))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.PACKAGES))
-        assertNull(accountButton.getRewardsForLOB(LineOfBusiness.TRANSPORT))
     }
 
     @Test

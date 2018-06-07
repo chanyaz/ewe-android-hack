@@ -43,7 +43,7 @@ class LXTicketPickerTest {
     }
 
     @Test fun testTicketPicker() {
-        picker.bind(buildTicket(), "", 1, false)
+        picker.bind(buildTicket(), "", 1)
 
         val ticketCount = picker.findViewById<View>(R.id.ticket_count) as TextView
         val ticketDetailsContainer = picker.findViewById<View>(R.id.ticket_details_container) as LinearLayout
@@ -65,28 +65,28 @@ class LXTicketPickerTest {
     }
 
     @Test fun testTicketPickerButtonDefaultValue() {
-        picker.bind(buildTicket(), "", 1, false)
+        picker.bind(buildTicket(), "", 1)
 
         assertTrue { ticketAdd.isEnabled }
         assertTrue { ticketRemove.isEnabled }
     }
 
     @Test fun testTicketPickerButtonMinimumValue() {
-        picker.bind(buildTicket(), "", 0, false)
+        picker.bind(buildTicket(), "", 0)
 
         assertTrue { ticketAdd.isEnabled }
         assertFalse { ticketRemove.isEnabled }
     }
 
     @Test fun testTicketPickerButtonMaximumState() {
-        picker.bind(buildTicket(), "", 8, false)
+        picker.bind(buildTicket(), "", 8)
 
         assertFalse { ticketAdd.isEnabled }
         assertTrue { ticketRemove.isEnabled }
     }
 
     @Test fun testTicketPickerButtonVolumeBasedState() {
-        picker.bind(buildVolumeBasedTicket(), "", 4, false)
+        picker.bind(buildVolumeBasedTicket(), "", 4)
 
         assertFalse { ticketAdd.isEnabled }
         assertTrue { ticketRemove.isEnabled }

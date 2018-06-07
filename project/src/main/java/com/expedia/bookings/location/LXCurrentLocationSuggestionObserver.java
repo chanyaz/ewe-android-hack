@@ -22,14 +22,11 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 
 	private Context context;
 	private LxSearchParams currentLocationSearchParams = null;
-	private boolean isGroundTransport;
 	public Disposable disposable;
 
-	public LXCurrentLocationSuggestionObserver(Context context, LxSearchParams currentLocationSearchParams,
-		boolean isGroundTransport) {
+	public LXCurrentLocationSuggestionObserver(Context context, LxSearchParams currentLocationSearchParams) {
 		this.context = context;
 		this.currentLocationSearchParams = currentLocationSearchParams;
-		this.isGroundTransport = isGroundTransport;
 	}
 
 	@Override
@@ -42,7 +39,7 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 			showNoInternetErrorDialog(R.string.error_no_internet);
 		}
 		else {
-			LXNavUtils.handleLXSearchFailure(e, SearchType.DEFAULT_SEARCH, isGroundTransport);
+			LXNavUtils.handleLXSearchFailure(e, SearchType.DEFAULT_SEARCH);
 		}
 	}
 

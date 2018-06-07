@@ -19,7 +19,6 @@ import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
-import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.lx.presenter.LXTravelersPresenter;
@@ -50,8 +49,6 @@ import io.reactivex.disposables.Disposable;
 public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	implements CVVEntryWidget.CVVEntryFragmentListener {
 
-	private boolean isGroundTransport;
-
 	public LXCheckoutMainViewPresenter(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
@@ -67,7 +64,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	LxServices lxServices;
 
 	protected LineOfBusiness getLineOfBusiness() {
-		return isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX;
+		return LineOfBusiness.LX;
 	}
 
 	@Override
@@ -218,21 +215,14 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 
 		@Override
 		public void onNext(LXCreateTripResponse response) {
-			if (getLineOfBusiness() == LineOfBusiness.TRANSPORT) {
-				Db.getTripBucket().clearTransport();
-				Db.getTripBucket().add(new TripBucketItemTransport(response));
-			}
-			else if (getLineOfBusiness() == LineOfBusiness.LX) {
-				Db.getTripBucket().clearLX();
-				Db.getTripBucket().add(new TripBucketItemLX(response));
-			}
+			Db.getTripBucket().clearLX();
+			Db.getTripBucket().add(new TripBucketItemLX(response));
 
 			showProgress(false);
 			OmnitureTracking.trackAppLXCheckoutPayment(lxState.activity.id,
 				ApiDateUtils
 					.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
-				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString(),
-				isGroundTransport);
+				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString());
 			Money tripTotalPrice = response.hasPriceChange() ? response.newTotalPrice : lxState.latestTotalPrice();
 			// We don't support multiple ticket booking as of now, passing only the first bookable item.
 			bind(response.tripId, response.originalPrice, tripTotalPrice, response.lxProduct.lxBookableItems.get(0));
@@ -293,9 +283,5 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	@Subscribe
 	public void onLogin(Events.LoggedInSuccessful event) {
 		onLoginSuccessful();
-	}
-
-	public void setIsFromGroundTransport(boolean isGroundTransport) {
-		this.isGroundTransport = isGroundTransport;
 	}
 }

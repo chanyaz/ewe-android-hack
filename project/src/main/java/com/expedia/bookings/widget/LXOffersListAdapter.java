@@ -31,12 +31,11 @@ public class LXOffersListAdapter extends BaseAdapter {
 	//List of Offers for an Activity
 	private List<Offer> offers = new ArrayList<>();
 	PublishSubject<Offer> publishSubject;
-	private boolean isGroundTransport;
 	private String activityId;
 	private String promoDiscountType;
 	private String activityDiscountType;
 
-	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, boolean isGroundTransport, String activityId, String promoDiscountType, String activityDiscountType) {
+	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, String activityId, String promoDiscountType, String activityDiscountType) {
 		this.offers = offers;
 		this.publishSubject = subject;
 		this.activityId = activityId;
@@ -46,8 +45,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		if (CollectionUtils.isNotEmpty(offers) && offers.size() == 1 ) {
 			offers.get(0).isToggled = true;
 			publishSubject.onNext(offers.get(0));
-			this.isGroundTransport = isGroundTransport;
-			OmnitureTracking.trackLinkLXSelectTicket(isGroundTransport);
+			OmnitureTracking.trackLinkLXSelectTicket();
 		}
 	}
 
@@ -75,7 +73,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		}
 
 		viewHolder = (ViewHolder) convertView.getTag();
-		viewHolder.bind(offer, publishSubject, isGroundTransport, activityId, promoDiscountType, position, activityDiscountType);
+		viewHolder.bind(offer, publishSubject, activityId, promoDiscountType, position, activityDiscountType);
 		return convertView;
 	}
 
@@ -93,7 +91,6 @@ public class LXOffersListAdapter extends BaseAdapter {
 		private PublishSubject<Offer> publishSuject;
 
 		private View itemView;
-		private boolean isGroundTransport;
 		private String activityId;
 		private String promoDiscountType;
 		private int position;
@@ -141,14 +138,13 @@ public class LXOffersListAdapter extends BaseAdapter {
 			else {
 				promoType = "NONE";
 			}
-			OmnitureTracking.trackLXOfferClicked(activityId, offer.id, promoType, position + 1, isGroundTransport);
+			OmnitureTracking.trackLXOfferClicked(activityId, offer.id, promoType, position + 1);
 			Events.post(new Events.LXOfferBooked(offer, ticketSelectionWidget.getSelectedTickets()));
 		}
 
-		public void bind(final Offer offer, PublishSubject<Offer> offerPublishSubject, boolean isGroundTransport, String activityId, String promoDiscountType, int position, String activityDiscountType) {
+		public void bind(final Offer offer, PublishSubject<Offer> offerPublishSubject, String activityId, String promoDiscountType, int position, String activityDiscountType) {
 			this.offer = offer;
 			this.publishSuject = offerPublishSubject;
-			this.isGroundTransport = isGroundTransport;
 			this.activityId = activityId;
 			this.promoDiscountType = promoDiscountType;
 			this.position = position;
@@ -156,7 +152,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 			FontCache.setTypeface(selectTickets, FontCache.Font.ROBOTO_REGULAR);
 			FontCache.setTypeface(bookNow, FontCache.Font.ROBOTO_REGULAR);
-			ticketSelectionWidget.bind(offer, isGroundTransport);
+			ticketSelectionWidget.bind(offer);
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 				LXDataUtils.addPriceSummaryRow(itemView.getContext(), priceSummaryContainer, ticket);
 				priceSummaryContainer.setVisibility(View.VISIBLE);
@@ -173,12 +169,12 @@ public class LXOffersListAdapter extends BaseAdapter {
 			if (this.offer.id.equals(event.offer.id)) {
 				if (!offer.isToggled) {
 					//  Track Link to track Ticket Selected.
-					OmnitureTracking.trackLinkLXSelectTicket(isGroundTransport);
+					OmnitureTracking.trackLinkLXSelectTicket();
 				}
 				offer.isToggled = true;
 				offerRow.setVisibility(View.GONE);
 				if (Constants.LX_AIR_MIP.equals(activityDiscountType) && !Constants.LX_AIR_MIP.equals(offer.discountType)) {
-					OmnitureTracking.trackLXProductForNonMipMod(activityId, false);
+					OmnitureTracking.trackLXProductForNonMipMod(activityId);
 				}
 				ticketSelectionWidget.setVisibility(View.VISIBLE);
 			}

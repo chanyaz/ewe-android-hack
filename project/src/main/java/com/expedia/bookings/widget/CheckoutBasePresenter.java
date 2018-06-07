@@ -509,8 +509,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			switch (getLineOfBusiness()) {
 			//Hotel Tracking is inside HotelCheckoutMainViewPresenter as we have to handle ETP,pwp etc.
 			case LX:
-			case TRANSPORT:
-				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(getLineOfBusiness(), cardType);
+				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
 				break;
 			}
 		}

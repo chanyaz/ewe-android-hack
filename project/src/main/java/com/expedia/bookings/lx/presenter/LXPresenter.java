@@ -62,7 +62,6 @@ import kotlin.jvm.functions.Function0;
 public class LXPresenter extends Presenter {
 
 	private static final int ANIMATION_DURATION = 400;
-	private boolean isGroundTransport;
 
 	public LXPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -507,7 +506,7 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
-		OmnitureTracking.trackAppLXSearchBox(isGroundTransport);
+		OmnitureTracking.trackAppLXSearchBox();
 		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
 		searchParamsWidget.showDefault();
 	}
@@ -519,7 +518,7 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowParamsOverlayOnResults(Events.LXSearchParamsOverlay event) {
-		OmnitureTracking.trackAppLXSearchBox(isGroundTransport);
+		OmnitureTracking.trackAppLXSearchBox();
 		show(new LXParamsOverlay());
 	}
 
@@ -541,18 +540,12 @@ public class LXPresenter extends Presenter {
 		show(confirmationWidget, FLAG_CLEAR_BACKSTACK);
 	}
 
-	public void setIsGroundTransport(boolean isGroundTransport) {
-		this.isGroundTransport = isGroundTransport;
-		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
-		detailsPresenter.details.setIsFromGroundTransport(isGroundTransport);
+	public void setLOBForCheckout() {
 		if (!isUniversalCheckout()) {
-			checkoutPresenter.setIsFromGroundTransport(isGroundTransport);
-			checkoutPresenter.checkout.setIsFromGroundTransport(isGroundTransport);
-			confirmationWidget.setIsFromGroundTransport(isGroundTransport);
 			checkoutPresenter.checkout.paymentInfoCardView.getViewmodel().getLineOfBusiness()
-				.onNext(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+				.onNext(LineOfBusiness.LX);
 			checkoutPresenter.checkout.mainContactInfoCardView
-				.setLineOfBusiness(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+				.setLineOfBusiness(LineOfBusiness.LX);
 		}
 	}
 

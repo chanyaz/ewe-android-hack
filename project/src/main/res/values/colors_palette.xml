@@ -8,7 +8,6 @@
     <color name="exp_lob_dark_blue">@color/blue3</color>
     <color name="exp_lob_ripple_blue">#09688F</color>
 
-    <color name="exp_gt_red">#B93F62</color>
     <color name="exp_action_required_red">#E44A01</color>
 
     <color name="exp_itin_bg">#212527</color>
@@ -75,7 +74,6 @@
     <color name="exp_launch_hotel_green">#8BC349</color>
     <color name="exp_launch_flights_blue">#4FC3F7</color>
     <color name="exp_launch_car_pink">#CC6595</color>
-    <color name="exp_launch_gt_red">#E07172</color>
     <color name="exp_launch_lx_orange">#EE9449</color>
     <color name="exp_launch_packages_blue">#43A2E0</color>
     <color name="exp_launch_rail_teal">#2BB07F</color>

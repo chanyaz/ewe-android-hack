@@ -55,7 +55,6 @@ public class LXTicketPicker extends LinearLayout {
 
 	private int enabledTicketSelectorColor;
 	private int disabledTicketSelectorColor;
-	private boolean isGroundTransport;
 
 	@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
@@ -69,7 +68,7 @@ public class LXTicketPicker extends LinearLayout {
 		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_added_announce_accessibility_TEMPLATE)
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
-		bind(ticket, offerId, ticket.count, isGroundTransport);
+		bind(ticket, offerId, ticket.count);
 	}
 
 	@OnClick(R.id.ticket_remove)
@@ -84,7 +83,7 @@ public class LXTicketPicker extends LinearLayout {
 		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_removed_announce_accessibility_TEMPLATE)
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
-		bind(ticket, offerId, ticket.count, isGroundTransport);
+		bind(ticket, offerId, ticket.count);
 	}
 
 	public void trackAddOrRemove(String type) {
@@ -92,7 +91,7 @@ public class LXTicketPicker extends LinearLayout {
 		StringBuilder sb = new StringBuilder();
 		sb.append(type);
 		sb.append(ticket.code.toString());
-		OmnitureTracking.trackLinkLXAddRemoveTicket(sb.toString(), isGroundTransport);
+		OmnitureTracking.trackLinkLXAddRemoveTicket(sb.toString());
 	}
 
 	public LXTicketPicker(Context context, AttributeSet attrs) {
@@ -107,10 +106,9 @@ public class LXTicketPicker extends LinearLayout {
 		disabledTicketSelectorColor = Ui.obtainThemeColor(getContext(), R.attr.skin_ticketSelectorDisabledColor);
 	}
 
-	public void bind(Ticket ticket, String offerId, int defaultCount, boolean isGroundTransport) {
+	public void bind(Ticket ticket, String offerId, int defaultCount) {
 		this.ticket = ticket;
 		this.offerId = offerId;
-		this.isGroundTransport = isGroundTransport;
 
 		String ticketDetailsText = null;
 		HashMap<String, Money> moneyMap = LXDataUtils.getPriceMoneyMap(ticket, defaultCount);

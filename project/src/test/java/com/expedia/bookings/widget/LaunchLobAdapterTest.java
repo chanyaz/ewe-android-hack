@@ -53,11 +53,6 @@ public class LaunchLobAdapterTest {
 		adapter.setLobs(lobs);
 		assertItemCount(4, adapter);
 		assertAllSpansAreOne(adapter);
-
-		lobs.add(LobInfo.TRANSPORT);
-		adapter.setLobs(lobs);
-		assertItemCount(5, adapter);
-		assertFinalSpanIsTwoAndRestAreOne(adapter);
 	}
 
 	private void assertItemCount(int expected, LaunchLobAdapter adapter) {

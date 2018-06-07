@@ -46,14 +46,6 @@ open class NavigationHelper(private var context: Context) {
         }
     }
 
-    open fun goToTransport(animOptions: Bundle?, finishCallingActivity: Boolean = false) {
-        if (finishCallingActivity) {
-            NavUtils.goToTransport(context, animOptions, NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK)
-        } else {
-            NavUtils.goToTransport(context, animOptions, 0)
-        }
-    }
-
     open fun goToPackages(data: Bundle?, animOptions: Bundle?, finishCallingActivity: Boolean = false) {
         if (finishCallingActivity) {
             PackageNavUtils.goToPackages(context, data, animOptions, NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK)

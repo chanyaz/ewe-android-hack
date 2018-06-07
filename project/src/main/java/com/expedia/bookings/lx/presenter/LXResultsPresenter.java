@@ -123,8 +123,6 @@ public class LXResultsPresenter extends Presenter {
 	private SearchResultFilterObserver searchResultFilterObserver = new SearchResultFilterObserver();
 	private LXSearchResponse searchResponse;
 
-	private boolean isGroundTransport;
-	private static final String GT_FILTERS = "Shared Transfers|Private Transfers";
 	private boolean lxFilterTextSearchEnabled;
 	private boolean isMipEnabled;
 
@@ -226,7 +224,7 @@ public class LXResultsPresenter extends Presenter {
 				return;
 			}
 			else {
-				LXNavUtils.handleLXSearchFailure(e, searchType, isGroundTransport);
+				LXNavUtils.handleLXSearchFailure(e, searchType);
 			}
 
 			sortFilterButton.setVisibility(View.GONE);
@@ -268,9 +266,7 @@ public class LXResultsPresenter extends Presenter {
 			searchResultsWidget.bind(lxSearchResponse.activities, lxSearchResponse.promoDiscountType, searchType);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
-			if (!isGroundTransport) {
-				sortFilterButton.setVisibility(View.VISIBLE);
-			}
+			sortFilterButton.setVisibility(View.VISIBLE);
 			sortFilterButton.showNumberOfFilters(0);
 			AdTracker.trackLXSearchResults(lxState.searchParams, lxSearchResponse);
 
@@ -299,9 +295,7 @@ public class LXResultsPresenter extends Presenter {
 				Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			}
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
-			if (!isGroundTransport) {
-				sortFilterButton.setVisibility(View.VISIBLE);
-			}
+			sortFilterButton.setVisibility(View.VISIBLE);
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 		}
 	}
@@ -341,11 +335,7 @@ public class LXResultsPresenter extends Presenter {
 
 		String filters = null;
 		boolean areExternalFiltersSupplied = false;
-		if (isGroundTransport) {
-			filters = GT_FILTERS;
-			areExternalFiltersSupplied = true;
-		}
-		else if (Strings.isNotEmpty(event.lxSearchParams.getFilters())) {
+		if (Strings.isNotEmpty(event.lxSearchParams.getFilters())) {
 			filters = event.lxSearchParams.getFilters();
 			areExternalFiltersSupplied = true;
 		}
@@ -495,10 +485,6 @@ public class LXResultsPresenter extends Presenter {
 		}
 	};
 
-	public void setIsFromGroundTransport(boolean isGroundTransport) {
-		this.isGroundTransport = isGroundTransport;
-	}
-
 	@Override
 	public boolean back() {
 		if (LXSortFilterWidget.class.getName().equals(getCurrentState())) {
@@ -512,7 +498,7 @@ public class LXResultsPresenter extends Presenter {
 
 	public void trackLXSearch() {
 		if (searchResponse != null && searchResponse.regionId != null) {
-			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse, isGroundTransport, lxState.getPromoDiscountType());
+			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse, lxState.getPromoDiscountType());
 		}
 	}
 }

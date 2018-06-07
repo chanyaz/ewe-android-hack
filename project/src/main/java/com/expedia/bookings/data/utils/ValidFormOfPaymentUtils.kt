@@ -42,7 +42,7 @@ object ValidFormOfPaymentUtils {
     @JvmStatic fun getInvalidFormOfPaymentMessage(context: Context, paymentType: PaymentType, lob: LineOfBusiness): String {
         val cardName = CreditCardUtils.getHumanReadableName(context, paymentType)
         val invalidPaymentWarningMsg = when (lob) {
-            LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
+            LineOfBusiness.LX -> {
                 Phrase.from(context, R.string.lx_does_not_accept_cardtype_TEMPLATE)
                         .put("card_type", cardName)
                         .format().toString()

@@ -27,7 +27,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
-import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.CustomerFirstActivity;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.onboarding.activity.OnboardingActivity;
@@ -229,14 +228,6 @@ public class NavUtils {
 
 	public static void showAccountSignIn(Context context) {
 		getUserStateManager(context).signIn((Activity) context);
-	}
-
-	public static void goToTransport(Context context, Bundle animOptions, int expediaFlags) {
-		sendKillActivityBroadcast(context);
-		Intent intent = new Intent(context, LXBaseActivity.class);
-		intent.putExtra(LXBaseActivity.EXTRA_IS_GROUND_TRANSPORT, true);
-		startActivity(context, intent, animOptions);
-		finishIfFlagged(context, expediaFlags);
 	}
 
 	public static void goToRail(Context context, Bundle animOptions, int expediaFlags) {

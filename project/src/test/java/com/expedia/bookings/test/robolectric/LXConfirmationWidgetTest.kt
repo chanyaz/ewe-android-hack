@@ -204,10 +204,10 @@ class LXConfirmationWidgetTest {
         val br = BufferedReader(FileReader("../lib/mocked/templates/api/trips/lx_trip_details_without_email.json"))
         val activityItinResponse = Gson().fromJson(br, ItinDetailsResponse::class.java)
         activityItinResponse.responseData!!.totalTripPrice!!.total = "1795,00"
-        trackAppLXConfirmationFromTripsResponse(activityItinResponse, true, "1", 1, LocalDate.now(), LocalDate.now().plusDays(2))
+        trackAppLXConfirmationFromTripsResponse(activityItinResponse, "1", 1, LocalDate.now(), LocalDate.now().plusDays(2))
         val expectedProducts = "LX;Merchant LX:1;1;1795.00"
 
-        OmnitureTestUtils.assertStateTracked("App.LX-GT.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProducts), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked("App.LX.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProducts), mockAnalyticsProvider)
     }
 
     @Test

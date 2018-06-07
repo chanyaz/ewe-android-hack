@@ -54,10 +54,6 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
             lobs.add(LobInfo.ACTIVITIES)
         }
 
-        if (pos.supports(LineOfBusiness.TRANSPORT)) {
-            lobs.add(LobInfo.TRANSPORT)
-        }
-
         val isPosSupportingRails = pos.supports(LineOfBusiness.RAILS)
                 || (pos.supportsRailsWebView() && (!pos.isRailsWebViewBehindABTest || AbacusFeatureConfigManager.isBucketedForTest(context, pos.railsWebViewABTestID)))
         if (isPosSupportingRails) {

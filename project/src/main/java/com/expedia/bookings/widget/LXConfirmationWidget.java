@@ -46,7 +46,6 @@ import kotlin.Unit;
 public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	LXCheckoutParams lxCheckoutParams;
-	private boolean isGroundTransport;
 
 	public LXConfirmationWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -132,7 +131,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
 		OmnitureTracking.trackAppLXCheckoutConfirmation(event.checkoutResponse, lxState.activity.id,
 			ApiDateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate), lxState.searchParams.getActivityEndDate(),
-			lxState.selectedTicketsCount(), isGroundTransport);
+			lxState.selectedTicketsCount());
 		CarnivalUtils.getInstance().trackLxConfirmation(lxState.activity.title, lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
 		AdTracker.trackLXBooked(event.checkoutResponse.newTrip.itineraryNumber, lxState.activity.location,
@@ -156,10 +155,6 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		viewModel.getConfirmationScreenUiObservable().onNext(Unit.INSTANCE);
 	}
 
-	public void setIsFromGroundTransport(boolean isGroundTransport) {
-		this.isGroundTransport = isGroundTransport;
-	}
-
 	private void initializeSubscriptions() {
 		viewModel.getTitleTextObservable().subscribe(RxTextView.text(title));
 		viewModel.getTicketsTextObservable().subscribe(RxTextView.text(tickets));
@@ -176,7 +171,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 			@Override
 			public void onNext(AbstractItinDetailsResponse itinDetailsResponse) {
-				OmnitureTracking.trackAppLXConfirmationFromTripsResponse(itinDetailsResponse, isGroundTransport,
+				OmnitureTracking.trackAppLXConfirmationFromTripsResponse(itinDetailsResponse,
 					lxState.activity.id, lxState.selectedTicketsCount(),
 					ApiDateUtils.yyyyMMddHHmmssToLocalDate(lxState
 						.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),

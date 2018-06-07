@@ -36,7 +36,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
-import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
@@ -354,12 +353,6 @@ public class AccountButton extends LinearLayout {
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
 			LXCreateTripResponse createLXTripResponse = lx == null ? null : lx.getCreateTripResponse();
 			rewardPoints = createLXTripResponse == null ? "" : createLXTripResponse.getRewardsPoints();
-			break;
-		case TRANSPORT:
-			TripBucketItemTransport transport = Db.getTripBucket().getTransport();
-			LXCreateTripResponse createTransportTripResponse =
-				transport == null ? null : transport.getCreateTripResponse();
-			rewardPoints = createTransportTripResponse == null ? "" : createTransportTripResponse.getRewardsPoints();
 			break;
 		case PACKAGES:
 			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();

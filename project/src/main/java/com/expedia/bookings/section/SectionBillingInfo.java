@@ -661,7 +661,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		case HOTELS:
 			return currentPOS.requiresHotelPostalCode();
 		case LX:
-		case TRANSPORT:
 			return currentPOS.requiresLXPostalCode();
 		default:
 			return true;

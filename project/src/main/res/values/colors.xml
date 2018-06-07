@@ -318,10 +318,6 @@
     <color name="lx_confirmation_action_background">#3A424C</color>
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
 
-    <color name="gt_primary_color">@color/exp_gt_red</color>
-    <color name="gt_unchecked_toggle_text_color">#E98DA7</color>
-    <color name="gt_primary_disabled_color">#40B93F62</color>
-
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">@color/brand_secondary</color>
     <color name="btn_sign_in_pressed">#fae58b</color>
@@ -475,7 +471,6 @@
     <color name="launch_hotels_lob_color">@color/exp_launch_hotel_green</color>
     <color name="launch_flights_lob_color">@color/exp_launch_flights_blue</color>
     <color name="launch_cars_lob_color">@color/exp_launch_car_pink</color>
-    <color name="launch_gt_lob_color">@color/exp_launch_gt_red</color>
     <color name="launch_lx_lob_color">@color/exp_launch_lx_orange</color>
     <color name="launch_packages_lob_color">@color/exp_launch_packages_blue</color>
     <color name="launch_rail_lob_color">@color/exp_launch_rail_teal</color>

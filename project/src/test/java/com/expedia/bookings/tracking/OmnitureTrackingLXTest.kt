@@ -28,7 +28,7 @@ class OmnitureTrackingLXTest {
     @Test
     fun testLXCkoABTestControlTracked() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppLxWebCheckoutView)
-        OmnitureTracking.trackLXOfferClicked("", "", "", 0, true)
+        OmnitureTracking.trackLXOfferClicked("", "", "", 0)
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25622.0.0")), mockAnalyticsProvider)
     }
@@ -36,7 +36,7 @@ class OmnitureTrackingLXTest {
     @Test
     fun testLXCkoABTestBucketedTracked() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppLxWebCheckoutView)
-        OmnitureTracking.trackLXOfferClicked("", "", "", 0, true)
+        OmnitureTracking.trackLXOfferClicked("", "", "", 0)
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25622.0.1")), mockAnalyticsProvider)
     }

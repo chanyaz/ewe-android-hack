@@ -111,7 +111,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Parc 55 San Francisco, a Hilton Hotel",
 			"https://169006.measurementapi.com/serve?action=click&publisher_id=169006&site_id=107678&invoke_url=expda%3A%2F%2FhotelSearch%3FhotelId%3D12539"),
 
-		new DeepLinkSection("Other", R.color.gt_primary_color),
+		new DeepLinkSection("Other", R.color.exp_action_required_red),
 		new DeepLink("Home", "expda://home"),
 		new DeepLink("Sign In", "expda://signIn"),
 		new DeepLink("Trips", "expda://trips"),

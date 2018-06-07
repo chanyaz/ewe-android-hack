@@ -1867,35 +1867,22 @@ public class OmnitureTracking {
 
 	private static final String LX_LOB = "local expert";
 	private static final String LX_SEARCH = "App.LX.Search";
-	private static final String LX_GT_SEARCH = "App.LX-GT.Search";
 	private static final String LX_DESTINATION_SEARCH = "App.LX.Dest-Search";
-	private static final String LX_GT_DESTINATION_SEARCH = "App.LX-GT.Dest-Search";
 	private static final String LX_INFOSITE_INFORMATION = "App.LX.Infosite.Information";
-	private static final String LX_GT_INFOSITE_INFORMATION = "App.LX-GT.Infosite.Information";
 	private static final String LX_CHECKOUT_INFO = "App.LX.Checkout.Info";
-	private static final String LX_GT_CHECKOUT_INFO = "App.LX-GT.Checkout.Info";
 	private static final String LX_SEARCH_FILTER = "App.LX.Search.Filter";
 	private static final String LX_SEARCH_FILTER_CLEAR = "App.LX.Search.Filter.Clear";
 	private static final String LX_CHECKOUT_CONFIRMATION = "App.LX.Checkout.Confirmation";
 	private static final String LX_CHECKOUT_CONFIRMATION_SLIM = "App.LX.Checkout.Confirmation.Slim";
-	private static final String LX_GT_CHECKOUT_CONFIRMATION = "App.LX-GT.Checkout.Confirmation";
 	private static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
-	private static final String LX_GT_TICKET_SELECT = "App.LX-GT.Ticket.Select";
 	private static final String LX_CHANGE_DATE = "App.LX.Info.DateChange";
-	private static final String LX_GT_CHANGE_DATE = "App.LX-GT.Info.DateChange";
 	private static final String LX_INFO = "LX_INFO";
 	private static final String LX_TICKET = "App.LX.Ticket.";
-	private static final String LX_GT_TICKET = "App.LX-GT.Ticket.";
 	private static final String LX_CHECKOUT_TRAVELER_INFO = "App.LX.Checkout.Traveler.Edit.Info";
-	private static final String LX_GT_CHECKOUT_TRAVELER_INFO = "App.LX-GT.Checkout.Traveler.Edit.Info";
 	private static final String LX_CHECKOUT_PAYMENT_INFO = "App.LX.Checkout.Payment.Edit.Info";
-	private static final String LX_GT_CHECKOUT_PAYMENT_INFO = "App.LX-GT.Checkout.Payment.Edit.Info";
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
-	private static final String LX_GT_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX-GT.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
-	private static final String LX_GT_CHECKOUT_CVV_SCREEN = "App.LX-GT.Checkout.Payment.CID";
 	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
-	private static final String LX_GT_NO_SEARCH_RESULTS = "App.LX-GT.NoResults";
 	private static final String LX_SORT_PRICE = "Price";
 	private static final String LX_SORT_POPULARITY = "Popularity";
 	private static final String LX_SORT = ".Sort.";
@@ -1909,11 +1896,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXSearch(LxSearchParams lxSearchParams,
-		LXSearchResponse lxSearchResponse, boolean isGroundTransport, String promoDiscountType) {
+		LXSearchResponse lxSearchResponse, String promoDiscountType) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" pageLoad...");
 
-		AppAnalytics s = internalTrackAppLX(isGroundTransport ? LX_GT_SEARCH : LX_SEARCH);
+		AppAnalytics s = internalTrackAppLX(LX_SEARCH);
 		StringBuilder events = new StringBuilder();
 
 		// Destination
@@ -1921,7 +1908,7 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 
 		// Success event for Product Search, Local Expert Search
-		events.append(isGroundTransport ? "event30,event47" : "event30,event56");
+		events.append("event30,event56");
 
 		// prop and evar 5, 6
 		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
@@ -1982,10 +1969,10 @@ public class OmnitureTracking {
 		s.setProp(68, prop68);
 	}
 
-	public static void trackAppLXNoSearchResults(ApiError apiError, boolean isGrounTransport) {
+	public static void trackAppLXNoSearchResults(ApiError apiError) {
 		Log.d(TAG, "Tracking \"" + LX_NO_SEARCH_RESULTS + "\" pageLoad...");
 
-		AppAnalytics s = internalTrackAppLX(isGrounTransport ? LX_GT_NO_SEARCH_RESULTS : LX_NO_SEARCH_RESULTS);
+		AppAnalytics s = internalTrackAppLX(LX_NO_SEARCH_RESULTS);
 
 		if (apiError != null) {
 			// Destination
@@ -2003,10 +1990,10 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXSearchBox(boolean isGroundTransport) {
+	public static void trackAppLXSearchBox() {
 		Log.d(TAG, "Tracking \"" + LX_DESTINATION_SEARCH + "\" pageLoad...");
 
-		AppAnalytics s = internalTrackAppLX(isGroundTransport ? LX_GT_DESTINATION_SEARCH : LX_DESTINATION_SEARCH);
+		AppAnalytics s = internalTrackAppLX(LX_DESTINATION_SEARCH);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXDisablePOISearch);
 
 		// Send the tracking data
@@ -2063,14 +2050,13 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
-		LxSearchParams lxSearchParams, boolean isGroundTransport, String promoDiscountType) {
+		LxSearchParams lxSearchParams, String promoDiscountType) {
 		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
 		StringBuilder products = new StringBuilder();
 		String events = "";
 
-		AppAnalytics s = internalTrackAppLX(
-			isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
-		events += isGroundTransport ? "event3" : "event32";
+		AppAnalytics s = internalTrackAppLX(LX_INFOSITE_INFORMATION);
+		events += "event32";
 		if (promoDiscountType != null && !Constants.MOD_PROMO_TYPE.equals(promoDiscountType)) {
 			promoDiscountType = "MIP";
 		}
@@ -2120,15 +2106,14 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackLXProductForNonMipMod(String activityId, boolean isGroundTransport) {
-		AppAnalytics s = internalTrackAppLX(
-				isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
+	public static void trackLXProductForNonMipMod(String activityId) {
+		AppAnalytics s = internalTrackAppLX(LX_INFOSITE_INFORMATION);
 		s.setProducts("LX;Merchant LX:" + activityId + ";;;;eVar39=NONE");
 		s.track();
 	}
 
-	public static void trackLXOfferClicked(String activityId, String offerId, String promoDiscountType, int offerIndex, boolean isGroundTransport) {
-		AppAnalytics s = internalTrackAppLX(isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
+	public static void trackLXOfferClicked(String activityId, String offerId, String promoDiscountType, int offerIndex) {
+		AppAnalytics s = internalTrackAppLX(LX_INFOSITE_INFORMATION);
 		s.setProducts(";LX:" + activityId + ";;;;event297;eVar39=" + promoDiscountType + "|eVar41=" + offerIndex + ":" + offerId);
 		s.setProp(16, "LX.IS.bookButton." + offerId);
 		s.setEvar(28, "LX.IS.bookButton." + offerId);
@@ -2137,10 +2122,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXCheckoutPayment(String lxActivityId, LocalDate lxActivityStartDate,
-		int selectedTicketsCount, String totalPriceFormattedTo2DecimalPlaces, boolean isGroundTransport) {
+		int selectedTicketsCount, String totalPriceFormattedTo2DecimalPlaces) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_INFO + "\" pageLoad...");
 
-		AppAnalytics s = internalTrackAppLX(isGroundTransport ? LX_GT_CHECKOUT_INFO : LX_CHECKOUT_INFO);
+		AppAnalytics s = internalTrackAppLX(LX_CHECKOUT_INFO);
 		s.setEvents("event75");
 		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount, totalPriceFormattedTo2DecimalPlaces));
 
@@ -2155,12 +2140,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXCheckoutConfirmation(LXCheckoutResponse checkoutResponse,
-		String lxActivityId, LocalDate lxActivityStartDate, LocalDate lxActivityEndDate, int selectedTicketsCount,
-		boolean isGroundTransport) {
+		String lxActivityId, LocalDate lxActivityStartDate, LocalDate lxActivityEndDate, int selectedTicketsCount) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
 
-		AppAnalytics s = internalTrackAppLX(
-			isGroundTransport ? LX_GT_CHECKOUT_CONFIRMATION : LX_CHECKOUT_CONFIRMATION);
+		AppAnalytics s = internalTrackAppLX(LX_CHECKOUT_CONFIRMATION);
 		String orderId = checkoutResponse.orderId;
 		String currencyCode = checkoutResponse.currencyCode;
 		String travelRecordLocator = checkoutResponse.newTrip.travelRecordLocator;
@@ -2189,12 +2172,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXConfirmationFromTripsResponse(AbstractItinDetailsResponse itinDetailsResponse,
-		boolean isGroundTransport, String lxActivityId, int selectedTicketsCount, LocalDate lxActivityStartDate,
+		String lxActivityId, int selectedTicketsCount, LocalDate lxActivityStartDate,
 		LocalDate lxActivityEndDate) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
 
-		AppAnalytics s = internalTrackAppLX(
-			isGroundTransport ? LX_GT_CHECKOUT_CONFIRMATION : LX_CHECKOUT_CONFIRMATION);
+		AppAnalytics s = internalTrackAppLX(LX_CHECKOUT_CONFIRMATION);
 		Long orderId = itinDetailsResponse.getResponseDataForItin().getOrderNumber();
 
 		s.setEvents("purchase");
@@ -2223,43 +2205,38 @@ public class OmnitureTracking {
 		return String.format(Locale.US, "%.2f", Float.parseFloat(totalPrice.replace(",", ".")));
 	}
 
-	private static void trackAppLXCheckoutTraveler(LineOfBusiness lob) {
-		boolean isGroundTransport = lob.equals(LineOfBusiness.TRANSPORT);
-
+	private static void trackAppLXCheckoutTraveler() {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		AppAnalytics s = getFreshTrackingObject();
-		s.setAppState(isGroundTransport ? LX_GT_CHECKOUT_TRAVELER_INFO : LX_CHECKOUT_TRAVELER_INFO);
-		s.setEvar(18, isGroundTransport ? LX_GT_CHECKOUT_TRAVELER_INFO : LX_CHECKOUT_TRAVELER_INFO);
+		s.setAppState(LX_CHECKOUT_TRAVELER_INFO);
+		s.setEvar(18, LX_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
 	}
 
-	private static void trackAppLXCheckoutPayment(LineOfBusiness lob) {
-		boolean isGroundTransport = lob.equals(LineOfBusiness.TRANSPORT);
-
+	private static void trackAppLXCheckoutPayment() {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_PAYMENT_INFO + "\" pageLoad...");
 		AppAnalytics s = getFreshTrackingObject();
-		s.setAppState(isGroundTransport ? LX_GT_CHECKOUT_PAYMENT_INFO : LX_CHECKOUT_PAYMENT_INFO);
-		s.setEvar(18, isGroundTransport ? LX_GT_CHECKOUT_PAYMENT_INFO : LX_CHECKOUT_PAYMENT_INFO);
+		s.setAppState(LX_CHECKOUT_PAYMENT_INFO);
+		s.setEvar(18, LX_CHECKOUT_PAYMENT_INFO);
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutSlideToPurchase(LineOfBusiness lob, String cardType) {
-		boolean isGroundTransport = lob.equals(LineOfBusiness.TRANSPORT);
+	public static void trackAppLXCheckoutSlideToPurchase(String cardType) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		AppAnalytics s = getFreshTrackingObject();
-		s.setAppState(isGroundTransport ? LX_GT_CHECKOUT_SLIDE_TO_PURCHASE : LX_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(18, isGroundTransport ? LX_GT_CHECKOUT_SLIDE_TO_PURCHASE : LX_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setAppState(LX_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(18, LX_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, cardType);
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutCvvScreen(boolean isGroundTransport) {
+	public static void trackAppLXCheckoutCvvScreen() {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CVV_SCREEN + "\" pageLoad...");
 		AppAnalytics s = getFreshTrackingObject();
 
-		s.setAppState(isGroundTransport ? LX_GT_CHECKOUT_CVV_SCREEN : LX_CHECKOUT_CVV_SCREEN);
-		s.setEvar(18, isGroundTransport ? LX_GT_CHECKOUT_CVV_SCREEN : LX_CHECKOUT_CVV_SCREEN);
+		s.setAppState(LX_CHECKOUT_CVV_SCREEN);
+		s.setEvar(18, LX_CHECKOUT_CVV_SCREEN);
 
 		s.track();
 	}
@@ -2268,18 +2245,18 @@ public class OmnitureTracking {
 		return "LX;Merchant LX:" + activityId + ";" + ticketCount + ";" + totalMoney;
 	}
 
-	public static void trackLinkLXChangeDate(boolean isGroundTransport) {
-		trackLinkLX(isGroundTransport ? LX_GT_CHANGE_DATE : LX_CHANGE_DATE);
+	public static void trackLinkLXChangeDate() {
+		trackLinkLX( LX_CHANGE_DATE);
 	}
 
-	public static void trackLinkLXSelectTicket(boolean isGroundTransport) {
-		trackLinkLX(isGroundTransport ? LX_GT_TICKET_SELECT : LX_TICKET_SELECT);
+	public static void trackLinkLXSelectTicket() {
+		trackLinkLX(LX_TICKET_SELECT);
 	}
 
-	public static void trackLinkLXAddRemoveTicket(String rffr, boolean isGroundTransport) {
+	public static void trackLinkLXAddRemoveTicket(String rffr) {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(isGroundTransport ? LX_GT_TICKET : LX_TICKET);
+		sb.append(LX_TICKET);
 		sb.append(rffr);
 		trackLinkLX(sb.toString());
 	}
@@ -3766,7 +3743,6 @@ public class OmnitureTracking {
 	private static final String RAIL_LOB_NAVIGATION = "Rail";
 	private static final String CAR_LOB_NAVIGATION = "Car";
 	private static final String LX_LOB_NAVIGATION = "LX";
-	private static final String TRANSPORT_LOB_NAVIGATION = "Transport";
 
 	public static void trackNewLaunchScreenLobNavigation(LineOfBusiness lob) {
 
@@ -3789,9 +3765,6 @@ public class OmnitureTracking {
 			break;
 		case LX:
 			lobString = LX_LOB_NAVIGATION;
-			break;
-		case TRANSPORT:
-			lobString = TRANSPORT_LOB_NAVIGATION;
 			break;
 		default:
 			throw new NotImplementedError("This LOB Navigation is not tracked in Omniture");
@@ -4349,15 +4322,14 @@ public class OmnitureTracking {
 			trackPackagesPaymentEdit();
 			break;
 		case LX:
-		case TRANSPORT:
-			trackAppLXCheckoutPayment(lineOfBusiness);
+			trackAppLXCheckoutPayment();
 			break;
 		}
 	}
 
 	public static void trackCheckoutTraveler(LineOfBusiness lineOfBusiness) {
-		if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
-			trackAppLXCheckoutTraveler(lineOfBusiness);
+		if (lineOfBusiness.equals(LineOfBusiness.LX)) {
+			trackAppLXCheckoutTraveler();
 		}
 	}
 

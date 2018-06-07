@@ -10,7 +10,6 @@ enum class LobInfo(val lineOfBusiness: LineOfBusiness, @StringRes val labelRes: 
     FLIGHTS(LineOfBusiness.FLIGHTS, R.string.flights_title, R.drawable.ic_lob_flights, R.color.launch_flights_lob_color),
     CARS(LineOfBusiness.CARS, R.string.nav_car_rentals, R.drawable.ic_lob_cars, R.color.launch_cars_lob_color),
     ACTIVITIES(LineOfBusiness.LX, R.string.nav_things_to_do, R.drawable.ic_lob_lx, R.color.launch_lx_lob_color),
-    TRANSPORT(LineOfBusiness.TRANSPORT, R.string.nav_transport, R.drawable.ic_lob_gt, R.color.launch_gt_lob_color),
     PACKAGES(LineOfBusiness.PACKAGES, R.string.nav_packages, R.drawable.ic_lob_packages, R.color.launch_packages_lob_color),
     RAILS(LineOfBusiness.RAILS, R.string.nav_rail, R.drawable.ic_lob_rail, R.color.launch_rail_lob_color);
 

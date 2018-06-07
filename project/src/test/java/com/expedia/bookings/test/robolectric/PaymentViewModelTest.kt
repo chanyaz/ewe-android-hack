@@ -21,7 +21,6 @@ import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
-import com.expedia.bookings.data.trips.TripBucketItemTransport
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.services.subscribeTestObserver
@@ -166,20 +165,6 @@ class PaymentViewModelTest {
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.LX)
-        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("Activity does not accept American Express")
-    }
-
-    @Test
-    fun invalidPaymentTypeWarningTransport() {
-        val testSubscriber = TestObserver<String>()
-        givenTransportTrip()
-
-        viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
-
-        viewModel.lineOfBusiness.onNext(LineOfBusiness.TRANSPORT)
         viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
 
         testSubscriber.assertValueCount(1)
@@ -337,11 +322,6 @@ class PaymentViewModelTest {
 
         invalidPaymentTypeWarningTestSubscriber.assertValueCount(1)
         invalidPaymentTypeWarningTestSubscriber.assertValue("Airline does not accept Unknown Card")
-    }
-
-    private fun givenTransportTrip() {
-        val createTripResponse = LXCreateTripResponse()
-        Db.getTripBucket().add(TripBucketItemTransport(createTripResponse))
     }
 
     private fun givenLxTrip() {

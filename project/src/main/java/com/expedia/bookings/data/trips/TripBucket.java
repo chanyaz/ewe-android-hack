@@ -58,10 +58,6 @@ public class TripBucket implements JSONable {
 		clear(LineOfBusiness.LX);
 	}
 
-	public void clearTransport() {
-		clear(LineOfBusiness.TRANSPORT);
-	}
-
 	public void clearHotelV2() {
 		clear(LineOfBusiness.HOTELS);
 	}
@@ -80,10 +76,6 @@ public class TripBucket implements JSONable {
 
 	public void add(TripBucketItemLX lx) {
 		addBucket(lx);
-	}
-
-	public void add(TripBucketItemTransport transport) {
-		addBucket(transport);
 	}
 
 	public void add(TripBucketItemHotelV2 hotelV2) {
@@ -119,11 +111,6 @@ public class TripBucket implements JSONable {
 	public TripBucketItemLX getLX() {
 		int index = getIndexOf(LineOfBusiness.LX);
 		return index == -1 ? null : (TripBucketItemLX) mItems.get(index);
-	}
-
-	public TripBucketItemTransport getTransport() {
-		int index = getIndexOf(LineOfBusiness.TRANSPORT);
-		return index == -1 ? null : (TripBucketItemTransport) mItems.get(index);
 	}
 
 	/**

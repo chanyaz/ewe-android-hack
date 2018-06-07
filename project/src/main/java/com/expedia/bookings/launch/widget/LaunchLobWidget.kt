@@ -59,7 +59,6 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                                 ?.setTextColor(ContextCompat.getColor(context, R.color.launch_alert_dialog_button_color))
                     }
                 }
-                LineOfBusiness.TRANSPORT -> nav.goToTransport(null)
                 LineOfBusiness.LX -> nav.goToActivities(null)
                 LineOfBusiness.CARS -> nav.goToCars()
                 LineOfBusiness.PACKAGES -> {
