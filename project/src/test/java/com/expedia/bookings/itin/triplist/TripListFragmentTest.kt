@@ -8,11 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.helpers.MockTripsTracking
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.LaunchNavBucketCache
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,7 +36,7 @@ class TripListFragmentTest {
     }
 
     @Test
-    fun viewInflation() {
+    fun testViewInflation() {
         assertNull(testFragment.view)
         loadTripListFragment()
         assertNotNull(testFragment.view)
@@ -53,49 +51,23 @@ class TripListFragmentTest {
     }
 
     @Test
-    fun `toolbar and tabs background color - Brands colors ab test not bucketed`() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
+    fun testToolbar() {
         loadTripListFragment()
 
-        val controlToolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)
-        val controlBackGroundColor = (controlToolbar.background as ColorDrawable).color
-        assertEquals(ContextCompat.getColor(activity, R.color.launch_toolbar_background_color), controlBackGroundColor)
-
-        val tabLayout = testFragment.view!!.findViewById<TabLayout>(R.id.trip_list_tabs)
-        val tabLayoutColor = (tabLayout.background as ColorDrawable).color
-        assertEquals(ContextCompat.getColor(activity, R.color.launch_toolbar_background_color), tabLayoutColor)
+        val toolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)
+        val toolbarBackGroundColor = (toolbar.background as ColorDrawable).color
+        assertEquals(View.VISIBLE, toolbar.visibility)
+        assertEquals(ContextCompat.getColor(activity, R.color.brand_primary), toolbarBackGroundColor)
     }
 
     @Test
-    fun `toolbar and tabs background color - Brands colors ab test bucketed`() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
+    fun testTabLayout() {
         loadTripListFragment()
-
-        val variantToolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)
-        val variantBackGroundColor = (variantToolbar.background as ColorDrawable).color
-        assertEquals(ContextCompat.getColor(activity, R.color.brand_primary), variantBackGroundColor)
 
         val tabLayout = testFragment.view!!.findViewById<TabLayout>(R.id.trip_list_tabs)
         val tabLayoutColor = (tabLayout.background as ColorDrawable).color
+        assertEquals(View.VISIBLE, tabLayout.visibility)
         assertEquals(ContextCompat.getColor(activity, R.color.brand_primary), tabLayoutColor)
-    }
-
-    @Test
-    fun toolbarVisibilityBottomNavUnbucketed() {
-        LaunchNavBucketCache.cacheBucket(activity, 0)
-        loadTripListFragment()
-
-        val controlToolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)
-        assertEquals(View.GONE, controlToolbar.visibility)
-    }
-
-    @Test
-    fun toolbarVisibilityBottomNavBucketed() {
-        LaunchNavBucketCache.cacheBucket(activity, 1)
-        loadTripListFragment()
-
-        val variantToolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)
-        assertEquals(View.VISIBLE, variantToolbar.visibility)
     }
 
     @Test
@@ -103,9 +75,28 @@ class TripListFragmentTest {
         val mockTripsTracking = MockTripsTracking()
         testFragment.tripsTracking = mockTripsTracking
         loadTripListFragment()
-        assertFalse(mockTripsTracking.trackTripListVisited)
+        assertFalse(mockTripsTracking.trackTripListUpcomingTabSelected)
         testFragment.trackTripListVisit()
-        assertTrue(mockTripsTracking.trackTripListVisited)
+        assertTrue(mockTripsTracking.trackTripListUpcomingTabSelected)
+
+        val tabLayout = testFragment.view!!.findViewById<TabLayout>(R.id.trip_list_tabs)
+        assertFalse(mockTripsTracking.trackTripListCancelledTabSelected)
+        tabLayout.getTabAt(2)?.select()
+        testFragment.trackTripListVisit()
+        assertTrue(mockTripsTracking.trackTripListCancelledTabSelected)
+    }
+
+    @Test
+    fun testTabSelect() {
+        loadTripListFragment()
+        val testObserver = TestObserver<Int>()
+        testFragment.viewModel.tabSelectedSubject.subscribe(testObserver)
+        testObserver.assertNoValues()
+
+        val tabLayout = testFragment.view!!.findViewById<TabLayout>(R.id.trip_list_tabs)
+        tabLayout.getTabAt(2)?.select()
+        testObserver.assertValueCount(1)
+        testObserver.assertValue(2)
     }
 
     private fun loadTripListFragment() {

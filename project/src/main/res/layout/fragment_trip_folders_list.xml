@@ -15,40 +15,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/launch_toolbar_background_color"
+            android:background="@color/brand_primary"
             android:minHeight="?attr/actionBarSize"
             app:title="@string/itin_toolbar"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
             app:titleTextColor="@color/white" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/trip_list_tabs"
+    <com.expedia.bookings.widget.DisableableViewPager
+        android:id="@+id/trip_list_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/launch_toolbar_background_color"
-        android:elevation="2dp"
-        android:minHeight="?attr/actionBarSize"
-        app:tabIndicatorColor="@color/exp_launch_yellow"
-        app:tabIndicatorHeight="2dp"
-        app:tabPadding="12dp"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextAppearance="@style/TripFolderTabs"
-        app:tabTextColor="@color/white_50">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.TabItem
+        <android.support.design.widget.TabLayout
+            android:id="@+id/trip_list_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/trip_folder_upcoming_tab_title" />
+            android:background="@color/brand_primary"
+            android:elevation="2dp"
+            android:minHeight="?attr/actionBarSize"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="fixed"
+            app:tabPadding="12dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/TripFolderTabs"
+            app:tabTextColor="@color/white_50" />
 
-        <android.support.design.widget.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/trip_folder_past_tab_title" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/trip_folder_cancelled_tab_title" />
-    </android.support.design.widget.TabLayout>
+    </com.expedia.bookings.widget.DisableableViewPager>
 </LinearLayout>

@@ -23,20 +23,27 @@ class TripsTrackingTest {
     }
 
     @Test
-    fun testTrackTripListVisit() {
+    fun testTrackTripListUpcomingTabVisit() {
         assertNoTrackingHasOccurred()
 
-        TripsTracking.trackTripListVisit(0)
+        TripsTracking.trackTripListUpcomingTabVisit()
         OmnitureTestUtils.assertStateTracked("App.Trips.Upcoming", OmnitureMatchers.withEventsString("event63"), mockAnalyticsProvider)
+    }
 
-        TripsTracking.trackTripListVisit(1)
+    @Test
+    fun testTrackTripListPastTabVisit() {
+        assertNoTrackingHasOccurred()
+
+        TripsTracking.trackTripListPastTabVisit()
         OmnitureTestUtils.assertStateTracked("App.Trips.Past", OmnitureMatchers.withEventsString("event63"), mockAnalyticsProvider)
+    }
 
-        TripsTracking.trackTripListVisit(2)
+    @Test
+    fun testTrackTripListCancelledTabVisit() {
+        assertNoTrackingHasOccurred()
+
+        TripsTracking.trackTripListCancelledTabVisit()
         OmnitureTestUtils.assertStateTracked("App.Trips.Cancelled", OmnitureMatchers.withEventsString("event63"), mockAnalyticsProvider)
-
-        TripsTracking.trackTripListVisit(-1)
-        OmnitureTestUtils.assertStateTracked("", OmnitureMatchers.withEventsString("event63"), mockAnalyticsProvider)
     }
 
     @Test
