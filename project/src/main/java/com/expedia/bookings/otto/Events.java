@@ -336,14 +336,6 @@ public class Events {
 		}
 	}
 
-	public static class LXOfferExpanded {
-		public Offer offer;
-
-		public LXOfferExpanded(Offer offer) {
-			this.offer = offer;
-		}
-	}
-
 	public static class LXOfferBooked {
 		public Offer offer;
 		public List<Ticket> selectedTickets;

@@ -21,18 +21,13 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.ActivityImages;
-import com.expedia.bookings.data.lx.LXTicketType;
-import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
-import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -51,8 +46,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.PublishSubject;
 import kotlin.Unit;
 
@@ -175,7 +168,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		offers.setVisibility(View.GONE);
 		discountContainer.setVisibility(View.GONE);
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
-		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
 		defaultScroll();
 		galleryContainer.getViewTreeObserver().addOnScrollChangedListener(
 			new ViewTreeObserver.OnScrollChangedListener() {
@@ -471,35 +463,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			galleryCounterscroll(t);
 		}
 	}
-
-	private Observer<Offer> lxOfferObserever = new DisposableObserver<Offer>() {
-		@Override
-		public void onComplete() {
-		}
-
-		@Override
-		public void onError(Throwable e) {
-		}
-
-		@Override
-		public void onNext(Offer offer) {
-			LocalDate availabilityDate = ApiDateUtils
-				.yyyyMMddHHmmssToLocalDate(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-			String lowestTicketAmount = offer.availabilityInfoOfSelectedDate.getLowestTicket().money.getAmount()
-				.toString();
-
-			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
-				if (ticket.code == LXTicketType.Adult) {
-					lowestTicketAmount = ticket.money.getAmount().toString();
-					break;
-				}
-			}
-			if (lxState.activity != null) {
-				AdTracker.trackLXDetails(lxState.activity.id, lxState.activity.destination, availabilityDate,
-					lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
-			}
-		}
-	};
 
 	private void galleryCounterscroll(int parentScroll) {
 		// Setup interpolator for Gallery counterscroll (if needed)

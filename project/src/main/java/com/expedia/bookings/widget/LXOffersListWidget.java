@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -13,12 +15,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
+import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.utils.ApiDateUtils;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import io.reactivex.subjects.PublishSubject;
 
 public class LXOffersListWidget extends android.widget.LinearLayout {
 	private boolean isGroundTransport;
@@ -30,6 +37,9 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 		super(context, attrs);
 	}
 
+	@Inject
+	LXState lxState;
+
 	@InjectView(R.id.offer_show_more_container)
 	android.widget.LinearLayout showMoreContainer;
 
@@ -39,7 +49,6 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	@InjectView(R.id.show_more_widget)
 	ShowMoreWithCountWidget showMoreWithCountWidget;
 
-	private PublishSubject<Offer> lxOfferSubject = PublishSubject.create();
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
 	private List<Offer> availableOffers;
 
@@ -49,7 +58,27 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		Ui.getApplication(getContext()).lxComponent().inject(this);
 		offersListInitialMaxCount = this.getResources().getInteger(R.integer.lx_offers_list_initial_size);
+		adapter.offerClickedSubject.subscribe(this::trackLXDetails);
+	}
+
+	private void trackLXDetails(Offer offer) {
+		LocalDate availabilityDate = ApiDateUtils
+			.yyyyMMddHHmmssToLocalDate(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		String lowestTicketAmount = offer.availabilityInfoOfSelectedDate.getLowestTicket().money.getAmount()
+			.toString();
+
+		for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
+			if (ticket.code == LXTicketType.Adult) {
+				lowestTicketAmount = ticket.money.getAmount().toString();
+				break;
+			}
+		}
+		if (lxState.activity != null) {
+			AdTracker.trackLXDetails(lxState.activity.id, lxState.activity.destination, availabilityDate,
+				lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
+		}
 	}
 
 	public void setOffers(List<Offer> offers, LocalDate dateSelected) {
@@ -60,7 +89,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 				availableOffers.add(offer);
 			}
 		}
-		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject, isGroundTransport, activityId, promoDiscountType, activityDiscountType);
+		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), isGroundTransport, activityId, promoDiscountType, activityDiscountType);
 
 		offerContainer.removeAllViews();
 
@@ -88,10 +117,6 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 			offerContainer.addView(offerRow);
 		}
 		showMoreContainer.setVisibility(GONE);
-	}
-
-	public PublishSubject<Offer> getOfferPublishSubject() {
-		return lxOfferSubject;
 	}
 
 	public LinearLayout getOfferContainer() {

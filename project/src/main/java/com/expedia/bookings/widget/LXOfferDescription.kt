@@ -7,10 +7,8 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
-import com.squareup.otto.Subscribe
 
 class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), View.OnClickListener {
 
@@ -39,7 +37,7 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
         offerDescription.text = description
     }
 
-    @Subscribe fun onOfferExpanded(@Suppress("UNUSED_PARAMETER") event: Events.LXOfferExpanded) {
+    fun minimizeDescription() {
         readMore.clearAnimation()
         isClickable = false
 
@@ -73,15 +71,5 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
                 animation.setDuration(ANIMATION_DURATION).start()
             }
         }
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        Events.register(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        Events.unregister(this)
     }
 }

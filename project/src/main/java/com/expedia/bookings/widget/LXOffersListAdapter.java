@@ -16,7 +16,6 @@ import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,22 +29,21 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 	//List of Offers for an Activity
 	private List<Offer> offers = new ArrayList<>();
-	PublishSubject<Offer> publishSubject;
+	PublishSubject<Offer> offerClickedSubject = PublishSubject.create();
 	private boolean isGroundTransport;
 	private String activityId;
 	private String promoDiscountType;
 	private String activityDiscountType;
 
-	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, boolean isGroundTransport, String activityId, String promoDiscountType, String activityDiscountType) {
+	public void setOffers(List<Offer> offers, boolean isGroundTransport, String activityId, String promoDiscountType, String activityDiscountType) {
 		this.offers = offers;
-		this.publishSubject = subject;
 		this.activityId = activityId;
 		this.promoDiscountType = promoDiscountType;
 		this.activityDiscountType = activityDiscountType;
 		// If there is only one offer, expand it.
 		if (CollectionUtils.isNotEmpty(offers) && offers.size() == 1 ) {
 			offers.get(0).isToggled = true;
-			publishSubject.onNext(offers.get(0));
+			offerClickedSubject.onNext(offers.get(0));
 			this.isGroundTransport = isGroundTransport;
 			OmnitureTracking.trackLinkLXSelectTicket(isGroundTransport);
 		}
@@ -75,7 +73,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		}
 
 		viewHolder = (ViewHolder) convertView.getTag();
-		viewHolder.bind(offer, publishSubject, isGroundTransport, activityId, promoDiscountType, position, activityDiscountType);
+		viewHolder.bind(offer, isGroundTransport, activityId, promoDiscountType, position, activityDiscountType);
 		return convertView;
 	}
 
@@ -87,10 +85,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	public static class ViewHolder implements View.OnClickListener {
+	public class ViewHolder implements View.OnClickListener {
 
 		private Offer offer;
-		private PublishSubject<Offer> publishSuject;
 
 		private View itemView;
 		private boolean isGroundTransport;
@@ -126,8 +123,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		@OnClick(R.id.select_tickets)
 		public void offerExpanded() {
-			Events.post(new Events.LXOfferExpanded(offer));
-			publishSuject.onNext(offer);
+			offerClickedSubject.onNext(offer);
 		}
 
 		@OnClick(R.id.lx_book_now)
@@ -145,9 +141,8 @@ public class LXOffersListAdapter extends BaseAdapter {
 			Events.post(new Events.LXOfferBooked(offer, ticketSelectionWidget.getSelectedTickets()));
 		}
 
-		public void bind(final Offer offer, PublishSubject<Offer> offerPublishSubject, boolean isGroundTransport, String activityId, String promoDiscountType, int position, String activityDiscountType) {
+		public void bind(final Offer offer, boolean isGroundTransport, String activityId, String promoDiscountType, int position, String activityDiscountType) {
 			this.offer = offer;
-			this.publishSuject = offerPublishSubject;
 			this.isGroundTransport = isGroundTransport;
 			this.activityId = activityId;
 			this.promoDiscountType = promoDiscountType;
@@ -166,11 +161,11 @@ public class LXOffersListAdapter extends BaseAdapter {
 			offerTitle.setText(offer.title);
 
 			updateState(offer.isToggled);
+			offerClickedSubject.subscribe(this::onOfferClicked);
 		}
 
-		@Subscribe
-		public void onOfferExpanded(Events.LXOfferExpanded event) {
-			if (this.offer.id.equals(event.offer.id)) {
+		private void onOfferClicked(Offer clickedOffer) {
+			if (this.offer.id.equals(clickedOffer.id)) {
 				if (!offer.isToggled) {
 					//  Track Link to track Ticket Selected.
 					OmnitureTracking.trackLinkLXSelectTicket(isGroundTransport);
@@ -180,6 +175,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 				if (Constants.LX_AIR_MIP.equals(activityDiscountType) && !Constants.LX_AIR_MIP.equals(offer.discountType)) {
 					OmnitureTracking.trackLXProductForNonMipMod(activityId, false);
 				}
+				ticketSelectionWidget.offerDescription.minimizeDescription();
 				ticketSelectionWidget.setVisibility(View.VISIBLE);
 			}
 			else {
@@ -189,7 +185,8 @@ public class LXOffersListAdapter extends BaseAdapter {
 			}
 			itemView.setClickable(!offer.isToggled);
 		}
-		public void updateState(boolean isToggled) {
+
+		private void updateState(boolean isToggled) {
 			offerRow.setVisibility(isToggled ? View.GONE : View.VISIBLE);
 			ticketSelectionWidget.setVisibility(isToggled ? View.VISIBLE : View.GONE);
 			itemView.setClickable(!offer.isToggled);
@@ -197,8 +194,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			Events.post(new Events.LXOfferExpanded(offer));
-			publishSuject.onNext(offer);
+			offerClickedSubject.onNext(offer);
 		}
 	}
 }
