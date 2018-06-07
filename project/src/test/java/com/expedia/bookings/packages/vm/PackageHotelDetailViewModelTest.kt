@@ -138,12 +138,14 @@ class PackageHotelDetailViewModelTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldShowBookByPhoneUSPOSWithTelesalesNumber() {
         val currentPOS = PointOfSale.getPointOfSale().pointOfSaleId
-        hotelOffersResponse.packageTelesalesNumber = "1111111111"
+        val expectedNumber = "1111111111"
+        hotelOffersResponse.packageTelesalesNumber = expectedNumber
         testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
         setPOS(PointOfSaleId.UNITED_STATES)
 
         val showBookByPhone = testViewModel.shouldShowBookByPhone()
         assertEquals(true, showBookByPhone)
+        assertEquals(expectedNumber, testViewModel.getTelesalesNumber())
         setPOS(currentPOS)
     }
 
@@ -163,6 +165,20 @@ class PackageHotelDetailViewModelTest {
     }
 
     @Test
+    fun testOfferReturnedWithNullRoomResponse_noPricesAreChanged() {
+        hotelOffersResponse.hotelRoomResponse = null
+        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
+        assertNoEmissionsToObservables()
+    }
+
+    @Test
+    fun testOfferReturnedWithEmptyRoomResponse_noPricesAreChanged() {
+        hotelOffersResponse.hotelRoomResponse = emptyList()
+        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
+        assertNoEmissionsToObservables()
+    }
+
+    @Test
     fun testOfferReturnedNonNullHotelRoomResponse() {
         val hotelRoomResponse = getMockHotelRoomResponse()
         hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
@@ -176,36 +192,85 @@ class PackageHotelDetailViewModelTest {
     }
 
     @Test
-    fun testOfferReturnedNonNullHotelRoomResponseNullPackageTotalPrice() {
+    fun testOfferReturnedWithNoPricing_noPricesAreChanged() {
         val hotelRoomResponse = getMockHotelRoomResponse()
         hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = null
-        hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
-
-        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
-
-        assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
-        assertEquals(null, testViewModel.bundleTotalPriceObservable.value)
-        assertEquals(null, testViewModel.bundleSavingsObservable.value)
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = null
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = null
+        checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse)
     }
 
     @Test
-    fun testOfferReturnedNonNullHotelRoomResponseNullSavings() {
+    fun testOfferReturnedWithOnlyPricePerPerson_noPricesAreChanged() {
+        val money = Money()
         val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = null
         hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = null
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = money
+        checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse)
+    }
+
+    @Test
+    fun testOfferReturnedWithOnlySavings_noPricesAreChanged() {
+        val money = Money()
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = null
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = null
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = money
+        checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse)
+    }
+
+    @Test
+    fun testOfferReturnedWithSavingsAndPerPersonPrice_noPricesAreChanged() {
+        val money = Money()
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = null
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = money
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = money
+        checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse)
+    }
+
+    @Test
+    fun testOfferReturnedWithOnlyTotalPrice_noPricesAreChanged() {
+        val money = Money()
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = money
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = null
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = null
+        checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse)
+    }
+
+    @Test
+    fun testOfferReturnedWithTotalAndPerPersonPrice_noPricesAreChanged() {
+        val money = Money()
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = money
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = null
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = money
+        checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse)
+    }
+
+    @Test
+    fun testOfferReturnedWithTotalAndSavings_noPricesAreChanged() {
+        val money = Money()
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = money
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = money
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = null
+        checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse)
+    }
+
+    private fun checkNoEmissionsForMissingPricesInRoomsResponse(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse) {
         hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
 
         testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
-
-        assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
-        assertEquals(null, testViewModel.bundleTotalPriceObservable.value)
-        assertEquals(null, testViewModel.bundleSavingsObservable.value)
+        assertNoEmissionsToObservables()
     }
 
     private fun getMockHotelRoomResponse(): HotelOffersResponse.HotelRoomResponse {
         val hotelOffer = dummyMidHotelRoomOffer()
         val multiItemOffer = dummyMIDItemRoomOffer()
-        val hotelRoomResponse = HotelOffersResponse.convertMidHotelRoomResponse(hotelOffer, multiItemOffer)
-        return hotelRoomResponse
+        return HotelOffersResponse.convertMidHotelRoomResponse(hotelOffer, multiItemOffer)
     }
 
     fun testDetailedPriceShouldBeShownOrNot() {
@@ -253,6 +318,12 @@ class PackageHotelDetailViewModelTest {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         testViewModel.isDatelessObservable.onNext(false)
         assertFalse(testViewModel.showHotelFavoriteIcon())
+    }
+
+    private fun assertNoEmissionsToObservables() {
+        assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
+        assertEquals(null, testViewModel.bundleTotalPriceObservable.value)
+        assertEquals(null, testViewModel.bundleSavingsObservable.value)
     }
 
     private fun assertPerNightVisibility(expectedVisibility: Boolean) {
