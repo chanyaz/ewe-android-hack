@@ -33,7 +33,6 @@ import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
-import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -67,7 +66,6 @@ import com.mobiata.flightlib.data.Flight;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.HttpException;
@@ -1134,7 +1132,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					load();
 					break;
 				case REAUTH_FACEBOOK_USER:
-					reauthFacebookUser();
+					reAuthenticateFacebookUser();
 					break;
 				case REFRESH_USER:
 					refreshUserList();
@@ -1376,17 +1374,15 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			// POSSIBLE TODO: Only call tripUpated() when it's actually changed
 		}
 
-		private void reauthFacebookUser() {
+		private void reAuthenticateFacebookUser() {
 			ServicesUtil.generateAccountService(mContext)
-				.facebookReauth(mContext).doOnNext(new Consumer<FacebookLinkResponse>() {
-				@Override
-				public void accept(FacebookLinkResponse linkResponse) {
+				.facebookReauth(mContext)
+				.doOnNext(linkResponse -> {
 					if (linkResponse != null
 						&& linkResponse.isSuccess()) {
 						Log.w(LOGGING_TAG, "FB: Autologin success");
 					}
-				}
-			});
+				}).subscribe();
 		}
 
 		void refreshAllTrips(TimeSource timeSource, Map<String, Trip> trips) {
@@ -1946,7 +1942,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			mError = error;
 		}
 	}
-
 
 	private void deletePendingNotification(Trip trip) {
 		List<TripComponent> components = trip.getTripComponents(true);
