@@ -22,7 +22,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebCheckoutViewViewModel
@@ -210,7 +209,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     private fun shouldShowNativePackageConfirmation(url: String): Boolean {
-        return isMidAPIEnabled() && url.contains(context.getString(R.string.mid_confirmation_url_tag))
+        return url.contains(context.getString(R.string.mid_confirmation_url_tag))
     }
 
     private fun shouldShowNativeHotelConfirmation(url: String): Boolean {

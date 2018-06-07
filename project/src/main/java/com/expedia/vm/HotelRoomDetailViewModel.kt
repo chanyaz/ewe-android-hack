@@ -22,7 +22,6 @@ import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
@@ -78,7 +77,7 @@ class HotelRoomDetailViewModel(val context: Context,
 
     val showPerNight: Boolean get() = !isPayLater && !isTotalPrice
 
-    val pricePerDescriptorString: String get() = if (isPackage && isMidAPIEnabled()) context.getString(R.string.price_per_person) else context.getString(R.string.per_night)
+    val pricePerDescriptorString: String get() = if (isPackage) context.getString(R.string.price_per_person) else context.getString(R.string.per_night)
 
     val priceString: String? get() = createPriceString()
 

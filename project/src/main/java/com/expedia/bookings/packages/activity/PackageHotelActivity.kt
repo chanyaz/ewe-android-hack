@@ -11,7 +11,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.PackageCalendarRules
 import com.google.android.gms.maps.MapView
@@ -58,9 +57,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             }
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             // change hotel room
-            if (isMidAPIEnabled()) {
-                Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
-            }
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS_ONLY)
             hotelsPresenter.hotelSelectedObserver.onNext(Db.getPackageSelectedHotel())
         } else {

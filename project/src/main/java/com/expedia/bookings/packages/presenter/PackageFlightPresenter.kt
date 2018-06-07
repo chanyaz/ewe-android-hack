@@ -42,7 +42,6 @@ import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
@@ -131,7 +130,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
-        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
+        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(true) ?: false
         val bestPlusAllFlights = Db.getPackageResponse().getFlightLegs().filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list
@@ -255,10 +254,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         show(detailsPresenter)
     }
 
-    override fun isOutboundResultsPresenter(): Boolean = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
+    override fun isOutboundResultsPresenter(): Boolean = Db.sharedInstance.packageParams?.isOutboundSearch(true) ?: false
 
     override fun trackFlightOverviewLoad(flight: FlightLeg) {
-        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
+        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(true) ?: false
 
         if (isOutboundSearch) {
             PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData.markAllViewsLoaded()
@@ -276,7 +275,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun trackFlightResultsLoad() {
-        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
+        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(true) ?: false
         PackagesTracking().trackFlightRoundTripLoad(isOutboundSearch, Db.sharedInstance.packageParams, if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData)
     }
 

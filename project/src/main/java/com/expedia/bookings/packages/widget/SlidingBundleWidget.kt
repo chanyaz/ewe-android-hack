@@ -26,7 +26,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
@@ -204,10 +203,10 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
 
         if (product == Constants.PRODUCT_FLIGHT) {
             bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.sharedInstance.packageParams)
-            val type = if (Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled())) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
+            val type = if (Db.sharedInstance.packageParams.isOutboundSearch(true)) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
             bundleOverViewWidget.viewModel.flightResultsObservable.onNext(type)
 
-            if (!Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled()) && Db.sharedInstance.packageSelectedOutboundFlight != null) {
+            if (!Db.sharedInstance.packageParams.isOutboundSearch(true) && Db.sharedInstance.packageSelectedOutboundFlight != null) {
                 bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
                 bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
                 bundleOverViewWidget.outboundFlightWidget.toggleFlightWidget(1f, true)

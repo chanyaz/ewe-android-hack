@@ -24,7 +24,6 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.isFHCPackageWebViewEnabled
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerWidgetV2
@@ -68,7 +67,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
-        if (isMidAPIEnabled() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)) {
             flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
         }
         vm.formattedOriginObservable.subscribe {
@@ -128,7 +127,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
                 travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.onNext(params.infantSeatingInLap)
             }
             val cabinClass = params.flightCabinClass
-            if (cabinClass != null && isMidAPIEnabled() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)) {
+            if (cabinClass != null && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)) {
                 flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.getCabinCodeFromMIDParam(cabinClass))
             }
         }

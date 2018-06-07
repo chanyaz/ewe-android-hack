@@ -55,7 +55,6 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.mobiata.android.Log
 import io.reactivex.Observer
@@ -78,7 +77,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)
     val pageUsableData = PageUsableData()
-    val midAPIEnabled = isMidAPIEnabled()
 
     val searchPresenter: PackageSearchPresenter by lazy {
         if (displayFlightDropDownRoutes()) {
@@ -116,7 +114,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCheckoutViewModel().checkoutRequestStartTimeObservable.subscribe { startTime ->
             pageUsableData.markPageLoadStarted(startTime)
         }
-        presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { !isMidAPIEnabled() || it }.subscribe {
+        presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { it }.subscribe {
             val packagePrice = Db.getPackageResponse().getCurrentOfferPrice()
             if (packagePrice != null) {
                 val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
@@ -157,14 +155,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         presenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(presenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
         presenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.viewmodel.packageSearchApiErrorObserver)
         presenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
-        if (midAPIEnabled) {
-            (presenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).fetchItinObservable.subscribe { bookedTripID ->
-                pageUsableData.markPageLoadStarted(System.currentTimeMillis())
-                itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
-            }
-            presenter.webCheckoutView.viewModel.showNativeSearchObservable.subscribe {
-                show(searchPresenter, FLAG_CLEAR_TOP)
-            }
+        (presenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).fetchItinObservable.subscribe { bookedTripID ->
+            pageUsableData.markPageLoadStarted(System.currentTimeMillis())
+            itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+        }
+        presenter.webCheckoutView.viewModel.showNativeSearchObservable.subscribe {
+            show(searchPresenter, FLAG_CLEAR_TOP)
         }
         presenter
     }
@@ -279,9 +275,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
 
         hotelOffersErrorObservable.subscribe { show(errorPresenter) }
-        if (midAPIEnabled) {
-            itinTripServices = Ui.getApplication(context).packageComponent().itinTripServices()
-        }
+        itinTripServices = Ui.getApplication(context).packageComponent().itinTripServices()
         filterSearchErrorObservable.subscribe { show(errorPresenter) }
     }
 
@@ -291,10 +285,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         addTransition(bundleToConfirmation)
         addTransition(bundleOverviewToError)
         addTransition(errorToSearch)
-        if (midAPIEnabled) {
-            addTransition(webCheckoutViewToConfirmation)
-            addTransition(webCheckoutToSearch)
-        }
+        addTransition(webCheckoutViewToConfirmation)
+        addTransition(webCheckoutToSearch)
 
         if (isCrossSellPackageOnFSREnabled) {
             addDefaultTransition(defaultOverviewTransition)
@@ -557,7 +549,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     }
 
     override fun back(): Boolean {
-        if (midAPIEnabled && Db.sharedInstance.packageParams != null && bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
+        if (Db.sharedInstance.packageParams != null && bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
             bundlePresenter.webCheckoutView.back()
             return true
         }

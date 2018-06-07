@@ -13,7 +13,6 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.bookings.packages.vm.BundleHotelViewModel
@@ -74,7 +73,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 inboundFlightWidget.refreshTravelerInfoOnChangeFlights()
                 inboundFlightWidget.disable()
             }
-            if (param.isOutboundSearch(isMidAPIEnabled())) {
+            if (param.isOutboundSearch(true)) {
                 outboundFlightWidget.showLoading()
                 inboundFlightWidget.toggleFlightWidget(opacity, false)
             } else {

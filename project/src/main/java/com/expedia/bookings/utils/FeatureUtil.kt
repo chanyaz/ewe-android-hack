@@ -20,10 +20,6 @@ fun isPopulateCardholderNameEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidPopulateCardholderName)
 }
 
-fun isMidAPIEnabled(): Boolean {
-    return true
-}
-
 fun isGrowthSocialSharingEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppGrowthSocialSharing)
 }
@@ -33,7 +29,7 @@ fun isFHCPackageWebViewEnabled(context: Context): Boolean {
 }
 
 fun shouldPackageForceUpdateBeVisible(context: Context): Boolean {
-    return !isMidAPIEnabled() && isPackageForceUpdateEnabled(context)
+    return false
 }
 
 fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {

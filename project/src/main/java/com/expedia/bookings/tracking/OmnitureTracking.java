@@ -129,7 +129,6 @@ import com.mobiata.android.util.SettingUtils;
 import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isFlightGreedySearchEnabled;
-import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -4696,9 +4695,7 @@ public class OmnitureTracking {
 		List<ABTest> abTests = new ArrayList<>();
 		abTests.add(AbacusUtils.EBAndroidAppPackagesWebviewFHC);
 		abTests.add(AbacusUtils.EBAndroidAppPackagesAATest);
-		if (isMidAPIEnabled()) {
-			abTests.add(AbacusUtils.EBAndroidAppPackagesFFPremiumClass);
-		}
+		abTests.add(AbacusUtils.EBAndroidAppPackagesFFPremiumClass);
 		abTests.add(AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom);
 		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);
 	}
@@ -4758,7 +4755,7 @@ public class OmnitureTracking {
 			evar47String.append("IL" + infantInLap + "|");
 			evar47String.append("IS" + infantInseat);
 
-			if (isMidAPIEnabled() && packageSearchParams.getFlightCabinClass() != null) {
+			if (packageSearchParams.getFlightCabinClass() != null) {
 				String cabinCodeName = FlightServiceClassType
 					.getCabinCodeFromMIDParam(packageSearchParams.getFlightCabinClass()).name();
 				evar47String.append("|" + FlightServiceClassType.getCabinClassTrackCode(cabinCodeName));

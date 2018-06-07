@@ -40,7 +40,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.PackageUtil
@@ -177,30 +176,21 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             true
         })
 
-        if (isMidAPIEnabled()) {
-            addTransition(overviewToWebCheckoutView)
-        } else {
-            addTransition(checkoutTransition)
-            addTransition(checkoutToCvv)
-        }
+        addTransition(overviewToWebCheckoutView)
 
-        if (isMidAPIEnabled()) {
-            performMIDCreateTripSubject.subscribe {
-                webCheckoutView.clearHistory()
-                webCheckoutView.webView.clearHistory()
-                webCheckoutView.viewModel.webViewURLObservable.onNext(context.getString(R.string.clear_webview_url))
-                (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).doCreateTrip()
-                setupOverviewPresenterForMID()
-            }
+        performMIDCreateTripSubject.subscribe {
+            webCheckoutView.clearHistory()
+            webCheckoutView.webView.clearHistory()
+            webCheckoutView.viewModel.webViewURLObservable.onNext(context.getString(R.string.clear_webview_url))
+            (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).doCreateTrip()
+            setupOverviewPresenterForMID()
         }
     }
 
     private fun cancelMIDCreateTripCall() {
-        if (isMidAPIEnabled()) {
-            val vm = webCheckoutView.viewModel
-            if (vm is PackageWebCheckoutViewViewModel) {
-                vm.packageCreateTripViewModel.cancelMultiItemCreateTripSubject.onNext(Unit)
-            }
+        val vm = webCheckoutView.viewModel
+        if (vm is PackageWebCheckoutViewViewModel) {
+            vm.packageCreateTripViewModel.cancelMultiItemCreateTripSubject.onNext(Unit)
         }
     }
 
@@ -374,11 +364,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun showCheckout() {
-        if (isMidAPIEnabled()) {
-            show(webCheckoutView)
-        } else {
-            super.showCheckout()
-        }
+        show(webCheckoutView)
     }
 
     private fun bundleWidgetSetup() {

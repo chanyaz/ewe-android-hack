@@ -15,7 +15,6 @@ import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
@@ -104,7 +103,7 @@ class BundleOverviewViewModel(val context: Context, private val packageServicesM
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            val type = if (params.isOutboundSearch(isMidAPIEnabled())) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
+            val type = if (params.isOutboundSearch(true)) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
 
             searchPackageSubscriber = packageServicesManager?.doPackageSearch(params, type, successResponseHandler, errorResponseHandler)
         }
@@ -144,9 +143,7 @@ class BundleOverviewViewModel(val context: Context, private val packageServicesM
         stepTwoTextObservable.onNext(stepTwo)
         stepThreeTextObservale.onNext("")
         setAirlineFeeTextOnBundleOverview()
-        if (isMidAPIEnabled()) {
-            setSplitTicketMessagingOnBundleOverview(Db.sharedInstance.packageParams)
-        }
+        setSplitTicketMessagingOnBundleOverview(Db.sharedInstance.packageParams)
     }
 
     fun getHotelNameAndDaysToSetUpTitle() {
