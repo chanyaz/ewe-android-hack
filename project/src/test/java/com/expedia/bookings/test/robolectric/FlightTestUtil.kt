@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.Money
@@ -14,6 +16,11 @@ import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.Traveler
+import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
+import com.expedia.vm.AbstractFlightViewModel
+import com.expedia.vm.flights.FlightViewModel
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import java.math.BigDecimal
 import java.util.ArrayList
@@ -235,6 +242,27 @@ class FlightTestUtil {
             flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
             flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = numberOfTickets
             return flightLeg
+        }
+
+        class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
+                AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+            override fun getPriceDescriptorMessageIdForFSR(): Int? = null
+
+            override fun isShowOnlyNonStopSearch(): Boolean = false
+
+            override fun isShowOnlyRefundableSearch(): Boolean = false
+
+            override fun showAllFlightsHeader(): Boolean = false
+
+            override fun adjustPosition(): Int = 1
+
+            override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel {
+                return FlightViewModel(context, flightLeg)
+            }
+
+            override fun showAdvanceSearchFilterHeader(): Boolean = true
+
+            override fun getRoundTripStringResourceId(): Int = R.string.prices_roundtrip_label
         }
     }
 }

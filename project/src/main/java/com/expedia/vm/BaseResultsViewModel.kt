@@ -16,4 +16,5 @@ abstract class BaseResultsViewModel {
     val richContentGuide = PublishSubject.create<Unit>()
     val abortRichContentCallObservable = PublishSubject.create<Unit>()
     abstract fun getLineOfBusiness(): LineOfBusiness
+    var isRoutehappyOmnitureTrigerred = false
 }

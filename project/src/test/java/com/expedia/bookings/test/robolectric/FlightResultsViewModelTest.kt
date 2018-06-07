@@ -1,6 +1,9 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
@@ -27,10 +30,12 @@ class FlightResultsViewModelTest {
     private var context: Context = RuntimeEnvironment.application
     private lateinit var sut: FlightResultsViewModel
     val FLIGHT_LEG_ID = "ab64aefca28e772ca024d4a00e6ae131"
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
         sut = FlightResultsViewModel(context)
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -132,6 +137,57 @@ class FlightResultsViewModelTest {
         val counter = sut.sharedPref.getInt("counter", 1)
         assertEquals(1, counter)
         assertEquals(false, sut.isRichContentGuideDisplayed)
+    }
+
+    @Test
+    fun testOmnitureForRichContentDisplayed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        val flightResultsViewModel = FlightResultsViewModel(context)
+        val flightLeg = createFakeFlightLeg()
+
+        //Omniture for round trip outbound
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        flightResultsViewModel.isOutboundResults.onNext(true)
+        flightResultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
+        flightResultsViewModel.richContentStream.onNext(mapOf(FLIGHT_LEG_ID to getRichContent()))
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.Out.RouteHappy.1|1",
+                "App.Flight.Search.Roundtrip.Out.RouteHappy.1|1", mockAnalyticsProvider)
+
+        //Omniture for round trip inbound
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        flightResultsViewModel.isOutboundResults.onNext(false)
+        flightResultsViewModel.richContentStream.onNext(mapOf(FLIGHT_LEG_ID to getRichContent()))
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.In.RouteHappy.1|1",
+                "App.Flight.Search.Roundtrip.In.RouteHappy.1|1", mockAnalyticsProvider)
+
+        //Omniture for oneway
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(false, true))
+        flightResultsViewModel.isOutboundResults.onNext(true)
+        flightResultsViewModel.richContentStream.onNext(mapOf(FLIGHT_LEG_ID to getRichContent()))
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Oneway.RouteHappy.1|1",
+                "App.Flight.Search.Oneway.RouteHappy.1|1", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForRichContentEmptyResult() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        val flightResultsViewModel = FlightResultsViewModel(context)
+        val flightLeg = createFakeFlightLeg()
+
+        //Omniture for round trip outbound when empty richcontent response
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        flightResultsViewModel.isOutboundResults.onNext(true)
+        flightResultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
+        flightResultsViewModel.richContentStream.onNext(emptyMap<String, RichContent>())
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.Out.RouteHappy.Null",
+                "App.Flight.Search.Roundtrip.Out.RouteHappy.Null", mockAnalyticsProvider)
+
+        //Omniture for round trip inbound when empty richcontent response
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        flightResultsViewModel.isOutboundResults.onNext(false)
+        flightResultsViewModel.richContentStream.onNext(emptyMap<String, RichContent>())
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.In.RouteHappy.Null",
+                "App.Flight.Search.Roundtrip.In.RouteHappy.Null", mockAnalyticsProvider)
     }
 
     private fun getRichContentResponse(): RichContentResponse {

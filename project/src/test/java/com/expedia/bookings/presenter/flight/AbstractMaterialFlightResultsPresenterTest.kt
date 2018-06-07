@@ -5,6 +5,9 @@ import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -14,6 +17,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
@@ -41,6 +45,8 @@ class AbstractMaterialFlightResultsPresenterTest {
     private val context = RuntimeEnvironment.application
     private lateinit var sut: AbstractMaterialFlightResultsPresenter
     private lateinit var service: FlightServices
+    val FLIGHT_LEG_ID = "ab64aefca28e772ca024d4a00e6ae131"
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
     var server: MockWebServer = MockWebServer()
         @Rule get
 
@@ -56,6 +62,7 @@ class AbstractMaterialFlightResultsPresenterTest {
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
         Ui.getApplication(context).defaultTravelerComponent()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -121,6 +128,34 @@ class AbstractMaterialFlightResultsPresenterTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
         createSystemUnderTest(isOutboundPresenter = false)
         assertEquals(View.GONE, sut.resultsPresenter.flightLoadingWidget.visibility)
+    }
+
+    @Test
+    fun testOmnitureForRichContentNotDisplayed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        createSystemUnderTest(true)
+        val flightLeg = FlightTestUtil.getFlightLeg(FLIGHT_LEG_ID)
+
+        //Omniture when round trip for outbound
+        sut.resultsPresenter.isShowingOutboundResults = true
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        sut.resultsPresenter.flightSelectedSubject.onNext(flightLeg)
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.Out.RouteHappy.NA",
+                "App.Flight.Search.Roundtrip.Out.RouteHappy.NA", mockAnalyticsProvider)
+
+        //Omniture when round trip for oneway
+        sut.resultsPresenter.isShowingOutboundResults = false
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(false, true))
+        sut.resultsPresenter.flightSelectedSubject.onNext(flightLeg)
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Oneway.RouteHappy.NA",
+                "App.Flight.Search.Oneway.RouteHappy.NA", mockAnalyticsProvider)
+
+        //Omniture when round trip for inbound
+        sut.resultsPresenter.isShowingOutboundResults = false
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        sut.resultsPresenter.flightSelectedSubject.onNext(flightLeg)
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.In.RouteHappy.NA",
+                "App.Flight.Search.Roundtrip.In.RouteHappy.NA", mockAnalyticsProvider)
     }
 
     private fun createSystemUnderTest(isOutboundPresenter: Boolean) {

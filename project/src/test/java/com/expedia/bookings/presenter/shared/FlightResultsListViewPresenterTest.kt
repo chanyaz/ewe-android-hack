@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.shared
 
 import android.app.Activity
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +17,7 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightRichContentService
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -25,9 +25,7 @@ import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
-import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.FlightResultsViewModel
-import com.expedia.vm.flights.FlightViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers
@@ -93,7 +91,7 @@ class FlightResultsListViewPresenterTest {
 
     private fun createTestFlightListAdapter() {
         isRoundTripSubject.onNext(false)
-        testFlightAdapter = TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
+        testFlightAdapter = FlightTestUtil.Companion.TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.VOYAGES, MultiBrand.TRAVELOCITY, MultiBrand.CHEAPTICKETS))
@@ -223,26 +221,5 @@ class FlightResultsListViewPresenterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal("1200.90")
 
         return flightLeg
-    }
-
-    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
-            AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
-        override fun getPriceDescriptorMessageIdForFSR(): Int? = null
-
-        override fun isShowOnlyNonStopSearch(): Boolean = false
-
-        override fun isShowOnlyRefundableSearch(): Boolean = false
-
-        override fun showAllFlightsHeader(): Boolean = false
-
-        override fun adjustPosition(): Int = 1
-
-        override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel {
-            return FlightViewModel(context, flightLeg)
-        }
-
-        override fun showAdvanceSearchFilterHeader(): Boolean = true
-
-        override fun getRoundTripStringResourceId(): Int = R.string.prices_roundtrip_label
     }
 }

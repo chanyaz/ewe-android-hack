@@ -244,6 +244,18 @@ object FlightsV2Tracking {
         OmnitureTracking.trackCrossSellPackageBannerClick()
     }
 
+    fun trackRouteHappyEmptyResults(isOutboundFlight: Boolean, isRoundTrip: Boolean) {
+        OmnitureTracking.trackRouteHappyEmptyResults(isOutboundFlight, isRoundTrip)
+    }
+
+    fun trackRouteHappyResultCountRatio(isOutboundFlight: Boolean, isRoundTrip: Boolean, routeHappyCount: Int, totalCount: Int) {
+        OmnitureTracking.trackRouteHappyResultsCountRatio(isOutboundFlight, isRoundTrip, routeHappyCount, totalCount)
+    }
+
+    fun trackRouteHappyNotDisplayed(isOutboundFlight: Boolean, isRoundTrip: Boolean) {
+        OmnitureTracking.trackRouteHappyNotApplicable(isOutboundFlight, isRoundTrip)
+    }
+
     fun createCheckoutError(error: ApiError): String {
         val errorType = "CKO:"
         val eSource = if (!error.errorInfo?.source.isNullOrEmpty()) "${error.errorInfo?.source}:" else ":"

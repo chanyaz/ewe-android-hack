@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.RichContent
@@ -9,6 +10,7 @@ import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightRichContentService
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isRichContentEnabled
@@ -38,10 +40,11 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
     init {
         Ui.getApplication(context).flightComponent().inject(this)
         if (showRichContent) {
-            richContentStream.withLatestFrom(flightResultsObservable, { richContentLegs, flightLegs ->
+            richContentStream.withLatestFrom(flightResultsObservable, isOutboundResults, { richContentLegs, flightLegs, isOutboundResults ->
                 object {
                     val richContentLegs = richContentLegs
                     val flightLegs = flightLegs
+                    val isOutboundResults = isOutboundResults
                 }
             }).subscribe {
                 for (flightLeg in it.flightLegs) {
@@ -51,9 +54,18 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
                     }
                 }
                 updateFlightsStream.onNext(Unit)
+                if (!isRoutehappyOmnitureTrigerred) {
+                    if (it.richContentLegs.isNotEmpty()) {
+                        FlightsV2Tracking.trackRouteHappyResultCountRatio(it.isOutboundResults, Db.getFlightSearchParams().isRoundTrip(),
+                                it.richContentLegs.size, it.flightLegs.size)
+                    } else {
+                        FlightsV2Tracking.trackRouteHappyEmptyResults(it.isOutboundResults, Db.getFlightSearchParams().isRoundTrip())
+                    }
+                }
             }
             ObservableOld.combineLatest(isOutboundResults, flightResultsObservable.filter { it.isNotEmpty() }, { isOutboundResult, flightLegs ->
                 val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)
+                isRoutehappyOmnitureTrigerred = false
                 if (isOutboundResult) {
                     if (showRichContentGuide()) {
                         richContentGuide.onNext(Unit)

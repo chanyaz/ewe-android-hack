@@ -44,6 +44,13 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         }
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
+        resultsPresenter.flightSelectedSubject.subscribe {
+            if (isRichContentEnabled(context) && it.richContent == null) {
+                val searchParam = Db.getFlightSearchParams()
+                FlightsV2Tracking.trackRouteHappyNotDisplayed(resultsPresenter.isShowingOutboundResults, searchParam.isRoundTrip())
+                resultsPresenter.resultsViewModel.isRoutehappyOmnitureTrigerred = true
+            }
+        }
     }
 
     override fun back(): Boolean {
