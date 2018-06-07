@@ -6,7 +6,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
+abstract class BaseTotalPriceWidgetViewModel(val isSlidable: Boolean) {
     val total = PublishSubject.create<Money>()
     val savings = PublishSubject.create<Money>()
     val referenceTotalPrice = PublishSubject.create<Money>()

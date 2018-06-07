@@ -94,6 +94,9 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
                 betterSavingContainer.setVisibility(false)
             }
         }
+        if (!vm.isSlidable) {
+            setupClickListeners()
+        }
     }
 
     val breakdown = CostSummaryBreakDownView(context, null)
@@ -109,7 +112,9 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         View.inflate(getContext(), R.layout.bundle_total_price_widget, this)
         orientation = VERTICAL
         rotateChevron(true)
+    }
 
+    private fun setupClickListeners() {
         betterSavingContainer.setOnClickListener {
             setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_STRIP_CLICK)
         }
@@ -125,8 +130,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         priceAndSavingContainer.setOnClickListener {
             setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_PRICE_CLICK)
         }
-
-        this.setOnClickListener {
+        setOnClickListener {
             setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK)
         }
     }
