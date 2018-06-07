@@ -53,7 +53,7 @@ import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.map.HotelResultsMapWidget
 import com.expedia.bookings.hotel.vm.BaseHotelResultsViewModel
-import com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
+import com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -92,7 +92,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
     val filterButtonOnClickObservable = PublishSubject.create<Unit>()
-    val floatingPill: HotelSearchFloatingActionPill by bindView(R.id.hotel_results_floating_pill)
+    val floatingPill: SortFilterFloatingActionPill by bindView(R.id.hotel_results_floating_pill)
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
 

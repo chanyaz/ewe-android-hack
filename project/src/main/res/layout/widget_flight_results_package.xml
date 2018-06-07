@@ -68,6 +68,17 @@
             android:visibility="gone"
             tools:targetApi="22" />
 
+        <com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
+            android:id="@+id/flight_results_floating_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:accessibilityTraversalAfter="@+id/menu_search"
+            tools:targetApi="22"
+            android:visibility="gone"
+            android:paddingBottom="71dp"
+            android:clipToPadding="false" />
+
     </FrameLayout>
 
 </LinearLayout>

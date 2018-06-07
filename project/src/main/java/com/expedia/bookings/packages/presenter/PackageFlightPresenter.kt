@@ -38,6 +38,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isHighlightSortFilterOnPackagesEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
@@ -94,7 +95,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     init {
         toolbarViewModel = PackageToolbarViewModel(context)
         toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
-            menuFilter.isVisible = showMenu
+            if (!isHighlightSortFilterOnPackagesEnabled(context)) {
+                menuFilter.isVisible = showMenu
+            }
         }
 
         View.inflate(getContext(), R.layout.package_flight_presenter, this)
@@ -184,7 +187,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         filterButtonText.visibility = GONE
         filterBtn.setOnClickListener { show(filter) }
 
-        menuFilter.actionView = toolbarFilterItemActionView
+        if (!isHighlightSortFilterOnPackagesEnabled(context)) {
+            menuFilter.actionView = toolbarFilterItemActionView
+        }
         filter.viewModelBase.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
         filter.viewModelBase.filterCountObservable.map {
             Phrase.from(resources.getQuantityString(R.plurals.no_of_filters_applied_TEMPLATE, it))
@@ -333,7 +338,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun setupToolbarMenu() {
-        toolbar.inflateMenu(R.menu.package_flights_menu)
+        if (!isHighlightSortFilterOnPackagesEnabled(context)) {
+            toolbar.inflateMenu(R.menu.package_flights_menu)
+        }
     }
 
     override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()

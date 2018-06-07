@@ -132,7 +132,7 @@
         android:src="@drawable/ic_transition_map_list_fab"
         app:useCompatPadding="true" />
 
-    <com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
+    <com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
         android:id="@+id/hotel_results_floating_pill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.expedia.bookings.hotel.widget
+package com.expedia.bookings.widget.shared
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -6,19 +6,22 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
 
-class HotelSearchFloatingActionPill(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class SortFilterFloatingActionPill(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val toggleViewButton by bindView<TextView>(R.id.fap_toggle_view_button)
     val filterButton by bindView<TextView>(R.id.fap_filter_button)
+    val verticalDivider by bindView<View>(R.id.vertical_divider)
+    val toggleContainer by bindView<RelativeLayout>(R.id.toggle_container)
     var showMap = false
         private set
-    private val filterCountText by bindView<TextView>(R.id.fap_filter_number_text)
-    private val filterIcon by bindView<ImageView>(R.id.fap_filter_icon)
+    val filterCountText by bindView<TextView>(R.id.fap_filter_number_text)
+    val filterIcon by bindView<ImageView>(R.id.fap_filter_icon)
     private val toggleIcon by bindView<ImageView>(R.id.fap_toggle_icon)
 
     init {
@@ -27,6 +30,16 @@ class HotelSearchFloatingActionPill(context: Context, attrs: AttributeSet) : Lin
         toggleIcon.setColorFilter(ContextCompat.getColor(context, R.color.app_primary))
         setFilterCount(0)
         setToggleState(true)
+    }
+
+    fun setFlightsCompatibleMode() {
+        verticalDivider.visibility = View.GONE
+        toggleContainer.visibility = View.GONE
+        filterButton.setPadding(context.resources.getDimensionPixelSize(R.dimen.dimen_44),
+                0, context.resources.getDimensionPixelSize(R.dimen.dimen_20), 0)
+        (filterCountText.layoutParams as RelativeLayout.LayoutParams).leftMargin = context.resources.getDimensionPixelSize(R.dimen.dimen_20)
+        (filterIcon.layoutParams as RelativeLayout.LayoutParams).leftMargin = context.resources.getDimensionPixelSize(R.dimen.dimen_20)
+        filterButton.background = null
     }
 
     fun setToggleState(showMap: Boolean) {

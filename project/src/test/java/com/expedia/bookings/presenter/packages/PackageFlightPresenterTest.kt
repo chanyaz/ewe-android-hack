@@ -9,6 +9,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.presenter.PackageFlightPresenter
@@ -19,6 +20,7 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.util.Optional
@@ -31,6 +33,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -71,6 +75,32 @@ class PackageFlightPresenterTest {
             val previous = testSubscriberResult[i - 1].packageOfferModel.price.packageTotalPrice.amount
             assertTrue(current.compareTo(previous) >= 0, "Expected $current >= $previous")
         }
+    }
+
+    @Test
+    fun testToolbarHasNoMenuWhenHighlightSortFilterIsEnabled() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+
+        presenter = getPackageFlightPresenter()
+
+        assertEquals(0, presenter.toolbar.menu.size())
+        assertNull(presenter.menuFilter)
+    }
+
+    @Test
+    fun testToolbarHasNoMenuWhenHighlightSortFilterIsDisabled() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+
+        presenter = getPackageFlightPresenter()
+        presenter.toolbarViewModel.menuVisibilitySubject.onNext(true)
+
+        assertEquals(1, presenter.toolbar.menu.size())
+        assertNotNull(presenter.menuFilter.actionView)
+        assertTrue(presenter.menuFilter.isVisible)
     }
 
     @Test

@@ -17,8 +17,10 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isHighlightSortFilterOnPackagesEnabled
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.FlightLoadingWidget
@@ -38,6 +40,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
+    val floatingPill: SortFilterFloatingActionPill by bindView(R.id.flight_results_floating_pill)
     private lateinit var flightLoader: ViewStub
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     lateinit var flightLoadingWidget: FlightLoadingWidget
@@ -56,6 +59,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     var isShowingOutboundResults = false
     var showFilterButton = true
+    var showFilterPill = false
 
     private val FLIGHT_PROGRESS_BAR_MAX = 600
 
@@ -66,6 +70,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun bind(doNotOverrideFilterButton: Boolean, lob: LineOfBusiness) {
+        showFilterPill = lob == LineOfBusiness.PACKAGES && isHighlightSortFilterOnPackagesEnabled(context)
         val dockedOutboundFlightSelectionStub = findViewById<ViewStub>(R.id.widget_docked_outbound_flight_stub)
         val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context, lob)
         if (lob == LineOfBusiness.FLIGHTS_V2) {
@@ -80,6 +85,9 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             this.dockedOutboundFlightSelection = dockedOutboundFlightWidget
         }
         setupFilterButton(doNotOverrideFilterButton)
+        if (showFilterPill) {
+            setupFilterPill()
+        }
     }
 
     override fun back(): Boolean {
@@ -103,6 +111,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     fun setLoadingState() {
         filterButton.visibility = GONE
+        floatingPill.visibility = GONE
         airlineChargesFeesTextView.visibility = View.GONE
         if (isShowingOutboundResults && resultsViewModel.showLoadingStateV1 && Db.getFlightSearchParams() != null) {
             showLoadingStateV1()
@@ -169,6 +178,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun setFilterButtonVisibility() {
         filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
+        floatingPill.visibility = if (showFilterPill) View.VISIBLE else View.GONE
     }
 
     private fun completeProgressBarAnimation() {
@@ -188,6 +198,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                         showPaymentLegalMessageSubject.onNext(Unit)
                     }
                     filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
+                    floatingPill.visibility = if (showFilterPill) View.VISIBLE else View.GONE
                 }
             })
         }
@@ -201,6 +212,14 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             filterButton.setTextAndFilterIconColor(R.color.white)
         }
         filterButton.setOnClickListener {
+            showSortAndFilterViewSubject.onNext(Unit)
+        }
+    }
+
+    private fun setupFilterPill() {
+        floatingPill.visibility = View.VISIBLE
+        floatingPill.setFlightsCompatibleMode()
+        floatingPill.setOnClickListener {
             showSortAndFilterViewSubject.onNext(Unit)
         }
     }

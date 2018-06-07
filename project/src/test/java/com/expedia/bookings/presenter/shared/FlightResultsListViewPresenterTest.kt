@@ -14,7 +14,9 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.packages.vm.PackageResultsViewModel
 import com.expedia.bookings.services.FlightRichContentService
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.FlightTestUtil
@@ -45,6 +47,7 @@ import org.robolectric.annotation.Config
 import java.io.File
 import java.math.BigDecimal
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -84,6 +87,14 @@ class FlightResultsListViewPresenterTest {
         sut = LayoutInflater.from(activity).inflate(R.layout.package_flight_results_presenter_stub, null) as FlightResultsListViewPresenter
         val flightResultsViewModel = FlightResultsViewModel(context)
         flightResultsViewModel.flightRichContentService = kongServiceFlight
+        sut.resultsViewModel = flightResultsViewModel
+        createTestFlightListAdapter()
+        sut.setAdapter(testFlightAdapter)
+    }
+
+    fun inflateAndSetPackagesViewModel() {
+        sut = LayoutInflater.from(activity).inflate(R.layout.package_flight_results_presenter_stub, null) as FlightResultsListViewPresenter
+        val flightResultsViewModel = PackageResultsViewModel()
         sut.resultsViewModel = flightResultsViewModel
         createTestFlightListAdapter()
         sut.setAdapter(testFlightAdapter)
@@ -166,6 +177,55 @@ class FlightResultsListViewPresenterTest {
 
         val processedFlightLeg = sut.resultsViewModel.flightResultsObservable.value[0]
         assertEquals(FLIGHT_LEG_ID, processedFlightLeg.legId)
+    }
+
+    @Test
+    fun testFilterPillVisibilityForFlightsWhenABTestIsDisabled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+        inflateAndSetViewModel()
+
+        assertFalse(sut.showFilterPill)
+        assertEquals(View.GONE, sut.floatingPill.visibility)
+    }
+
+    @Test
+    fun testFilterPillVisibilityForFlightsWhenABTestIsEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+        inflateAndSetViewModel()
+
+        assertFalse(sut.showFilterPill)
+        assertEquals(View.GONE, sut.floatingPill.visibility)
+    }
+
+    @Test
+    fun testFilterPillVisibilityForPackagesWhenABTestIsDisabled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+        inflateAndSetPackagesViewModel()
+
+        assertFalse(sut.showFilterPill)
+        assertEquals(View.GONE, sut.floatingPill.visibility)
+    }
+
+    @Test
+    fun testFilterPillVisibilityForPackagesWhenABTestIsEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+        inflateAndSetPackagesViewModel()
+
+        assertTrue(sut.showFilterPill)
+        assertEquals(View.VISIBLE, sut.floatingPill.visibility)
+    }
+
+    @Test
+    fun testFilterPillClick() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+        inflateAndSetPackagesViewModel()
+
+        val filterTestObserver = TestObserver.create<Unit>()
+        sut.showSortAndFilterViewSubject.subscribe(filterTestObserver)
+
+        sut.floatingPill.performClick()
+
+        assertEquals(1, filterTestObserver.valueCount())
     }
 
     private fun addFlightSearchParams() {

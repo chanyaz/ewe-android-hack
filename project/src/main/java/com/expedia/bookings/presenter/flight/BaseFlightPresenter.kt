@@ -167,6 +167,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             paymentFeeInfoWebView.visibility = View.GONE
             resultsPresenter.recyclerView.isEnabled = true
             resultsPresenter.filterButton.isClickable = true
+            resultsPresenter.floatingPill.isClickable = true
             filter.visibility = View.INVISIBLE
             postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
         }
@@ -179,6 +180,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             presenter.toolbarViewModel.menuVisibilitySubject.onNext(false)
             presenter.resultsPresenter.recyclerView.isEnabled = !forward
             presenter.resultsPresenter.filterButton.isClickable = !forward
+            presenter.resultsPresenter.floatingPill.isClickable = !forward
         }
 
         @CallSuper override fun endTransition(forward: Boolean) {
@@ -272,6 +274,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     val filterCountObserver: Observer<Int> = endlessObserver {
         resultsPresenter.filterButton.showNumberOfFilters(it)
+        resultsPresenter.floatingPill.setFilterCount(it)
     }
 
     fun showResults() {

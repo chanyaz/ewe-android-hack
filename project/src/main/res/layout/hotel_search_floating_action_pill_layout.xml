@@ -8,8 +8,8 @@
     android:minHeight="40dp"
     android:orientation="horizontal">
 
-
     <RelativeLayout
+        android:id="@+id/toggle_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
@@ -38,6 +38,7 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/vertical_divider"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="9dp"

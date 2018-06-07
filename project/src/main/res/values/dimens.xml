@@ -343,4 +343,7 @@
     <!-- Textview Image -->
     <dimen name="textview_drawable_padding">9dp</dimen>
 
+    <dimen name="dimen_44">44dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+
 </resources>
