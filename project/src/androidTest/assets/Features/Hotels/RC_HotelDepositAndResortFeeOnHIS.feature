@@ -14,8 +14,8 @@ Feature: Hotel deposit and resort fee on infosite
     And I verify the resort fees text is not displayed
 
     Examples:
-     | hotel                   | destination                    | checkInDate | checkOutDate |
-     | 11th Avenue Hostel      | 11th Avenue Hostel, Denver, CO | 7           | 8            |
+     | destination        | checkInDate | checkOutDate |
+     | 11th Avenue Hostel | 7           | 8            |
 
   @Prod @RC_HotelDepositAndResortFee
   Scenario Outline: Validate deposit and resort fee shown on infosite

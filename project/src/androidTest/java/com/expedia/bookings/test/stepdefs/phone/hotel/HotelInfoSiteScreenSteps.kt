@@ -46,7 +46,7 @@ class HotelInfoSiteScreenSteps {
     @And("^I verify the hotel label text is \"(.*?)\"$")
     @Throws(Throwable::class)
     fun iVerifyHotelLabelText(headerLabelText: String) {
-        HotelInfoSiteScreen.verifyHeaderLabelText(headerLabelText)
+        HotelInfoSiteScreen.Toolbar.verifyText(headerLabelText)
     }
 
     @When("^I click select a room$")
