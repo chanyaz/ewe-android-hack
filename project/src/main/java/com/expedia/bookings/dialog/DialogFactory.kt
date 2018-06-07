@@ -11,6 +11,7 @@ import com.squareup.phrase.Phrase
 class DialogFactory {
 
     companion object {
+        @JvmStatic
         fun showNoInternetRetryDialog(context: Context, retryFun: () -> Unit, cancelFun: () -> Unit) {
             showRetryCancelDialog(context, context.getString(R.string.error_no_internet),
                     retryFun, cancelFun)

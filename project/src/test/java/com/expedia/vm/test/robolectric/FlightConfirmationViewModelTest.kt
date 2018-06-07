@@ -105,6 +105,18 @@ class FlightConfirmationViewModelTest {
         crossSellWidgetView.assertValue(false)
     }
 
+    @Test
+    fun crossSellAirAttachIsNull() {
+        val response = getCheckoutResponseWithAirAttachOfferAsNull()
+        val crossSellWidgetView = TestObserver<Boolean>()
+
+        vm = FlightConfirmationViewModel(activity)
+        vm.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
+        vm.confirmationObservable.onNext(Pair(response, customerEmail))
+
+        crossSellWidgetView.assertValue(false)
+    }
+
     private fun getCheckoutResponse(dateOfExpiration: String, totalPrice: Money? = Money("100", "USD"), hasAirAttach: Boolean = true, isRoundTrip: Boolean = false): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
@@ -169,6 +181,18 @@ class FlightConfirmationViewModelTest {
         boolField.isAccessible = true
         boolField.set(qualifierObject, false)
         field.set(response, qualifierObject)
+
+        return response
+    }
+
+    private fun getCheckoutResponseWithAirAttachOfferAsNull(): FlightCheckoutResponse {
+        val response = FlightCheckoutResponse()
+        response.newTrip = TripDetails("12345", "", "")
+
+        val field = response.javaClass.getDeclaredField("airAttachInfo")
+        field.isAccessible = true
+
+        field.set(response, null)
 
         return response
     }

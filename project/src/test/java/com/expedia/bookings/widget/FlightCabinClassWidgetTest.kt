@@ -32,7 +32,7 @@ class FlightCabinClassWidgetTest {
 
         sut.performClick()
 
-        val evar18 = mapOf(18 to "App.Packages.DS.SeatingClass")
+        val evar18 = mapOf(18 to "App.Package.DS.SeatingClass")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(evar18), mockAnalyticsProvider)
     }
 
@@ -56,8 +56,8 @@ class FlightCabinClassWidgetTest {
         sut.flightCabinClassView.businessClassRadioButton.isChecked = true
         sut.dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick()
 
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(28 to "App.Packages.DS.SeatingClass.BUSINESS")), mockAnalyticsProvider)
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(16 to "App.Packages.DS.SeatingClass.BUSINESS")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(28 to "App.Package.DS.SeatingClass.BUSINESS")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(16 to "App.Package.DS.SeatingClass.BUSINESS")), mockAnalyticsProvider)
     }
 
     @Test

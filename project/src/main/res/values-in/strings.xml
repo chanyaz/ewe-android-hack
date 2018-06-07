@@ -743,6 +743,10 @@
     <string name="package_prices_roundtrip_person_minimum_fsr_label">Harga per orang untuk hotel dan penerbangan pulang-pergi dari…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Habis Terjual</string>
+    <!-- Label indicating that package the price is Per person and includes hotel + flights -->
+    <string name="pacakge_price_per_person_includes_hotel_and_flight_message">Per Orang (hotel + penerbangan)</string>
+    <!-- Label indicating that the price includes taxes and fees -->
+    <string name="includes_taxes_and_fees_lower_case">termasuk pajak dan biaya</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Urutkan Berdasarkan</string>
@@ -1009,10 +1013,6 @@
     <string name="hotel_review_title_notification_TEMPLATE">Berikan ulasan tentang masa menginap di {hotelname}</string>
     <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
     <string name="hotel_review_body_notification_TEMPLATE">{firstname}, Bagaimana Anda ingin menilai pengalaman menginap Anda di {hotelname}? Bantu komunitas traveler seperti Anda dengan membagikan pengalaman Anda.</string>
-    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
-    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Atraksi wisata di {destination}</string>
-    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
-    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Aktivitas di {destination} terjual dengan cepat! Jelajahi atraksi wisata dan pesan tiket dari sekarang.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hei {firstname}, jelajahi atraksi dan aktivitas populer di dekat hotel Anda.</string>
     <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
@@ -1096,6 +1096,16 @@
         <item quantity="many">{days} hari</item>
         <item quantity="other">{days} hari</item>
     </plurals>
+    <!-- "XX minutes ago" an event occured XX minutes back -->
+    <plurals name="minutes_ago">
+        <item quantity="one">{minutes} menit yang lalu</item>
+        <item quantity="other">{minutes} menit yang lalu</item>
+    </plurals>
+    <!-- "in XX minutes" an event in XX minutes -->
+    <plurals name="in_minutes">
+        <item quantity="one">dalam {minutes} menit</item>
+        <item quantity="other">dalam {minutes} menit</item>
+    </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Itinerary yang dibagikan</string>
     <!-- Shared Itin - Fallback name for Flight itin card -->
@@ -1116,6 +1126,8 @@
     <string name="Cruise">Pesiar</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Aktivitas</string>
+    <!-- Itin LOB label for Rail -->
+    <string name="Rail">Kereta</string>
     <!-- Activity information -->
     <string name="activity_information">Informasi Aktivitas</string>
     <!-- Depart (TZ) template -->
@@ -1431,6 +1443,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Jumlah total yang dibayar {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Total yang harus dibayarkan di hotel {amount}</string>
+    <!--Hotel itin price summary subtotal label-->
+    <string name="itin_hotel_details_price_summary_subtotal_label">Subtotal</string>
+    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_two">Paket {firstproduct} dan {secondproduct}</string>
+    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_many">Paket {products} dan {lastproduct}</string>
+    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_one">Paket {product}</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">Informasi harga tambahan</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
@@ -1464,13 +1484,7 @@
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Kelola pemesanan</string>
     <!--Hotel itin manage booking hotel help heading-->
-    <string name="itin_hotel_manage_booking_hotel_help_heading">Kami di sini untuk membantu</string>
-    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
-    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Untuk permintaan atau pertanyaan khusus mengenai reservasi Anda, hubungi {hotelname}</string>
-    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
-    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Nomor Konfirmasi {number}</string>
-    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
-    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Jika Anda membutuhkan bantuan mengelola itinerary ini, hubungi {brand}</string>
+    <string name="itin_more_help_heading">Kami di sini untuk membantu</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_hotel_itinerary_number_TEMPLATE">Nomor Itinerary {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -1483,8 +1497,6 @@
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">Hubungi hotel di {phonenumber}. Tombol</string>
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Hubungi {brand} di {phonenumber}. Tombol</string>
-    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
-    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Nomor konfirmasi {number}. Klik untuk menyalin</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Nomor itinerary {number}. Klik untuk menyalin</string>
     <!--Hotel itin room details requests header-->
@@ -1549,9 +1561,21 @@
     <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">Hubungi aktivitas di {phonenumber}. Tombol</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">Tukar voucher</string>
+    <!--LX itin manage booking call vendor button content description. Call vendor at +18055437700. Button. Double click and hold to select. (eg., Call vendor at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">Hubungi vendor di {phonenumber}. Tombol. Klik untuk menghubungi. Klik dua kali dan tahan untuk memilih.</string>
+    <string name="itin_active">Aktif</string>
+    <string name="itin_expires">Kedaluwarsa</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Bagikan Itinerary</string>
+    <!--Itin more help confirmation number text -->
+    <string name="itin_more_help_confirmation_text">No. Konfirmasi</string>
+    <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
+    <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Nomor konfirmasi {number}. Klik dua kali dan tahan untuk memilih.</string>
+    <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_more_help_text_TEMPLATE">Untuk permintaan atau pertanyaan khusus mengenai reservasi Anda, hubungi {supplier}</string>
+    <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_customer_support_header_text_TEMPLATE">Hubungi {brand} jika Anda membutuhkan bantuan mengelola itinerary ini.</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1614,8 +1638,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Nomor tiket {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Bayi dipangku)</string>
-    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
-    <string name="itin_flight_customer_support_header_text_TEMPLATE">Hubungi {brand} jika Anda membutuhkan bantuan mengelola itinerary ini.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Dibatalkan</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -2115,6 +2137,8 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Pembayaran dan biaya pengiriman tiket dapat berlaku</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">meliputi hotel dan penerbangan</string>
+    <!-- Label shown on Package hotel infosite maps to indicate prices are per person and includes hotel + flights -->
+    <string name="package_price_includes_message_maps">Harga per orang (hotel + penerbangan)</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d traveler</item>
@@ -2128,6 +2152,10 @@
     <string name="price_changed_from_TEMPLATE">Harga berubah dari %1$s</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">Harga turun dari %1$s</string>
+    <!-- Roundtrip flights -->
+    <string name="roundtrip_flights">Penerbangan pulang-pergi</string>
+    <!-- Savings for booking together -->
+    <string name="savings_for_booking_together">Diskon jika memesan paket</string>
 
     <!-- Checkout Activity -->
     <!-- Your card will be charged -->
@@ -2196,6 +2224,8 @@
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Ringkasan Biaya</string>
+    <!-- Price Summary -->
+    <string name="price_summary">Ringkasan Harga</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Biaya Pemesanan {brand}</string>
     <!-- Booking Fee -->
@@ -2958,6 +2988,9 @@
         <item quantity="many">Baca %s Ulasan</item>
         <item quantity="other">Baca %s Ulasan</item>
     </plurals>
+
+    <!-- Hint in search bar for user reviews -->
+    <string name="user_review_search_hint">Cari ulasan</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -3791,7 +3824,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Gabung dengan {brand_reward_name} sekarang juga. Dengan bergabung di {brand_reward_name}, saya menerima semua &lt;a href="{terms_and_conditions_url}"&gt;Syarat dan Ketentuan&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_reward_combined_text_TEMPLATE">Dengan membuat akun, saya menerima {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Syarat dan Ketentuan&lt;/a&gt;, serta telah membaca dan menerima &lt;a href="{terms_of_use_url}"&gt;Ketentuan Penggunaan&lt;/a&gt; dan &lt;a href="{privacy_policy_url}"&gt;Kebijakan Privasi&lt;/a&gt;.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">Dengan membuat akun, saya menerima {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Syarat dan Ketentuan&lt;/a&gt;, serta telah membaca dan menerima &lt;a href="{terms_of_use_url}"&gt;Ketentuan Penggunaan&lt;/a&gt; dan &lt;a href="{privacy_policy_url}"&gt;Kebijakan Privasi&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Masukkan umur tiap anak</string>
 
@@ -3943,8 +3976,6 @@
     <string name="search_bundle_total_text_new">Lihat perjalanan Anda</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Langkah 1: Pilih Hotel</string>
-    <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Langkah 2: Pilih penerbangan</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
     <string name="step_two_variation">Langkah 2: Pilih penerbangan keberangkatan</string>
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
@@ -4171,8 +4202,6 @@
     <string name="package_change_hotel_room">Ubah kamar</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Ubah penerbangan</string>
-    <!-- Package Start Over -->
-    <string name="package_start_over">Mulai Lagi</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Membayar dengan poin Expedia Rewards</string>
@@ -4757,6 +4786,9 @@
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">Tombol {dates_label}. Buka kotak. {duration_description}</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} kamar</item>
@@ -5069,4 +5101,14 @@
     <string name="path_template">%1$s ke %2$s</string>
     <string name="book_now_savings_for_booking_together">Pesan sekarang! Diskon jika memesan paket</string>
 
+    <string name="flight_route_happy_guide_button_label">Oke</string>
+    <string name="flight_route_happy_guide_wifi_label">WIFI</string>
+    <string name="flight_route_happy_guide_entertainment_label">Hiburan</string>
+    <string name="flight_route_happy_guide_power_label">Daya</string>
+    <string name="flight_route_happy_guide_rating_label">9/10 - Memuaskan!</string>
+    <string name="flight_route_happy_guide_title_v1">Fasilitas penerbangan</string>
+    <string name="flight_route_happy_guide_title_v2">Skor penerbangan</string>
+    <string name="flight_route_happy_guide_title_v3">Fasilitas &amp; nilai penerbangan</string>
+    <string name="flight_route_happy_guide_info">Sekarang Anda dapat melihat apakah pada penerbangan Anda terdapat WiFi, hiburan, dan koneksi daya.</string>
+    <string name="flight_route_happy_guide_more_info">Nilai penerbangan membantu Anda memilih penerbangan terbaik, dengan mempertimbangkan durasi penerbangan, jenis pesawat, dan kualitas dari fasilitas yang ditawarkan.</string>
 </resources>

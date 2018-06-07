@@ -1765,13 +1765,13 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 
 		void trackTripRefreshCallSuccess() {
-			if (Features.Companion.getAll().getTripsCallSuccessOmnitureCall().enabled()) {
+			if (Features.Companion.getAll().getTripsApiCallSuccess().enabled()) {
 				TripsTracking.trackItinTripRefreshCallSuccess();
 			}
 		}
 
 		void trackTripRefreshCallMade() {
-			if (Features.Companion.getAll().getTripsCallMadeOmnitureCall().enabled()) {
+			if (Features.Companion.getAll().getTripsApiCallMade().enabled()) {
 				TripsTracking.trackItinTripRefreshCallMade();
 			}
 		}

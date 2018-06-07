@@ -78,7 +78,7 @@
     <!-- Text for price change-->
     <string name="price_change_text">가격 변경</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
-    <string name="price_change_alert_TEMPLATE">고객님 여행의 가격이 {oldprice}에서 {newprice}의 금액으로 변경되었습니다. 요금은 자주 변경됩니다. 지금 바로 예약하여 이 가격을 확보하세요.</string>
+    <string name="price_change_alert_TEMPLATE">여행 가격이 {oldprice}에서 {newprice}으로 변경되었습니다. 요금은 자주 변경됩니다. 지금 바로 예약하여 이 가격을 확보하세요.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">가격 변경됨</string>
     <!-- Text for select saved contacts-->
@@ -550,7 +550,7 @@
 
     <!-- LX Themes &  their description-->
     <string name="top_rated_activities">최고 평점의 즐길거리</string>
-    <string name="top_rated_activities_description">고객님과 비슷한 다른 분들이 강력 추천하신 즐길거리</string>
+    <string name="top_rated_activities_description">다른 분들이 강력 추천하신 즐길거리</string>
 
     <string name="adventure_around">신나는 어드벤처</string>
     <string name="adventure_around_description">여행지 주변으로 당일 여행 및 인기 있는 투어를 떠나세요.</string>
@@ -578,10 +578,10 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">주변 즐길거리 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string>
+    <string name="error_lx_current_location_search_message">주변 즐길거리 검색에 필요한 현재 위치를 확인할 수 없습니다.</string>
 
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">주변 교통편 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string>
+    <string name="error_gt_current_location_search_message">주변 교통편 검색에 필요한 현재 위치를 확인할 수 없습니다.</string>
 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">오류</string>
@@ -636,13 +636,13 @@
     <!-- LX Error Limited Inventory -->
     <string name="lx_error_limited_inventory">죄송합니다. 선택하신 날짜에 티켓이 충분하지 않습니다. 다른 날짜를 선택하시거나 티켓 수를 줄여 선택해 주세요.</string>
     <!-- LX confirmation itin text -->
-    <string name="lx_successful_checkout_email_label">고객님의 티켓을 다음 주소로 보내드렸습니다:</string>
+    <string name="lx_successful_checkout_email_label">티켓을 다음 주소로 보내드렸습니다:</string>
     <!-- LX confirmation itin text no email -->
     <string name="lx_successful_checkout_no_email_label">티켓을 고객님의 이메일 주소로</string>
     <!-- LX default when no email -->
     <string name="lx_default_when_no_email">보내드렸습니다.</string>
     <!-- LX reservation confirmation text -->
-    <string name="lx_successful_checkout_reservation_label">고객님 예약이 확정되었습니다!</string>
+    <string name="lx_successful_checkout_reservation_label">예약이 확정되었습니다!</string>
     <!-- Text for getting current location suggestion -->
     <string name="lx_getting_current_location">위치 확인 중…</string>
     <!-- LX Error Fetching activity details -->
@@ -690,7 +690,7 @@
     <!-- Baggage Info Accessibility -->
     <string name="spinner_text_baggage_info_fetching">수하물 정보 가져오는 중</string>
     <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
-    <string name="baggage_info_airline_message_TEMPLATE">({airline_name}에서 온라인으로 구입하면 가격이 더 저렴할 수 있습니다.)</string>
+    <string name="baggage_info_airline_message_TEMPLATE">({airline_name}에서 온라인으로 구입하면 가격이 더 저렴할 수 있어요.)</string>
     <!--Baggage Fees when purchased at airport-->
     <string name="baggage_fees_purchased_airport">공항에서 구입할 경우 수하물 요금:</string>
     <!--Baggage Fee Info-->
@@ -743,6 +743,10 @@
     <string name="package_prices_roundtrip_person_minimum_fsr_label">호텔 및 왕복 항공편 1인당 요금 최저가</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">매진</string>
+    <!-- Label indicating that package the price is Per person and includes hotel + flights -->
+    <string name="pacakge_price_per_person_includes_hotel_and_flight_message">1인당(호텔 + 항공)</string>
+    <!-- Label indicating that the price includes taxes and fees -->
+    <string name="includes_taxes_and_fees_lower_case">세금 및 수수료 포함</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">정렬 기준</string>
@@ -977,15 +981,15 @@
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">차량 인수 - %s</string>
     <!-- Notification text for car pick up -->
-    <string name="You_can_now_pick_up_your_car">지금 고객님의 차량을 인수하실 수 있어요.</string>
+    <string name="You_can_now_pick_up_your_car">지금 차량을 인수하실 수 있어요.</string>
     <!-- Notification title for car drop off -->
     <string name="Car_Drop_Off_X_TEMPLATE">차량 반납 - %s</string>
     <!-- Notification text for car drop off -->
-    <string name="Your_rental_is_due_returned">고객님의 렌터카를 2시간 내에 반납하셔야 합니다.</string>
+    <string name="Your_rental_is_due_returned">렌터카를 2시간 내에 반납하셔야 합니다.</string>
     <!-- Notification title for activity start -->
     <string name="Activity_starting_soon">즐길거리 곧 시작</string>
     <!-- Notification text for activity start -->
-    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">고객님의 %s 티켓은 내일부터 이용하실 수 있습니다.</string>
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">%s 티켓은 내일부터 이용하실 수 있습니다.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">일정 준비 완료</string>
     <!-- Notification title text for get ready for your trip -->
@@ -1009,14 +1013,10 @@
     <string name="hotel_review_title_notification_TEMPLATE">최근 {hotelname}에서의 숙박 평가하기</string>
     <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
     <string name="hotel_review_body_notification_TEMPLATE">{firstname} 님, {hotelname}에서의 숙박이 어떠셨나요? 다른 여행객들이 참고할 수 있도록 경험담을 들려주세요.</string>
-    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
-    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination} 즐길거리</string>
-    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
-    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination} 즐길거리가 빠르게 매진되고 있어요! 즐길거리를 찾아보고 미리 티켓을 예약하세요.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">{firstname} 님, 호텔 근처의 인기 명소와 즐길거리를 확인해 보세요.</string>
     <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
-    <string name="flight_notification_delayed_flight_TEMPLATE">고객님의 {arrival_airport}행 항공편이 지연되어 새 출발 시간은 {departure_time}입니다.</string>
+    <string name="flight_notification_delayed_flight_TEMPLATE">{arrival_airport}행 항공편이 지연되어 새 출발 시간은 {departure_time}입니다.</string>
     <!--Notification title for Flight delayed notification -->
     <string name="flight_notification_delayed_title">항공편 지연됨</string>
     <!-- Itineraries -->
@@ -1050,7 +1050,7 @@
     <!-- Itin list view manually add guest trip button content description -->
     <string name="itin_list_view_manually_add_guest_trip_button_content_description">비회원 예약 직접 추가하는 버튼</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
+    <string name="fetching_your_itinerary">일정을 가져오는 중…</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">고객님 여행을 보시려면 로그인해 주세요.</string>
     <!-- Button text to refresh your trips -->
@@ -1060,7 +1060,7 @@
     <!-- Itin loading text while deep refreshing trip -->
     <string name="refreshing_your_trip">여행 새로고치는 중…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
-    <string name="fetching_trips_error">지금 고객님의 여행 일정을 가져올 수 없습니다. 다시 시도해 주세요.</string>
+    <string name="fetching_trips_error">지금 여행 일정을 가져올 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
     <string name="fetching_trips_error_connection">지금 연결이 되지 않습니다.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
@@ -1096,6 +1096,16 @@
         <item quantity="many">{days}일</item>
         <item quantity="other">{days}일</item>
     </plurals>
+    <!-- "XX minutes ago" an event occured XX minutes back -->
+    <plurals name="minutes_ago">
+        <item quantity="one">{minutes}분 전</item>
+        <item quantity="other">{minutes}분 전</item>
+    </plurals>
+    <!-- "in XX minutes" an event in XX minutes -->
+    <plurals name="in_minutes">
+        <item quantity="one">{minutes}분 후</item>
+        <item quantity="other">{minutes}분 후</item>
+    </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">공유 일정</string>
     <!-- Shared Itin - Fallback name for Flight itin card -->
@@ -1116,6 +1126,8 @@
     <string name="Cruise">크루즈</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">즐길거리</string>
+    <!-- Itin LOB label for Rail -->
+    <string name="Rail">기차</string>
     <!-- Activity information -->
     <string name="activity_information">즐길거리 정보</string>
     <!-- Depart (TZ) template -->
@@ -1265,7 +1277,7 @@
     <!-- Dialog title for removing shared itin -->
     <string name="remove_shared_itin_title">공유 일정을 삭제하시겠어요?</string>
     <!-- Dialog message for removing shared itin -->
-    <string name="remove_shared_itin_message">고객님 기기에서 이 공유 일정을 삭제하시겠어요?</string>
+    <string name="remove_shared_itin_message">기기에서 이 공유 일정을 삭제하시겠어요?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">숨기기</string>
@@ -1400,7 +1412,7 @@
     <!--Hotel itin message hotel button-->
     <string name="itin_hotel_details_message_hotel_button">호텔에 메시지 전송</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
-    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">호텔 주소는 {address}입니다. 클립보드에 복사하려면 클릭하는 버튼</string>
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">호텔 주소는 {address}입니다. 클립보드에 복사하려면 클릭하세요. 버튼</string>
     <!--Hotel itin card manage booking subheading-->
     <string name="itin_hotel_details_manage_booking_subheading">변경, 취소 또는 지원 요청</string>
     <!--Hotel itin card price summary heading-->
@@ -1431,6 +1443,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">총 {amount} 결제됨</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">호텔에서 결제할 총금액 {amount}</string>
+    <!--Hotel itin price summary subtotal label-->
+    <string name="itin_hotel_details_price_summary_subtotal_label">소계</string>
+    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_two">{firstproduct} + {secondproduct}</string>
+    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_many">{products} 및 {lastproduct}</string>
+    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_one">{product}</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">추가 요금 정보</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
@@ -1464,13 +1484,7 @@
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">예약 관리</string>
     <!--Hotel itin manage booking hotel help heading-->
-    <string name="itin_hotel_manage_booking_hotel_help_heading">문의</string>
-    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
-    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">예약 관련 특별 요청 또는 질문이 있으신 경우에는 {hotelname}에 문의해 주시기 바랍니다.</string>
-    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
-    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">확인 번호 - {number}</string>
-    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
-    <string name="itin_hotel_customer_support_header_text_TEMPLATE">이 일정 관리에 대해 도움이 필요하시면 {brand}에 문의해 주세요.</string>
+    <string name="itin_more_help_heading">문의</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_hotel_itinerary_number_TEMPLATE">일정 번호 - {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -1483,8 +1497,6 @@
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">호텔 전화번호: {phonenumber} 버튼</string>
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">{brand} 문의 전화번호: {phonenumber} 버튼</string>
-    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
-    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">확인 번호: {number} 클릭하여 복사</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">일정 번호: {number} 클릭하여 복사</string>
     <!--Hotel itin room details requests header-->
@@ -1544,14 +1556,26 @@
     <string name="itin_lx_more_info_heading">추가 지원</string>
     <string name="itin_lx_more_info_subheading">고객 지원 정보</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Activity address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
-    <string name="itin_lx_details_address_copy_content_description_TEMPLATE">즐길거리 주소. {address}. 클립보드에 복사하려면 클릭하는 버튼</string>
+    <string name="itin_lx_details_address_copy_content_description_TEMPLATE">즐길거리 주소. {address}. 클립보드에 복사하려면 클릭하세요. 버튼</string>
     <!--Activity itin manage booking call hotel button content description. Activity is the LOB. Call activity at {phonenumber}. Button (eg., Call activity at +18055437700. Button)-->
-    <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">즐길거리 전화번호. {phonenumber}. 전화할 때 클릭하는 버튼</string>
+    <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">{phonenumber}번으로 즐길거리 공급업체에 문의하세요. 버튼</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">바우처 사용하기</string>
+    <!--LX itin manage booking call vendor button content description. Call vendor at +18055437700. Button. Double click and hold to select. (eg., Call vendor at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">{phonenumber}번으로 공급업체에 문의하세요. 버튼. 전화를 걸려면 클릭하세요. 선택하려면 더블클릭한 상태에서 누르고 있으면 됩니다.</string>
+    <string name="itin_active">시작</string>
+    <string name="itin_expires">만료</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">일정 공유</string>
+    <!--Itin more help confirmation number text -->
+    <string name="itin_more_help_confirmation_text">확인 번호:</string>
+    <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
+    <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">확인 번호: {number}. 선택하려면 더블클릭한 상태에서 누르고 있으면 됩니다.</string>
+    <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_more_help_text_TEMPLATE">예약 관련 특별 요청 또는 질문이 있으시면 {supplier}에 문의해 주세요.</string>
+    <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_customer_support_header_text_TEMPLATE">이 일정 관리에 대해 도움이 필요하시면 {brand}에 연락해 주세요.</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1614,8 +1638,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">티켓 번호: {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(무릎에 유아)</string>
-    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
-    <string name="itin_flight_customer_support_header_text_TEMPLATE">이 일정 관리에 대해 도움이 필요하시면 {brand}에 연락해 주세요.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">결항됨</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -1771,7 +1793,7 @@
     <!-- Title of alert dialog when user fail to check in (e.g., "We're Sorry!")-->
     <string name="itin_checkin_failure_dialog_title">죄송합니다.</string>
     <!-- message of alert dialog (e.g., "We'll look into it. Your Confirmation Number is now copied to the clipboard so you can check in on Delta's site or app directly.")-->
-    <string name="itin_checkin_failure_dialog_message">살펴보도록 하겠습니다. 고객님의 확인 번호가 현재 클립보드에 복사되어 있으므로 %s 사이트 또는 앱에서 직접 체크인을 할 수 있습니다.</string>
+    <string name="itin_checkin_failure_dialog_message">살펴보도록 하겠습니다. 확인 번호가 현재 클립보드에 복사되어 있으므로 %s 사이트 또는 앱에서 직접 체크인하실 수 있어요.</string>
 
 
     <!-- Action Buttons -->
@@ -1886,7 +1908,7 @@
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">만료일: %1$s</string>
     <!-- label for activity 1: number of guests 2: list of guests -->
-    <string name="share_template_long_activity_guests_with_count">고객(%1$s명)\n%2$s</string>
+    <string name="share_template_long_activity_guests_with_count">%1$s명\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -1999,7 +2021,7 @@
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">로드할 웹페이지 URL이 없습니다.</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">죄송합니다. 고객님의 현재 지역에서는 모바일 항공 예약이 아직 지원되지 않습니다.</string>
+    <string name="invalid_flights_pos">죄송합니다. 현재 지역에서는 모바일 항공 예약이 아직 지원되지 않습니다.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">출발 도시와 도착 도시가 다른지 확인해 주세요.</string>
 
@@ -2115,6 +2137,8 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">결제 및 티켓 배송 수수료도 적용될 수 있습니다.</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">호텔 및 항공 포함</string>
+    <!-- Label shown on Package hotel infosite maps to indicate prices are per person and includes hotel + flights -->
+    <string name="package_price_includes_message_maps">1인당 요금(호텔 + 항공)</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d명</item>
@@ -2128,14 +2152,18 @@
     <string name="price_changed_from_TEMPLATE">요금이 %1$s에서 변경됨</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">요금이 %1$s에서 인하됨</string>
+    <!-- Roundtrip flights -->
+    <string name="roundtrip_flights">왕복 항공편</string>
+    <!-- Savings for booking together -->
+    <string name="savings_for_booking_together">함께 예약 시 할인</string>
 
     <!-- Checkout Activity -->
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_template">고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
+    <string name="your_card_will_be_charged_template">카드에 {dueamount}의 금액이 청구됩니다.</string>
     <!-- Your are using pwp points -->
     <string name="you_are_using_expedia_points_TEMPLATE">익스피디아 리워드 {points}포인트({amount})를 사용하고 계십니다.</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">익스피디아 리워드 {points}포인트({amount})를 사용하고 계십니다.\n고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
+    <string name="payment_through_card_and_pwp_points">익스피디아 리워드 {points}포인트({amount})를 사용하고 계십니다.\n카드에 {dueamount}의 금액이 청구됩니다.</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">예약 완료</string>
     <!-- Our price gaurentee string -->
@@ -2145,7 +2173,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">이 예약으로 {reward_currency}포인트가 적립됩니다!</string>
     <!-- You are a valued member -->
-    <string name="you_are_a_valued_member">고객님은 저희 소중한 회원이십니다!</string>
+    <string name="you_are_a_valued_member">고객님은 저희의 소중한 회원이세요!</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">{brand} 회원으로 예약!</string>
     <!-- Launch screen 2x messaging signed-out title-->
@@ -2159,11 +2187,11 @@
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">이 여행에 대해 {reward_currency}포인트가 적립됩니다!</string>
     <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
-    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">고객님은 {reward_currency}포인트를 적립하시게 됩니다. 앱에서 예약하면 두 배로 적립돼요!</string>
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">{reward_currency}포인트가 적립됩니다. 앱에서 예약하면 두 배로 적립돼요!</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">죄송합니다. 호텔에서 이번 숙박의 총 요금을 %1$s에서 %2$s의 금액으로 올린 것 같습니다.</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">죄송합니다. 호텔에서 이번 숙박의 총 요금을 %1$s에서 %2$s으로 올린 것 같습니다.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">반가운 소식을 알려드릴게요! 고객님의 숙박 요금이 %1$s에서 %2$s의 금액으로 방금 내려갔습니다.</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">반가운 소식을 알려드릴게요! 숙박 요금이 %1$s에서 %2$s으로 방금 내려갔습니다.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">완료</string>
     <string name="done_cont_desc">완료 버튼</string>
@@ -2176,9 +2204,9 @@
     <!-- Due to expedia today - today -->
     <string name="due_to_brand_today_today_TEMPLATE">{brand}에 오늘 결제할 금액</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 호텔에서 결제하시게 됩니다. 고객님 숙박의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다.</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 호텔에서 결제하시게 됩니다. 숙박 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
-    <string name="pay_later_disclaimer_TEMPLATE">고객님 여행의 총 금액은 &lt;b&gt;%1$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <string name="pay_later_disclaimer_TEMPLATE">여행 총 금액은 &lt;b&gt;%1$s&lt;/b&gt;입니다. 숙박 시 호텔에 예약 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
     <string name="brand_account_cont_desc_TEMPLATE">{brand} 계정</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
@@ -2196,6 +2224,8 @@
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">비용 요약</string>
+    <!-- Price Summary -->
+    <string name="price_summary">요금 요약</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 예약 수수료</string>
     <!-- Booking Fee -->
@@ -2557,7 +2587,7 @@
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">입력하신 카드 소유자 이름이 신용카드상의 이름과 일치하지 않습니다. 다시 시도해 주세요.</string>
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
-    <string name="error_hotel_no_longer_available">죄송스럽게도 이 객실에 대한 고객님의 확보가 만료되었습니다.</string>
+    <string name="error_hotel_no_longer_available">죄송합니다. 이 객실에 대한 고객님의 확보가 만료되었습니다.</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">죄송합니다. 지금 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2689,10 +2719,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">저희 사이트에 객실 %d개 남았어요!</item>
-        <item quantity="two">저희 사이트에 객실 %d개 남았어요.</item>
-        <item quantity="many">저희 사이트에 객실 %d개 남았어요.</item>
-        <item quantity="other">저희 사이트에 객실 %d개 남았어요.</item>
+        <item quantity="one">%d개 남았어요!</item>
+        <item quantity="two">%d개 남았어요!</item>
+        <item quantity="many">%d개 남았어요!</item>
+        <item quantity="other">%d개 남았어요!</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -2700,11 +2730,11 @@
         <item quantity="other">{filterno}개 필터 적용됨 버튼</item>
     </plurals>
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">현재 위치를 사용하려면 {brand}에서 고객님의 위치에 액세스하도록 허용하셔야 합니다.\n\n설정하려면 설정으로 가서 \"허용\"을 탭하여 위치를 켜주세요.</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">현재 위치를 사용하려면 {brand}에서 고객님의 위치에 액세스하도록 허용해 주셔야 합니다.\n\n설정하려면 설정으로 가서 \"허용\"을 탭하여 위치를 켜주세요.</string>
     <string name="go_to_settings">설정으로 이동</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">현재 위치를 사용하려면 환경설정에서 위치 서비스를 켜셔야 합니다.\n\n환경설정으로 이동하여 지금 설정하시겠어요?</string>
+    <string name="EnableLocationSettings">현재 위치를 사용하려면 설정에서 위치 서비스를 켜주세요.\n\n설정으로 이동하여 지금 설정하시겠어요?</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -2819,13 +2849,13 @@
     <string name="hotel_guest_recommend_exceptional">- 최고 좋음!</string>
 
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">/ 5 – 고객 평점</string>
+    <string name="hotel_guest_recommend">/5 – 고객 평점</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">/ 5 - 좋음!</string>
-    <string name="hotel_guest_recommend_very_good_superlative">/ 5 - 매우 좋음!</string>
-    <string name="hotel_guest_recommend_excellent_superlative">/ 5 - 훌륭함!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - 매우 훌륭함!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - 최고 좋음!</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - 좋음!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - 매우 좋음!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - 훌륭함!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - 매우 훌륭함!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - 최고 좋음!</string>
 
     <!-- User rating number out of five on review page-->
     <string name="hotel_user_review_rating_out_of_five">/5</string>
@@ -2840,7 +2870,7 @@
     <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
     <string name="route_score_okay_superlative_TEMPLATE">{route_score}/10 - 괜찮음!</string>
     <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
-    <string name="route_score_fair_superlative_TEMPLATE">{route_score}/10 - 보통!</string>
+    <string name="route_score_fair_superlative_TEMPLATE">{route_score}/10 - 보통</string>
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
     <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - 별로</string>
 
@@ -2959,6 +2989,9 @@
         <item quantity="other">%s개 이용 후기 보기</item>
     </plurals>
 
+    <!-- Hint in search bar for user reviews -->
+    <string name="user_review_search_hint">이용 후기 검색</string>
+
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2974,14 +3007,14 @@
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">지금 예약하고 호텔에서 결제</string>
-    <string name="etp_payment_options_text">고객님의 호텔 결제 옵션</string>
+    <string name="etp_payment_options_text">호텔 결제 옵션</string>
     <string name="etp_pay_later_option_text">호텔에서 결제</string>
     <string name="etp_pay_later_currency_text_TEMPLATE">호텔에서 직접 호텔의 현지 통화(%s)로 결제하시면 됩니다.</string>
     <string name="etp_pay_later_payment_info_text">결제 정보는 예약을 유지하는 데만 필요합니다.</string>
     <string name="etp_pay_later_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
     <string name="etp_pay_now_option_text">지금 온라인 결제</string>
-    <string name="etp_pay_now_charges_text_TEMPLATE">{brand}에서 고객님의 결제 세부 정보를 처리합니다.</string>
-    <string name="etp_pay_now_currency_text_TEMPLATE">고객님은 고객님께서 사용하시는 통화(%s)로 결제하시게 됩니다.</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand}에서 결제 세부 정보를 처리합니다.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">고객님께서 사용하시는 통화(%s)로 결제하시게 됩니다.</string>
     <string name="etp_pay_now_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
 
     <!-- ETP pay later deposit info message -->
@@ -3297,7 +3330,7 @@
     <string name="country_pos_cont_desc_TEMPLATE">{countrycode}, 국가 버튼</string>
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">고객님 전화에 이 동작을 처리할 수 있는 앱이 없거나 고객님의 액세스가 제한되었습니다.</string>
+    <string name="app_not_available">전화에 이 작업을 처리할 수 있는 앱이 없거나 액세스가 제한되었습니다.</string>
     <!--Content description for add child button on traveler form Eg: 2 children added -->
     <plurals name="add_child_button_cont_desc_TEMPLATE">
         <item quantity="zero">%d명의 아동, 아래에서 아동 나이를 선택해 주세요.\u0020</item>
@@ -3426,7 +3459,7 @@
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">잘못된 정보를 수정해 주세요.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">죄송합니다. 고객님의 결제를 처리할 수 없습니다. 입력하신 정보가 올바른지 확인해 주세요.</string>
+    <string name="e3_error_checkout_payment_failed">죄송합니다. 결제를 처리할 수 없습니다. 입력하신 정보가 올바른지 확인해 주세요.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">신용카드 유효기간이 올바르지 않습니다.</string>
     <!-- Error message displayed when the traveler information is invalid -->
@@ -3735,9 +3768,9 @@
     <string name="unknown_card">알 수 없는 카드</string>
 
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
-    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s 님, 고객님의 예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s 님, 예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
-    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">고객님 예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
 
     <!-- Content description for action: Press to refresh trips list -->
     <string name="trips_refresh_trips_list_cont_desc">누르면 여행 목록이 새로고침됩니다.</string>
@@ -3791,7 +3824,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">오늘 바로 {brand_reward_name}에 가입하세요. {brand_reward_name}에 가입함으로써 본인은 모든 &lt;a href="{terms_and_conditions_url}"&gt;이용약관&lt;/a&gt;에 동의합니다.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_reward_combined_text_TEMPLATE">회원가입함으로써 본인은 {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;이용약관&lt;/a&gt;에 동의하며, &lt;a href="{terms_of_use_url}"&gt;이용약관&lt;/a&gt;과 &lt;a href="{privacy_policy_url}"&gt;개인정보 보호정책&lt;/a&gt;을 읽었고 이에 동의합니다.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">회원가입함으로써 본인은 {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;이용약관&lt;/a&gt;에 동의하며, &lt;a href="{terms_of_use_url}"&gt;이용약관&lt;/a&gt;과 &lt;a href="{privacy_policy_url}"&gt;개인정보 보호정책&lt;/a&gt;을 읽었고 이에 동의합니다.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>
 
@@ -3904,7 +3937,7 @@
     <string name="remove_coupon_button_content_description">쿠폰 삭제</string>
     <string name="coupon_error_remove_dialog_title">쿠폰 삭제 실패</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
-    <string name="coupon_error_dialog_message">고객님 쿠폰에 문제가 있는 것 같습니다. 다시 입력해 보세요.</string>
+    <string name="coupon_error_dialog_message">쿠폰에 문제가 있는 것 같습니다. 다시 입력해 보세요.</string>
 
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">결과 자세히 검색</string>
@@ -3943,8 +3976,6 @@
     <string name="search_bundle_total_text_new">내 여행 보기</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">1단계: 호텔 선택</string>
-    <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">2단계: 항공 선택</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
     <string name="step_two_variation">2단계: 가는 항공편 선택</string>
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
@@ -4171,8 +4202,6 @@
     <string name="package_change_hotel_room">호텔 객실 변경</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">항공편 변경</string>
-    <!-- Package Start Over -->
-    <string name="package_start_over">다시 시작하기</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">익스피디아 리워드 포인트로 결제</string>
@@ -4214,7 +4243,7 @@
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">일정 번호 {itinerary}: {email} 주소로 전송됨</string>
     <!-- Itinerary summary text- Itinerary number sent to the your email, e.g. #12344 sent to your email.-->
-    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">고객님 이메일로 #{itinerary} 전송이 완료되었습니다.</string>
+    <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">이메일로 #{itinerary} 전송이 완료되었습니다.</string>
 
     <!--Rail search screen title-->
     <string name="trains">기차</string>
@@ -4457,7 +4486,7 @@
     <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
     <string name="you_are_using_bucks_TEMPLATE">{amount}의 Orbucks를 사용하고 계십니다.</string>
     <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
-    <string name="payment_through_card_and_bucks_TEMPLATE">{amount}의 Orbucks를 사용하고 계십니다.\n고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
+    <string name="payment_through_card_and_bucks_TEMPLATE">{amount}의 Orbucks를 사용하고 계십니다.\n카드에 {dueamount}의 금액이 청구됩니다.</string>
 
     <!-- Feeds -->
     <!-- Label for Browse hotels card for staff picked city/destination -->
@@ -4757,6 +4786,9 @@
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">{dates_label} 버튼. 대화상자 열림 {duration_description}</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">객실 {room}개</item>
@@ -5069,4 +5101,14 @@
     <string name="path_template">%1$s - %2$s</string>
     <string name="book_now_savings_for_booking_together">지금 함께 예약하고 할인받으세요!</string>
 
+    <string name="flight_route_happy_guide_button_label">확인함</string>
+    <string name="flight_route_happy_guide_wifi_label">WiFi</string>
+    <string name="flight_route_happy_guide_entertainment_label">엔터테인먼트</string>
+    <string name="flight_route_happy_guide_power_label">전원</string>
+    <string name="flight_route_happy_guide_rating_label">9/10 - 훌륭함!</string>
+    <string name="flight_route_happy_guide_title_v1">항공편 편의 시설/서비스</string>
+    <string name="flight_route_happy_guide_title_v2">항공편 점수</string>
+    <string name="flight_route_happy_guide_title_v3">항공편 편의 시설 및 점수</string>
+    <string name="flight_route_happy_guide_info">기내 WiFi, 엔터테인먼트, 전원 연결 등이 있는지 확인하실 수 있습니다.</string>
+    <string name="flight_route_happy_guide_more_info">항공편 점수는 비행 소요 시간, 항공기 종류, 기내에서 제공되는 편의 시설 수준 등을 고려하여 최고의 항공편을 선택하는 데 도움이 됩니다.</string>
 </resources>

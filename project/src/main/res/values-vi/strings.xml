@@ -743,6 +743,10 @@
     <string name="package_prices_roundtrip_person_minimum_fsr_label">Giá dành cho một người bao gồm khách sạn và chuyến bay khứ hồi từ…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Hết chỗ</string>
+    <!-- Label indicating that package the price is Per person and includes hotel + flights -->
+    <string name="pacakge_price_per_person_includes_hotel_and_flight_message">Mỗi người (khách sạn + chuyến bay)</string>
+    <!-- Label indicating that the price includes taxes and fees -->
+    <string name="includes_taxes_and_fees_lower_case">Bao gồm thuế và phí</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sắp xếp theo</string>
@@ -1009,10 +1013,6 @@
     <string name="hotel_review_title_notification_TEMPLATE">Nhận xét kỳ lưu trú gần đây của quý vị ở {hotelname}</string>
     <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
     <string name="hotel_review_body_notification_TEMPLATE">{firstname}. Quý vị đánh giá thời gian lưu trú tại {hotelname} thế nào? Hãy chia sẻ trải nghiệm của mình với những khách hàng khác.</string>
-    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
-    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Hoạt động giải trí tại {destination}</string>
-    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
-    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Nhiều khách đặt hoạt động giải trí tại {destination}! Khám phá các hoạt động trong vùng và đặt vé sớm.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Này {firstname}, khám phá những địa điểm và hoạt động hấp dẫn hàng đầu gần khách sạn của quý vị.</string>
     <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
@@ -1096,6 +1096,16 @@
         <item quantity="many">{days} ngày</item>
         <item quantity="other">{days} ngày</item>
     </plurals>
+    <!-- "XX minutes ago" an event occured XX minutes back -->
+    <plurals name="minutes_ago">
+        <item quantity="one">{minutes} phút trước</item>
+        <item quantity="other">{minutes} phút trước</item>
+    </plurals>
+    <!-- "in XX minutes" an event in XX minutes -->
+    <plurals name="in_minutes">
+        <item quantity="one">trong {minutes} phút</item>
+        <item quantity="other">trong {minutes} phút</item>
+    </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Lịch trình đã chia sẻ</string>
     <!-- Shared Itin - Fallback name for Flight itin card -->
@@ -1116,6 +1126,8 @@
     <string name="Cruise">Du thuyền</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Hoạt động</string>
+    <!-- Itin LOB label for Rail -->
+    <string name="Rail">Tàu</string>
     <!-- Activity information -->
     <string name="activity_information">Thông tin Hoạt động</string>
     <!-- Depart (TZ) template -->
@@ -1431,6 +1443,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Tổng số tiền đã thanh toán: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Tổng thanh toán tại khách sạn: {amount}</string>
+    <!--Hotel itin price summary subtotal label-->
+    <string name="itin_hotel_details_price_summary_subtotal_label">Tổng</string>
+    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_two">Gói {firstproduct} và {secondproduct}</string>
+    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_many">Gói {products} và {lastproduct}</string>
+    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_one">Gói {product}</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">Thông tin giá bổ sung</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
@@ -1464,13 +1484,7 @@
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Quản lý đặt phòng</string>
     <!--Hotel itin manage booking hotel help heading-->
-    <string name="itin_hotel_manage_booking_hotel_help_heading">Hỗ trợ</string>
-    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
-    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Nếu có yêu cầu đặc biệt hoặc câu hỏi về đặt phòng, vui lòng liên hệ {hotelname}</string>
-    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
-    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Số xác nhận {number}</string>
-    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
-    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Nếu cần hỗ trợ quản lý lịch trình này, vui lòng liên hệ {brand}</string>
+    <string name="itin_more_help_heading">Hỗ trợ</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_hotel_itinerary_number_TEMPLATE">Số lịch trình {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -1483,8 +1497,6 @@
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">Gọi khách sạn qua {phonenumber}. Nút</string>
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Gọi {brand} qua {phonenumber}. Nút</string>
-    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
-    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Số xác nhận {number}. Bấm để chép</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Số lịch trình {number}. Bấm để chép</string>
     <!--Hotel itin room details requests header-->
@@ -1549,9 +1561,21 @@
     <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">Liên hệ với Hoạt động tại số {phonenumber}. Nút</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">Đổi voucher</string>
+    <!--LX itin manage booking call vendor button content description. Call vendor at +18055437700. Button. Double click and hold to select. (eg., Call vendor at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">Liên hệ với nhà cung cấp tại số điện thoại {phonenumber}. Nút. Bấm để gọi. Nhấn đúp và giữ để chọn.</string>
+    <string name="itin_active">Có hiệu lực từ</string>
+    <string name="itin_expires">Hết hạn</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Chia sẻ hành trình</string>
+    <!--Itin more help confirmation number text -->
+    <string name="itin_more_help_confirmation_text">Số xác nhận #</string>
+    <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
+    <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Số xác nhận {number}. Nhấn đúp và giữ để chọn.</string>
+    <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_more_help_text_TEMPLATE">Nếu có yêu cầu đặc biệt hoặc câu hỏi về đặt chỗ, vui lòng liên hệ {supplier}</string>
+    <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_customer_support_header_text_TEMPLATE">Liên hệ với {brand} nếu cần trợ giúp quản lý hành trình này.</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1614,8 +1638,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Số vé {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Trẻ ngồi trong lòng người lớn)</string>
-    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
-    <string name="itin_flight_customer_support_header_text_TEMPLATE">Liên hệ với {brand} nếu cần trợ giúp quản lý hành trình bay này.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Đã hủy</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -2115,6 +2137,8 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Có thể áp dụng phí thanh toán và giao vé</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">gồm khách sạn và chuyến bay</string>
+    <!-- Label shown on Package hotel infosite maps to indicate prices are per person and includes hotel + flights -->
+    <string name="package_price_includes_message_maps">Giá là cho mỗi khách (khách sạn + chuyến bay)</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d khách</item>
@@ -2128,6 +2152,10 @@
     <string name="price_changed_from_TEMPLATE">Giá thay đổi từ %1$s</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">Giá giảm từ %1$s</string>
+    <!-- Roundtrip flights -->
+    <string name="roundtrip_flights">Chuyến bay 2 chiều</string>
+    <!-- Savings for booking together -->
+    <string name="savings_for_booking_together">Tiết kiệm hơn khi đặt cùng lúc</string>
 
     <!-- Checkout Activity -->
     <!-- Your card will be charged -->
@@ -2196,6 +2224,8 @@
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Tóm tắt chi phí</string>
+    <!-- Price Summary -->
+    <string name="price_summary">Tóm tắt giá</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Phí đặt chỗ của {brand}</string>
     <!-- Booking Fee -->
@@ -2958,6 +2988,9 @@
         <item quantity="many">Xem %s nhận xét</item>
         <item quantity="other">Xem %s nhận xét</item>
     </plurals>
+
+    <!-- Hint in search bar for user reviews -->
+    <string name="user_review_search_hint">Tìm nhận xét</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -3791,7 +3824,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Tham gia {brand_reward_name} ngay hôm nay. Bằng việc tham gia {brand_reward_name}, Tôi đồng ý &lt;a href="{terms_and_conditions_url}"&gt;Điều khoản và điều kiện&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_reward_combined_text_TEMPLATE">Bằng việc tạo tài khoản, tôi chấp nhận {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Điều khoản và điều kiện&lt;/a&gt; cũng như đã đọc và chấp nhận &lt;a href="{terms_of_use_url}"&gt;Điều khoản sử dụng&lt;/a&gt; và &lt;a href="{privacy_policy_url}"&gt;Chính sách bảo mật&lt;/a&gt;.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">Bằng việc tạo tài khoản, tôi chấp nhận {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Điều khoản và điều kiện&lt;/a&gt; cũng như đã đọc và chấp nhận &lt;a href="{terms_of_use_url}"&gt;Điều khoản sử dụng&lt;/a&gt; và &lt;a href="{privacy_policy_url}"&gt;Chính sách bảo mật&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Chọn tuổi từng trẻ</string>
 
@@ -3943,8 +3976,6 @@
     <string name="search_bundle_total_text_new">Xem chuyến đi của quý vị</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Bước 1: Chọn Khách sạn</string>
-    <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Bước 2: Chọn chuyến bay</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
     <string name="step_two_variation">Bước 2: Chọn chuyến bay đi</string>
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
@@ -4171,8 +4202,6 @@
     <string name="package_change_hotel_room">Thay đổi phòng</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Thay đổi chuyến bay</string>
-    <!-- Package Start Over -->
-    <string name="package_start_over">Bắt đầu lại</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Thanh toán bằng điểm Expedia Rewards</string>
@@ -4757,6 +4786,9 @@
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">Nút {dates_label}. Mở hộp thoại. {duration_description}</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} phòng</item>
@@ -5069,4 +5101,14 @@
     <string name="path_template">%1$s đến %2$s</string>
     <string name="book_now_savings_for_booking_together">Đặt ngay! Tiết kiệm hơn khi đặt cùng lúc</string>
 
+    <string name="flight_route_happy_guide_button_label">Đã hiểu</string>
+    <string name="flight_route_happy_guide_wifi_label">Wifi</string>
+    <string name="flight_route_happy_guide_entertainment_label">Phương tiện giải trí</string>
+    <string name="flight_route_happy_guide_power_label">Ổ cắm điện</string>
+    <string name="flight_route_happy_guide_rating_label">9/10 - Xuất sắc!</string>
+    <string name="flight_route_happy_guide_title_v1">Tiện nghi, dịch vụ chuyến bay</string>
+    <string name="flight_route_happy_guide_title_v2">Điểm chuyến bay</string>
+    <string name="flight_route_happy_guide_title_v3">Tiện nghi, dịch vụ &amp; Điểm chuyến bay</string>
+    <string name="flight_route_happy_guide_info">Quý vị có thể kiểm tra chuyến bay của mình có Wifi, phương tiện giải trí hay ổ cắm điện hay không.</string>
+    <string name="flight_route_happy_guide_more_info">Điểm chuyến bay giúp quý vị chọn chuyến bay tốt nhất với các yếu tố thời gian chuyến bay, loại máy bay và chất lượng, dịch vụ chuyến bay cung cấp.</string>
 </resources>

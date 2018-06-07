@@ -743,6 +743,10 @@
     <string name="package_prices_roundtrip_person_minimum_fsr_label">酒店及來回機票每位價格低至…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">已訂滿</string>
+    <!-- Label indicating that package the price is Per person and includes hotel + flights -->
+    <string name="pacakge_price_per_person_includes_hotel_and_flight_message">一位 (酒店 + 機票)</string>
+    <!-- Label indicating that the price includes taxes and fees -->
+    <string name="includes_taxes_and_fees_lower_case">包括稅項及附加費</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">排序方式</string>
@@ -1009,10 +1013,6 @@
     <string name="hotel_review_title_notification_TEMPLATE">請評價一下您最近於{hotelname}的住宿</string>
     <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
     <string name="hotel_review_body_notification_TEMPLATE">{firstname}，您會給{hotelname}多少分？請分享您的體驗以供其他旅客參考。</string>
-    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
-    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination}當地玩樂</string>
-    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
-    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}的活動很快訂滿！請預早搜尋當地玩樂並預訂門票。</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Hi {firstname}！看看您酒店附近的熱門景點和活動。</string>
     <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
@@ -1096,6 +1096,16 @@
         <item quantity="many">{days} 日</item>
         <item quantity="other">{days} 日</item>
     </plurals>
+    <!-- "XX minutes ago" an event occured XX minutes back -->
+    <plurals name="minutes_ago">
+        <item quantity="one">{minutes} 分鐘前</item>
+        <item quantity="other">{minutes} 分鐘前</item>
+    </plurals>
+    <!-- "in XX minutes" an event in XX minutes -->
+    <plurals name="in_minutes">
+        <item quantity="one">{minutes} 分鐘後</item>
+        <item quantity="other">{minutes} 分鐘後</item>
+    </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">分享的行程</string>
     <!-- Shared Itin - Fallback name for Flight itin card -->
@@ -1107,15 +1117,17 @@
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
     <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s (位於 %2$s)</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
-    <string name="Flight">航班</string>
+    <string name="Flight">機票</string>
     <!-- Default (fallback) itin card title for HOTEL -->
     <string name="Hotel">酒店</string>
     <!-- Default (fallback) itin card title for CAR -->
     <string name="Car">租車</string>
     <!-- Default (fallback) itin card title for CRUISE -->
-    <string name="Cruise">郵輪假期</string>
+    <string name="Cruise">遊輪假期</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">活動</string>
+    <!-- Itin LOB label for Rail -->
+    <string name="Rail">火車票</string>
     <!-- Activity information -->
     <string name="activity_information">活動資料</string>
     <!-- Depart (TZ) template -->
@@ -1367,7 +1379,7 @@
     <string name="itin_card_details_reload_car">重新載入租車資料</string>
     <string name="itin_card_details_reload_flight">重新載入航班資料</string>
     <string name="itin_card_details_reload_hotel">重新載入酒店資料</string>
-    <string name="itin_card_details_reload_cruise">重新載入郵輪假期資料</string>
+    <string name="itin_card_details_reload_cruise">重新載入遊輪假期資料</string>
     <string name="itin_card_details_remove_itin">從行程中移除</string>
     <!--Hotel itin card room details heading-->
     <string name="itin_view_receipt_text">查看收據</string>
@@ -1431,6 +1443,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">合共已付 {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">於酒店共付 {amount}</string>
+    <!--Hotel itin price summary subtotal label-->
+    <string name="itin_hotel_details_price_summary_subtotal_label">小計</string>
+    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_two">{firstproduct} + {secondproduct}</string>
+    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_many">{products}及{lastproduct}</string>
+    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_one">{product}</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">額外價格資料</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
@@ -1464,13 +1484,7 @@
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">管理預訂</string>
     <!--Hotel itin manage booking hotel help heading-->
-    <string name="itin_hotel_manage_booking_hotel_help_heading">我們可提供協助</string>
-    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
-    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">如對您的訂房有特別要求或任何疑問，請聯絡 {hotelname}</string>
-    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
-    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">確認編號：{number}</string>
-    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
-    <string name="itin_hotel_customer_support_header_text_TEMPLATE">如需協助管理此行程，請聯絡 {brand}</string>
+    <string name="itin_more_help_heading">客戶服務</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_hotel_itinerary_number_TEMPLATE">行程編號：{itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -1483,8 +1497,6 @@
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">致電 {phonenumber} 與酒店聯絡。按鈕</string>
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">致電 {phonenumber} 與{brand}聯絡。按鈕</string>
-    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
-    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">確認號碼：{number}。點擊以複製</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">行程編號：{number}。點擊以複製</string>
     <!--Hotel itin room details requests header-->
@@ -1549,9 +1561,21 @@
     <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">致電 {phonenumber} 與活動聯絡。按鈕</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">兌換代用券</string>
+    <!--LX itin manage booking call vendor button content description. Call vendor at +18055437700. Button. Double click and hold to select. (eg., Call vendor at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">致電 {phonenumber} 與活動供應商聯絡。按鈕。點擊來致電。雙擊不放來選取。</string>
+    <string name="itin_active">有效日期</string>
+    <string name="itin_expires">到期日</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">分享行程</string>
+    <!--Itin more help confirmation number text -->
+    <string name="itin_more_help_confirmation_text">確認號碼為</string>
+    <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
+    <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">確認號碼為 {number}。雙擊不放來選取。</string>
+    <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_more_help_text_TEMPLATE">如有關於預訂的特別要求或疑問，請與 {supplier} 聯絡</string>
+    <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_customer_support_header_text_TEMPLATE">如需管理行程方面的協助，請與 {brand}聯絡。</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1614,8 +1638,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">機票編號：{number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(手抱嬰幼兒)</string>
-    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
-    <string name="itin_flight_customer_support_header_text_TEMPLATE">如需協助管理此行程，請聯絡 {brand}。</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">已取消</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -2115,6 +2137,8 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">可能同時設有付款手續費及車票送遞費</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">包括酒店及機票</string>
+    <!-- Label shown on Package hotel infosite maps to indicate prices are per person and includes hotel + flights -->
+    <string name="package_price_includes_message_maps">價格為一位價 (酒店 + 機票)</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d 位旅客</item>
@@ -2128,6 +2152,10 @@
     <string name="price_changed_from_TEMPLATE">變更前價格：%1$s</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">降價前價格：%1$s</string>
+    <!-- Roundtrip flights -->
+    <string name="roundtrip_flights">來回機票</string>
+    <!-- Savings for booking together -->
+    <string name="savings_for_booking_together">一同預訂可慳</string>
 
     <!-- Checkout Activity -->
     <!-- Your card will be charged -->
@@ -2196,6 +2224,8 @@
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">費用概覽</string>
+    <!-- Price Summary -->
+    <string name="price_summary">價格概要</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 預訂費</string>
     <!-- Booking Fee -->
@@ -2958,6 +2988,9 @@
         <item quantity="many">查看 %s 篇評價</item>
         <item quantity="other">查看 %s 篇評價</item>
     </plurals>
+
+    <!-- Hint in search bar for user reviews -->
+    <string name="user_review_search_hint">搜尋評價</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -3791,7 +3824,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">立即登記 {brand_reward_name}。登記 {brand_reward_name}，即表示我接受所有&lt;a href="{terms_and_conditions_url}"&gt;條款及細則&lt;/a&gt;。</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_reward_combined_text_TEMPLATE">建立帳戶，即表示我接受 {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;條款及細則&lt;/a&gt;，並已閱讀及接受&lt;a href="{terms_of_use_url}"&gt;使用條款&lt;/a&gt;和&lt;a href="{privacy_policy_url}"&gt;私隱政策&lt;/a&gt;。</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">建立帳戶，即表示我接受 {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;條款及細則&lt;/a&gt;，並已閱讀及接受&lt;a href="{terms_of_use_url}"&gt;使用條款&lt;/a&gt;和&lt;a href="{privacy_policy_url}"&gt;私隱政策&lt;/a&gt;。</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位小童的年齡</string>
 
@@ -3943,8 +3976,6 @@
     <string name="search_bundle_total_text_new">瀏覽您的行程</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">步驟 1：選擇酒店</string>
-    <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">步驟 2：選擇航班</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
     <string name="step_two_variation">步驟 2：選擇出發航班</string>
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
@@ -4171,8 +4202,6 @@
     <string name="package_change_hotel_room">更改酒店客房</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">更改航班</string>
-    <!-- Package Start Over -->
-    <string name="package_start_over">重新開始</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">使用 Expedia Rewards 積分付款</string>
@@ -4757,6 +4786,9 @@
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">{dates_label}按鈕。打開對話框。{duration_description}</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} 間客房</item>
@@ -5069,4 +5101,14 @@
     <string name="path_template">%1$s 至 %2$s</string>
     <string name="book_now_savings_for_booking_together">請即預訂！一同預訂可慳</string>
 
+    <string name="flight_route_happy_guide_button_label">知道了</string>
+    <string name="flight_route_happy_guide_wifi_label">Wi-Fi</string>
+    <string name="flight_route_happy_guide_entertainment_label">娛樂</string>
+    <string name="flight_route_happy_guide_power_label">電源</string>
+    <string name="flight_route_happy_guide_rating_label">9/10 - 極好！</string>
+    <string name="flight_route_happy_guide_title_v1">航班設施</string>
+    <string name="flight_route_happy_guide_title_v2">航班分數</string>
+    <string name="flight_route_happy_guide_title_v3">航班設施及分數</string>
+    <string name="flight_route_happy_guide_info">現在您可查看航班是否提供 Wi-Fi、娛樂及電源插座。</string>
+    <string name="flight_route_happy_guide_more_info">航班分數會計及航班所需時間、航機類型和航班設施的品質，您可藉此選擇最適合的航班。</string>
 </resources>
