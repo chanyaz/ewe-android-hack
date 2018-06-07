@@ -159,6 +159,8 @@
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_remote_feature_toggle_settings">preference_open_remote_feature_toggle_settings</string>
 
+    <string name="preference_open_TNS_Notification_Service">preference_open_TNS_Notification_Service</string>
+
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
     <string name="preference_flight_fake_obfees_default">0</string>

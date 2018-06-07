@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RouterActivity;
+import com.expedia.bookings.activity.TNSTestActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -223,6 +224,11 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			if (intent != null) {
 				startActivity(intent);
 			}
+		}
+		else if (getString(R.string.preference_open_TNS_Notification_Service).equals(key)) {
+			Intent intent = new Intent(this.getContext(), TNSTestActivity.class);
+			intent.putExtras(new Bundle());
+			getContext().startActivity(intent);
 		}
 		else if ("PREF_FIRST_LAUNCH".equals(key)) {
 			userStateManager.signOut();
