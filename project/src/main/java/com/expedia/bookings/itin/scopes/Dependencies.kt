@@ -17,6 +17,7 @@ import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.tracking.ITripsTracking
+import com.expedia.bookings.utils.StrUtils
 
 interface HasItin {
     val itin: Itin
@@ -64,6 +65,10 @@ interface HasActivityLauncher {
 
 interface HasAbacusProvider {
     val abacus: AbacusSource
+}
+
+interface HasStringUtil {
+    val stringUtils: StrUtils
 }
 
 interface HasLxRepo {

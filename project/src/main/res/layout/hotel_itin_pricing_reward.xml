@@ -40,6 +40,15 @@
                 android:textSize="18sp"
                 app:textStyle="medium" />
 
+            <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingBundleView
+                android:id="@+id/hotel_itin_pricing_bundle_description_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"/>
+
             <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/hotel_itin_pricing_summary_view"
                 style="@style/MaterialCardView"

@@ -12,6 +12,7 @@ import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinViewReceiptWidget
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
+import com.expedia.bookings.itin.scopes.HotelItinPricingBundleScope
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
 import com.expedia.bookings.itin.scopes.HotelItinRewardsScope
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
@@ -50,6 +51,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     val pricingSummaryView: HotelItinPricingSummaryView by bindView(R.id.hotel_itin_pricing_summary_view)
     val receiptButton: ItinViewReceiptWidget by bindView(R.id.widget_itin_view_receipt)
     val rewardsView: HotelItinPricingSummaryRewardsView by bindView(R.id.hotel_itin_pricing_summary_rewards_view)
+    val bundleDescriptionView: HotelItinPricingBundleView by bindView(R.id.hotel_itin_pricing_bundle_description_view)
 
     lateinit var jsonUtil: IJsonToItinUtil
         @Inject set
@@ -69,6 +71,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     }
     lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
     lateinit var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinRewardsScope>
+    lateinit var bundleDescriptionViewModel: HotelItinPricingBundleDescriptionViewModel<HotelItinPricingBundleScope>
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     var tripsTracking: ITripsTracking = TripsTracking
@@ -87,6 +90,10 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         val toolbarScope = HotelItinToolbarScope(stringProvider, hotelRepo, this)
         toolbarViewModel = HotelItinPricingRewardsToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
+
+        val bundleScope = HotelItinPricingBundleScope(hotelRepo, stringProvider, this)
+        bundleDescriptionViewModel = HotelItinPricingBundleDescriptionViewModel(bundleScope)
+        bundleDescriptionView.viewModel = bundleDescriptionViewModel
 
         val summaryScope = HotelItinPricingSummaryScope(hotelRepo, stringProvider, activityLauncher, this)
         summaryViewModel = HotelItinPricingSummaryViewModel(summaryScope)
