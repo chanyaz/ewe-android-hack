@@ -1,11 +1,15 @@
 package com.expedia.bookings.hotel.vm
 
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import io.reactivex.disposables.CompositeDisposable
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,10 +25,12 @@ class HotelReviewSearchResultsViewModelTest {
 
     private var compositeDisposable = CompositeDisposable()
     private var viewModel = HotelReviewSearchResultsViewModel(compositeDisposable)
+    lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
         viewModel.reviewsServices = reviewServicesRule.services!!
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -61,6 +67,25 @@ class HotelReviewSearchResultsViewModelTest {
 
         testObserver.assertValueCount(3)
         assertEquals(compositeDisposable.size(), 3)
+
+        OmnitureTestUtils.assertStateTrackedNumTimes("App.Hotels.Reviews.Search.Results",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 48 to "PrivateBank")),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2"))
+                ), 2,
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSearchError() {
+        viewModel.doSearch("query_with_no_results", "123")
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Reviews.Search.Results",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 48 to "query_with_no_results")),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2")),
+                        OmnitureMatchers.withEventsString("event332")
+                ),
+                mockAnalyticsProvider)
     }
 
     @Test

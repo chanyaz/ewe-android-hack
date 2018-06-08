@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
@@ -37,9 +38,10 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
     val hotelReviewsTabbar: HotelReviewsTabbar by bindView(R.id.hotel_reviews_tabbar)
     val viewPager: ViewPager by bindView(R.id.viewpager)
     val toolbar: Toolbar by bindView(R.id.hotel_reviews_toolbar)
+    @VisibleForTesting
+    val searchResultsView: HotelReviewSearchResultsView by bindView(R.id.hotel_review_search_results)
     private val reviewsContainer: LinearLayout by bindView(R.id.reviews_container)
     private val selectARoomBar: HotelSelectARoomBar by bindView(R.id.hotel_reviews_select_a_room_bar)
-    private val searchResultsView: HotelReviewSearchResultsView by bindView(R.id.hotel_review_search_results)
 
     var viewModel: HotelReviewsViewModel by notNullAndObservable { vm ->
         vm.toolbarTitleObservable.subscribe { hotelName ->
@@ -83,6 +85,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
         override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
             toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
             searchResultsView.setVisibility(true)
+            OmnitureTracking.trackHotelReviewSearchPageViewed()
             return true
         }
 

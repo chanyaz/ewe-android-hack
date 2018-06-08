@@ -284,6 +284,8 @@ public class OmnitureTracking {
 	private static final String HOTELS_GALLERY_GRID_CLICK = "App.Hotels.IS.Gallery.OpenImage";
 
 	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
+	private static final String HOTELS_REVIEWS_SEARCH_PAGE_VIEWED = HOTELSV2_REVIEWS + ".Search";
+	private static final String HOTELS_REVIEWS_SEARCH_PERFORMED = HOTELSV2_REVIEWS + ".Search.Results";
 
 	private static final String HOTELSV2_ETP_INFO = "App.Hotels.ETPInfo";
 	private static final String HOTELSV2_RESORT_FEE_INFO = "App.Hotels.ResortFeeInfo";
@@ -1134,6 +1136,24 @@ public class OmnitureTracking {
 	public static void trackHotelReviewSelectARoomClick() {
 		AppAnalytics appAnalytics = createTrackLinkEvent(HOTELSV2_REVIEWS + ".SelectRoom");
 		appAnalytics.trackLink("Infosite Reviews");
+	}
+
+	public static void trackHotelReviewSearchPageViewed() {
+		AppAnalytics appAnalytics = createTrackPageLoadEventBase(HOTELS_REVIEWS_SEARCH_PAGE_VIEWED);
+		appAnalytics.setProp(2, HOTELV2_LOB);
+		appAnalytics.setEvar(2, "D=c2");
+		appAnalytics.track();
+	}
+
+	public static void trackHotelReviewSearchPerformed(String searchQuery, boolean error) {
+		AppAnalytics appAnalytics = createTrackPageLoadEventBase(HOTELS_REVIEWS_SEARCH_PERFORMED);
+		appAnalytics.setProp(2, HOTELV2_LOB);
+		appAnalytics.setEvar(2, "D=c2");
+		if (error) {
+			appAnalytics.appendEvents("event332");
+		}
+		appAnalytics.setProp(48, searchQuery);
+		appAnalytics.track();
 	}
 
 	public static void trackHotelV2ReviewsCategories(String category) {

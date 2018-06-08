@@ -4,6 +4,7 @@ import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.data.hotels.HotelReviewsParams
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
@@ -26,11 +27,12 @@ class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable
 
     private val resultsObserver = object : Observer<HotelReviewsResponse> {
         override fun onError(e: Throwable) {
-            // TODO
+            trackSearchPerformed(true)
         }
 
         override fun onNext(response: HotelReviewsResponse) {
             reviewsObservable.onNext(response.reviewDetails.reviewCollection.review)
+            trackSearchPerformed(response.reviewDetails.reviewCollection.review.isEmpty())
         }
 
         override fun onSubscribe(d: Disposable) {
@@ -68,6 +70,12 @@ class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable
     private fun makeApiCall() {
         createSearchParams()?.let { params ->
             reviewsServices.reviewsSearch(params).subscribe(resultsObserver)
+        }
+    }
+
+    private fun trackSearchPerformed(error: Boolean) {
+        if (pageNumber == 0) {
+            OmnitureTracking.trackHotelReviewSearchPerformed(currentQuery, error)
         }
     }
 }
