@@ -26,12 +26,14 @@ class HotelitinPricingBundleDescriptionViewModelTest {
     private val mockMultiFlightOneWay = ItinMocker.midMultipleFlightsTripDetails
     private val mockMultiDestinationFlight = ItinMocker.itinMickoMultiDestinationFlight
 
+    private lateinit var viewModel: HotelItinPricingBundleDescriptionViewModel<MockHotelItinPricingBundleScope>
     private lateinit var bundleContainerResetObserver: TestObserver<Unit>
     private lateinit var bundleProductDescriptionObserver: TestObserver<String>
     private lateinit var bundleContainerViewVisibilityObserver: TestObserver<Boolean>
 
     @Before
     fun setUp() {
+        viewModel = HotelItinPricingBundleDescriptionViewModel(MockHotelItinPricingBundleScope())
         bundleContainerResetObserver = TestObserver()
         bundleProductDescriptionObserver = TestObserver()
         bundleContainerViewVisibilityObserver = TestObserver()
@@ -46,15 +48,16 @@ class HotelitinPricingBundleDescriptionViewModelTest {
 
     @Test
     fun testBundleContainerVisibilitySubject() {
-        val viewModel = getViewModel()
         viewModel.bundleContainerViewVisibilitySubject.subscribe(bundleContainerViewVisibilityObserver)
         bundleContainerViewVisibilityObserver.assertEmpty()
         viewModel.itinObserver.onChanged(mockItinStandAloneHotel)
         bundleContainerViewVisibilityObserver.assertValueCount(1)
         bundleContainerViewVisibilityObserver.assertValuesAndClear(false)
+
         viewModel.itinObserver.onChanged(mockItinMickoHotel)
         bundleContainerViewVisibilityObserver.assertValueCount(1)
         bundleContainerViewVisibilityObserver.assertValuesAndClear(true)
+
         viewModel.itinObserver.onChanged(mockItinPackageHotel)
         bundleContainerViewVisibilityObserver.assertValueCount(1)
         bundleContainerViewVisibilityObserver.assertValuesAndClear(true)
@@ -62,14 +65,15 @@ class HotelitinPricingBundleDescriptionViewModelTest {
 
     @Test
     fun testBundleContainerResetSubject() {
-        val viewModel = getViewModel()
         viewModel.bundleContainerResetSubject.subscribe(bundleContainerResetObserver)
         bundleContainerResetObserver.assertEmpty()
         viewModel.itinObserver.onChanged(mockItinStandAloneHotel)
         bundleContainerResetObserver.assertNoValues()
+
         viewModel.itinObserver.onChanged(mockItinMickoHotel)
         bundleContainerResetObserver.assertValueCount(1)
         bundleContainerResetObserver.assertValuesAndClear(Unit)
+
         viewModel.itinObserver.onChanged(mockItinPackageHotel)
         bundleContainerResetObserver.assertValueCount(1)
         bundleContainerResetObserver.assertValuesAndClear(Unit)
@@ -77,7 +81,6 @@ class HotelitinPricingBundleDescriptionViewModelTest {
 
     @Test
     fun testProductDescriptionStandAloneHotel() {
-        val viewModel = getViewModel()
         viewModel.bundleProductDescriptionSubject.subscribe(bundleProductDescriptionObserver)
         bundleProductDescriptionObserver.assertNoValues()
         viewModel.itinObserver.onChanged(mockItinStandAloneHotel)
@@ -86,7 +89,6 @@ class HotelitinPricingBundleDescriptionViewModelTest {
 
     @Test
     fun testProductDescriptionPackage() {
-        val viewModel = getViewModel()
         viewModel.bundleProductDescriptionSubject.subscribe(bundleProductDescriptionObserver)
         bundleProductDescriptionObserver.assertNoValues()
         viewModel.itinObserver.onChanged(mockItinPackageHotel)
@@ -104,7 +106,6 @@ class HotelitinPricingBundleDescriptionViewModelTest {
 
     @Test
     fun testProductDescriptionMicko() {
-        val viewModel = getViewModel()
         viewModel.bundleProductDescriptionSubject.subscribe(bundleProductDescriptionObserver)
         bundleProductDescriptionObserver.assertNoValues()
         viewModel.itinObserver.onChanged(mockItinPackageHotel)
@@ -122,7 +123,6 @@ class HotelitinPricingBundleDescriptionViewModelTest {
 
     @Test
     fun testProductDescriptionMulitHotel() {
-        val viewModel = getViewModel()
         viewModel.bundleProductDescriptionSubject.subscribe(bundleProductDescriptionObserver)
         bundleProductDescriptionObserver.assertNoValues()
         viewModel.itinObserver.onChanged(mockItinMultiHotel)
@@ -138,7 +138,6 @@ class HotelitinPricingBundleDescriptionViewModelTest {
 
     @Test
     fun testProductDescriptionOneWayFlight() {
-        val viewModel = getViewModel()
         viewModel.bundleProductDescriptionSubject.subscribe(bundleProductDescriptionObserver)
         bundleProductDescriptionObserver.assertNoValues()
         viewModel.itinObserver.onChanged(mockMultiFlightOneWay)
@@ -153,12 +152,10 @@ class HotelitinPricingBundleDescriptionViewModelTest {
         assertEquals(hotel, bundleProductDescriptionObserver.values()[1])
         assertEquals(oneWayTripFlight, bundleProductDescriptionObserver.values()[2])
         assertEquals(oneWayTripFlight, bundleProductDescriptionObserver.values()[3])
-
     }
 
     @Test
     fun testProductDescriptionMultiDestinationFlight() {
-        val viewModel = getViewModel()
         viewModel.bundleProductDescriptionSubject.subscribe(bundleProductDescriptionObserver)
         bundleProductDescriptionObserver.assertNoValues()
         viewModel.itinObserver.onChanged(mockMultiDestinationFlight)
@@ -172,10 +169,6 @@ class HotelitinPricingBundleDescriptionViewModelTest {
         assertEquals(expectedString, bundleProductDescriptionObserver.values()[0])
         assertEquals(hotel, bundleProductDescriptionObserver.values()[1])
         assertEquals(multiDestinationTripFlight, bundleProductDescriptionObserver.values()[2])
-    }
-
-    private fun getViewModel(): HotelItinPricingBundleDescriptionViewModel<MockHotelItinPricingBundleScope> {
-        return HotelItinPricingBundleDescriptionViewModel(MockHotelItinPricingBundleScope())
     }
 
     class MockHotelItinPricingBundleScope : HasHotelRepo, HasStringProvider, HasLifecycleOwner {

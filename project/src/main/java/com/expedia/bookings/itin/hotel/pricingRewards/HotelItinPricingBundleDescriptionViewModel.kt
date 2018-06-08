@@ -76,7 +76,7 @@ class HotelItinPricingBundleDescriptionViewModel<out S>(val scope: S) : IHotelIt
                 mapOf("product" to product))
     }
 
-    private fun buildLobStrings(itinLobList: List<ItinLOB>?, description: String) : List<String> {
+    private fun buildLobStrings(itinLobList: List<ItinLOB>?, description: String): List<String> {
         val list = mutableListOf<String>()
         itinLobList?.forEach {
             list.add(buildBundleProductString(description))
@@ -84,7 +84,7 @@ class HotelItinPricingBundleDescriptionViewModel<out S>(val scope: S) : IHotelIt
         return list
     }
 
-    private fun buildFlightStrings(productsContainer: HasProducts) : List<String> {
+    private fun buildFlightStrings(productsContainer: HasProducts): List<String> {
         val flightStrings = mutableListOf<String>()
         productsContainer.flights?.forEach {
             val flightType = it.flightType
@@ -103,8 +103,7 @@ class HotelItinPricingBundleDescriptionViewModel<out S>(val scope: S) : IHotelIt
                         flightStrings.add(flightString)
                     }
                 }
-            }
-            else {
+            } else {
                 val flightString: String = buildBundleProductString(scope.strings.fetch(R.string.Flight))
                 flightStrings.add(flightString)
             }

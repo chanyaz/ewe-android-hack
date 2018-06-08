@@ -31,7 +31,6 @@ class HotelItinPricingBundleViewTest {
         bundleContainerResetObserver = TestObserver()
         bundleContainerViewVisibilityObserver = TestObserver()
         bundleProductDescriptionObserver = TestObserver()
-
     }
 
     @After
