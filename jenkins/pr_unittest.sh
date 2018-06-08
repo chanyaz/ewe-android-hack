@@ -89,7 +89,7 @@ function runFeedbackAndCoverageReports() {
 
 function compileUiTests() {
     if [[ "$flavor" == "Expedia" ]]; then
-        ./gradlew "assemble${flavor}DebugAndroidTest"
+        ./gradlew --no-daemon "assemble${flavor}DebugAndroidTest"
         if [[ (${?} -ne 0) ]]; then
             exit 1
         fi

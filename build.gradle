@@ -150,8 +150,8 @@ dependencyUpdates.resolutionStrategy = {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
 }
 
