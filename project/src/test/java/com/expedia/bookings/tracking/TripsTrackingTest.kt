@@ -263,6 +263,20 @@ class TripsTrackingTest {
     }
 
     @Test
+    fun trackItinCarDetailsDirectionsTest() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCarDetailsDirections()
+        assertItinLinkTracked("App.Itinerary.Car.Directions")
+    }
+
+    @Test
+    fun trackItinCarDetailsMapTest() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCarDetailsMap()
+        assertItinLinkTracked("App.Itinerary.Car.Map")
+    }
+
+    @Test
     fun testTrackItinTripRefreshCallFailure() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinTripRefreshCallFailure("ERROR")

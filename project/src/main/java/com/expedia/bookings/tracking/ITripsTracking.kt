@@ -10,6 +10,8 @@ interface ITripsTracking {
     fun trackTripListCancelledTabVisit()
     fun trackItinHotelViewReceipt()
     fun trackHotelTaxiCardClick()
+    fun trackItinCarDetailsDirections()
+    fun trackItinCarDetailsMap()
     fun trackItinHotelViewRewards()
     fun trackItinLxDetailsMap()
     fun trackItinLxDetailsDirections()

@@ -2,7 +2,10 @@ package com.expedia.bookings.itin.cars.details
 
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
+import com.expedia.bookings.itin.common.ItinExpandedMapActivity
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
+import com.expedia.bookings.itin.common.TripProducts
+import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasCarRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasPhoneHandler
@@ -10,12 +13,27 @@ import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToaster
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.tripstore.data.CarLocation
+import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
 import com.expedia.bookings.itin.tripstore.extensions.buildSecondaryAddress
+import com.expedia.bookings.itin.utils.AnimationDirection
 import com.google.android.gms.maps.model.LatLng
 
-abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinCar>() where S : HasCarRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler {
+abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinCar>() where S : HasCarRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler, S : HasActivityLauncher {
+    val itinObserver = LiveDataObserver<Itin> {
+        it?.tripId?.let { id ->
+            directionButtonClickSubject.subscribe {
+                scope.tripsTracking.trackItinCarDetailsDirections()
+                scope.activityLauncher.launchActivity(ItinExpandedMapActivity, id, AnimationDirection.SLIDE_UP, TripProducts.CAR.name)
+            }
+            mapClickSubject.subscribe {
+                scope.tripsTracking.trackItinCarDetailsMap()
+                scope.activityLauncher.launchActivity(ItinExpandedMapActivity, id, AnimationDirection.SLIDE_UP, TripProducts.CAR.name)
+            }
+        }
+    }
+
     override val itinLOBObserver: LiveDataObserver<ItinCar> = LiveDataObserver {
         it?.let { itinCar ->
             getLocation(itinCar)?.let { location ->
@@ -27,12 +45,7 @@ abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewMod
                 if (location.latitude != null && location.longitude != null) {
                     latLongSubject.onNext(LatLng(location.latitude, location.longitude))
                 }
-                directionButtonClickSubject.subscribe {
-                    //TODO("add expanded map view and omniture")
-                }
-                mapClickSubject.subscribe {
-                    //TODO("add expanded map view and omniture")
-                }
+
                 addressClickSubject.subscribe {
                     scope.toaster.toastAndCopy(location.buildFullAddress())
                 }
@@ -53,6 +66,7 @@ abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewMod
 
     init {
         scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinLOBObserver)
+        scope.itinCarRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }
 
     abstract fun getLocation(itinCar: ItinCar): CarLocation?

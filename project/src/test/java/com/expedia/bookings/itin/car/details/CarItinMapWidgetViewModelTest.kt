@@ -8,12 +8,14 @@ import com.expedia.bookings.itin.cars.details.CarItinMapWidgetViewModel
 import com.expedia.bookings.itin.cars.details.CarItinMapWidgetViewModelScope
 import com.expedia.bookings.itin.cars.details.CarItinPickupMapWidgetViewModel
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockCarRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockPhoneHandler
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockToaster
 import com.expedia.bookings.itin.helpers.MockTripsTracking
+import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasCarRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasPhoneHandler
@@ -24,6 +26,7 @@ import com.expedia.bookings.itin.tripstore.data.CarLocation
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
 import com.expedia.bookings.itin.tripstore.extensions.firstCar
+import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.StringSource
@@ -44,7 +47,7 @@ class CarItinMapWidgetViewModelTest {
     val phoneNumberTextTestObserver = TestObserver<String>()
     val phoneNumberContDescTestObserver = TestObserver<String>()
 
-    private class MockScope : HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasCarRepo {
+    private class MockScope : HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasCarRepo, HasActivityLauncher {
         override val itinCarRepo: ItinCarRepoInterface = MockCarRepo()
         val mockStrings = MockStringProvider()
         override val strings: StringSource = mockStrings
@@ -55,6 +58,7 @@ class CarItinMapWidgetViewModelTest {
         override val toaster: IToaster = mockToaster
         val mockPhoneHandler = MockPhoneHandler()
         override val phoneHandler: IPhoneHandler = mockPhoneHandler
+        override val activityLauncher: IActivityLauncher = MockActivityLauncher()
     }
 
     @Test
@@ -117,7 +121,7 @@ class CarItinMapWidgetViewModelTest {
 
     @Test
     fun getLocationPickupTest() {
-        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler())
+        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinPickupMapWidgetViewModel(scope)
         val car = ItinMocker.carDetailsHappy.firstCar()
         setupObservers()
@@ -131,7 +135,7 @@ class CarItinMapWidgetViewModelTest {
 
     @Test
     fun getLocationDropOffDifferentTest() {
-        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler())
+        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinDropOffMapWidgetViewModel(scope)
         val car = ItinMocker.carDetailsHappy.firstCar()
 
@@ -176,7 +180,7 @@ class CarItinMapWidgetViewModelTest {
 
     @Test
     fun getLocationDropOffSameTest() {
-        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler())
+        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinDropOffMapWidgetViewModel(scope)
         val car = ItinMocker.carDetailsHappyPickupDropOffSame.firstCar()
 

@@ -27,6 +27,8 @@ class MockTripsTracking : ITripsTracking {
     var trackItinlxMoreHelpPageLoaded = false
     var trackItinLxCallCustomerSupportClicked = false
     var trackItinLxCustomerServiceLinkClicked = false
+    var trackItinCarDetailsDirectionsCalled = false
+    var trackItinCarDetailsMapCalled = false
 
     override fun trackItinLxDetailsMap() {
         mapClicked = true
@@ -114,5 +116,13 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackItinLxCustomerServiceLinkClicked() {
         trackItinLxCustomerServiceLinkClicked = true
+    }
+
+    override fun trackItinCarDetailsDirections() {
+        trackItinCarDetailsDirectionsCalled = true
+    }
+
+    override fun trackItinCarDetailsMap() {
+        trackItinCarDetailsMapCalled = true
     }
 }

@@ -89,7 +89,7 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         toolbarViewModel = CarItinToolbarViewModel(scope)
         toolbar.viewModel = toolbarViewModel
         timingsWidget.viewModel = CarItinTimingsWidgetViewModel(scope)
-        val mapScope = CarItinMapWidgetViewModelScope(stringProvider, tripsTracking, this, repo, toaster, phoneHandler)
+        val mapScope = CarItinMapWidgetViewModelScope(stringProvider, tripsTracking, this, repo, toaster, phoneHandler, activityLauncher)
         pickupMapWidget.viewModel = CarItinPickupMapWidgetViewModel(mapScope)
         dropOffMapViewModel = CarItinDropOffMapWidgetViewModel(mapScope)
         dropOffMapWidget.viewModel = dropOffMapViewModel
