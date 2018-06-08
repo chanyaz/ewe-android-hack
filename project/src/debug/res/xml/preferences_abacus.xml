@@ -16,14 +16,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14927"
-            android:summary="%s"
-            android:title="Room Level Image Gallery - 14927" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="24541"
             android:summary="%s"
             android:title="Hotel results amenity filter - 24541" />

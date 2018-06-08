@@ -78,7 +78,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelsWebCheckout = new ABTest(25618, true);
 	public static final ABTest EBAndroidAppHotelCheckinCheckoutDatesInline = new ABTest(15344);
 	public static final ABTest EBAndroidAppHotelPayLaterCreditCardMessaging = new ABTest(15925, true);
-	public static final ABTest HotelRoomImageGallery = new ABTest(14927, true);
 	public static final ABTest HotelAmenityFilter = new ABTest(24541, true);
 	public static final ABTest HotelNewFilterCtaText = new ABTest(24583, true);
 	public static final ABTest HotelDatelessInfosite = new ABTest(24648, true);
@@ -197,7 +196,6 @@ public class AbacusUtils {
 		testIDs.add(CustomerFirstGuarantee.getKey());
 		testIDs.add(DisableSignInPageAsFirstScreen.getKey());
 		testIDs.add(EBAndroidAppFlightsKrazyglue.getKey());
-		testIDs.add(HotelRoomImageGallery.getKey());
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
 		testIDs.add(EBAndroidAppAccountsEditWebView.getKey());
 		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());
