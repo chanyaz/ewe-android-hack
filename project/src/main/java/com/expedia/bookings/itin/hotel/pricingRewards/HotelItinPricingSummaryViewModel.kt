@@ -12,8 +12,6 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.tripstore.data.TotalPriceDetails
-import com.expedia.bookings.itin.tripstore.extensions.HasProducts
-import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.isMultiItemCheckout
 import com.expedia.bookings.itin.tripstore.extensions.isPackage
@@ -45,9 +43,6 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                 itin.isPackage() -> {
                     priceBreakdownResetSubject.onNext(Unit)
                     itin.packages?.firstOrNull()?.let {
-                        //bundle title
-                        setBundleContentsLabel(getProductsDescriptionString(it))
-
                         //package subtotal
                         val packageSubtotal = it.price?.subTotalFormatted
                         setSubtotal(packageSubtotal)
@@ -58,9 +53,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                     setTotalPrice(packagePrice, R.string.itin_hotel_price_summary_total_amount_paid_label)
                 }
                 itin.isMultiItemCheckout() -> {
-                    //bundle title
                     priceBreakdownResetSubject.onNext(Unit)
-                    setBundleContentsLabel(getProductsDescriptionString(itin))
 
                     //micko subtotal
                     val mickoSubtotal = itin.paymentSummary?.subTotalPaidLocalizedPrice
@@ -208,42 +201,6 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
         if (subtotalPrice != null && !subtotalPrice.isBlank()) {
             val subtotalItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_details_price_summary_subtotal_label), subtotalPrice, R.color.itin_price_summary_label_gray_light)
             priceBreakdownItemSubject.onNext(subtotalItem)
-        }
-    }
-
-    private fun setBundleContentsLabel(bundleContentsString: String) {
-        val packageContentsItem = HotelItinPriceLineItem(bundleContentsString, "", R.color.itin_price_summary_label_gray_dark)
-        priceBreakdownItemSubject.onNext(packageContentsItem)
-    }
-
-    fun getProductsDescriptionString(productsContainer: HasProducts): String {
-        val listOfProductStrings = mutableListOf<String>()
-        productsContainer.listOfTripProducts().forEach {
-            when (it) {
-                TripProducts.HOTEL -> listOfProductStrings.add(scope.strings.fetch(R.string.Hotel))
-                TripProducts.FLIGHT -> listOfProductStrings.add(scope.strings.fetch(R.string.Flight))
-                TripProducts.CAR -> listOfProductStrings.add(scope.strings.fetch(R.string.Car))
-                TripProducts.ACTIVITY -> listOfProductStrings.add(scope.strings.fetch(R.string.Activity))
-                TripProducts.RAIL -> listOfProductStrings.add(scope.strings.fetch(R.string.Rail))
-                TripProducts.CRUISE -> listOfProductStrings.add(scope.strings.fetch(R.string.Cruise))
-            }
-        }
-        val numOfProducts = listOfProductStrings.size
-        return when {
-            numOfProducts == 2 -> {
-                scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_product_description_two,
-                        mapOf("firstproduct" to listOfProductStrings.take(numOfProducts - 1).joinToString(),
-                                "secondproduct" to listOfProductStrings.takeLast(1).joinToString()))
-            }
-            numOfProducts > 2 -> {
-                scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_product_description_many,
-                        mapOf("products" to listOfProductStrings.take(numOfProducts - 1).joinToString(", "),
-                                "lastproduct" to listOfProductStrings.takeLast(1).joinToString()))
-            }
-            else -> {
-                scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_product_description_one,
-                        mapOf("product" to listOfProductStrings.takeLast(1).joinToString()))
-            }
         }
     }
 
