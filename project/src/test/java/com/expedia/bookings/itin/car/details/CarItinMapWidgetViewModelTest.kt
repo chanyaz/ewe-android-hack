@@ -81,6 +81,7 @@ class CarItinMapWidgetViewModelTest {
         val expectedCopyDescString = R.string.itin_car_address_copy_content_description_TEMPLATE.toString().plus(mapOf("address" to car?.pickupLocation?.buildFullAddress()))
 
         sut.itinLOBObserver.onChanged(car)
+        sut.itinObserver.onChanged(ItinMocker.carDetailsHappy)
 
         addressLineFirstTestObserver.assertValue("Sir John Young Crescent Domain Car Park")
         addressLineSecondTestObserver.assertValue("Sydney, Victoria, AUS, 98188")
@@ -93,6 +94,12 @@ class CarItinMapWidgetViewModelTest {
         sut.phoneNumberClickSubject.onNext(Unit)
 
         assertTrue(mockScope.mockPhoneHandler.handleCalled)
+
+        sut.mapClickSubject.onNext(Unit)
+        sut.directionButtonClickSubject.onNext(Unit)
+
+        assertTrue(mockScope.mockTracking.trackItinCarDetailsDirectionsCalled)
+        assertTrue(mockScope.mockTracking.trackItinCarDetailsMapCalled)
     }
 
     @Test

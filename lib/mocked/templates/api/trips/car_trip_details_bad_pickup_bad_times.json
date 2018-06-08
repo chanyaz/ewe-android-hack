@@ -163,12 +163,11 @@
           "locationCategory": "CITY_CENTER",
           "locationDescription": "99 Spencer Street, Docklands, Victoria",
           "latitude": -37.818294,
-          "longitude": 144.953432,
           "addressLine1": "99 Spencer Street",
-          "cityName": "Docklands",
-          "postalCode": "98188",
-          "provinceStateName": "Victoria",
-          "countryCode": "AUS",
+          "cityName": "",
+          "postalCode": "",
+          "provinceStateName": "",
+          "countryCode": "",
           "locationCode": "MEL",
           "regionId": 6034399
         },
@@ -227,6 +226,7 @@
           }
         ],
         "carVendor": {
+          "longName": "Thrifty",
           "code": "ZT",
           "shortName": "Thrifty",
           "logoURL": "https://images.trvl-media.com/cars/logos/ZT.png",
