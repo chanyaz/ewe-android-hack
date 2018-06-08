@@ -1,5 +1,9 @@
 package com.expedia.bookings.test.pagemodels.lx;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -14,17 +18,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.lx.models.TicketSummaryDataModel;
 import com.expedia.bookings.widget.LXOffersListWidget;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withIndex;
+import static com.expedia.bookings.test.espresso.ViewActions.swipeUp;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 
@@ -195,5 +207,73 @@ public class LXInfositeScreen {
 				description.appendText("The restriction text must be present");
 			}
 		};
+	}
+
+	public static void waitForActivityDetailDisplayed() {
+		onView(withId(R.id.activity_details_presenter)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		// Wait an extra bit just to be sure the list items have settled
+		Common.delay(2);
+	}
+
+	public enum ViewIndex {
+		DEFAULT(0),
+		ONE(0),
+		TWO(1),
+		THREE(2),
+		FOUR(3),
+		FIVE(4);
+		public final int value;
+		private static Map map = new HashMap<>();
+
+		ViewIndex(int value) {
+			this.value = value;
+		}
+
+		static {
+			for (ViewIndex intexType : ViewIndex.values()) {
+				map.put(intexType.ordinal(), intexType);
+			}
+		}
+
+		public static ViewIndex valueOf(int indexType) {
+			return (ViewIndex) map.get(indexType);
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
+	public static class LxOffer {
+		private Matcher<View> selectTicketButton = withId(R.id.select_tickets);
+		private Matcher<View> bookNowButton = withId(R.id.lx_book_now);
+
+		boolean isContainingMultipleOfferOptions() {
+			try {
+				getActivityOfferAtIndex(ViewIndex.ONE).check(matches(isDisplayed()));
+				return true;
+			}
+			catch (Exception e) {
+				return false;
+			}
+		}
+
+		private ViewInteraction getActivityOfferAtIndex(ViewIndex viewIndex) {
+			return onView(withIndex(selectTicketButton, viewIndex.value));
+		}
+
+		private ViewInteraction getBookNowButtonAtIndex(ViewIndex viewIndex) {
+			return onView(withIndex(bookNowButton, viewIndex.value));
+		}
+
+		public void selectActivityOffer(int index) {
+			if (isContainingMultipleOfferOptions()) {
+				getActivityOfferAtIndex(ViewIndex.valueOf(index)).perform(swipeUp(), click());
+			}
+		}
+
+		public void clickBookNowButton() {
+			getBookNowButtonAtIndex(ViewIndex.ONE).perform(scrollTo(), click());
+		}
 	}
 }

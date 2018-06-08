@@ -43,6 +43,9 @@ public class HomeScreenSteps {
 		case "Bundle Deals":
 			LaunchScreen.packagesLaunchButton().perform(waitForViewToDisplay(), click());
 			break;
+		case "LX":
+			LaunchScreen.activitiesLaunchButton().perform(waitForViewToDisplay(), click());
+			break;
 		}
 	}
 

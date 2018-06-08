@@ -9,6 +9,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -493,18 +494,22 @@ public class CustomMatchers {
 
 	public static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
 		return new TypeSafeMatcher<View>() {
-			int currentIndex = 0;
+			int currentIndex;
+			int viewObjHash;
 
+			@SuppressLint("DefaultLocale")
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("with index: ");
-				description.appendValue(index);
+				description.appendText(String.format("with index: %d ", index));
 				matcher.describeTo(description);
 			}
 
 			@Override
 			public boolean matchesSafely(View view) {
-				return matcher.matches(view) && currentIndex++ == index;
+				if (matcher.matches(view) && currentIndex++ == index) {
+					viewObjHash = view.hashCode();
+				}
+				return view.hashCode() == viewObjHash;
 			}
 		};
 	}

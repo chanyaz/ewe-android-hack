@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.Matcher;
+
 import android.app.Instrumentation;
 import android.app.UiAutomation;
 import android.content.Context;
@@ -15,6 +17,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiSelector;
@@ -24,16 +27,17 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.test.Settings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
-
-import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class Common {
@@ -104,6 +108,11 @@ public class Common {
 		SettingUtils.save(context, key, enable);
 	}
 
+	public static void enableSatelliteFeatureFlag(String key) {
+		Context context = InstrumentationRegistry.getTargetContext();
+		Settings.enableFeature(context, key);
+	}
+
 	public static void setLocale(Locale loc) {
 		ExpediaBookingApp app = getApplication();
 		Configuration conf = app.getResources().getConfiguration();
@@ -166,6 +175,14 @@ public class Common {
 			catch (Exception ignored) { }
 		}
 		return false;
+	}
+
+	public static void validateViewVisibility(int resId, boolean isDisplayed) {
+		ViewMatchers.Visibility visibility = ViewMatchers.Visibility.INVISIBLE;
+		if (isDisplayed) {
+			visibility = ViewMatchers.Visibility.VISIBLE;
+		}
+		onView(withId(resId)).check(matches(withEffectiveVisibility(visibility)));
 	}
 
 	public static Boolean isOneOfUiObjectsPresent(ArrayList listOfMatchers) {

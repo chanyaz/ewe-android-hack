@@ -74,6 +74,14 @@ public class LXScreen {
 		return SearchScreen.selectDateButton();
 	}
 
+	public static ViewInteraction nextMonthButton() {
+		return SearchScreen.nextMonthButton();
+	}
+
+	public static ViewInteraction previousMonthButton() {
+		return SearchScreen.previousMonthButton();
+	}
+
 	public static void selectDates(LocalDate start, LocalDate end) {
 		SearchScreenActions.chooseDatesWithDialog(start, end);
 	}
@@ -110,6 +118,10 @@ public class LXScreen {
 
 	public static ViewInteraction searchButtonOnDetailsToolbar() {
 		return onView(allOf(isDescendantOfA(withId(R.id.activity_details_presenter)), withId(R.id.menu_open_search)));
+	}
+
+	public static ViewInteraction searchButtonOnSearchResultsToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withId(R.id.menu_open_search)));
 	}
 
 	//Checkout

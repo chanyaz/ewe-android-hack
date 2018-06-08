@@ -130,6 +130,11 @@ public class CommonSteps {
 		}
 	}
 
+	@And("^I enable Satallite features flag for \"(.*?)\"$")
+	public void enableSatelliteFeatureFlag(String key) {
+		Common.enableSatelliteFeatureFlag(key);
+	}
+
 	@And("^I press back$")
 	public void hitBack() {
 		Common.pressBack();

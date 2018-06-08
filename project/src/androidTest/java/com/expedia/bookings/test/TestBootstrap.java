@@ -53,8 +53,7 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		Settings.setOnboardingScreenVisibility(false);
 		super.setUp();
 
-		ExpediaBookingApp app = (ExpediaBookingApp) getInstrumentation().getTargetContext().getApplicationContext();
-		app.defaultAppComponents();
+		getAppContext().defaultAppComponents();
 
 		mActivity = getActivity();
 		assertNotNull(mActivity);
@@ -73,6 +72,10 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		if (!cucumberDirectory.exists()) {
 			cucumberDirectory.mkdirs();
 		}
+	}
+
+	public ExpediaBookingApp getAppContext() {
+		return (ExpediaBookingApp) getInstrumentation().getTargetContext().getApplicationContext();
 	}
 
 	@After
