@@ -1,7 +1,9 @@
 package com.expedia.bookings.utils
 
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
+import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripBucketItemFlightV2
@@ -22,12 +24,16 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.services.HotelCheckoutResponse
+import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.tune.TuneEvent
+import io.reactivex.schedulers.Schedulers
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
@@ -47,6 +53,9 @@ class TuneUtilsTests {
     private lateinit var baseStartDate: LocalDate
 
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
+
+    val mockTripServiceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
 
     @Before
@@ -451,6 +460,40 @@ class TuneUtilsTests {
         assertEquals(ApiDateUtils.yyyyMMddHHmmssToDateTime(activityDate).toDate(), provider.trackedEvent?.date1)
         assertEquals("98765", provider.trackedEvent?.contentId)
         assertEquals("TRL:1", provider.trackedEvent?.refId)
+    }
+
+    @Test
+    fun testMIDPackageConfirmationTracking() {
+        setupTuneProvider()
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        mockTripServiceRule.services!!.getTripDetails("mid_multiple_flights_trip_details", testObserver)
+        testObserver.awaitTerminalEvent()
+        val itinResponse = testObserver.values().first() as MIDItinDetailsResponse
+        val date1 = itinResponse.responseData.hotels.first().checkInDateTime
+        val date2 = itinResponse.responseData.hotels.first().checkOutDateTime
+
+        TuneUtils.trackMIDPackageConfirmation(itinResponse)
+        val event = provider.trackedEvent
+        val eventItem = provider.trackedEvent?.eventItems?.first()
+
+        assertEquals("package_confirmation", event?.eventName)
+        assertEquals("package_confirmation_item", eventItem?.itemname)
+        assertEquals(2, eventItem?.quantity)
+        assertEquals(240.3, eventItem?.revenue)
+        assertEquals(124.89, eventItem?.unitPrice)
+        assertEquals("New York", eventItem?.attribute1)
+        assertEquals("995", eventItem?.attribute2)
+        assertEquals(240.3, eventItem?.revenue)
+
+        assertEquals(240.3, event?.revenue)
+        assertEquals(2, event?.quantity)
+        assertEquals("USD", event?.currencyCode)
+        assertEquals(LocalDate(date1).toDate(), event?.date1)
+        assertEquals(LocalDate(date2).toDate(), event?.date2)
+        assertEquals("5358", event?.contentId)
+        assertEquals("7321688650313:1", event?.refId)
+        assertEquals(2, event?.quantity)
+        assertEquals("Pod 51", event?.contentType)
     }
 
     private fun setupTuneProvider(membershipTier: LoyaltyMembershipTier = LoyaltyMembershipTier.BASE, isLoggedIn: Boolean = false) {

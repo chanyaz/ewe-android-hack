@@ -51,6 +51,7 @@ class FlightItinDetailsResponse : AbstractItinDetailsResponse() {
                 lateinit var arrivalTime: Time
                 lateinit var arrivalLocation: Location
                 lateinit var departureLocation: Location
+                lateinit var flightNumber: String
 
                 class Location {
                     lateinit var airportCode: String

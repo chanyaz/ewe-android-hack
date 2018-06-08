@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelItinDetailsResponse;
+import com.expedia.bookings.data.MIDItinDetailsResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripDetails;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
@@ -572,6 +574,39 @@ public class TuneUtils {
 					.withEventItems(Collections.singletonList(eventItem))
 					.withDate1(checkInDate.toDate())
 					.withDate2(checkOutDate.toDate());
+
+			trackingProvider.trackEvent(event);
+		}
+	}
+
+	public static void trackMIDPackageConfirmation(MIDItinDetailsResponse itinResponse) {
+		if (trackingProvider != null) {
+			TuneEvent event = new TuneEvent("package_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("package_confirmation_item");
+			HotelItinDetailsResponse.Hotels hotel = itinResponse.responseData.getHotels().get(0);
+			LocalDate checkInDate = new LocalDate(hotel.checkInDateTime);
+			LocalDate checkOutDate = new LocalDate(hotel.checkOutDateTime);
+			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
+			double revenue = new Double(itinResponse.responseData.getTotalTripPrice().getTotal());
+			String flightNumber = itinResponse.getResponseData().getFlights().get(0).legs.get(0).segments.get(0).flightNumber;
+
+			eventItem.withQuantity(stayDuration)
+				.withAttribute1(hotel.hotelPropertyInfo.address.city)
+				.withAttribute2(flightNumber)
+				.withUnitPrice(hotel.getRooms().get(0).totalPriceDetails.getAveragePricePerDay())
+				.withRevenue(revenue);
+
+			withTuidAndMembership(event)
+				.withAttribute2(trackingProvider.isUserLoggedInValue())
+				.withRevenue(revenue)
+				.withCurrencyCode(itinResponse.responseData.getTotalTripPrice().getCurrency())
+				.withAdvertiserRefId(getAdvertiserRefId(itinResponse.responseData.getTripNumber().toString()))
+				.withQuantity(stayDuration)
+				.withContentType(hotel.hotelPropertyInfo.name)
+				.withContentId(hotel.getHotelId())
+				.withEventItems(Collections.singletonList(eventItem))
+				.withDate1(checkInDate.toDate())
+				.withDate2(checkOutDate.toDate());
 
 			trackingProvider.trackEvent(event);
 		}

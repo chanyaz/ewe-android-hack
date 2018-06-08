@@ -50,6 +50,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
+import com.expedia.bookings.utils.TuneUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
@@ -521,6 +522,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                     show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
                     pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
                     OmnitureTracking.trackMIDConfirmation(response, Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
+                    TuneUtils.trackMIDPackageConfirmation(response)
                 }
             }
 

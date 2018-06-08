@@ -23,6 +23,7 @@ class HotelItinDetailsResponse : AbstractItinDetailsResponse() {
 
         class TotalPriceDetails {
             lateinit var primaryCurrencyCode: String
+            var averagePricePerDay: Double? = null
         }
 
         class HotelPropertyInfo {
@@ -43,6 +44,7 @@ class HotelItinDetailsResponse : AbstractItinDetailsResponse() {
 
         class Rooms {
             lateinit var roomPreferences: RoomPreferences
+            lateinit var totalPriceDetails: TotalPriceDetails
 
             class RoomPreferences {
                 lateinit var primaryOccupant: PrimaryOccupant

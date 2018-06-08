@@ -27,6 +27,8 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
+import com.expedia.bookings.utils.TuneUtils
+import com.expedia.bookings.utils.TuneUtilsTests
 import com.expedia.vm.WebCheckoutViewViewModel
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
@@ -42,6 +44,7 @@ import org.robolectric.shadows.ShadowAlertDialog
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -154,6 +157,24 @@ class PackageConfirmationPresenterTest {
         assertEquals("Feb 22 at 23:15:00, 1 traveler", confirmationPresenter.outboundFlightCard.subTitle.text)
         assertEquals("Flight to (SFO) San Francisco", confirmationPresenter.inboundFlightCard.title.text)
         assertEquals("Feb 24 at 21:50:00, 1 traveler", confirmationPresenter.inboundFlightCard.subTitle.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTuneTrackedOnItinResponse() {
+        setupMIDWebCheckout()
+        val tune = TuneUtilsTests.TestTuneTrackingProviderImpl()
+        TuneUtils.init(tune)
+
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
+        packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("mid_multiple_flights_trip_details", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        testObserver.assertValueCount(1)
+        assertNotNull(tune.trackedEvent)
     }
 
     @Test
