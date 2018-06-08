@@ -20,7 +20,7 @@ Feature: Bundle Overview with packages details
       | Hotel Bar - Hotel text            | Select hotel in Las Vegas Strip |
       | Hotel Bar - Date                  | 5 - 10                          |
       | Hotel Bar - travelers             | 4 guests                        |
-      | Step 2 Text                       | Step 2: Select flights          |
+      | Step 2 Text                       | Step 2: Select outbound flight  |
       | Hotel Image                       | Hotel icon Drawable             |
       | Outbound Flight Bar - Flight Text | Flight to Las Vegas             |
       | Outbound Flight Bar - date        | 5                               |
@@ -74,7 +74,7 @@ Feature: Bundle Overview with packages details
       | Hotel Bar - Hotel text            | Select hotel in Las Vegas Strip |
       | Hotel Bar - Date                  | 5 - 10                          |
       | Hotel Bar - travelers             | 4 guests                        |
-      | Step 2 Text                       | Step 2: Select flights          |
+      | Step 2 Text                       | Step 2: Select outbound flight  |
       | Hotel Image                       | Hotel icon Drawable             |
       | Outbound Flight Bar - Flight Text | Flight to Las Vegas             |
       | Outbound Flight Bar - date        | 5                               |

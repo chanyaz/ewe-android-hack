@@ -91,8 +91,8 @@ Feature: Package End To End
       | destination         | DALY                           |
       | source_suggest      | SEA - Seattle  -  Tacoma Intl. |
       | destination_suggest | Daly City, CA                  |
-      | start_date          | 15                             |
-      | end_date            | 20                             |
+      | start_date          | 5                             |
+      | end_date            | 8                             |
       | adults              | 1                              |
       | child               | 1                              |
     And I wait for hotels results for packages to load

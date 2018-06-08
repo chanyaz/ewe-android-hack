@@ -71,7 +71,7 @@ Feature: Package Overview
       | sale_status         |                       |
     And I click on hotel widget details icon
     And validate outbound flight selection label
-      | info_text           | Step 2: Select flights|
+      | info_text           | Step 2: Select outbound flight |
     And validate package outbound flight icon is checked
     And verify package outbound flight widget view is displayed : false
     And I click on package flight details icon
@@ -250,7 +250,7 @@ Feature: Package Overview
       And I click on View your bundle
       And on POS Validate that Package Overview Screen is displayed
       And validate outbound flight selection label
-        | info_text           | Step 2: Select flights|
+        | info_text           | Step 2: Select outbound flight |
       And validate package outbound flight icon is checked
       And verify package outbound flight widget view is displayed : false
       And I click on package flight details icon
