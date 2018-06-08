@@ -2997,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">Search reviews</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">We couldn\'t find reviews that match your search criteria.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)

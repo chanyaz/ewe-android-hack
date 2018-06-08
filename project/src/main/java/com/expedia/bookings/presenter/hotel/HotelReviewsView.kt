@@ -72,6 +72,9 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
     private var searchView: SearchView? = null
     private val searchViewQueryListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextChange(newText: String?): Boolean {
+            if (newText.isNullOrEmpty()) {
+                searchResultsView.clearReviewsList()
+            }
             return true
         }
 

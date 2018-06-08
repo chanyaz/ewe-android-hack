@@ -3,11 +3,13 @@ package com.expedia.bookings.hotel.widget
 import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.SearchView
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.test.OmnitureMatchers
@@ -55,6 +57,13 @@ class HotelReviewsViewTest {
                 mockAnalyticsProvider)
         assertEquals((view.toolbar.background as ColorDrawable).color, ContextCompat.getColor(context, R.color.white))
         assertEquals(view.searchResultsView.visibility, View.VISIBLE)
+    }
+
+    @Test
+    fun testClearQuery() {
+        view.searchResultsView.reviewsEmptyContainer.setVisibility(true)
+        (view.toolbar.menu.getItem(0).actionView as SearchView).setQuery("", false)
+        assertEquals(view.searchResultsView.reviewsEmptyContainer.visibility, View.GONE)
     }
 
     @Test

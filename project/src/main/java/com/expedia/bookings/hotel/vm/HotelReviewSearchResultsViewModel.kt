@@ -17,6 +17,7 @@ class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable
     var reviewsServices: ReviewsServices by Delegates.notNull()
 
     val reviewsObservable = PublishSubject.create<List<HotelReviewsResponse.Review>>()
+    val noReviewsObservable = PublishSubject.create<Unit>()
 
     @VisibleForTesting
     var currentQuery: String? = null
@@ -28,11 +29,16 @@ class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable
     private val resultsObserver = object : Observer<HotelReviewsResponse> {
         override fun onError(e: Throwable) {
             trackSearchPerformed(true)
+            noReviewsObservable.onNext(Unit)
         }
 
         override fun onNext(response: HotelReviewsResponse) {
             reviewsObservable.onNext(response.reviewDetails.reviewCollection.review)
-            trackSearchPerformed(response.reviewDetails.reviewCollection.review.isEmpty())
+            val noReviews = response.reviewDetails.reviewCollection.review.isEmpty()
+            trackSearchPerformed(noReviews)
+            if (noReviews) {
+                noReviewsObservable.onNext(Unit)
+            }
         }
 
         override fun onSubscribe(d: Disposable) {

@@ -1,4 +1,33 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/hotel_reviews_search_empty_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/gray100"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/error_search" />
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="56dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="72dp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/user_review_search_no_results"
+            android:textColor="@color/error_widget_text"
+            android:textSize="13sp" />
+    </LinearLayout>
 
     <com.expedia.bookings.widget.HotelReviewsPageView
         android:id="@+id/hotel_reviews_search_results_list"

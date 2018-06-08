@@ -3,6 +3,7 @@ package com.expedia.bookings.hotel.widget
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
@@ -52,5 +53,16 @@ class HotelReviewSearchResultsViewTest {
         reviewServicesRule.server.takeRequest()
         view.reviewsPageView.recyclerAdapter.loadMoreObservable.onNext(Unit)
         assertTrue(reviewServicesRule.server.takeRequest().path.contains("start=25"))
+    }
+
+    @Test
+    fun testNoReviews() {
+        view.reviewsPageView.setVisibility(true)
+        view.viewModel.noReviewsObservable.onNext(Unit)
+        assertEquals(view.reviewsEmptyContainer.visibility, View.VISIBLE)
+        assertEquals(view.reviewsPageView.visibility, View.GONE)
+
+        view.onCollapse()
+        assertEquals(view.reviewsEmptyContainer.visibility, View.GONE)
     }
 }

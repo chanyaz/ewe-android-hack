@@ -77,7 +77,9 @@ class HotelReviewSearchResultsViewModelTest {
     }
 
     @Test
-    fun testSearchError() {
+    fun testSearchEmptyResults() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.noReviewsObservable.subscribe(testObserver)
         viewModel.doSearch("query_with_no_results", "123")
         OmnitureTestUtils.assertStateTracked("App.Hotels.Reviews.Search.Results",
                 Matchers.allOf(
@@ -86,6 +88,22 @@ class HotelReviewSearchResultsViewModelTest {
                         OmnitureMatchers.withEventsString("event332")
                 ),
                 mockAnalyticsProvider)
+        testObserver.assertValueCount(1)
+    }
+
+    @Test
+    fun testSearchError() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.noReviewsObservable.subscribe(testObserver)
+        viewModel.doSearch("query_with_error", "123")
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Reviews.Search.Results",
+                Matchers.allOf(
+                        OmnitureMatchers.withProps(mapOf(2 to "hotels", 48 to "query_with_error")),
+                        OmnitureMatchers.withEvars(mapOf(2 to "D=c2")),
+                        OmnitureMatchers.withEventsString("event332")
+                ),
+                mockAnalyticsProvider)
+        testObserver.assertValueCount(1)
     }
 
     @Test

@@ -19,6 +19,9 @@ class HotelReviewsApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatc
             }
 
             HotelReviewsApiRequestMatcher.isHotelReviewsSearchRequest(urlPath) -> {
+                if (urlPath.contains("error")) {
+                    return make404()
+                }
                 val fileName = if (urlPath.contains("PrivateBank")) "happy-search" else "unhappy-search"
                 return getMockResponse("api/hotelreviews/hotel/$fileName.json")
             }

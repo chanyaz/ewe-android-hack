@@ -21,6 +21,8 @@ class HotelReviewSearchResultsView(context: Context, attrs: AttributeSet) : Line
     val viewModel = HotelReviewSearchResultsViewModel(compositeDisposable)
     @VisibleForTesting
     val reviewsPageView: HotelReviewsPageView by bindView(R.id.hotel_reviews_search_results_list)
+    @VisibleForTesting
+    val reviewsEmptyContainer: LinearLayout by bindView(R.id.hotel_reviews_search_empty_container)
 
     init {
         View.inflate(context, R.layout.hotel_review_search_results_layout, this)
@@ -34,6 +36,11 @@ class HotelReviewSearchResultsView(context: Context, attrs: AttributeSet) : Line
 
         reviewsPageView.recyclerAdapter.loadMoreObservable.subscribe {
             viewModel.getNextPage()
+        }
+
+        viewModel.noReviewsObservable.subscribe {
+            reviewsEmptyContainer.setVisibility(true)
+            reviewsPageView.setVisibility(false)
         }
     }
 
@@ -49,9 +56,11 @@ class HotelReviewSearchResultsView(context: Context, attrs: AttributeSet) : Line
         clearReviewsList()
     }
 
-    private fun clearReviewsList() {
+    fun clearReviewsList() {
         compositeDisposable.clear()
         reviewsPageView.recyclerAdapter.clearReviews()
+        reviewsEmptyContainer.setVisibility(false)
+        reviewsPageView.setVisibility(false)
         reviewsPageView.viewModel.hasReviews = false
     }
 }
