@@ -272,6 +272,9 @@ public class LXDetailsPresenter extends Presenter {
 			toolbarBackground.setAlpha(ratio);
 			toolbarDropshadow.setAlpha(ratio);
 			lxDetailsGradientTop.setAlpha(1.0f - ratio);
+			if (arrowRatio > 1) {
+				arrowRatio = 1.0f;
+			}
 			if (arrowRatio >= 0 && arrowRatio <= 1) {
 				navIcon.setParameter(1 - arrowRatio);
 			}
