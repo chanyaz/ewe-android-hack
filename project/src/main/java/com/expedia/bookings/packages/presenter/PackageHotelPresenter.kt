@@ -548,6 +548,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val defaultTransitionObserver: Observer<PackageHotelActivity.Screen> = endlessObserver {
         when (it) {
             PackageHotelActivity.Screen.DETAILS -> {
+                if (isPackagesHSRPriceDisplayEnabled(context)) {
+                    hideBundlePriceOverviewObserver.onNext(true)
+                }
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
