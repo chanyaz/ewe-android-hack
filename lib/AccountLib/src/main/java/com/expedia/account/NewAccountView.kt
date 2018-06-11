@@ -11,15 +11,19 @@ import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import com.expedia.account.handler.NewCreateAccountHandler
 import com.expedia.account.handler.NewSignInHandler
-import com.expedia.account.newsignin.NewSignInLayout
 import com.expedia.account.newsignin.NewCreateAccountLayout
+import com.expedia.account.newsignin.NewSignInLayout
 import com.expedia.account.recaptcha.Recaptcha
+import com.expedia.account.util.AndroidNetworkConnectivity
+import com.expedia.account.util.AndroidSimpleDialogBuilder
+import com.expedia.account.util.AndroidStringSource
 import com.expedia.account.util.Events
 import com.expedia.account.util.NewFacebookHelper
 import com.expedia.account.util.Utils
@@ -27,7 +31,8 @@ import com.expedia.account.view.FacebookLinkAccountsLayout
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 
-open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+open class NewAccountView(context: Context, attrs: AttributeSet) :
+        FrameLayout(context, attrs), ViewWithLoadingIndicator, CreateAccountErrorRecoveryActions {
 
     enum class AccountTab {
         SIGN_IN,
@@ -196,7 +201,8 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
     @Subscribe
     open fun otto(e: Events.NewAccountSignInButtonClicked) {
         showLoading()
-        val handler = NewSignInHandler(context, config, e.email, e.password, this@NewAccountView)
+        val handler = NewSignInHandler(AndroidSimpleDialogBuilder(context), AndroidNetworkConnectivity(context),
+                config, e.email, e.password, this)
         if (config.enableRecaptcha) {
             Recaptcha.recaptchaCheck(context as Activity, config.recaptchaAPIKey, handler)
         } else {
@@ -208,7 +214,8 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
     @Subscribe
     open fun otto(e: Events.NewCreateAccountButtonClicked) {
         showLoading()
-        val handler = NewCreateAccountHandler(context, config, brand, createAccountLayout, viewPager, this@NewAccountView)
+        val handler = NewCreateAccountHandler(AndroidSimpleDialogBuilder(context), AndroidStringSource(context),
+                config, brand, this, this)
         if (config.enableRecaptcha) {
             Recaptcha.recaptchaCheck(context as Activity, config.recaptchaAPIKey, handler)
         } else {
@@ -263,7 +270,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         facebookHelper.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun showLoading() {
+    override fun showLoading() {
         setTabsEnable(false)
         loadingView.visibility = View.VISIBLE
         signInLayout.setEnable(false)
@@ -272,13 +279,33 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         toolBar.setNavigationOnClickListener(null)
     }
 
-    fun cancelLoading() {
+    override fun cancelLoading() {
         setTabsEnable(true)
         loadingView.visibility = View.GONE
         signInLayout.setEnable(true)
         createAccountLayout.setEnable(true)
         facebookLinkAccountsLayout.setEnable(true)
         toolBar.setNavigationOnClickListener(toolbarNavigationListener)
+    }
+
+    override fun showSignInPage() {
+        viewPager.currentItem = AccountTab.SIGN_IN.ordinal
+    }
+
+    override fun focusEmailAddressField() {
+        createAccountLayout.focusEmailAddress()
+    }
+
+    override fun focusPasswordField() {
+        createAccountLayout.focusPassword()
+    }
+
+    override fun focusFirstNameField() {
+        createAccountLayout.focusFirstName()
+    }
+
+    override fun focusLastNameField() {
+        createAccountLayout.focusLastName()
     }
 
     private fun setTabsEnable(enable: Boolean) {

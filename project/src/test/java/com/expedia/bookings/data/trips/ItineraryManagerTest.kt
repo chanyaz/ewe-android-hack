@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.trips
 
+import com.expedia.account.AccountService
+import com.expedia.account.data.FacebookLinkResponse
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -15,6 +17,7 @@ import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.getJsonStringFromMock
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import okio.Okio
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
@@ -141,7 +144,7 @@ class ItineraryManagerTest {
     @Test
     fun testRefreshAllTripsShared() {
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         val trip = Trip("", "12345")
         trip.setIsShared(true)
@@ -154,7 +157,7 @@ class ItineraryManagerTest {
     @Test
     fun testRefreshAllTripsGuest() {
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         val trip = Trip("asd@123.com", "12345")
         trip.setIsShared(false)
@@ -167,7 +170,7 @@ class ItineraryManagerTest {
     @Test
     fun testRefreshAllTripsUserBooked() {
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         val trip = Trip("", "12345")
         trip.tripId = "12345"
@@ -181,7 +184,7 @@ class ItineraryManagerTest {
     @Test
     fun testRefreshAllTripsMultipleTrips() {
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         val tripGuest = Trip("asd@123.com", "12345")
         tripGuest.setIsShared(false)
@@ -199,7 +202,7 @@ class ItineraryManagerTest {
     @Test
     fun testRefreshAllTripsNoTrips() {
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         val tripGuest = Trip("asd@123.com", "12345")
         tripGuest.setIsShared(false)
@@ -221,26 +224,26 @@ class ItineraryManagerTest {
         //normal
         var trip = Trip()
         trip.tripId = "53a6459c-822c-4425-9e14-3eea43f38a97"
-        var response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
+        var response = itinManager.SyncTask(mockTripServices, null, null).getTripDetailsResponse(trip, false)
         assertTrue(response.isSuccess)
         assertEquals("7238007847306", response.trip.tripNumber)
         assertEquals("53a6459c-822c-4425-9e14-3eea43f38a97", response.trip.tripId)
         //shared
         trip.shareInfo.sharableDetailsUrl = "https://www.expedia.com/m/trips/shared/3onkuf_eBckddgmkNz3BNcCAqKW-p7rd4kTA4H5YkcUoaVhITa7YLZksqAi7kIDkO9f2Of33KaNUvN-pzL704LOL"
         trip.setIsShared(true)
-        response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
+        response = itinManager.SyncTask(mockTripServices, null, null).getTripDetailsResponse(trip, false)
         assertTrue(response.isSuccess)
         assertEquals("1103274148635", response.trip.tripNumber)
         assertEquals("https://www.expedia.com/m/trips/shared/pIKlUOQoG9oOTMrSCQKbBQOvgzOArmMlOrDMFACXvO_6jYldmVbMU54aZwdZbn7e", response.trip.shareInfo.sharableDetailsUrl)
         //guest
         trip = Trip("test123@123.com", "7313989476663")
-        response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
+        response = itinManager.SyncTask(mockTripServices, null, null).getTripDetailsResponse(trip, false)
         assertTrue(response.isSuccess)
         assertEquals("7313989476663", response.trip.tripNumber)
         assertEquals("4d0385c3-9d0e-42ca-b7de-103d423f583c", response.trip.tripId)
 
         //ERROR RESPONSE
-        response = itinManager.SyncTask(MockTripServices(true), null).getTripDetailsResponse(trip, false)
+        response = itinManager.SyncTask(MockTripServices(true), null, null).getTripDetailsResponse(trip, false)
         assertFalse(response.isSuccess)
         assertTrue(response.hasErrors())
     }
@@ -249,7 +252,7 @@ class ItineraryManagerTest {
     fun testExceptionTripDetailsSynchronous() {
         val trip = Trip()
         trip.tripId = "ItineraryManagerTest_TestExceptionTripDetails"
-        val response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
+        val response = itinManager.SyncTask(mockTripServices, null, null).getTripDetailsResponse(trip, false)
         assertNull(response)
     }
 
@@ -261,7 +264,7 @@ class ItineraryManagerTest {
         trip.shareInfo.sharableDetailsUrl = shareUrl
         trip.setIsShared(true)
         if (ProductFlavorFeatureConfiguration.getInstance().shouldDisplayItinTrackAppLink()) {
-            val response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
+            val response = itinManager.SyncTask(mockTripServices, null, null).getTripDetailsResponse(trip, false)
             assertNull(response)
         }
     }
@@ -269,13 +272,13 @@ class ItineraryManagerTest {
     @Test
     fun testExceptionGuestTripSynchronous() {
         val trip = Trip("test123@123.com", "ItineraryManagerTest_TestExceptionGuestTrip")
-        val response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
+        val response = itinManager.SyncTask(mockTripServices, null, null).getTripDetailsResponse(trip, false)
         assertNull(response)
     }
 
     @Test
     fun testTripDetailsObservableErrorResponse() {
-        val syncTask = itinManager.SyncTask(null, null)
+        val syncTask = itinManager.SyncTask(null, null, null)
         val errorData = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/error_trip_response.json"))).readUtf8()
         val errorJsonObject = JSONObject(errorData)
         val testHandleTripResponse = TestHandleTripResponse()
@@ -286,7 +289,7 @@ class ItineraryManagerTest {
 
     @Test
     fun testTripDetailsObservableSuccessInvalidKey() {
-        val syncTask = itinManager.SyncTask(null, null)
+        val syncTask = itinManager.SyncTask(null, null, null)
         val testHandleTripResponse = TestHandleTripResponse()
 
         syncTask.waitAndParseDetailResponses(listOf(Observable.just(hotelJsonObject)), HashMap<String, Trip>(), testHandleTripResponse)
@@ -297,7 +300,7 @@ class ItineraryManagerTest {
 
     @Test
     fun testTripDetailsObservableSuccessHappyPath() {
-        val syncTask = itinManager.SyncTask(null, null)
+        val syncTask = itinManager.SyncTask(null, null, null)
         val testHandleTripResponse = TestHandleTripResponse()
 
         val trips = HashMap<String, Trip>()
@@ -312,7 +315,7 @@ class ItineraryManagerTest {
     fun testTripsCallMadeFeatureOn() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         FeatureTestUtils.enableFeature(context, Features.all.tripsApiCallMade)
         syncTask.trackTripRefreshCallMade()
@@ -323,7 +326,7 @@ class ItineraryManagerTest {
     fun testTripsCallMadeFeatureOff() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         FeatureTestUtils.disableFeature(context, Features.all.tripsApiCallMade)
         syncTask.trackTripRefreshCallMade()
@@ -334,7 +337,7 @@ class ItineraryManagerTest {
     fun testTripsCallSuccessFeatureOn() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         FeatureTestUtils.enableFeature(context, Features.all.tripsApiCallSuccess)
         syncTask.trackTripRefreshCallSuccess()
@@ -345,11 +348,28 @@ class ItineraryManagerTest {
     fun testTripsCallSuccessFeatureOff() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = itinManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null, null)
 
         FeatureTestUtils.disableFeature(context, Features.all.tripsApiCallSuccess)
         syncTask.trackTripRefreshCallSuccess()
         OmnitureTestUtils.assertLinkNotTracked("Trips Call", "App.Itinerary.Call.Success", OmnitureMatchers.withEventsString("event287"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun facebookReauth_mustBeSynchronous() {
+        var observeTime = Long.MAX_VALUE
+        val mockAccountService = Mockito.mock(AccountService::class.java)
+        Mockito.`when`(mockAccountService.facebookReauth(Mockito.any()))
+                .thenReturn(Observable.just(FacebookLinkResponse())
+                        .observeOn(Schedulers.io())
+                        .subscribeOn(Schedulers.io())
+                        .doOnNext({ observeTime = System.nanoTime() }))
+
+        val syncTask = itinManager.SyncTask(null, null, mockAccountService)
+        syncTask.reAuthenticateFacebookUser()
+        val completeTime = System.nanoTime()
+
+        assertTrue(observeTime < completeTime, "facebook reauth is asynchronous, but must be synchronous in this context")
     }
 
     private class TimeSourceOne : TimeSource {

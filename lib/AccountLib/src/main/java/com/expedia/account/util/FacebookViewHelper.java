@@ -202,8 +202,6 @@ public class FacebookViewHelper {
 
 		vFacebookAPIHostLayout.setMessage(R.string.acct__fb_linking_your_accounts);
 		mAccountView.getService().facebookAutoLogin(user.facebookUserId, user.facebookToken)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Observer<FacebookLinkResponse>() {
 				@Override
 				public void onComplete() {
@@ -319,8 +317,6 @@ public class FacebookViewHelper {
 			R.string.acct__fb_creating_a_new_brand_account, mAccountView.getBrand()).format());
 
 		mAccountView.getService().facebookLinkNewAccount(user.facebookUserId, user.facebookToken, user.email)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Observer<FacebookLinkResponse>() {
 				@Override
 				public void onComplete() {
@@ -365,8 +361,6 @@ public class FacebookViewHelper {
 
 		mAccountView.getService().facebookLinkExistingAccount(user.facebookUserId,
 			user.facebookToken, user.email, user.password)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Observer<FacebookLinkResponse>() {
 				@Override
 				public void onComplete() {
@@ -400,8 +394,6 @@ public class FacebookViewHelper {
 	private void fbSignInRefreshProfile() {
 		mAccountView.show(AccountView.STATE_LOADING_FACEBOOK);
 		mAccountView.getService().signInProfileOnly()
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Observer<AccountResponse>() {
 				@Override
 				public void onComplete() {

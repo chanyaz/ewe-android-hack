@@ -1,26 +1,26 @@
 package com.expedia.account.handler
 
-import android.content.Context
 import android.content.DialogInterface
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
-import android.text.TextUtils
 import com.expedia.account.Config
+import com.expedia.account.CreateAccountErrorRecoveryActions
 import com.expedia.account.NewAccountView
 import com.expedia.account.R
+import com.expedia.account.ViewWithLoadingIndicator
 import com.expedia.account.data.AccountResponse
 import com.expedia.account.data.Db
-import com.expedia.account.newsignin.NewCreateAccountLayout
 import com.expedia.account.recaptcha.RecaptchaHandler
 import com.expedia.account.util.Events
-import com.expedia.account.util.Utils
+import com.expedia.account.util.SimpleDialogBuilder
+import com.expedia.account.util.StringSource
 import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
-class NewCreateAccountHandler(private val context: Context, private val config: Config, val brand: String?, private val createAccountLayout: NewCreateAccountLayout,
-                              private val viewPager: ViewPager, private val newAccountView: NewAccountView) : RecaptchaHandler {
+class NewCreateAccountHandler(private val dialogBuilder: SimpleDialogBuilder,
+                              private val stringSource: StringSource,
+                              private val config: Config,
+                              private val brand: String,
+                              private val createAccountActions: CreateAccountErrorRecoveryActions,
+                              private val loadingView: ViewWithLoadingIndicator) : RecaptchaHandler {
 
     private var accountLoadingDisposable: Disposable? = null
 
@@ -29,21 +29,19 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
     }
 
     override fun onRecaptchaFailure() {
-        doCreateAccount(null)
+        showRecaptchaError()
     }
 
     fun doCreateAccount(recaptchaResponseToken: String?) {
         val user = Db.getNewUser()
         user.recaptchaResponseToken = recaptchaResponseToken
         config.service.createUser(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map({ accountResponse ->
-                    if (!TextUtils.isEmpty(accountResponse.tuid)) {
+                .map { accountResponse ->
+                    if (!accountResponse.tuid.isNullOrEmpty()) {
                         accountResponse.success = true
                     }
                     accountResponse
-                })
+                }
                 .subscribe(object : Observer<AccountResponse> {
                     override fun onComplete() {
                         accountLoadingDisposable?.dispose()
@@ -53,7 +51,7 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
                     override fun onError(e: Throwable) {
                         accountLoadingDisposable?.dispose()
                         accountLoadingDisposable = null
-                        newAccountView.cancelLoading()
+                        loadingView.cancelLoading()
                         showNetworkCreateAccountError()
                     }
 
@@ -63,7 +61,7 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
 
                     override fun onNext(response: AccountResponse) {
                         if (!response.success) {
-                            newAccountView.cancelLoading()
+                            loadingView.cancelLoading()
                             showResponseCreateAccountError(response)
                         } else {
                             doCreateAccountSuccessful()
@@ -77,13 +75,18 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
         config.accountSignInListener?.onSignInSuccessful()
     }
 
+    private fun showRecaptchaError() {
+        config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account:recaptcha failure")
+        showErrorGeneralDialog()
+    }
+
     private fun showNetworkCreateAccountError() {
         config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account:local")
         showErrorNoNetworkDialog()
     }
 
     private fun showResponseCreateAccountError(response: AccountResponse) {
-        config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account" + (response.errors[0].errorInfo?.cause ?: "server"))
+        config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account:" + (response.errors?.get(0)?.errorInfo?.cause ?: "server"))
 
         if (response.hasError(AccountResponse.ErrorCode.EMAIL_PASSWORD_IDENTICAL_ERROR)) {
             showErrorPasswordDialog(AccountResponse.ErrorCode.EMAIL_PASSWORD_IDENTICAL_ERROR)
@@ -136,14 +139,13 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
     }
 
     private fun showErrorAccountExistsDialog () {
-        val res = context.resources
         val signIn = NewAccountView.AccountTab.SIGN_IN.ordinal
         val createAccount = NewAccountView.AccountTab.CREATE_ACCOUNT.ordinal
         // Define the array here, instead of in arrays.xml, so that we
         // can be sure of the index, returned in the listener
         val items = arrayOfNulls<CharSequence>(NewAccountView.AccountTab.values().size)
-        items[signIn] = res.getString(R.string.acct__Sign_in_to_my_existing_account)
-        items[createAccount] = res.getString(R.string.acct__Create_a_new_account_with_different_email)
+        items[signIn] = stringSource.getString(R.string.acct__Sign_in_to_my_existing_account)
+        items[createAccount] = stringSource.getString(R.string.acct__Create_a_new_account_with_different_email)
 
         val listener = DialogInterface.OnClickListener { _, which ->
             val user = Db.getNewUser()
@@ -155,32 +157,26 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
                     user.password = null
                     user.lastName = null
                     user.firstName = null
-                    viewPager.currentItem = signIn
+                    createAccountActions.showSignInPage()
                 }
                 createAccount -> {
                     createNew = true
                     user.email = null
-                    createAccountLayout.focusEmailAddress()
+                    createAccountActions.focusEmailAddressField()
                 }
             }
             config.analyticsListener?.accountCreationAttemptWithPreexistingEmail(usedExisting, createNew)
             Events.post(Events.PartialUserDataChanged())
         }
 
-        val title = Utils.obtainBrandedPhrase(
-                context, R.string.acct__Brand_account_already_exists_TITLE, brand)
-                .format()
+        val title = stringSource.getBrandedString(R.string.acct__Brand_account_already_exists_TITLE, brand)
 
-        AlertDialog.Builder(context)
-                .setTitle(title)
-                .setItems(items, listener)
-                .create()
-                .show()
+        dialogBuilder.showDialogWithItemList(title, items, listener)
     }
 
     private fun showErrorEmailDialog () {
         val okButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-            createAccountLayout.focusEmailAddress()
+            createAccountActions.focusEmailAddressField()
         }
         showErrorMessageDialog(R.string.acct__invalid_email_address, okButtonClickListener)
     }
@@ -188,7 +184,7 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
     private fun showErrorPasswordDialog (errorCode: AccountResponse.ErrorCode) {
 
         val okButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-            createAccountLayout.focusPassword()
+            createAccountActions.focusPasswordField()
         }
 
         val errorMessageId = when (errorCode) {
@@ -201,24 +197,23 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
 
     private fun showErrorFirstNameDialog () {
         val okButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-            createAccountLayout.focusFirstName()
+            createAccountActions.focusFirstNameField()
         }
         showErrorMessageDialog(R.string.acct__invalid_first_name, okButtonClickListener)
     }
 
     private fun showErrorLastNameDialog () {
         val okButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-            createAccountLayout.focusLastName()
+            createAccountActions.focusLastNameField()
         }
         showErrorMessageDialog(R.string.acct__invalid_last_name, okButtonClickListener)
     }
 
     private fun showErrorMessageDialog(messageId: Int, listener: DialogInterface.OnClickListener?) {
-        AlertDialog.Builder(context)
-                .setTitle(R.string.acct__Create_account_failed_TITLE)
-                .setMessage(messageId)
-                .setPositiveButton(android.R.string.ok, listener)
-                .create()
-                .show()
+        dialogBuilder.showSimpleDialog(
+                titleResId = R.string.acct__Create_account_failed_TITLE,
+                messageResId = messageId,
+                buttonLabelResId = android.R.string.ok,
+                buttonClickListener = listener)
     }
 }

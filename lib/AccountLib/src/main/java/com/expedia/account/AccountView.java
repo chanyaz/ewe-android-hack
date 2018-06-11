@@ -998,11 +998,11 @@ public class AccountView extends BufferedPresenter {
 	///////////////////////////////////////////////////////////////////////////
 
 	// Networking error
-	private void showSignInError(Throwable throwable) {
+	private void showSignInError(String failureReason) {
 		if (mConfig != null) {
 			AnalyticsListener analyticsListener = mConfig.getAnalyticsListener();
 			if (analyticsListener != null) {
-				analyticsListener.userReceivedErrorOnSignInAttempt("Account:local");
+				analyticsListener.userReceivedErrorOnSignInAttempt("Account:" + failureReason);
 			}
 		}
 		show(STATE_SIGN_IN, FLAG_CLEAR_TOP);
@@ -1103,12 +1103,11 @@ public class AccountView extends BufferedPresenter {
 	///////////////////////////////////////////////////////////////////////////
 
 	// Networking error
-	private void showCreateAccountError(Throwable throwable) {
-		Log.e("ohno " + throwable);
+	private void showCreateAccountError(String failureReason) {
 		if (mConfig != null) {
 			AnalyticsListener analyticsListener = mConfig.getAnalyticsListener();
 			if (analyticsListener != null) {
-				analyticsListener.userReceivedErrorOnAccountCreationAttempt("Account:local");
+				analyticsListener.userReceivedErrorOnAccountCreationAttempt("Account:" + failureReason);
 			}
 			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
 		}
@@ -1328,8 +1327,6 @@ public class AccountView extends BufferedPresenter {
 	private void doSignIn(final String email, final String password, final String recaptchaResponseToken) {
 		show(STATE_LOADING_SIGN_IN);
 		getService().signIn(email, password, recaptchaResponseToken)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Observer<AccountResponse>() {
 				@Override
 				public void onComplete() {
@@ -1340,7 +1337,7 @@ public class AccountView extends BufferedPresenter {
 				public void onError(Throwable e) {
 					mCurrentDownload = null;
 					show(STATE_SIGN_IN, FLAG_CLEAR_BACKSTACK);
-					showSignInError(e);
+					showSignInError("local");
 				}
 
 				@Override
@@ -1391,8 +1388,6 @@ public class AccountView extends BufferedPresenter {
 		final PartialUser user = Db.getNewUser();
 		user.recaptchaResponseToken = recaptchaResponseToken;
 		getService().createUser(user)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.map(new Function<AccountResponse, AccountResponse>() {
 				@Override
 				public AccountResponse apply(AccountResponse accountResponse) throws Exception {
@@ -1411,7 +1406,7 @@ public class AccountView extends BufferedPresenter {
 				@Override
 				public void onError(Throwable e) {
 					mCurrentDownload = null;
-					showCreateAccountError(e);
+					showCreateAccountError("local");
 				}
 
 				@Override
@@ -1458,7 +1453,7 @@ public class AccountView extends BufferedPresenter {
 
 		@Override
 		public void onRecaptchaFailure() {
-			doSignIn(email, password, null);
+			showSignInError("recaptcha failure");
 		}
 	}
 
@@ -1470,7 +1465,7 @@ public class AccountView extends BufferedPresenter {
 
 		@Override
 		public void onRecaptchaFailure() {
-			doCreateAccount(null);
+			showCreateAccountError("recaptcha failure");
 		}
 	}
 

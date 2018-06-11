@@ -18,9 +18,7 @@ import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 public class UserAccountRefresher {
 	public interface IUserAccountRefreshListener {
@@ -192,8 +190,6 @@ public class UserAccountRefresher {
 		Log.d("FB: fetchFacebookUserInfo");
 
 		ServicesUtil.generateAccountService(context).facebookReauth(context)
-			.subscribeOn(Schedulers.io())
-			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new DisposableObserver<FacebookLinkResponse>() {
 				@Override
 				public void onComplete() {
