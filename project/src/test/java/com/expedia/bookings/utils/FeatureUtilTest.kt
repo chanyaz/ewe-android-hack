@@ -76,6 +76,18 @@ class FeatureUtilTest {
     }
 
     @Test
+    fun testPackagesHighlightSortFilterDisabled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+        assertFalse(isHighlightSortFilterOnPackagesEnabled(context))
+    }
+
+    @Test
+    fun testPackagesHighlightSortFilterEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+        assertTrue(isHighlightSortFilterOnPackagesEnabled(context))
+    }
+
+    @Test
     fun testPackagesBetterSavingsOnRDScreenDisabled() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
         assertFalse(isBetterSavingsOnRDScreenEnabledForPackages(context))

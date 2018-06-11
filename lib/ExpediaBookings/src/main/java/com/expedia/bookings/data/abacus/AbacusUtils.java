@@ -114,6 +114,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesBetterSavingsOnRateDetails = new ABTest(26122, true);
 	public static final ABTest EBAndroidAppPackagesHSRPriceDisplay = new ABTest(25885, true);
 	public static final ABTest EBAndroidAppPackagesSearchFormRenameToFrom = new ABTest(26397, true);
+	public static final ABTest EBAndroidAppPackagesHighlightSortFilter = new ABTest(26393, true);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
@@ -246,6 +247,7 @@ public class AbacusUtils {
 		testIDs.add(HotelUGCSearch.getKey());
 		testIDs.add(EBAndroidAppPackagesHSRPriceDisplay.getKey());
 		testIDs.add(EBAndroidAppPackagesSearchFormRenameToFrom.getKey());
+		testIDs.add(EBAndroidAppPackagesHighlightSortFilter.getKey());
 		return testIDs;
 	}
 

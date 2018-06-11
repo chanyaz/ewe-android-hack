@@ -192,3 +192,7 @@ fun isActivityCountHeaderViewEnabled(): Boolean {
 fun isPackagesSearchFormRenameToFromEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
 }
+
+fun isHighlightSortFilterOnPackagesEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
+}

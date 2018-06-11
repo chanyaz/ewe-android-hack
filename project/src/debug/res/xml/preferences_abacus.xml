@@ -788,6 +788,14 @@
             android:key="26397"
             android:summary="%s"
             android:title="Packages Search Form Rename To From - 26397" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="26393"
+            android:summary="%s"
+            android:title="Packages Highlight Sort n Filter - 26393" />
     </PreferenceCategory>
 
     <PreferenceCategory

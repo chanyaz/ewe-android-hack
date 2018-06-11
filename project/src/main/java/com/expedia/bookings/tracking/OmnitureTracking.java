@@ -4781,6 +4781,7 @@ public class OmnitureTracking {
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesServerSideFiltering);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter);
 		s.track();
 	}
 
