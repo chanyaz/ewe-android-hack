@@ -21,7 +21,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.lx.presenter.LXPresenter;
 import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.ApiDateUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.AbstractAppCompatActivity;
 import com.google.android.gms.maps.MapView;
@@ -68,8 +67,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
 			// If no permission on LX, we should go to the search screen instead of results
-			Events.post(new Events.LXNewSearch(null, LocalDate.now(),
-				LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range))));
+			lxPresenter.showSearchWidget();
 			return;
 		}
 
@@ -116,9 +114,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 					return true;
 				}
 				if (navigateToSearch) {
-					Events.LXNewSearch event = new Events.LXNewSearch(location, startDate, endDate);
-					updateSearchViewModel(event);
-					Events.post(event);
+					LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location(location).startDate(startDate).endDate(endDate).build();
+					lxPresenter.searchParamsWidget.getSearchParamsToFillFormObserver().onNext(searchParams);
+					lxPresenter.showSearchWidget();
 					return true;
 				}
 				else if (navigateToResults) {
@@ -137,26 +135,6 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 				return true;
 			}
 		});
-	}
-
-	public void updateSearchViewModel(Events.LXNewSearch event) {
-		if (Strings.isNotEmpty(event.locationName)) {
-			lxPresenter.searchParamsWidget.getSearchViewModel().getDestinationLocationObserver()
-				.onNext(getSuggestionFromLocation(event.locationName));
-		}
-		lxPresenter.searchParamsWidget.getSearchViewModel().datesUpdated(event.startDate, event.endDate);
-		lxPresenter.searchParamsWidget.selectDates(event.startDate, event.endDate);
-		lxPresenter.searchParamsWidget.getSearchViewModel().getSearchButtonObservable().onNext(true);
-	}
-
-	public SuggestionV4 getSuggestionFromLocation(String locationName) {
-		SuggestionV4 suggestionV4 = new SuggestionV4();
-		SuggestionV4.RegionNames regionNames = new SuggestionV4.RegionNames();
-		regionNames.fullName = locationName;
-		regionNames.displayName = locationName;
-		regionNames.shortName = locationName;
-		suggestionV4.regionNames = regionNames;
-		return suggestionV4;
 	}
 
 	@Override

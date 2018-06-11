@@ -12,7 +12,7 @@ open class LxSearchParams(val location: String, val activityStartDate: LocalDate
         val lxMaxRange: Int = 314
     }
 
-    class Builder() : BaseSearchParams.Builder(LxSearchParams.lxMaxStay, LxSearchParams.lxMaxRange) {
+    class Builder : BaseSearchParams.Builder(LxSearchParams.lxMaxStay, LxSearchParams.lxMaxRange) {
         var location = ""
         var searchType = SearchType.EXPLICIT_SEARCH
         var filters = ""

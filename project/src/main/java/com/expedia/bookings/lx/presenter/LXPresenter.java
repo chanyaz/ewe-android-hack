@@ -478,8 +478,7 @@ public class LXPresenter extends Presenter {
 		show(resultsPresenter, FLAG_CLEAR_TOP);
 	}
 
-	@Subscribe
-	public void onNewSearch(Events.LXNewSearch event) {
+	public void showSearchWidget() {
 		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK);
 	}
 

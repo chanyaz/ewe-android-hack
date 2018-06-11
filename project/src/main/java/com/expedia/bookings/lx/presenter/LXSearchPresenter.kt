@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
@@ -22,10 +24,19 @@ import com.expedia.bookings.widget.LXSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.bookings.lx.vm.LXSuggestionAdapterViewModel
+import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.Observer
 
 class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
+
+    val searchParamsToFillFormObserver: Observer<LxSearchParams> = endlessObserver { searchParams ->
+        searchViewModel.destinationLocationObserver.onNext(getSuggestionFromLocation(searchParams.location))
+        searchViewModel.datesUpdated(searchParams.startDate, searchParams.endDate)
+        selectDates(searchParams.startDate, searchParams.endDate)
+        searchViewModel.searchButtonObservable.onNext(true)
+    }
 
     var searchViewModel: LXSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -126,5 +137,15 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.LX
+    }
+
+    fun getSuggestionFromLocation(locationName: String): SuggestionV4 {
+        val suggestionV4 = SuggestionV4()
+        val regionNames = SuggestionV4.RegionNames()
+        regionNames.fullName = locationName
+        regionNames.displayName = locationName
+        regionNames.shortName = locationName
+        suggestionV4.regionNames = regionNames
+        return suggestionV4
     }
 }
