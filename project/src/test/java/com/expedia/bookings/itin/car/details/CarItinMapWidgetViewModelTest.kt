@@ -34,12 +34,14 @@ import com.expedia.bookings.tracking.ITripsTracking
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.observers.TestObserver
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class CarItinMapWidgetViewModelTest {
     private lateinit var sut: CarItinMapWidgetViewModel<*>
     private var car: ItinCar? = null
+    val locationTypeHeaderTestObserver = TestObserver<String>()
     val addressLineFirstTestObserver = TestObserver<String>()
     val addressLineSecondTestObserver = TestObserver<String>()
     val latLongTestObserver = TestObserver<LatLng>()
@@ -131,11 +133,16 @@ class CarItinMapWidgetViewModelTest {
         val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinPickupMapWidgetViewModel(scope)
         val car = ItinMocker.carDetailsHappy.firstCar()
+        val pickUpHeading = (R.string.itin_car_location_type_heading_pick_up).toString()
         setupObservers()
 
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
+
         sut.itinLOBObserver.onChanged(car)
+
+        locationTypeHeaderTestObserver.assertValueCount(1)
+        assertEquals(pickUpHeading, locationTypeHeaderTestObserver.values()[0].toString())
         addressLineFirstTestObserver.assertValue("Sir John Young Crescent Domain Car Park")
         addressLineSecondTestObserver.assertValue("Sydney, Victoria, AUS, 98188")
     }
@@ -145,12 +152,17 @@ class CarItinMapWidgetViewModelTest {
         val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinDropOffMapWidgetViewModel(scope)
         val car = ItinMocker.carDetailsHappy.firstCar()
-
+        val dropOffHeading = (R.string.itin_car_location_type_heading_drop_off).toString()
         setupObservers()
 
+        locationTypeHeaderTestObserver.assertNoValues()
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
+
         sut.itinLOBObserver.onChanged(car)
+
+        locationTypeHeaderTestObserver.assertValueCount(1)
+        assertEquals(dropOffHeading, locationTypeHeaderTestObserver.values()[0].toString())
         addressLineFirstTestObserver.assertValue("99 Spencer Street")
         addressLineSecondTestObserver.assertValue("Docklands, Victoria, AUS, 98188")
     }
@@ -193,14 +205,19 @@ class CarItinMapWidgetViewModelTest {
 
         setupObservers()
 
+        locationTypeHeaderTestObserver.assertNoValues()
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
+
         sut.itinLOBObserver.onChanged(car)
+
+        locationTypeHeaderTestObserver.assertNoValues()
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
     }
 
     private fun setupObservers() {
+        sut.carLocationTypeHeaderSubject.subscribe(locationTypeHeaderTestObserver)
         sut.addressLineFirstSubject.subscribe(addressLineFirstTestObserver)
         sut.addressLineSecondSubject.subscribe(addressLineSecondTestObserver)
         sut.addressContainerContentDescription.subscribe(contentDescLocationTestObserver)
