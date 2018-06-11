@@ -76,6 +76,14 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
                     .build())
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)
+            val contDesc = Phrase.from(context, R.string.bundle_overview_price_summary_widget_TEMPLATE)
+                    .put("hotel_price", costSummaryBreakdown.standaloneHotelPrice)
+                    .put("flights_price", costSummaryBreakdown.standaloneFlightsPrice)
+                    .put("reference_price", costSummaryBreakdown.referenceTotalPrice)
+                    .put("savings", costSummaryBreakdown.savings)
+                    .put("total_price", costSummaryBreakdown.totalPrice)
+                    .format().toString()
+            priceSummaryContainerDescription.onNext(contDesc)
         }
     }
 

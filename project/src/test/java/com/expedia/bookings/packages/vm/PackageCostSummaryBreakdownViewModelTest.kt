@@ -38,7 +38,9 @@ class PackageCostSummaryBreakdownViewModelTest {
 
     private fun validateCostSummaryBreakdownRows(isJP: Boolean) {
         val textSize = getContext().getResources().getDimension(R.dimen.type_200_text_size)
-        val rows = getCostSummaryBreakdownRows()
+        val rowsAndContDesc = getCostSummaryBreakdownRowsAndContDesc()
+        val rows = rowsAndContDesc.first
+        val contDesc = rowsAndContDesc.second
         assertEquals(8, rows.count())
 
         assertEquals(null, rows[0].title)
@@ -102,13 +104,17 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals(false, rows[7].separator)
         assertEquals(false, rows[7].strikeThrough)
         assertEquals(textSize, rows[7].titleTextSize)
+
+        assertEquals("Price Summary Dialog. Here is the price summary for your bundle. Hotels is $200.00. Roundtrip flights is $100.00. Total is $300.00. Savings for booking together is $120.00. Bundle total for booking together is $180.00. This price includes taxes, fees for both flights and hotels.", contDesc)
     }
 
-    private fun getCostSummaryBreakdownRows(): List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow> {
+    private fun getCostSummaryBreakdownRowsAndContDesc(): Pair<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>, String> {
         val viewModel = PackageCostSummaryBreakdownViewModel(getContext())
         val rowsObserver = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val priceSummaryContDescObserver = TestObserver<String>()
         viewModel.addRows.subscribe(rowsObserver)
+        viewModel.priceSummaryContainerDescription.subscribe(priceSummaryContDescObserver)
         viewModel.packageCostSummaryObservable.onNext(PackageCostSummaryBreakdownModel("$200.00", "$100.00", "$300.00", "$120.00", "$180.00"))
-        return rowsObserver.values()[0]
+        return Pair(rowsObserver.values()[0], priceSummaryContDescObserver.values()[0])
     }
 }

@@ -146,11 +146,13 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleBetterSavingsBottomBar() {
+        val testObserver = TestObserver<String>()
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
         setupOverviewPresenter()
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         val totalPriceWidget = overviewPresenter.totalPriceWidget
+        totalPriceWidget.viewModel.totalPriceContainerDescription.subscribe(testObserver)
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         assertEquals(View.VISIBLE, totalPriceWidget.betterSavingContainer.visibility)
         assertEquals("$100.23", totalPriceWidget.betterSavingView.text)
         assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
@@ -158,22 +160,26 @@ class PackageOverviewPresenterTest {
         assertEquals("$300.23", totalPriceWidget.bundleReferenceTotalPrice.text)
         assertEquals(View.GONE, totalPriceWidget.bundleSavings.visibility)
         assertNotNull(totalPriceWidget.bundleTotalText.compoundDrawables[2])
+        assertEquals("Total price is $300.23. Bundle total for booking together is $200. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $100.23. Price Summary dialog. Button.", testObserver.values()[0])
     }
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleBetterSavingsBottomBarSavingsFalse() {
+        val testObserver = TestObserver<String>()
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
         setupOverviewPresenter()
         Db.getPackageResponse().getCurrentOfferPrice()?.showTripSavings = false
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         val totalPriceWidget = overviewPresenter.totalPriceWidget
+        totalPriceWidget.viewModel.totalPriceContainerDescription.subscribe(testObserver)
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         assertEquals(View.GONE, totalPriceWidget.betterSavingContainer.visibility)
         assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
         assertEquals(View.GONE, totalPriceWidget.bundleReferenceTotalPrice.visibility)
         assertEquals(View.GONE, totalPriceWidget.bundleSavings.visibility)
         assertNull(totalPriceWidget.bundleTotalText.compoundDrawables[2])
+        assertEquals("Bundle total for booking together is $200. This price includes taxes, fees for both flights and hotel.", testObserver.values()[0])
     }
 
     @Test

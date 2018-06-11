@@ -9,6 +9,7 @@ import io.reactivex.subjects.PublishSubject
 abstract class BaseCostSummaryBreakdownViewModel(val context: Context) {
     val iconVisibilityObservable = PublishSubject.create<Boolean>()
     val addRows = BehaviorSubject.create<List<CostSummaryBreakdownRow>>()
+    val priceSummaryContainerDescription = PublishSubject.create<String>()
 
     abstract fun trackBreakDownClicked()
 

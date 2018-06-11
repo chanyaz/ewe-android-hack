@@ -28,6 +28,9 @@ class CostSummaryBreakDownView(context: Context, attrs: AttributeSet?) : ScrollV
                 )
             }
         }
+        vm.priceSummaryContainerDescription.subscribe { it ->
+            this.contentDescription = it
+        }
     }
 
     init {

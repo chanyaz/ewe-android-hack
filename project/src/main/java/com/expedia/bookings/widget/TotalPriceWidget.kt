@@ -94,6 +94,9 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
                 betterSavingContainer.setVisibility(false)
             }
         }
+        vm.totalPriceContainerDescription.subscribe { it ->
+            this.contentDescription = it
+        }
         if (!vm.isSlidable) {
             setupClickListeners()
         }

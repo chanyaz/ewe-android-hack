@@ -10,6 +10,7 @@ abstract class BaseTotalPriceWidgetViewModel(val isSlidable: Boolean) {
     val total = PublishSubject.create<Money>()
     val savings = PublishSubject.create<Money>()
     val referenceTotalPrice = PublishSubject.create<Money>()
+    val totalPriceContainerDescription = PublishSubject.create<String>()
     val shouldShowSavings = PublishSubject.create<Boolean>()
     val betterSavingsObservable = PublishSubject.create<Boolean>()
     val pricePerPerson = PublishSubject.create<Money>()

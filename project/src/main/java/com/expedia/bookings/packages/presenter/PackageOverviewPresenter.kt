@@ -43,6 +43,7 @@ import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.PackageUtil
+import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
@@ -407,7 +408,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
             if (isBetterSavingsOnRDScreenEnabledForPackages(context)) {
                 val packageReferenceTotalPrice = it.packageReferenceTotalPrice
+                val totalPrice = it.packageTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
                 totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
+                var totalPriceContainerContDesc: String
                 if (shouldShowTripSavings) {
                     totalPriceWidget.viewModel.betterSavingsObservable.onNext(true)
                     totalPriceWidget.bundleSavings.visibility = View.GONE
@@ -415,12 +418,21 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                     val standaloneHotelPrice = searchResponse.getSelectedHotelReferenceTotalPriceFromID(hotel.hotelId)?.formattedMoneyFromAmountAndCurrencyCode
                     val standaloneFlightPrice = searchResponse.getSelectedFlightReferenceTotalPriceFromPIID(flightPIID)?.formattedMoneyFromAmountAndCurrencyCode
                     val referenceTotalPrice = packageReferenceTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
-                    val totalPrice = it.packageTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
                     val savings = tripSavings?.formattedMoneyFromAmountAndCurrencyCode
                     val costSummaryBreakdown = PackageCostSummaryBreakdownModel(standaloneHotelPrice, standaloneFlightPrice, referenceTotalPrice, savings, totalPrice)
                     val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
                     costSummaryViewModel.packageCostSummaryObservable.onNext(costSummaryBreakdown)
+                    totalPriceContainerContDesc = Phrase.from(context, R.string.bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE)
+                            .put("total_price", totalPrice)
+                            .put("reference_total_price", referenceTotalPrice)
+                            .put("savings", savings)
+                            .format().toString()
+                } else {
+                    totalPriceContainerContDesc = Phrase.from(context, R.string.bundle_overview_price_widget_cont_desc_TEMPLATE)
+                            .put("total_price", totalPrice)
+                            .format().toString()
                 }
+                totalPriceWidget.viewModel.totalPriceContainerDescription.onNext(totalPriceContainerContDesc)
                 totalPriceWidget.toggleBundleTotalCompoundDrawable(shouldShowTripSavings)
             }
         }
