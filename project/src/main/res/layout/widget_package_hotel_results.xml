@@ -132,6 +132,15 @@
         android:src="@drawable/ic_transition_map_list_fab"
         app:useCompatPadding="true" />
 
+    <com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
+        android:id="@+id/hotel_results_floating_pill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:paddingBottom="71dp"
+        android:clipToPadding="false"
+        android:visibility="gone" />
+
     <ViewStub
         android:id="@+id/filter_stub"
         android:layout_width="match_parent"

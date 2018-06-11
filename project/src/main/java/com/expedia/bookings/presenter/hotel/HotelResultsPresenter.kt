@@ -28,7 +28,6 @@ import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransiti
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
-import com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
 import com.expedia.bookings.hotel.widget.adapter.HotelListAdapter
 import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.model.HotelStayDates
@@ -57,7 +56,6 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
-    override val floatingPill: HotelSearchFloatingActionPill by bindView(R.id.hotel_results_floating_pill)
 
     override fun getRecyclerYTranslation(): Float {
         return 0f
@@ -90,22 +88,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     init {
         Ui.getApplication(context).hotelComponent().inject(this)
-
-        floatingPill.filterButton.setOnClickListener {
-            show(ResultsFilter())
-            trackFilterShown()
-            filterViewModel.sortContainerVisibilityObservable.onNext(currentState == ResultsList::class.java.name)
-            filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
-        }
-
-        floatingPill.toggleViewButton.setOnClickListener {
-            if (floatingPill.showMap) {
-                showWithTracking(ResultsMap())
-            } else {
-                show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
-                trackMapToList()
-            }
-        }
 
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
 
@@ -328,7 +310,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         super.showLoading()
         resetListOffset()
         sortFilterButtonTransition?.jumpToTarget()
-        floatingPill.visibility = View.GONE
         narrowResultsPromptView.visibility = View.GONE
         narrowResultsPromptView.clearAnimation()
     }

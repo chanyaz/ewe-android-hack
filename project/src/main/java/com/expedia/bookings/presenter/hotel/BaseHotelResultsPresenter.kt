@@ -93,7 +93,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
     val filterButtonOnClickObservable = PublishSubject.create<Unit>()
-    open val floatingPill: HotelSearchFloatingActionPill? = null
+    val floatingPill: HotelSearchFloatingActionPill by bindView(R.id.hotel_results_floating_pill)
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
 
@@ -366,6 +366,22 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 info.setTraversalAfter(fab)
             }
         })
+
+        floatingPill.filterButton.setOnClickListener {
+            show(ResultsFilter())
+            trackFilterShown()
+            filterViewModel.sortContainerVisibilityObservable.onNext(currentState == ResultsList::class.java.name)
+            filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
+        }
+
+        floatingPill.toggleViewButton.setOnClickListener {
+            if (floatingPill.showMap) {
+                showWithTracking(ResultsMap())
+            } else {
+                show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
+                trackMapToList()
+            }
+        }
     }
 
     private fun handleHotelsResultsTransition() {
@@ -464,7 +480,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
             }
         }
-        floatingPill?.visibility = View.GONE
+        floatingPill.visibility = View.GONE
 
         inflateAndSetupToolbarMenu()
 
@@ -497,7 +513,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    fun getFloatingButton(): View = if (shouldUsePill() && floatingPill != null) floatingPill!! else fab
+    fun getFloatingButton(): View = if (shouldUsePill()) floatingPill else fab
 
     private fun inflateAndSetupToolbarMenu() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, toolbar, false) as LinearLayout
@@ -547,6 +563,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     @CallSuper
     open fun showLoading() {
+        floatingPill.visibility = View.GONE
         adapter.showLoading()
     }
 
@@ -842,13 +859,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (f > .5) {
                 // Half-way through the transition, toggle the pill. We can't toggle it immediately because then it
                 // changes before the rest of the UI. We can't change it on endTransition because that feels like lag.
-                floatingPill?.setToggleState(forward)
+                floatingPill.setToggleState(forward)
             }
 
             if (fabShouldVisiblyMove) {
                 fab.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
             }
-            floatingPill?.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
+            floatingPill.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
 
             if (forward) {
                 if (shouldAnimateTitleSubtitle) {
@@ -881,10 +898,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
             }
 
-            floatingPill?.setToggleState(forward)
+            floatingPill.setToggleState(forward)
 
             if (forward) {
-                floatingPill?.translationY = 0f
+                floatingPill.translationY = 0f
                 if (!fabShouldVisiblyMove) {
                     fab.translationY = 0f
                     (fab.drawable as? TransitionDrawable)?.reverseTransition(0)
@@ -1082,7 +1099,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     open fun shouldDisplayPriceOverview(): Boolean = true
 
-    fun shouldUsePill(): Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSearchResultsFloatingActionPill) && getLineOfBusiness() == LineOfBusiness.HOTELS
+    fun shouldUsePill(): Boolean = (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSearchResultsFloatingActionPill) && getLineOfBusiness() == LineOfBusiness.HOTELS) ||
+            (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter) && getLineOfBusiness() == LineOfBusiness.PACKAGES)
 
     fun showFilterMenuItem(isResults: Boolean) {
         if (shouldUsePill()) {

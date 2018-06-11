@@ -27,8 +27,10 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.squareup.phrase.Phrase
+import io.reactivex.Observer
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
 
@@ -38,6 +40,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
 
+    val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
+        floatingPill.setFilterCount(numberOfFilters)
+    }
+
     @VisibleForTesting val mapPricePerPersonMessage: TextView by bindView(R.id.package_map_price_includes_text)
     @VisibleForTesting val mapPriceIncludesTaxesTopMessage: TextView by bindView(R.id.package_map_price_includes_texes_fees_text_top)
     @VisibleForTesting val mapPriceIncludesTaxesBottomMessage: TextView by bindView(R.id.package_map_price_includes_taxes_fees_text_bottom)
@@ -45,7 +51,13 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
         vm.hotelResultsObservable.subscribe(listResultsObserver)
+        vm.hotelResultsObservable.filter { shouldUsePill() }.subscribe {
+            floatingPill.visibility = View.VISIBLE
+        }
         vm.filterResultsObservable.subscribe(listResultsObserver)
+        vm.filterResultsObservable.filter { shouldUsePill() }.subscribe {
+            floatingPill.visibility = View.VISIBLE
+        }
 
         vm.titleSubject.subscribe {
             if (!Db.sharedInstance.packageParams.isChangePackageSearch()) {
@@ -107,6 +119,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         super.onFinishInflate()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterViewModel.priceRangeContainerVisibility.onNext(false)
+        filterViewModel.filterCountObservable.subscribe(filterCountObserver)
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
