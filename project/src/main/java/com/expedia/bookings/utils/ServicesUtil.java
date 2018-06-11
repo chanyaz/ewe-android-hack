@@ -24,6 +24,9 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class ServicesUtil {
 
 	private static final String APP_VERSION = "APP_VERSION";
@@ -122,9 +125,6 @@ public class ServicesUtil {
 
 	/**
 	 * Convenience method that generates an AccountLib.AccountService from EB configuration.
-	 *
-	 * @param context
-	 * @return
 	 */
 	public static AccountService generateAccountService(Context context) {
 
@@ -139,7 +139,9 @@ public class ServicesUtil {
 			PointOfSale.getPointOfSale().getSiteId(),
 			PointOfSale.getPointOfSale().getDualLanguageId(),
 			ServicesUtil.generateClientId(context),
-			generateUserAgentString()
+			generateUserAgentString(),
+			Schedulers.io(),
+			AndroidSchedulers.mainThread()
 		);
 	}
 

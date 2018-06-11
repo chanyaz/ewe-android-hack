@@ -38,7 +38,7 @@ class ItinManagerReadWriteTripsJsonTest {
         testFileDirectory.mkdir()
         tripJsonFileUtils = TripsJsonFileUtils(testFileDirectory)
         itinManager.setTripsJsonFileUtils(tripJsonFileUtils)
-        syncTask = itinManager.SyncTask(null, null)
+        syncTask = itinManager.SyncTask(null, null, null)
         sharedTripFile = File(testFileDirectory, tripJsonFileUtils.hashString(SHARED_TRIP_FILENAME))
         userTripFile = File(testFileDirectory, tripJsonFileUtils.hashString(USER_TRIP_FILENAME))
     }

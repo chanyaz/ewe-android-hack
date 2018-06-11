@@ -33,6 +33,7 @@ import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
+import com.expedia.account.AccountService;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -1057,7 +1058,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 			Ui.getApplication(mContext).defaultTripComponents();
 			mSyncTask = new SyncTask(Ui.getApplication(mContext).tripComponent().tripServices(),
-				new ExpediaServices(mContext));
+				new ExpediaServices(mContext),
+				ServicesUtil.generateAccountService(mContext));
 			mSyncTask.execute();
 		}
 	}
@@ -1078,6 +1080,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		 */
 		private ExpediaServices mServices;
 		private TripsServicesInterface tripsServices;
+		private AccountService accountService;
 
 		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
 		private Set<String> mGuestTripsNotYetLoaded = new HashSet<>();
@@ -1095,9 +1098,10 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		private int mTripsRemoved = 0;
 		private int mFlightsUpdated = 0;
 
-		SyncTask(TripsServicesInterface tripsServices, ExpediaServices legacyExpediaServices) {
+		SyncTask(TripsServicesInterface tripsServices, ExpediaServices legacyExpediaServices, AccountService accountService) {
 			mServices = legacyExpediaServices;
 			this.tripsServices = tripsServices;
+			this.accountService = accountService;
 
 			for (Operation op : Operation.values()) {
 				mOpCount.put(op, 0);
@@ -1380,15 +1384,14 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			// POSSIBLE TODO: Only call tripUpated() when it's actually changed
 		}
 
-		private void reAuthenticateFacebookUser() {
-			ServicesUtil.generateAccountService(mContext)
-				.facebookReauth(mContext)
+		void reAuthenticateFacebookUser() {
+			accountService.facebookReauth(mContext)
 				.doOnNext(linkResponse -> {
 					if (linkResponse != null
 						&& linkResponse.isSuccess()) {
 						Log.w(LOGGING_TAG, "FB: Autologin success");
 					}
-				}).subscribe();
+				}).blockingSubscribe();
 		}
 
 		void refreshAllTrips(TimeSource timeSource, Map<String, Trip> trips) {

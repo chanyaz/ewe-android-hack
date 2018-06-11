@@ -16,19 +16,17 @@ import com.expedia.account.data.AccountResponse
 import com.expedia.account.data.Db
 import com.expedia.account.data.FacebookLinkResponse
 import com.expedia.account.view.FacebookLinkAccountsLayout
+import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.FacebookSdk
-import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.mobiata.android.Log
 import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 
 open class NewFacebookHelper(val context: Context, val config: Config, val brand: String, val newAccountView: NewAccountView) {
@@ -148,8 +146,6 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
             throw RuntimeException("Not a Facebook user")
         }
         config.service.facebookAutoLogin(user.facebookUserId, user.facebookToken)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<FacebookLinkResponse> {
                     override fun onComplete() {
                     }
@@ -194,8 +190,6 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
             throw RuntimeException("Not a Facebook user")
         }
         config.service.facebookLinkNewAccount(user.facebookUserId, user.facebookToken, user.email)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<FacebookLinkResponse> {
                     override fun onComplete() {
                     }
@@ -231,8 +225,6 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
 
         config.service.facebookLinkExistingAccount(user.facebookUserId,
                 user.facebookToken, user.email, user.password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<FacebookLinkResponse> {
                     override fun onComplete() {
                     }
@@ -256,8 +248,6 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
 
     private fun facebookSignInRefreshProfile(context: Context) {
         config.service.signInProfileOnly()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<AccountResponse> {
                     override fun onComplete() {
                     }

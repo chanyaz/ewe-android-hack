@@ -45,7 +45,7 @@ public class AccountResponse {
 	public boolean success;
 	public List<AccountError> errors;
 	String detailedStatus;
-	String detailedStatusMsg;
+	public String detailedStatusMsg;
 
 	/**
 	 * tells us which error msg to show based on detailedStatusMsg
@@ -75,9 +75,11 @@ public class AccountResponse {
 	 * @return
 	 */
 	public AccountError findError(ErrorCode code) {
-		for (AccountError error : errors) {
-			if (error.errorCode == code) {
-				return error;
+		if (errors != null) {
+			for (AccountError error : errors) {
+				if (error.errorCode == code) {
+					return error;
+				}
 			}
 		}
 		return null;

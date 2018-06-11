@@ -1,20 +1,21 @@
 package com.expedia.account.handler
 
-import android.content.Context
-import android.support.v7.app.AlertDialog
 import com.expedia.account.Config
-import com.expedia.account.NewAccountView
 import com.expedia.account.R
+import com.expedia.account.ViewWithLoadingIndicator
 import com.expedia.account.data.AccountResponse
 import com.expedia.account.recaptcha.RecaptchaHandler
-import com.expedia.account.util.Utils
+import com.expedia.account.util.NetworkConnectivity
+import com.expedia.account.util.SimpleDialogBuilder
 import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
-class NewSignInHandler(val context: Context, val config: Config, private val email: String,
-                       private val password: String, private val newAccountView: NewAccountView) : RecaptchaHandler {
+class NewSignInHandler(private val dialogBuilder: SimpleDialogBuilder,
+                       private val networkConnectivity: NetworkConnectivity,
+                       private val config: Config,
+                       private val email: String,
+                       private val password: String,
+                       private val loadingView: ViewWithLoadingIndicator) : RecaptchaHandler {
 
     private var accountLoadingDisposable: Disposable? = null
 
@@ -23,13 +24,11 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
     }
 
     override fun onRecaptchaFailure() {
-        doSignIn(null)
+        showRecaptchaError()
     }
 
     fun doSignIn(recaptchaResponseToken: String?) {
         config.service.signIn(email, password, recaptchaResponseToken)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<AccountResponse> {
                     override fun onComplete() {
                         accountLoadingDisposable?.dispose()
@@ -39,7 +38,7 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
                     override fun onError(e: Throwable) {
                         accountLoadingDisposable?.dispose()
                         accountLoadingDisposable = null
-                        newAccountView.cancelLoading()
+                        loadingView.cancelLoading()
                         showNetworkSignInError()
                     }
 
@@ -49,7 +48,7 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
 
                     override fun onNext(response: AccountResponse) {
                         if (!response.success) {
-                            newAccountView.cancelLoading()
+                            loadingView.cancelLoading()
                             showResponseSignInError(response)
                         } else {
                             doSignInSuccessful()
@@ -61,6 +60,11 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
     private fun doSignInSuccessful() {
         config.analyticsListener?.signInSucceeded()
         config.accountSignInListener?.onSignInSuccessful()
+    }
+
+    private fun showRecaptchaError() {
+        config.analyticsListener?.userReceivedErrorOnSignInAttempt("Account:recaptcha failure")
+        showSignInErrorDialog(AccountResponse().SignInFailureError())
     }
 
     // Networking error
@@ -76,30 +80,29 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
     }
 
     private fun showSignInErrorDialog(signInError: AccountResponse.SignInError) {
-        val errorMessage: Int
         val errorTitle: Int
+        val errorMessage: Int
 
-        when (signInError) {
-            AccountResponse.SignInError.ACCOUNT_LOCKED -> {
-                errorMessage = R.string.acct__Sign_in_locked
-                errorTitle = R.string.acct__Sign_in_locked_TITLE
+        if (networkConnectivity.isOnline()) {
+            when (signInError) {
+                AccountResponse.SignInError.ACCOUNT_LOCKED -> {
+                    errorTitle = R.string.acct__Sign_in_locked_TITLE
+                    errorMessage = R.string.acct__Sign_in_locked
+                }
+                AccountResponse.SignInError.INVALID_CREDENTIALS -> {
+                    errorTitle = R.string.acct__Sign_in_failed_TITLE
+                    errorMessage = R.string.acct__Sign_in_failed
+                }
+                else -> {
+                    errorTitle = R.string.acct__Sign_in_failed_TITLE
+                    errorMessage = R.string.acct__Sign_in_failed_generic
+                }
             }
-            AccountResponse.SignInError.INVALID_CREDENTIALS -> {
-                errorMessage = R.string.acct__Sign_in_failed
-                errorTitle = R.string.acct__Sign_in_failed_TITLE
-            }
-            else -> {
-                errorMessage = R.string.acct__Sign_in_failed_generic
-                errorTitle = R.string.acct__Sign_in_failed_TITLE
-            }
+        } else {
+            errorTitle = R.string.acct__Sign_in_failed_TITLE
+            errorMessage = R.string.acct__no_network_connection
         }
 
-        AlertDialog.Builder(context)
-                .setTitle(errorTitle)
-                .setMessage(
-                        if (Utils.isOnline(context)) errorMessage else R.string.acct__no_network_connection)
-                .setPositiveButton(android.R.string.ok, null)
-                .create()
-                .show()
+        dialogBuilder.showSimpleDialog(titleResId = errorTitle, messageResId = errorMessage, buttonLabelResId = android.R.string.ok)
     }
 }

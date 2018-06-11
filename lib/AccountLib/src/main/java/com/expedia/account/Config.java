@@ -72,20 +72,6 @@ public class Config {
 	}
 
 	/**
-	 * Sets the API endpoint that AccountLib should connect to.
-	 * For example:
-	 * <p/>
-	 * config.setService(new OkHttpClient(), "https://www.expedia.com/", 0, 0, "com.expedia.myapp");
-	 */
-	public Config setService(OkHttpClient client, String endpoint, int siteId, int langId, String clientId) {
-		if (!endpoint.startsWith("https")) {
-			throw new IllegalArgumentException("Must use an HTTPS endpoint");
-		}
-		this.service = new AccountService(client, endpoint, siteId, langId, clientId);
-		return this;
-	}
-
-	/**
 	 * Sets a custom AccountService that AccountLib should connect to, for testing purposes.
 	 * For example:
 	 * <p/>

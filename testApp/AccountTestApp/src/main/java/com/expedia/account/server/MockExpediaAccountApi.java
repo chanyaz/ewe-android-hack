@@ -1,4 +1,4 @@
-package com.expedia.account.sample;
+package com.expedia.account.server;
 
 import java.util.ArrayList;
 import java.util.Map;

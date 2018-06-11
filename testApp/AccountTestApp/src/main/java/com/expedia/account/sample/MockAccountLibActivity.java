@@ -19,6 +19,7 @@ import com.expedia.account.AccountService;
 import com.expedia.account.AccountSignInListener;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
+import com.expedia.account.MockAccountService;
 import com.expedia.account.NewAccountView;
 import com.expedia.account.PanningImageView;
 import com.mobiata.android.Log;
@@ -33,6 +34,8 @@ import java.util.zip.ZipFile;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 
 public class MockAccountLibActivity extends FragmentActivity {
@@ -65,17 +68,21 @@ public class MockAccountLibActivity extends FragmentActivity {
 			int siteId = 0;
 			int langId = 0;
 			String clientId = "accountstest.phone.android";
+			String userAgent = "AccountSampleApp/1.0";
 
 			switch (getResources().getStringArray(R.array.endpoints)[which]) {
 			case "Production":
-				config.setService(new OkHttpClient(), "https://www.expedia.com/", siteId, langId, clientId);
+				config.setService(new AccountService(new OkHttpClient(),
+					"https://www.expedia.com/", siteId, langId, clientId, userAgent,
+					Schedulers.io(), AndroidSchedulers.mainThread()));
 				break;
 			case "Integration":
-				config.setService(InsecureHttpClient.newInstance(),
-					"https://wwwexpediacom.integration.sb.karmalab.net/", siteId, langId, clientId);
+				config.setService(new AccountService(InsecureHttpClient.newInstance(),
+					"https://wwwexpediacom.integration.sb.karmalab.net/", siteId, langId, clientId, userAgent,
+					Schedulers.io(), AndroidSchedulers.mainThread()));
 				break;
 			case "Mock Mode":
-				config.setService(new AccountService(new MockExpediaAccountApi(), siteId, langId, clientId));
+				config.setService(new MockAccountService(siteId, langId, clientId));
 				newAccountView.setMockMode(true);
 				vAccountView.setMockMode(true);
 				break;

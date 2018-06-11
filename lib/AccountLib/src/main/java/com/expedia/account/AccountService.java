@@ -19,6 +19,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,6 +35,8 @@ public class AccountService {
 	private Integer siteId;
 	private Integer langId;
 	private String clientId;
+	private Scheduler subscribeOnScheduler;
+	private Scheduler observeOnScheduler;
 
 	/**
 	 * Creates an AccountService with a custom ExpediaAccountApi (used with a mock api for testing)
@@ -43,39 +46,33 @@ public class AccountService {
 	 * @param langId   PointOfSale.getPointOfSale().getDualLanguageId()
 	 * @param clientId The client id ("mobile.android.flighttrack" and stuff)
 	 */
-	public AccountService(@NonNull ExpediaAccountApi api, @Nullable Integer siteId,
-		@Nullable Integer langId, @NonNull String clientId) {
+	protected AccountService(@NonNull ExpediaAccountApi api, @Nullable Integer siteId,
+		@Nullable Integer langId, @NonNull String clientId, @NonNull Scheduler subscribeOnScheduler,
+		@NonNull Scheduler observeOnScheduler) {
 		this.siteId = siteId;
 		this.langId = langId;
 		this.clientId = clientId;
 		this.api = api;
+		this.subscribeOnScheduler = subscribeOnScheduler;
+		this.observeOnScheduler = observeOnScheduler;
 	}
 
 	/**
 	 * Creates an AccountService that uses the specified client and server endpoint.
 	 *
-	 * @param client
-	 * @param endpoint server endpoint (i.e. "http://www.expedia.com")
-	 * @param siteId   PointOfSale.getPointOfSale().getSiteId()
-	 * @param langId   PointOfSale.getPointOfSale().getDualLanguageId()
-	 * @param clientId The client id ("mobile.android.flighttrack" and stuff)
-	 */
-	public AccountService(OkHttpClient client, String endpoint, int siteId, int langId, String clientId) {
-		this(client, endpoint, siteId, langId, clientId, null);
-	}
-
-	/**
-	 * Creates an AccountService that uses the specified client and server endpoint.
-	 *
-	 * @param client
 	 * @param endpoint server endpoint (i.e. "http://www.expedia.com")
 	 * @param siteId   PointOfSale.getPointOfSale().getSiteId()
 	 * @param langId   PointOfSale.getPointOfSale().getDualLanguageId()
 	 * @param clientId The client id ("mobile.android.flighttrack" and stuff)
 	 * @param userAgent The String passed as User-Agent Header in all requests
 	 */
-	public AccountService(OkHttpClient client, String endpoint, int siteId, int langId, String clientId, final String userAgent) {
-		this(null, siteId, langId, clientId);
+	public AccountService(OkHttpClient client, String endpoint, int siteId, int langId, String clientId,
+		final String userAgent, Scheduler subscribeOnScheduler, Scheduler observeOnScheduler) {
+		this.siteId = siteId;
+		this.langId = langId;
+		this.clientId = clientId;
+		this.subscribeOnScheduler = subscribeOnScheduler;
+		this.observeOnScheduler = observeOnScheduler;
 
 		if (!endpoint.startsWith("https")) {
 			throw new IllegalArgumentException("Must use an HTTPS endpoint");
@@ -110,25 +107,29 @@ public class AccountService {
 	}
 
 	public Observable<AccountResponse> signIn(String email, String password, String recaptchaResponseToken) {
-		return api.signIn(email, password, true /*staySignedIn*/, recaptchaResponseToken, getCommonParams());
+		return api.signIn(email, password, true /*staySignedIn*/, recaptchaResponseToken, getCommonParams())
+			.subscribeOn(subscribeOnScheduler)
+			.observeOn(observeOnScheduler);
 	}
 
 	public Observable<AccountResponse> signInProfileOnly() {
-		return api.signInProfileOnly(true, getCommonParams());
+		return api.signInProfileOnly(true, getCommonParams())
+			.subscribeOn(subscribeOnScheduler)
+			.observeOn(observeOnScheduler);
 	}
 
-	/**
-	 * Creates a new Expedia account with the provided information.
-	 *
-	 * @return the CreateUserResponse
-	 */
 	public Observable<AccountResponse> createUser(PartialUser user) {
 		return api.createUser(user.email, user.password, user.firstName, user.lastName,
-			user.expediaEmailOptin, true /*staySignedIn*/, user.enrollInLoyalty, user.recaptchaResponseToken, getCommonParams());
+			user.expediaEmailOptin, true, user.enrollInLoyalty, user.recaptchaResponseToken,
+			getCommonParams())
+			.subscribeOn(subscribeOnScheduler)
+			.observeOn(observeOnScheduler);
 	}
 
 	public Observable<JoinRewardsResponse> joinRewards() {
-		return api.joinRewards();
+		return api.joinRewards()
+			.subscribeOn(subscribeOnScheduler)
+			.observeOn(observeOnScheduler);
 	}
 
 	private Map<String, String> getCommonParams() {
@@ -171,7 +172,9 @@ public class AccountService {
 	public Observable<FacebookLinkResponse> facebookAutoLogin(
 		String facebookUserId, String facebookAccessToken) {
 
-		return api.facebookAutoLogin(PROVIDER_FACEBOOK, facebookUserId, facebookAccessToken);
+		return api.facebookAutoLogin(PROVIDER_FACEBOOK, facebookUserId, facebookAccessToken)
+			.subscribeOn(subscribeOnScheduler)
+			.observeOn(observeOnScheduler);
 	}
 
 	/**
@@ -188,8 +191,10 @@ public class AccountService {
 		String facebookAccessToken,
 		String facebookEmailAddress) {
 
-		return api.facebookLinkNewAccount(PROVIDER_FACEBOOK,
-			facebookUserId, facebookAccessToken, facebookEmailAddress);
+		return api.facebookLinkNewAccount(PROVIDER_FACEBOOK, facebookUserId, facebookAccessToken, facebookEmailAddress)
+			.subscribeOn(subscribeOnScheduler)
+			.observeOn(observeOnScheduler);
+
 	}
 
 	/**
@@ -208,13 +213,12 @@ public class AccountService {
 		String expediaPassword) {
 
 		return api.facebookLinkExistingAccount(PROVIDER_FACEBOOK, facebookUserId,
-			facebookAccessToken, expediaEmailAddress, expediaPassword);
+			facebookAccessToken, expediaEmailAddress, expediaPassword)
+			.subscribeOn(subscribeOnScheduler)
+			.observeOn(observeOnScheduler);
+
 	}
 
-	/**
-	 * @param context
-	 * @return
-	 */
 	public Observable<FacebookLinkResponse> facebookReauth(Context context) {
 		FacebookSdk.sdkInitialize(context);
 		AccessToken token = AccessToken.getCurrentAccessToken();
