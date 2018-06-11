@@ -45,8 +45,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:paddingBottom="12dp"
                 android:visibility="gone"/>
 
             <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView xmlns:android="http://schemas.android.com/apk/res/android"
