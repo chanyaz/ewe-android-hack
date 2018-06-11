@@ -1699,7 +1699,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				}
 
 				if (response == null || response.hasErrors()) {
-					String errorMessage = "Trip details response is null";
+					String errorMessage = null;
 					if (response != null && response.hasErrors()) {
 						errorMessage = response.gatherErrorMessage(mContext);
 						for (ServerError serverError : response.getErrors()) {
@@ -1713,6 +1713,9 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 						Log.w(LOGGING_TAG, "Error updating trips: " + response.gatherErrorMessage(mContext));
 					}
 					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
+					if (errorMessage == null || errorMessage.isEmpty()) {
+						errorMessage = "Trip details response is null or has errors";
+					}
 					TripsTracking.trackItinTripRefreshCallFailure(errorMessage);
 				}
 				else {
