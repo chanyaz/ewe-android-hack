@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
@@ -38,7 +39,6 @@ public class LXState {
 	 * Normally equals the originalTotalPrice, but in case of a Price Change during CreateTrip or Checkout, this holds the New Price returned by the API Response
 	 */
 	private Money latestTotalPrice;
-	private static final String MOD_PROMO_ID = "3";
 
 	public LXState() {
 		Events.register(this);
@@ -89,10 +89,10 @@ public class LXState {
 
 		String promotionId = "";
 		boolean lxModTestEnabled = Constants.MOD_PROMO_TYPE.equals(promoDiscountType);
+		boolean lxMipTestEnabled = !TextUtils.isEmpty(promoDiscountType) && !lxModTestEnabled;
 
-		boolean modPricingEnabled = activity.modPricingEnabled(lxModTestEnabled);
-		if (modPricingEnabled) {
-			promotionId = MOD_PROMO_ID;
+		if (activity.modPricingEnabled(lxModTestEnabled) || activity.mipPricingEnabled(lxMipTestEnabled)) {
+			promotionId = Constants.PROMOTION_ID;
 		}
 		LXOfferSelected offerSelected = new LXOfferSelected(activity.id, this.offer, this.selectedTickets, activity.regionId, promotionId);
 
