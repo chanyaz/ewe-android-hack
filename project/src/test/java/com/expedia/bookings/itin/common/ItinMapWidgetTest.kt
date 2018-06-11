@@ -30,15 +30,22 @@ class ItinMapWidgetTest {
 
     @Test
     fun textViewVisibilityAndTextTest() {
+        val locationTypeString = "LocationTypeString"
         val firstString = "FirstString"
         val secondString = "SecondString"
         sut.setUpViewModel(mockVM)
+        assertEquals(View.GONE, sut.locationTypeString.visibility)
         assertEquals(View.GONE, sut.addressLineFirst.visibility)
         assertEquals(View.GONE, sut.addressLineSecond.visibility)
+
+        sut.viewModel.carLocationTypeHeaderSubject.onNext(locationTypeString)
         sut.viewModel.addressLineFirstSubject.onNext(firstString)
         sut.viewModel.addressLineSecondSubject.onNext(secondString)
+
+        assertEquals(View.VISIBLE, sut.locationTypeString.visibility)
         assertEquals(View.VISIBLE, sut.addressLineFirst.visibility)
         assertEquals(View.VISIBLE, sut.addressLineSecond.visibility)
+        assertEquals(locationTypeString, sut.locationTypeString.text.toString())
         assertEquals(firstString, sut.addressLineFirst.text.toString())
         assertEquals(secondString, sut.addressLineSecond.text.toString())
     }

@@ -17,6 +17,7 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
 import com.expedia.bookings.itin.tripstore.extensions.buildSecondaryAddress
+import com.expedia.bookings.itin.tripstore.extensions.isDropOffSame
 import com.expedia.bookings.itin.utils.AnimationDirection
 import com.google.android.gms.maps.model.LatLng
 
@@ -58,6 +59,15 @@ abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewMod
                         phoneNumberClickSubject.subscribe {
                             scope.phoneHandler.handle(number)
                         }
+                    }
+                }
+                if (!itinCar.isDropOffSame()) {
+                    if (location == itinCar.pickupLocation) {
+                        val pickUpLocationHeaderString = scope.strings.fetch(R.string.itin_car_location_type_heading_pick_up)
+                        carLocationTypeHeaderSubject.onNext(pickUpLocationHeaderString)
+                    } else {
+                        val dropOffLocationHeaderString = scope.strings.fetch(R.string.itin_car_location_type_heading_drop_off)
+                        carLocationTypeHeaderSubject.onNext(dropOffLocationHeaderString)
                     }
                 }
             }
