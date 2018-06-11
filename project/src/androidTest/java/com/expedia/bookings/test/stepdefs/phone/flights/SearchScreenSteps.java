@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.core.AllOf;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -17,6 +18,7 @@ import android.support.test.espresso.matcher.RootMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
@@ -24,6 +26,8 @@ import com.expedia.bookings.test.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;
+
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.validateRequestParams;
 import com.expedia.bookings.utils.Strings;
 
@@ -196,10 +200,10 @@ public class SearchScreenSteps {
 			.check(matches(withText(containsString(String.valueOf(totalNumberOfTravelers) + " travelers"))));
 	}
 
-	@And("^I trigger flight search again with following parameters$")
+	@When("^I trigger flight search again with following parameters$")
 	public void remakeFlightSearch(Map<String, String> parameters) throws Throwable {
 		TestUtil.dataSet = parameters;
-		SearchScreen.origin().perform(click());
+		SearchScreen.origin().perform(ViewActions.waitForViewToDisplay()).perform(click());
 		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
 		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
 		SearchScreen.destination().perform(click());
@@ -214,7 +218,7 @@ public class SearchScreenSteps {
 		changeNumberOfChildren(previousNumberOfChildren);
 		SearchScreen.searchAlertDialogDone().perform(click());
 		SearchScreen.searchButton().perform(click());
-		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 20, TimeUnit.SECONDS));
+		onView(AllOf.allOf(withId(R.id.sort_filter_button), isDescendantOfA(withId(R.id.widget_flight_outbound)))).perform(waitFor(isDisplayed(), 20, TimeUnit.SECONDS));
 	}
 
 	private void selectTravelers(Map<String, String> parameters) {

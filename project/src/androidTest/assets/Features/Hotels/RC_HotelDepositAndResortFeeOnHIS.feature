@@ -9,13 +9,13 @@ Feature: Hotel deposit and resort fee on infosite
     And I select hotel with the text "<destination>"
     And I select <checkInDate> , <checkOutDate> as check in and checkout date
     And I click on Search Button
-    And I verify the hotel label text is "<destination>"
+    And I verify the hotel label text is "<hotel>"
     Then I verify the deposit terms text is displayed
     And I verify the resort fees text is not displayed
 
     Examples:
-      | destination                  | checkInDate | checkOutDate |
-      | 11th Avenue Hotel and Hostel | 7           | 8            |
+     | hotel                   | destination                    | checkInDate | checkOutDate |
+     | 11th Avenue Hostel      | 11th Avenue Hostel, Denver, CO | 7           | 8            |
 
   @Prod @RC_HotelDepositAndResortFee
   Scenario Outline: Validate deposit and resort fee shown on infosite
