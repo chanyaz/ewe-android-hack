@@ -24,11 +24,13 @@ class ItinMapWidget<T : ItinLOB>(context: Context, attrs: AttributeSet?) : Linea
     val directionsButton: ImageView by bindView(R.id.directions_button)
     val addressLineFirst: TextView by bindView(R.id.widget_itin_address_line_1)
     val addressLineSecond: TextView by bindView(R.id.widget_itin_address_line_2)
+    val locationTypeString: TextView by bindView(R.id.widget_itin_location_type)
     val addressContainer: LinearLayout by bindView(R.id.address_container)
     val phoneNumber: TextView by bindView(R.id.phone_number_text)
     val divider: View by bindView(R.id.phone_divider)
 
     var viewModel: ItinMapWidgetViewModel<T> by notNullAndObservable { vm ->
+        vm.carLocationTypeHeaderSubject.subscribeTextAndVisibility(locationTypeString)
         vm.addressLineFirstSubject.subscribeTextAndVisibility(addressLineFirst)
         vm.addressLineSecondSubject.subscribeTextAndVisibility(addressLineSecond)
         vm.addressContainerContentDescription.subscribeContentDescription(addressContainer)
