@@ -47,7 +47,7 @@ class LXModuleTest {
 
         sut.getLxSuggestionsV4("chicago", TestObserver(), false, false)
 
-        kotlin.test.assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
+        assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
     }
 
     @Test
@@ -57,7 +57,7 @@ class LXModuleTest {
 
         sut.getLxSuggestionsV4("chicago", TestObserver(), false, false)
 
-        kotlin.test.assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
+        assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
     }
 
     @Test
@@ -67,9 +67,9 @@ class LXModuleTest {
         sut.getLxSuggestionsV4("chicago", TestObserver(), false, false)
 
         val requestUrl = server.takeRequest().requestUrl
-        kotlin.test.assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))
-        kotlin.test.assertEquals(PointOfSale.getPointOfSale().siteId, Integer.valueOf(requestUrl.queryParameter("siteid")))
-        kotlin.test.assertEquals(ServicesUtil.generateClient(context), requestUrl.queryParameter("client"))
+        assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))
+        assertEquals(PointOfSale.getPointOfSale().siteId, Integer.valueOf(requestUrl.queryParameter("siteid")))
+        assertEquals(ServicesUtil.generateClient(context), requestUrl.queryParameter("client"))
     }
 
     @Test
