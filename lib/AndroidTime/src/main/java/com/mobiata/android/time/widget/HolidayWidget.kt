@@ -35,7 +35,7 @@ class HolidayWidget(context: Context, attributeSet: AttributeSet) : LinearLayout
         val visibleDays = CalendarUtils.computeVisibleDays(displayYearMonth, ROWS, COLS)
         firstVisibleDay = visibleDays[0][0]
         lastVisibleDay = visibleDays[ROWS - 1][COLS - 1]
-        holidayInfo.forEach { date, holidayName ->
+        holidayInfo.forEach { (date, holidayName) ->
             if (isHolidayVisible(date)) {
                 populateHolidayRow(date, holidayName)
             }
