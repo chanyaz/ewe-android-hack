@@ -24,21 +24,20 @@ class CarItinMoreHelpViewModel<out S>(val scope: S) : IMoreHelpViewModel where S
         val vendorName = car?.carVendor?.shortName
         val phoneNumber = car?.carVendor?.localPhoneNumber
 
+        vendorName?.let { name ->
+            if (vendorName.isNotBlank()) {
+                val helpText = scope.strings.fetchWithPhrase(
+                        R.string.itin_more_help_text_TEMPLATE, mapOf("supplier" to name))
+                helpTextSubject.onNext(helpText)
+            }
+        }
+
         phoneNumber?.let { number ->
             phoneNumberSubject.onNext(number)
-
-            vendorName?.let { name ->
-                if (vendorName.isNotBlank()) {
-                    val contDesc = scope.strings.fetchWithPhrase(
-                            R.string.itin_car_call_button_content_description_TEMPLATE,
-                            mapOf("vendor" to vendorName, "phonenumber" to number))
-                    callButtonContentDescriptionSubject.onNext(contDesc)
-
-                    val helpText = scope.strings.fetchWithPhrase(
-                            R.string.itin_more_help_text_TEMPLATE, mapOf("supplier" to name))
-                    helpTextSubject.onNext(helpText)
-                }
-            }
+            val contDesc = scope.strings.fetchWithPhrase(
+                    R.string.itin_car_call_button_content_description_TEMPLATE,
+                    mapOf("phonenumber" to number))
+            callButtonContentDescriptionSubject.onNext(contDesc)
         }
     }
 

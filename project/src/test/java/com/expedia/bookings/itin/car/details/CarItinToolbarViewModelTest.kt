@@ -36,7 +36,7 @@ class CarItinToolbarViewModelTest {
         toolbarTitleTestObserver.assertNoValues()
         toolbarSubTitleTestObserver.assertNoValues()
 
-        sut.itinLxObserver.onChanged(ItinMocker.carDetailsHappy.firstCar())
+        sut.itinCarObserver.onChanged(ItinMocker.carDetailsHappy.firstCar())
 
         toolbarTitleTestObserver.assertValue((R.string.itin_car_toolbar_title_TEMPLATE).toString().plus(mapOf("location" to "Sydney")))
         toolbarSubTitleTestObserver.assertValue((R.string.itin_car_toolbar_subtitle_date_to_date_TEMPLATE).toString().plus(mapOf("startdate" to "Apr 15", "enddate" to "Apr 15")))
@@ -47,7 +47,7 @@ class CarItinToolbarViewModelTest {
         toolbarTitleTestObserver.assertNoValues()
         toolbarSubTitleTestObserver.assertNoValues()
 
-        sut.itinLxObserver.onChanged(ItinMocker.carDetailsBadPickupAndTimes.firstCar())
+        sut.itinCarObserver.onChanged(ItinMocker.carDetailsBadPickupAndTimes.firstCar())
 
         toolbarTitleTestObserver.assertNoValues()
         toolbarSubTitleTestObserver.assertNoValues()

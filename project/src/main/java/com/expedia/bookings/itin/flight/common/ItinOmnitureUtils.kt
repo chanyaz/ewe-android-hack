@@ -14,7 +14,7 @@ object ItinOmnitureUtils {
 
     enum class LOB {
         HOTEL,
-        LX,
+        LX
     }
 
     //These methods are for Flights using ItinCardData
