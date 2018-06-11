@@ -17,6 +17,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
+import com.expedia.bookings.data.packages.PackageHotelFilterOptions
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -219,6 +220,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val params = Db.sharedInstance.packageParams
         params.pageType = Constants.PACKAGE_CHANGE_HOTEL
         params.searchProduct = null
+        params.filterOptions = PackageHotelFilterOptions()
 
         bundleWidget.viewModel.hotelParamsObservable.onNext(params)
         bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")

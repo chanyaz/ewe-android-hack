@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
 import com.expedia.bookings.data.multiitem.MultiItemFlightLeg
 import com.expedia.bookings.data.multiitem.MultiItemOffer
+import com.expedia.bookings.data.packages.PackageHotelFilterOptions
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.google.gson.Gson
@@ -288,6 +290,25 @@ class PackageTestUtil {
             packageParams.latestSelectedOfferInfo.productOfferPrice = PackageOfferModel.PackagePrice()
             packageParams.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice = Money(100, "USD")
             return packageParams
+        }
+
+        fun getPackageParamsWithFilters(): PackageSearchParams {
+            val packageParams = getMIDPackageSearchParams()
+            packageParams.filterOptions = buildFilterOptions()
+
+            return packageParams
+        }
+
+        private fun buildFilterOptions(hotelName: String? = "Test_Hotel",
+                                       starRatings: List<Int> = listOf(2),
+                                       vipOnly: Boolean = true,
+                                       userSelectedSort: BaseHotelFilterOptions.SortType? = BaseHotelFilterOptions.SortType.EXPERT_PICKS): PackageHotelFilterOptions {
+            return PackageHotelFilterOptions().apply {
+                filterHotelName = hotelName
+                filterStarRatings = starRatings
+                filterVipOnly = vipOnly
+                userSort = userSelectedSort
+            }
         }
 
         private fun setRateInfo(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,

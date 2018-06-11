@@ -28,6 +28,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.PackageTestUtil
+import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.getPackageParamsWithFilters
 import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowObjectAnimator
@@ -333,6 +334,15 @@ class PackageOverviewPresenterTest {
         overviewPresenter.onChangeHotelRoomClicked()
 
         assertNotNull(Db.getCachedPackageResponse())
+    }
+
+    @Test
+    fun testFilterResetAfterChangeHotel() {
+        Db.setPackageParams(getPackageParamsWithFilters())
+        setupOverviewPresenter()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.onChangeHotelClicked()
+        assertTrue(Db.sharedInstance.packageParams.filterOptions!!.isEmpty())
     }
 
     @Test
