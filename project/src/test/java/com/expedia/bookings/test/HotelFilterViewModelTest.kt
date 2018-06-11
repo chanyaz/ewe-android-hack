@@ -313,6 +313,21 @@ class HotelFilterViewModelTest {
     }
 
     @Test
+    fun testOriginalResponseShownOnClearFilters() {
+        val hotelName = "Marriott"
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(hotelName, false)
+        vm.onHotelVipFilterChangedListener.onHotelVipFilterChanged(true, false)
+        filterCountTestSubscriber.values().clear()
+        vm.originalResponse = generateHotelSearchResponse()
+        val testSubscriber = TestObserver.create<HotelSearchResponse>()
+        vm.filterObservable.subscribe(testSubscriber)
+        vm.clearObservable.onNext(Unit)
+        vm.doneObservable.onNext(Unit)
+
+        assertEquals(vm.originalResponse, testSubscriber.values()[0])
+    }
+
+    @Test
     fun emptyFilters() {
         vm.filterCountObservable.onNext(vm.userFilterChoices.filterCount())
         assertFilterCount(0)

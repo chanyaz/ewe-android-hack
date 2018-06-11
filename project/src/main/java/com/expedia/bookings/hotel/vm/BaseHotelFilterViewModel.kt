@@ -86,6 +86,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             finishClear.onNext(Unit)
             sendNewPriceRange()
             previousFilterChoices = null
+            presetFilterOptions = false
         }
     }
 

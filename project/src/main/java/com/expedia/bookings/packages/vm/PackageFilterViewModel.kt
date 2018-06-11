@@ -63,7 +63,6 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
             var paramsAfterReset = Db.sharedInstance.packageParams
             paramsAfterReset.filterOptions = PackageHotelFilterOptions()
             Db.setPackageParams(paramsAfterReset)
-            presetFilterOptions = false
         }
     }
 
