@@ -22,6 +22,8 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.data.Amenity
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
+import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
@@ -41,6 +43,8 @@ import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.bookings.hotel.vm.HotelDetailViewModel
+import com.expedia.bookings.services.HotelShortlistServices
+import com.expedia.bookings.testrule.ServicesRule
 import com.mobiata.android.util.SettingUtils
 import io.reactivex.subjects.PublishSubject
 import org.hamcrest.Matchers
@@ -82,6 +86,9 @@ class HotelDetailViewModelTest {
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
+
+    var shortlistServicesRule = ServicesRule(HotelShortlistServices::class.java)
         @Rule get
 
     @Before
@@ -813,6 +820,31 @@ class HotelDetailViewModelTest {
                         OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 4 to "D=c4", 34 to "24648.0.1"))
                 ),
                 mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testToggleFavorites() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        vm.hotelFavoritesManager = HotelFavoritesManager(shortlistServicesRule.services!!)
+        vm.paramsSubject.onNext(createSearchParams())
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.toggleHotelFavorited(true)
+        assertTrue(HotelFavoritesCache.isFavoriteHotel(context, offer1.hotelId))
+        vm.toggleHotelFavorited(false)
+        assertFalse(HotelFavoritesCache.isFavoriteHotel(context, offer1.hotelId))
+    }
+
+    @Test
+    fun testShowFavorites() {
+        vm.isDatelessObservable.onNext(true)
+        assertFalse(vm.showHotelFavoriteIcon())
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelShortlist)
+        assertFalse(vm.showHotelFavoriteIcon())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        assertFalse(vm.showHotelFavoriteIcon())
+        vm.isDatelessObservable.onNext(false)
+        assertTrue(vm.showHotelFavoriteIcon())
     }
 
     private fun loadOfferInfo(resourcePath: String): HotelOffersResponse {

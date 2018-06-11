@@ -26,6 +26,7 @@ import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
@@ -80,7 +81,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
         vm.hotelOffersSubject.subscribe { hotelOffersResponse ->
-            hotelInfoToolbarViewModel.bind(hotelOffersResponse)
+            hotelInfoToolbarViewModel.bind(hotelOffersResponse, vm.showHotelFavoriteIcon())
         }
 
         Observable.merge(vm.hotelSoldOut, vm.isDatelessObservable).subscribe {
@@ -115,6 +116,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
 
         contentView.viewModel = vm
+        hotelInfoToolbarViewModel.favoriteToggledObserver.subscribe { toggled ->
+            (vm as? HotelDetailViewModel)?.toggleHotelFavorited(toggled)
+        }
     }
 
     var reviewsSummaryViewModel: HotelReviewsSummaryViewModel by notNullAndObservable { vm ->

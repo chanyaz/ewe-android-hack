@@ -29,7 +29,7 @@
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStartWithNavigation="0dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/toolbar_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,6 +46,8 @@
                     android:textColor="#ffffff"
                     android:textSize="18sp"
                     app:textStyle="medium"
+                    android:layout_toStartOf="@id/hotel_detail_favorite_touch_target"
+                    android:layout_alignParentStart="true"
                     tools:text="Really Long Hotel Name, Like Really Just Stupid Long"/>
 
                 <com.expedia.bookings.widget.StarRatingBar
@@ -53,6 +55,7 @@
                     android:layout_width="200dp"
                     android:layout_height="14dp"
                     android:visibility="gone"
+                    android:layout_below="@id/hotel_name_text"
                     app:star_color="@color/hotelsv2_detail_star_color"
                     app:star_drawable="@drawable/detail_star"
                     app:star_spacing="4dp"/>
@@ -62,11 +65,30 @@
                     android:layout_width="200dp"
                     android:layout_height="14dp"
                     android:visibility="gone"
+                    android:layout_below="@id/hotel_name_text"
                     app:star_color="@color/hotelsv2_detail_star_color"
                     app:star_drawable="@drawable/circle_details"
                     app:star_spacing="4dp"/>
 
-            </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/hotel_detail_favorite_touch_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    tools:background="@color/black_50">
+
+                    <ImageView
+                        android:id="@+id/hotel_detail_favorite_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="12dp" />
+
+                </FrameLayout>
+            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
         <View

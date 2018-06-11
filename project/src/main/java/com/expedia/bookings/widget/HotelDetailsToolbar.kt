@@ -8,11 +8,13 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.hotel.util.shouldShowCircleForRatings
 import com.expedia.bookings.extensions.subscribeContentDescription
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -26,13 +28,14 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
     var toolBarRating: StarRatingBar by Delegates.notNull()
-    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
     val toolbarWrapper: LinearLayout by bindView(R.id.toolbar_wrapper)
     var navIcon: ArrowXDrawable by Delegates.notNull()
-
     var viewmodel: HotelInfoToolbarViewModel by Delegates.notNull()
+
+    private val hotelFavoriteIconTouchTarget: FrameLayout by bindView(R.id.hotel_detail_favorite_touch_target)
+    private val hotelFavoriteIcon: ImageView by bindView(R.id.hotel_detail_favorite_icon)
 
     init {
         View.inflate(getContext(), R.layout.hotel_details_toolbar, this)
@@ -73,6 +76,11 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         }
         vm.hotelRatingContentDescriptionObservable.subscribeContentDescription(toolBarRating)
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
+        vm.hotelFavoriteIconVisibilityObserver.subscribeVisibility(hotelFavoriteIconTouchTarget)
+        vm.hotelFavoriteIconResIdObserver.subscribe { resId ->
+            hotelFavoriteIcon.setImageResource(resId)
+        }
+        hotelFavoriteIconTouchTarget.subscribeOnClick(vm.favoriteClickObserver)
     }
 
     fun refreshForCystalTheme() {

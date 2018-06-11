@@ -498,6 +498,10 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
     }
 
+    open fun showHotelFavoriteIcon(): Boolean {
+        return false
+    }
+
     fun shouldTrackPartialSoldOut(): Boolean {
         return hasSoldOutRoom && !allRoomsSoldOut.value
     }

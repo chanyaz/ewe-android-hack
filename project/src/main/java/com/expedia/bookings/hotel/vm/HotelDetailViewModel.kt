@@ -22,14 +22,17 @@ import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.extensions.trackingString
+import com.expedia.bookings.hotel.util.HotelFavoritesManager
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import java.math.BigDecimal
+import javax.inject.Inject
 
-open class HotelDetailViewModel(context: Context, private val hotelInfoManager: HotelInfoManager,
+class HotelDetailViewModel(context: Context, private val hotelInfoManager: HotelInfoManager,
                                 private val hotelSearchManager: HotelSearchManager) :
         BaseHotelDetailViewModel(context) {
 
@@ -40,6 +43,8 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
     var datesChanged = false
     var changeDateParams: HotelSearchParams? = null
         private set
+    lateinit var hotelFavoritesManager: HotelFavoritesManager
+        @Inject set
     private var swpEnabled = false
     private var cachedParams: HotelSearchParams? = null
     private var apiSubscriptions = CompositeDisposable()
@@ -65,6 +70,8 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe({ isDatelessObservable.onNext(false) }))
 
         registerErrorSubscriptions()
+
+        Ui.getApplication(context).hotelComponent().inject(this)
     }
 
     fun fetchOffers(params: HotelSearchParams, hotelId: String) {
@@ -99,6 +106,14 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
 
     fun clearSubscriptions() {
         apiSubscriptions.clear()
+    }
+
+    fun toggleHotelFavorited(favorited: Boolean) {
+        if (favorited) {
+            hotelFavoritesManager.saveFavorite(context, hotelOffersResponse.hotelId, paramsSubject.value)
+        } else {
+            hotelFavoritesManager.removeFavorite(context, hotelOffersResponse.hotelId)
+        }
     }
 
     override fun offerReturned(offerResponse: HotelOffersResponse) {
@@ -193,6 +208,12 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
 
     override fun getTelesalesNumber(): String {
         return hotelOffersResponse.telesalesNumber
+    }
+
+    override fun showHotelFavoriteIcon(): Boolean {
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelShortlist) &&
+                Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated() &&
+                isDatelessObservable.value == false
     }
 
     private fun getSearchInfoTextColor(): Int {

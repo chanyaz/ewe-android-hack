@@ -34,6 +34,7 @@ import org.robolectric.annotation.Config
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMIDItemRoomOffer
 import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMidHotelRoomOffer
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.util.PackageCalendarRules
 import org.junit.Rule
@@ -244,6 +245,14 @@ class PackageHotelDetailViewModelTest {
 
         testViewModel.onlyShowTotalPrice.onNext(true)
         assertPerNightVisibility(false)
+    }
+
+    @Test
+    fun testShouldShowFavoriteIcon() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        testViewModel.isDatelessObservable.onNext(false)
+        assertFalse(testViewModel.showHotelFavoriteIcon())
     }
 
     private fun assertPerNightVisibility(expectedVisibility: Boolean) {
