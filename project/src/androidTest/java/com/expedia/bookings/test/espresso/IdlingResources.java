@@ -67,20 +67,4 @@ public class IdlingResources {
 			}
 		}
 	}
-
-	public static class SuggestionResource extends Resource {
-		public SuggestionResource() {
-			super(SuggestionResource.class.getSimpleName());
-		}
-
-		@Subscribe
-		public void on(Events.SuggestionQueryStarted event) {
-			resource.increment();
-		}
-
-		@Subscribe
-		public void on(Events.SuggestionResultsDelivered event) {
-			resource.decrement();
-		}
-	}
 }

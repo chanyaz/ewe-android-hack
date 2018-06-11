@@ -137,26 +137,8 @@ public class Events {
 		}
 	}
 
-	public static class TripBucketHasRedeyeItems {
-		// ignore
-	}
-
-	public static class TripBucketHasMismatchedItems {
-		// ignore
-	}
-
-	// Suggestion query events
-	public static class SuggestionQueryStarted {
-	}
-
-	public static class SuggestionResultsDelivered {
-	}
-
 	// HotelSearch update events
 	public static class HotelAvailabilityUpdated {
-	}
-
-	public static class HotelRateSelected {
 	}
 
 	public static class ShowCVV {
@@ -200,14 +182,6 @@ public class Events {
 
 		public LXNewSearchParamsAvailable(LxSearchParams params) {
 			lxSearchParams = params;
-		}
-
-		public LXNewSearchParamsAvailable(String locationName, String airportCode, LocalDate startDate,
-			LocalDate endDate,
-			SearchType searchType, boolean modQualified) {
-			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
-				.searchType(SearchType.EXPLICIT_SEARCH).imageCode(airportCode)
-				.location(locationName).modQualified(modQualified).startDate(startDate).endDate(endDate).build();
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, boolean modQualified) {
