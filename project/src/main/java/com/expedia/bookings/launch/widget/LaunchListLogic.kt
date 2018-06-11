@@ -41,7 +41,7 @@ open class LaunchListLogic {
     }
 
     open fun showAirAttachMessage(): Boolean {
-        return (userBucketedForAirAttach() && userStateManager.isUserAuthenticated()
+        return (userStateManager.isUserAuthenticated()
                 && getUpcomingAirAttachQualifiedFlightTrip() != null)
     }
 
@@ -90,10 +90,5 @@ open class LaunchListLogic {
 
     fun showJoinRewardsCard(): Boolean {
         return PointOfSale.getPointOfSale().shouldShowJoinRewardsCard()
-    }
-
-    private fun userBucketedForAirAttach(): Boolean {
-        return AbacusFeatureConfigManager
-                .isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
     }
 }

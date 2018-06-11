@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
@@ -11,8 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.marketing.meso.model.MesoAdResponse
 import com.expedia.bookings.marketing.meso.model.MesoDestinationAdResponse
@@ -40,7 +42,10 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.FeatureTestUtils
 import com.expedia.bookings.utils.LaunchNavBucketCache
+import com.expedia.bookings.widget.LaunchScreenExpediaHotelAttachCard
+import com.expedia.bookings.widget.LaunchScreenHotelAttachCard
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
 import com.google.android.gms.ads.formats.NativeAd
@@ -322,19 +327,22 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
 
         val fifthPosition = adapterUnderTest.getItemViewType(4)
-        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, fifthPosition)
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, fifthPosition)
 
         val sixthPosition = adapterUnderTest.getItemViewType(5)
-        assertEquals(LaunchDataItem.HEADER_VIEW, sixthPosition)
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, sixthPosition)
 
         val seventhPosition = adapterUnderTest.getItemViewType(6)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, seventhPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, seventhPosition)
+
+        val eigthPosition = adapterUnderTest.getItemViewType(7)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, eigthPosition)
     }
 
     @Test
@@ -358,7 +366,6 @@ class LaunchListAdapterTest {
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun itemViewPosition_showing_hotels_airAttach_memberDeals() {
-        givenAirAttachCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -367,7 +374,7 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
@@ -393,13 +400,16 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
 
         val fifthPosition = adapterUnderTest.getItemViewType(4)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+
+        val sixthPosition = adapterUnderTest.getItemViewType(5)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
     }
 
     @Test
@@ -471,19 +481,21 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
 
         val fifthPosition = adapterUnderTest.getItemViewType(4)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+
+        val sixthPosition = adapterUnderTest.getItemViewType(5)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
     }
 
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingHotels_CustomerSignedIn_ActiveItin_AirAttach() {
-        givenAirAttachCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -495,7 +507,7 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
@@ -516,9 +528,10 @@ class LaunchListAdapterTest {
         givenWeHaveCurrentLocationAndHotels()
 
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(1))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(4))
 
         givenCustomerSignedOut()
         givenWeHaveCurrentLocationAndHotels()
@@ -557,13 +570,16 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = adapterUnderTest.getItemViewType(4)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
     }
 
     @Test
@@ -589,7 +605,7 @@ class LaunchListAdapterTest {
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testItinManagerSyncShowsActiveItin() {
         givenCustomerSignedIn()
-        createSystemUnderTest(isItinLaunchCardEnabled = false)
+        createSystemUnderTestWithNoRecentHotelAttach(isItinLaunchCardEnabled = false)
         givenWeHaveStaffPicks()
 
         val mockItineraryManager: ItineraryManager = Mockito.spy(ItineraryManager.getInstance())
@@ -617,13 +633,16 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, thirdPosition)
 
         fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
 
         val fifthPosition = adapterUnderTest.getItemViewType(4)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+
+        val sixthPosition = adapterUnderTest.getItemViewType(5)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, sixthPosition)
     }
 
     @Test
@@ -632,21 +651,19 @@ class LaunchListAdapterTest {
         givenWeHaveStaffPicks()
 
         assertFalse(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW))
-        assertFalse(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW))
+        assertFalse(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW))
 
         adapterUnderTest.setLaunchListLogic(TestLaunchListLogic(isItinLaunchCardEnabled = true))
-        givenAirAttachCardEnabled()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
 
         assertTrue(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW))
-        assertTrue(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW))
+        assertTrue(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW))
     }
 
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingAirAttach() {
-        givenAirAttachCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
@@ -655,7 +672,7 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
@@ -670,7 +687,6 @@ class LaunchListAdapterTest {
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_AirAttach() {
-        givenAirAttachCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -679,7 +695,7 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
+        assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
@@ -720,7 +736,7 @@ class LaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels)
 
-        val fixedItemCount = 3 // lob view, header view, member deals
+        val fixedItemCount = 4 // lob view, hotMip, header view, member deals
         val expectedCount = fixedItemCount + numberOfHotels
         val actualCount = adapterUnderTest.itemCount
         assertEquals(expectedCount, actualCount)
@@ -734,7 +750,7 @@ class LaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveStaffPicks(numberOfStaffPicks)
 
-        val fixedItemCount = 3 // lob view, header view, member deals
+        val fixedItemCount = 4 // lob view, hotMip, header view, member deals
         val expectedCount = fixedItemCount + numberOfStaffPicks
         assertEquals(expectedCount, adapterUnderTest.itemCount)
     }
@@ -751,7 +767,6 @@ class LaunchListAdapterTest {
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_NoFlightTrip() {
-        givenAirAttachCardEnabled()
         createSystemUnderTest(recentAirAttachFlightTrip = null)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -864,6 +879,39 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun hotelAttachRedesignCardIsShown_givenFeatureIsEnabled() {
+        givenHotelAttachCardEnabled()
+        createSystemUnderTest(isItinLaunchCardEnabled = true)
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val layoutManager = LinearLayoutManager(context)
+        val recyclerView = RecyclerView(context)
+        recyclerView.layoutManager = layoutManager
+
+        val itemViewType = adapterUnderTest.getItemViewType(2)
+        val viewHolder = adapterUnderTest.createViewHolder(recyclerView, itemViewType)
+        assertTrue(viewHolder is LaunchScreenExpediaHotelAttachCard)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun genericHotelAttachCardIsShown_givenFeatureIsNotEnabled() {
+        createSystemUnderTest(isItinLaunchCardEnabled = true)
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val layoutManager = LinearLayoutManager(context)
+        val recyclerView = RecyclerView(context)
+        recyclerView.layoutManager = layoutManager
+
+        val itemViewType = adapterUnderTest.getItemViewType(2)
+        val viewHolder = adapterUnderTest.createViewHolder(recyclerView, itemViewType)
+        assertTrue(viewHolder is LaunchScreenHotelAttachCard)
+    }
+
     private fun makeSignInPlaceholderViewModel(): SignInPlaceHolderViewModel {
         return SignInPlaceHolderViewModel(getBrandForSignInView(),
                 context.getString(R.string.earn_rewards_and_unlock_deals), "", "")
@@ -965,6 +1013,12 @@ class LaunchListAdapterTest {
         adapterUnderTest.onCreateViewHolder(parentView, 0)
     }
 
+    private fun createSystemUnderTestWithNoRecentHotelAttach(isItinLaunchCardEnabled: Boolean = false, recentAirAttachFlightTrip: Trip? = null) {
+        val testLaunchListLogic = TestLaunchListLogic(isItinLaunchCardEnabled, null, recentAirAttachFlightTrip)
+        adapterUnderTest = TestLaunchListAdapter(context, headerView, testLaunchListLogic)
+        adapterUnderTest.onCreateViewHolder(parentView, 0)
+    }
+
     private fun givenCustomerSignedIn() {
         val mockUser = UserLoginTestUtil.mockUser()
         UserLoginTestUtil.setupUserAndMockLogin(mockUser, context as Activity)
@@ -983,8 +1037,8 @@ class LaunchListAdapterTest {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLastMinuteDeals, 1)
     }
 
-    private fun givenAirAttachCardEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen, 1)
+    private fun givenHotelAttachCardEnabled() {
+        FeatureTestUtils.enableFeature(context, Features.all.hotMipRedesign)
     }
 
     private fun givenMesoHotelAdIsEnabled() {

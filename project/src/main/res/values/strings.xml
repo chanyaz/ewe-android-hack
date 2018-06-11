@@ -2544,19 +2544,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Offer expires today</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Save up to 55% off {location} Hotels</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">Up to 55% off {location} Hotels</string>
+    <string name="hotel_attach_string1_TEMPLATE">Save up to 55% off {location} Hotels</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Because You Booked a Flight</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">Save on a hotel because you booked a flight</string>
+    <string name="hotel_attach_string">Because You Booked a Flight</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Button</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Arriving</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">Departing</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">You unlocked up to 43% off hotels because you booked on Expedia</string>
+    <string name="add_on_content_desc">Add-On Advantage</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->

@@ -66,7 +66,6 @@ class LaunchListLogicTest {
     @Test
     fun airAttachMessage() {
         assertEquals(false, launchListLogic.showAirAttachMessage())
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen, 1)
         val testLaunchListLogic = TestLaunchListLogic()
         testLaunchListLogic.initialize(context)
         givenCustomerSignedIn()

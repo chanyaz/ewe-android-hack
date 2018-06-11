@@ -3596,7 +3596,6 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(s, AbacusUtils.DisableSignInPageAsFirstScreen);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 		trackAbacusTest(s, AbacusUtils.HotelEarn2xMessaging);
 		trackAbacusTest(s, AbacusUtils.MesoAd);

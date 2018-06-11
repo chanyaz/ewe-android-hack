@@ -2506,11 +2506,11 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Ưu đãi hết hạn hôm nay</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Tiết kiệm đến 55% giá phòng khách sạn tại {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Tiết kiệm đến 55% giá phòng khách sạn tại {location}</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
     <string name="air_attach_variant2_string1_TEMPLATE">Giảm đến 55% giá phòng khách sạn tại {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Vì quý vị đã đặt chuyến bay</string>
+    <string name="hotel_attach_string">Vì quý vị đã đặt chuyến bay</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">Ưu đãi giá phòng khách sạn vì quý vị đã đặt chuyến bay</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->

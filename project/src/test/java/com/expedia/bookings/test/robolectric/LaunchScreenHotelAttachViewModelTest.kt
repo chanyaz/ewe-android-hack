@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AirAttach
-import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
-import com.expedia.bookings.data.abacus.ABTest
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.trips.Trip
-import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.launch.LaunchScreenAirAttachViewModel
+import com.expedia.vm.launch.LaunchScreenHotelAttachViewModel
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.LocalDateTime
@@ -23,13 +21,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class LaunchScreenAirAttachViewModelTest {
+class LaunchScreenHotelAttachViewModelTest {
 
-    private lateinit var sut: LaunchScreenAirAttachViewModel
+    private lateinit var sut: LaunchScreenHotelAttachViewModel
     private lateinit var flightTrip: Trip
     private lateinit var view: View
     private lateinit var context: Context
@@ -42,36 +39,16 @@ class LaunchScreenAirAttachViewModelTest {
     fun before() {
         context = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(context).defaultTripComponents()
-        view = LayoutInflater.from(context).inflate(R.layout.launch_screen_air_attach_card, null)
+        view = LayoutInflater.from(context).inflate(R.layout.launch_screen_hotel_mip_card, null)
     }
 
     private fun createSystemUnderTest(hotelSearchParams: DeprecatedHotelSearchParams, cityName: String, expiryDateTime: LocalDateTime) {
         flightTrip = createFlightTrip(expiryDateTime)
-        sut = LaunchScreenAirAttachViewModel(context, view, flightTrip, hotelSearchParams, cityName)
-    }
-
-    @Test
-    fun testAirAttachVariant1Displayed() {
-        enableABTest()
-        AbacusTestUtils.bucketTestWithVariant(ABTest(13345), 1)
-
-        val expiryDateTime = LocalDateTime.now().plusDays(20)
-        val contentDesc = "Offer expires in 20 days. Up to 55% off San Francisco Hotels. Save on a hotel because you booked a flight. Button"
-
-        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expiryDateTime)
-        airAttachMessageSubscribe()
-
-        assertEquals("Up to 55% off San Francisco Hotels", sut.firstLineObserver.value)
-        assertEquals("Save on a hotel because you booked a flight", sut.secondLineObserver.value)
-        assertEquals("Offer expires in 20 days", sut.offerExpiresObserver.value)
-        assertEquals(contentDesc, view.contentDescription.toString())
+        sut = LaunchScreenHotelAttachViewModel(context, view, flightTrip, hotelSearchParams, cityName)
     }
 
     //@Test
-    fun testAirAttachVariant2Displayed() {
-        enableABTest()
-        AbacusTestUtils.bucketTestWithVariant(ABTest(13345), 2)
-
+    fun testAirAttachContentDisplayed() {
         val expiryDateTime = LocalDateTime.now().plusHours(5)
         val contentDesc = "Offer expires in 4 hours. Because You Booked a Flight. Save up to 55% off San Francisco Hotels. Button"
 
@@ -86,11 +63,8 @@ class LaunchScreenAirAttachViewModelTest {
 
     @Test
     fun testAirAttachExpiresSoon() {
-        enableABTest()
-        AbacusTestUtils.bucketTestWithVariant(ABTest(13345), 1)
-
         val expiryDateTime = LocalDateTime.now()
-        val contentDesc = "Offer expires soon. Up to 55% off San Francisco Hotels. Save on a hotel because you booked a flight. Button"
+        val contentDesc = "Offer expires soon. Because You Booked a Flight. Save up to 55% off San Francisco Hotels. Button"
 
         createSystemUnderTest(createHotelSearchParams(), "San Francisco", expiryDateTime)
         airAttachMessageSubscribe()
@@ -103,10 +77,6 @@ class LaunchScreenAirAttachViewModelTest {
         sut.firstLineObserver.subscribe(firstLineSubscriber)
         sut.secondLineObserver.subscribe(secondLineSubscriber)
         sut.offerExpiresObserver.subscribe(offerExpiresSubscriber)
-    }
-
-    private fun enableABTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
     }
 
     private fun createHotelSearchParams(): DeprecatedHotelSearchParams {

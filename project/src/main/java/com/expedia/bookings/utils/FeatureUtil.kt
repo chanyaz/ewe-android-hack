@@ -184,3 +184,7 @@ fun isPackagesSearchFormRenameToFromEnabled(context: Context): Boolean {
 fun isHighlightSortFilterOnPackagesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
 }
+
+fun isHotMipRedesignEnabled(): Boolean {
+    return Features.all.hotMipRedesign.enabled()
+}

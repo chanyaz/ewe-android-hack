@@ -7,6 +7,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -45,16 +46,18 @@ import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LaunchNavBucketCache;
+import com.expedia.bookings.widget.HotelAttachCardViewHolder;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
+import com.expedia.bookings.widget.LaunchScreenHotelAttachCard;
+import com.expedia.bookings.widget.LaunchScreenExpediaHotelAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.Optional;
 import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
 import com.expedia.vm.launch.CustomerFirstLaunchHolderViewModel;
-import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
+import com.expedia.vm.launch.LaunchScreenHotelAttachViewModel;
 import com.expedia.vm.launch.RecommendedHotelViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.mobiata.android.Log;
@@ -73,7 +76,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
-			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
+			|| itemViewKey == LaunchDataItem.HOTEL_MIP_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
 			|| itemViewKey == LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW
 			|| itemViewKey == LaunchDataItem.MESO_HOTEL_AD_VIEW
@@ -195,9 +198,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			}
 		}
 
-		if (viewType == LaunchDataItem.AIR_ATTACH_VIEW) {
-			View view = LayoutInflater.from(context).inflate(R.layout.launch_screen_air_attach_card, parent, false);
-			return new LaunchScreenAirAttachCard(view);
+		if (viewType == LaunchDataItem.HOTEL_MIP_ATTACH_VIEW) {
+
+			if (FeatureUtilKt.isHotMipRedesignEnabled()) {
+				View view = LayoutInflater.from(context)
+					.inflate(R.layout.launch_screen_expedia_hotel_mip_card, parent, false);
+				return new LaunchScreenExpediaHotelAttachCard(view);
+			}
+			else {
+				View view = LayoutInflater.from(context)
+					.inflate(R.layout.launch_screen_hotel_mip_card, parent, false);
+				return new LaunchScreenHotelAttachCard(view);
+			}
 		}
 
 		if (viewType == LaunchDataItem.ITIN_VIEW) {
@@ -302,16 +314,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder instanceof BrandSignInLaunchCard) {
 			((BrandSignInLaunchCard) holder).bind(makeSignInLaunchHolderViewModel());
 		}
-		else if (holder instanceof LaunchScreenAirAttachCard) {
+		else if (holder instanceof HotelAttachCardViewHolder) {
 			Trip recentUpcomingFlightTrip = launchListLogic.getUpcomingAirAttachQualifiedFlightTrip();
 			if (recentUpcomingFlightTrip != null) {
-				TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
-				DeprecatedHotelSearchParams hotelSearchParams = TripUtils
-					.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
-				String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
-				LaunchScreenAirAttachViewModel viewModel = new LaunchScreenAirAttachViewModel(context, holder.itemView,
-					recentUpcomingFlightTrip, hotelSearchParams, cityName);
-				((LaunchScreenAirAttachCard) holder).bind(viewModel);
+				LaunchScreenHotelAttachViewModel viewModel = createViewModelWithHotelSearchParams(holder,
+					recentUpcomingFlightTrip);
+				((HotelAttachCardViewHolder) holder).bind(viewModel);
 			}
 		}
 		else if (holder instanceof SectionTitleViewHolder) {
@@ -361,6 +369,17 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder instanceof BigImageLaunchViewHolder) {
 			((BigImageLaunchViewHolder) holder).startLoadingAnimation();
 		}
+	}
+
+	@NonNull
+	private LaunchScreenHotelAttachViewModel createViewModelWithHotelSearchParams(RecyclerView.ViewHolder holder,
+		Trip recentUpcomingFlightTrip) {
+		TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
+		DeprecatedHotelSearchParams hotelSearchParams = TripUtils
+			.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
+		String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
+		return new LaunchScreenHotelAttachViewModel(context, holder.itemView,
+			recentUpcomingFlightTrip, hotelSearchParams, cityName);
 	}
 
 	@Override
@@ -421,7 +440,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				items.add(new LaunchDataItem(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE));
 			}
 			if (launchListLogic.showAirAttachMessage()) {
-				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
+				items.add(new LaunchDataItem(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW));
 			}
 			if (launchListLogic.showMemberDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
@@ -652,12 +671,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
 			}
 
-			if (isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW)) {
+			if (isStaticCardAlreadyShown(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW)) {
 				return;
 			}
 
 			if (launchListLogic.showAirAttachMessage()) {
-				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
+				items.add(new LaunchDataItem(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW));
 			}
 			addDelayedStaticCards(items);
 		}

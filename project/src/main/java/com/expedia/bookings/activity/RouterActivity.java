@@ -278,7 +278,6 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.sharedInstance.getAbacusGuid(), pos.getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest.getKey());
 			query.addExperiment(AbacusUtils.PackagesTitleChange.getKey());

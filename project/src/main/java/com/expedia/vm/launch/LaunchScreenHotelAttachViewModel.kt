@@ -3,9 +3,7 @@ package com.expedia.vm.launch
 import android.content.Context
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.navigation.HotelNavUtils
@@ -13,7 +11,7 @@ import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, recentUpcomingFlightTrip: Trip, hotelSearchParams: DeprecatedHotelSearchParams, cityName: String) {
+class LaunchScreenHotelAttachViewModel(val context: Context, val itemView: View, recentUpcomingFlightTrip: Trip, hotelSearchParams: DeprecatedHotelSearchParams, cityName: String) {
 
     //Inputs
     var onClickObserver = PublishSubject.create<Unit>()
@@ -35,15 +33,8 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
             OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
         }
 
-        val isVariant1 = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen) == AbacusUtils.LaunchScreenAirAttachVariant.UP_TO_XX_PERCENT_OFF.ordinal
-
-        if (isVariant1) {
-            firstLineObserver.onNext(Phrase.from(context, R.string.air_attach_variant2_string1_TEMPLATE).put("location", cityName).format().toString())
-            secondLineObserver.onNext(context.getString(R.string.air_attach_variant2_string2))
-        } else {
-            firstLineObserver.onNext(context.getString(R.string.air_attach_variant1_string))
-            secondLineObserver.onNext(Phrase.from(context, R.string.air_attach_variant1_string1_TEMPLATE).put("location", cityName).format().toString())
-        }
+        firstLineObserver.onNext(context.getString(R.string.hotel_attach_string))
+        secondLineObserver.onNext(Phrase.from(context, R.string.hotel_attach_string1_TEMPLATE).put("location", cityName).format().toString())
 
         if (hoursRemaining < 1) {
             offerExpiresObserver.onNext(context.resources.getText(R.string.air_attach_expires_soon).toString())

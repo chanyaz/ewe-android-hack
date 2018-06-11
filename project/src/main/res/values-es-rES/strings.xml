@@ -2506,11 +2506,11 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">La oferta caduca hoy</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Ahorra hasta un 55 %% en hoteles de {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Ahorra hasta un 55 %% en hoteles de {location}</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
     <string name="air_attach_variant2_string1_TEMPLATE">Hasta un 55 %% de descuento en hoteles de {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Gracias a tu reserva de vuelo</string>
+    <string name="hotel_attach_string">Gracias a tu reserva de vuelo</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">Ya que has reservado tu vuelo, ahorra en tu reserva de hotel</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->

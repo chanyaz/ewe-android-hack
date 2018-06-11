@@ -2506,11 +2506,11 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">혜택이 오늘 만료됩니다!</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">{location} 호텔 최대 55% 할인</string>
+    <string name="hotel_attach_string1_TEMPLATE">{location} 호텔 최대 55% 할인</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
     <string name="air_attach_variant2_string1_TEMPLATE">{location} 호텔 최대 55% 할인</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">항공을 예약하신 고객님께 드리는 혜택</string>
+    <string name="hotel_attach_string">항공을 예약하신 고객님께 드리는 혜택</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">항공을 예약하신 고객님께는 호텔을 할인해 드립니다.</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->

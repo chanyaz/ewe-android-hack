@@ -293,7 +293,7 @@
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_air_attach_choice_values"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="25528"
             android:summary="%s"
             android:title="Flights Loading State v1 - 25528"/>
@@ -317,7 +317,7 @@
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_air_attach_choice_values"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="25869"
             android:summary="%s"
             android:title="Holiday Calendar - 25869" />
@@ -334,14 +334,6 @@
             android:summary="%s"
             android:key="25030"
             android:title="Disable Sign-in Page as First Screen - 25030" />
-
-        <ListPreference
-            android:entries="@array/abacus_air_attach_choices"
-            android:entryValues="@array/abacus_air_attach_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="13345"
-            android:title="Show Air Attach Message on Launch screen - 13345"/>
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
