@@ -40,6 +40,7 @@ import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.itin.triplist.TripListFragment
+import com.expedia.bookings.launch.fragment.JoinRewardsDialogFragment
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.bookings.launch.widget.LaunchListLogic
 import com.expedia.bookings.launch.widget.LaunchTabView
@@ -66,6 +67,7 @@ import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.checkIfTripFoldersEnabled
 import com.expedia.bookings.utils.isBrandColorEnabled
@@ -90,7 +92,7 @@ import javax.inject.Inject
 
 class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, TripListFragment.TripListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
-        , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
+        , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener, JoinRewardsDialogFragment.UserHasSuccessfullyJoinedRewards {
     private var pagerSelectedPosition = PAGER_POS_LAUNCH
 
     lateinit var appStartupTimeLogger: AppStartupTimeLogger
@@ -816,6 +818,14 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
 
         return events
+    }
+
+    override fun onJoinRewardsSuccess() {
+        if (Ui.isAdded(phoneLaunchFragment)) {
+            UserAccountRefresher(this, LineOfBusiness.NONE, UserAccountRefresher.IUserAccountRefreshListener {
+                phoneLaunchFragment?.userVisibleHint = true
+            }).forceAccountRefresh()
+        }
     }
 
     companion object {

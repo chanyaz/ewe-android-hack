@@ -11,6 +11,7 @@
     <color name="earn_message_text_color">#8d1598</color>
     <color name="pay_now_earn_text_color">#8E0099</color>
     <color name="error_color">#b80000</color>
+
     <!-- Launch colors -->
     <color name="old_launch_toolbar_background_color">@color/lob_btn_color</color>
     <color name="launch_tab_indicator">#00B1FF</color>
@@ -154,6 +155,14 @@
 
     <!--Reward Launch Card-->
     <color name="reward_launch_card_background_gradient">#4D8E0099</color>
+
+    <!-- Reward Confetti Colors -->
+    <color name="confetti_color_one">#0b8e0099</color>
+    <color name="confetti_color_two">#806bca2c</color>
+    <color name="confetti_color_three">#800065b8</color>
+    <color name="confetti_color_four">#8000b1ff</color>
+    <color name="confetti_color_five">#80c4204b</color>
+    <color name="confetti_color_six">#80b80000</color>
 
     <!-- Last Minute Deal colors-->
     <color name="last_minute_deal_background_gradient">#A600253C</color>

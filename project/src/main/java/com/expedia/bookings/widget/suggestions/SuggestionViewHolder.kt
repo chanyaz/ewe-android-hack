@@ -17,7 +17,7 @@ open class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewM
     @VisibleForTesting val icon: ImageView by bindView(R.id.icon_imageview)
     @VisibleForTesting val hierarchyIcon: ImageView by bindView(R.id.hierarchy_imageview)
 
-    private val title: TextView by bindView(R.id.title_textview)
+    private val title: TextView by bindView(R.id.titleTextView)
     private val subtitle: TextView by bindView(R.id.suggestion_subtitle)
     private val divider: View by bindView(R.id.suggestion_dropdown_divider)
 

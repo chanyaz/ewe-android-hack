@@ -112,6 +112,9 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
+    // For confetti animations
+    implementation 'nl.dionsegijn:konfetti:1.1.2'
+
     // Dagger 2.6.1
     implementation "com.google.dagger:dagger:${dagger_version}"
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
@@ -639,3 +642,5 @@ def sharedDataFilesToRemove(variant) {
     filesToRemove.add('ExpediaSharedData/validate.sh')
     return filesToRemove
 }
+
+apply plugin: 'kotlin-android-extensions'

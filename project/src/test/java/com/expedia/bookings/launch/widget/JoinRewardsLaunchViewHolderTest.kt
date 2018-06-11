@@ -1,10 +1,11 @@
 package com.expedia.bookings.launch.widget
 
-import android.app.Activity
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.launch.fragment.JoinRewardsDialogFragment
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
@@ -20,7 +21,7 @@ import org.robolectric.Robolectric
 class JoinRewardsLaunchViewHolderTest {
     lateinit var joinRewardsViewHolder: JoinRewardsLaunchViewHolder
     lateinit var mockAnalyticsProvider: AnalyticsProvider
-    val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+    val activity = Robolectric.buildActivity(TestAppCompatActivity::class.java).create().get()
 
     @Before
     fun before() {
@@ -40,6 +41,12 @@ class JoinRewardsLaunchViewHolderTest {
 
     private fun createJoinRewardsViewHolder() {
         val view = LayoutInflater.from(activity).inflate(R.layout.join_rewards_launch_card, null)
-        joinRewardsViewHolder = JoinRewardsLaunchViewHolder(view)
+        joinRewardsViewHolder = JoinRewardsLaunchViewHolder(view, activity)
+    }
+
+    class TestAppCompatActivity : AppCompatActivity(), JoinRewardsDialogFragment.UserHasSuccessfullyJoinedRewards {
+        override fun onJoinRewardsSuccess() {
+
+        }
     }
 }

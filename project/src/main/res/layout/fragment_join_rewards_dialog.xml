@@ -1,0 +1,171 @@
+<RelativeLayout android:id="@+id/rootRelativeLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    tools:context="com.expedia.bookings.launch.fragment.JoinRewardsDialogFragment">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        style="@style/Core.Text.600.Bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        android:gravity="center"
+        android:text="@string/join_rewards_member_title"
+        android:textColor="@color/launch_mobile_exclusive" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieProgressView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/titleTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_margin="24dp"
+        android:visibility="gone"
+        app:lottie_fileName="lottie/orbitzLoading.json"
+        app:lottie_loop="true" />
+
+    <RelativeLayout
+        android:id="@+id/listRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lottieProgressView"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/termsTextView"
+            style="@style/Core.Text.200"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/agree_to_terms_text"
+            android:textColor="@color/gray600" />
+
+        <TextView
+            android:id="@+id/firstReasonTextView"
+            style="@style/Core.Text.300"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/termsTextView"
+            android:layout_marginEnd="32dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_toEndOf="@+id/firstCheckImageView"
+            android:text="@string/first_reason_to_join"
+            android:textColor="@color/launch_mobile_exclusive" />
+
+
+        <ImageView
+            android:id="@+id/firstCheckImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/firstReasonTextView"
+            android:layout_alignTop="@+id/firstReasonTextView"
+            android:layout_toStartOf="@+id/primaryActionCardView"
+            android:src="@drawable/ic_checkmark"
+            android:tint="@color/loyalty_earn_color" />
+
+        <TextView
+            android:id="@+id/secondReasonTextView"
+            style="@style/Core.Text.300"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firstReasonTextView"
+            android:layout_marginEnd="32dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/secondCheckImageView"
+            android:text="@string/second_reason_to_join"
+            android:textColor="@color/launch_mobile_exclusive" />
+
+        <ImageView
+            android:id="@+id/secondCheckImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/secondReasonTextView"
+            android:layout_alignTop="@+id/secondReasonTextView"
+            android:layout_toStartOf="@+id/primaryActionCardView"
+            android:src="@drawable/ic_checkmark"
+            android:tint="@color/loyalty_earn_color" />
+
+        <TextView
+            android:id="@+id/thirdReasonTextView"
+            style="@style/Core.Text.300"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/secondReasonTextView"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/thirdCheckImageView"
+            android:text="@string/third_reason_to_join"
+            android:textColor="@color/launch_mobile_exclusive" />
+
+        <ImageView
+            android:id="@+id/thirdCheckImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/thirdReasonTextView"
+            android:layout_alignTop="@+id/thirdReasonTextView"
+            android:layout_toStartOf="@+id/primaryActionCardView"
+            android:src="@drawable/ic_checkmark"
+            android:tint="@color/loyalty_earn_color" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/primaryActionCardView"
+            android:layout_width="200dp"
+            android:layout_height="54dp"
+            android:layout_below="@+id/thirdReasonTextView"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/loyalty_earn_color"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/primaryActionTextView"
+                style="@style/Core.Text.400.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/join_now"
+                android:textColor="@color/white" />
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/secondaryActionButton"
+        style="@style/Core.Text.400.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/listRelativeLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:text="@string/maybe_later"
+        android:textAllCaps="false"
+        android:textColor="@color/app_primary" />
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/confettiView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/secondaryActionButton"
+        android:layout_marginBottom="-16dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

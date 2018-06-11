@@ -512,4 +512,12 @@
 
     <!--Reward Launch Card color (Only use for Orbitz)-->
     <color name="reward_launch_card_background_gradient">@color/white</color>
+
+    <!-- Reward Confetti Colors (Only use for Orbitz) -->
+    <color name="confetti_color_one">@color/white</color>
+    <color name="confetti_color_two">@color/white</color>
+    <color name="confetti_color_three">@color/white</color>
+    <color name="confetti_color_four">@color/white</color>
+    <color name="confetti_color_five">@color/white</color>
+    <color name="confetti_color_six">@color/white</color>
 </resources>

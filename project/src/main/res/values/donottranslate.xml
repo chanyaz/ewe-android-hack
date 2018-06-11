@@ -488,13 +488,28 @@
     <string name="amenity_key_family_unknown">unknown</string>
 
     <!--Reward launch card (Orbitz Only)-->
-    <string name="reward_launch_card_background_url"></string>
-    <string name="reward_webview_url"></string>
-    <string name="reward_launch_card_text_content_description"></string>
+    <string name="reward_launch_card_background_url"/>
+    <string name="reward_webview_url"/>
+    <string name="reward_launch_card_text_content_description"/>
+
+    <!-- Join Now Modal Strings (Orbitz Only) -->
+    <string name="join_rewards_member_title" />
+    <string name="agree_to_terms_text"/>
+    <string name="terms" />
+    <string name="first_reason_to_join"/>
+    <string name="second_reason_to_join"/>
+    <string name="third_reason_to_join"/>
+    <string name="join_now"/>
+    <string name="maybe_later"/>
+    <string name="your_in_title"/>
+    <string name="book_travel"/>
+    <string name="error_with_request"/>
+    <string name="try_again"/>
+    <string name="loading_message" />
 
     <!--Join Now launch card (Orbitz Only)-->
-    <string name="join_now_launch_card_text"></string>
-    <string name="join_rewards_button_text"></string>
+    <string name="join_now_launch_card_text"/>
+    <string name="join_rewards_button_text"/>
 
     <!--Carnival OLACID Template-->
     <string name="carnival_default_olacid_TEMPLATE">OLA.{brand}-{pos}.PUSH-EVENT-TRIG.CARNIVAL.UNSPECIFIED.GENERIC</string>

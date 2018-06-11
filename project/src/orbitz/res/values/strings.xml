@@ -112,6 +112,22 @@
     <string name="reward_launch_card_text_content_description">Orbitz rewards. Book on app get 5% back just like that. Double tap to learn how</string>
 
     <!--Join Now launch card-->
-    <string name="join_now_launch_card_text">Book on app and get 5% back – just like that! Redeem instantly on hotels and travel perks.</string>
+    <string name="join_now_launch_card_text">Book on app, get 5% back – just like that! Save on hotels and earn free travel perks.</string>
     <string name="join_rewards_button_text">Join Rewards</string>
+
+    <!-- Join Now Modal -->
+    <string name="join_rewards_member_title">It’s free to join\nOrbitz Rewards</string>
+    <string name="agree_to_terms_text">By joining I accept the {terms}.</string>
+    <string name="terms">Terms</string>
+    <string name="first_reason_to_join">Earn Orbucks when you book</string>
+    <string name="second_reason_to_join">Cash in to save on hotels</string>
+    <string name="third_reason_to_join">Unlock perks like free breakfast</string>
+    <string name="join_now">Join Now</string>
+    <string name="maybe_later">Maybe Later</string>
+    <string name="your_in_title">You\'re in!\nStart earning today.</string>
+    <string name="book_travel">Book Travel</string>
+    <string name="error_with_request">Something\nwent wrong.</string>
+    <string name="try_again">Try Again</string>
+    <string name="loading_message">You\'ll be earning rewards in no time</string>
+
 </resources>

@@ -82,7 +82,7 @@
     </style>
 
     <style name="Core.Text.400.Bold">
-        <item name="textStyle">bold</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Core.Text.500">
@@ -107,6 +107,10 @@
 
     <style name="Core.Text.600.Medium">
         <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.600.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Core.Text.700">

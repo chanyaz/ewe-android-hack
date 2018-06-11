@@ -470,6 +470,38 @@ public class StrUtils {
 
 	}
 
+	public static SpannableStringBuilder generateAgreeToTermsLink(Context context, String termsURL) {
+		SpannableStringBuilder termsTextSpan = new SpannableStringBuilder();
+
+		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			termsURL,
+			context.getResources().getString(R.string.terms));
+
+		termsTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), R.string.agree_to_terms_text)
+			.put("terms", spannedTerms)
+			.format().toString()));
+		URLSpan[] spans = termsTextSpan.getSpans(0, termsTextSpan.length(), URLSpan.class);
+
+		return formatAgreeToTermsLinkSpan(termsTextSpan, spans, context);
+	}
+
+	private static SpannableStringBuilder formatAgreeToTermsLinkSpan(SpannableStringBuilder termsTextSpan, URLSpan[] spans, Context context) {
+		for (final URLSpan span : spans) {
+			int start = termsTextSpan.getSpanStart(span);
+			int end = termsTextSpan.getSpanEnd(span);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			termsTextSpan.removeSpan(span);
+			termsTextSpan.setSpan(new LegalClickableSpan(span.getURL(), termsTextSpan.subSequence(start, end).toString(), true), start,
+				end, 0);
+			termsTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			termsTextSpan.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.gray600)), start,
+				end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		return termsTextSpan;
+	}
+
 	public static String stripHTMLTags(String htmlContent) {
 		return HtmlCompat.stripHtml(htmlContent.replaceAll(HTML_TAGS_REGEX, ""));
 	}

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -230,7 +231,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 		if (viewType == LaunchDataItem.JOIN_REWARDS_CARD_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.join_rewards_launch_card,parent, false);
-			return new JoinRewardsLaunchViewHolder(view);
+			return new JoinRewardsLaunchViewHolder(view, (AppCompatActivity) context);
 		}
 
 		if (viewType == LaunchDataItem.CUSTOMER_FIRST_GUARANTEE) {
