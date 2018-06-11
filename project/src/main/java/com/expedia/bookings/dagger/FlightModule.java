@@ -40,12 +40,9 @@ public final class FlightModule {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		if (isUserBucketedForAPIMAuth) {
-			return new KongFlightServices(kongEndpointUrl, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
-		}
-		else {
-			return new FlightServices(endpoint, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
-		}
+	
+		return new KongFlightServices(kongEndpointUrl, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
+		
 	}
 
 	@Provides
