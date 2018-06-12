@@ -69,9 +69,10 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 		LXScreen.location().check(matches(isDisplayed()));
 	}
 
-	@Test
-	public void testCurrentLocationSuggestionWithNoActivitiesError() throws Throwable {
-		Common.delay(1);
-		LXScreen.searchFailed().check(matches(isDisplayed()));
-	}
+//	 Since the experience is changed hence, need to update the test Card#14974
+//	@Test
+//	public void testCurrentLocationSuggestionWithNoActivitiesError() throws Throwable {
+//		Common.delay(1);
+//		LXScreen.searchFailed().check(matches(isDisplayed()));
+//	}
 }
