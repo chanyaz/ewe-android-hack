@@ -11,8 +11,8 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.flights.AdvanceSearchFilter
-import com.expedia.vm.flights.FlightAdvanceSearchViewModel
+import com.expedia.bookings.flights.vm.AdvanceSearchFilter
+import com.expedia.bookings.flights.vm.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
 
 class FlightAdvanceSearchWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

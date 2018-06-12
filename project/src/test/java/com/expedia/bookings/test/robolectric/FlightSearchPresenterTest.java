@@ -62,8 +62,8 @@ import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.flights.DateFormatterTextView;
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
-import com.expedia.vm.FlightSearchViewModel;
-import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
+import com.expedia.bookings.flights.vm.FlightSearchViewModel;
+import com.expedia.bookings.flights.vm.FlightAdvanceSearchViewModel;
 import com.squareup.phrase.Phrase;
 
 import io.reactivex.Flowable;

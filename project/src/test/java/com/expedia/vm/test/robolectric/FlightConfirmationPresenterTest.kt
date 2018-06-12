@@ -35,7 +35,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
-import com.expedia.vm.flights.FlightConfirmationViewModel
+import com.expedia.bookings.flights.vm.FlightConfirmationViewModel
 import io.reactivex.observers.TestObserver
 import org.joda.time.DateTime
 import org.joda.time.LocalDate

@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.flights.FareFamilyAmenityItemViewModel
+import com.expedia.bookings.flights.vm.FareFamilyAmenityItemViewModel
 
 class FareFamilyAmenityItemWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val amenityIcon: ImageView by bindView(R.id.fare_family_amenity_icon)

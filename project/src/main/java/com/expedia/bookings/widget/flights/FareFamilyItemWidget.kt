@@ -20,9 +20,9 @@ import com.expedia.bookings.widget.FareFamilyAmenitiesDialog
 import com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.flights.FareFamilyItemViewModel
-import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
-import com.expedia.vm.flights.FlightFareFamilyAmenityDialogViewModel
+import com.expedia.bookings.flights.vm.FareFamilyItemViewModel
+import com.expedia.bookings.flights.vm.FareFamilyPrimaryAmenitiesWidgetViewModel
+import com.expedia.bookings.flights.vm.FlightFareFamilyAmenityDialogViewModel
 import io.reactivex.Observer
 import java.util.Locale
 

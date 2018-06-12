@@ -3,7 +3,7 @@ package com.expedia.bookings.flights.widget.adapter
 import com.expedia.bookings.flights.vm.FlightsSuggestionViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.FlightSuggestionAdapterViewModel
+import com.expedia.bookings.flights.vm.FlightSuggestionAdapterViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment

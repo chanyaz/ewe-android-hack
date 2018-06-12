@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.flights.AdvanceSearchFilter
+import com.expedia.bookings.flights.vm.AdvanceSearchFilter
 import io.reactivex.Observer
 
 class AdvanceSearchCheckableFilter(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {

@@ -27,9 +27,9 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.flights.FareFamilyItemViewModel
-import com.expedia.vm.flights.FareFamilyTotalPriceViewModel
-import com.expedia.vm.flights.FlightFareFamilyViewModel
+import com.expedia.bookings.flights.vm.FareFamilyItemViewModel
+import com.expedia.bookings.flights.vm.FareFamilyTotalPriceViewModel
+import com.expedia.bookings.flights.vm.FlightFareFamilyViewModel
 import com.squareup.phrase.Phrase
 import java.util.Locale
 

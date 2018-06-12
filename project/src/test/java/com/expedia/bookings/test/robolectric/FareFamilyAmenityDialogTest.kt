@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FareFamilyAmenityItemWidget
 import com.expedia.bookings.widget.flights.FareFamilyItemWidget
-import com.expedia.vm.flights.FareFamilyItemViewModel
+import com.expedia.bookings.flights.vm.FareFamilyItemViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test

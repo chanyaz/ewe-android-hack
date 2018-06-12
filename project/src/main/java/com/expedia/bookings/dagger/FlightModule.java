@@ -19,9 +19,9 @@ import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.FlightRichContentService;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
 import com.expedia.vm.FlightCheckoutViewModel;
-import com.expedia.vm.FlightWebCheckoutViewViewModel;
+import com.expedia.bookings.flights.vm.FlightWebCheckoutViewViewModel;
 import com.expedia.vm.PaymentViewModel;
-import com.expedia.vm.flights.FlightCreateTripViewModel;
+import com.expedia.bookings.flights.vm.FlightCreateTripViewModel;
 
 import dagger.Module;
 import dagger.Provides;

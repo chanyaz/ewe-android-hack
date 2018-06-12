@@ -9,7 +9,7 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.flights.RecentSearchViewHolderViewModel
+import com.expedia.bookings.flights.vm.RecentSearchViewHolderViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 
 class RecentSearchViewHolder(context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -30,8 +30,8 @@ import com.expedia.bookings.widget.FlightConfirmationToolbar
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.Optional
 import com.expedia.vm.ConfirmationToolbarViewModel
-import com.expedia.vm.flights.FlightConfirmationCardViewModel
-import com.expedia.vm.flights.FlightConfirmationViewModel
+import com.expedia.bookings.flights.vm.FlightConfirmationCardViewModel
+import com.expedia.bookings.flights.vm.FlightConfirmationViewModel
 
 class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 

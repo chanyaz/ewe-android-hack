@@ -10,8 +10,8 @@ import com.expedia.bookings.data.flights.BaggageInfoResponse
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.flights.BaggageInfoView
-import com.expedia.vm.flights.BaggageInfoViewModel
+import com.expedia.bookings.flights.widget.BaggageInfoView
+import com.expedia.bookings.flights.vm.BaggageInfoViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

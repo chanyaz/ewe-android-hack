@@ -17,7 +17,7 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
-import com.expedia.vm.flights.FlightOffersViewModel
+import com.expedia.bookings.flights.vm.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers

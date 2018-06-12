@@ -9,8 +9,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.flights.FareFamilyAmenityItemViewModel
-import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
+import com.expedia.bookings.flights.vm.FareFamilyAmenityItemViewModel
+import com.expedia.bookings.flights.vm.FareFamilyPrimaryAmenitiesWidgetViewModel
 
 class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

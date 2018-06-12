@@ -40,7 +40,7 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.ui.HotelActivity
 import com.expedia.util.Optional
-import com.expedia.vm.FlightWebCheckoutViewViewModel
+import com.expedia.bookings.flights.vm.FlightWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher

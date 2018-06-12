@@ -14,7 +14,7 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.flights.FlightConfirmationCardViewModel
+import com.expedia.bookings.flights.vm.FlightConfirmationCardViewModel
 
 open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 

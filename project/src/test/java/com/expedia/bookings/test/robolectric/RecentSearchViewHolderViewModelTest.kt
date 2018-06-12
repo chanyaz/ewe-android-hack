@@ -2,7 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.flights.RecentSearch
 import com.expedia.bookings.services.TestObserver
-import com.expedia.vm.flights.RecentSearchViewHolderViewModel
+import com.expedia.bookings.flights.vm.RecentSearchViewHolderViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

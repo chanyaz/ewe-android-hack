@@ -15,7 +15,7 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.flights.RecentSearchViewModel
+import com.expedia.bookings.flights.vm.RecentSearchViewModel
 
 class RecentSearchWidgetContainer(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 

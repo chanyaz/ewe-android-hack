@@ -21,7 +21,7 @@ import com.expedia.bookings.widget.shared.TravelerCountSelector
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseTravelerPickerViewModel
-import com.expedia.vm.FlightTravelerPickerViewModel
+import com.expedia.bookings.flights.vm.FlightTravelerPickerViewModel
 import io.reactivex.Observer
 
 class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPickerView(context, attrs) {

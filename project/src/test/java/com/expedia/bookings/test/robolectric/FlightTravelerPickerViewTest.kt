@@ -6,7 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.FlightTravelerPickerView
-import com.expedia.vm.FlightTravelerPickerViewModel
+import com.expedia.bookings.flights.vm.FlightTravelerPickerViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

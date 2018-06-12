@@ -25,7 +25,7 @@ import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
-import com.expedia.vm.FlightResultsViewModel
+import com.expedia.bookings.flights.vm.FlightResultsViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers

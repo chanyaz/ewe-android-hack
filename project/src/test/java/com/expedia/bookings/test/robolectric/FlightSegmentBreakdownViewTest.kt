@@ -14,7 +14,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.FlightSegmentBreakdown
-import com.expedia.vm.FlightSegmentBreakdownViewModel
+import com.expedia.bookings.flights.vm.FlightSegmentBreakdownViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

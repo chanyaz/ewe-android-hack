@@ -29,7 +29,7 @@ import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.InsuranceViewModel
-import com.expedia.vm.flights.FlightCreateTripViewModel
+import com.expedia.bookings.flights.vm.FlightCreateTripViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe

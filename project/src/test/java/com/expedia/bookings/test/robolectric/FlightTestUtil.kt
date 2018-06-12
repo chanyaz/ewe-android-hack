@@ -18,7 +18,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
-import com.expedia.vm.flights.FlightViewModel
+import com.expedia.bookings.flights.vm.FlightViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate

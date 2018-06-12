@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerPickerView
 import com.expedia.util.PackageCalendarRules
-import com.expedia.vm.FlightTravelerPickerViewModel
+import com.expedia.bookings.flights.vm.FlightTravelerPickerViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test

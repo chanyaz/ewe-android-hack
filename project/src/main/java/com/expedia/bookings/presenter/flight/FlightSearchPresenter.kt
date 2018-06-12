@@ -45,9 +45,9 @@ import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
-import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.FlightSuggestionAdapterViewModel
-import com.expedia.vm.flights.FlightAdvanceSearchViewModel
+import com.expedia.bookings.flights.vm.FlightSearchViewModel
+import com.expedia.bookings.flights.vm.FlightSuggestionAdapterViewModel
+import com.expedia.bookings.flights.vm.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
 

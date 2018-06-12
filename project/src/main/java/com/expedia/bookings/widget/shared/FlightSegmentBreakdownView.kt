@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightSegmentBreakdown
-import com.expedia.vm.FlightSegmentBreakdownViewModel
+import com.expedia.bookings.flights.vm.FlightSegmentBreakdownViewModel
 import com.squareup.phrase.Phrase
 
 class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

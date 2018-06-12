@@ -11,7 +11,7 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
-import com.expedia.vm.flights.FlightTotalPriceViewModel
+import com.expedia.bookings.flights.vm.FlightTotalPriceViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -44,11 +44,11 @@ import com.expedia.util.Optional
 import com.expedia.vm.FareFamilyViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.InsuranceViewModel
-import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
-import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.flights.FlightFareFamilyViewModel
-import com.expedia.vm.flights.FlightOverviewSummaryViewModel
-import com.expedia.vm.flights.FlightTotalPriceViewModel
+import com.expedia.bookings.flights.vm.FlightCheckoutSummaryViewModel
+import com.expedia.bookings.flights.vm.FlightCostSummaryBreakdownViewModel
+import com.expedia.bookings.flights.vm.FlightFareFamilyViewModel
+import com.expedia.bookings.flights.vm.FlightOverviewSummaryViewModel
+import com.expedia.bookings.flights.vm.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observable
 import java.util.Locale

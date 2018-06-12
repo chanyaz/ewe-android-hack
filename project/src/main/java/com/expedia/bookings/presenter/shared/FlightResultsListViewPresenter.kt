@@ -29,7 +29,7 @@ import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseResultsViewModel
-import com.expedia.vm.flights.SelectedOutboundFlightViewModel
+import com.expedia.bookings.flights.vm.SelectedOutboundFlightViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 

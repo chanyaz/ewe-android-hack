@@ -33,9 +33,8 @@ import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightSegmentBreakdown
-import com.expedia.vm.FlightSegmentBreakdownViewModel
-import com.expedia.vm.flights.BaggageInfoView
-import com.expedia.vm.flights.BaggageInfoViewModel
+import com.expedia.bookings.flights.vm.FlightSegmentBreakdownViewModel
+import com.expedia.bookings.flights.vm.BaggageInfoViewModel
 import com.squareup.phrase.Phrase
 
 abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {

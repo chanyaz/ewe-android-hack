@@ -11,7 +11,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
-import com.expedia.vm.flights.FlightViewModel
+import com.expedia.bookings.flights.vm.FlightViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 

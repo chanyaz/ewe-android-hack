@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import android.widget.TextView
-import com.expedia.vm.flights.BasicEconomyTooltipViewModel
+import com.expedia.bookings.flights.vm.BasicEconomyTooltipViewModel
 
 class BasicEconomyToolTipView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.basic_economy_tooltip_info_container)

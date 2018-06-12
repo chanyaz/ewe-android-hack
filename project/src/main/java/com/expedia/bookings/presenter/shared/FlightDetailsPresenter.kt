@@ -27,8 +27,8 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
-import com.expedia.vm.FlightSegmentBreakdownViewModel
-import com.expedia.vm.flights.BasicEconomyTooltipViewModel
+import com.expedia.bookings.flights.vm.FlightSegmentBreakdownViewModel
+import com.expedia.bookings.flights.vm.BasicEconomyTooltipViewModel
 import io.reactivex.subjects.PublishSubject
 
 class FlightDetailsPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {

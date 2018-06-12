@@ -7,7 +7,7 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.FlightActivity
-import com.expedia.vm.FlightSearchViewModel
+import com.expedia.bookings.flights.vm.FlightSearchViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test

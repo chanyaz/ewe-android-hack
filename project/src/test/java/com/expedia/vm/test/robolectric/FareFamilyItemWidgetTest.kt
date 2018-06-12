@@ -18,7 +18,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.FareFamilyItemWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
-import com.expedia.vm.flights.FlightFareFamilyViewModel
+import com.expedia.bookings.flights.vm.FlightFareFamilyViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule

@@ -30,7 +30,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.Optional
-import com.expedia.vm.flights.FlightOffersViewModel
+import com.expedia.bookings.flights.vm.FlightOffersViewModel
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject

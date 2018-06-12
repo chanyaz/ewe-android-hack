@@ -12,10 +12,10 @@ import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.vm.FlightCheckoutViewModel;
-import com.expedia.vm.FlightResultsViewModel;
-import com.expedia.vm.flights.BaggageInfoViewModel;
-import com.expedia.vm.flights.FlightCreateTripViewModel;
-import com.expedia.vm.flights.RecentSearchViewModel;
+import com.expedia.bookings.flights.vm.FlightResultsViewModel;
+import com.expedia.bookings.flights.vm.BaggageInfoViewModel;
+import com.expedia.bookings.flights.vm.FlightCreateTripViewModel;
+import com.expedia.bookings.flights.vm.RecentSearchViewModel;
 
 import dagger.Component;
 

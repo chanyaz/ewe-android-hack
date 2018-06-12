@@ -12,9 +12,9 @@ import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.flights.FareFamilyAmenityItemViewModel
-import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
-import com.expedia.vm.flights.FlightFareFamilyAmenityDialogViewModel
+import com.expedia.bookings.flights.vm.FareFamilyAmenityItemViewModel
+import com.expedia.bookings.flights.vm.FareFamilyPrimaryAmenitiesWidgetViewModel
+import com.expedia.bookings.flights.vm.FlightFareFamilyAmenityDialogViewModel
 
 class FareFamilyAmenitiesDialog(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val fareFamilyNameText: TextView by bindView(R.id.fare_family_name)

@@ -9,7 +9,7 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.flights.SelectedOutboundFlightViewModel
+import com.expedia.bookings.flights.vm.SelectedOutboundFlightViewModel
 
 class DockedOutboundFlightWidgetV2(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 

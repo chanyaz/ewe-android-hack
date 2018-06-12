@@ -9,10 +9,10 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.isRichContentEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.vm.AbstractFlightOverviewViewModel
-import com.expedia.vm.FlightResultsViewModel
-import com.expedia.vm.FlightToolbarViewModel
-import com.expedia.vm.flights.BaseFlightOffersViewModel
-import com.expedia.vm.flights.FlightOverviewViewModel
+import com.expedia.bookings.flights.vm.FlightResultsViewModel
+import com.expedia.bookings.flights.vm.FlightToolbarViewModel
+import com.expedia.bookings.flights.vm.BaseFlightOffersViewModel
+import com.expedia.bookings.flights.vm.FlightOverviewViewModel
 
 abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: AttributeSet?) : BaseFlightPresenter(context, attrs) {
 

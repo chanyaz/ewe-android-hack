@@ -9,7 +9,7 @@ import android.widget.RadioGroup
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightServiceClassType
-import com.expedia.vm.flights.FlightCabinClassViewModel
+import com.expedia.bookings.flights.vm.FlightCabinClassViewModel
 
 class FlightCabinClassPickerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

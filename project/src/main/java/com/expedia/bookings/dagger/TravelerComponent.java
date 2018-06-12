@@ -3,7 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.TravelerScope;
 import com.expedia.bookings.utils.TravelerManager;
 import com.expedia.bookings.utils.validation.TravelerValidator;
-import com.expedia.vm.FlightSearchViewModel;
+import com.expedia.bookings.flights.vm.FlightSearchViewModel;
 import com.expedia.bookings.packages.vm.PackageSearchViewModel;
 import com.expedia.vm.traveler.BaseTravelerValidatorViewModel;
 import com.expedia.vm.traveler.HotelTravelerSummaryViewModel;

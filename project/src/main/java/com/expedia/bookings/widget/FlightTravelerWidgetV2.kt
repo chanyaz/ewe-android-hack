@@ -9,7 +9,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.Strings
-import com.expedia.vm.FlightTravelerPickerViewModel
+import com.expedia.bookings.flights.vm.FlightTravelerPickerViewModel
 
 class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWidgetV2(context, attrs) {
 
