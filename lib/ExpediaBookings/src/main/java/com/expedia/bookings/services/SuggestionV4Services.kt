@@ -52,13 +52,15 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
         essDomainResolution().subscribe({}, {})
     }
 
-    override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Disposable {
+    override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean, isEssRegionTypeCallEnabled: Boolean): Disposable {
 
         var type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST
         if (disablePOI) {
             type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         }
-
+        if (isEssRegionTypeCallEnabled) {
+            type = type or SuggestionResultType.AIRPORT or SuggestionResultType.MULTI_REGION
+        }
         return suggestV4(query, type, false, "ta_hierarchy", "ACTIVITIES")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

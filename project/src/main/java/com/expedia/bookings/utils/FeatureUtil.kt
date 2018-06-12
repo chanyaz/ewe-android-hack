@@ -188,3 +188,7 @@ fun isHighlightSortFilterOnPackagesEnabled(context: Context): Boolean {
 fun isHotMipRedesignEnabled(): Boolean {
     return Features.all.hotMipRedesign.enabled()
 }
+
+fun islXEssRegionTypeCallEnabled(): Boolean {
+    return Features.all.lxEssRegionTypeCall.enabled()
+}

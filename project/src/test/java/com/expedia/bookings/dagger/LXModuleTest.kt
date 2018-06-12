@@ -19,6 +19,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class LXModuleTest {
@@ -44,9 +45,9 @@ class LXModuleTest {
     fun essDeviceIsMobileForPhone() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getLxSuggestionsV4("chicago", TestObserver(), false)
+        sut.getLxSuggestionsV4("chicago", TestObserver(), false, false)
 
-        kotlin.test.assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
+        assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
     }
 
     @Test
@@ -54,21 +55,37 @@ class LXModuleTest {
     fun essDeviceIsTabletForTablet() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getLxSuggestionsV4("chicago", TestObserver(), false)
+        sut.getLxSuggestionsV4("chicago", TestObserver(), false, false)
 
-        kotlin.test.assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
+        assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
     }
 
     @Test
     fun essCommonParamsAreCorrect() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getLxSuggestionsV4("chicago", TestObserver(), false)
+        sut.getLxSuggestionsV4("chicago", TestObserver(), false, false)
 
         val requestUrl = server.takeRequest().requestUrl
-        kotlin.test.assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))
-        kotlin.test.assertEquals(PointOfSale.getPointOfSale().siteId, Integer.valueOf(requestUrl.queryParameter("siteid")))
-        kotlin.test.assertEquals(ServicesUtil.generateClient(context), requestUrl.queryParameter("client"))
+        assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))
+        assertEquals(PointOfSale.getPointOfSale().siteId, Integer.valueOf(requestUrl.queryParameter("siteid")))
+        assertEquals(ServicesUtil.generateClient(context), requestUrl.queryParameter("client"))
+    }
+
+    @Test
+    fun testEssRegionTypeParam() {
+        val sut = givenSuggestionServicesInitialized()
+        sut.getLxSuggestionsV4("chicago", TestObserver(), false, false)
+        server.takeRequest()
+        assertEquals(30, Integer.valueOf(server.takeRequest().requestUrl.queryParameter("regiontype")))
+    }
+
+    @Test
+    fun testEssRegionTypeParamWithFeatureEnabled() {
+        val sut = givenSuggestionServicesInitialized()
+        sut.getLxSuggestionsV4("chicago", TestObserver(), false, true)
+        server.takeRequest()
+        assertEquals(287, Integer.valueOf(server.takeRequest().requestUrl.queryParameter("regiontype")))
     }
 
     private fun givenSuggestionServicesInitialized(): SuggestionV4Services {

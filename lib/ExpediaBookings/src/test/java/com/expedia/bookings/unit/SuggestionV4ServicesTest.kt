@@ -91,7 +91,7 @@ class SuggestionV4ServicesTest {
     @Test
     fun testGetLxSuggestionsV4() {
         val testObserver = TestObserver<List<SuggestionV4>>()
-        service?.getLxSuggestionsV4("lon", testObserver, true)
+        service?.getLxSuggestionsV4("lon", testObserver, true, true)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()
@@ -169,7 +169,7 @@ class SuggestionV4ServicesTest {
     fun lxSuggestionsUsesCorrectInterceptors() {
         val testObserver = TestObserver<List<SuggestionV4>>()
 
-        service?.getLxSuggestionsV4("chicago", testObserver, false)
+        service?.getLxSuggestionsV4("chicago", testObserver, false, false)
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()
 
