@@ -95,7 +95,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         if (isFlightGreedySearchEnabled(context)) {
             greedyFlightSearchObservable.subscribe { params ->
-                flightSearchSubscription = flightServices.greedyFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+                flightGreedySearchSubscription = flightServices.greedyFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
                 showDebugToast("Greedy call is triggerred")
             }
 
