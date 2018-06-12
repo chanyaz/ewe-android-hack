@@ -3,13 +3,6 @@ apply plugin: 'kotlin-android'
 
 repositories {
     jcenter()
-    maven {
-        url "s3://mobiata-maven/release"
-        credentials(AwsCredentials) {
-            accessKey AWS_ACCESS_KEY
-            secretKey AWS_SECRET_KEY
-        }
-    }
 }
 
 dependencies {

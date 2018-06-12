@@ -16,13 +16,6 @@ apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
-    maven {
-        url "s3://mobiata-maven/release"
-        credentials(AwsCredentials) {
-            accessKey AWS_ACCESS_KEY
-            secretKey AWS_SECRET_KEY
-        }
-    }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
     google()
 }
@@ -31,7 +24,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: [
             'activeandroid-20131111.jar',
             'adobeMobileLibrary-4.13.5.jar',
-            'climobile.aar'
+            'climobile.aar',
+            'svg-android-1.0.0.aar'
     ])
     implementation project(':lib:AndroidTime')
     implementation project(':lib:AndroidUtils')
@@ -39,7 +33,6 @@ dependencies {
     implementation (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
-    implementation 'com.expedia:svg-android:1.0.0'
     implementation project(':lib:AccountLib')
     implementation 'com.dgmltn:share-everywhere:1.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
