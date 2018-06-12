@@ -1586,7 +1586,7 @@
     <string name="itin_pick_up">Pick up</string>
     <string name="itin_drop_off">Drop off</string>
     <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
-    <string name="itin_car_call_button_content_description_TEMPLATE">Call vendor at {phonenumber}. Button</string>
+    <string name="itin_car_call_button_content_description_TEMPLATE">Call {vendor} at {phonenumber}. Button</string>
     <string name="itin_car_more_info_heading">More help</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">Address. {address}. Click to copy to clipboard. Button</string>
