@@ -664,10 +664,6 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">All Things To Do</string>
 
-    <string name="lx_customers_recommend">of customers recommend.</string>
-    <!-- LX user recommended percentage template-->
-    <string name="lx_recommend_percent_Template">{recommend}%</string>
-
     <string name="lx_recommendation_no_superlative">of 5</string>
     <string name="lx_recommendation_superlativeGood">of 5 - Good!</string>
     <string name="lx_recommendation_superlativeGreat">of 5 - Great!</string>
@@ -675,6 +671,21 @@
 
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Keyword or phrase</string>
+
+    <!-- "LX count string to display number of results on default search results page. Eg. 1 thing to do near you" -->
+    <!-- "LX count string to display number of results on default search results page. Eg. 132 things to do near you" -->
+    <plurals name="lx_activity_count_header_current_location_TEMPLATE">
+        <item quantity="one">{activitycount} thing to do near you</item>
+        <item quantity="other">{activitycount} things to do near you</item>
+    </plurals>
+
+
+    <!-- "LX count string to display number of results on explicit search results page. Eg. 1 thing to do in Vegas"-->
+    <!-- "LX count string to display number of results on explicit search results page. Eg. 132 things to do in Vegas"-->
+    <plurals name="lx_activity_count_header_TEMPLATE">
+        <item quantity="one">{activitycount} thing to do in {destination}</item>
+        <item quantity="other">{activitycount} things to do in {destination}</item>
+    </plurals>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sort &amp; Filter</string>
@@ -747,6 +758,8 @@
     <string name="pacakge_price_per_person_includes_hotel_and_flight_message">Per Person (hotel + flights)</string>
     <!-- Label indicating that the price includes taxes and fees -->
     <string name="includes_taxes_and_fees_lower_case">includes taxes and fees</string>
+    <!-- Label indicating that the prices are including taxes and fees -->
+    <string name="including_taxes_and_fees_lower_case">including taxes and fees</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sort By</string>
@@ -1445,12 +1458,16 @@
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
     <!--Hotel itin price summary subtotal label-->
     <string name="itin_hotel_details_price_summary_subtotal_label">Subtotal</string>
-    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
-    <string name="itin_hotel_details_price_summary_product_description_two">{firstproduct} and {secondproduct} bundle</string>
-    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
-    <string name="itin_hotel_details_price_summary_product_description_many">{products} and {lastproduct} bundle</string>
-    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
-    <string name="itin_hotel_details_price_summary_product_description_one">{product} bundle</string>
+    <!--Hotel itin price summary mico description-->
+    <string name="itin_hotel_details_price_summary_bundle_description">This total is for your entire purchase, which includes:</string>
+    <!--Hotel itin price summary list of mico products (eg. • Hotel)-->
+    <string name="itin_hotel_details_price_summary_bundle_product_TEMPLATE">• {product}</string>
+    <!--Flight type for roundtrip-->
+    <string name="itin_flight_type_roundtrip">Return flight</string>
+    <!--Flight type for one way-->
+    <string name="itin_flight_type_one_way">One way flight</string>
+    <!--Flight type for multi destination-->
+    <string name="itin_flight_type_multi_destination">Multi destination flight</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">Additional pricing information</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
@@ -1485,20 +1502,16 @@
     <string name="itin_hotel_manage_booking_header">Manage booking</string>
     <!--Hotel itin manage booking hotel help heading-->
     <string name="itin_more_help_heading">We\'re here to help</string>
-    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
-    <string name="itin_hotel_itinerary_number_TEMPLATE">Itinerary # {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} customer support</string>
-    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
-    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">{brand} customer support link button</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">Customer service</string>
     <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">Call hotel at {phonenumber}. Button</string>
-    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
-    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Call {brand} at {phonenumber}. Button</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Itinerary number {number}. Click to copy</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Call {brand} at {phonenumber}. Button</string>
     <!--Hotel itin room details requests header-->
     <string name="itin_hotel_room_details_requests_header">Requests</string>
     <!--Hotel itin room details requests disclaimer-->
@@ -1566,16 +1579,37 @@
     <string name="itin_active">Active</string>
     <string name="itin_expires">Expires</string>
 
+    <!--Car itin redesign-->
+    <!--Car toolbar title template. (e.g. Car rental in San Francisco)-->
+    <string name="itin_car_toolbar_title_TEMPLATE">Car hire in {location}</string>
+    <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
+    <string name="itin_pick_up">Pick up</string>
+    <string name="itin_drop_off">Drop off</string>
+    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <string name="itin_car_call_button_content_description_TEMPLATE">Call {vendor} at {phonenumber}. Button</string>
+    <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_car_address_copy_content_description_TEMPLATE">Address. {address}. Click to copy to clipboard. Button</string>
+
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>
     <!--Itin more help confirmation number text -->
     <string name="itin_more_help_confirmation_text">Confirmation #</string>
+    <!--Itin customer support itin number text -->
+    <string name="itin_customer_support_itin_number_text">Itinerary #</string>
     <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
     <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Confirmation number {number}. Double click and hold to select.</string>
     <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
     <string name="itin_more_help_text_TEMPLATE">For special requests or questions about your reservation, contact {supplier}</string>
     <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_customer_support_header_text_TEMPLATE">Contact {brand} if you need help managing this itinerary.</string>
+    <!--Itin customer support itinerary number content description. Itinerary number {number}. Double click and hold to select. (eg., Itinerary number 88888888. Double click and hold to select.)-->
+    <string name="itin_customer_support_itin_number_content_description_TEMPLATE">Itinerary number {number}. Double click and hold to select.</string>
+    <!--Itin call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_call_support_button_content_description_TEMPLATE">Call {brand} at {phonenumber}. Button. Double click and hold to select.</string>
+    <!--Itin customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_customer_support_site_button_content_description_TEMPLATE">{brand} customer support link button</string>
+    <!--Itin customer support webview heading-->
+    <string name="itin_customer_service_webview_heading">Customer service</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1648,8 +1682,6 @@
     <string name="itin_flight_summary_status_indicator_text_early_departure">Early departure</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_manage_booking_header">Manage Booking</string>
-    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
-    <string name="itin_flight_itinerary_number_TEMPLATE">Itinerary # {itin_number}</string>
     <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
     <string name="itin_flight_itinerary_number_content_description_TEMPLATE">Itinerary number {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -2024,6 +2056,8 @@
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is not yet available in your location.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Please make sure your departure and arrival cities are in different places.</string>
+    <!-- Error message when the user picks the same multicity for both origin and destination -->
+    <string name="error_same_or_close_origin_destination">Your departure and arrival locations are the same or too close to each other.\nPlease adjust your search and try again.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -2506,11 +2540,11 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Offer expires today</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="hotel_attach_string1_TEMPLATE">Save up to 55% off {location} Hotels</string>
+    <string name="air_attach_variant1_string1_TEMPLATE">Save up to 55% off {location} Hotels</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
     <string name="air_attach_variant2_string1_TEMPLATE">Up to 55% off {location} Hotels</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="hotel_attach_string">Because You Booked a Flight</string>
+    <string name="air_attach_variant1_string">Because You Booked a Flight</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">Save on a hotel because you booked a flight</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
@@ -2714,8 +2748,6 @@
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
     <string name="member_pricing">Member Pricing</string>
-    <!-- Expedia Generic Attach Bundled Savings for a given property, AB test -->
-    <string name="bundled_savings">Bundled savings</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2998,12 +3030,7 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s from %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">There are no critical reviews for this hotel.</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">There are no favorable reviews for this hotel.</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">There are no recent reviews for this hotel.</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Book Now, Pay Later</string>
@@ -3824,7 +3851,10 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Join {brand_reward_name} today. By joining {brand_reward_name}, I accept all &lt;a href="{terms_and_conditions_url}"&gt;Terms and Conditions&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">By creating an account, I accept the {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Terms and Conditions&lt;/a&gt;, and have read and accept the &lt;a href="{terms_of_use_url}"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="{privacy_policy_url}"&gt;Privacy Policy&lt;/a&gt;.</string>
+    <string name="account_creation_reward_combined_text_TEMPLATE">By creating an account, I accept the {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Terms and Conditions&lt;/a&gt;, and have read and accept the &lt;a href="{terms_of_use_url}"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="{privacy_policy_url}"&gt;Privacy Policy&lt;/a&gt;.</string>
+    <!--Account creation legal template for terms and reward eg: By creating an account, I agree that I have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_non_reward_text_TEMPLATE">By creating an account, I agree that I have read and accept the &lt;a href="{terms_of_use_url}"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="{privacy_policy_url}"&gt;Privacy Policy&lt;/a&gt;.</string>
+
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>
 
@@ -4477,6 +4507,8 @@
     <string name="fly_from_hint">Flying from</string>
     <!-- Fly to hint -->
     <string name="fly_to_hint">Flying to</string>
+    <string name="packages_enter_origin_hint">Enter origin</string>
+    <string name="packages_enter_destination_hint">Enter destination</string>
 
     <!-- Strings used in Orbitz where amount type is rewards  -->
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
@@ -4548,12 +4580,20 @@
     </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flying to. Button. {to_destination}</string>
+    <!--Enter destination card content description Eg. Enter destination. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_enter_destination_cont_desc_TEMPLATE">Enter destination. Button. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
     <string name="search_flying_from_destination_cont_desc_TEMPLATE">Flying from. Button. {from_destination}</string>
+    <!--Enter origin card content description Eg. Enter origin. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_enter_origin_cont_desc_TEMPLATE">Enter origin. Button. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
     <string name="packages_search_flying_to_cont_desc">Flying to. Button</string>
+    <!--Enter destination card content description before a location is selected-->
+    <string name="packages_search_enter_destination_cont_desc">Enter destination. Button</string>
     <!--Flying from card content description before a location is selected-->
     <string name="packages_search_flying_from_cont_desc">Flying from. Button</string>
+    <!--Enter origin card content description before a location is selected-->
+    <string name="packages_search_enter_origin_cont_desc">Enter origin. Button</string>
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">Select travel dates. Button. Opens dialog</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
@@ -4616,8 +4656,8 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">Remove one child traveller</string>
 
-    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
-    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate}\u0020 \u0020{nights}\u0020 \u0020{guests}</string>
+    <!--Recent searches subtitle in the suggestions dropdown, e.g Jun 3 - Jun 5 2 Nights 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate} \u0020 {nights} \u0020 {guests}</string>
 
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">Add one youth traveller</string>
@@ -4897,6 +4937,8 @@
     <string name="last_minute_deal_subtitle">Wanna get away? Check out last-minute low prices</string>
     <string name="last_minute_deals_toolbar_title">Last Minute Deals</string>
     <string name="last_minute_deals_toolbar_close_cont_desc">Close last minute deal screen</string>
+    <string name="deal_error_no_result_message">Sorry, we couldn\'t find any results. Please try again later.</string>
+    <string name="deal_error_go_back">Go Back</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">How we determine sort order</string>
@@ -5052,10 +5094,8 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regular Price {ticket_type} {activity_original_price}. Discounted price {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Double Expedia Rewards Points!</string>
     <string name="hotel_2x_points_search_content">You\'ll earn double points just for booking in the app!</string>
-    <!-- Generic attach slim card title on hotel search result to show: You have earned bundled savings on hotels-->
-    <string name="generic_attach_slim_card_title">You\'ve earned bundled savings on hotels</string>
-    <!-- Generic attach slim card content on hotel search result to show: Your purchase unlocked savings for your trip -->
-    <string name="generic_attach_slim_card_content">Your purchase unlocked savings for your trip</string>
+    <!-- Add on attach slim card title on hotel search results to indicate special add on discounts availability, ex: You unlocked hotel discounts because you booked on Expedia-->
+    <string name="add_on_attach_slim_card_title_TEMPLATE">You unlocked hotel discounts because you booked on {brand}</string>
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">Tab Selected</string>
 
