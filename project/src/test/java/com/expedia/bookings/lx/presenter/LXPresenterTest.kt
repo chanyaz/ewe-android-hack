@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.lx.presenter
 
 import android.app.Activity
 import android.support.v4.content.ContextCompat
@@ -16,8 +16,6 @@ import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.Offer
 import com.expedia.bookings.data.lx.Ticket
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.presenter.lx.LXPresenter
-import com.expedia.bookings.presenter.lx.LXSearchPresenter
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -27,6 +25,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.Optional
 import com.expedia.bookings.lx.vm.LXWebCheckoutViewViewModel
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.google.gson.GsonBuilder
 import org.joda.time.LocalDate

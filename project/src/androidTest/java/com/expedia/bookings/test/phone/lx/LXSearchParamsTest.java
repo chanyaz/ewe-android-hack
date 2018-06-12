@@ -10,7 +10,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
-import com.expedia.bookings.presenter.lx.LXSearchPresenter;
+import com.expedia.bookings.lx.presenter.LXSearchPresenter;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;

@@ -15,7 +15,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.lx.LXCheckoutPresenter
+import com.expedia.bookings.lx.presenter.LXCheckoutPresenter
 import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands

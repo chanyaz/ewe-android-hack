@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.features.Features
-import com.expedia.bookings.presenter.lx.LXSearchPresenter
+import com.expedia.bookings.lx.presenter.LXSearchPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel

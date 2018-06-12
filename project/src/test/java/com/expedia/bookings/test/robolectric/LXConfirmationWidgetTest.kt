@@ -18,7 +18,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ItinDetailsResponse
-import com.expedia.bookings.presenter.lx.LXPresenter
+import com.expedia.bookings.lx.presenter.LXPresenter
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand

@@ -18,7 +18,7 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.presenter.lx.LXPresenter;
+import com.expedia.bookings.lx.presenter.LXPresenter;
 import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Strings;

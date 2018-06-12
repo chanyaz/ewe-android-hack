@@ -1,4 +1,4 @@
-<com.expedia.bookings.presenter.lx.LXResultsPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.lx.presenter.LXResultsPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -116,4 +116,4 @@
             android:orientation="vertical"
             android:visibility="invisible" />
     </LinearLayout>
-</com.expedia.bookings.presenter.lx.LXResultsPresenter>
+</com.expedia.bookings.lx.presenter.LXResultsPresenter>

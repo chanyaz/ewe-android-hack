@@ -22,7 +22,7 @@ import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.presenter.lx.LXTravelersPresenter;
+import com.expedia.bookings.lx.presenter.LXTravelersPresenter;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;

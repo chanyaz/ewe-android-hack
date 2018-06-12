@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.lx
+package com.expedia.bookings.lx.presenter
 
 import android.content.Context
 import android.util.AttributeSet

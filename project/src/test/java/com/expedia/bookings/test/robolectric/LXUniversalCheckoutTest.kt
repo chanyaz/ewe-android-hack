@@ -6,8 +6,8 @@
 //import android.view.View
 //import com.expedia.bookings.BuildConfig
 //import com.expedia.bookings.R
-//import com.expedia.bookings.presenter.lx.LXOverviewPresenter
-//import com.expedia.bookings.presenter.lx.LxCheckoutPresenterV2
+//import com.expedia.bookings.lx.presenter.LXOverviewPresenter
+//import com.expedia.bookings.lx.presenter.LxCheckoutPresenterV2
 //import com.expedia.bookings.utils.ArrowXDrawableUtil
 //import com.expedia.bookings.utils.Ui
 //import org.junit.Before

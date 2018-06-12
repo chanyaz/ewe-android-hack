@@ -21,7 +21,7 @@
                 android:layout_margin="@dimen/card_view_container_margin"
                 android:background="@drawable/card_background"/>
 
-            <com.expedia.bookings.presenter.lx.LxCheckoutPresenterV2
+            <com.expedia.bookings.lx.presenter.LxCheckoutPresenterV2
                 android:id="@+id/checkout_presenter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
