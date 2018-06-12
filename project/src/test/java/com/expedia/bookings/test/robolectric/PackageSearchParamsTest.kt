@@ -253,7 +253,7 @@ class PackageSearchParamsTest {
                 .hotelName(name)
                 .starRatings(listOf(1, 2))
                 .vipOnly(true)
-                .userSort(BaseHotelFilterOptions.SortType.MOBILE_DEALS)
+                .userSort(BaseHotelFilterOptions.SortType.PACKAGE_SAVINGS)
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
@@ -269,7 +269,7 @@ class PackageSearchParamsTest {
         assertEquals("1,2", map["stars"])
         assertEquals("true", map["vipOnly"])
         assertEquals("PACKAGE_SAVINGS", map["hotelSortOrder"])
-        assertEquals(params.getHotelsSortOrder(), BaseHotelFilterOptions.SortType.MOBILE_DEALS)
+        assertEquals(params.getHotelsSortOrder(), BaseHotelFilterOptions.SortType.PACKAGE_SAVINGS)
     }
 
     @Test

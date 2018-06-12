@@ -21,6 +21,7 @@ abstract class BaseHotelFilterOptions {
         PRICE("PriceAsc", "PRICE_ASCENDING"),
         REVIEWS("Reviews", "REVIEWS"),
         DISTANCE("Distance", ""),
-        MOBILE_DEALS("Deals", "PACKAGE_SAVINGS")
+        MOBILE_DEALS("Deals", ""),
+        PACKAGE_SAVINGS("", "PACKAGE_SAVINGS")
     }
 }

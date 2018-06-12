@@ -19,7 +19,7 @@ enum class DisplaySort(@StringRes val resId: Int) {
             DEALS -> return BaseHotelFilterOptions.SortType.MOBILE_DEALS
             RATING -> return BaseHotelFilterOptions.SortType.REVIEWS
             DISTANCE -> return BaseHotelFilterOptions.SortType.DISTANCE
-            PACKAGE_DISCOUNT -> return BaseHotelFilterOptions.SortType.MOBILE_DEALS
+            PACKAGE_DISCOUNT -> return BaseHotelFilterOptions.SortType.PACKAGE_SAVINGS
             else -> return BaseHotelFilterOptions.SortType.EXPERT_PICKS
         }
     }
@@ -31,6 +31,7 @@ enum class DisplaySort(@StringRes val resId: Int) {
                 BaseHotelFilterOptions.SortType.EXPERT_PICKS -> return RECOMMENDED
                 BaseHotelFilterOptions.SortType.PRICE -> return PRICE
                 BaseHotelFilterOptions.SortType.MOBILE_DEALS -> return DEALS
+                BaseHotelFilterOptions.SortType.PACKAGE_SAVINGS -> return PACKAGE_DISCOUNT
                 BaseHotelFilterOptions.SortType.REVIEWS -> return RATING
                 BaseHotelFilterOptions.SortType.DISTANCE -> return DISTANCE
                 else -> return RECOMMENDED
