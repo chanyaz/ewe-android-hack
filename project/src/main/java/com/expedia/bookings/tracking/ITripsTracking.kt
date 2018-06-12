@@ -27,4 +27,6 @@ interface ITripsTracking {
     fun trackItinLxCustomerServiceLinkClicked()
     fun trackItinCarMoreHelpClicked()
     fun trackItinCarCallSupportClicked()
+    fun trackItinCarCustomerServiceLinkClicked()
+    fun trackItinCarCallCustomerSupportClicked()
 }

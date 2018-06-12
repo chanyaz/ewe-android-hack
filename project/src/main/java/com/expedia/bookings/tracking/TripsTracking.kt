@@ -286,6 +286,9 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_CAR_DETAILS_MAP = "App.Itinerary.Car.Map"
     private const val ITIN_CAR_MORE_HELP = "App.Itinerary.Car.MoreHelp"
     private const val ITIN_CAR_CALL_SUPPORT = "App.Itinerary.Car.Manage.Call.Car"
+    private const val ITIN_CAR_CALL_EXPEDIA = "App.Itinerary.Car.Manage.Call.Expedia"
+    private const val ITIN_CAR_CUSTOMER_SUPPORT = "App.Itinerary.Car.Manage.CSP"
+
 
     override fun trackItinCarDetailsMap() {
         val s = createTrackLinkEvent(ITIN_CAR_DETAILS_MAP)
@@ -304,6 +307,16 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     override fun trackItinCarCallSupportClicked() {
         val s = createTrackLinkEvent(ITIN_CAR_CALL_SUPPORT)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinCarCustomerServiceLinkClicked() {
+        val s = createTrackLinkEvent(ITIN_CAR_CUSTOMER_SUPPORT)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinCarCallCustomerSupportClicked() {
+        val s = createTrackLinkEvent(ITIN_CAR_CALL_EXPEDIA)
         s.trackLink("Itinerary Action")
     }
 
