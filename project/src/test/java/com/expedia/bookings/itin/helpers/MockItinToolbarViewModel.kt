@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.helpers
 
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
+import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import io.reactivex.subjects.PublishSubject
 
 class MockItinToolbarViewModel : NewItinToolbarViewModel {
@@ -10,4 +11,5 @@ class MockItinToolbarViewModel : NewItinToolbarViewModel {
     override val shareIconVisibleSubject = PublishSubject.create<Boolean>()
     override val navigationBackPressedSubject = PublishSubject.create<Unit>()
     override val shareIconClickedSubject = PublishSubject.create<Unit>()
+    override val itinShareTextGeneratorSubject = PublishSubject.create<ItinShareTextGenerator>()
 }

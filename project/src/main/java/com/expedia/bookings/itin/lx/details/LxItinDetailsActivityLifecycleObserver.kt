@@ -7,7 +7,7 @@ import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.lx.ItinLxRepo
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
-import com.expedia.bookings.itin.lx.LxItinToolbarViewModel
+import com.expedia.bookings.itin.lx.toolbar.LxItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasItinId
 import com.expedia.bookings.itin.scopes.HasItinImageViewModelSetter
@@ -30,6 +30,7 @@ import com.expedia.bookings.itin.scopes.LxItinTimingsScope
 import com.expedia.bookings.itin.scopes.LxItinToolbarScope
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
+import com.expedia.bookings.itin.utils.POSInfoProvider
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
 
@@ -42,13 +43,16 @@ class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycle
         vm.navigationBackPressedSubject.subscribe {
             finishSubject.onNext(Unit)
         }
+        vm.shareIconClickedSubject.subscribe {
+            scope.tripsTracking.trackItinLxShareIconClicked()
+        }
     }
 
     override fun onCreate(owner: LifecycleOwner) {
         repo.invalidDataSubject.subscribe {
             finishSubject.onNext(it)
         }
-        val toolbarScope = LxItinToolbarScope(scope.strings, repo, owner)
+        val toolbarScope = LxItinToolbarScope(scope.strings, repo, owner, POSInfoProvider())
         toolbarViewModel = LxItinToolbarViewModel(toolbarScope)
         scope.toolbar.setUpViewModel(toolbarViewModel)
         val itin = repo.liveDataItin.value

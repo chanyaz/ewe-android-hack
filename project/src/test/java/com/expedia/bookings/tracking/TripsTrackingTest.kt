@@ -323,6 +323,13 @@ class TripsTrackingTest {
         assertItinLinkTracked("App.Itinerary.Activity.Manage.CSP")
     }
 
+    @Test
+    fun testTrackItinLxShareIconClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxShareIconClicked()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Sharing", "App.Itinerary.Activity.Share.Start", mockAnalyticsProvider)
+    }
+
     fun assertItinLinkTracked(rfrrId: String) {
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
     }

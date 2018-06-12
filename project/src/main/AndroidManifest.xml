@@ -567,6 +567,12 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name="com.expedia.bookings.itin.utils.NewItinShareTargetBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.extra.CHOSEN_COMPONENT" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name="com.expedia.bookings.appstartup.SatelliteDataChangeBroadcastReceiver"
             android:enabled="true"

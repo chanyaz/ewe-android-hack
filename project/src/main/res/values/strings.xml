@@ -1549,6 +1549,12 @@
     <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">Call vendor at {phonenumber}. Button. Click to call. Double click and hold to select.</string>
     <string name="itin_active">Active</string>
     <string name="itin_expires">Expires</string>
+    <!--LX itin share email subject. {trip} (eg., Guided Fisherman's Wharf to Golden Gate Bridge Walking Tour: 10:00 AM)-->
+    <string name="itin_lx_share_email_subject_TEMPLATE">{trip}</string>
+    <!--LX itin share email body. Hi,\n\nHere are the details for: {trip}.\n\nValid: {startdate}\n\nExpires: {enddate}\n\nGuests: {travelers}\n\nBook hotels, flights and view &amp; share your itineraries.\n\nDownload the free {brand} app today.\n{link} (e.g. Hi\n\n, Here are the details for: San Francisco Tour.\n\nValid: Monday, May 5\n\nExpires: Tuesday, May 6\n\nGuests: Bob, John\n\nBook hotels, flights and view & share your itineraries.\n\nDownload the free Expedia app today.\nhttps://www.expedia.com/app)-->
+    <string name="itin_lx_share_email_body_TEMPLATE">Hi,\n\nHere are the details for: {trip}.\n\nValid: {startdate}\n\nExpires: {enddate}\n\nGuests: {travelers}\n\nBook hotels, flights and view &amp; share your itineraries.\n\nDownload the free {brand} app today.\n{link}</string>
+    <!--LX itin share sms body. Details for: {trip}.\nValid: {startdate}\nExpires: {enddate}\nGuests: {travelers} (e.g. Details for: San Francisco Tour.\nValid: Monday, May 5\nExpires: Tuesday, May 6\nGuests: Bob, John-->
+    <string name="itin_lx_share_sms_body_TEMPLATE">Details for: {trip}.\nValid: {startdate}\nExpires: {enddate}\nGuests: {travelers}</string>
 
     <!--Car itin redesign-->
     <!--Car toolbar title template. (e.g. Car rental in San Francisco)-->

@@ -10,6 +10,7 @@ import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IActivityLauncher
+import com.expedia.bookings.itin.utils.IPOSInfoProvider
 import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -29,8 +30,9 @@ data class LXItinDetailsScope(
 data class LxItinToolbarScope(
         override val strings: StringSource,
         override val itinLxRepo: ItinLxRepoInterface,
-        override val lifecycleOwner: LifecycleOwner
-) : HasStringProvider, HasLxRepo, HasLifecycleOwner
+        override val lifecycleOwner: LifecycleOwner,
+        override val posInfoProvider: IPOSInfoProvider
+) : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasPOSProvider
 
 data class LxLifeCycleObserverScope<T : ItinLOB>(override val strings: StringSource,
                                                  override val webViewLauncher: IWebViewLauncher,

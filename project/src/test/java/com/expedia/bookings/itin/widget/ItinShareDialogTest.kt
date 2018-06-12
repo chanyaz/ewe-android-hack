@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.format.DateUtils
 import com.expedia.account.BuildConfig
 import com.expedia.bookings.itin.common.ItinShareDialog
-import com.expedia.bookings.itin.utils.ShareItinTextCreator
+import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -71,7 +71,7 @@ class ItinShareDialogTest {
         shadowPackageManager.addResolveInfoForIntent(sendIntent, appList)
 
         val sut = ItinShareDialog(activity)
-        sut.showItinShareDialog(MockShareItinTextCreator(), "TRIP")
+        sut.showItinShareDialog(MockItinShareTextGenerator())
 
         val shadowActivity = Shadows.shadowOf(activity)
         val intent = shadowActivity.peekNextStartedActivityForResult().intent
@@ -105,7 +105,7 @@ class ItinShareDialogTest {
         shadowPackageManager.addResolveInfoForIntent(smsIntent, appList)
 
         val sut = ItinShareDialog(activity)
-        sut.showItinShareDialog(MockShareItinTextCreator(), "TRIP")
+        sut.showItinShareDialog(MockItinShareTextGenerator())
 
         val shadowActivity = Shadows.shadowOf(activity)
         val intent = shadowActivity.peekNextStartedActivityForResult().intent
@@ -124,7 +124,7 @@ class ItinShareDialogTest {
     fun testShareItinDialogForOlderOS() {
         val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
         val sut = ItinShareDialog(activity)
-        sut.showItinShareDialog(MockShareItinTextCreator(), "TRIP")
+        sut.showItinShareDialog(MockItinShareTextGenerator())
 
         val shadowActivity = Shadows.shadowOf(activity)
         val intent = shadowActivity.peekNextStartedActivityForResult().intent
@@ -133,7 +133,11 @@ class ItinShareDialogTest {
         assertEquals("SMS Body", intent.getStringExtra(Intent.EXTRA_TEXT))
     }
 
-    class MockShareItinTextCreator : ShareItinTextCreator {
+    class MockItinShareTextGenerator : ItinShareTextGenerator {
+        override fun getType(): String {
+            return "Trip"
+        }
+
         override fun getEmailSubject(): String {
             return "Email Subject"
         }

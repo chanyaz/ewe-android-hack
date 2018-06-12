@@ -328,6 +328,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_ACTIVITY_MORE_HELP = "App.Itinerary.Activity.MoreHelp"
     private const val ITIN_ACTIVITY_CALL_EXPEDIA = "App.Itinerary.Activity.Manage.Call.Expedia"
     private const val ITIN_ACTIVITY_CUSTOMER_SUPPORT = "App.Itinerary.Activity.Manage.CSP"
+    private const val ITIN_ACTIVITY_SHARE_CLICKED = "App.Itinerary.Activity.Share.Start"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
@@ -374,6 +375,19 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     override fun trackItinLxCustomerServiceLinkClicked() {
         val s = createTrackLinkEvent(ITIN_ACTIVITY_CUSTOMER_SUPPORT)
         s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinLxShareIconClicked() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_SHARE_CLICKED)
+        s.trackLink("Itinerary Sharing")
+    }
+
+    fun trackShareItinFromApp(tripType: String, appPackageName: String) {
+        val state = "App.Itinerary.$tripType.Share.$appPackageName"
+        val s = createTrackLinkEvent(state)
+        s.setEvar(2, tripType)
+        s.appendEvents("event48")
+        s.trackLink("Itinerary Sharing")
     }
 
     fun trackItinPageLoad(s: AppAnalytics, trip: HashMap<String, String?>) {

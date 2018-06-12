@@ -17,8 +17,8 @@ import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockToaster
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
-import com.expedia.bookings.itin.lx.LxItinToolbarViewModel
-import com.expedia.bookings.itin.lx.MockItinLxToolbarScope
+import com.expedia.bookings.itin.lx.toolbar.LxItinToolbarViewModel
+import com.expedia.bookings.itin.lx.toolbar.MockItinLxToolbarScope
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasItinId
 import com.expedia.bookings.itin.scopes.HasItinImageViewModelSetter
@@ -118,6 +118,15 @@ class LxItinDetailsActivityLifecycleObserverTest {
         sut.toolbarViewModel = LxItinToolbarViewModel(MockItinLxToolbarScope())
         sut.toolbarViewModel.navigationBackPressedSubject.onNext(Unit)
         testObserver.assertValue(Unit)
+    }
+
+    @Test
+    fun toolbarShareClickedTest() {
+        sut.finishSubject.subscribe(testObserver)
+        testObserver.assertNoValues()
+        sut.toolbarViewModel = LxItinToolbarViewModel(MockItinLxToolbarScope())
+        sut.toolbarViewModel.shareIconClickedSubject.onNext(Unit)
+        assertTrue(scope.tripsTracker.trackItinLxShareIconClicked)
     }
 
     class TestLifeCycleObsScope<T : ItinLOB> : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter<T>, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter<T>, HasItinTimingsViewModelSetter<T> {

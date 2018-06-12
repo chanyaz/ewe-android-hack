@@ -7,6 +7,7 @@ import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import io.reactivex.subjects.PublishSubject
 
 class LxItinMoreHelpToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasLxRepo {
@@ -16,6 +17,7 @@ class LxItinMoreHelpToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel 
     override val shareIconVisibleSubject: PublishSubject<Boolean> = PublishSubject.create()
     override val navigationBackPressedSubject: PublishSubject<Unit> = PublishSubject.create()
     override val shareIconClickedSubject: PublishSubject<Unit> = PublishSubject.create()
+    override val itinShareTextGeneratorSubject: PublishSubject<ItinShareTextGenerator> = PublishSubject.create()
     var itinLxObserver: LiveDataObserver<ItinLx>
 
     init {

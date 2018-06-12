@@ -19,6 +19,7 @@ import com.expedia.bookings.itin.scopes.LxItinMoreHelpViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinToolbarScope
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.utils.Intentable
+import com.expedia.bookings.itin.utils.POSInfoProvider
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.itin.utils.WebViewLauncher
 import com.expedia.bookings.tracking.ITripsTracking
@@ -72,7 +73,7 @@ class LxItinMoreHelpActivity : AppCompatActivity() {
         moreHelpViewModel = LxItinMoreHelpViewModel(moreHelpScope)
         lxItinMoreHelpWidget.viewModel = moreHelpViewModel
 
-        val toolbarScope = LxItinToolbarScope(stringProvider, lxRepo, this)
+        val toolbarScope = LxItinToolbarScope(stringProvider, lxRepo, this, POSInfoProvider())
         toolbarViewModel = LxItinMoreHelpToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
 
