@@ -41,12 +41,13 @@ class PackagePresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultPackageComponents()
         Ui.getApplication(activity).defaultTravelerComponent()
+
+        packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null, false) as PackagePresenter
     }
 
     @Test
     fun testSearchParamsObservable() {
         val searchParams = PackageTestUtil.getMIDPackageSearchParams()
-        packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null, false) as PackagePresenter
 
         val errorPresenterParamsSubjectObserver = TestObserver<PackageSearchParams>()
         val bundlePresenterHotelParamsObserver = TestObserver<PackageSearchParams>()
@@ -64,8 +65,6 @@ class PackagePresenterTest {
 
     @Test
     fun testShowBundleTotalObservableWithShowSavings() {
-        packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null, false) as PackagePresenter
-
         val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
         val packagePrice = Money("200", "USD")
@@ -96,8 +95,6 @@ class PackagePresenterTest {
 
     @Test
     fun testShowBundleTotalObservableWithoutShowSavings() {
-        packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null, false) as PackagePresenter
-
         val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
         val packagePrice = Money("200", "USD")
@@ -125,7 +122,6 @@ class PackagePresenterTest {
         val searchParams = PackageTestUtil.getMIDPackageSearchParams()
         Db.setPackageParams(searchParams)
 
-        packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null, false) as PackagePresenter
         val outboundShowLoadingStateObserver = TestObserver<Boolean>()
         val inboundShowLoadingStateObserver = TestObserver<Boolean>()
 
