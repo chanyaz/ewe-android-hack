@@ -39,7 +39,7 @@ open class HotelItinTaxiActivity : AppCompatActivity() {
     val nonLocalizedAddressTextView by bindView<TextView>(R.id.non_localized_location_address)
 
     open val repo: ItinHotelRepoInterface by lazy {
-        val jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
+        val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
         ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
     }
 

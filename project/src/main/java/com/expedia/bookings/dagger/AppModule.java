@@ -22,7 +22,9 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
+import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.AbacusProvider;
 import com.expedia.bookings.itin.utils.AbacusSource;
@@ -453,6 +455,12 @@ public class AppModule {
 
 	@Provides
 	@Singleton
+	IJsonToItinUtil provideReadJsonUtil(ITripsJsonFileUtils tripsJsonFileUtils) {
+		return new JsonToItinUtil(tripsJsonFileUtils);
+	}
+
+	@Provides
+	@Singleton
 	StringSource provideStringSource(Context context) {
 		return new StringProvider(context);
 	}
@@ -466,8 +474,8 @@ public class AppModule {
 	@Provides
 	@Singleton
 	NotificationScheduler provideNotificationScheduler(Context context, INotificationManager notificationManager,
-		UserStateManager userStateManager, TNSServices tnsServices) {
-		return new NotificationScheduler(context, notificationManager, userStateManager, tnsServices);
+		UserStateManager userStateManager, TNSServices tnsServices, IJsonToItinUtil jsonToItinUtil) {
+		return new NotificationScheduler(context, notificationManager, userStateManager, tnsServices, jsonToItinUtil);
 	}
 
 	@Provides

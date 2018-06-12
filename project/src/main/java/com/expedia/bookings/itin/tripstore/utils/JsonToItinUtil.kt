@@ -12,6 +12,10 @@ class JsonToItinUtil @Inject constructor(private val fileUtils: ITripsJsonFileUt
 
     override fun getItin(itinId: String?): Itin? {
         val itinJson = fileUtils.readTripFromFile(itinId)
+        return parseItin(itinJson)
+    }
+
+    private fun parseItin(itinJson: String?): Itin? {
         val gson = GsonBuilder().create()
         if (!itinJson.isNullOrEmpty()) {
             try {
@@ -22,5 +26,16 @@ class JsonToItinUtil @Inject constructor(private val fileUtils: ITripsJsonFileUt
             }
         }
         return null
+    }
+
+    override fun getItinList(): List<Itin> {
+        val retList = mutableListOf<Itin>()
+        val jsonList = fileUtils.readTripsFromFile()
+        jsonList.forEach { json ->
+            parseItin(json)?.let { nonNullItin ->
+                retList.add(nonNullItin)
+            }
+        }
+        return retList
     }
 }

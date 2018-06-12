@@ -25,7 +25,7 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
     val confirmationNumber: TextView by bindView(R.id.confirmation_number)
     val callHotelButton: TextView by bindView(R.id.itin_more_help_phone_number)
     private val messageHotel: TextView by bindView(R.id.itin_hotel_manage_booking_message_hotel)
-    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     init {
         View.inflate(context, R.layout.widget_itin_more_help, this)

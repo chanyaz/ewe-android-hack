@@ -15,6 +15,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.hotel.util.HotelGalleryManager;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.AbacusSource;
 import com.expedia.bookings.itin.utils.IToaster;
@@ -123,6 +124,7 @@ public interface AppComponent {
 	ITripsJsonFileUtils tripJsonFileUtils();
 	StringSource stringProvider();
 	AbacusSource abacusProvider();
+	IJsonToItinUtil jsonUtilProvider();
 
 	SatelliteRemoteFeatureResolver satelliteRemoteFeatureResolver();
 

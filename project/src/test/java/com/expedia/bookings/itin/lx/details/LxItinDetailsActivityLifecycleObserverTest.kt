@@ -150,6 +150,9 @@ class LxItinDetailsActivityLifecycleObserverTest {
             called = true
             return ItinMocker.lxDetailsHappy
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 
     class MockMapSetter<T : ItinLOB> : MapWidgetViewModelSetter<T> {

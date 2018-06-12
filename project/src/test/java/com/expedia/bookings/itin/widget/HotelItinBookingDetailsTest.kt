@@ -97,11 +97,17 @@ class HotelItinBookingDetailsTest {
         override fun getItin(itinId: String?): Itin? {
             return mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")?.itin!!
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 
     object FaultyReadJsonUtil : IJsonToItinUtil {
         override fun getItin(itinId: String?): Itin? {
             return null
+        }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
         }
     }
 

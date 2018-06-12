@@ -12,4 +12,4 @@ data class Courier(val group: String, val langid: String, val name: String, val 
 
 data class TNSRegisterDeviceResponse(val activityId: String, val errorMessage: String, val status: String)
 
-data class TNSFlight(val airline: String, val arrival_date: String, val departure_date: String, val destination: String, val flight_no: String, val origin: String)
+data class TNSFlight(val airline: String, val arrival_date: String, val departure_date: String, val destination: String, val flight_no: String, val origin: String, val is_last: Boolean)

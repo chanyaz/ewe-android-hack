@@ -70,7 +70,7 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
     val priceSummaryCardViewWidgetVM = FlightItinLinkOffCardViewViewModel()
 
     val widgetSharedSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
-    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     @VisibleForTesting
     fun buildWebViewIntent(title: Int, url: String?, anchor: String?, tripNumber: String?): Intent? {

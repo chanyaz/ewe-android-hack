@@ -25,7 +25,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
 
     lateinit var itinCardDataFlight: ItinCardDataFlight
     var itineraryManager: ItineraryManager = ItineraryManager.getInstance()
-    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()

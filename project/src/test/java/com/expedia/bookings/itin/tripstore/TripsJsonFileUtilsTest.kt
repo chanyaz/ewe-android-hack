@@ -14,8 +14,10 @@ import kotlin.test.assertTrue
 
 class TripsJsonFileUtilsTest {
     val data: String = getJsonStringFromMock("api/trips/hotel_trip_details.json", null)
+    val dataTwo: String = getJsonStringFromMock("api/trips/hotel_trip_details_for_mocker.json", null)
     private val TRIPS_FILES_DIRECTORY = "TRIPS_FILES_DIRECTORY"
     private val TEST_FILENAME = "TEST_FILE"
+    private val TEST_FILENAME_TWO = "TEST_FILE_2"
     lateinit var tripsDirectory: File
     lateinit var tripJsonUtils: TripsJsonFileUtils
 
@@ -125,6 +127,23 @@ class TripsJsonFileUtilsTest {
         val readData = tripJsonUtils.readTripFromFile(TEST_FILENAME)
         assertNotNull(readData)
         assertEquals(data, readData)
+    }
+
+    @Test
+    fun readTripsFromFile() {
+        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
+        tripJsonUtils.writeTripToFile(TEST_FILENAME_TWO, dataTwo)
+        val readList = tripJsonUtils.readTripsFromFile()
+        assertTrue(readList.contains(data))
+        assertTrue(readList.contains(dataTwo))
+    }
+
+    @Test
+    fun readTripsFromFileWithANull() {
+        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
+        tripJsonUtils.writeTripToFile(null, null)
+        val readList = tripJsonUtils.readTripsFromFile()
+        assertEquals(listOf(data), readList)
     }
 
     @Test

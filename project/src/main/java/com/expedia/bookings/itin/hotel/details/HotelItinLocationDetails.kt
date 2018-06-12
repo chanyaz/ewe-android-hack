@@ -35,7 +35,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
     val directionsButton: ImageView by bindView(R.id.hotel_directions_button)
     val taxiButton: TextView by bindView(R.id.taxi_button)
     val taxiContainer: LinearLayout by bindView(R.id.taxi_container)
-    var gsonUtil: IJsonToItinUtil = getApplication(context).tripComponent().jsonUtilProvider()
+    var gsonUtil: IJsonToItinUtil = getApplication(context).appComponent().jsonUtilProvider()
     var tripTracking: ITripsTracking = TripsTracking
 
     init {

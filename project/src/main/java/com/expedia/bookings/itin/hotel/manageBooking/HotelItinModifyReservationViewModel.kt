@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.Ui
 class HotelItinModifyReservationViewModel(val context: Context) : ItinModifyReservationViewModel() {
 
     override val itinType: String = "HOTEL_ITIN"
-    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     init {
         itinCardSubject.subscribe {

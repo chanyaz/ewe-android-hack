@@ -38,7 +38,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
 
     val stringProvider: StringSource = Ui.getApplication(context).appComponent().stringProvider()
     val abacusProvider: AbacusSource = Ui.getApplication(context).appComponent().abacusProvider()
-    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
     val webViewLauncher: IWebViewLauncher = WebViewLauncher(context)
     val tripsTracking: ITripsTracking = TripsTracking
     var features: FeatureSource = FeatureProvider

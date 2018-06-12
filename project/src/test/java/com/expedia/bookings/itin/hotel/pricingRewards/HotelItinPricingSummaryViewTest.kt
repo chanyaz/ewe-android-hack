@@ -293,6 +293,9 @@ class HotelItinPricingSummaryViewTest {
 
             return mockObject(ItinDetailsResponse::class.java, mockName)?.itin
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 
     object TestObservable : Observable<MutableList<ItinCardData>>() {

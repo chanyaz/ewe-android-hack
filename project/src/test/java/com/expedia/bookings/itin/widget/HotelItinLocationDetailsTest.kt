@@ -132,11 +132,17 @@ class HotelItinLocationDetailsTest {
         override fun getItin(itinId: String?): Itin? {
             return ItinMocker.hotelDetailsNoPriceDetails
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 
     private class GoodLocaleJsonToItinUtil : IJsonToItinUtil {
         override fun getItin(itinId: String?): Itin? {
             return ItinMocker.hotelDetailsHappy
+        }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
         }
     }
 }

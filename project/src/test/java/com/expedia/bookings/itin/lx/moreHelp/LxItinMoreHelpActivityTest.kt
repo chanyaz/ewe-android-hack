@@ -60,5 +60,8 @@ class LxItinMoreHelpActivityTest {
             return if (isValid) ItinMocker.lxDetailsHappy
             else mockObject(ItinDetailsResponse::class.java, "api/trips/error_trip_details_response.json")?.itin
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 }

@@ -69,11 +69,17 @@ class ItinRepoTest {
                 return ItinMocker.lxDetailsHappy
             }
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 
     class NullJsonUtil : IJsonToItinUtil {
         override fun getItin(itinId: String?): Itin? {
             return null
+        }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
         }
     }
 }

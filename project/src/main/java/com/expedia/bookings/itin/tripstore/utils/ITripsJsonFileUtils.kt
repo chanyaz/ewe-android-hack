@@ -5,4 +5,5 @@ interface ITripsJsonFileUtils {
     fun readTripFromFile(filename: String?): String?
     fun deleteTripFile(filename: String?): Boolean
     fun deleteTripStore()
+    fun readTripsFromFile(): List<String>
 }

@@ -8,10 +8,13 @@ import com.expedia.bookings.data.TNSFlight
 import com.expedia.bookings.data.TNSUser
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
-import com.expedia.bookings.data.trips.ItinCardDataFlight
-import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.itin.tripstore.data.Flight
+import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.extensions.getDateTime
+import com.expedia.bookings.itin.tripstore.extensions.getLegs
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.notification.INotificationManager
 import com.expedia.bookings.services.ITNSServices
@@ -21,17 +24,17 @@ import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider
 import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
-import com.mobiata.flightlib.data.Flight
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
-open class NotificationScheduler @JvmOverloads constructor(val context: Context,
-                                                           val db: Db = Db.sharedInstance,
-                                                           var notificationManager: INotificationManager,
-                                                           val userStateManager: UserStateManager,
-                                                           val tnsServices: ITNSServices,
-                                                           val gcmRegistrationKeeper: GCMRegistrationKeeper = GCMRegistrationKeeper.getInstance(context),
-                                                           val pos: PointOfSale = PointOfSale.getPointOfSale()) {
+class NotificationScheduler @JvmOverloads constructor(val context: Context,
+                                                      val db: Db = Db.sharedInstance,
+                                                      var notificationManager: INotificationManager,
+                                                      val userStateManager: UserStateManager,
+                                                      val tnsServices: ITNSServices,
+                                                      val gcmRegistrationKeeper: GCMRegistrationKeeper = GCMRegistrationKeeper.getInstance(context),
+                                                      val pos: PointOfSale = PointOfSale.getPointOfSale(),
+                                                      val jsonUtil: IJsonToItinUtil) {
 
     private val LOGGING_TAG = "NotificationScheduler"
 
@@ -61,10 +64,10 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
         notificationManager.cancelAllExpired()
     }
 
-    open fun getGenerator(data: ItinCardData): ItinContentGenerator<out ItinCardData> =
+    private fun getGenerator(data: ItinCardData): ItinContentGenerator<out ItinCardData> =
             ItinContentGenerator.createGenerator(context, data)
 
-    fun registerForPushNotifications(itinCardDatas: List<ItinCardData>) {
+    fun registerForPushNotifications() {
 
         Log.d(LOGGING_TAG, "registerForPushNotifications")
 
@@ -82,12 +85,12 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
 
             val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId,
                     UniqueIdentifierHelper.getID(UniqueIdentifierPersistenceProvider(context)))
-
-            tnsServices.registerForFlights(tnsUser, courier, getFlightsForNewSystem(itinCardDatas))
+            val itinList = jsonUtil.getItinList()
+            tnsServices.registerForFlights(tnsUser, courier, getTNSFlights(itinList))
         }
     }
 
-    open fun getTNSUser(siteId: Int): TNSUser {
+    fun getTNSUser(siteId: Int): TNSUser {
         val siteIdString = siteId.toString()
 
         val guid = db.abacusGuid
@@ -100,54 +103,38 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
         }
     }
 
-    fun getItinFlights(itinCardDatas: List<ItinCardData>): List<Flight> {
-        val retFlights = ArrayList<Flight>()
-        for (data in itinCardDatas) {
-            if (data.tripComponentType != null && data.tripComponentType == TripComponent.Type.FLIGHT
-                    && data.tripComponent != null && data is ItinCardDataFlight) {
-                val leg = data.flightLeg
-                if (leg != null && leg.segments != null) {
-                    retFlights.addAll(leg.segments)
+    private fun makeNewFinishedObserver() = endlessObserver<List<ItinCardData>> {
+        scheduleLocalNotifications(it)
+        registerForPushNotifications()
+    }
+
+    fun getTNSFlights(itins: List<Itin>): List<TNSFlight> {
+        val retList = mutableListOf<TNSFlight>()
+        val dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ"
+        itins.forEach { itin ->
+            val legs = itin.getLegs()
+            legs.forEach { leg ->
+                leg.segments.forEach { flight ->
+                    if (isFlightDataAvailable(flight))
+                        retList.add(TNSFlight(flight.airlineCode!!,
+                                JodaUtils.format(flight.arrivalTime!!.getDateTime(), dateTimeTimeZonePattern),
+                                JodaUtils.format(flight.departureTime!!.getDateTime(), dateTimeTimeZonePattern),
+                                flight.arrivalLocation?.airportCode!!, flight.flightNumber!!, flight.departureLocation?.airportCode!!,
+                                flight == leg.segments.last()))
                 }
             }
         }
-        return retFlights
-    }
-
-    fun getFlightsForNewSystem(itinCardDatas: List<ItinCardData>): List<TNSFlight> {
-        val flights = ArrayList<TNSFlight>()
-        val itinFlights = getItinFlights(itinCardDatas)
-        val dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ"
-        for (flight in itinFlights) {
-            if (isFlightDataAvailable(flight)) {
-                val primaryFlightCode = flight.primaryFlightCode
-                val flightToAdd = TNSFlight(primaryFlightCode!!.mAirlineCode,
-                        JodaUtils.format(flight.segmentArrivalTime, dateTimeTimeZonePattern),
-                        JodaUtils.format(flight.segmentDepartureTime, dateTimeTimeZonePattern),
-                        flight.destinationWaypoint.mAirportCode,
-                        primaryFlightCode.mNumber,
-                        flight.originWaypoint.mAirportCode
-                )
-                flights.add(flightToAdd)
-            }
-        }
-        return flights
+        return retList
     }
 
     fun isFlightDataAvailable(flight: Flight): Boolean {
-        val primaryFlightCode = flight.primaryFlightCode
-        val isAirlineCodeAvailable = primaryFlightCode != null && !primaryFlightCode.mAirlineCode.isNullOrEmpty()
-        val isFlightNumberAvailable = primaryFlightCode != null && !primaryFlightCode.mNumber.isNullOrEmpty()
-        val isSegmentArrivalTimeAvailable = flight.segmentArrivalTime != null
-        val isSegmentDepartureTimeAvailable = flight.segmentDepartureTime != null
-        val isDestinationAirportCodeAvailable = flight.destinationWaypoint != null && !flight.destinationWaypoint.mAirportCode.isNullOrEmpty()
-        val isOriginAirportCodeAvailable = flight.originWaypoint != null && !flight.originWaypoint.mAirportCode.isNullOrEmpty()
+        val isAirlineCodeAvailable = !flight.airlineCode.isNullOrEmpty()
+        val isFlightNumberAvailable = !flight.flightNumber.isNullOrEmpty()
+        val isSegmentArrivalTimeAvailable = !flight.arrivalTime?.raw.isNullOrEmpty()
+        val isSegmentDepartureTimeAvailable = !flight.departureTime?.raw.isNullOrEmpty()
+        val isDestinationAirportCodeAvailable = !flight.arrivalLocation?.airportCode.isNullOrEmpty()
+        val isOriginAirportCodeAvailable = !flight.departureLocation?.airportCode.isNullOrEmpty()
         return (isAirlineCodeAvailable && isFlightNumberAvailable && isSegmentArrivalTimeAvailable
                 && isSegmentDepartureTimeAvailable && isDestinationAirportCodeAvailable && isOriginAirportCodeAvailable)
-    }
-
-    private fun makeNewFinishedObserver() = endlessObserver<List<ItinCardData>> {
-        scheduleLocalNotifications(it)
-        registerForPushNotifications(it)
     }
 }

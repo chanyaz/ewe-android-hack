@@ -1,39 +1,30 @@
 package com.expedia.bookings.itin.utils
 
 import android.content.Context
-import android.content.Intent
-import android.view.View
-import android.view.ViewGroup
-import com.expedia.bookings.bitmaps.IMedia
 import com.expedia.bookings.data.Courier
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TNSFlight
 import com.expedia.bookings.data.TNSUser
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
-import com.expedia.bookings.data.trips.ItinCardDataFlight
-import com.expedia.bookings.data.trips.ItinCardDataHotel
-import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.tripstore.data.Flight
+import com.expedia.bookings.itin.tripstore.data.FlightLocation
+import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.data.ItinTime
+import com.expedia.bookings.itin.tripstore.extensions.getDateTime
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.notification.INotificationManager
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ITNSServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.widget.itin.ItinContentGenerator
-import com.expedia.bookings.widget.itin.SummaryButton
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
-import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.mobiata.flightlib.data.Flight
-import com.mobiata.flightlib.data.FlightCode
-import com.mobiata.flightlib.data.Waypoint
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
-import org.joda.time.DateTime
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,7 +32,6 @@ import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -50,30 +40,33 @@ class NotificationSchedulerTest {
 
     lateinit var context: Context
     lateinit var sut: NotificationScheduler
-    private lateinit var tnsServicesMock: TestTNSService
+    private lateinit var tnsServicesMock: MockTNSService
     private val itinDatas = listOf<ItinCardData>(ItinCardDataFlightBuilder().build(), ItinCardDataFlightBuilder().build(multiSegment = true, isShared = true))
     private lateinit var notificationManagerMock: TestNotificationManager
     private lateinit var userStateManager: UserStateManager
     private lateinit var pos: PointOfSale
+    private lateinit var mockJsonUtil: MockJsonUtil
 
     @Before
     fun setup() {
         context = RuntimeEnvironment.application
         userStateManager = UserLoginTestUtil.getUserStateManager()
         pos = PointOfSale.getPointOfSale()
-        tnsServicesMock = Mockito.spy(TestTNSService())
+        tnsServicesMock = MockTNSService()
         val dbMock = Mockito.mock(Db::class.java)
         Mockito.`when`(dbMock.abacusGuid).thenReturn("333333")
         notificationManagerMock = Mockito.spy(TestNotificationManager())
         val gcmKeeperMock = Mockito.mock(GCMRegistrationKeeper::class.java)
         Mockito.`when`(gcmKeeperMock.getRegistrationId(context)).thenReturn("1234")
-        sut = Mockito.spy(NotificationScheduler(context = context,
+        mockJsonUtil = MockJsonUtil()
+        sut = NotificationScheduler(context = context,
                 db = dbMock,
                 notificationManager = notificationManagerMock,
                 userStateManager = userStateManager,
                 tnsServices = tnsServicesMock,
                 gcmRegistrationKeeper = gcmKeeperMock,
-                pos = pos))
+                pos = pos,
+                jsonUtil = mockJsonUtil)
     }
 
     @Test
@@ -87,10 +80,10 @@ class NotificationSchedulerTest {
 
     @Test
     fun registerForPushNotificationsTest() {
-
-        Mockito.`when`(sut.getGenerator(itinDatas[0])).thenReturn(MockItinGenerator(context, itinDatas[0]))
-        sut.registerForPushNotifications(itinDatas)
-        Mockito.verify(sut, Mockito.times(1)).getTNSUser(pos.siteId)
+        mockJsonUtil.list.add(ItinMocker.flightDetailsHappy)
+        assertFalse(tnsServicesMock.registerForFlightsCalled)
+        sut.registerForPushNotifications()
+        assertTrue(tnsServicesMock.registerForFlightsCalled)
     }
 
     @Test
@@ -100,40 +93,33 @@ class NotificationSchedulerTest {
 
     @Test
     fun registerForPushNotificationsToggleOnTest() {
-        Mockito.`when`(sut.getGenerator(itinDatas[0])).thenReturn(MockItinGenerator(context, itinDatas[0]))
-        sut.registerForPushNotifications(itinDatas)
-        Mockito.verify(sut, Mockito.times(1)).getTNSUser(pos.siteId)
+        mockJsonUtil.list.add(ItinMocker.flightDetailsHappyMultiSegment)
+        assertFalse(tnsServicesMock.registerForFlightsCalled)
+        sut.registerForPushNotifications()
         assertNotNull(tnsServicesMock.tnsCourier)
         assertNotNull(tnsServicesMock.tnsUser)
-        assertNotEquals(0, tnsServicesMock.tnsFlights?.size)
-        Mockito.verify(tnsServicesMock, Mockito.times(1)).registerForFlights(tnsServicesMock.tnsUser!!, tnsServicesMock.tnsCourier!!, tnsServicesMock.tnsFlights!!)
+        assertEquals(5, tnsServicesMock.tnsFlights?.size)
+        assertTrue(tnsServicesMock.registerForFlightsCalled)
     }
-
-    @After
-    fun tearDown() = AbacusTestUtils.resetABTests()
 
     @Test
     fun testGetItinFlightswithMultiSegmentFlight() =
-            assertEquals(2, sut.getItinFlights(itinCardDataMultiSegmentFlight()).size)
+            assertEquals(6, sut.getTNSFlights(listOf(ItinMocker.flightDetailsHappy, ItinMocker.flightDetailsHappyMultiSegment)).size)
 
     @Test
-    fun testGetItinFlightswithHotel() = assertEquals(0, sut.getItinFlights(itinCardDataHotel()).size)
+    fun testGetItinFlightswithHotel() = assertEquals(0, sut.getTNSFlights(listOf(ItinMocker.hotelDetailsHappy, ItinMocker.hotelDetailsExpediaCollect)).size)
 
     @Test
-    fun testGetItinFlightswithSharedFlight() = assertEquals(1, sut.getItinFlights(itinCardDataSharedFlight()).size)
+    fun testPackageGetTNSFlights() = assertEquals(2, sut.getTNSFlights(listOf(ItinMocker.hotelPackageHappy)).size)
 
     @Test
     fun testGetFlightsForNewSystem() {
-        val testItinCardData = ItinCardDataFlightBuilder().build()
-        val testItinCardDataShared = ItinCardDataFlightBuilder().build()
-        testItinCardDataShared.tripComponent.parentTrip.setIsShared(true)
-        val itinCardDatas = listOf(testItinCardData, testItinCardDataShared)
         val dateTimeTimeZonePattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ"
 
-        val expectedFlightList = listOf(TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "LAS", "681", "SFO"),
-                TNSFlight("UA", "2017-09-05T21:33:00.000-0700", "2017-09-05T20:00:00.000-0700", "LAS", "681", "SFO"))
-        val expectedDateFormatWithTZ = JodaUtils.format(testItinCardData.flightLeg.getSegment(0).segmentDepartureTime, dateTimeTimeZonePattern)
-        val actualFlightList = sut.getFlightsForNewSystem(itinCardDatas)
+        val expectedFlightList = listOf(TNSFlight(airline = "UA", arrival_date = "2017-09-05T21:33:00.000-0700", departure_date = "2017-09-05T20:00:00.000-0700", destination = "LAS", flight_no = "681", origin = "SFO", is_last = true))
+
+        val expectedDateFormatWithTZ = JodaUtils.format(ItinMocker.flightDetailsHappy.flights?.first()?.legs?.first()?.segments?.first()?.departureTime?.getDateTime()!!, dateTimeTimeZonePattern)
+        val actualFlightList = sut.getTNSFlights(listOf(ItinMocker.flightDetailsHappy))
 
         assertEquals(expectedFlightList, actualFlightList)
         assertEquals(expectedDateFormatWithTZ, actualFlightList[0].departure_date)
@@ -141,92 +127,59 @@ class NotificationSchedulerTest {
 
     @Test
     fun testIsFlightDataAvailable() {
-        val testItinCardData = ItinCardDataFlightBuilder().build()
-        assertTrue(sut.isFlightDataAvailable(testItinCardData.flightLeg.getSegment(0)))
+        val happyFlight = Flight(FlightLocation("OTO"),
+                FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+        assertTrue(sut.isFlightDataAvailable(happyFlight))
 
-        val testFlightInvalid = TestFlight()
-        assertFalse(sut.isFlightDataAvailable(testFlightInvalid))
+        val testNullAirlineCode = Flight(FlightLocation("OTO"),
+                FlightLocation("SFO"), null, "A445", ItinTime("May 5",
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+        assertFalse(sut.isFlightDataAvailable(testNullAirlineCode))
 
-        var testFlightValid = Flight()
-        var testFlightCode = FlightCode()
-        testFlightCode.mAirlineCode = null
-        testFlightValid.addFlightCode(testFlightCode, Flight.F_PRIMARY_AIRLINE_CODE)
-        assertFalse(sut.isFlightDataAvailable(testFlightValid))
+        val testNullFlightNumber = Flight(FlightLocation("OTO"),
+                FlightLocation("SFO"), "AA123", null, ItinTime("May 5",
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+        assertFalse(sut.isFlightDataAvailable(testNullFlightNumber))
 
-        testFlightValid = Flight()
-        testFlightCode = FlightCode()
-        testFlightCode.mNumber = ""
-        assertFalse(sut.isFlightDataAvailable(testFlightValid))
+        val testArrivalTimeRawNull = Flight(FlightLocation("OTO"),
+                FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
+                "May 6", "May 6", null))
+        assertFalse(sut.isFlightDataAvailable(testArrivalTimeRawNull))
 
-        testFlightValid = Flight()
-        var testWaypoint = Waypoint(Waypoint.ACTION_ARRIVAL)
-        testWaypoint.mAirportCode = ""
-        testFlightInvalid.destinationWaypoint = testWaypoint
-        assertFalse(sut.isFlightDataAvailable(testFlightValid))
+        val testDepartureTimeRawNull = Flight(FlightLocation("OTO"),
+                FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
+                "May 5", "May 5", null), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+        assertFalse(sut.isFlightDataAvailable(testDepartureTimeRawNull))
 
-        testFlightValid = Flight()
-        testWaypoint = Waypoint(Waypoint.ACTION_DEPARTURE)
-        testWaypoint.mAirportCode = ""
-        testFlightInvalid.originWaypoint = testWaypoint
-        assertFalse(sut.isFlightDataAvailable(testFlightValid))
+        val testArrivalLocationAirportCodeNull = Flight(FlightLocation("OTO"),
+                FlightLocation(null), "AA123", "A445", ItinTime("May 5",
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+        assertFalse(sut.isFlightDataAvailable(testArrivalLocationAirportCodeNull))
+
+        val testDepartureLocationAirportCodeNull = Flight(FlightLocation(null),
+                FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+        assertFalse(sut.isFlightDataAvailable(testDepartureLocationAirportCodeNull))
     }
 
-    class MockItinGenerator(context: Context, data: ItinCardData) : ItinContentGenerator<ItinCardData>(context, data) {
-        override fun getTypeIconResId(): Int = 0
-
-        override fun getType(): TripComponent.Type = TripComponent.Type.FLIGHT
-
-        override fun getShareSubject(): String = ""
-
-        override fun getShareTextShort(): String = ""
-
-        override fun getShareTextLong(): String = ""
-
-        override fun getHeaderImagePlaceholderResId(): Int = 0
-
-        override fun getHeaderBitmapDrawable(): MutableList<out IMedia> = listOf<IMedia>().toMutableList()
-
-        override fun getHeaderText(): String = ""
-
-        override fun getReloadText(): String = ""
-
-        override fun getTitleView(convertView: View?, container: ViewGroup?): View = View(context)
-
-        override fun getSummaryView(convertView: View?, container: ViewGroup?): View = View(context)
-
-        override fun getDetailsView(convertView: View?, container: ViewGroup?): View = View(context)
-
-        override fun getSummaryLeftButton(): SummaryButton = SummaryButton(1, "", {})
-
-        override fun getSummaryRightButton(): SummaryButton = SummaryButton(1, "", {})
-
-        override fun getAddToCalendarIntents(): MutableList<Intent> = listOf<Intent>().toMutableList()
-
-        override fun generateNotifications(): MutableList<Notification> = listOf(Notification()).toMutableList()
-    }
-
-    private fun itinCardDataMultiSegmentFlight(): List<ItinCardDataFlight> = listOf(ItinCardDataFlightBuilder().build(multiSegment = true))
-
-    private fun itinCardDataHotel(): List<ItinCardDataHotel> = listOf(ItinCardDataHotelBuilder().build())
-
-    private fun itinCardDataSharedFlight(): List<ItinCardDataFlight> = listOf(ItinCardDataFlightBuilder().build(isShared = true))
-
-    private class TestFlight : Flight() {
-        override fun getSegmentArrivalTime(): DateTime? = null
-        override fun getSegmentDepartureTime(): DateTime? = null
-        override fun getPrimaryFlightCode(): FlightCode? = null
-        override fun getOriginWaypoint(): Waypoint? = null
-        override fun getDestinationWaypoint(): Waypoint? = null
-    }
-
-    open class TestTNSService : ITNSServices {
+    private class MockTNSService : ITNSServices {
         var tnsUser: TNSUser? = null
         var tnsCourier: Courier? = null
         var tnsFlights: List<TNSFlight>? = listOf()
+        var registerForFlightsCalled = false
         override fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>): Disposable {
             tnsUser = user
             tnsCourier = courier
             tnsFlights = flights
+            registerForFlightsCalled = true
             return Observable.just("1").subscribe()
         }
 
@@ -276,6 +229,16 @@ class NotificationSchedulerTest {
 
         override fun searchForExistingAndUpdate(notification: Notification) {
             mNotification = notification
+        }
+    }
+
+    private class MockJsonUtil(val list: MutableList<Itin> = mutableListOf()) : IJsonToItinUtil {
+        override fun getItin(itinId: String?): Itin? {
+            return null
+        }
+
+        override fun getItinList(): List<Itin> {
+            return list
         }
     }
 }

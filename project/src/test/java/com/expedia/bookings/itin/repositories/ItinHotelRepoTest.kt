@@ -67,11 +67,17 @@ class ItinHotelRepoTest {
                 return ItinMocker.hotelDetailsNoPriceDetails
             }
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 
     object MockNullSendingReadJsonUtil : IJsonToItinUtil {
         override fun getItin(itinId: String?): Itin? {
             return null
+        }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
         }
     }
 }

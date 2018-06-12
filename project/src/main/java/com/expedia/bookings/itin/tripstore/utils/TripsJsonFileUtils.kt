@@ -39,6 +39,23 @@ class TripsJsonFileUtils(private val tripsDirectory: File) : ITripsJsonFileUtils
     }
 
     @Synchronized
+    override fun readTripsFromFile(): List<String> {
+        val retList = mutableListOf<String>()
+        try {
+            if (tripsDirectory.exists()) {
+                val tripFiles = tripsDirectory.listFiles()
+                tripFiles.forEach { file ->
+                    retList.add(file.readText())
+                }
+                return retList
+            }
+        } catch (e: Exception) {
+            println("$LOGGING_TAG Exception occurred while reading from file : ${e.printStackTrace()}")
+        }
+        return retList
+    }
+
+    @Synchronized
     override fun deleteTripFile(filename: String?): Boolean {
         try {
             if (tripsDirectory.exists() && filename != null && filename.isNotEmpty()) {
