@@ -316,7 +316,7 @@ public class MockAccountLibActivity extends FragmentActivity {
 		public void userExplicitlyModifiedMarketingOptIn(boolean optIn) { }
 
 		@Override
-		public void userSucceededInCreatingAccount() { }
+		public void userSucceededInCreatingAccount(boolean userIsEnrolledForRewards) { }
 
 		@Override
 		public void userReceivedErrorOnSignInAttempt(String failureReason) { }

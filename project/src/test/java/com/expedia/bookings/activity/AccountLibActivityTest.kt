@@ -195,10 +195,18 @@ class AccountLibActivityTest {
 
     @Test
     fun testCreateAccountSuccessIsTrackedOnOmniture() {
-        activity.analyticsListener.userSucceededInCreatingAccount()
+        activity.analyticsListener.userSucceededInCreatingAccount(true)
         OmnitureTestUtils.assertStateTracked(
                 createAccountPageName, Matchers.allOf(
                 OmnitureMatchers.withEvars(mapOf(18 to "D=pageName")), OmnitureMatchers.withEventsString("event25,event26,event61")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testCreateAccountWithoutRewardsSuccessIsTrackedOnOmniture() {
+        activity.analyticsListener.userSucceededInCreatingAccount(false)
+        OmnitureTestUtils.assertStateTracked(
+                createAccountPageName, Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(18 to "D=pageName")), OmnitureMatchers.withEventsString("event25,event26")), mockAnalyticsProvider)
     }
 
     @Test

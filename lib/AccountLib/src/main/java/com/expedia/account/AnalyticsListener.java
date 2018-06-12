@@ -29,7 +29,7 @@ public interface AnalyticsListener {
 	 */
 	void userExplicitlyModifiedMarketingOptIn(boolean optIn);
 
-	void userSucceededInCreatingAccount();
+	void userSucceededInCreatingAccount(boolean userIsEnrolledForRewards);
 
 	void userReceivedErrorOnSignInAttempt(String failureReason);
 

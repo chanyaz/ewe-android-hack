@@ -71,7 +71,7 @@ class NewCreateAccountHandler(private val dialogBuilder: SimpleDialogBuilder,
     }
 
     private fun doCreateAccountSuccessful() {
-        config.analyticsListener?.userSucceededInCreatingAccount()
+        config.analyticsListener?.userSucceededInCreatingAccount(Db.getNewUser().enrollInLoyalty)
         config.accountSignInListener?.onSignInSuccessful()
     }
 

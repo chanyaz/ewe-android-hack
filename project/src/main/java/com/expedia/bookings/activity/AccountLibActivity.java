@@ -395,8 +395,8 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		}
 
 		@Override
-		public void userSucceededInCreatingAccount() {
-			OmnitureTracking.trackAccountCreateSuccess();
+		public void userSucceededInCreatingAccount(boolean userIsEnrolledForRewards) {
+			OmnitureTracking.trackAccountCreateSuccess(userIsEnrolledForRewards);
 		}
 
 		@Override

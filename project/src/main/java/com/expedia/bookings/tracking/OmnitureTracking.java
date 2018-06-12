@@ -3425,14 +3425,19 @@ public class OmnitureTracking {
 		s.trackLink("Accounts");
 	}
 
-	public static void trackAccountCreateSuccess() {
+	public static void trackAccountCreateSuccess(boolean userIsEnrolledForRewards) {
 		AppAnalytics s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
 		pageName = CREATE_ACCOUNT_SCREEN;
 		s.setAppState(pageName);
 		s.setEvar(18, STRING_FOR_EVAR18);
-		s.setEvents("event25,event26,event61");
+		if (userIsEnrolledForRewards) {
+			s.setEvents("event25,event26,event61");
+		}
+		else {
+			s.setEvents("event25,event26");
+		}
 		s.track();
 	}
 

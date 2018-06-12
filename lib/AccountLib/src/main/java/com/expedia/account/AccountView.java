@@ -1432,7 +1432,7 @@ public class AccountView extends BufferedPresenter {
 		if (mConfig != null) {
 			AnalyticsListener analyticsListener = mConfig.getAnalyticsListener();
 			if (analyticsListener != null) {
-				analyticsListener.userSucceededInCreatingAccount();
+				analyticsListener.userSucceededInCreatingAccount(Db.getNewUser().enrollInLoyalty);
 			}
 		}
 	}
