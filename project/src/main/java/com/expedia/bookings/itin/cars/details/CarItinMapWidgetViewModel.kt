@@ -46,7 +46,6 @@ abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewMod
                 if (location.latitude != null && location.longitude != null) {
                     latLongSubject.onNext(LatLng(location.latitude, location.longitude))
                 }
-
                 addressClickSubject.subscribe {
                     scope.toaster.toastAndCopy(location.buildFullAddress())
                 }

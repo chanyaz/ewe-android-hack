@@ -34,10 +34,12 @@ class CarItinMoreHelpViewModel<out S>(val scope: S) : IMoreHelpViewModel where S
 
         phoneNumber?.let { number ->
             phoneNumberSubject.onNext(number)
+            vendorName?.let { name ->
             val contDesc = scope.strings.fetchWithPhrase(
                     R.string.itin_car_call_button_content_description_TEMPLATE,
-                    mapOf("phonenumber" to number))
+                    mapOf("phonenumber" to number, "vendor" to name))
             callButtonContentDescriptionSubject.onNext(contDesc)
+            }
         }
     }
 
