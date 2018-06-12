@@ -53,6 +53,15 @@ class CarItinMoreHelpViewModelTest {
         setupViewModel()
     }
 
+    @After
+    fun tearDown() {
+        phoneNumberTestObserver.dispose()
+        callButtonContentDescriptionTestObserver.dispose()
+        helpTextTestObserver.dispose()
+        confirmationNumberTestObserver.dispose()
+        confirmationNumberContentDescriptionTestObserver.dispose()
+    }
+
     @Test
     fun testMoreHelpHappyPath() {
         vm.itinObserver.onChanged(ItinMocker.carDetailsHappy)
@@ -61,7 +70,7 @@ class CarItinMoreHelpViewModelTest {
         phoneNumberTestObserver.assertValue("02 9221 2231")
 
         val callButtonContDesc = (R.string.itin_car_call_button_content_description_TEMPLATE).toString().plus(
-                mapOf("phonenumber" to "02 9221 2231"))
+                mapOf("phonenumber" to "02 9221 2231", "vendor" to "Thrifty"))
         callButtonContentDescriptionTestObserver.assertValue(callButtonContDesc)
 
         val helpText = (R.string.itin_more_help_text_TEMPLATE)
@@ -107,15 +116,6 @@ class CarItinMoreHelpViewModelTest {
         vm.phoneNumberClickSubject.onNext(Unit)
 
         assertTrue(vm.scope.tripsTracking.trackItinCarCallSupportClickedCalled)
-    }
-
-    @After
-    fun tearDown() {
-        phoneNumberTestObserver.dispose()
-        callButtonContentDescriptionTestObserver.dispose()
-        helpTextTestObserver.dispose()
-        confirmationNumberTestObserver.dispose()
-        confirmationNumberContentDescriptionTestObserver.dispose()
     }
 
     private fun setupViewModel() {
