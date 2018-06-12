@@ -1,9 +1,9 @@
-package com.expedia.bookings.itin.lx.moreHelp
+package com.expedia.bookings.itin.common
 
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.itin.common.ICustomerSupportViewModel
+import com.expedia.bookings.itin.scopes.HasItinType
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -12,7 +12,7 @@ import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.Itin
 import io.reactivex.subjects.PublishSubject
 
-class LxItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportViewModel where S : HasStringProvider, S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasWebViewLauncher {
+class ItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportViewModel where S : HasStringProvider, S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasWebViewLauncher, S : HasItinType {
     override val customerSupportHeaderTextSubject: PublishSubject<String> = PublishSubject.create()
     override val phoneNumberSubject: PublishSubject<String> = PublishSubject.create()
     override val phoneNumberClickedSubject: PublishSubject<Unit> = PublishSubject.create()
@@ -47,7 +47,7 @@ class LxItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportView
                             mapOf("brand" to BuildConfig.brand, "phonenumber" to number))
             phoneNumberContentDescriptionSubject.onNext(contDesc)
             phoneNumberClickedSubject.subscribe {
-                scope.tripsTracking.trackItinLxCallCustomerSupportClicked()
+                trackingCallCustomerSupportClickBasedOnLOB()
             }
         }
 
@@ -63,8 +63,32 @@ class LxItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportView
             customerSupportTextContentDescriptionSubject.onNext(contDesc)
 
             customerSupportButtonClickedSubject.subscribe {
-                scope.tripsTracking.trackItinLxCustomerServiceLinkClicked()
+                trackingCustomerServiceLinkClickBasedOnLOB()
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_customer_service_webview_heading, url, null, itin.tripId!!, isGuest = itin.isGuest)
+            }
+        }
+    }
+
+    fun trackingCallCustomerSupportClickBasedOnLOB() {
+        when (scope.type) {
+            TripProducts.ACTIVITY.name -> {
+                scope.tripsTracking.trackItinLxCallCustomerSupportClicked()
+            }
+
+            TripProducts.CAR.name -> {
+                //scope.tripsTracking.trackItinCarCallCustomerSupportClicked()
+            }
+        }
+    }
+
+    fun trackingCustomerServiceLinkClickBasedOnLOB() {
+        when (scope.type) {
+            TripProducts.ACTIVITY.name -> {
+                scope.tripsTracking.trackItinLxCustomerServiceLinkClicked()
+            }
+
+            TripProducts.CAR.name -> {
+                //scope.tripsTracking.trackItinCarCustomerServiceLinkClicked()
             }
         }
     }

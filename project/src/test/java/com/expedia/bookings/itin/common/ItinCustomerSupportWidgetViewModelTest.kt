@@ -1,4 +1,4 @@
-package com.expedia.bookings.itin.lx.moreHelp
+package com.expedia.bookings.itin.common
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
@@ -11,6 +11,7 @@ import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasItinType
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -26,12 +27,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class LxItinCustomerSupportWidgetViewModelTest {
+class ItinCustomerSupportWidgetViewModelTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    private lateinit var vm: LxItinCustomerSupportViewModel<MockCustomerSupportWidgetViewModelScope>
+    private lateinit var vm: ItinCustomerSupportViewModel<MockCustomerSupportWidgetViewModelScope>
 
     private lateinit var customerSupportHeaderTextTestObserver: TestObserver<String>
     private lateinit var phoneNumberTestObserver: TestObserver<String>
@@ -55,6 +56,19 @@ class LxItinCustomerSupportWidgetViewModelTest {
         customerSupportTextContentDescriptionTestObserver = TestObserver()
         itineraryNumberContentDescriptionTestObserver = TestObserver()
         setupViewModel()
+    }
+
+    @After
+    fun tearDown() {
+        customerSupportHeaderTextTestObserver.dispose()
+        phoneNumberTestObserver.dispose()
+        customerSupportTextTestObserver.dispose()
+        customerSupportButtonClickedTestObserver.dispose()
+        itineraryNumberTestObserver.dispose()
+        itineraryHeaderVisibilityTestObserver.dispose()
+        phoneNumberContentDescriptionTestObserver.dispose()
+        customerSupportTextContentDescriptionTestObserver.dispose()
+        itineraryNumberContentDescriptionTestObserver.dispose()
     }
 
     @Test
@@ -115,7 +129,7 @@ class LxItinCustomerSupportWidgetViewModelTest {
     }
 
     private fun setupViewModel() {
-        vm = LxItinCustomerSupportViewModel(MockCustomerSupportWidgetViewModelScope())
+        vm = ItinCustomerSupportViewModel(MockCustomerSupportWidgetViewModelScope())
 
         vm.customerSupportHeaderTextSubject.subscribe(customerSupportHeaderTextTestObserver)
         vm.phoneNumberSubject.subscribe(phoneNumberTestObserver)
@@ -128,24 +142,12 @@ class LxItinCustomerSupportWidgetViewModelTest {
         vm.itineraryNumberContentDescriptionSubject.subscribe(itineraryNumberContentDescriptionTestObserver)
     }
 
-    @After
-    fun tearDown() {
-        customerSupportHeaderTextTestObserver.dispose()
-        phoneNumberTestObserver.dispose()
-        customerSupportTextTestObserver.dispose()
-        customerSupportButtonClickedTestObserver.dispose()
-        itineraryNumberTestObserver.dispose()
-        itineraryHeaderVisibilityTestObserver.dispose()
-        phoneNumberContentDescriptionTestObserver.dispose()
-        customerSupportTextContentDescriptionTestObserver.dispose()
-        itineraryNumberContentDescriptionTestObserver.dispose()
-    }
-
-    private class MockCustomerSupportWidgetViewModelScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher {
+    private class MockCustomerSupportWidgetViewModelScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType {
         override val strings: StringSource = MockStringProvider()
         override val webViewLauncher = MockWebViewLauncher()
         override val tripsTracking = MockTripsTracking()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
+        override val type = TripProducts.ACTIVITY.name
     }
 }
