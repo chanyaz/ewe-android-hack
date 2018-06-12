@@ -71,6 +71,7 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
         }
 
         mSummarySectionLayout.visibility = View.GONE
+        mHeaderTextDateView.visibility = View.VISIBLE
     }
 
     private fun shouldShowCheckInLink(itinCardData: ItinCardDataFlight): Boolean {

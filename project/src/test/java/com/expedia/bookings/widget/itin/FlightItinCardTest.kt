@@ -41,6 +41,7 @@ class FlightItinCardTest {
         itinCardData.tripComponent.startDate = localTimePlusTwoHours
         sut.expand(false)
         assertEquals(View.VISIBLE, getCheckInTextView().visibility)
+        assertEquals(View.VISIBLE, getHeaderDateText().visibility)
 
         val trip = itinCardData.tripComponent as TripFlight
         assertEquals("https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1", trip.checkInLink)
@@ -59,6 +60,7 @@ class FlightItinCardTest {
     fun actionButtonInvisibleForCollapsedCard() {
         createSystemUnderTest()
         sut.collapse(false)
+        assertEquals(View.VISIBLE, getHeaderDateText().visibility)
         assertEquals(View.GONE, getActionButtonLayout().visibility)
     }
 
@@ -75,6 +77,7 @@ class FlightItinCardTest {
         val localTimePlusTwoHours = DateTime.now().plusHours(2)
         itinCardData.tripComponent.startDate = localTimePlusTwoHours
         sut.expand(false)
+        assertEquals(View.VISIBLE, getHeaderDateText().visibility)
         assertEquals(View.VISIBLE, getActionButtonLayout().visibility)
     }
 
@@ -103,6 +106,7 @@ class FlightItinCardTest {
         val checkInLayout = sut.findViewById<ViewGroup>(R.id.checkin_layout)
 
         assertEquals(View.GONE, summaryLayout.visibility, "summary_section_layout visibility is not GONE.")
+        assertEquals(View.VISIBLE, getHeaderDateText().visibility)
         assertEquals(View.GONE, checkInLayout.visibility, "checkin_layout visibility is not GONE.")
     }
 
@@ -116,10 +120,15 @@ class FlightItinCardTest {
 
         assertEquals(View.GONE, summaryLayout.visibility, "summary_section_layout visibility is not GONE.")
         assertEquals(View.VISIBLE, checkInLayout.visibility, "checkin_layout visibility is not VISIBLE.")
+        assertEquals(View.VISIBLE, getHeaderDateText().visibility)
     }
 
     private fun getActionButtonLayout(): LinearLayout {
         return sut.findViewById<View>(R.id.action_button_layout) as LinearLayout
+    }
+
+    private fun getHeaderDateText(): TextView {
+        return sut.findViewById(R.id.header_text_date_view) as TextView
     }
 
     private fun getFlightDurationTextView(): TextView {

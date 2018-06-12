@@ -119,7 +119,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	protected RecyclerGallery mHeaderGallery;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
-	private TextView mHeaderTextDateView;
+	protected TextView mHeaderTextDateView;
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
