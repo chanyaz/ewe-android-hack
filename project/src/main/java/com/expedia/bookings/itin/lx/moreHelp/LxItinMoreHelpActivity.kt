@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.common.ItinCustomerSupportViewModel
 import com.expedia.bookings.itin.common.ItinCustomerSupportWidget
+import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.lx.ItinLxRepo
-import com.expedia.bookings.itin.scopes.LxItinCustomerSupportWidgetViewModelScope
+import com.expedia.bookings.itin.scopes.ItinCustomerSupportWidgetViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinMoreHelpViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinToolbarScope
 import com.expedia.bookings.itin.tripstore.data.Itin
@@ -71,8 +73,8 @@ class LxItinMoreHelpActivity : AppCompatActivity() {
         toolbarViewModel = LxItinMoreHelpToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
 
-        val customerSupportWidgetScope = LxItinCustomerSupportWidgetViewModelScope(stringProvider, lxRepo, this, tripsTracking, WebViewLauncher(this))
-        val customerSupportViewModel = LxItinCustomerSupportViewModel(customerSupportWidgetScope)
+        val customerSupportWidgetScope = ItinCustomerSupportWidgetViewModelScope(stringProvider, lxRepo, this, tripsTracking, WebViewLauncher(this), TripProducts.ACTIVITY.name)
+        val customerSupportViewModel = ItinCustomerSupportViewModel(customerSupportWidgetScope)
         itinCustomerSupportWidget.viewModel = customerSupportViewModel
 
         setRepoObservers()
