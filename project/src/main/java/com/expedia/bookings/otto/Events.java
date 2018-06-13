@@ -406,8 +406,4 @@ public class Events {
 	public static class LoggedInSuccessful {
 
 	}
-
-	public static class AppBackgroundedOnResume {
-
-	}
 }
