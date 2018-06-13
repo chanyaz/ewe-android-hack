@@ -3,21 +3,13 @@ package com.expedia.bookings.packages.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.VisibleForTesting
-import android.view.View
 import com.clarisite.mobile.ClarisiteAgent
 import com.clarisite.mobile.exceptions.EyeViewException
 import com.expedia.bookings.R
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
-import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.packages.presenter.PackagePresenter
-import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
-import com.expedia.bookings.services.PackageProductSearchType
-import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -26,8 +18,6 @@ import com.expedia.bookings.utils.isGlassboxForPackagesEnabled
 import com.expedia.ui.AbstractAppCompatActivity
 
 class PackageActivity : AbstractAppCompatActivity() {
-    var changedOutboundFlight = false
-
     private var isCrossSellPackageOnFSREnabled = false
     private val IS_RESTORED = "isRestored"
 
@@ -57,7 +47,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == Constants.PACKAGE_PARAMS_NULL_RESTORE || Db.sharedInstance.getPackageParams() == null) {
+        if (resultCode == Constants.PACKAGE_PARAMS_NULL_RESTORE || Db.sharedInstance.packageParams == null) {
             finish()
             return
         }
@@ -65,135 +55,31 @@ class PackageActivity : AbstractAppCompatActivity() {
 
         when (resultCode) {
             Activity.RESULT_CANCELED -> {
-                val obj = packagePresenter.backStack.peek()
-                if (Db.sharedInstance.packageParams.isChangePackageSearch() && obj !is Intent) {
-                    onBackPressed()
-                } else {
-                    if (isCrossSellPackageOnFSREnabled) {
-                        finish()
-                        return
-                    }
-
-                    PackagesTracking().trackViewBundlePageLoad()
-
-                    if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
-                        packagePresenter.bundlePresenter.resetToLoadedOutboundFlights()
-                    } else if (packagePresenter.backStack.size == 2) {
-                        packagePresenter.bundlePresenter.resetToLoadedHotels()
-                    }
-                }
-                return
+                packagePresenter.handleActivityCanceled()
             }
-        }
-
-        when (requestCode) {
-            Constants.HOTEL_REQUEST_CODE -> when (resultCode) {
-                Activity.RESULT_OK -> {
-                    val errorString = data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
-                    val filterSearchErrorString = data?.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR)
-                    if (errorString != null) {
-                        val errorKey = data.extras.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
-                        val isErrorFromInfositeCall = data.extras.getBoolean(Constants.PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL)
-                        val isChangePackageSearch = Db.sharedInstance.packageParams.isChangePackageSearch()
-
-                        val apiCallFailing = when {
-                            isErrorFromInfositeCall -> if (isChangePackageSearch) ApiCallFailing.PackageHotelInfositeChange(errorKey) else ApiCallFailing.PackageHotelInfosite(errorKey)
-                            else -> if (isChangePackageSearch) ApiCallFailing.PackageHotelRoomChange(errorKey) else ApiCallFailing.PackageHotelRoom(errorKey)
+            Activity.RESULT_OK ->
+                when (requestCode) {
+                    Constants.HOTEL_REQUEST_CODE -> {
+                        val errorKey = data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
+                        val errorString = data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+                        val isErrorFromInfositeCall = data?.extras?.getBoolean(Constants.PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL)
+                                ?: false
+                        val filterSearchErrorKey = data?.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY)
+                        val filterSearchErrorString = data?.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR)
+                        when {
+                            errorKey != null && errorString != null -> packagePresenter.handleHotelOffersAPIError(isErrorFromInfositeCall, errorKey, errorString)
+                            filterSearchErrorKey != null && filterSearchErrorString != null -> packagePresenter.handleHotelFilterAPIError(filterSearchErrorKey, filterSearchErrorString)
+                            else -> packagePresenter.hotelSelectedSuccessfully()
                         }
-                        val errorCode = if (ApiError.Code.PACKAGE_SEARCH_ERROR.name == errorString) ApiError.Code.PACKAGE_SEARCH_ERROR else ApiError.Code.UNKNOWN_ERROR
-                        packagePresenter.hotelOffersErrorObservable.onNext(Pair(errorCode, apiCallFailing))
-                    } else if (filterSearchErrorString != null) {
-                        Db.setPackageResponse(Db.getUnfilteredRespnse())
-                        val filterSearchErrorKey = data.extras.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY)
-                        val errorCode = if (PackageApiError.Code.mid_no_offers_post_filtering.name == filterSearchErrorString) PackageApiError.Code.mid_no_offers_post_filtering else PackageApiError.Code.pkg_error_code_not_mapped
-                        val apiCallFailing = ApiCallFailing.PackageFilterSearch(filterSearchErrorKey)
-                        packagePresenter.filterSearchErrorObservable.onNext(Pair(errorCode, apiCallFailing))
-                    } else {
-                        //is is change hotel search, call createTrip, otherwise start outbound flight search
-                        val changePackageSearch = Db.sharedInstance.packageParams.isChangePackageSearch()
-                        if (!changePackageSearch) {
-                            PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData.markPageLoadStarted()
-                            packageFlightSearch()
-                            val intent = Intent(this, PackageHotelActivity::class.java)
-                            intent.putExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM, true)
-                            intent.putExtra(Constants.REQUEST, Constants.HOTEL_REQUEST_CODE)
-                            packagePresenter.backStack.push(intent)
-                        } else {
-                            packageCreateTrip()
-                        }
-                        packagePresenter.showBundleOverView()
-                        packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
-                        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(!changePackageSearch)
                     }
+                    Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE -> packagePresenter.flightOutboundSelectedSuccessfully()
+
+                    Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE -> packagePresenter.flightInboundSelectedSuccessfully()
                 }
-            }
-            Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE -> when (resultCode) {
-                Activity.RESULT_OK -> {
-                    PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData.markPageLoadStarted()
-                    packageFlightSearch()
-                    packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
-                    packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
-
-                    val intent = Intent(this, PackageFlightActivity::class.java)
-                    intent.putExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT, true)
-                    intent.putExtra(Constants.REQUEST, Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE)
-                    packagePresenter.backStack.push(intent)
-
-                    if (Db.sharedInstance.packageParams.isChangePackageSearch()) {
-                        changedOutboundFlight = true
-                    }
-                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.sharedInstance.packageSelectedOutboundFlight)
-                }
-            }
-
-            Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE -> when (resultCode) {
-                Activity.RESULT_OK -> {
-                    if (!Db.sharedInstance.packageParams.isChangePackageSearch()) {
-                        PackagesPageUsableData.RATE_DETAILS.pageUsableData.markPageLoadStarted()
-                        val intent = Intent(this, PackageFlightActivity::class.java)
-                        intent.putExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT, true)
-                        intent.putExtra(Constants.REQUEST, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE)
-                        packagePresenter.backStack.push(intent)
-                        packagePresenter.backStack.push(packagePresenter.bundlePresenter)
-                        packagePresenter.bundlePresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
-                    } else {
-                        //If change flight, remove changed outbound flight intent
-                        packagePresenter.backStack.pop()
-                    }
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().toolbarDropShadow.visibility = View.GONE
-
-                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
-                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
-
-                    packageCreateTrip()
-                    packagePresenter.showBundleOverView()
-                    packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(false)
-                    packagePresenter.bundlePresenter.setToolbarNavIcon(false)
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
-                }
-            }
         }
     }
 
     override fun onBackPressed() {
-        //for change package path
-        if (Db.sharedInstance.packageParams?.isChangePackageSearch() ?: false && packagePresenter.backStack.isNotEmpty() && packagePresenter.backStack.peek() is PackageOverviewPresenter) {
-            if (changedOutboundFlight) {
-                changedOutboundFlight = false
-                val outbound = Db.getPackageFlightBundle().first
-                Db.sharedInstance.packageParams.currentFlights[0] = outbound.legId
-                Db.setPackageSelectedOutboundFlight(outbound)
-                packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(outbound)
-            }
-            packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
-            packageCreateTrip()
-            packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
-            packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
-            packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
-            return
-        }
-
         if (!packagePresenter.back()) {
             super.onBackPressed()
         }
@@ -201,10 +87,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (isFinishing) {
-            clearCCNumber()
-            clearStoredCard()
-        } else {
+        if (!isFinishing) {
             Ui.hideKeyboard(this)
         }
     }
@@ -214,27 +97,12 @@ class PackageActivity : AbstractAppCompatActivity() {
         Db.getTripBucket().clearPackages()
     }
 
-    private fun packageFlightSearch() {
-        PackagesTracking().trackViewBundlePageLoad()
-        packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.sharedInstance.packageParams)
-    }
-
     private fun glassBoxStart() {
         try {
             ClarisiteAgent.start()
         } catch (e: EyeViewException) {
         }
     }
-
-    @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
-    fun packageCreateTrip() {
-        Db.sharedInstance.packageParams.pageType = null
-        changedOutboundFlight = false
-        packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
-    }
-
-    @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
-    fun getCreateTripViewModel() = packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putBoolean(IS_RESTORED, true)
