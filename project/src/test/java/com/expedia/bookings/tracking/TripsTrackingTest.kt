@@ -304,6 +304,18 @@ class TripsTrackingTest {
         assertItinLinkTracked("App.Itinerary.Car.Manage.Call.Car")
     }
 
+    fun testTrackItinCarCallCustomerSupportClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCarCallSupportClicked()
+        assertItinLinkTracked("App.Itinerary.Car.Manage.Call.Expedia")
+    }
+
+    fun testTrackItinCarCustomerServiceLinkClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCarCallSupportClicked()
+        assertItinLinkTracked("App.Itinerary.Car.Manage.CSP")
+    }
+
     @Test
     fun testTrackItinLxCustomerServiceLinkClicked() {
         assertNoTrackingHasOccurred()

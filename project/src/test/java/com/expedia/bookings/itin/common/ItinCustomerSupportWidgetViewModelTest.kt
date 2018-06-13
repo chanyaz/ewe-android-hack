@@ -5,12 +5,14 @@ import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasItinType
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
@@ -55,7 +57,6 @@ class ItinCustomerSupportWidgetViewModelTest {
         phoneNumberContentDescriptionTestObserver = TestObserver()
         customerSupportTextContentDescriptionTestObserver = TestObserver()
         itineraryNumberContentDescriptionTestObserver = TestObserver()
-        setupViewModel()
     }
 
     @After
@@ -72,7 +73,8 @@ class ItinCustomerSupportWidgetViewModelTest {
     }
 
     @Test
-    fun testDisplayFullCustomerSupportDetails() {
+    fun testLxDisplayFullCustomerSupportDetails() {
+        setupViewModel(TripProducts.ACTIVITY.name)
         vm.itinObserver.onChanged(ItinMocker.lxDetailsAlsoHappy)
 
         val customerSupportHeaderText = R.string.itin_customer_support_header_text_TEMPLATE
@@ -105,7 +107,42 @@ class ItinCustomerSupportWidgetViewModelTest {
     }
 
     @Test
+    fun testCarDisplayFullCustomerSupportDetails() {
+        setupViewModel(TripProducts.CAR.name)
+        vm.itinObserver.onChanged(ItinMocker.carDetailsHappy)
+
+        val customerSupportHeaderText = R.string.itin_customer_support_header_text_TEMPLATE
+                .toString().plus(mapOf("brand" to BuildConfig.brand))
+        customerSupportHeaderTextTestObserver.assertValue(customerSupportHeaderText)
+
+        phoneNumberTestObserver.assertValue("+1-866-539-4149")
+
+        val customerSupportText = R.string.itin_hotel_customer_support_site_header_TEMPLATE
+                .toString().plus(mapOf("brand" to BuildConfig.brand))
+        customerSupportTextTestObserver.assertValue(customerSupportText)
+
+        customerSupportButtonClickedTestObserver.assertEmpty()
+
+        itineraryNumberTestObserver.assertValue("7175610882378")
+
+        itineraryHeaderVisibilityTestObserver.assertValue(true)
+
+        val phoneNumberContDesc = R.string.itin_call_support_button_content_description_TEMPLATE
+                .toString().plus(mapOf("brand" to BuildConfig.brand, "phonenumber" to "+1-866-539-4149"))
+        phoneNumberContentDescriptionTestObserver.assertValue(phoneNumberContDesc)
+
+        val customerSupportContDesc = R.string.itin_customer_support_site_button_content_description_TEMPLATE
+                .toString().plus(mapOf("brand" to BuildConfig.brand))
+        customerSupportTextContentDescriptionTestObserver.assertValue(customerSupportContDesc)
+
+        val itinNumberContDesc = R.string.itin_customer_support_itin_number_content_description_TEMPLATE
+                .toString().plus(mapOf("number" to "7175610882378".replace(".".toRegex(), "$0 ")))
+        itineraryNumberContentDescriptionTestObserver.assertValue(itinNumberContDesc)
+    }
+
+    @Test
     fun testNoCustomerSupportInformation() {
+        setupViewModel(TripProducts.ACTIVITY.name)
         vm.itinObserver.onChanged(ItinMocker.lxDetailsHappy)
 
         phoneNumberTestObserver.assertEmpty()
@@ -115,7 +152,8 @@ class ItinCustomerSupportWidgetViewModelTest {
     }
 
     @Test
-    fun testCustomerServiceLinkClickedAndTracked() {
+    fun testLxCustomerServiceLinkClickedAndTracked() {
+        setupViewModel(TripProducts.ACTIVITY.name)
         vm.itinObserver.onChanged(ItinMocker.lxDetailsAlsoHappy)
 
         assertFalse(vm.scope.tripsTracking.trackItinLxCustomerServiceLinkClicked)
@@ -128,8 +166,23 @@ class ItinCustomerSupportWidgetViewModelTest {
         assertTrue(vm.scope.tripsTracking.trackItinLxCustomerServiceLinkClicked)
     }
 
-    private fun setupViewModel() {
-        vm = ItinCustomerSupportViewModel(MockCustomerSupportWidgetViewModelScope())
+    @Test
+    fun testCarCustomerServiceLinkClickedAndTracked() {
+        setupViewModel(TripProducts.CAR.name)
+        vm.itinObserver.onChanged(ItinMocker.carDetailsHappy)
+
+        assertFalse(vm.scope.tripsTracking.trackItinCarCustomerServiceLinkClickedCalled)
+        vm.customerSupportButtonClickedSubject.onNext(Unit)
+        val webViewLauncher = vm.scope.webViewLauncher
+
+        assertEquals("https://www.expedia.com/service/", webViewLauncher.lastSeenURL)
+        assertEquals(R.string.itin_customer_service_webview_heading, webViewLauncher.lastSeenTitle)
+        assertEquals("8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f", webViewLauncher.lastSeenTripId)
+        assertTrue(vm.scope.tripsTracking.trackItinCarCustomerServiceLinkClickedCalled)
+    }
+
+    private fun setupViewModel(lob: String) {
+        vm = ItinCustomerSupportViewModel(MockCustomerSupportWidgetViewModelScope(lob))
 
         vm.customerSupportHeaderTextSubject.subscribe(customerSupportHeaderTextTestObserver)
         vm.phoneNumberSubject.subscribe(phoneNumberTestObserver)
@@ -142,12 +195,13 @@ class ItinCustomerSupportWidgetViewModelTest {
         vm.itineraryNumberContentDescriptionSubject.subscribe(itineraryNumberContentDescriptionTestObserver)
     }
 
-    private class MockCustomerSupportWidgetViewModelScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType {
+    private class MockCustomerSupportWidgetViewModelScope(lob: String) : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType, HasItinRepo {
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val strings: StringSource = MockStringProvider()
         override val webViewLauncher = MockWebViewLauncher()
         override val tripsTracking = MockTripsTracking()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
-        override val type = TripProducts.ACTIVITY.name
+        override val type = lob
     }
 }
