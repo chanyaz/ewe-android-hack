@@ -4422,7 +4422,6 @@ public class OmnitureTracking {
 
 	public static void trackPinnedSearch() {
 		AppAnalytics s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPinnedSearch);
 
 		s.trackLink("Pinned Search Hit");
 	}

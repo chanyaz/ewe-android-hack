@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.dagger.HotelComponentInjector
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.presenter.hotel.HotelSearchPresenter
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -48,7 +46,7 @@ class HotelSearchActivity : AppCompatActivity() {
         searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
         searchViewModel.hotelIdSearchSubject.subscribe { params ->
             HotelTracking.trackPinnedSearch()
-            handleHotelIdSearch(params, goToResults = AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppHotelPinnedSearch))
+            handleHotelIdSearch(params, goToResults = true)
         }
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
     }

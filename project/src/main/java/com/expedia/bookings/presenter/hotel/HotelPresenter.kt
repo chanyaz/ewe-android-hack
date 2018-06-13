@@ -142,7 +142,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
         searchViewModel.hotelIdSearchSubject.subscribe { params ->
             HotelTracking.trackPinnedSearch()
-            handleHotelIdSearch(params, goToResults = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPinnedSearch))
+            handleHotelIdSearch(params, goToResults = true)
         }
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
 
