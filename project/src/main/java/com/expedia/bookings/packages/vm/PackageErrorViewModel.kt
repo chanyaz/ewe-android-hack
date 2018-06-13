@@ -5,12 +5,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
-import com.expedia.bookings.extensions.withLatestFrom
-import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.util.endlessObserver
 import com.expedia.vm.LobErrorViewModel
 import com.squareup.phrase.Phrase
@@ -164,50 +164,7 @@ class PackageErrorViewModel(context: Context) : LobErrorViewModel(context) {
         return endlessObserver {
             error = it
             PackagesTracking().trackCheckoutError(error)
-            when (error.getErrorCode()) {
-                ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS -> {
-                    imageObservable.onNext(R.drawable.error_payment)
-                    if (error.errorInfo?.field == "nameOnCard") {
-                        errorMessageObservable.onNext(context.getString(R.string.error_name_on_card_mismatch))
-                    } else {
-                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
-                    }
-                    buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
-                    subTitleObservable.onNext("")
-                }
-                ApiError.Code.PAYMENT_FAILED -> {
-                    imageObservable.onNext(R.drawable.error_payment)
-                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
-                    buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
-                    subTitleObservable.onNext("")
-                }
-                ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS -> {
-                    imageObservable.onNext(R.drawable.error_default)
-                    val field = error.errorInfo.field
-                    if (field == "phone") {
-                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.phone_number_field_text)))
-                    } else if (field == "mainMobileTraveler.firstName") {
-                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.first_name_field_text)))
-                    } else if (field == "mainMobileTraveler.lastName") {
-                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.last_name_field_text)))
-                    } else {
-                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
-                    }
-                    buttonOneTextObservable.onNext(context.getString(R.string.edit_guest_details))
-                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
-                    subTitleObservable.onNext("")
-                }
-                ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR -> {
-                    imageObservable.onNext(defaultErrorDrawable())
-                    errorMessageObservable.onNext(context.getString(R.string.error_package_date_mismatch_error))
-                    buttonOneTextObservable.onNext(context.getString(R.string.retry))
-                }
-                else -> {
-                    couldNotConnectToServerError()
-                }
-            }
+            couldNotConnectToServerError()
         }
     }
 
