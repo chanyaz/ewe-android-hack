@@ -483,7 +483,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Db.setPackageSelectedHotel(selectedPackageHotel, offer)
         updatePackagePrice(offer)
         val params = Db.sharedInstance.packageParams
-        params.packagePIID = offer.productKey
         params.latestSelectedOfferInfo.ratePlanCode = offer.ratePlanCode
         params.latestSelectedOfferInfo.roomTypeCode = offer.roomTypeCode
         params.latestSelectedOfferInfo.inventoryType = offer.supplierType

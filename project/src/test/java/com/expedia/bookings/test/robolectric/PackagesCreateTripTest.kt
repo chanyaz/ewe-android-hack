@@ -3,8 +3,8 @@ package com.expedia.bookings.test.robolectric
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
@@ -15,6 +15,7 @@ import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.packages.activity.PackageActivity
 import com.expedia.bookings.packages.presenter.PackagePresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
@@ -23,8 +24,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.packages.activity.PackageActivity
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -224,7 +223,6 @@ class PackagesCreateTripTest {
                 .build() as PackageSearchParams
         params.latestSelectedOfferInfo.hotelId = "hotelID"
         params.latestSelectedOfferInfo.flightPIID = response
-        params.packagePIID = "packagePIID"
         params.latestSelectedOfferInfo.ratePlanCode = "ratePlanCode"
         params.latestSelectedOfferInfo.roomTypeCode = "roomTypeCode"
         params.latestSelectedOfferInfo.hotelCheckInDate = date.plusDays(2).toString()
@@ -232,8 +230,6 @@ class PackagesCreateTripTest {
         params.latestSelectedOfferInfo.inventoryType = "inventoryType"
         params.latestSelectedOfferInfo.productOfferPrice = PackageOfferModel.PackagePrice()
         params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice = Money(BigDecimal(300.50), "USD")
-        params.packagePIID = "923012"
-        params.searchProduct = Constants.PRODUCT_FLIGHT
         params.currentFlights = arrayOf("legs")
         return params
     }

@@ -13,16 +13,6 @@ import kotlin.properties.Delegates
 open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String? = null) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
 
     var pageType: String? = null
-    var searchProduct: String? = null
-    var packagePIID: String? = null
-        set(value) {
-            field = value
-            if (!value.isNullOrEmpty()) {
-                searchProduct = Constants.PRODUCT_FLIGHT
-            } else {
-                searchProduct = null
-            }
-        }
     var selectedLegId: String? = null
     var currentFlights: Array<String?> by Delegates.notNull()
     var defaultFlights: Array<String?> by Delegates.notNull()

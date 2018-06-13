@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class PackageHotelPresenterTest {
@@ -359,7 +358,6 @@ class PackageHotelPresenterTest {
         val params = Db.sharedInstance.packageParams
         val currentOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
 
-        assertNull(params.packagePIID)
         assertEquals("flight_outbound_happy", params.latestSelectedOfferInfo.ratePlanCode)
         assertEquals("225416", params.latestSelectedOfferInfo.roomTypeCode)
         assertEquals("MERCHANT", params.latestSelectedOfferInfo.inventoryType)

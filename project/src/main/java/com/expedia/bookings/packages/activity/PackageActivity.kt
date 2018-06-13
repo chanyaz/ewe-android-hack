@@ -12,16 +12,15 @@ import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
-
-import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.packages.presenter.PackagePresenter
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
+import com.expedia.bookings.services.PackageProductSearchType
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.ui.AbstractAppCompatActivity
 
 class PackageActivity : AbstractAppCompatActivity() {
@@ -193,8 +192,6 @@ class PackageActivity : AbstractAppCompatActivity() {
             if (changedOutboundFlight) {
                 changedOutboundFlight = false
                 val outbound = Db.getPackageFlightBundle().first
-                val inbound = Db.getPackageFlightBundle().second
-                Db.sharedInstance.packageParams.packagePIID = inbound.packageOfferModel.piid
                 Db.sharedInstance.packageParams.currentFlights[0] = outbound.legId
                 Db.setPackageSelectedOutboundFlight(outbound)
                 packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(outbound)

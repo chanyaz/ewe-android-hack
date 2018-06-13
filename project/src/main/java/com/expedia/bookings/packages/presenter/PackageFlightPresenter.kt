@@ -81,7 +81,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             params.latestSelectedOfferInfo.roomTypeCode = Db.getPackageResponse().getRoomTypeCode()
         }
         params.selectedLegId = flight.departureLeg
-        params.packagePIID = flight.packageOfferModel.piid
         params.latestSelectedOfferInfo.productOfferPrice = flight.packageOfferModel.price
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_FLIGHT)
         val response = Db.getPackageResponse()

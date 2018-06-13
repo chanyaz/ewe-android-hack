@@ -204,7 +204,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
         val params = Db.sharedInstance.packageParams
         params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
-        params.searchProduct = Constants.PRODUCT_FLIGHT
         params.selectedLegId = null
 
         bundleWidget.viewModel.flightParamsObservable.onNext(params)
@@ -219,7 +218,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
         val params = Db.sharedInstance.packageParams
         params.pageType = Constants.PACKAGE_CHANGE_HOTEL
-        params.searchProduct = null
         params.filterOptions = PackageHotelFilterOptions()
 
         bundleWidget.viewModel.hotelParamsObservable.onNext(params)
