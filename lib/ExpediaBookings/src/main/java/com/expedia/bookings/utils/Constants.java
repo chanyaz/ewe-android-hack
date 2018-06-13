@@ -8,9 +8,11 @@ public class Constants {
 	public static final int PERMISSION_REQUEST_LOCATION = 7;
 	public static final int PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE = 102;
 	public static final int PACKAGE_FLIGHT_RETURN_REQUEST_CODE = 103;
-	public static final int PACKAGE_API_ERROR_RESULT_CODE = 104;
 	public static final int FLIGHT_REQUEST_CODE = 105;
 	public static final int PACKAGE_PARAMS_NULL_RESTORE = 106;
+	public static final int PACKAGE_HOTEL_OFFERS_API_ERROR_RESULT_CODE = 107;
+	public static final int PACKAGE_HOTEL_INFOSITE_API_ERROR_RESULT_CODE = 108;
+	public static final int PACKAGE_HOTEL_FILTER_API_ERROR_RESULT_CODE = 109;
 	public static final String APP_DATABASE_NAME = "app-database";
 
 	//For more info on Package trip type https://confluence/display/POS/GetPackages+API
@@ -20,9 +22,8 @@ public class Constants {
 	public static final String PACKAGE_CHANGE_HOTEL = "CHANGE_HOTEL";
 	public static final String PACKAGE_CHANGE_FLIGHT = "CHANGE_FLIGHT";
 	public static final String PACKAGE_FILTER_CHANGE_FLIGHT = "filterChangeFlight";
-	public static final String PACKAGE_HOTEL_OFFERS_ERROR = "package hotel offers error";
-	public static final String PACKAGE_HOTEL_OFFERS_ERROR_KEY = "package hotel offers error key";
-	public static final String PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL = "package hotel did infosite call fail";
+	public static final String PACKAGE_HOTEL_API_ERROR = "package hotel api error";
+	public static final String PACKAGE_HOTEL_API_ERROR_KEY = "package hotel api error key";
 	public static final String PACKAGE_API_ERROR = "packageApiError";
 	public static final String PACKAGE_FILTER_SEARCH_ERROR = "packageFilterSearchApiError";
 	public static final String PACKAGE_FILTER_SEARCH_ERROR_KEY = "package filter search error key";

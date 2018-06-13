@@ -298,8 +298,8 @@ class PackageHotelPresenterTest {
         val shadowActivity = Shadows.shadowOf(activity)
         assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
 
-        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
-        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
+        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR)
+        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR_KEY)
         assertEquals("PACKAGE_SEARCH_ERROR", errorCode)
         assertEquals("UNKNOWN_ERROR", errorKey)
     }
@@ -326,8 +326,8 @@ class PackageHotelPresenterTest {
         val shadowActivity = Shadows.shadowOf(activity)
         assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
 
-        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
-        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
+        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR)
+        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR_KEY)
         assertEquals("PACKAGE_SEARCH_ERROR", errorCode)
         assertEquals("UNKNOWN_ERROR", errorKey)
     }
@@ -382,7 +382,7 @@ class PackageHotelPresenterTest {
         val shadowActivity = Shadows.shadowOf(activity)
         assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
 
-        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR)
         assertEquals("PACKAGE_SEARCH_ERROR", errorString)
     }
 
@@ -408,7 +408,7 @@ class PackageHotelPresenterTest {
         val shadowActivity = Shadows.shadowOf(activity)
         assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
 
-        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR)
         assertEquals("PACKAGE_SEARCH_ERROR", errorString)
     }
 
@@ -434,7 +434,7 @@ class PackageHotelPresenterTest {
         val shadowActivity = Shadows.shadowOf(activity)
         assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
 
-        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR)
         assertEquals("UNKNOWN_ERROR", errorString)
     }
 

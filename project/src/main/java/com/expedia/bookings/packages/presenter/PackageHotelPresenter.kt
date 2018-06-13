@@ -23,7 +23,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
-import com.expedia.bookings.data.multiitem.PackageErrorDetails
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -130,12 +129,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private fun handleFilterSearchResponseErrors(errorCode: PackageApiError.Code) {
-        val errorKey = if (errorCode == PackageApiError.Code.mid_no_offers_post_filtering) Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY else Constants.UNKNOWN_ERROR_CODE
         val activity = (context as Activity)
         val resultIntent = Intent()
-        resultIntent.putExtra(Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY, errorKey)
         resultIntent.putExtra(Constants.PACKAGE_FILTER_SEARCH_ERROR, errorCode.name)
-        activity.setResult(Activity.RESULT_OK, resultIntent)
+        activity.setResult(Constants.PACKAGE_HOTEL_FILTER_API_ERROR_RESULT_CODE, resultIntent)
         activity.finish()
     }
 
@@ -330,13 +327,21 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         ).subscribe(makeResponseObserver())
     }
 
-    private fun handleRoomResponseErrors(errorDetails: PackageErrorDetails.ApiErrorDetails, isHotelInfositeCallError: Boolean = false) {
+    private fun handleRoomResponseErrors(key: String, errorCode: ApiError.Code) {
         val activity = (context as Activity)
         val resultIntent = Intent()
-        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY, errorDetails.key)
-        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, errorDetails.errorCode.name)
-        resultIntent.putExtra(Constants.PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL, isHotelInfositeCallError)
-        activity.setResult(Activity.RESULT_OK, resultIntent)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_API_ERROR_KEY, key)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_API_ERROR, errorCode.name)
+        activity.setResult(Constants.PACKAGE_HOTEL_OFFERS_API_ERROR_RESULT_CODE, resultIntent)
+        activity.finish()
+    }
+
+    private fun handleInfositeResponseErrors(key: String, errorCode: ApiError.Code) {
+        val activity = (context as Activity)
+        val resultIntent = Intent()
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_API_ERROR_KEY, key)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_API_ERROR, errorCode.name)
+        activity.setResult(Constants.PACKAGE_HOTEL_INFOSITE_API_ERROR_RESULT_CODE, resultIntent)
         activity.finish()
     }
 
@@ -347,9 +352,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     try {
                         val response = throwable.response().errorBody()
                         val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
-                        handleRoomResponseErrors(midError.roomResponseFirstErrorCode)
+                        handleRoomResponseErrors(midError.roomResponseFirstErrorCode.key, midError.roomResponseFirstErrorCode.errorCode)
                     } catch (e: Exception) {
-                        handleRoomResponseErrors(PackageErrorDetails.ApiErrorDetails(Constants.UNKNOWN_ERROR_CODE, ApiError.Code.PACKAGE_SEARCH_ERROR))
+                        handleRoomResponseErrors(Constants.UNKNOWN_ERROR_CODE, ApiError.Code.PACKAGE_SEARCH_ERROR)
                     }
                 } else {
                     handleError(throwable)
@@ -361,7 +366,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 if (hotelInfoResponse.hasErrors()) {
                     val errorCode = hotelInfoResponse.firstError.errorCode ?: ApiError.Code.PACKAGE_SEARCH_ERROR
                     val errorKey = if (errorCode == ApiError.Code.PACKAGE_SEARCH_ERROR) Constants.UNKNOWN_ERROR_CODE else hotelInfoResponse.firstError.errorKey
-                    handleRoomResponseErrors(PackageErrorDetails.ApiErrorDetails(errorKey, errorCode), true)
+                    handleInfositeResponseErrors(errorKey, errorCode)
                     return
                 }
                 val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(hotelInfoResponse, packageRoomsResponse.getBundleRoomResponse(), packageRoomsResponse.getHotelCheckInDate(), packageRoomsResponse.getHotelCheckOutDate())

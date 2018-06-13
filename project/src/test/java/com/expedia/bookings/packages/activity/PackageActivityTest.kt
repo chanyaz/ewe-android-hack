@@ -130,8 +130,8 @@ class PackageActivityTest {
 
         val requestIntent = Intent(context, PackageHotelActivity::class.java)
         val resultIntent = Intent(context, packageActivity::class.java)
-        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, errorCode)
-        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY, errorKey)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_API_ERROR, errorCode)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_API_ERROR_KEY, errorKey)
         resultIntent.putExtra(Constants.PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL, isInfositeFailing)
 
         shadowOf(packageActivity).receiveResult(requestIntent, Activity.RESULT_OK, resultIntent)
