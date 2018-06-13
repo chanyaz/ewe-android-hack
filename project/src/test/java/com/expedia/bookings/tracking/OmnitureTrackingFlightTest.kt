@@ -1,8 +1,8 @@
 package com.expedia.bookings.tracking
 
 import android.content.Context
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.TripBucketItemFlightV2
@@ -24,10 +24,10 @@ import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightT
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
-import org.junit.Assert.assertEquals
 import com.google.gson.Gson
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -227,26 +227,6 @@ class OmnitureTrackingFlightTest {
                 50 to "app.phone.android")
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testNativeRateDetailsWebviewCheckoutTestBucketed() {
-        val mockResponse = getCreateTripMockResponse()
-
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
-        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25620.0.1")), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testNativeRateDetailsWebviewCheckoutTestControl() {
-        val mockResponse = getCreateTripMockResponse()
-
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout, 0)
-        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25620.0.0")), mockAnalyticsProvider)
     }
 
     @Test

@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.FlightTripResponse
@@ -26,12 +28,13 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
-import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -58,6 +61,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import java.math.BigDecimal
 import java.util.ArrayList
+import kotlin.collections.HashMap
 import kotlin.test.assertEquals
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
@@ -69,6 +73,7 @@ class FlightOverviewPresenterTest {
 
     lateinit var flightLeg: FlightLeg
     lateinit var activity: FragmentActivity
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     val flightServiceRule = ServicesRule(FlightServices::class.java)
         @Rule get
@@ -88,6 +93,7 @@ class FlightOverviewPresenterTest {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         widget.viewModel.outboundSelectedAndTotalLegRank = Pair(0, 0)
         widget.viewModel
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -616,6 +622,29 @@ class FlightOverviewPresenterTest {
         flightServiceRule.services!!.createTrip(params, testSubscriber)
         widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
         refreshOutboundBundleWidgetTestSubscriber.assertValuesAndClear(Unit)
+    }
+
+    @Test
+    fun testCheckoutButtonClick() {
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        val flightOverviewPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        Db.getTripBucket().add(TripBucketItemFlightV2(FlightTestUtil.getFlightCreateTripResponse(10)))
+        flightOverviewPresenter.checkoutButton.performClick()
+        OmnitureTestUtils.assertLinkTracked("App.Flights.RD.CKO.Transition",
+                "App.Flights.RD.CKO.Transition", mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(mapOf(18 to "App.Flight.Checkout.Info")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testCheckoutButtonClickWebView() {
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        val flightOverviewPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        flightOverviewPresenter.checkoutButton.performClick()
+
+        OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("App.Flights.RD.CKO.Transition",
+                "App.Flights.RD.CKO.Transition", "25620.0.1", mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(18 to "App.Flight.Checkout.Info")), mockAnalyticsProvider)
     }
 
     private fun getSearchParams(roundTrip: Boolean): FlightSearchParams.Builder {

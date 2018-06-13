@@ -39,6 +39,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     open fun setBundleWidgetAndToolbar(forward: Boolean) { }
     open fun setToolbarMenu(forward: Boolean) { }
     open fun setToolbarNavIcon(forward: Boolean) { }
+    open fun trackCheckoutButtonClick() { }
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
     abstract fun inflate()

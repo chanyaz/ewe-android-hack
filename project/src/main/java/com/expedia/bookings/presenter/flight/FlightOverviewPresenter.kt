@@ -90,13 +90,17 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     }
 
     override fun showCheckout() {
+        trackCheckoutButtonClick()
         if (isShowFlightsNativeRateDetailsWebviewCheckoutEnabled(context)) {
             resetCheckoutState()
-            trackCheckoutPageLoad()
             viewModel.showWebviewCheckoutObservable.onNext(Unit)
         } else {
             super.showCheckout()
         }
+    }
+
+    override fun trackCheckoutButtonClick() {
+        FlightsV2Tracking.trackCheckoutButtonClick()
     }
 
     init {

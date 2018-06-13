@@ -138,6 +138,10 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Checkout(tripResponse, searchParams)
     }
 
+    fun trackCheckoutButtonClick() {
+        OmnitureTracking.trackCheckoutButtonClick()
+    }
+
     fun trackInsuranceUpdated(insuranceAction: InsuranceViewModel.InsuranceAction) {
         val action = if (insuranceAction === InsuranceViewModel.InsuranceAction.ADD)
             InsuranceViewModel.InsuranceAction.ADD.toString()

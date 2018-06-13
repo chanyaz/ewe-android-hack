@@ -5223,6 +5223,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_KRAZY_GLUE_SEE_MORE_CLICKED = "mip.hot.app.kg.flight.conf.HSR.see_more";
 	private static final String FLIGHT_V2_RS_ITEMS_TEMPLATE = "App.Flight.Dest.Search.RS.";
 	private static final String FLIGHT_V2_RS_ITEM_CLICK_TEMPLATE = "App.Flight.Dest.Search.RS.Clicked.";
+	private static final String FLIGHTS_V2_CHECKOUT_BUTTON_CLICK = "App.Flights.RD.CKO.Transition";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -5724,7 +5725,7 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSeatsLeftUrgencyMessaging);
-		trackAbacusTest(s, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout);
+
 		s.track();
 	}
 
@@ -5753,6 +5754,15 @@ public class OmnitureTracking {
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
 		s.trackLink(FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
+	}
+
+	public static void trackCheckoutButtonClick() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_CHECKOUT_BUTTON_CLICK + "\" click...");
+		AppAnalytics s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_CHECKOUT_BUTTON_CLICK);
+		s.setProp(16, FLIGHTS_V2_CHECKOUT_BUTTON_CLICK);
+		trackAbacusTest(s, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout);
+		s.trackLink(FLIGHTS_V2_CHECKOUT_BUTTON_CLICK);
 	}
 
 	public static void trackFlightTravelerPickerClick(String actionLabel) {
