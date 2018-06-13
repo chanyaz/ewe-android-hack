@@ -10,6 +10,7 @@ import android.content.Context;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.activity.SatelliteRemoteFeatureResolver;
+import com.expedia.bookings.activity.TNSTestActivity;
 import com.expedia.bookings.data.AppDatabase;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
@@ -86,6 +87,8 @@ public interface AppComponent {
 
 	@Named("GaiaInterceptor")
 	Interceptor gaiaRequestInterceptor();
+
+	UserAgentInterceptor userAgentInterceptor();
 
 	@Named("ESSInterceptor")
 	Interceptor essRequestInterceptor();

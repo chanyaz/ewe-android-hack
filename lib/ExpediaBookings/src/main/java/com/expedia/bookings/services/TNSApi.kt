@@ -4,6 +4,7 @@ import com.expedia.bookings.data.TNSDeregister
 import com.expedia.bookings.data.TNSRegisterDeviceResponse
 import com.expedia.bookings.data.TNSRegisterUserDeviceFlightsRequestBody
 import com.expedia.bookings.data.TNSRegisterUserDeviceRequestBody
+import com.google.gson.JsonObject
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -25,4 +26,7 @@ internal interface TNSApi {
     @POST("/m/api/notification/received/{notificationId}")
     fun notificationReceivedConfirmation(
             @Path("notificationId") notificationId: String): Observable<TNSRegisterDeviceResponse>
+
+    @POST("/m/api/event/flightstats")
+    fun flightStatsCallback(@Body body: JsonObject): Observable<TNSRegisterDeviceResponse>
 }

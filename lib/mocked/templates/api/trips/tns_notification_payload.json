@@ -1,0 +1,543 @@
+{
+  "alert": {
+    "dataSource": "FlightHistory",
+    "dateTimeRecorded": "2018-10-29T13:37:02.022Z",
+    "event": {
+      "type": "CANCELLED",
+      "value": "15"
+    },
+    "flightStatus": {
+      "airportResources": {
+        "arrivalGate": "27",
+        "arrivalTerminal": "B",
+        "departureGate": "16",
+        "departureTerminal": "C"
+      },
+      "arrivalAirport": {
+        "active": "true",
+        "city": "San Jose",
+        "cityCode": "SJC",
+        "classification": "2",
+        "countryCode": "US",
+        "countryName": "United States",
+        "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/SJC?codeType=fs",
+        "elevationFeet": "58",
+        "faa": "SJC",
+        "fs": "LAS",
+        "iata": "SJC",
+        "icao": "KSJC",
+        "latitude": "37.366736",
+        "localTime": "2018-10-23T17:58:41.143",
+        "longitude": "-121.926375",
+        "name": "Norman Y. Mineta San Jose International Airport",
+        "postalCode": "95110",
+        "regionName": "North America",
+        "stateCode": "CA",
+        "street1": "1701 Airport Boulevard, Suite B-1130",
+        "timeZoneRegionName": "America/Los_Angeles",
+        "utcOffsetHours": "-7.0",
+        "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/SJC?codeType=fs",
+        "weatherZone": "CAZ513"
+      },
+      "arrivalDate": {
+        "dateLocal": "2018-06-12T18:11:00.000",
+        "dateUtc": "2018-06-12T01:11:00.000Z"
+      },
+      "carrier": {
+        "active": "true",
+        "fs": "UA",
+        "iata": "AS",
+        "icao": "ASA",
+        "name": "Alaska Airlines",
+        "phoneNumber": "1-800-252-7522"
+      },
+      "codeshares": {
+        "codeshare": [
+          {
+            "carrier": {
+              "active": "true",
+              "fs": "KE",
+              "iata": "KE",
+              "icao": "KAL",
+              "name": "Korean Air"
+            },
+            "flightNumber": "6127",
+            "relationship": "L"
+          },
+          {
+            "carrier": {
+              "active": "true",
+              "fs": "DL",
+              "iata": "DL",
+              "icao": "DAL",
+              "name": "Delta Air Lines",
+              "phoneNumber": "1-800-221-1212"
+            },
+            "flightNumber": "9213",
+            "relationship": "L"
+          },
+          {
+            "carrier": {
+              "active": "true",
+              "fs": "KL",
+              "iata": "KL",
+              "icao": "KLM",
+              "name": "KLM"
+            },
+            "flightNumber": "6732",
+            "relationship": "L"
+          },
+          {
+            "carrier": {
+              "active": "true",
+              "fs": "AA",
+              "iata": "AA",
+              "icao": "AAL",
+              "name": "American Airlines",
+              "phoneNumber": "1-800-433-7300"
+            },
+            "flightNumber": "7009",
+            "relationship": "L"
+          },
+          {
+            "carrier": {
+              "active": "true",
+              "fs": "AF",
+              "iata": "AF",
+              "icao": "AFR",
+              "name": "Air France",
+              "phoneNumber": "1-800-237-2747"
+            },
+            "flightNumber": "9642",
+            "relationship": "L"
+          }
+        ]
+      },
+      "delays": {
+        "departureGateDelayMinutes": "34"
+      },
+      "departureAirport": {
+        "active": "true",
+        "city": "Seattle",
+        "cityCode": "SEA",
+        "classification": "1",
+        "countryCode": "US",
+        "countryName": "United States",
+        "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/SEA?codeType=fs",
+        "elevationFeet": "429",
+        "faa": "SEA",
+        "fs": "SFO",
+        "iata": "SEA",
+        "icao": "KSEA",
+        "latitude": "47.443839",
+        "localTime": "2018-10-23T17:58:41.143",
+        "longitude": "-122.301732",
+        "name": "Seattle/Tacoma International Airport",
+        "postalCode": "98158",
+        "regionName": "North America",
+        "stateCode": "WA",
+        "street1": "",
+        "street2": "",
+        "timeZoneRegionName": "America/Los_Angeles",
+        "utcOffsetHours": "-7.0",
+        "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/SEA?codeType=fs",
+        "weatherZone": "WAZ001"
+      },
+      "departureDate": {
+        "dateLocal": "2018-06-11T16:00:00.000",
+        "dateUtc": "2018-06-11T23:05:00.000Z"
+      },
+      "flightDurations": {
+        "scheduledAirMinutes": "101",
+        "scheduledBlockMinutes": "126",
+        "scheduledTaxiInMinutes": "18",
+        "scheduledTaxiOutMinutes": "7",
+        "taxiOutMinutes": "12"
+      },
+      "flightEquipment": {
+        "actualEquipment": {
+          "iata": "B734",
+          "jet": "false",
+          "name": "??",
+          "regional": "false",
+          "turboProp": "false",
+          "widebody": "false"
+        },
+        "scheduledEquipment": {
+          "iata": "734",
+          "jet": "true",
+          "name": "Boeing 737-400 Passenger",
+          "regional": "false",
+          "turboProp": "false",
+          "widebody": "false"
+        }
+      },
+      "flightId": "278406954",
+      "flightNumber": "681",
+      "flightStatusUpdates": {
+        "flightStatusUpdate": [
+          {
+            "source": "Airline Direct (AS)",
+            "updatedAt": {
+              "dateUtc": "2018-10-22T10:00:32.137-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": [
+                {
+                  "field": "EGD",
+                  "newDateLocal": "2018-10-23T16:05:00.000"
+                },
+                {
+                  "field": "EGA",
+                  "newDateLocal": "2018-10-23T18:11:00.000"
+                }
+              ]
+            },
+            "updatedTextFields": {
+              "updatedTextField": [
+                {
+                  "field": "DTM",
+                  "newText": "C"
+                },
+                {
+                  "field": "DGT",
+                  "newText": "11"
+                },
+                {
+                  "field": "AGT",
+                  "newText": "27"
+                },
+                {
+                  "field": "TAL",
+                  "newText": "N705AS"
+                }
+              ]
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-22T16:10:59.887-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": [
+                {
+                  "field": "SRD",
+                  "newDateLocal": "2018-10-23T16:12:00.000"
+                },
+                {
+                  "field": "ERD",
+                  "newDateLocal": "2018-10-23T16:12:00.000"
+                },
+                {
+                  "field": "SRA",
+                  "newDateLocal": "2018-10-23T17:53:00.000"
+                },
+                {
+                  "field": "ERA",
+                  "newDateLocal": "2018-10-23T17:53:00.000"
+                }
+              ]
+            }
+          },
+          {
+            "source": "Airline Direct (AS)",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T09:39:43.763-07:00"
+            },
+            "updatedTextFields": {
+              "updatedTextField": {
+                "field": "DGT",
+                "newText": "15",
+                "originalText": "11"
+              }
+            }
+          },
+          {
+            "source": "Airline Direct (AS)",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T09:40:47.293-07:00"
+            },
+            "updatedTextFields": {
+              "updatedTextField": {
+                "field": "DGT",
+                "newText": "16",
+                "originalText": "15"
+              }
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T15:14:52.009-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": {
+                "field": "ERA",
+                "newDateLocal": "2018-10-23T17:55:00.000",
+                "originalDateLocal": "2018-10-23T17:53:00.000"
+              }
+            }
+          },
+          {
+            "source": "Airline Direct (AS)",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T16:10:35.706-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": [
+                {
+                  "field": "AGD",
+                  "newDateLocal": "2018-10-23T15:58:00.000"
+                },
+                {
+                  "field": "EGA",
+                  "newDateLocal": "2018-10-23T18:02:00.000",
+                  "originalDateLocal": "2018-10-23T18:11:00.000"
+                }
+              ]
+            },
+            "updatedTextFields": {
+              "updatedTextField": {
+                "field": "STS",
+                "newText": "A",
+                "originalText": "S"
+              }
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T16:16:03.777-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": [
+                {
+                  "field": "ERD",
+                  "newDateLocal": "2018-10-23T16:10:00.000",
+                  "originalDateLocal": "2018-10-23T16:12:00.000"
+                },
+                {
+                  "field": "ERA",
+                  "newDateLocal": "2018-10-23T17:53:00.000",
+                  "originalDateLocal": "2018-10-23T17:55:00.000"
+                }
+              ]
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T16:16:03.791-07:00"
+            },
+            "updatedTextFields": {
+              "updatedTextField": {
+                "field": "AQP",
+                "newText": "B734"
+              }
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T16:16:05.929-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": {
+                "field": "ARD",
+                "newDateLocal": "2018-10-23T16:10:00.000"
+              }
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T17:11:05.090-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": {
+                "field": "ERA",
+                "newDateLocal": "2018-10-23T17:54:00.000",
+                "originalDateLocal": "2018-10-23T17:53:00.000"
+              }
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T17:20:52.618-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": {
+                "field": "ERA",
+                "newDateLocal": "2018-10-23T17:53:00.000",
+                "originalDateLocal": "2018-10-23T17:54:00.000"
+              }
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T17:54:34.416-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": {
+                "field": "ERA",
+                "newDateLocal": "2018-10-23T17:52:00.000",
+                "originalDateLocal": "2018-10-23T17:53:00.000"
+              }
+            }
+          },
+          {
+            "source": "ASDI",
+            "updatedAt": {
+              "dateUtc": "2018-10-23T17:58:18.867-07:00"
+            },
+            "updatedDateFields": {
+              "updatedDateField": {
+                "field": "ERA",
+                "newDateLocal": "2018-10-23T17:57:00.000",
+                "originalDateLocal": "2018-10-23T17:52:00.000"
+              }
+            }
+          }
+        ]
+      },
+      "operationalTimes": {
+        "actualGateDeparture": {
+          "dateLocal": "2018-10-23T15:58:00.000",
+          "dateUtc": "2018-10-23T22:58:00.000Z"
+        },
+        "actualRunwayDeparture": {
+          "dateLocal": "2018-10-23T16:10:00.000",
+          "dateUtc": "2018-10-23T23:10:00.000Z"
+        },
+        "estimatedGateArrival": {
+          "dateLocal": "2018-10-23T18:02:00.000",
+          "dateUtc": "2018-10-24T01:02:00.000Z"
+        },
+        "estimatedGateDeparture": {
+          "dateLocal": "2018-10-23T16:05:00.000",
+          "dateUtc": "2018-10-23T23:05:00.000Z"
+        },
+        "estimatedRunwayArrival": {
+          "dateLocal": "2018-10-23T17:57:00.000",
+          "dateUtc": "2018-10-24T00:57:00.000Z"
+        },
+        "estimatedRunwayDeparture": {
+          "dateLocal": "2018-10-23T16:10:00.000",
+          "dateUtc": "2018-10-23T23:10:00.000Z"
+        },
+        "flightPlanPlannedArrival": {
+          "dateLocal": "2018-10-23T17:53:00.000",
+          "dateUtc": "2018-10-24T00:53:00.000Z"
+        },
+        "flightPlanPlannedDeparture": {
+          "dateLocal": "2018-10-23T16:12:00.000",
+          "dateUtc": "2018-10-23T23:12:00.000Z"
+        },
+        "publishedArrival": {
+          "dateLocal": "2018-10-23T18:11:00.000",
+          "dateUtc": "2018-10-24T01:11:00.000Z"
+        },
+        "publishedDeparture": {
+          "dateLocal": "2018-10-23T16:05:00.000",
+          "dateUtc": "2018-10-23T23:05:00.000Z"
+        },
+        "scheduledGateArrival": {
+          "dateLocal": "2018-10-23T18:11:00.000",
+          "dateUtc": "2018-10-24T01:11:00.000Z"
+        },
+        "scheduledGateDeparture": {
+          "dateLocal": "2018-10-23T16:05:00.000",
+          "dateUtc": "2018-10-23T23:05:00.000Z"
+        }
+      },
+      "schedule": {
+        "flightType": "J",
+        "restrictions": "",
+        "serviceClasses": "FY"
+      },
+      "status": "A"
+    },
+    "rule": {
+      "arrival": "2018-10-23T18:11:00.000",
+      "arrivalAirport": {
+        "active": "true",
+        "city": "San Jose",
+        "cityCode": "SJC",
+        "classification": "2",
+        "countryCode": "US",
+        "countryName": "United States",
+        "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports /SJC?codeType=fs",
+        "elevationFeet": "58",
+        "faa": "SJC",
+        "fs": "SJC",
+        "iata": "SJC",
+        "icao": "KSJC",
+        "latitude": "37.366736",
+        "localTime": "2018-10-23T17:58:41.143",
+        "longitude": "-121.926375",
+        "name": "Norman Y. Mineta San Jose International Airport",
+        "postalCode": "95110",
+        "regionName": "North America",
+        "stateCode": "CA",
+        "street1": "1701 Airport Boulevard, Suite B-1130",
+        "timeZoneRegionName": "America/Los_Angeles",
+        "utcOffsetHours": "-7.0",
+        "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/SJC?codeType=fs",
+        "weatherZone": "CAZ513"
+      },
+      "carrier": {
+        "active": "true",
+        "fs": "UA",
+        "iata": "AS",
+        "icao": "ASA",
+        "name": "Alaska Airlines",
+        "phoneNumber": "1-800-252-7522"
+      },
+      "delivery": {
+        "destination": "http://example.com/callback",
+        "format": "JSON"
+      },
+      "departure": "2018-10-23T16:05:00.000",
+      "departureAirport": {
+        "active": "true",
+        "city": "Seattle",
+        "cityCode": "SEA",
+        "classification": "1",
+        "countryCode": "US",
+        "countryName": "United States",
+        "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/SEA? codeType=fs",
+        "elevationFeet": "429",
+        "faa": "SEA",
+        "fs": "SFO",
+        "iata": "SEA",
+        "icao": "KSEA",
+        "latitude": "47.443839",
+        "localTime": "2018-10-23T17:58:41.143",
+        "longitude": "-122.301732",
+        "name": "Seattle/Tacoma International Airport",
+        "postalCode": "98158",
+        "regionName": "North America",
+        "stateCode": "WA",
+        "street1": "",
+        "street2": "",
+        "timeZoneRegionName": "America/Los_Angeles",
+        "utcOffsetHours": "-7.0",
+        "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/SEA?codeType=fs",
+        "weatherZone": "WAZ001"
+      },
+      "flightNumber": "681",
+      "id": "0",
+      "name": "Default",
+      "nameValues": null,
+      "ruleEvents": {
+        "ruleEvent": {
+          "type": "ALL_CHANGES"
+        }
+      }
+    }
+  }
+}
+

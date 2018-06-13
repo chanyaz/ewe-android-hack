@@ -251,7 +251,7 @@
                   "countrySubdivisionCode": " CA"
                 },
                 "departureTime": {
-                  "raw": "2017-09-05T20:00:00-07:00",
+                  "raw": "2018-06-12T20:00:00-07:00",
                   "localized": "Sep 5, 2017 8:00:00 PM",
                   "epochSeconds": 1504666800,
                   "timeZoneOffsetSeconds": -25200,
@@ -274,7 +274,7 @@
                   "countrySubdivisionCode": " NV"
                 },
                 "arrivalTime": {
-                  "raw": "2017-09-05T21:33:00-07:00",
+                  "raw": "2018-06-12T21:33:00-07:00",
                   "localized": "Sep 5, 2017 9:33:00 PM",
                   "epochSeconds": 1504672380,
                   "timeZoneOffsetSeconds": -25200,

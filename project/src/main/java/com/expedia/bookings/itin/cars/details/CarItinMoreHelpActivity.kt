@@ -62,7 +62,7 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
 
         stringProvider = Ui.getApplication(this).appComponent().stringProvider()
         val tripsTracking = TripsTracking
-        val jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
+        val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
         carRepo = ItinCarRepo(intent.getStringExtra(CAR_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
         val scope = CarItinMoreHelpMasterScope(stringProvider, this, carRepo, tripsTracking)
 

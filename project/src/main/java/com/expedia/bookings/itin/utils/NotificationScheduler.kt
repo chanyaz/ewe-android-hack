@@ -5,6 +5,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.Courier
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TNSFlight
+import com.expedia.bookings.data.TNSRegisterDeviceResponse
 import com.expedia.bookings.data.TNSUser
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
@@ -23,7 +24,10 @@ import com.expedia.bookings.utils.UniqueIdentifierHelper
 import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider
 import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.expedia.util.endlessObserver
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.mobiata.android.Log
+import io.reactivex.Observer
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
@@ -35,7 +39,6 @@ class NotificationScheduler @JvmOverloads constructor(val context: Context,
                                                       val gcmRegistrationKeeper: GCMRegistrationKeeper = GCMRegistrationKeeper.getInstance(context),
                                                       val pos: PointOfSale = PointOfSale.getPointOfSale(),
                                                       val jsonUtil: IJsonToItinUtil) {
-
     private val LOGGING_TAG = "NotificationScheduler"
 
     fun subscribeToListener(finishObserver: PublishSubject<List<ItinCardData>>) {
@@ -67,7 +70,7 @@ class NotificationScheduler @JvmOverloads constructor(val context: Context,
     private fun getGenerator(data: ItinCardData): ItinContentGenerator<out ItinCardData> =
             ItinContentGenerator.createGenerator(context, data)
 
-    fun registerForPushNotifications() {
+    fun registerForPushNotifications(observer: Observer<TNSRegisterDeviceResponse>? = null) {
 
         Log.d(LOGGING_TAG, "registerForPushNotifications")
 
@@ -86,7 +89,7 @@ class NotificationScheduler @JvmOverloads constructor(val context: Context,
             val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId,
                     UniqueIdentifierHelper.getID(UniqueIdentifierPersistenceProvider(context)))
             val itinList = jsonUtil.getItinList()
-            tnsServices.registerForFlights(tnsUser, courier, getTNSFlights(itinList))
+            tnsServices.registerForFlights(tnsUser, courier, getTNSFlights(itinList), observer)
         }
     }
 
@@ -136,5 +139,17 @@ class NotificationScheduler @JvmOverloads constructor(val context: Context,
         val isOriginAirportCodeAvailable = !flight.departureLocation?.airportCode.isNullOrEmpty()
         return (isAirlineCodeAvailable && isFlightNumberAvailable && isSegmentArrivalTimeAvailable
                 && isSegmentDepartureTimeAvailable && isDestinationAirportCodeAvailable && isOriginAirportCodeAvailable)
+    }
+
+    fun testFlightStatsCallback(jsonBody: String, observer: Observer<TNSRegisterDeviceResponse>) {
+        val jsonParser = JsonParser()
+        val jsonObject = jsonParser.parse(jsonBody) as JsonObject
+        val departureDateObject = jsonObject.getAsJsonObject("alert").getAsJsonObject("flightStatus").getAsJsonObject("departureDate")
+        val departureDate = org.joda.time.DateTime.now().toString()
+        departureDateObject.remove("dateLocal")
+        departureDateObject.remove("dateUtc")
+        departureDateObject.addProperty("dateLocal", departureDate)
+        departureDateObject.addProperty("dateUtc", departureDate)
+        tnsServices.flightStatsCallback(jsonObject, observer)
     }
 }

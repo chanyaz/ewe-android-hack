@@ -8,6 +8,7 @@ import com.expedia.bookings.data.TNSRegisterUserDeviceFlightsRequestBody
 import com.expedia.bookings.data.TNSRegisterUserDeviceRequestBody
 import com.expedia.bookings.data.TNSUser
 import com.expedia.bookings.extensions.subscribeObserver
+import com.google.gson.JsonObject
 import io.reactivex.Observer
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
@@ -17,7 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler, private val serviceObserver: Observer<TNSRegisterDeviceResponse> = TNSServices.Companion.noopObserver) : ITNSServices {
+class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler, val serviceObserver: Observer<TNSRegisterDeviceResponse> = TNSServices.Companion.noopObserver) : ITNSServices {
 
     companion object {
 
@@ -53,14 +54,20 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
     private var userDeviceSubscription: Disposable? = null
     private var userDeviceDeregistrationSubscription: Disposable? = null
 
-    override fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>): Disposable {
+    override fun registerForFlights(user: TNSUser, courier: Courier, flights: List<TNSFlight>, observer: Observer<TNSRegisterDeviceResponse>?): Disposable {
+        val flightRegistrationObserver: Observer<TNSRegisterDeviceResponse>
+        if (observer == null) {
+            flightRegistrationObserver = serviceObserver
+        } else {
+            flightRegistrationObserver = observer
+        }
         val requestBody = TNSRegisterUserDeviceFlightsRequestBody(courier, flights, user)
         userDeviceFlightsSubscription?.dispose()
 
         userDeviceFlightsSubscription = tnsAPI.registerUserDeviceFlights(requestBody)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribeObserver(serviceObserver)
+                .subscribeObserver(flightRegistrationObserver)
         return userDeviceFlightsSubscription as Disposable
     }
 
@@ -78,6 +85,7 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
 
         return userDeviceSubscription as Disposable
     }
+
     fun deregisterDevice(courier: Courier): Disposable {
         userDeviceDeregistrationSubscription?.dispose()
         val requestBody = TNSDeregister(courier)
@@ -94,5 +102,18 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(serviceObserver)
+    }
+
+    override fun flightStatsCallback(jsonBody: JsonObject, observer: Observer<TNSRegisterDeviceResponse>?): Disposable {
+        val flightStatsObserver: Observer<TNSRegisterDeviceResponse>
+        if (observer == null) {
+            flightStatsObserver = serviceObserver
+        } else {
+            flightStatsObserver = observer
+        }
+        return tnsAPI.flightStatsCallback(jsonBody)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribeObserver(flightStatsObserver)
     }
 }
