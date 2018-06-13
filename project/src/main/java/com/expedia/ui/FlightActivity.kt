@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.flight.FlightPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FlightsV2DataUtil
@@ -25,11 +24,6 @@ class FlightActivity : AbstractAppCompatActivity() {
         } else {
             flightsPresenter.setDefaultTransition(Screen.SEARCH)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Events.post(Events.AppBackgroundedOnResume())
     }
 
     override fun onPause() {

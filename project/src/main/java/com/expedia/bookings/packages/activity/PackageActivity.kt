@@ -13,7 +13,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
-import com.expedia.bookings.otto.Events
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.packages.presenter.PackagePresenter
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
@@ -62,9 +61,7 @@ class PackageActivity : AbstractAppCompatActivity() {
             finish()
             return
         }
-        packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
-        packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
-        packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
+        packagePresenter.bundlePresenter.bundleWidget.collapseBundleWidgets()
 
         when (resultCode) {
             Activity.RESULT_CANCELED -> {
@@ -80,21 +77,9 @@ class PackageActivity : AbstractAppCompatActivity() {
                     PackagesTracking().trackViewBundlePageLoad()
 
                     if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
-                        Db.sharedInstance.packageParams.currentFlights = Db.sharedInstance.packageParams.defaultFlights
-
-                        //revert bundle view to be the state loaded outbound flights
-                        packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
-                        packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-
-                        val rate = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
-                        packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+                        packagePresenter.bundlePresenter.resetToLoadedOutboundFlights()
                     } else if (packagePresenter.backStack.size == 2) {
-                        Db.sharedInstance.packageParams.currentFlights = Db.sharedInstance.packageParams.defaultFlights
-
-                        //revert bundle view to be the state loaded hotels
-                        packagePresenter.bundlePresenter.totalPriceWidget.resetPriceWidget()
-                        packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
-                        packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
+                        packagePresenter.bundlePresenter.resetToLoadedHotels()
                     }
                 }
                 return
@@ -212,11 +197,6 @@ class PackageActivity : AbstractAppCompatActivity() {
         if (!packagePresenter.back()) {
             super.onBackPressed()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Events.post(Events.AppBackgroundedOnResume())
     }
 
     override fun onPause() {

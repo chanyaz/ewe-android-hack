@@ -469,4 +469,24 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable.onNext(
                 PackageUtil.getBundleHotelDatesAndGuestsText(context, packageResponse.getHotelCheckInDate(), packageResponse.getHotelCheckOutDate(), Db.sharedInstance.packageParams.guests))
     }
+
+    fun resetToLoadedOutboundFlights() {
+        Db.sharedInstance.packageParams.currentFlights = Db.sharedInstance.packageParams.defaultFlights
+
+        //revert bundle view to be the state loaded outbound flights
+        bundleWidget.revertBundleViewToSelectOutbound()
+        bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+
+        val rate = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
+        totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+    }
+
+    fun resetToLoadedHotels() {
+        Db.sharedInstance.packageParams.currentFlights = Db.sharedInstance.packageParams.defaultFlights
+
+        //revert bundle view to be the state loaded hotels
+        totalPriceWidget.resetPriceWidget()
+        bundleWidget.revertBundleViewToSelectHotel()
+        bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
+    }
 }
