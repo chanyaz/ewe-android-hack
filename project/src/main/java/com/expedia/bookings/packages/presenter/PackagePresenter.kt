@@ -543,19 +543,23 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         return super.handleBack(flags, currentChild)
     }
 
-    fun handleHotelOffersAPIError(isErrorFromInfositeCall: Boolean, errorKey: String, errorString: String?) {
+    fun handleHotelOffersAndInfositeAPIError(errorKey: String?, errorString: String?, isErrorFromInfositeCall: Boolean) {
+        val apiErrorKey = errorKey ?: Constants.UNKNOWN_ERROR_CODE
+        val apiErrorString = errorString ?: ApiError.Code.PACKAGE_SEARCH_ERROR
+
         val isChangePackageSearch = Db.sharedInstance.packageParams.isChangePackageSearch()
 
         val apiCallFailing = when {
-            isErrorFromInfositeCall -> if (isChangePackageSearch) ApiCallFailing.PackageHotelInfositeChange(errorKey) else ApiCallFailing.PackageHotelInfosite(errorKey)
-            else -> if (isChangePackageSearch) ApiCallFailing.PackageHotelRoomChange(errorKey) else ApiCallFailing.PackageHotelRoom(errorKey)
+            isErrorFromInfositeCall -> if (isChangePackageSearch) ApiCallFailing.PackageHotelInfositeChange(apiErrorKey) else ApiCallFailing.PackageHotelInfosite(apiErrorKey)
+            else -> if (isChangePackageSearch) ApiCallFailing.PackageHotelRoomChange(apiErrorKey) else ApiCallFailing.PackageHotelRoom(apiErrorKey)
         }
-        val errorCode = if (ApiError.Code.PACKAGE_SEARCH_ERROR.name == errorString) ApiError.Code.PACKAGE_SEARCH_ERROR else ApiError.Code.UNKNOWN_ERROR
+        val errorCode = if (ApiError.Code.PACKAGE_SEARCH_ERROR.name == apiErrorString) ApiError.Code.PACKAGE_SEARCH_ERROR else ApiError.Code.UNKNOWN_ERROR
         hotelOffersErrorObservable.onNext(Pair(errorCode, apiCallFailing))
     }
 
+    fun handleHotelFilterAPIError(filterSearchErrorString: String?) {
+        val filterSearchErrorKey = if (filterSearchErrorString == PackageApiError.Code.mid_no_offers_post_filtering.name) Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY else Constants.UNKNOWN_ERROR_CODE
 
-    fun handleHotelFilterAPIError(filterSearchErrorKey: String, filterSearchErrorString: String?) {
         Db.setPackageResponse(Db.getUnfilteredRespnse())
         val errorCode = if (PackageApiError.Code.mid_no_offers_post_filtering.name == filterSearchErrorString) PackageApiError.Code.mid_no_offers_post_filtering else PackageApiError.Code.pkg_error_code_not_mapped
         val apiCallFailing = ApiCallFailing.PackageFilterSearch(filterSearchErrorKey)

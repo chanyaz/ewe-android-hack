@@ -54,29 +54,28 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundlePresenter.bundleWidget.collapseBundleWidgets()
 
         when (resultCode) {
-            Activity.RESULT_CANCELED -> {
-                packagePresenter.handleActivityCanceled()
-            }
-            Activity.RESULT_OK ->
-                when (requestCode) {
-                    Constants.HOTEL_REQUEST_CODE -> {
-                        val errorKey = data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
-                        val errorString = data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
-                        val isErrorFromInfositeCall = data?.extras?.getBoolean(Constants.PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL)
-                                ?: false
-                        val filterSearchErrorKey = data?.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY)
-                        val filterSearchErrorString = data?.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR)
-                        when {
-                            errorKey != null && errorString != null -> packagePresenter.handleHotelOffersAPIError(isErrorFromInfositeCall, errorKey, errorString)
-                            filterSearchErrorKey != null && filterSearchErrorString != null -> packagePresenter.handleHotelFilterAPIError(filterSearchErrorKey, filterSearchErrorString)
-                            else -> packagePresenter.hotelSelectedSuccessfully()
-                        }
-                    }
-                    Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE -> packagePresenter.flightOutboundSelectedSuccessfully()
+            Activity.RESULT_CANCELED -> packagePresenter.handleActivityCanceled()
 
-                    Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE -> packagePresenter.flightInboundSelectedSuccessfully()
-                }
+            Constants.PACKAGE_HOTEL_OFFERS_API_ERROR_RESULT_CODE -> handleOffersAndInfositeError(data?.extras, false)
+
+            Constants.PACKAGE_HOTEL_INFOSITE_API_ERROR_RESULT_CODE -> handleOffersAndInfositeError(data?.extras, true)
+
+            Constants.PACKAGE_HOTEL_FILTER_API_ERROR_RESULT_CODE -> packagePresenter.handleHotelFilterAPIError(data?.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR))
+
+            Activity.RESULT_OK -> when (requestCode) {
+                Constants.HOTEL_REQUEST_CODE -> packagePresenter.hotelSelectedSuccessfully()
+
+                Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE -> packagePresenter.flightOutboundSelectedSuccessfully()
+
+                Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE -> packagePresenter.flightInboundSelectedSuccessfully()
+            }
         }
+    }
+
+    private fun handleOffersAndInfositeError(extras: Bundle?, isErrorFromInfositeCall: Boolean) {
+        val errorKey = extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR_KEY)
+        val errorString = extras?.getString(Constants.PACKAGE_HOTEL_API_ERROR)
+        packagePresenter.handleHotelOffersAndInfositeAPIError(errorKey, errorString, isErrorFromInfositeCall)
     }
 
     override fun onBackPressed() {
