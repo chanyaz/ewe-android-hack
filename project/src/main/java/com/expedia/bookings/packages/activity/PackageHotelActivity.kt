@@ -44,8 +44,8 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
 
         if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
             // back to hotel room, should also be able to back to hotel results
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
-            val hotelOffers = PackageResponseUtils.loadHotelOfferResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
+            Db.setPackageResponse(PackageResponseUtils.recentPackageHotelsResponse)
+            val hotelOffers = PackageResponseUtils.recentPackageHotelOffersResponse
             if (hotelOffers != null) {
                 hotelsPresenter.selectedPackageHotel = Db.getPackageSelectedHotel()
                 hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(Db.sharedInstance.packageParams.convertToHotelSearchParams(rules.getMaxSearchDurationDays(), rules.getMaxDateRange()))
@@ -57,7 +57,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             }
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             // change hotel room
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
+            Db.setPackageResponse(PackageResponseUtils.recentPackageHotelsResponse)
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS_ONLY)
             hotelsPresenter.hotelSelectedObserver.onNext(Db.getPackageSelectedHotel())
         } else {

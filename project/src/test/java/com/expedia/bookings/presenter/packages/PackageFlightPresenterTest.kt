@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.packages
 
 import android.app.Activity
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.bookings.packages.presenter.PackageFlightPresenter
 import com.expedia.bookings.packages.widget.SlidingBundleWidget
 import com.expedia.bookings.services.TestObserver
@@ -21,8 +19,6 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.util.Optional
@@ -34,8 +30,6 @@ import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -77,43 +71,6 @@ class PackageFlightPresenterTest {
             val previous = testSubscriberResult[i - 1].packageOfferModel.price.packageTotalPrice.amount
             assertTrue(current.compareTo(previous) >= 0, "Expected $current >= $previous")
         }
-    }
-
-    @Test
-    fun testOutboundFlightResponseLoadedFromResponseStaticFile() {
-        val expectedPackageSearchResponse = mockPackageServiceRule.getMIDFlightsResponse()
-        val latch = CountDownLatch(1)
-        PackageResponseUtils.savePackageResponse(context, expectedPackageSearchResponse, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE, { _ ->
-            latch.countDown()
-        })
-        latch.await(2, TimeUnit.SECONDS)
-        val outboundFlight = PackageTestUtil.getDummyPackageFlightLeg()
-        Db.setPackageSelectedOutboundFlight(outboundFlight)
-
-        fireActivityIntent(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)
-        assertEquals(expectedPackageSearchResponse, Db.getPackageResponse())
-    }
-
-    @Test
-    fun testInboundFlightResponseLoadedFromResponseStaticFile() {
-        val expectedPackageSearchResponse = mockPackageServiceRule.getMIDFlightsResponse()
-        val latch = CountDownLatch(1)
-        PackageResponseUtils.savePackageResponse(context, expectedPackageSearchResponse, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE, { _ ->
-            latch.countDown()
-        })
-        latch.await(2, TimeUnit.SECONDS)
-        val outboundFlight = PackageTestUtil.getDummyPackageFlightLeg()
-        Db.setPackageSelectedOutboundFlight(outboundFlight)
-        Db.setPackageFlightBundle(outboundFlight, PackageTestUtil.getDummyPackageFlightLeg())
-
-        fireActivityIntent(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)
-        assertEquals(expectedPackageSearchResponse, Db.getPackageResponse())
-    }
-
-    private fun fireActivityIntent(requestConstant: String) {
-        val intent = Intent(context, PackageFlightActivity::class.java)
-        intent.putExtra(requestConstant, true)
-        Robolectric.buildActivity(PackageFlightActivity::class.java, intent).create().get()
     }
 
     @Test

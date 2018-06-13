@@ -34,8 +34,7 @@ class PackageServicesManager(private val context: Context, private val packageSe
     fun doPackageSearch(params: PackageSearchParams,
                         type: PackageProductSearchType,
                         successHandler: PublishSubject<Pair<PackageProductSearchType, BundleSearchResponse>>,
-                        errorHandler: PublishSubject<Triple<PackageProductSearchType, PackageApiError.Code, ApiCallFailing>>,
-                        saveSuccess: ((Unit) -> Unit)? = null): Disposable {
+                        errorHandler: PublishSubject<Triple<PackageProductSearchType, PackageApiError.Code, ApiCallFailing>>): Disposable {
 
         val isChangeSearch = params.isChangePackageSearch()
         return packageServices.packageSearch(params, type)
@@ -50,12 +49,12 @@ class PackageServicesManager(private val context: Context, private val packageSe
                                 val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
                                 Db.sharedInstance.packageParams.currentFlights = currentFlights
                                 Db.sharedInstance.packageParams.defaultFlights = currentFlights.copyOf()
-                                PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
+                                PackageResponseUtils.recentPackageHotelsResponse = response
                             } else {
                                 if (type == PackageProductSearchType.MultiItemOutboundFlights) {
-                                    PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE, saveSuccess)
+                                    PackageResponseUtils.recentPackageOutboundFlightsResponse = response
                                 } else {
-                                    PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE, saveSuccess)
+                                    PackageResponseUtils.recentPackageInboundFlightsResponse = response
                                 }
                             }
                             successHandler.onNext(Pair(type, response))

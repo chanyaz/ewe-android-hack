@@ -19,7 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -74,10 +73,7 @@ class PackageServicesManagerTest {
         successHandler.subscribe(testSuccessHandler)
         errorHandler.subscribe(testErrorHandler)
 
-        val latch = CountDownLatch(1)
-        sut.doPackageSearch(Db.sharedInstance.packageParams, PackageProductSearchType.MultiItemHotels, successHandler, errorHandler) {
-            latch.countDown()
-        }
+        sut.doPackageSearch(Db.sharedInstance.packageParams, PackageProductSearchType.MultiItemHotels, successHandler, errorHandler)
 
         testSuccessHandler.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(1, testSuccessHandler.valueCount())
@@ -96,8 +92,7 @@ class PackageServicesManagerTest {
 
         assert(Db.sharedInstance.packageParams.currentFlights != Db.sharedInstance.packageParams.defaultFlights)
 
-        latch.await(3, TimeUnit.SECONDS)
-        val actualPackageResponse = PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
+        val actualPackageResponse = PackageResponseUtils.recentPackageHotelsResponse
         assertNotNull(actualPackageResponse)
         assert(expectedResponse == actualPackageResponse)
     }
@@ -113,16 +108,12 @@ class PackageServicesManagerTest {
         successHandler.subscribe(testSuccessHandler)
         errorHandler.subscribe(testErrorHandler)
 
-        val latch = CountDownLatch(1)
-
         val params = Db.sharedInstance.packageParams
         params.latestSelectedOfferInfo.hotelId = "hotelID"
         params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
         params.latestSelectedOfferInfo.roomTypeCode = "flight_outbound_happy"
 
-        sut.doPackageSearch(params, PackageProductSearchType.MultiItemOutboundFlights, successHandler, errorHandler) {
-            latch.countDown()
-        }
+        sut.doPackageSearch(params, PackageProductSearchType.MultiItemOutboundFlights, successHandler, errorHandler)
 
         testSuccessHandler.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(1, testSuccessHandler.valueCount())
@@ -131,8 +122,7 @@ class PackageServicesManagerTest {
 
         assert(Db.getPackageResponse() == expectedResponse)
 
-        latch.await(3, TimeUnit.SECONDS)
-        val actualPackageResponse = PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE)
+        val actualPackageResponse = PackageResponseUtils.recentPackageOutboundFlightsResponse
         assertNotNull(actualPackageResponse)
         assert(expectedResponse == actualPackageResponse)
     }
@@ -148,17 +138,13 @@ class PackageServicesManagerTest {
         successHandler.subscribe(testSuccessHandler)
         errorHandler.subscribe(testErrorHandler)
 
-        val latch = CountDownLatch(1)
-
         val params = Db.sharedInstance.packageParams
         params.latestSelectedOfferInfo.hotelId = "hotelID"
         params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
         params.latestSelectedOfferInfo.roomTypeCode = "flight_outbound_happy"
         params.selectedLegId = "flight_inbound_happy"
 
-        sut.doPackageSearch(params, PackageProductSearchType.MultiItemInboundFlights, successHandler, errorHandler) {
-            latch.countDown()
-        }
+        sut.doPackageSearch(params, PackageProductSearchType.MultiItemInboundFlights, successHandler, errorHandler)
 
         testSuccessHandler.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(1, testSuccessHandler.valueCount())
@@ -167,8 +153,7 @@ class PackageServicesManagerTest {
 
         assert(Db.getPackageResponse() == expectedResponse)
 
-        latch.await(3, TimeUnit.SECONDS)
-        val actualPackageResponse = PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE)
+        val actualPackageResponse = PackageResponseUtils.recentPackageInboundFlightsResponse
         assertNotNull(actualPackageResponse)
         assert(expectedResponse == actualPackageResponse)
     }

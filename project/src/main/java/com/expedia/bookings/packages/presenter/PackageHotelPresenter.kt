@@ -59,12 +59,12 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
+import com.expedia.util.PackageCalendarRules
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
-import com.expedia.util.PackageCalendarRules
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
 import io.reactivex.Observable
@@ -362,7 +362,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 }
                 val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(hotelInfoResponse, packageRoomsResponse.getBundleRoomResponse(), packageRoomsResponse.getHotelCheckInDate(), packageRoomsResponse.getHotelCheckOutDate())
 
-                PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
+                PackageResponseUtils.recentPackageHotelOffersResponse = hotelOffers
                 loadingOverlay.animate(false)
                 detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
                 detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
