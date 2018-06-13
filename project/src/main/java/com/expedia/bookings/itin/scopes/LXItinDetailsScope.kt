@@ -89,11 +89,12 @@ data class LxItinMoreHelpViewModelScope(override val strings: StringSource,
                                         override val tripsTracking: ITripsTracking) : HasLxRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking
 
 data class ItinCustomerSupportWidgetViewModelScope(override val strings: StringSource,
-                                        override val itinLxRepo: ItinLxRepoInterface,
+                                        override val itinRepo: ItinRepoInterface,
                                         override val lifecycleOwner: LifecycleOwner,
                                         override val tripsTracking: ITripsTracking,
                                         override val webViewLauncher: IWebViewLauncher,
-                                        override val type: String) : HasLxRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType
+                                        override val type: String
+) : HasItinRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType
 
 data class LxItinTimingsScope(
         override val lifecycleOwner: LifecycleOwner,

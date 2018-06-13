@@ -3,16 +3,16 @@ package com.expedia.bookings.itin.common
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasItinType
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.Itin
 import io.reactivex.subjects.PublishSubject
 
-class ItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportViewModel where S : HasStringProvider, S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasWebViewLauncher, S : HasItinType {
+class ItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportViewModel where S : HasStringProvider, S : HasItinRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasWebViewLauncher, S : HasItinType {
     override val customerSupportHeaderTextSubject: PublishSubject<String> = PublishSubject.create()
     override val phoneNumberSubject: PublishSubject<String> = PublishSubject.create()
     override val phoneNumberClickedSubject: PublishSubject<Unit> = PublishSubject.create()
@@ -76,7 +76,7 @@ class ItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportViewMo
             }
 
             TripProducts.CAR.name -> {
-                //scope.tripsTracking.trackItinCarCallCustomerSupportClicked()
+                scope.tripsTracking.trackItinCarCallCustomerSupportClicked()
             }
         }
     }
@@ -88,12 +88,12 @@ class ItinCustomerSupportViewModel<out S>(val scope: S) : ICustomerSupportViewMo
             }
 
             TripProducts.CAR.name -> {
-                //scope.tripsTracking.trackItinCarCustomerServiceLinkClicked()
+                scope.tripsTracking.trackItinCarCustomerServiceLinkClicked()
             }
         }
     }
 
     init {
-        scope.itinLxRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
+        scope.itinRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }
 }
