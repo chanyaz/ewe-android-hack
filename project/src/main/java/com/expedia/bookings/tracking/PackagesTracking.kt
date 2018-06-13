@@ -322,4 +322,16 @@ class PackagesTracking {
     fun trackBundleOverviewCostBreakdownLoad() {
         PackagesOmnitureTracking.trackPackagesBundleOverviewCostBreakdownLoad()
     }
+
+    fun trackPackagesScrollDepth(hasUserScrolled: Boolean, resultsShown: Int, resultsViewed: Int, resultClicked: Int = -1) {
+        val depth = StringBuilder()
+        depth.append("SC=")
+        depth.append(if (hasUserScrolled) "y" else "n")
+        depth.append("|RS=$resultsShown")
+        depth.append("|RV=$resultsViewed")
+        if (resultClicked != -1) {
+            depth.append("|RC=$resultClicked")
+        }
+        PackagesOmnitureTracking.trackPackagesScrollDepth(depth.toString())
+    }
 }

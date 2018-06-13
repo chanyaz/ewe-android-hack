@@ -12,6 +12,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.TransitionDrawable
 import android.location.Address
 import android.support.annotation.CallSuper
+import android.support.annotation.VisibleForTesting
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.AccessibilityDelegateCompat
@@ -150,7 +151,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     var baseViewModel: BaseHotelResultsViewModel by notNull()
 
-    protected val filterViewModel by lazy<BaseHotelFilterViewModel> { createFilterViewModel() }
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    val filterViewModel by lazy<BaseHotelFilterViewModel> { createFilterViewModel() }
 
     protected fun animateMapCarouselIn() {
         if (mapCarouselContainer.visibility != View.VISIBLE) {

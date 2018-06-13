@@ -776,6 +776,20 @@ class PackagesTrackingTest {
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testTrackPackagesScrollDepthWithNoClick() {
+        sut.trackPackagesScrollDepth(true, 50, 4)
+        val controlEvar = mapOf(28 to "App.Package.Hotels.Search.Scroll.SC=y|RS=50|RV=4")
+        OmnitureTestUtils.assertLinkTracked("PackagesScrollDepth", "App.Package.Hotels.Search.Scroll.SC=y|RS=50|RV=4", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackagesScrollDepthWithClick() {
+        sut.trackPackagesScrollDepth(false, 50, 1, 1)
+        val controlEvar = mapOf(28 to "App.Package.Hotels.Search.Scroll.SC=n|RS=50|RV=1|RC=1")
+        OmnitureTestUtils.assertLinkTracked("PackagesScrollDepth", "App.Package.Hotels.Search.Scroll.SC=n|RS=50|RV=1|RC=1", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
     private fun assertMIDConfirmationTracking(appState: String, expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProductNoDateFirstHalf: String, expectedProductSecondHalf: String, expectedEvents: String) {
         OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)

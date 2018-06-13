@@ -2,6 +2,7 @@ package com.expedia.bookings.packages.presenter
 
 import android.app.Activity
 import android.support.v4.app.FragmentActivity
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -23,6 +24,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.atLeastOnce
+import org.mockito.Mockito.spy
+import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
@@ -47,9 +51,9 @@ class PackageHotelResultsPresenterTest {
 
     @Test
     fun testMapDetailedPriceNotVisible() {
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
+        inflate()
 
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
         packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsList())
         packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsMap())
         assertEquals(View.VISIBLE, packageHotelResultsPresenter.mapPriceIncludesTaxesBottomMessage.visibility)
@@ -60,9 +64,9 @@ class PackageHotelResultsPresenterTest {
     @Test
     fun testMapDetailedPriceVisible() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
+        inflate()
 
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
         packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsList())
         packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsMap())
         assertEquals(View.GONE, packageHotelResultsPresenter.mapPriceIncludesTaxesBottomMessage.visibility)
@@ -73,9 +77,9 @@ class PackageHotelResultsPresenterTest {
     @Test
     fun testHotelResultsCellOnMapCarouselMapPriceIncludesTaxesBottomMessageNotVisible() {
         AbacusTestUtils.bucketTests(AbacusUtils.HotelResultsCellOnMapCarousel)
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
+        inflate()
 
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
         packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsList())
         packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsMap())
         assertEquals(View.GONE, packageHotelResultsPresenter.mapPriceIncludesTaxesBottomMessage.visibility)
@@ -85,9 +89,7 @@ class PackageHotelResultsPresenterTest {
 
     @Test
     fun testFloatingPillFilterButtonClick() {
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
-
+        inflate()
         packageHotelResultsPresenter.floatingPill.filterButton.performClick()
 
         assertEquals("Sort & Filter", packageHotelResultsPresenter.filterView.toolbar.title)
@@ -96,9 +98,8 @@ class PackageHotelResultsPresenterTest {
     @Test
     fun testFloatingPillToggleViewButtonClickWhenShowMapIsTrue() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
-
+        inflate()
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
         packageHotelResultsPresenter.floatingPill.toggleViewButton.performClick()
 
         val controlEvar = mapOf(18 to "App.Package.Hotels.Search.Map")
@@ -108,9 +109,7 @@ class PackageHotelResultsPresenterTest {
     @Test
     fun testFloatingPillToggleViewButtonClickWhenShowMapIsFalse() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
-
+        inflate()
         packageHotelResultsPresenter.floatingPill.setToggleState(false)
         packageHotelResultsPresenter.floatingPill.toggleViewButton.performClick()
 
@@ -120,18 +119,41 @@ class PackageHotelResultsPresenterTest {
 
     @Test
     fun testShouldUsePill() {
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
-
+        inflate()
         assertFalse(packageHotelResultsPresenter.shouldUsePill())
+    }
+
+    @Test
+    fun testTrackScrollDepthAndResetScrollTrackingCalledOnDone() {
+        inflate()
+        val mockedPresenter = spy(packageHotelResultsPresenter)
+
+        mockedPresenter.bindSubscriptionsAndAddListeners()
+
+        mockedPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+        mockedPresenter.filterViewModel.doneObservable.onNext(Unit)
+
+        verify(mockedPresenter, atLeastOnce()).trackScrollDepth()
+        assertFalse(packageHotelResultsPresenter.hotelScrollListener.hasUserScrolled())
+    }
+
+    @Test
+    fun testTrackScrollDepthCalledOnHeaderClick() {
+        inflate()
+        val mockedPresenter = spy(packageHotelResultsPresenter)
+
+        mockedPresenter.bindSubscriptionsAndAddListeners()
+
+        mockedPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+        mockedPresenter.pricingHeaderSelectedSubject.onNext(Unit)
+
+        verify(mockedPresenter, atLeastOnce()).trackScrollDepth()
     }
 
     @Test
     fun testShouldUsePillWhenBucketed() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
-
+        inflate()
         assertTrue(packageHotelResultsPresenter.shouldUsePill())
     }
 
@@ -140,8 +162,7 @@ class PackageHotelResultsPresenterTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
         val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
+        inflate()
         packageHotelResultsPresenter.viewModel = PackageHotelResultsViewModel(activity, PackageServicesManager(context, mockPackageServiceRule.services!!))
 
         packageHotelResultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
@@ -154,8 +175,7 @@ class PackageHotelResultsPresenterTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
         val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
+        inflate()
         packageHotelResultsPresenter.viewModel = PackageHotelResultsViewModel(activity, PackageServicesManager(context, mockPackageServiceRule.services!!))
 
         packageHotelResultsPresenter.viewModel.filterResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, true))
@@ -168,8 +188,7 @@ class PackageHotelResultsPresenterTest {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
+        inflate()
         assertTrue(packageHotelResultsPresenter.filterView is PackageHotelServerFilterView)
         packageHotelResultsPresenter.filterView.doneButton.performClick()
         val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Filter.Apply")
@@ -181,11 +200,59 @@ class PackageHotelResultsPresenterTest {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
-        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
-                null) as PackageHotelResultsPresenter
+        inflate()
         assertTrue(packageHotelResultsPresenter.filterView is HotelClientFilterView)
         packageHotelResultsPresenter.filterView.doneButton.performClick()
         val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Filter.Apply")
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testScrollDepthWhenNullHotel() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        inflate()
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+        packageHotelResultsPresenter.trackScrollDepth()
+
+        val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Scroll.SC=n|RS=5|RV=1")
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testScrollDepthWhenNotNullHotel() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        inflate()
+        val hotelSearchResponse = getHotelSearchResponse()
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(hotelSearchResponse)
+        packageHotelResultsPresenter.trackScrollDepth(1)
+
+        val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Scroll.SC=n|RS=5|RV=1|RC=1")
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testPackagesHotelScrollListener() {
+        inflate()
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+
+        packageHotelResultsPresenter.hotelScrollListener.onScrollStateChanged(packageHotelResultsPresenter.recyclerView, RecyclerView.SCROLL_STATE_SETTLING)
+        assertFalse(packageHotelResultsPresenter.hotelScrollListener.hasUserScrolled())
+
+        packageHotelResultsPresenter.hotelScrollListener.onScrollStateChanged(packageHotelResultsPresenter.recyclerView, RecyclerView.SCROLL_STATE_DRAGGING)
+        assertTrue(packageHotelResultsPresenter.hotelScrollListener.hasUserScrolled())
+    }
+
+    private fun inflate() {
+        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
+                null) as PackageHotelResultsPresenter
+    }
+
+    private fun getHotelSearchResponse(): HotelSearchResponse {
+        val bundleSearchResponse = mockPackageServiceRule.getMIDHotelResponse()
+        val hoteSearchResponse = HotelSearchResponse()
+        hoteSearchResponse.hotelList = bundleSearchResponse.getHotels()
+        return hoteSearchResponse
     }
 }

@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
@@ -364,6 +365,10 @@ class PackageOverviewPresenterTest {
 
         val newIntent = Shadows.shadowOf(activity).peekNextStartedActivity()
         val packageHotelActivity = Robolectric.buildActivity(PackageHotelActivity::class.java, newIntent).create().get()
+
+        val hoteSearchResponse = HotelSearchResponse()
+        hoteSearchResponse.hotelList = mockPackageServiceRule.getMIDHotelResponse().getHotels()
+        packageHotelActivity.hotelsPresenter.resultsPresenter.adapter.resultsSubject.onNext(hoteSearchResponse)
 
         packageHotelActivity.onBackPressed()
 

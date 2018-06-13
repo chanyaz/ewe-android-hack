@@ -2,6 +2,8 @@ package com.expedia.bookings.packages.presenter
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -33,6 +35,8 @@ import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+
+    val hotelScrollListener = PackagesHotelScrollListener()
 
     override fun getRecyclerYTranslation(): Float {
         return 0f
@@ -117,9 +121,20 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        bindSubscriptionsAndAddListeners()
+    }
+
+    fun bindSubscriptionsAndAddListeners() {
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterViewModel.priceRangeContainerVisibility.onNext(false)
         filterViewModel.filterCountObservable.subscribe(filterCountObserver)
+        filterViewModel.doneObservable.subscribe {
+            trackScrollDepthAndResetScrollTracking()
+        }
+        pricingHeaderSelectedSubject.subscribe {
+            trackScrollDepth()
+        }
+        recyclerView.addOnScrollListener(hotelScrollListener)
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
@@ -145,6 +160,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun trackMapLoad() {
         PackagesTracking().trackHotelMapLoad()
+        trackScrollDepth()
     }
 
     override fun trackMapToList() {
@@ -190,5 +206,58 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         mapPricePerPersonMessage.visibility = topMessagingVisibility
         mapPriceIncludesTaxesTopMessage.visibility = topMessagingVisibility
         mapPriceIncludesTaxesBottomMessage.visibility = bottomMessagingVisibility
+    }
+
+    private fun trackScrollDepthAndResetScrollTracking() {
+        trackScrollDepth()
+        hotelScrollListener.resetDepthTrackingParams()
+    }
+
+    fun trackScrollDepth(clickDepth: Int = -1) {
+        PackagesTracking().trackPackagesScrollDepth(
+                hotelScrollListener.hasUserScrolled(),
+                (adapter.resultsSubject.value.hotelList.size - 1) / 10 + 1,
+                hotelScrollListener.getMaxDepth(),
+                clickDepth)
+    }
+
+    override fun back(): Boolean {
+        trackScrollDepth()
+        return super.back()
+    }
+
+    inner class PackagesHotelScrollListener : RecyclerView.OnScrollListener() {
+
+        private var maxDepth = 0
+        private var hasUserScrolled = false
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+            if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                hasUserScrolled = true
+
+                val lastItem = (recyclerView?.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() - 1
+                maxDepth = if (maxDepth > lastItem) maxDepth else lastItem
+            }
+        }
+
+        fun resetDepthTrackingParams() {
+            maxDepth = 0
+            hasUserScrolled = false
+        }
+
+        fun getMaxDepth(): Int {
+            return maxDepth / 10 + 1
+        }
+
+        fun hasUserScrolled(): Boolean {
+            return hasUserScrolled
+        }
+
+        fun getClickDepth(index: Int): Int {
+            if (index == -1) return -1
+            return index / 10 + 1
+        }
     }
 }

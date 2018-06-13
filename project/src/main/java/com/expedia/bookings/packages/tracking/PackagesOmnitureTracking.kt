@@ -98,6 +98,7 @@ object PackagesOmnitureTracking : OmnitureTracking() {
     private val PACKAGES_FHC_TAB = "App.Package.DS.FHC.TabClicked"
     private val PACKAGES_DORMANT_REDIRECT = "APP.PACKAGE.DORMANT.HOMEREDIRECT"
     private val PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_LOAD = "App.Package.RD.PriceSummary"
+    private val PACKAGES_HOTEL_SEARCH_RESULTS_SCROLL = "App.Package.Hotels.Search.Scroll."
 
     fun trackPackagesDestinationSearchInit(pageUsableData: PageUsableData) {
         val abTests = ArrayList<ABTest>()
@@ -620,5 +621,9 @@ object PackagesOmnitureTracking : OmnitureTracking() {
 
     fun trackPackagesBundleOverviewCostBreakdownLoad() {
         trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_LOAD, null)
+    }
+
+    fun trackPackagesScrollDepth(scrollDepth: String) {
+        createAndTrackLinkEvent(PACKAGES_HOTEL_SEARCH_RESULTS_SCROLL + scrollDepth, "PackagesScrollDepth")
     }
 }

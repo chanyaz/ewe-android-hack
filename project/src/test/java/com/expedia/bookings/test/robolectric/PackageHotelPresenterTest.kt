@@ -10,12 +10,10 @@ import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
-import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.presenter.PackageHotelPresenter
@@ -141,19 +139,16 @@ class PackageHotelPresenterTest {
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
 
-        val hotel = Hotel()
-        hotel.hotelId = "happy"
-        hotel.packageOfferModel = PackageOfferModel()
-        hotel.packageOfferModel.price = PackageOfferModel.PackagePrice()
-        hotel.packageOfferModel.price.packageTotalPrice = Money("111", "USD")
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
+        widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
 
         widget.bundleSlidingWidget.bundlePriceWidget.setOnClickListener { }
 
-        widget.resultsPresenter.hotelSelectedSubject.onNext(hotel)
+        widget.resultsPresenter.hotelSelectedSubject.onNext(hotelResponse.getHotels()[0])
 
-        assertEquals("happy", Db.sharedInstance.packageParams.latestSelectedOfferInfo.hotelId)
-        assertEquals(hotel.packageOfferModel.price, Db.sharedInstance.packageParams.latestSelectedOfferInfo.productOfferPrice)
-        assertEquals(hotel, widget.selectedPackageHotel)
+        assertEquals(hotelResponse.getHotels()[0].hotelId, Db.sharedInstance.packageParams.latestSelectedOfferInfo.hotelId)
+        assertEquals(Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotelResponse.getHotels()[0].hotelPid), Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID)
+        assertEquals(hotelResponse.getHotels()[0].packageOfferModel.price, Db.sharedInstance.packageParams.latestSelectedOfferInfo.productOfferPrice)
 
         assertEquals(View.VISIBLE, widget.loadingOverlay.visibility)
         assertFalse(widget.bundleSlidingWidget.bundlePriceWidget.hasOnClickListeners())

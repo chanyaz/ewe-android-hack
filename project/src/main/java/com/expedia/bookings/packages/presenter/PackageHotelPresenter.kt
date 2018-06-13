@@ -120,6 +120,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             params.latestSelectedOfferInfo.flightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
             params.latestSelectedOfferInfo.productOfferPrice = hotel.packageOfferModel.price
 
+            val indexClicked = presenter.adapter.resultsSubject.value.hotelList.indexOf(hotel)
+            presenter.trackScrollDepth(presenter.hotelScrollListener.getClickDepth(indexClicked))
+
             PackagesTracking().trackHotelMapCarouselPropertyClick()
             hotelSelectedObserver.onNext(hotel)
         }
