@@ -62,7 +62,7 @@ class LxItinMoreHelpActivity : AppCompatActivity() {
         Ui.getApplication(this).defaultTripComponents()
 
         stringProvider = Ui.getApplication(this).appComponent().stringProvider()
-        val jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
+        val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
         lxRepo = ItinLxRepo(intent.getStringExtra(LX_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
 
         val moreHelpScope = LxItinMoreHelpViewModelScope(stringProvider, lxRepo, this, tripsTracking)

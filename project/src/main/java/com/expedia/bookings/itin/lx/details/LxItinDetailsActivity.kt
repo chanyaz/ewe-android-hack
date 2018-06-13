@@ -48,7 +48,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
 
     val lifecycleObserver: LxItinDetailsActivityLifecycleObserver<LxLifeCycleObserverScope<ItinLx>> by lazy {
         val stringProvider = Ui.getApplication(this).appComponent().stringProvider()
-        val jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
+        val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
         val webViewLauncher: IWebViewLauncher = WebViewLauncher(this)
         val activityLauncher = ActivityLauncher(this)
         val itinId = intent.getStringExtra(LX_ITIN_ID)

@@ -25,7 +25,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     var itineraryManager: ItineraryManagerInterface = ItineraryManager.getInstance()
     private var trackingFired = false
-    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()

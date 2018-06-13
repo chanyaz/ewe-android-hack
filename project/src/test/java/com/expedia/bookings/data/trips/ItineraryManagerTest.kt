@@ -407,6 +407,10 @@ class ItineraryManagerTest {
     }
 
     private class TestTripJsonFileUtils : ITripsJsonFileUtils {
+        override fun readTripsFromFile(): List<String> {
+            return emptyList()
+        }
+
         override fun writeTripToFile(filename: String?, content: String?) {
             return
         }

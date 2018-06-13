@@ -6,13 +6,17 @@ import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.common.TripProducts
+import com.expedia.bookings.itin.tripstore.data.ItinTime
 import com.expedia.bookings.itin.tripstore.extensions.eligibleForRewards
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
+import com.expedia.bookings.itin.tripstore.extensions.getDateTime
 import com.expedia.bookings.itin.tripstore.extensions.isMultiItemCheckout
 import com.expedia.bookings.itin.tripstore.extensions.isPackage
 import com.expedia.bookings.itin.tripstore.extensions.packagePrice
 import com.mobiata.mocke3.mockObject
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -148,6 +152,30 @@ class TripExtensionsTest {
         val multiHotelProducts = multiHotelItin.listOfTripProducts()
         assertTrue(multiHotelProducts.isNotEmpty())
         assertTrue(multiHotelProducts.containsAll(listOf(TripProducts.HOTEL)))
+    }
+
+    @Test
+    fun getDateTimeHappy() {
+        val time = ItinTime(
+                "May 5",
+                "May 5",
+                "May 5",
+                "2017-05-05T20:0:00.000-0000"
+        )
+        assertNotNull(time.getDateTime())
+        assertEquals(DateTime().withZone(DateTimeZone.forOffsetHours(0)).withMonthOfYear(5).withDayOfMonth(5).withYear(2017).withHourOfDay(20)
+                .withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0), time.getDateTime())
+    }
+
+    @Test
+    fun getDateTimeNullRaw() {
+        val time = ItinTime(
+                "May 5",
+                "May 5",
+                "May 5",
+                null
+        )
+        assertNull(time.getDateTime())
     }
 
     private fun makeItinHotel(mockName: String): ItinHotel? {

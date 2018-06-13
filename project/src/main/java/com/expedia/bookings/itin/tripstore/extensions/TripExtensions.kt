@@ -8,6 +8,7 @@ import com.expedia.bookings.itin.tripstore.data.ItinFlight
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.data.ItinRail
+import com.expedia.bookings.itin.tripstore.data.ItinTime
 import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.DateTime
 
@@ -78,6 +79,13 @@ fun Itin.eligibleForRewards(): Boolean {
 
 fun Itin.packagePrice(): String? {
     return packages?.firstOrNull()?.price?.totalFormatted
+}
+
+fun ItinTime.getDateTime(): DateTime? {
+    raw?.let { rawTime ->
+        return DateTime.parse(rawTime)
+    }
+    return null
 }
 
 fun makeListOfTripProducts(productsContainer: HasProducts): List<TripProducts> {

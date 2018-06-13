@@ -74,9 +74,16 @@ class ItinCarRepoTest {
                 return ItinMocker.carDetailsHappyPickupDropOffSame
             }
         }
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
     }
 
     class NullJsonUtil : IJsonToItinUtil {
+        override fun getItinList(): List<Itin> {
+            return emptyList()
+        }
+
         override fun getItin(itinId: String?): Itin? {
             return null
         }

@@ -29,7 +29,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
     val hotelImageView: ImageView by bindView(R.id.hotel_image)
     val hotelNameTextView: TextView by bindView(R.id.hotel_name)
     val actionButtons: ItinActionsSection by bindView(R.id.action_button_layout)
-    val readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    val readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     init {
         View.inflate(context, R.layout.hotel_itin_image_container, this)

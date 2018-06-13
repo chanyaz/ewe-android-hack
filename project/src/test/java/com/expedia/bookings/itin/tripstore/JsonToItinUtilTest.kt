@@ -13,13 +13,14 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class JsonToItinUtilTest {
     private val context: Context = RuntimeEnvironment.application
     private val TEST_FILENAME = "TEST_FILE"
     private val fileUtils = Ui.getApplication(context).appComponent().tripJsonFileUtils()
-    private val jsonUtils = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    private val jsonUtils = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     @Before
     fun setup() {
@@ -65,5 +66,35 @@ class JsonToItinUtilTest {
         fileUtils.writeTripToFile(TEST_FILENAME, mockData)
         val itin = jsonUtils.getItin(TEST_FILENAME)
         assertEquals(mockObject, itin)
+    }
+
+    @Test
+    fun getItinListHappy() {
+        val firstMockData: String = getJsonStringFromMock("api/trips/hotel_trip_details_for_mocker.json", null)
+        val firstMockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")?.itin
+        val secondMockData: String = getJsonStringFromMock("api/trips/car_trip_details_happy.json", null)
+        val secondMockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/car_trip_details_happy.json")?.itin
+        fileUtils.writeTripToFile("Mock1", firstMockData)
+        fileUtils.writeTripToFile("Mock2", secondMockData)
+        val itinList = jsonUtils.getItinList()
+        assertTrue(itinList.contains(firstMockObject))
+        assertTrue(itinList.contains(secondMockObject))
+    }
+
+    @Test
+    fun getItinListOneValidOneInvalid() {
+        val secondMockData: String = getJsonStringFromMock("api/trips/car_trip_details_happy.json", null)
+        val secondMockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/car_trip_details_happy.json")?.itin
+        fileUtils.writeTripToFile("Mock1", "Yo")
+        fileUtils.writeTripToFile("Mock2", secondMockData)
+        val itinList = jsonUtils.getItinList()
+        assertEquals(listOf(secondMockObject), itinList)
+    }
+
+    @Test
+    fun getItinListInvalidItin() {
+        fileUtils.writeTripToFile("Mock1", "Yo")
+        val itinList = jsonUtils.getItinList()
+        assertEquals(emptyList(), itinList)
     }
 }

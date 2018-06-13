@@ -1,0 +1,1026 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "161d83ca-e0d5-4125-8cb5-86cf49f56c88",
+    "webDetailsURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/71159568080?langid=1033",
+    "itineraryReceiptURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/itinerary-receipt?tripid=161d83ca-e0d5-4125-8cb5-86cf49f56c88",
+    "tripNumber": 71159568080,
+    "title": "Los Angeles",
+    "updateTripNameDescPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/161d83ca-e0d5-4125-8cb5-86cf49f56c88/updateTripNameDescription",
+    "startTime": {
+      "raw": "2056-12-08T09:10:00-08:00",
+      "localized": "Dec 8, 2056 9:10:00 AM",
+      "epochSeconds": 2743521000,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "12/8/2056",
+      "localizedMediumDate": "Dec 8",
+      "localizedFullDate": "Fri, Dec 8",
+      "localizedLongDate": "Dec 8, 2056",
+      "localizedShortTime": "9:10am"
+    },
+    "endTime": {
+      "raw": "2056-12-31T19:00:00-08:00",
+      "localized": "Dec 31, 2056 7:00:00 PM",
+      "epochSeconds": 2745543600,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "12/31/2056",
+      "localizedMediumDate": "Dec 31",
+      "localizedFullDate": "Sun, Dec 31",
+      "localizedLongDate": "Dec 31, 2056",
+      "localizedShortTime": "7:00pm"
+    },
+    "tripCreatedTime": {
+      "raw": "2056-11-23T07:44:01Z",
+      "localized": "Nov 23, 2056 7:44:01 AM",
+      "epochSeconds": 2742191041,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 23 Nov",
+      "localizedMediumDate": "Nov 23, 2056",
+      "localizedFullDate": "Thursday, November 23, 2056",
+      "localizedLongDate": "November 23, 2056",
+      "localizedShortTime": "7:44 AM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2056-11-23T10:14:10Z",
+      "localized": "Nov 23, 2056 10:14:10 AM",
+      "epochSeconds": 2742200050,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 23 Nov",
+      "localizedMediumDate": "Nov 23, 2056",
+      "localizedFullDate": "Thursday, November 23, 2056",
+      "localizedLongDate": "November 23, 2056",
+      "localizedShortTime": "10:14 AM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2056-11-23T10:59:28Z",
+      "localized": "Nov 23, 2056 10:59:28 AM",
+      "epochSeconds": 2742202768,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 23 Nov",
+      "localizedMediumDate": "Nov 23, 2056",
+      "localizedFullDate": "Thursday, November 23, 2056",
+      "localizedLongDate": "November 23, 2056",
+      "localizedShortTime": "10:59 AM"
+    },
+    "ownerId": 578012,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/shared/CB6zlTXKQW4NfWrApVPyZ8CAa9t338bk8bIJU9AntYIeH7OhgtLqBbncZVc5xojgymsBkqHvrTrVsUr_3rbLnNr2",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneInfo": [
+        "Call us at 1-800-839-5470",
+        "For faster service, mention <strong>itinerary #71159568080 </strong>"
+      ],
+      "customerSupportPhoneNumberDomestic": "+1-800-839-5470",
+      "customerSupportPhoneNumberInternational": "+1 702-939-2635",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards gold Dedicated Customer Care at 1-866-539-4149 or 1-702-939-2635.",
+        "For faster service, mention <strong>itinerary #71159568080 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "splitTicketDetail": {
+      "splitTicketItemList": [
+        {
+          "itemLabel": "Seattle to Los Angeles",
+          "itemFare": {
+            "subTotal": "118.6",
+            "subTotalFormatted": "$118.60",
+            "expediaDiscount": "-5.33",
+            "expediaDiscountFormatted": "-$5.33",
+            "currency": "USD",
+            "base": "89.3",
+            "baseFormatted": "$89.30",
+            "taxes": "29.3",
+            "taxesFormatted": "$29.30",
+            "total": "113.27",
+            "totalFormatted": "$113.27"
+          }
+        },
+        {
+          "itemLabel": "Los Angeles to Seattle",
+          "itemFare": {
+            "subTotal": "142.6",
+            "subTotalFormatted": "$142.60",
+            "currency": "USD",
+            "base": "111.63",
+            "baseFormatted": "$111.63",
+            "taxes": "30.97",
+            "taxesFormatted": "$30.97",
+            "total": "142.6",
+            "totalFormatted": "$142.60"
+          }
+        },
+        {
+          "itemLabel": "Insurance",
+          "itemFare": {
+            "total": "19.0",
+            "totalFormatted": "$19.00"
+          }
+        }
+      ],
+      "totalCombinedFare": {
+        "subTotal": "280.2",
+        "subTotalFormatted": "$280.20",
+        "total": "274.87",
+        "totalFormatted": "$274.87"
+      },
+      "totalCombinedAirlineCredit": {},
+      "splitTicketDisclaimertext": "All prices include taxes & fees and are quoted in US dollars. Your two one-way fares may be processed through multiple transactions.",
+      "passengerWithFaresList": [
+        {
+          "passengerType": "Adult",
+          "passengerTitle": "Traveler 1: ",
+          "passengerTotalFare": "$261.20",
+          "farePerPassengerList": [
+            {
+              "passengerIndex": 0,
+              "passengerTypeCode": "ADULT",
+              "passengerTypeCodeLocalized": "Adult",
+              "currency": "USD",
+              "base": "89.3",
+              "baseFormatted": "$89.30",
+              "taxes": "29.3",
+              "taxesFormatted": "$29.30",
+              "total": "118.6",
+              "totalFormatted": "$118.60",
+              "fromToAirportCodes": "SEA to LAX",
+              "toAirportCode": "LAX"
+            },
+            {
+              "passengerIndex": 0,
+              "passengerTypeCode": "ADULT",
+              "passengerTypeCodeLocalized": "Adult",
+              "currency": "USD",
+              "base": "111.63",
+              "baseFormatted": "$111.63",
+              "taxes": "30.97",
+              "taxesFormatted": "$30.97",
+              "total": "142.6",
+              "totalFormatted": "$142.60",
+              "fromToAirportCodes": "LAX to SEA",
+              "toAirportCode": "SEA"
+            }
+          ]
+        }
+      ],
+      "destinationArrivalTime": {
+        "raw": "2056-12-08T13:35:00-08:00",
+        "localized": "Dec 8, 2056 1:35:00 PM",
+        "epochSeconds": 2743536900,
+        "timeZoneOffsetSeconds": -28800,
+        "localizedShortDate": "12/8/2056",
+        "localizedMediumDate": "Dec 8",
+        "localizedFullDate": "Fri, Dec 8",
+        "localizedLongDate": "Dec 8, 2056",
+        "localizedShortTime": "1:35pm"
+      },
+      "destinationDepartureTime": {
+        "raw": "2056-12-31T14:05:00-08:00",
+        "localized": "Dec 31, 2056 2:05:00 PM",
+        "epochSeconds": 2745525900,
+        "timeZoneOffsetSeconds": -28800,
+        "localizedShortDate": "12/31/2056",
+        "localizedMediumDate": "Dec 31",
+        "localizedFullDate": "Sun, Dec 31",
+        "localizedLongDate": "Dec 31, 2056",
+        "localizedShortTime": "2:05pm"
+      }
+    },
+    "flights": [
+      {
+        "uniqueID": "DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+        "startTime": {
+          "raw": "2056-12-08T09:10:00-08:00",
+          "localized": "Dec 8, 2056 9:10:00 AM",
+          "epochSeconds": 2743521000,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "12/8/2056",
+          "localizedMediumDate": "Dec 8",
+          "localizedFullDate": "Fri, Dec 8",
+          "localizedLongDate": "Dec 8, 2056",
+          "localizedShortTime": "9:10am"
+        },
+        "endTime": {
+          "raw": "2056-12-08T13:35:00-08:00",
+          "localized": "Dec 8, 2056 1:35:00 PM",
+          "epochSeconds": 2743536900,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "12/8/2056",
+          "localizedMediumDate": "Dec 8",
+          "localizedFullDate": "Fri, Dec 8",
+          "localizedLongDate": "Dec 8, 2056",
+          "localizedShortTime": "1:35pm"
+        },
+        "ticketingStatus": "COMPLETE",
+        "orderNumber": "8079294991516",
+        "webCancelPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/flight-cancel-exchange?tripnumber=71159568080&arl=100139781&bookingid=WQMUGX&userToken=5Og7uo11-h2WotyAs6uFXECFdBfYYlW6flFyQD5TSx2palYircjQoJS0xIn3JpukzvXtjtHoayxwIryHlAgMpzY3my7_PGXPL_laClKIji-vsfs7tCzUl-4",
+        "updateFrequentFlyerPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/161d83ca-e0d5-4125-8cb5-86cf49f56c88/updateFrequentFlyerInformation",
+        "orderLineNumber": "426489df-eae8-4390-a530-9a9c8b0281be",
+        "confirmationNumbers": [
+          {
+            "airlineName": "UNITED",
+            "number": "OSSVZ6"
+          }
+        ],
+        "paymentModel": "MERCHANT",
+        "fareType": "PUBLISHED",
+        "flightType": "ONE_WAY",
+        "isInternational": false,
+        "fareTotal": {
+          "subTotal": "118.6",
+          "subTotalFormatted": "$118.60",
+          "expediaDiscount": "-5.33",
+          "expediaDiscountFormatted": "-$5.33",
+          "currency": "USD",
+          "base": "89.3",
+          "baseFormatted": "$89.30",
+          "taxes": "29.3",
+          "taxesFormatted": "$29.30",
+          "total": "113.27",
+          "totalFormatted": "$113.27"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "89.3",
+            "baseFormatted": "$89.30",
+            "taxes": "29.3",
+            "taxesFormatted": "$29.30",
+            "fees": [
+              {
+                "localizedName": "Passenger Facility Charge",
+                "amount": "9.0",
+                "amountFormatted": "$9.00",
+                "code": "XF"
+              },
+              {
+                "localizedName": "Flight Segment Tax",
+                "amount": "8.0",
+                "amountFormatted": "$8.00",
+                "code": "ZP"
+              },
+              {
+                "localizedName": "Transportation Tax",
+                "amount": "6.7",
+                "amountFormatted": "$6.70",
+                "code": "US"
+              },
+              {
+                "localizedName": "Passenger Civil Aviation Security Service Fee",
+                "amount": "5.6",
+                "amountFormatted": "$5.60",
+                "code": "AY"
+              }
+            ],
+            "total": "118.6",
+            "totalFormatted": "$118.60",
+            "fromToAirportCodes": "SEA to LAX",
+            "toAirportCode": "LAX"
+          }
+        ],
+        "isSplitTicket": true,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "firstName": "Sakshi",
+            "lastName": "Vijay",
+            "fullName": "Sakshi Vijay",
+            "age": 29,
+            "gender": "Female",
+            "dateOfBirth": "1987-2-2",
+            "TSARedressNumber": "",
+            "TSAKnownTravelerNumber": "",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "919818541806"
+              }
+            ],
+            "ticketNumbers": [
+              "0167867054155"
+            ],
+            "frequentFlyerPlans": [],
+            "seats": [],
+            "seatPreferenceCode": "Z"
+          }
+        ],
+        "brandedFareFamilyName": "",
+        "legs": [
+          {
+            "type": "ONESTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 1,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 47.45475,
+                  "longitude": -122.30112,
+                  "name": "Seattle - Tacoma Intl.",
+                  "longName": "Seattle, WA (SEA-Seattle - Tacoma Intl.)",
+                  "airportCode": "SEA",
+                  "city": "Seattle",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " WA"
+                },
+                "departureTime": {
+                  "raw": "2056-12-08T09:10:00-08:00",
+                  "localized": "Dec 8, 2056 9:10:00 AM",
+                  "epochSeconds": 2743521000,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/8/2056",
+                  "localizedMediumDate": "Dec 8",
+                  "localizedFullDate": "Fri, Dec 8",
+                  "localizedLongDate": "Dec 8, 2056",
+                  "localizedShortTime": "9:10am"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "airportMetroCode": "QSF",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA"
+                },
+                "arrivalTime": {
+                  "raw": "2056-12-08T11:34:00-08:00",
+                  "localized": "Dec 8, 2056 11:34:00 AM",
+                  "epochSeconds": 2743529640,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/8/2056",
+                  "localizedMediumDate": "Dec 8",
+                  "localizedFullDate": "Fri, Dec 8",
+                  "localizedLongDate": "Dec 8, 2056",
+                  "localizedShortTime": "11:34am"
+                },
+                "arrivalTerminal": "3",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "UNITED",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "UNITED",
+                "confirmationNUmber": "OSSVZ6",
+                "flightNumber": "698",
+                "equipmentCode": "319",
+                "equipmentDescription": "Airbus A319",
+                "layoverDuration": "PT31M",
+                "formattedLayoverDuration": "31m",
+                "distance": 679,
+                "distanceUnits": "mi",
+                "duration": "PT2H24M",
+                "formattedDuration": "2h 24m",
+                "bookingCode": "K",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_0_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              },
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "airportMetroCode": "QSF",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA"
+                },
+                "departureTime": {
+                  "raw": "2056-12-08T12:05:00-08:00",
+                  "localized": "Dec 8, 2056 12:05:00 PM",
+                  "epochSeconds": 2743531500,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/8/2056",
+                  "localizedMediumDate": "Dec 8",
+                  "localizedFullDate": "Fri, Dec 8",
+                  "localizedLongDate": "Dec 8, 2056",
+                  "localizedShortTime": "12:05pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 33.94415,
+                  "longitude": -118.4032,
+                  "name": "Los Angeles Intl.",
+                  "longName": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+                  "airportCode": "LAX",
+                  "airportMetroCode": "QLA",
+                  "city": "Los Angeles",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA"
+                },
+                "arrivalTime": {
+                  "raw": "2056-12-08T13:35:00-08:00",
+                  "localized": "Dec 8, 2056 1:35:00 PM",
+                  "epochSeconds": 2743536900,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/8/2056",
+                  "localizedMediumDate": "Dec 8",
+                  "localizedFullDate": "Fri, Dec 8",
+                  "localizedLongDate": "Dec 8, 2056",
+                  "localizedShortTime": "1:35pm"
+                },
+                "departureTerminal": "3",
+                "arrivalTerminal": "7",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "UNITED",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "UNITED",
+                "confirmationNUmber": "OSSVZ6",
+                "flightNumber": "427",
+                "equipmentCode": "320",
+                "equipmentDescription": "Airbus A320",
+                "formattedLayoverDuration": "",
+                "distance": 339,
+                "distanceUnits": "mi",
+                "duration": "PT1H30M",
+                "formattedDuration": "1h 30m",
+                "bookingCode": "K",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_0_L1_S2_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/shared/s1gMceecdEHPKA3FFT4J_8CAHdDnIjn7HhkiZJatOpMt4ItmNKoKcT3n-IDOt_FosB2tlekRN5EPrBPAbPP915vx_TOePAUzbmE1PD_BAu7cvVO8sMgVpRBj-46bw8u4u-Odo294tFtjgQ6PlotrBIGH",
+            "duration": "PT4H25M",
+            "formattedDuration": "4h 25m",
+            "departingAirport": {
+              "code": "SEA",
+              "name": "Seattle (SEA)",
+              "city": "Seattle",
+              "latitude": 47.45475,
+              "longitude": -122.30112,
+              "longName": "Seattle, WA (SEA-Seattle - Tacoma Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 4277587,
+              "localName": "Seattle - Tacoma Intl.",
+              "airportCityCode": "Seattle, WA (SEA)",
+              "airportStateCode": " WA"
+            },
+            "arrivalAirport": {
+              "code": "LAX",
+              "name": "Los Angeles (LAX)",
+              "city": "Los Angeles",
+              "metroCode": "QLA",
+              "latitude": 33.94415,
+              "longitude": -118.4032,
+              "longName": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5783884,
+              "localName": "Los Angeles Intl.",
+              "airportCityCode": "Los Angeles, CA (LAX)",
+              "airportStateCode": " CA"
+            },
+            "legDepartureTime": {
+              "raw": "2056-12-08T09:10:00-08:00",
+              "localized": "Dec 8, 2056 9:10:00 AM",
+              "epochSeconds": 2743521000,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/8/2056",
+              "localizedMediumDate": "Dec 8",
+              "localizedFullDate": "Fri, Dec 8",
+              "localizedLongDate": "Dec 8, 2056",
+              "localizedShortTime": "9:10am"
+            },
+            "legArrivaltime": {
+              "raw": "2056-12-08T13:35:00-08:00",
+              "localized": "Dec 8, 2056 1:35:00 PM",
+              "epochSeconds": 2743536900,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/8/2056",
+              "localizedMediumDate": "Dec 8",
+              "localizedFullDate": "Fri, Dec 8",
+              "localizedLongDate": "Dec 8, 2056",
+              "localizedShortTime": "1:35pm"
+            },
+            "fareBasisCode": "KAA0AZES"
+          }
+        ],
+        "sharableItemDetailURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/shared/ibDHXPghDWkXOVEUn_S4JsCAqwJq8N5ipC7yI66HJh7B3sNYpciTsZcO-e6mKIDkmZrKovwJ4WGpHdWjrpVlrt4FPxLbaJqnSYz5UzKMN7X8XPQx8pQjBWxje2z8V1LO6A8U056zTeiNyzeEitl9ukYn",
+        "airRecordLocator": "100139781",
+        "isSeatMapAvailable": true,
+        "ticketingTime": {
+          "raw": "2056-11-22T23:52:00-08:00",
+          "localized": "Nov 22, 2056 11:52:00 PM",
+          "epochSeconds": 2742191520,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "Wed, 22 Nov",
+          "localizedMediumDate": "Nov 22, 2056",
+          "localizedFullDate": "Wednesday, November 22, 2056",
+          "localizedLongDate": "November 22, 2056",
+          "localizedShortTime": "11:52 PM"
+        },
+        "webChangePathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/flight-change-gds?tripnumber=71159568080&arl=100139781&cname=UNITED&userToken=FO0FDFip_SuMglNVQxoY1vI6iGi6h3N5p_sA-XePCRVWo1MG5UzXc7rUNAOngz1SRC_O1vrN4zrjvruQw-i_obdT699UDgrewh6nkgMHX3typ-TYMQ2Ss5E",
+        "bookingProvider": "SABRE",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "UNITED"
+        ],
+        "isLccOrCharter": false,
+        "airlineManageBookingURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/manage?airlineCode=UA&firstName=Sakshi&lastName=Vijay&confirmation=OSSVZ6&departureAirport=SEA&flightNumber=698&email=c3B0ZXN0QGV4cGVkaWEuY29t&ticketNumber=0167867054155&flightDay=8&flightMonth=12",
+        "airlineCheckInURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=UA&firstName=Sakshi&lastName=Vijay&confirmation=OSSVZ6&departureAirport=SEA&flightNumber=698&email=c3B0ZXN0QGV4cGVkaWEuY29t&ticketNumber=0167867054155&flightDay=8&flightMonth=12",
+        "destinationRegionId": 6000479,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      },
+      {
+        "uniqueID": "DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_1",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+        "startTime": {
+          "raw": "2056-12-31T14:05:00-08:00",
+          "localized": "Dec 31, 2056 2:05:00 PM",
+          "epochSeconds": 2745525900,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "12/31/2056",
+          "localizedMediumDate": "Dec 31",
+          "localizedFullDate": "Sun, Dec 31",
+          "localizedLongDate": "Dec 31, 2056",
+          "localizedShortTime": "2:05pm"
+        },
+        "endTime": {
+          "raw": "2056-12-31T19:00:00-08:00",
+          "localized": "Dec 31, 2056 7:00:00 PM",
+          "epochSeconds": 2745543600,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "12/31/2056",
+          "localizedMediumDate": "Dec 31",
+          "localizedFullDate": "Sun, Dec 31",
+          "localizedLongDate": "Dec 31, 2056",
+          "localizedShortTime": "7:00pm"
+        },
+        "ticketingStatus": "COMPLETE",
+        "orderNumber": "8079294991516",
+        "webCancelPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/flight-cancel-exchange?tripnumber=71159568080&arl=100139780&bookingid=WQMUXW&userToken=xuGWcBY58wclfJpiKJhPGl9pxsK9cYFePzzrqAJoo3IImh2Nw_pQl0EWv3t_OCee9eAwPKejjXNiAdfZD4UNeZkNifFmq3bBjs9YU0TGOGZr899UPz7hv8U",
+        "updateFrequentFlyerPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/161d83ca-e0d5-4125-8cb5-86cf49f56c88/updateFrequentFlyerInformation",
+        "orderLineNumber": "5bb61389-b091-4bd6-8abd-02a9d258398d",
+        "confirmationNumbers": [
+          {
+            "airlineName": "Virgin America",
+            "number": "NRMSJL"
+          }
+        ],
+        "paymentModel": "MERCHANT",
+        "fareType": "PUBLISHED",
+        "flightType": "ONE_WAY",
+        "isInternational": false,
+        "fareTotal": {
+          "subTotal": "142.6",
+          "subTotalFormatted": "$142.60",
+          "currency": "USD",
+          "base": "111.63",
+          "baseFormatted": "$111.63",
+          "taxes": "30.97",
+          "taxesFormatted": "$30.97",
+          "total": "142.6",
+          "totalFormatted": "$142.60"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "111.63",
+            "baseFormatted": "$111.63",
+            "taxes": "30.97",
+            "taxesFormatted": "$30.97",
+            "total": "142.6",
+            "totalFormatted": "$142.60",
+            "fromToAirportCodes": "LAX to SEA",
+            "toAirportCode": "SEA"
+          }
+        ],
+        "isSplitTicket": true,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "firstName": "Sakshi",
+            "lastName": "Vijay",
+            "fullName": "Sakshi Vijay",
+            "age": 29,
+            "gender": "Female",
+            "dateOfBirth": "1987-2-2",
+            "TSARedressNumber": "",
+            "TSAKnownTravelerNumber": "",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "919818541806"
+              }
+            ],
+            "ticketNumbers": [
+              "9847867054649"
+            ],
+            "frequentFlyerPlans": [],
+            "seats": [],
+            "seatPreferenceCode": "Z"
+          }
+        ],
+        "brandedFareFamilyName": "",
+        "legs": [
+          {
+            "type": "ONESTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 1,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 33.94415,
+                  "longitude": -118.4032,
+                  "name": "Los Angeles Intl.",
+                  "longName": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+                  "airportCode": "LAX",
+                  "airportMetroCode": "QLA",
+                  "city": "Los Angeles",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA"
+                },
+                "departureTime": {
+                  "raw": "2056-12-31T14:05:00-08:00",
+                  "localized": "Dec 31, 2056 2:05:00 PM",
+                  "epochSeconds": 2745525900,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/31/2056",
+                  "localizedMediumDate": "Dec 31",
+                  "localizedFullDate": "Sun, Dec 31",
+                  "localizedLongDate": "Dec 31, 2056",
+                  "localizedShortTime": "2:05pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "airportMetroCode": "QSF",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA"
+                },
+                "arrivalTime": {
+                  "raw": "2056-12-31T15:20:00-08:00",
+                  "localized": "Dec 31, 2056 3:20:00 PM",
+                  "epochSeconds": 2745530400,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/31/2056",
+                  "localizedMediumDate": "Dec 31",
+                  "localizedFullDate": "Sun, Dec 31",
+                  "localizedLongDate": "Dec 31, 2056",
+                  "localizedShortTime": "3:20pm"
+                },
+                "departureTerminal": "3",
+                "arrivalTerminal": "2",
+                "airlineCode": "VX",
+                "externalAirlineCode": "VX",
+                "airlineName": "Virgin America",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "Virgin America",
+                "confirmationNUmber": "NRMSJL",
+                "flightNumber": "929",
+                "equipmentCode": "320",
+                "equipmentDescription": "Airbus A320",
+                "layoverDuration": "PT1H35M",
+                "formattedLayoverDuration": "1h 35m",
+                "distance": 339,
+                "distanceUnits": "mi",
+                "duration": "PT1H15M",
+                "formattedDuration": "1h 15m",
+                "bookingCode": "S",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_1_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              },
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "airportMetroCode": "QSF",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA"
+                },
+                "departureTime": {
+                  "raw": "2056-12-31T16:55:00-08:00",
+                  "localized": "Dec 31, 2056 4:55:00 PM",
+                  "epochSeconds": 2745536100,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/31/2056",
+                  "localizedMediumDate": "Dec 31",
+                  "localizedFullDate": "Sun, Dec 31",
+                  "localizedLongDate": "Dec 31, 2056",
+                  "localizedShortTime": "4:55pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 47.45475,
+                  "longitude": -122.30112,
+                  "name": "Seattle - Tacoma Intl.",
+                  "longName": "Seattle, WA (SEA-Seattle - Tacoma Intl.)",
+                  "airportCode": "SEA",
+                  "city": "Seattle",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " WA"
+                },
+                "arrivalTime": {
+                  "raw": "2056-12-31T19:00:00-08:00",
+                  "localized": "Dec 31, 2056 7:00:00 PM",
+                  "epochSeconds": 2745543600,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/31/2056",
+                  "localizedMediumDate": "Dec 31",
+                  "localizedFullDate": "Sun, Dec 31",
+                  "localizedLongDate": "Dec 31, 2056",
+                  "localizedShortTime": "7:00pm"
+                },
+                "departureTerminal": "2",
+                "airlineCode": "VX",
+                "externalAirlineCode": "VX",
+                "airlineName": "Virgin America",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "Virgin America",
+                "confirmationNUmber": "NRMSJL",
+                "flightNumber": "746",
+                "equipmentCode": "319",
+                "equipmentDescription": "Airbus A319",
+                "formattedLayoverDuration": "",
+                "distance": 679,
+                "distanceUnits": "mi",
+                "duration": "PT2H5M",
+                "formattedDuration": "2h 5m",
+                "bookingCode": "S",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_1_L1_S2_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/shared/pP1IIEEKXw0VFtep7mdseMCArZBHpTQdBDle-KTAfGd6FAceWd4-fnE4y6RFPKovbrq5oFo4HvmHjIZxTuVdV2GkfA_r9Ifun5pjcjaJb6NrL_Forh_qgbrezcFHu_kFGucsugepsy8aqSOE_MsFm2sw",
+            "duration": "PT4H55M",
+            "formattedDuration": "4h 55m",
+            "departingAirport": {
+              "code": "LAX",
+              "name": "Los Angeles (LAX)",
+              "city": "Los Angeles",
+              "metroCode": "QLA",
+              "latitude": 33.94415,
+              "longitude": -118.4032,
+              "longName": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5783884,
+              "localName": "Los Angeles Intl.",
+              "airportCityCode": "Los Angeles, CA (LAX)",
+              "airportStateCode": " CA"
+            },
+            "arrivalAirport": {
+              "code": "SEA",
+              "name": "Seattle (SEA)",
+              "city": "Seattle",
+              "latitude": 47.45475,
+              "longitude": -122.30112,
+              "longName": "Seattle, WA (SEA-Seattle - Tacoma Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 4277587,
+              "localName": "Seattle - Tacoma Intl.",
+              "airportCityCode": "Seattle, WA (SEA)",
+              "airportStateCode": " WA"
+            },
+            "legDepartureTime": {
+              "raw": "2056-12-31T14:05:00-08:00",
+              "localized": "Dec 31, 2056 2:05:00 PM",
+              "epochSeconds": 2745525900,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/31/2056",
+              "localizedMediumDate": "Dec 31",
+              "localizedFullDate": "Sun, Dec 31",
+              "localizedLongDate": "Dec 31, 2056",
+              "localizedShortTime": "2:05pm"
+            },
+            "legArrivaltime": {
+              "raw": "2056-12-31T19:00:00-08:00",
+              "localized": "Dec 31, 2056 7:00:00 PM",
+              "epochSeconds": 2745543600,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/31/2056",
+              "localizedMediumDate": "Dec 31",
+              "localizedFullDate": "Sun, Dec 31",
+              "localizedLongDate": "Dec 31, 2056",
+              "localizedShortTime": "7:00pm"
+            },
+            "fareBasisCode": "S7NR"
+          }
+        ],
+        "rules": {
+          "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+          "refundabilityText": "Tickets are nonrefundable and nontransferable.",
+          "refundableStatus": "NonRefundable",
+          "changePenaltyText": "A change fee of $100.00 per ticket is charged by the airline for all itinerary changes.",
+          "completePenaltyRules": {
+            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=161d83ca-e0d5-4125-8cb5-86cf49f56c88",
+            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=161d83ca-e0d5-4125-8cb5-86cf49f56c88\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">(Opens in a new window.)</span></a> applicable to this fare.",
+            "apiURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/71159568080/items/DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_1/gdsFareRulesText?useCache=true"
+          },
+          "insuranceTerms": {
+            "text": "View the complete terms and the condition of the description of coverage.",
+            "url": "http://aontravelprotect.net/exc/cancellation_plan.html",
+            "textAndURL": "View the complete terms and conditions in the <a href=\"http://aontravelprotect.net/exc/cancellation_plan.html\"  target=\"_blank\">Description of Coverage.<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">(Opens in a new window.)</span></a>."
+          },
+          "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Flights-BagFees?originapt=LAX&destinationapt=SEA&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=S7NR&bookingclass=S&travelDate=2057-12-31&flightNumber=929",
+            "textAndURL": "The airline may charge <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Flights-BagFees?originapt=LAX&destinationapt=SEA&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=S7NR&bookingclass=S&travelDate=2057-12-31&flightNumber=929\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">(Opens in a new window.)</span></a> for checked baggage or other optional services."
+          },
+          "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">(Opens in a new window.)</span></a>."
+          },
+          "splitTicketingMessage": "Your itinerary consists of two one-way fares which are subject to their own rules and restrictions. If one of your flights is changed or cancelled, it will not automatically change the other flight. You may incur a penalty fee for each flight for additional itinerary changes.",
+          "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+          "railFeederMessages": [],
+          "expediaChangeFeeChargeable": false,
+          "hasElectronicsBannedMessage": false
+        },
+        "sharableItemDetailURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/shared/JwCmfxHqnoNxBwQF7DFHqcCAAG06oSUPyG4iH56__qPtxd1frFHGRJenfnSwYq7oKIowI6XaFNeXpcb5bDd4QFlcEsmm-q5FlemT8rPWSSBX3y74jxtYcGlz2EX_Qa2OdTlK-Z1ANcx02bGXb6245O9w",
+        "airRecordLocator": "100139780",
+        "isSeatMapAvailable": true,
+        "ticketingTime": {
+          "raw": "2056-11-22T23:52:00-08:00",
+          "localized": "Nov 22, 2056 11:52:00 PM",
+          "epochSeconds": 2742191520,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "Wed, 22 Nov",
+          "localizedMediumDate": "Nov 22, 2056",
+          "localizedFullDate": "Wednesday, November 22, 2056",
+          "localizedLongDate": "November 22, 2056",
+          "localizedShortTime": "11:52 PM"
+        },
+        "webChangePathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/flight-change-gds?tripnumber=71159568080&arl=100139780&cname=Virgin+America&userToken=ECzgLl93XAbRuv6lw_y0oa55FTgPugqISqQKB2oav0u4Z5WB8eB8L25-wMDwRDplnR3GHSjNAsRPQykBVd03BLLIdKLiD5_Dc1HB_LhbmVxTnZ9X-hvQM_k",
+        "bookingProvider": "SABRE",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "Virgin America"
+        ],
+        "isLccOrCharter": false,
+        "destinationRegionId": 6000479,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      }
+    ],
+    "insurance": [
+      {
+        "uniqueID": "2A0655EB-DE02-4606-82AC-B2BF01B1EF5E",
+        "policyID": "",
+        "insuredItemUniqueID": "DBAEA291-F57C-4D1A-A716-C321DEA8E8DB_1",
+        "name": "Expedia Flight Protection: Basic (Domestic 48)",
+        "displayName": "Travel Protection - Cancellation Plan",
+        "lineOfBusiness": "Air",
+        "bookingStatus": "BOOKED",
+        "orderNumber": "8079294991516",
+        "orderLineNumber": "7438d14a-0d94-460f-a795-31c4c5dcc078",
+        "termsURL": "http://aontravelprotect.net/exc/cancellation_plan.html",
+        "claimsURL": "http://www.aontripclaim.com",
+        "webCancelPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/cancelInsuranceBooking/161d83ca-e0d5-4125-8cb5-86cf49f56c88",
+        "coverageQuoteTime": {
+          "raw": "2056-11-23T02:59:24-08:00",
+          "localized": "Nov 23, 2056 2:59:24 AM",
+          "epochSeconds": 2742202764,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "Thu, 23 Nov",
+          "localizedMediumDate": "Nov 23, 2056",
+          "localizedFullDate": "Thursday, November 23, 2056",
+          "localizedLongDate": "November 23, 2056",
+          "localizedShortTime": "2:59 AM"
+        },
+        "coverageStartTime": {
+          "raw": "2056-12-08T09:10:00-08:00",
+          "localized": "Dec 8, 2056 9:10:00 AM",
+          "epochSeconds": 2743521000,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "12/8/2056",
+          "localizedMediumDate": "Dec 8",
+          "localizedFullDate": "Fri, Dec 8",
+          "localizedLongDate": "Dec 8, 2056",
+          "localizedShortTime": "9:10am"
+        },
+        "coverageEndTime": {
+          "raw": "2056-12-31T19:00:00-08:00",
+          "localized": "Dec 31, 2056 7:00:00 PM",
+          "epochSeconds": 2745543600,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "12/31/2056",
+          "localizedMediumDate": "Dec 31",
+          "localizedFullDate": "Sun, Dec 31",
+          "localizedLongDate": "Dec 31, 2056",
+          "localizedShortTime": "7:00pm"
+        },
+        "productCoverage": "Cancellation",
+        "customerSupportPhone": "877-718-4651",
+        "medicalTaxPercentage": 0,
+        "medicalCoveragePremiumPercentage": 0,
+        "insuranceTax": 0.0000,
+        "currencySymbol": "$",
+        "proofOfCoverageURL": "",
+        "price": {
+          "currency": "USD",
+          "base": "19.0",
+          "baseFormatted": "$19.00",
+          "total": "19.0",
+          "totalFormatted": "$19.00"
+        },
+        "insuranceTypeId": 100001,
+        "totalInsurancePremium": 19.00,
+        "travellerCount": 1
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "274.87",
+      "totalFormatted": "$274.87",
+      "totalWithoutInsurance": "255.87",
+      "totalWithoutInsuranceFormatted": "$255.87"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false,
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Gold"
+  }
+}

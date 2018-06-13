@@ -26,7 +26,7 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
     val itineraryNumberTextView: TextView by bindView(R.id.itinerary_number)
     val callSupportActionButton: TextView by bindView(R.id.call_support_action_button)
     val customerSupportSiteButton: TextView by bindView(R.id.expedia_customer_support_site_button)
-    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).appComponent().jsonUtilProvider()
 
     init {
         View.inflate(context, R.layout.widget_itin_customer_support, this)
