@@ -7,12 +7,12 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
-import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
+import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
@@ -49,37 +49,19 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
 
         adapter.create(FlightApi::class.java)
     }
-    var searchRequestSubscription: Disposable? = null
     var createTripRequestSubscription: Disposable? = null
-    var greedySearchRequestSubscription: Disposable? = null
     var checkoutRequestSubscription: Disposable? = null
 
     // open so we can use Mockito to mock FlightServices
-    open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
-        searchRequestSubscription?.dispose()
-        searchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.NORMAL)
-        return searchRequestSubscription as Disposable
-    }
-
-    open fun greedyFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                                resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
-        greedySearchRequestSubscription?.dispose()
-        greedySearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.GREEDY)
-        return greedySearchRequestSubscription as Disposable
-    }
-
-    private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null, searchType: FlightSearchType): Disposable {
+    open fun flightSearch(params: FlightSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<FlightSearchResponse> {
         return flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass, params.legNo,
                 params.selectedOutboundLegId, params.showRefundableFlight, params.nonStopFlight, params.featureOverride, params.maxOfferCount)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }
                 .doOnNext { response ->
-                    response.searchType = searchType
                     processSearchResponse(response)
                 }
-                .subscribeObserver(observer)
     }
 
     protected fun processSearchResponse(response: FlightSearchResponse) {

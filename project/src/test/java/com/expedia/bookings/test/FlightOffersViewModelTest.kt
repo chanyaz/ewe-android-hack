@@ -2,45 +2,40 @@ package com.expedia.bookings.test
 
 import android.content.DialogInterface
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.data.flights.RichContent
+import com.expedia.bookings.data.flights.FlightSearchResponse
+import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.mobiata.mocke3.FlightDispatcherUtils
-import io.reactivex.Observer
+import io.reactivex.Observable
 import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
 import java.io.File
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -53,29 +48,37 @@ class FlightOffersViewModelTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
+    var serviceRule = MockFlightServiceTestRule()
+        @Rule get
+
     private lateinit var flightServices: FlightServices
     private lateinit var sut: FlightOffersViewModel
     private lateinit var flightSearchParams: FlightSearchParams
+    private lateinit var flightServicesManager: FlightServicesManager
 
     private val context = RuntimeEnvironment.application
 
     @Before
     fun setup() {
-        setupFlightServices()
+        flightServices = serviceRule.services!!
         Ui.getApplication(context).defaultTravelerComponent()
-        flightSearchParams = giveSearchParams(false).build()
-        sut = FlightOffersViewModel(context, flightServices)
+        flightSearchParams = serviceRule.flightSearchParams(false)
+        flightServicesManager = FlightServicesManager(flightServices)
+        sut = FlightOffersViewModel(context, flightServicesManager)
     }
 
     @Test
     fun testNetworkErrorDialogCancel() {
-        val testSubscriber = TestObserver<Unit>()
+        val noNetworkTestSubscriber = TestObserver<Unit>()
+        val errorHandlerTestSubscriber = TestObserver<Pair<FlightSearchType, ApiError>>()
         val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
         givenFlightSearchThrowsIOException()
-        sut = FlightOffersViewModel(context, flightServices)
-        sut.noNetworkObservable.subscribe(testSubscriber)
+        sut = FlightOffersViewModel(context, flightServicesManager)
+        sut.noNetworkObservable.subscribe(noNetworkTestSubscriber)
+        sut.errorResponseHandler.subscribe(errorHandlerTestSubscriber)
 
-        sut.searchParamsObservable.onNext(flightSearchParams)
+        sut.searchParamsObservable.onNext(serviceRule.flightSearchParams(false, "malformed"))
+
         val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
         val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
         val cancelBtn = noInternetDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
@@ -83,7 +86,11 @@ class FlightOffersViewModelTest {
 
         assertEquals("", shadowOfNoInternetDialog.title)
         assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
-        testSubscriber.assertValueCount(1)
+        noNetworkTestSubscriber.assertValueCount(1)
+
+        errorHandlerTestSubscriber.assertValueCount(1)
+        assertEquals(FlightSearchType.NORMAL, errorHandlerTestSubscriber.values()[0].first)
+        assertEquals(ApiError.Code.NO_INTERNET, errorHandlerTestSubscriber.values()[0].second.errorCode)
     }
 
     @Test
@@ -106,8 +113,8 @@ class FlightOffersViewModelTest {
     fun testNetworkErrorDialogRetry() {
         val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
         givenFlightSearchThrowsIOException()
-        sut = FlightOffersViewModel(context, flightServices)
-        sut.searchParamsObservable.onNext(flightSearchParams)
+        sut = FlightOffersViewModel(context, flightServicesManager)
+        sut.searchParamsObservable.onNext(serviceRule.flightSearchParams(false, "malformed"))
         val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
         val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
         val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
@@ -121,14 +128,20 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testGoodSearchResponse() {
-        val testSubscriber = TestObserver<List<FlightLeg>>()
+        val responseTestSubscriber = TestObserver<List<FlightLeg>>()
+        val successHandlerTestSubscriber = TestObserver<Pair<FlightSearchType, FlightSearchResponse>>()
 
-        sut.outboundResultsObservable.subscribe(testSubscriber)
+        sut.outboundResultsObservable.subscribe(responseTestSubscriber)
+        sut.successResponseHandler.subscribe(successHandlerTestSubscriber)
         performFlightSearch(false)
 
-        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
-        testSubscriber.assertValueCount(1)
-        assertNotNull(testSubscriber.values()[0])
+        responseTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        responseTestSubscriber.assertValueCount(1)
+        assertNotNull(responseTestSubscriber.values()[0])
+
+        successHandlerTestSubscriber.assertValueCount(1)
+        assertEquals(FlightSearchType.NORMAL, successHandlerTestSubscriber.values()[0].first)
+        assertEquals("leg0", successHandlerTestSubscriber.values()[0].second.legs.get(0).legId)
     }
 
     @Test
@@ -136,14 +149,14 @@ class FlightOffersViewModelTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
         val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
         givenFlightSearchThrowsIOException()
-        sut = FlightOffersViewModel(context, flightServices)
-        sut.greedyFlightSearchObservable.onNext(flightSearchParams)
+        sut = FlightOffersViewModel(context, flightServicesManager)
+        sut.greedyFlightSearchObservable.onNext(serviceRule.flightSearchParams(false, "malformed"))
         //Error Dialog Box should not appear till search button is clicked
         assertTrue(sut.isGreedyCallAborted)
         assertEquals(1, (flightServices as TestFlightServiceSearchThrowsException).searchCount)
 
         //Error Dialog Box should appear till search button is clicked
-        sut.searchParamsObservable.onNext(flightSearchParams)
+        sut.searchParamsObservable.onNext(serviceRule.flightSearchParams(false, "malformed"))
         val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
         val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
         val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
@@ -159,7 +172,7 @@ class FlightOffersViewModelTest {
     fun testNoSearchCallIfGreedyIsNotAborted () {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
         val testSubscriber = TestObserver<List<FlightLeg>>()
-        sut = FlightOffersViewModel(context, flightServices)
+        sut = FlightOffersViewModel(context, flightServicesManager)
         sut.outboundResultsObservable.subscribe(testSubscriber)
         performFlightSearch(false)
 
@@ -172,29 +185,11 @@ class FlightOffersViewModelTest {
     }
 
     @Test
-    fun testResponseHasError() {
-        val observer = getMakeResultsObserver()
-        val testSubscriber = TestObserver<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
-
-        val flightSearchResponse = FlightSearchResponse()
-        val apiError = ApiError(ApiError.Code.FLIGHT_SOLD_OUT)
-        flightSearchResponse.errors = listOf(apiError)
-        observer.onNext(flightSearchResponse)
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(apiError)
-    }
-
-    @Test
     fun testResponseHasNoResults() {
-
-        val observer = getMakeResultsObserver()
         val testSubscriber = TestObserver<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
-        val flightSearchResponse = FlightSearchResponse()
-        observer.onNext(flightSearchResponse)
+        sut.searchParamsObservable.onNext(serviceRule.flightSearchParams(false, "search_error"))
 
         testSubscriber.assertValueCount(1)
         assertEquals(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS, testSubscriber.values()[0].getErrorCode())
@@ -412,7 +407,7 @@ class FlightOffersViewModelTest {
         val firstOutboundFlightId = "leg1"
 
         performFlightSearch(true)
-        addRichContentToFlightLeg(sut.flightMap[firstOutboundFlightId]!!.toList()[0])
+        serviceRule.addRichContentToFlightLeg(sut.flightMap[firstOutboundFlightId]!!.toList()[0])
 
         val testSubscriber = TestObserver<List<FlightLeg>>()
         sut.inboundResultsObservable.subscribe(testSubscriber)
@@ -424,79 +419,15 @@ class FlightOffersViewModelTest {
         assertEquals(null, inboundFlights[0].richContent)
     }
 
-    private fun addRichContentToFlightLeg(flightLeg: FlightLeg) {
-        flightLeg.richContent = getRichContent()
-    }
-
-    private fun getRichContent(): RichContent {
-        val richContent = RichContent()
-        richContent.legId = ""
-        richContent.score = 7.9F
-        richContent.legAmenities = getRichContentAmenities()
-        richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
-        richContent.segmentAmenitiesList = listOf(getRichContentAmenities())
-        return richContent
-    }
-
-    private fun getRichContentAmenities(): RichContent.RichContentAmenity {
-        val amenities = RichContent.RichContentAmenity()
-        amenities.wifi = true
-        amenities.entertainment = false
-        amenities.power = true
-        return amenities
-    }
-
     private fun performFlightSearch(roundTrip: Boolean) {
-        val paramsBuilder = giveSearchParams(roundTrip)
-        sut.searchParamsObservable.onNext(paramsBuilder.build())
-    }
-
-    private fun giveSearchParams(roundTrip: Boolean): FlightSearchParams.Builder {
-        val origin = getDummySuggestion()
-        val destination = getDummySuggestion()
-        val startDate = LocalDate.now()
-        val endDate = startDate.plusDays(2)
-        val paramsBuilder = FlightSearchParams.Builder(26, 500)
-                .origin(origin)
-                .destination(destination)
-                .startDate(startDate)
-                .adults(1) as FlightSearchParams.Builder
-
-        if (roundTrip) {
-            paramsBuilder.endDate(endDate)
-        }
-        return paramsBuilder
+        val paramsBuilder = serviceRule.flightSearchParams(roundTrip)
+        sut.searchParamsObservable.onNext(paramsBuilder)
     }
 
     private fun makeFlightLeg(legId: String): FlightLeg {
         val flightLeg = FlightLeg()
         flightLeg.legId = legId
         return flightLeg
-    }
-
-    private fun setupFlightServices() {
-        val logger = HttpLoggingInterceptor()
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        val interceptor = MockInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
-        server.setDispatcher(ExpediaDispatcher(opener))
-        flightServices = FlightServices("http://localhost:" + server.port,
-                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
-    }
-
-    private fun getDummySuggestion(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = ""
-        suggestion.regionNames.fullName = ""
-        suggestion.regionNames.shortName = ""
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
-        return suggestion
     }
 
     private fun givenFlightSearchThrowsIOException() {
@@ -509,29 +440,15 @@ class FlightOffersViewModelTest {
         flightServices = TestFlightServiceSearchThrowsException("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.trampoline(), Schedulers.trampoline())
-    }
-
-    private fun getMakeResultsObserver(): Observer<FlightSearchResponse> {
-        val makeResultsObserverMethod = sut.javaClass.superclass.getDeclaredMethod("makeResultsObserver")
-        makeResultsObserverMethod.isAccessible = true
-
-        @Suppress("UNCHECKED_CAST")
-        return makeResultsObserverMethod.invoke(sut) as Observer<FlightSearchResponse>
+        flightServicesManager = FlightServicesManager(flightServices)
     }
 
     class TestFlightServiceSearchThrowsException(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, observeOn: Scheduler, subscribeOn: Scheduler) : FlightServices(endpoint, okHttpClient, listOf(interceptor), observeOn, subscribeOn) {
         var searchCount = 0
 
-        override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Disposable {
+        override fun flightSearch(params: FlightSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>?): Observable<FlightSearchResponse> {
             searchCount++
-            observer.onError(IOException())
-            return Mockito.mock(Disposable::class.java)
-        }
-
-        override fun greedyFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Disposable {
-            searchCount++
-            observer.onError(IOException())
-            return Mockito.mock(Disposable::class.java)
+            return super.flightSearch(params, resultsResponseReceivedObservable)
         }
     }
 }

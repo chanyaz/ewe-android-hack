@@ -14,6 +14,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
@@ -162,7 +163,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         val activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         sut = TestFlightResultsPresenter(activity, null, isOutboundPresenter)
-        sut.flightOfferViewModel = FlightOffersViewModel(activity, service)
+        sut.flightOfferViewModel = FlightOffersViewModel(activity, FlightServicesManager(service))
         sut.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
         sut.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(sut.flightOfferViewModel.isRoundTripSearchSubject.value).build())
         sut.setupComplete()

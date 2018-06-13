@@ -21,6 +21,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
@@ -73,6 +74,7 @@ class FlightCheckoutViewTest {
     lateinit var activity: Activity
     private lateinit var flightPresenter: FlightPresenter
     private lateinit var flightServices: FlightServices
+    private lateinit var flightServicesManager: FlightServicesManager
     private val userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
     var server: MockWebServer = MockWebServer()
         @Rule get
@@ -859,7 +861,7 @@ class FlightCheckoutViewTest {
 
     private fun setFlightPresenterAndFlightServices() {
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
-        flightPresenter.flightServices = flightServices
+        flightPresenter.flightServicesManager = flightServicesManager
         (flightPresenter.webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).flightCreateTripViewModel.flightServices = flightServices
     }
 
@@ -938,6 +940,7 @@ class FlightCheckoutViewTest {
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
+        flightServicesManager = FlightServicesManager(flightServices)
     }
 
     private fun createTripParams(productKey: String): FlightCreateTripParams {

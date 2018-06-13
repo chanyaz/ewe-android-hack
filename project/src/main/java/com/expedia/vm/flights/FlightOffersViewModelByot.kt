@@ -5,12 +5,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
+import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightOffersViewModelByot(context: Context, flightServices: FlightServices) : BaseFlightOffersViewModel(context, flightServices) {
+class FlightOffersViewModelByot(context: Context, flightServicesManager: FlightServicesManager) : BaseFlightOffersViewModel(context, flightServicesManager) {
 
     override fun selectOutboundFlight(legId: String) {
         val maxStay = context.resources.getInteger(R.integer.calendar_max_days_flight_search)
@@ -18,10 +19,10 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
         val searchParams = Db.getFlightSearchParams().buildParamsForInboundSearch(maxStay, maxRange, legId)
         searchingForFlightDateTime.onNext(Unit)
         isOutboundSearch = false
-        flightSearchSubscription = flightServices.flightSearch(searchParams, makeResultsObserver(), resultsReceivedDateTimeObservable)
+        flightSearchSubscription = flightServicesManager.doFlightSearch(searchParams, FlightSearchResponse.FlightSearchType.NORMAL, successResponseHandler, errorResponseHandler)
     }
 
-    override fun createFlightMap(response: FlightSearchResponse) {
+    override fun createFlightMap(type: FlightSearchType, response: FlightSearchResponse) {
         val outBoundFlights: LinkedHashSet<FlightLeg> = LinkedHashSet()
         val offers = response.offers
         val legs = response.legs
@@ -45,7 +46,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
                 outboundLeg.legRank = outBoundFlights.size
             }
         }
-        sendOutboundFlights(outBoundFlights)
+        sendOutboundFlights(type, outBoundFlights)
     }
 
     private fun findInboundFlights(response: FlightSearchResponse) {
@@ -68,9 +69,9 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
         inboundResultsObservable.onNext(inboundFlights.toList())
     }
 
-    override fun makeFlightOffer(response: FlightSearchResponse) {
+    override fun makeFlightOffer(type: FlightSearchType, response: FlightSearchResponse) {
         if (isOutboundSearch) {
-            createFlightMap(response)
+            createFlightMap(type, response)
         } else {
             findInboundFlights(response)
         }

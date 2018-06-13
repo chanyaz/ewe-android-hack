@@ -4,13 +4,14 @@ import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
+import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.utils.isRichContentEnabled
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightOffersViewModel(context: Context, flightServices: FlightServices) : BaseFlightOffersViewModel(context, flightServices) {
+class FlightOffersViewModel(context: Context, flightServicesManager: FlightServicesManager) : BaseFlightOffersViewModel(context, flightServicesManager) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
@@ -19,7 +20,7 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
         inboundResultsObservable.onNext(findInboundFlights(legId))
     }
 
-    override fun createFlightMap(response: FlightSearchResponse) {
+    override fun createFlightMap(type: FlightSearchType, response: FlightSearchResponse) {
         val outBoundFlights: LinkedHashSet<FlightLeg> = LinkedHashSet()
         val offers = response.offers
         val legs = response.legs
@@ -54,7 +55,7 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
             }
             flightMap.put(outboundId, flights)
         }
-        sendOutboundFlights(outBoundFlights)
+        sendOutboundFlights(type, outBoundFlights)
     }
 
     private fun findInboundFlights(outboundFlightId: String): List<FlightLeg> {
@@ -74,7 +75,7 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
         return flights
     }
 
-    override fun makeFlightOffer(response: FlightSearchResponse) {
-        createFlightMap(response)
+    override fun makeFlightOffer(type: FlightSearchType, response: FlightSearchResponse) {
+        createFlightMap(type, response)
     }
 }

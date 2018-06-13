@@ -6,26 +6,19 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.flights.utils.FlightServicesManager
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModelByot
-import com.mobiata.mocke3.ExpediaDispatcher
-import com.mobiata.mocke3.FileSystemOpener
-import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.mockwebserver.MockWebServer
+import com.mobiata.mocke3.FlightDispatcherUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.utils.AbacusTestUtils
-import com.mobiata.mocke3.FlightDispatcherUtils
-import io.reactivex.schedulers.Schedulers
-import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -33,17 +26,17 @@ import kotlin.test.assertNotNull
 @RunWith(RobolectricRunner::class)
 class FlightOffersViewModelByotTest {
 
-    var server: MockWebServer = MockWebServer()
+    var serviceRule = MockFlightServiceTestRule()
         @Rule get
-    private lateinit var flightServices: FlightServices
+    private lateinit var flightServicesManager: FlightServicesManager
     private lateinit var sut: FlightOffersViewModelByot
     private val context = RuntimeEnvironment.application
 
     @Before
     fun setup() {
-        setupFlightServices()
+        setupFlightServicesManager()
         Ui.getApplication(context).defaultTravelerComponent()
-        sut = FlightOffersViewModelByot(context, flightServices)
+        sut = FlightOffersViewModelByot(context, flightServicesManager)
     }
 
     @Test
@@ -63,7 +56,7 @@ class FlightOffersViewModelByotTest {
     @Test
     fun testHappyOutboundSearchResponseForGreedy() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
-        sut = FlightOffersViewModelByot(context, flightServices)
+        sut = FlightOffersViewModelByot(context, flightServicesManager)
         val normalResultsTestSubscriber = TestObserver<List<FlightLeg>>()
         val greedyResultsTestSubscriber = TestObserver<List<FlightLeg>>()
 
@@ -90,7 +83,7 @@ class FlightOffersViewModelByotTest {
     @Test
     fun testHappyInboundSearchResponseForGreedy() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
-        sut = FlightOffersViewModelByot(context, flightServices)
+        sut = FlightOffersViewModelByot(context, flightServicesManager)
         Db.setFlightSearchParams(giveSearchParams(true).build())
         val flightLeg = FlightLeg()
         flightLeg.legId = "leg-Id"
@@ -110,7 +103,7 @@ class FlightOffersViewModelByotTest {
     @Test
     fun testHasUserClickedSearchForGreedySearch() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
-        sut = FlightOffersViewModelByot(context, flightServices)
+        sut = FlightOffersViewModelByot(context, flightServicesManager)
         val searchClickedTestSubscriber = TestObserver<Boolean>()
 
         sut.isOutboundSearch = true
@@ -129,7 +122,7 @@ class FlightOffersViewModelByotTest {
     @Test
     fun testOutboundSearchResponseWhenGreedyIsAborted() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
-        sut = FlightOffersViewModelByot(context, flightServices)
+        sut = FlightOffersViewModelByot(context, flightServicesManager)
         val normalResultsTestSubscriber = TestObserver<List<FlightLeg>>()
         val greedyResultsTestSubscriber = TestObserver<List<FlightLeg>>()
 
@@ -238,16 +231,8 @@ class FlightOffersViewModelByotTest {
         return paramsBuilder
     }
 
-    private fun setupFlightServices() {
-        val logger = HttpLoggingInterceptor()
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        val interceptor = MockInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
-        server.setDispatcher(ExpediaDispatcher(opener))
-        flightServices = FlightServices("http://localhost:" + server.port,
-                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
+    private fun setupFlightServicesManager() {
+        flightServicesManager = FlightServicesManager(serviceRule.services!!)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

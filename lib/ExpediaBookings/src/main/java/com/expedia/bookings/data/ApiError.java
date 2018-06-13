@@ -11,6 +11,7 @@ public class ApiError extends RuntimeException {
 		UNKNOWN_ERROR, // retry
 		INVALID_INPUT,
 		PRICE_CHANGE,
+		NO_INTERNET,
 
 		//Suggestion Service Errors
 		CURRENT_LOCATION_ERROR,
