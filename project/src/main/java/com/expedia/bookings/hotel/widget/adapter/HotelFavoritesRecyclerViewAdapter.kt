@@ -9,6 +9,7 @@ import io.reactivex.subjects.PublishSubject
 class HotelFavoritesRecyclerViewAdapter(private var favoritesList: ArrayList<HotelShortlistItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val hotelSelectedSubject = PublishSubject.create<HotelShortlistItem>()
+    val hotelFavoriteButtonClickedSubject = PublishSubject.create<Int>()
 
     override fun getItemCount(): Int {
         return favoritesList.size
@@ -24,6 +25,8 @@ class HotelFavoritesRecyclerViewAdapter(private var favoritesList: ArrayList<Hot
         holder.hotelClickedSubject.subscribe { position ->
             hotelSelected(position)
         }
+
+        holder.favoriteButtonClickedSubject.subscribe(hotelFavoriteButtonClickedSubject)
 
         return holder
     }

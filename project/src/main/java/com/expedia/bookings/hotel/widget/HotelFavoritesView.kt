@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -18,16 +19,18 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 
 class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-
-    private val recyclerView by bindView<RecyclerView>(R.id.hotel_favorites_recycler_view)
-    private val emptyContainer by bindView<LinearLayout>(R.id.hotel_favorites_empty_container)
-    private val hotelFavoritesPageEmptyTitle by bindView<TextView>(R.id.hotel_favorites_page_empty_text_view)
-    private val hotelFavoritesSignInTitle by bindView<TextView>(R.id.hotel_favorites_sign_in_text_view)
-    private val viewModel = HotelFavoritesViewModel(context,
+    @VisibleForTesting
+    val recyclerView by bindView<RecyclerView>(R.id.hotel_favorites_recycler_view)
+    @VisibleForTesting
+    val emptyContainer by bindView<LinearLayout>(R.id.hotel_favorites_empty_container)
+    @VisibleForTesting
+    val viewModel = HotelFavoritesViewModel(context,
             Ui.getApplication(context).appComponent().userStateManager(),
             Ui.getApplication(context).hotelComponent().hotelFavoritesManager())
     private val isUserLoggedIn = viewModel.isUserAuthenticated()
     private lateinit var adapter: HotelFavoritesRecyclerViewAdapter
+    private val hotelFavoritesPageEmptyTitle by bindView<TextView>(R.id.hotel_favorites_page_empty_text_view)
+    private val hotelFavoritesSignInTitle by bindView<TextView>(R.id.hotel_favorites_sign_in_text_view)
 
     init {
         View.inflate(getContext(), R.layout.hotel_favorites_layout, this)
@@ -35,6 +38,8 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
         hotelFavoritesPageEmptyTitle.setVisibility(isUserLoggedIn)
         hotelFavoritesSignInTitle.setInverseVisibility(isUserLoggedIn)
         viewModel.receivedResponseSubject.subscribe { updateViews() }
+        viewModel.favoriteHotelRemovedSubject.subscribe { index -> adapter.notifyItemRemoved(index) }
+        viewModel.favoritesEmptySubject.subscribe { updateViews() }
     }
 
     fun onClear() {
@@ -51,6 +56,9 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
         adapter = HotelFavoritesRecyclerViewAdapter(viewModel.favoritesList)
         adapter.hotelSelectedSubject.subscribe { hotelShortlistItem ->
             navigateToInfosite(hotelShortlistItem)
+        }
+        adapter.hotelFavoriteButtonClickedSubject.subscribe { unfavoritedHotel ->
+            viewModel.removeFavoritedHotel(unfavoritedHotel)
         }
         recyclerView.adapter = adapter
     }

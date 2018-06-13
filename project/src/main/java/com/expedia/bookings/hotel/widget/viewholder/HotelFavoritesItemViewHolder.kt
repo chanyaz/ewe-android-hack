@@ -15,9 +15,12 @@ import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.getGuestRatingText
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 
 class HotelFavoritesItemViewHolder(root: ViewGroup) : AbstractHotelCellViewHolder(root) {
+
+    val favoriteButtonClickedSubject = PublishSubject.create<Int>()
 
     fun bind(item: HotelShortlistItem) {
         hotelNameStarAmenityDistance.hotelNameTextView.setTextAndVisibility(item.name)
@@ -31,6 +34,10 @@ class HotelFavoritesItemViewHolder(root: ViewGroup) : AbstractHotelCellViewHolde
         vipMessageContainer.visibility = View.GONE
         hotelNameStarAmenityDistance.starRatingBar.visibility = View.GONE
         hotelPriceTopAmenity.soldOutTextView.visibility = View.GONE
+
+        favoriteIcon.setImageResource(R.drawable.ic_favorite_active)
+        favoriteTouchTarget.setOnClickListener { favoriteButtonClickedSubject.onNext(adapterPosition) }
+        favoriteTouchTarget.setVisibility(true)
     }
 
     companion object {

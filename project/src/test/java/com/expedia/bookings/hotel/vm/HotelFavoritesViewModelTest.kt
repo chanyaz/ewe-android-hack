@@ -185,6 +185,52 @@ class HotelFavoritesViewModelTest {
         assertSearchParams(searchParams!!)
     }
 
+    @Test
+    fun testRemoveHotel() {
+        viewModel.favoritesList.add(hotelShortlistItem)
+        viewModel.favoritesList.add(hotelShortlistItem)
+        val testRemoveObserver = TestObserver<Int>()
+        val testEmptyObserver = TestObserver<Unit>()
+        viewModel.favoriteHotelRemovedSubject.subscribe(testRemoveObserver)
+        viewModel.favoritesEmptySubject.subscribe(testEmptyObserver)
+        viewModel.removeFavoritedHotel(0)
+        viewModel.removeFavoritedHotel(0)
+        testRemoveObserver.assertValueCount(2)
+        testEmptyObserver.assertValueCount(1)
+    }
+
+    @Test
+    fun testRemoveHotelOutOfBounds() {
+        val testRemoveObserver = TestObserver<Int>()
+        val testEmptyObserver = TestObserver<Unit>()
+        viewModel.favoriteHotelRemovedSubject.subscribe(testRemoveObserver)
+        viewModel.favoritesEmptySubject.subscribe(testEmptyObserver)
+        viewModel.removeFavoritedHotel(0)
+        testRemoveObserver.assertValueCount(0)
+        testEmptyObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testRemoveHotelBadId() {
+        val nullIdShortlistItem = createHotelShortlistItem()
+        nullIdShortlistItem.shortlistItem!!.metaData!!.hotelId = null
+        nullIdShortlistItem.shortlistItem!!.itemId = null
+        viewModel.favoritesList.add(nullIdShortlistItem)
+
+        val emptyIdShortlistItem = createHotelShortlistItem()
+        emptyIdShortlistItem.shortlistItem!!.metaData!!.hotelId = ""
+        emptyIdShortlistItem.shortlistItem!!.itemId = ""
+
+        val testRemoveObserver = TestObserver<Int>()
+        val testEmptyObserver = TestObserver<Unit>()
+        viewModel.favoriteHotelRemovedSubject.subscribe(testRemoveObserver)
+        viewModel.favoritesEmptySubject.subscribe(testEmptyObserver)
+        viewModel.removeFavoritedHotel(0)
+
+        testRemoveObserver.assertValueCount(0)
+        testEmptyObserver.assertValueCount(0)
+    }
+
     private fun createHotelShortlistItem(): HotelShortlistItem {
         return HotelShortlistItem().apply {
             regionId = "regionId"

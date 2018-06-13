@@ -104,6 +104,7 @@ class HotelActivity : AbstractAppCompatActivity(), ComponentCallbacks2 {
     override fun onResume() {
         resultsMapView.onResume()
         detailsMapView.onResume()
+        hotelPresenter.resultsPresenter.onResume()
         super.onResume()
     }
 

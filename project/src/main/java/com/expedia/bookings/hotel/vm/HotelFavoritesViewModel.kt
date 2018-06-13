@@ -12,12 +12,15 @@ import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.ReplaySubject
 
 class HotelFavoritesViewModel(private val context: Context,
                               private val userStateManager: UserStateManager,
                               private val hotelFavoritesManager: HotelFavoritesManager) {
     var receivedResponseSubject = ReplaySubject.create<Unit>()
+    var favoriteHotelRemovedSubject = BehaviorSubject.create<Int>()
+    var favoritesEmptySubject = BehaviorSubject.create<Unit>()
 
     var response: HotelShortlistResponse<HotelShortlistItem>? = null
         @VisibleForTesting set(value) {
@@ -65,6 +68,20 @@ class HotelFavoritesViewModel(private val context: Context,
 
     fun isUserAuthenticated(): Boolean {
         return userStateManager.isUserAuthenticated()
+    }
+
+    fun removeFavoritedHotel(favoritedHotelIndex: Int) {
+        val favoritedHotel = favoritesList.getOrNull(favoritedHotelIndex)
+        val hotelId = favoritedHotel?.getHotelId()
+        if (hotelId.isNullOrBlank()) {
+            return
+        }
+        hotelFavoritesManager.removeFavorite(context, hotelId!!)
+        favoritesList.remove(favoritedHotel)
+        favoriteHotelRemovedSubject.onNext(favoritedHotelIndex)
+        if (favoritesList.isEmpty()) {
+            favoritesEmptySubject.onNext(Unit)
+        }
     }
 
     private fun createHotelDeepLink(hotelShortlistItem: HotelShortlistItem): HotelDeepLink? {
