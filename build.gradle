@@ -33,16 +33,29 @@ buildscript {
 }
 
 apply plugin: "build-time-tracker"
+
 buildtimetracker {
     reporters {
-        summary {
-            ordered false
-            threshold 500
-            barstyle "unicode"
+        csv {
+            output "build/times.csv"
+            append false
+            header true
+        }
+        csvSummary {
+            csv "build/times.csv"
         }
     }
 }
 
+gradle.buildFinished {
+    def scriptPath = "jenkins/time_tracker_logging.rb"
+    def buildNameForClientLog = project.gradle.startParameter.taskNames.join('_')
+    boolean build_cache = project.gradle.startParameter.buildCacheEnabled
+    if (build_cache)
+        startParameter = "build_cache_" + buildNameForClientLog
+    def command = "ruby $scriptPath $buildNameForClientLog"
+    println command.execute().text
+}
 
 apply plugin: 'com.github.ben-manes.versions'
 
@@ -148,6 +161,7 @@ dependencyUpdates.resolutionStrategy = {
     }
 }
 
+
 allprojects {
     repositories {
         google()
@@ -164,7 +178,6 @@ configurations {
 dependencies {
     ktlint 'com.github.shyiko:ktlint:0.15.0'
 }
-
 
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style"
@@ -185,4 +198,3 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     main = "com.github.shyiko.ktlint.Main"
     args "-F", "lib/*/src/**/*.kt", "project/src/**/*.kt"
 }
-
