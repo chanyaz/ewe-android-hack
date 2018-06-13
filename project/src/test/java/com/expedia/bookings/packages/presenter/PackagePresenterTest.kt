@@ -94,6 +94,31 @@ class PackagePresenterTest {
     }
 
     @Test
+    fun testShowBundleTotalObservableWithNullPackagePrice() {
+        val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+
+        val currentOfferPrice = PackageOfferModel.PackagePrice()
+        currentOfferPrice.packageTotalPrice = null
+
+        hotelResponse.setCurrentOfferPrice(currentOfferPrice)
+        Db.setPackageResponse(hotelResponse)
+
+        val totalPriceObservable = TestObserver<Money>()
+        val packageSavingsObservable = TestObserver<Money>()
+        val showSavingsObservable = TestObserver<Boolean>()
+        packagePresenter.bundlePresenter.totalPriceWidget.viewModel.total.subscribe(totalPriceObservable)
+        packagePresenter.bundlePresenter.totalPriceWidget.viewModel.savings.subscribe(packageSavingsObservable)
+        packagePresenter.bundlePresenter.totalPriceWidget.viewModel.shouldShowSavings.subscribe(showSavingsObservable)
+
+        packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+
+        assertEquals(View.GONE, packagePresenter.bundlePresenter.totalPriceWidget.visibility)
+        showSavingsObservable.assertNoValues()
+        totalPriceObservable.assertNoValues()
+        packageSavingsObservable.assertNoValues()
+    }
+
+    @Test
     fun testShowBundleTotalObservableWithoutShowSavings() {
         val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
