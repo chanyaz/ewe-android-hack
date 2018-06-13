@@ -18,6 +18,17 @@ class OmnitureTestUtils : AppAnalytics() {
             return mock
         }
 
+        /*
+         * Using this Analytics Provider gives you the key-value pairs set in an omniture call as console output. To be used only locally by running unit tests on the machine.
+         * DO NOT USE this Analytics Provider when pushing PRs into develop since it makes the test outputs more verbose than necessary for unit tests.
+         */
+        @JvmStatic
+        fun setLoggingAnalyticsProvider(): AnalyticsProvider {
+            val mock = Mockito.spy(LoggingAnalyticsProvider::class.java)
+            setAnalyticsProviderForTest(mock)
+            return mock
+        }
+
         @JvmStatic
         fun setNormalAnalyticsProvider() {
             setAnalyticsProviderForTest(null)
