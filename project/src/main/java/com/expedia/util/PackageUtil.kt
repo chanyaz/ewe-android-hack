@@ -17,9 +17,7 @@ object PackageUtil {
     val isPackageLOBUnderABTest: Boolean
         get() {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
-            return pointOfSaleId == PointOfSaleId.SOUTH_KOREA ||
-                    pointOfSaleId == PointOfSaleId.MEXICO ||
-                    pointOfSaleId == PointOfSaleId.EBOOKERS_FRANCE
+            return pointOfSaleId == PointOfSaleId.EBOOKERS_FRANCE
         }
 
     val isPackagesLobTitleABTestEnabled: Boolean

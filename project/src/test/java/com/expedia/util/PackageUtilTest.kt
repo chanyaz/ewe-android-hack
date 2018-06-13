@@ -172,8 +172,8 @@ class PackageUtilTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
-    fun testPackageEBOOKERS_GERMANYLOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.EBOOKERS_GERMANY)
+    fun testPackageEBOOKERS_FRANCELOBEnabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.EBOOKERS_FRANCE)
         assertTrue(PackageUtil.isPackageLOBUnderABTest)
     }
 
