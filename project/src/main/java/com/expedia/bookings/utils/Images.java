@@ -72,19 +72,6 @@ public class Images {
 			.build();
 	}
 
-	public static String forLxCategory(Context context, String categoryKeyEN, String imageCode,
-		float width) {
-		boolean categoryAllThingsToDoAndItsCategoryImageAvailable = LXDataUtils
-			.isCategoryAllThingsToDoAndItsCategoryImageAvailable(context, categoryKeyEN, imageCode);
-		String categoryImageURL = categoryAllThingsToDoAndItsCategoryImageAvailable ? getTabletDestination(imageCode)
-			: getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/" + LXUtils
-				.whitelistAlphanumericFromCategoryKey(
-					categoryKeyEN) + ".jpg";
-		return new Akeakamai(categoryImageURL)
-			.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
-			.build();
-	}
-
 	/**
 	 * Returns list of image URLs based on the screen size.
 	 * List contains the best match at 0th index followed by higher resolution and then lower resolution image URLs

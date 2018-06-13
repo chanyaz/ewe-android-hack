@@ -93,8 +93,6 @@
         android:visibility="gone"
         android:alpha=".5" />
 
-    <include layout="@layout/widget_theme_results" />
-
     <LinearLayout
         android:layout_width="@dimen/match_parent"
         android:layout_height="@dimen/match_parent"

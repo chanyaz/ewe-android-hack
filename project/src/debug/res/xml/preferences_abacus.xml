@@ -785,12 +785,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="LX tests">
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="9165"
-            android:title="LX Category Test - 9165" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"

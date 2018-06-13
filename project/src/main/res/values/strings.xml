@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Search Activities</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">Select a Category</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Search Transport</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per vehicle</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">Top Rated Activities</string>
-    <string name="top_rated_activities_description">Most highly recommended activities by customer like you</string>
-
-    <string name="adventure_around">Adventure Around</string>
-    <string name="adventure_around_description">Explore, take day trips and find great excursions at your destination</string>
-
-    <string name="see_the_sights">See the Sights</string>
-    <string name="see_the_sights_description">From walking and biking to buses, see everything this area has to offer</string>
-
-    <string name="tour_the_area">Tour the Area</string>
-    <string name="tour_the_area_description">Tour the city and learn more about historical and modern events</string>
-
-    <string name="fun_for_the_family">Fun for the Family</string>
-    <string name="fun_for_the_family_description">Family-friendly activities that are fun for all ages</string>
-
-    <string name="pure_entertainment">Pure Entertainment</string>
-    <string name="pure_entertainment_description">Sports, amusement parks, shows and performances</string>
-
-    <string name="eat_play_enjoy">Eat, Play &amp; Enjoy</string>
-    <string name="eat_play_enjoy_description">Food and drinks, nightlife and a whole lot of relaxation</string>
-
-    <string name="all_things_to_do_description">A list of all of the available activities for your selected dates.</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Enter contact details</string>
@@ -661,9 +635,6 @@
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">This date is in the past, please choose a new date.</string>
 
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">All Things To Do</string>
-    
     <string name="lx_recommendation_no_superlative">of 5</string>
     <string name="lx_recommendation_superlativeGood">of 5 - Good!</string>
     <string name="lx_recommendation_superlativeGreat">of 5 - Great!</string>
@@ -2735,8 +2706,6 @@
     <string name="view_details">View Details</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Map</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Sort</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Mobile Exclusive</string>
     <!-- Expedia Deal for a given property, tonight only -->

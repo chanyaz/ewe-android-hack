@@ -560,10 +560,6 @@ public class LXPresenter extends Presenter {
 		return LineOfBusinessExtensions.Companion.isUniversalCheckout(LineOfBusiness.LX, getContext());
 	}
 
-	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {
-		resultsPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
-	}
-
 	public void setBackgroundColorForSearchWidget(float f, boolean forward) {
 		if (!forward) {
 			searchParamsWidget.setBackgroundColor((Integer) (searchArgbEvaluator

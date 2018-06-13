@@ -1895,20 +1895,11 @@ public class OmnitureTracking {
 	private static final String LX_GT_CHECKOUT_CVV_SCREEN = "App.LX-GT.Checkout.Payment.CID";
 	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
 	private static final String LX_GT_NO_SEARCH_RESULTS = "App.LX-GT.NoResults";
-	private static final String LX_CATEGORY_TEST = "App.LX.Category";
-	private static final String LX_SEARCH_CATEGORIES = "App.LX.Search.Categories";
 	private static final String LX_SORT_PRICE = "Price";
 	private static final String LX_SORT_POPULARITY = "Popularity";
 	private static final String LX_SORT = ".Sort.";
 	private static final String LX_FILTER = ".Filter";
 	private static final String LX_TEXT_SEARCH = ".Keyword";
-
-	public static void trackAppLXCategoryABTest() {
-		Log.d(TAG, "Tracking \"" + LX_CATEGORY_TEST + "\" category...");
-		AppAnalytics s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCategoryABTest);
-		s.track();
-	}
 
 	public static void trackAppLXRTRABTest() {
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" category...");
@@ -1988,34 +1979,6 @@ public class OmnitureTracking {
 			}
 		}
 		s.setProp(68, prop68);
-	}
-
-	public static void trackAppLXSearchCategories(LxSearchParams lxSearchParams,
-		LXSearchResponse lxSearchResponse) {
-		// Start actually tracking the search result change
-		Log.d(TAG, "Tracking \"" + LX_SEARCH_CATEGORIES + "\" pageLoad...");
-
-		AppAnalytics s = internalTrackAppLX(LX_SEARCH_CATEGORIES);
-
-		// Destination
-		s.setProp(4, lxSearchResponse.regionId);
-		s.setEvar(4, "D=c4");
-
-		// prop and evar 5, 6
-		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
-
-		// Freeform location
-		if (!TextUtils.isEmpty(lxSearchParams.getLocation())) {
-			s.setEvar(48, lxSearchParams.getLocation());
-		}
-
-		// Number of search results
-		if (lxSearchResponse.activities.size() > 0) {
-			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
-		}
-
-		// Send the tracking data
-		s.track();
 	}
 
 	public static void trackAppLXNoSearchResults(ApiError apiError, boolean isGrounTransport) {
@@ -2316,14 +2279,6 @@ public class OmnitureTracking {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(isGroundTransport ? LX_GT_TICKET : LX_TICKET);
-		sb.append(rffr);
-		trackLinkLX(sb.toString());
-	}
-
-	public static void trackLinkLXCategoryClicks(String rffr) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(LX_SEARCH_CATEGORIES);
-		sb.append(".");
 		sb.append(rffr);
 		trackLinkLX(sb.toString());
 	}
