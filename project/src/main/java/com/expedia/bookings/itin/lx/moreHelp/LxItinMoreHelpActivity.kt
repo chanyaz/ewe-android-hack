@@ -76,7 +76,7 @@ class LxItinMoreHelpActivity : AppCompatActivity() {
         toolbarViewModel = LxItinMoreHelpToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
 
-        val customerSupportWidgetScope = ItinCustomerSupportWidgetViewModelScope(stringProvider, repo,this, tripsTracking, WebViewLauncher(this), TripProducts.ACTIVITY.name)
+        val customerSupportWidgetScope = ItinCustomerSupportWidgetViewModelScope(stringProvider, repo, this, tripsTracking, WebViewLauncher(this), TripProducts.ACTIVITY.name)
         val customerSupportViewModel = ItinCustomerSupportViewModel(customerSupportWidgetScope)
         itinCustomerSupportWidget.viewModel = customerSupportViewModel
 
