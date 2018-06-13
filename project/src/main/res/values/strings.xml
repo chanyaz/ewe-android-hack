@@ -101,6 +101,8 @@
         <item quantity="other">{number} Results</item>
     </plurals>
 
+    <!-- Title message displayed on the user's favorites hotels list page to show to the non-logged in user -->
+    <string name="hotel_favorites_sign_in_title">Sign in to save your favorites</string>
     <!-- Title message displayed when there are no items in the user's favorite hotels list -->
     <string name="hotel_favorites_page_empty_title">Save your favorites</string>
     <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->

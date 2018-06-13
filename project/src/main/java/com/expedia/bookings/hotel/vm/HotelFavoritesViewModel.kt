@@ -35,7 +35,7 @@ class HotelFavoritesViewModel(private val context: Context,
     var useShopWithPoints: Boolean? = null
 
     init {
-        if (userStateManager.isUserAuthenticated()) {
+        if (isUserAuthenticated()) {
             compositeDisposable.add(hotelFavoritesManager.fetchSuccessSubject.subscribe { fetchResponse ->
                 response = fetchResponse
                 receivedResponseSubject.onNext(Unit)
@@ -61,6 +61,10 @@ class HotelFavoritesViewModel(private val context: Context,
         } else {
             null
         }
+    }
+
+    fun isUserAuthenticated(): Boolean {
+        return userStateManager.isUserAuthenticated()
     }
 
     private fun createHotelDeepLink(hotelShortlistItem: HotelShortlistItem): HotelDeepLink? {

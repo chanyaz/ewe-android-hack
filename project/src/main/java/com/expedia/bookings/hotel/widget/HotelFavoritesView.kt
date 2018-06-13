@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
+import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.hotel.vm.HotelFavoritesViewModel
 import com.expedia.bookings.hotel.widget.adapter.HotelFavoritesRecyclerViewAdapter
@@ -19,14 +21,19 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
 
     private val recyclerView by bindView<RecyclerView>(R.id.hotel_favorites_recycler_view)
     private val emptyContainer by bindView<LinearLayout>(R.id.hotel_favorites_empty_container)
+    private val hotelFavoritesPageEmptyTitle by bindView<TextView>(R.id.hotel_favorites_page_empty_text_view)
+    private val hotelFavoritesSignInTitle by bindView<TextView>(R.id.hotel_favorites_sign_in_text_view)
     private val viewModel = HotelFavoritesViewModel(context,
             Ui.getApplication(context).appComponent().userStateManager(),
             Ui.getApplication(context).hotelComponent().hotelFavoritesManager())
+    private val isUserLoggedIn = viewModel.isUserAuthenticated()
     private lateinit var adapter: HotelFavoritesRecyclerViewAdapter
 
     init {
         View.inflate(getContext(), R.layout.hotel_favorites_layout, this)
         initRecyclerView()
+        hotelFavoritesPageEmptyTitle.setVisibility(isUserLoggedIn)
+        hotelFavoritesSignInTitle.setInverseVisibility(isUserLoggedIn)
         viewModel.receivedResponseSubject.subscribe { updateViews() }
     }
 
