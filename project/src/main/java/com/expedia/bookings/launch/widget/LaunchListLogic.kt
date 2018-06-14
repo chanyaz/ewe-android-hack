@@ -89,6 +89,6 @@ open class LaunchListLogic {
     }
 
     fun showJoinRewardsCard(): Boolean {
-        return PointOfSale.getPointOfSale().shouldShowJoinRewardsCard()
+        return PointOfSale.getPointOfSale().shouldShowJoinRewardsCard() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.JoinRewardsLaunchCard)
     }
 }
