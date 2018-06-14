@@ -22,8 +22,6 @@ import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.widget.HotelCarouselRecycler;
 
-import io.reactivex.subjects.PublishSubject;
-
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -42,7 +40,7 @@ public class HotelResultsCarouselTest {
 			@Override
 			public void run() {
 				hotelCarouselRecycler
-					.setAdapter(new HotelMapCarouselAdapter(getMockHotelList(), PublishSubject.<Hotel>create()));
+					.setAdapter(new HotelMapCarouselAdapter(getMockHotelList()));
 			}
 		});
 	}

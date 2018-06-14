@@ -342,7 +342,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         toolbar.navigationIcon = navIcon
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
 
-        mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
+        mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList())
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSubject.subscribe(hotelSelectedSubject)
+
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
         pricingHeaderSelectedSubject.subscribe {
@@ -1162,8 +1164,17 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun fabHeightOffset(): Float {
-        val offset = context.resources.getDimension(R.dimen.hotel_carousel_fab_vertical_offset)
+        val offset = if (isBucketedToShowResultsCellOnMap()) {
+            context.resources.getDimension(R.dimen.hotel_results_cell_carousel_fab_vertical_offset)
+        } else {
+            context.resources.getDimension(R.dimen.hotel_carousel_fab_vertical_offset)
+        }
+
         return mapCarouselContainer.height.toFloat() - offset
+    }
+
+    private fun isBucketedToShowResultsCellOnMap(): Boolean {
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultsCellOnMapCarousel)
     }
 
     abstract fun getRecyclerYTranslation(): Float

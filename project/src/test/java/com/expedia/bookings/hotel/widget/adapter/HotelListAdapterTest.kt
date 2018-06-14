@@ -147,7 +147,7 @@ class HotelListAdapterTest {
     }
 
     @Test
-    fun testGenericAttachedtwoResults() {
+    fun testGenericAttachedTwoResults() {
         val response = getMockSearchResponse(2, false)
         assertNotEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
         testAdapter.resultsSubject.onNext(response)
@@ -164,7 +164,7 @@ class HotelListAdapterTest {
         assertEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
     }
 
-    fun getMockSearchResponse(hotelCount: Int, pinned: Boolean?): HotelSearchResponse {
+    private fun getMockSearchResponse(hotelCount: Int, pinned: Boolean?): HotelSearchResponse {
         val response: HotelSearchResponse
         if (pinned == null) {
             response = getHotelSearchResponse("src/test/resources/raw/hotel/hotel_happy_search_response.json")
@@ -183,7 +183,7 @@ class HotelListAdapterTest {
         return response
     }
 
-    fun getHappyHotel(): Hotel {
+    private fun getHappyHotel(): Hotel {
         val resourceReader = JSONResourceReader("src/test/resources/raw/hotel/the_talbott_hotel.json")
         val searchResponse = resourceReader.constructUsingGson(Hotel::class.java)
         return searchResponse

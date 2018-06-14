@@ -122,6 +122,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         adapter.favoriteAddedSubject.subscribe { hotelId -> hotelFavoriteAdded(hotelId) }
         adapter.favoriteRemovedSubject.subscribe { hotelId -> hotelFavoriteDeleted(hotelId) }
+
+        val mapCarouselAdapter = (mapCarouselRecycler.adapter as HotelMapCarouselAdapter)
+        mapCarouselAdapter.favoriteAddedSubject.subscribe { hotelId -> hotelFavoriteAdded(hotelId) }
+        mapCarouselAdapter.favoriteRemovedSubject.subscribe { hotelId -> hotelFavoriteDeleted(hotelId) }
     }
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
@@ -413,6 +417,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     private fun newParams(params: HotelSearchParams) {
         filterViewModel.resetPriceSliderFilterTracking()
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
+        adapter.shopWithPoints = params.shopWithPoints
+
         if (currentState == ResultsList::class.java.name) {
             moveMapToDestination(params.suggestion)
         }

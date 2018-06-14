@@ -6,6 +6,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.text.Spanned
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
@@ -26,7 +27,9 @@ import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 
-open class HotelViewModel(private val context: Context, private val isAddOnAttachEnabled: Boolean = Features.all.genericAttach.enabled()) {
+open class HotelViewModel(private val context: Context,
+                          private val isAddOnAttachEnabled: Boolean = Features.all.genericAttach.enabled(),
+                          private val alwaysShowEarnMessageSpace: Boolean = false) {
 
     var isHotelSoldOut = false
 
@@ -60,7 +63,7 @@ open class HotelViewModel(private val context: Context, private val isAddOnAttac
     val isShowHotelHotelDistance: Boolean get() = (hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0) && hotel.isCurrentLocationSearch
 
     val earnMessage: String get() = LoyaltyUtil.getEarnMessagingString(context, hotel.isPackage, hotel.lowRateInfo?.loyaltyInfo?.earn, hotel.packageOfferModel?.loyaltyInfo?.earn)
-    val showEarnMessage: Boolean get() = LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotel.isPackage)
+    val earnMessageVisibility: Int get() = createEarnMessageVisibility()
     val hasAttach: Boolean get() = hotel.lowRateInfo?.isShowAirAttached() ?: false
     val showAirAttachWithDiscountLabel: Boolean get() = hasAttach && !loyaltyAvailable
     val showAirAttachIconWithoutDiscountLabel: Boolean get() = hasAttach && loyaltyAvailable
@@ -136,15 +139,23 @@ open class HotelViewModel(private val context: Context, private val isAddOnAttac
     }
 
     fun getMapLoyaltyMessageText(): Spanned {
-        if (showVipLoyaltyMessage()) {
-            return HtmlCompat.fromHtml(resources.getString(R.string.vip_loyalty_applied_map_message))
+        return if (showVipLoyaltyMessage()) {
+            HtmlCompat.fromHtml(resources.getString(R.string.vip_loyalty_applied_map_message))
         } else {
-            return HtmlCompat.fromHtml(resources.getString(R.string.regular_loyalty_applied_message))
+            HtmlCompat.fromHtml(resources.getString(R.string.regular_loyalty_applied_message))
+        }
+    }
+
+    fun getMapLoyaltyMessageVisibility(shopWithPoints: Boolean): Int {
+        return when {
+            loyaltyAvailable -> View.VISIBLE
+            shopWithPoints -> View.INVISIBLE
+            else -> View.GONE
         }
     }
 
     fun showRatingPointsContainer(): Boolean {
-        return isHotelGuestRatingAvailable || showNoGuestRating || showEarnMessage
+        return isHotelGuestRatingAvailable || showNoGuestRating || earnMessageVisibility == View.VISIBLE
     }
 
     fun getHighestPriorityUrgencyMessage(): UrgencyMessage? {
@@ -332,6 +343,16 @@ open class HotelViewModel(private val context: Context, private val isAddOnAttac
             return R.color.hotels_primary_color
         }
         return R.color.default_text_color
+    }
+
+    private fun createEarnMessageVisibility(): Int {
+        return if (LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotel.isPackage)) {
+            View.VISIBLE
+        } else if (alwaysShowEarnMessageSpace && LoyaltyUtil.isEarnMessageEnabled(hotel.isPackage)) {
+            View.INVISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String, val messageTextColorId: Int = R.color.white) {

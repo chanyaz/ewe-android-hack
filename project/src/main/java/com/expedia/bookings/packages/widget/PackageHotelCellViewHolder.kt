@@ -24,7 +24,7 @@ class PackageHotelCellViewHolder(root: ViewGroup) : AbstractHotelResultCellViewH
     }
 
     fun bindViewModel() {
-        viewModel as PackageHotelViewModel
+        val viewModel = viewModel as PackageHotelViewModel
         viewModel.unrealDealMessageObservable.subscribeText(unrealDealMessage)
         viewModel.unrealDealMessageVisibilityObservable.subscribeVisibility(unrealDealMessageContainer)
         viewModel.shouldDisplayPricingViews.subscribe { shouldDisplay ->

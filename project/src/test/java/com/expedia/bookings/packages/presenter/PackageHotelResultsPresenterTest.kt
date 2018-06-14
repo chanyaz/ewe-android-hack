@@ -61,6 +61,19 @@ class PackageHotelResultsPresenterTest {
     }
 
     @Test
+    fun testHotelResultsCellOnMapCarouselMapPriceIncludesTaxesBottomMessageNotVisible() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelResultsCellOnMapCarousel)
+        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
+                null) as PackageHotelResultsPresenter
+
+        packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsList())
+        packageHotelResultsPresenter.showWithTracking(BaseHotelResultsPresenter.ResultsMap())
+        assertEquals(View.GONE, packageHotelResultsPresenter.mapPriceIncludesTaxesBottomMessage.visibility)
+        assertEquals(View.GONE, packageHotelResultsPresenter.mapPriceIncludesTaxesTopMessage.visibility)
+        assertEquals(View.GONE, packageHotelResultsPresenter.mapPricePerPersonMessage.visibility)
+    }
+
+    @Test
     fun testServerSideFilterDoneButtonTracking() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 

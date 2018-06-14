@@ -17,11 +17,16 @@ class LoyaltyUtil {
                     && user?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
         }
 
-        fun shouldShowEarnMessage(earnMessage: String, isPackage: Boolean): Boolean {
+        fun isEarnMessageEnabled(isPackage: Boolean): Boolean {
             val brandShowLoyaltyEarn = ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()
-            val validMessage = earnMessage.isNotBlank()
             val enabledForPOS = if (isPackage) PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages else PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
-            return brandShowLoyaltyEarn && validMessage && enabledForPOS
+
+            return brandShowLoyaltyEarn && enabledForPOS
+        }
+
+        fun shouldShowEarnMessage(earnMessage: String, isPackage: Boolean): Boolean {
+            val validMessage = earnMessage.isNotBlank()
+            return isEarnMessageEnabled(isPackage) && validMessage
         }
 
         fun getEarnMessagingString(context: Context, isPackage: Boolean, hotelEarnInfo: LoyaltyEarnInfo?, packageEarnInfo: LoyaltyEarnInfo?): String {

@@ -61,6 +61,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     val favoriteAddedSubject = PublishSubject.create<String>()
     val favoriteRemovedSubject = PublishSubject.create<String>()
 
+    var shopWithPoints = false
+
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         data.forEach { item ->
             if (item is HotelAdapterItem.Hotel && item.hotel.hotelId == soldOutHotelId) {
@@ -171,7 +173,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         when (holder) {
             is AbstractHotelResultCellViewHolder -> {
                 val hotel = (data[position] as HotelAdapterItem.Hotel).hotel
-                holder.bindHotelData(hotel)
+                holder.bindHotelData(hotel, shopWithPoints)
                 hotelListItemsMetadata.add(HotelListItemMetadata(holder.hotelId, holder.viewModel.soldOut))
                 if (!newResultsConsumed) {
                     newResultsConsumed = true

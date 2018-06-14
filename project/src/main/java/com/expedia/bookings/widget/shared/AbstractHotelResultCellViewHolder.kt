@@ -19,13 +19,15 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
     abstract fun createHotelViewModel(context: Context): HotelViewModel
 
     var hotelId: String by Delegates.notNull()
-    val viewModel = createHotelViewModel(itemView.context)
+    val viewModel: HotelViewModel by lazy {
+        createHotelViewModel(itemView.context)
+    }
 
     @CallSuper
-    open fun bindHotelData(hotel: Hotel) {
+    open fun bindHotelData(hotel: Hotel, shopWithPoints: Boolean = false) {
         viewModel.bindHotelData(hotel)
 
-        this.hotelId = hotel.hotelId
+        this.hotelId = viewModel.hotelId
 
         hotelNameStarAmenityDistance.update(viewModel)
         hotelPriceTopAmenity.update(viewModel)
@@ -40,7 +42,7 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
         updateAirAttach()
 
         earnMessagingText.text = viewModel.earnMessage
-        earnMessagingText.setVisibility(viewModel.showEarnMessage)
+        earnMessagingText.visibility = viewModel.earnMessageVisibility
 
         ratingPointsContainer.setVisibility(viewModel.showRatingPointsContainer())
 

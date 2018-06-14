@@ -11,14 +11,14 @@
         style="@style/Core.Text.300.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/primary_color"
+        android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="?attr/primary_color"
+        android:text="@string/you_picked_this_hotel_label"
         android:textColor="@color/white"
         android:visibility="gone"
-        android:text="@string/you_picked_this_hotel_label"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -62,35 +62,31 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:orientation="horizontal"
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
 
             <com.expedia.bookings.hotel.widget.HotelCellNameStarAmenityDistance
                 android:id="@+id/hotel_name_star_amenity_distance"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginRight="4dp"
-                android:layout_toLeftOf="@+id/hotel_discount_container"
+                android:layout_weight="1"
                 app:hotel_name_max_line="2"
                 app:hotel_name_text_color="@color/white" />
 
             <include
-                android:id="@+id/hotel_discount_container"
                 layout="@layout/hotel_cell_discount_air_attach"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom" />
+                android:layout_height="wrap_content" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/hotel_favorite_touch_target"
@@ -104,30 +100,30 @@
                 android:id="@+id/hotel_favorite_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_gravity="top|right"
                 android:layout_marginRight="8dp"
-                android:layout_gravity="top|right"/>
+                android:layout_marginTop="11dp" />
         </FrameLayout>
 
         <include
             android:id="@+id/hotel_sold_out_overlay_container"
             layout="@layout/hotel_cell_sold_out_overlay"
-            android:visibility="gone"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
+        android:padding="12dp">
 
         <LinearLayout
             android:id="@+id/rating_earn_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:gravity="center_vertical|left"
             android:orientation="vertical">
 
@@ -151,7 +147,6 @@
             android:id="@+id/hotel_price_top_amenity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center_vertical|right"
             android:orientation="vertical"

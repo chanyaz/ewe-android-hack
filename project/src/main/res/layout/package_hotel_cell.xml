@@ -14,7 +14,6 @@
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
-        app:contentPaddingBottom="12dp"
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout

@@ -9,8 +9,10 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.extensions.subscribeContentDescription
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.expedia.bookings.packages.vm.PackageFilterViewModel
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
@@ -63,6 +65,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
         vm.paramsSubject.subscribe { params ->
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
+            adapter.shopWithPoints = params.shopWithPoints
 
             moveMapToDestination(params.suggestion)
             resultsLoadingAnimation()
@@ -103,7 +106,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override fun onFinishInflate() {
         super.onFinishInflate()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
         filterViewModel.priceRangeContainerVisibility.onNext(false)
     }
 
@@ -165,8 +167,9 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun toggleMapDetailedPriceMessaging(shouldShow: Boolean) {
+        val bucketedToShowResultsCellOnMap = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultsCellOnMapCarousel)
         val topMessagingVisibility = if (isPackagesHSRPriceDisplayEnabled(context) && shouldShow) View.VISIBLE else View.GONE
-        val bottomMessagingVisibility = if (isPackagesHSRPriceDisplayEnabled(context) && shouldShow) View.GONE else View.VISIBLE
+        val bottomMessagingVisibility = if (bucketedToShowResultsCellOnMap || (isPackagesHSRPriceDisplayEnabled(context) && shouldShow)) View.GONE else View.VISIBLE
         mapPricePerPersonMessage.visibility = topMessagingVisibility
         mapPriceIncludesTaxesTopMessage.visibility = topMessagingVisibility
         mapPriceIncludesTaxesBottomMessage.visibility = bottomMessagingVisibility
