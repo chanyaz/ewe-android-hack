@@ -36,6 +36,5 @@ class FlightSuggestionAdapterViewModel(context: Context, suggestionsService: Sug
     override fun areLabelsEnabled(): Boolean =
             (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2 && showSuggestionLabel)
 
-    override fun isSuggestionOnOneCharEnabled(): Boolean =
-            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter)
+    override fun isSuggestionOnOneCharEnabled(): Boolean = true
 }

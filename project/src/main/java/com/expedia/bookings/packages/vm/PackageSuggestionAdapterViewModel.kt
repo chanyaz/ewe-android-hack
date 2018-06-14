@@ -30,4 +30,5 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: IS
     override fun isMISForRealWorldEnabled(): Boolean = true
     override fun getCurrentLocationLabel(): String = context.getString(R.string.flight_search_suggestion_label_airport_near)
     override fun getPastSuggestionsLabel(): String = context.getString(R.string.suggestion_label_recent_search)
+    override fun isSuggestionOnOneCharEnabled(): Boolean = true
 }
