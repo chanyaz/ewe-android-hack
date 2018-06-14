@@ -47,12 +47,14 @@ class GCMIntentServiceV2 : IntentService("GCMIntentServiceV2: " + PushNotificati
                 val titleKey = message.optString("title-loc-key")
 
                 val locArgs = message.optJSONArray("loc-args")
-                var locArgsStrings: Array<String?>? = null
+                var locArgsStrings: Array<String>? = null
                 if (locArgs != null) {
-                    locArgsStrings = arrayOfNulls<String>(locArgs.length())
+                    val nullArray = arrayOfNulls<String>(locArgs.length())
+
                     for (i in 0 until locArgs.length()) {
-                        locArgsStrings[i] = locArgs.getString(i)
+                        nullArray[i] = locArgs.getString(i)
                     }
+                    locArgsStrings = nullArray.filterNotNull().toTypedArray()
                 }
 
                 val notificationID = data.optString("nid")
@@ -86,18 +88,18 @@ class GCMIntentServiceV2 : IntentService("GCMIntentServiceV2: " + PushNotificati
         }
     }
 
-    private fun makeSyncListener(fhid: Int, locKey: String, locArgs: Array<String?>?, type: String, titleKey: String, nID: String): ItineraryManager.ItinerarySyncAdapter {
+    private fun makeSyncListener(fhid: Int, locKey: String, locArgs: Array<String>?, type: String, titleKey: String, nID: String): ItineraryManager.ItinerarySyncAdapter {
         return object : ItineraryManager.ItinerarySyncAdapter() {
             override fun onSyncFinished(trips: Collection<Trip>) {
                 Log.d(LOGGING_TAG, "GCM onMessage - ItinManager finished syncing, building notification now.")
                 intenaryManager.removeSyncListener(this)
-                PushNotificationUtils.generateNotification(this@GCMIntentServiceV2, fhid, locKey, locArgs, titleKey, nID, type)
+                PushNotificationUtilsV2.generateNotification(this@GCMIntentServiceV2, fhid, locKey, locArgs, titleKey, nID, type)
             }
 
             override fun onSyncFailure(error: ItineraryManager.SyncError) {
                 Log.d(LOGGING_TAG, "GCM onMessage - ItinManager failed syncing, building notification now.")
                 intenaryManager.removeSyncListener(this)
-                PushNotificationUtils.generateNotification(this@GCMIntentServiceV2, fhid, locKey, locArgs, titleKey, nID, type)
+                PushNotificationUtilsV2.generateNotification(this@GCMIntentServiceV2, fhid, locKey, locArgs, titleKey, nID, type)
             }
         }
     }

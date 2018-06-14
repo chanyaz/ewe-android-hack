@@ -9,7 +9,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.utils.Strings;
@@ -23,42 +22,6 @@ public class PushNotificationUtils {
 	private static final String LOGGING_TAG = "PushNotificationUtils";
 	private static HashMap<String, Integer> sLocStringMap;
 
-	/**
-	 * Build and display a notification for the provided arguments
-	 *
-	 * @param fhid       - The FlightHistoryId as provided by flightstats
-	 * @param locKey     - The display message provided by the push
-	 * @param locKeyArgs - The arguments to be formatted into the displayMessage
-	 * @param context
-	 */
-	public static void generateNotification(Context context, int fhid, String locKey,
-		String[] locKeyArgs, String titleArg, String nID, String type) {
-		if (fhid < 0) {
-			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification FlightHistoryId must be >= 0");
-		}
-		else {
-			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()
-				.getItinCardDataFromFlightHistoryId(fhid);
-			if (type != null) {
-				INotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
-				PushNotificationUtilsV2.generateFlightAlertWithNoLocalizationNotification(notificationManager, locKey, titleArg, nID, data, type);
-			}
-			else if (data != null) {
-				if (hasLocKeyForNewFlightAlerts(locKey)) {
-					generateFlightAlertNotification(context, fhid, locKey,
-						locKeyArgs, titleArg, nID, data);
-				}
-			}
-			else {
-				// There is not any data from a desktop booking notification,
-				// so we check the locKey to see if it indicates that the message
-				// is related to a desktop booking. If so, we generate it.
-				if (locKeyForDesktopBooking(locKey)) {
-					generateDesktopBookingNotification(context, fhid, locKey, locKeyArgs);
-				}
-			}
-		}
-	}
 
 	static void generateFlightAlertNotification(Context context, int fhid, String locKey,
 		String[] locKeyArgs, String titleArg, String nID, ItinCardDataFlight dataFlight) {
@@ -141,19 +104,19 @@ public class PushNotificationUtils {
 		}
 	}
 
-	private static boolean hasLocKeyForNewFlightAlerts(String locKey) {
+	static boolean hasLocKeyForNewFlightAlerts(String locKey) {
 		if (sLocStringMap == null) {
 			initLocStrMap();
 		}
 		return sLocStringMap.containsKey(locKey);
 	}
 
-	private static boolean locKeyForDesktopBooking(String locKey) {
+	static boolean locKeyForDesktopBooking(String locKey) {
 		return locKey.equals("S_Push_Hey_VALUE_your_booking_is_confirmed") ||
 			locKey.equals("S_Push_Your_booking_is_confirmed_View_it_in_app");
 	}
 
-	private static void generateDesktopBookingNotification(Context context, int fhid, String locKey,
+	static void generateDesktopBookingNotification(Context context, int fhid, String locKey,
 		String[] locKeyArgs) {
 		String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
 
@@ -260,7 +223,7 @@ public class PushNotificationUtils {
 	 * @param args
 	 * @return
 	 */
-	public static String getFormattedLocString(Context context, String locKey, Object[] args) {
+	static String getFormattedLocString(Context context, String locKey, Object[] args) {
 		Log.d(LOGGING_TAG, "PushNotificationUtils.getFormattedLocString locKey:" + locKey);
 		String locStr = getLocStringForKey(context, locKey);
 		if (TextUtils.isEmpty(locStr)) {
@@ -278,7 +241,7 @@ public class PushNotificationUtils {
 	 * @param locKey
 	 * @return - the loc string or null
 	 */
-	public static String getLocStringForKey(Context context, String locKey) {
+	static String getLocStringForKey(Context context, String locKey) {
 		if (sLocStringMap == null) {
 			initLocStrMap();
 		}
@@ -303,7 +266,7 @@ public class PushNotificationUtils {
 		sLocStringMap.put("S_Push_Flight_delayed_title", R.string.flight_notification_delayed_title);
 	}
 
-	public static Boolean isFlightAlertsNotification(Notification notification) {
+	static Boolean isFlightAlertsNotification(Notification notification) {
 		List<NotificationType> notificationTypes = Arrays.asList(NotificationType.FLIGHT_DELAYED);
 		return notificationTypes.contains(notification.getNotificationType());
 	}

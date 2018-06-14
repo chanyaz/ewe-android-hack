@@ -1,8 +1,12 @@
 package com.expedia.bookings.notification
 
+import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.services.TNSServices
+import com.expedia.bookings.utils.Ui
 import com.mobiata.android.Log
 
 class PushNotificationUtilsV2 {
@@ -49,6 +53,33 @@ class PushNotificationUtilsV2 {
             }
             Log.d(LOGGING_TAG, "PushNotificationUtils.sanitizeUniqueId input:$uniqueId output:$retStr")
             return retStr
+        }
+
+        fun generateNotification(context: Context, fhid: Int, locKey: String,
+                                 locKeyArgs: Array<String>?, titleArg: String, nID: String, type: String,
+                                 itinManager: ItineraryManagerInterface = ItineraryManager.getInstance(),
+                                 notificationManager: INotificationManager = Ui.getApplication(context).appComponent().notificationManager(),
+                                 oldAccessor: IPushNotifcationUtilAccessor = PushNotifcationUtilAccessor) {
+            if (fhid < 0) {
+                Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification FlightHistoryId must be >= 0")
+            } else {
+                val data = itinManager.getItinCardDataFromFlightHistoryId(fhid) as ItinCardDataFlight?
+                if (type.isNotEmpty()) {
+                    generateFlightAlertWithNoLocalizationNotification(notificationManager, locKey, titleArg, nID, data, type)
+                } else if (data != null) {
+                    if (oldAccessor.hasLocKeyForNewFlightAlerts(locKey)) {
+                        oldAccessor.generateFlightAlertNotification(context, fhid, locKey,
+                                locKeyArgs, titleArg, nID, data)
+                    }
+                } else {
+                    // There is not any data from a desktop booking notification,
+                    // so we check the locKey to see if it indicates that the message
+                    // is related to a desktop booking. If so, we generate it.
+                    if (oldAccessor.locKeyForDesktopBooking(locKey)) {
+                        oldAccessor.generateDesktopBookingNotification(context, fhid, locKey, locKeyArgs)
+                    }
+                }
+            }
         }
     }
 }
