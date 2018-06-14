@@ -21,6 +21,7 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     val pricePerNightTextView: TextView by bindView(R.id.price_per_night)
     val topAmenityTextView: TextView by bindView(R.id.top_amenity)
     val soldOutTextView: TextView by bindView(R.id.sold_out_text)
+    val checkInOutDateTextView: TextView by bindView(R.id.check_in_out_dates)
 
     init {
         View.inflate(context, R.layout.hotel_cell_price_top_amenity, this)

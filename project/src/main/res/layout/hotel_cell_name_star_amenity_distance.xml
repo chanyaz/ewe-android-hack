@@ -9,8 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="left|top"
         android:maxLines="2"/>
 
     <com.expedia.bookings.widget.StarRatingBar
@@ -45,6 +43,7 @@
         android:layout_below="@+id/hotel_name"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="6dp"
+        android:visibility="gone"
         android:layout_toRightOf="@+id/circle_rating_bar"
         android:textColor="@color/gray300"/>
 

@@ -26,4 +26,14 @@ data class HotelShortlistItem(
         val metadata = shortlistItem?.metaData
         return if (metadata?.hotelId.isNullOrBlank()) shortlistItem?.itemId else metadata?.hotelId
     }
+
+    fun isHotelGuestRatingAvailable(): Boolean {
+        if (!guestRating.isNullOrBlank()) {
+            val guestRatingFloat = guestRating!!.toFloatOrNull()
+            if (guestRatingFloat != null) {
+                return guestRatingFloat > 0
+            }
+        }
+        return false
+    }
 }

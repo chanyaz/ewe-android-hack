@@ -54,6 +54,7 @@ class HotelCellNameStarAmenityDistance(context: Context, attrs: AttributeSet) : 
         } else {
             neighborhoodNameOrDistanceFromLocationTextView.text = viewModel.neighborhoodName
         }
+        neighborhoodNameOrDistanceFromLocationTextView.visibility = View.VISIBLE
     }
 
     private fun updateStarRating(viewModel: HotelViewModel) {

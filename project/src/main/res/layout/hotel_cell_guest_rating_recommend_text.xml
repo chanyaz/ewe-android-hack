@@ -9,11 +9,11 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/no_guest_rating"
+        style="@style/Core.Text.300"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/not_rated"
-        android:textColor="@color/result_cells_gray_text"
-        android:textSize="10sp" />
+        android:textColor="@color/result_cells_gray_text" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/guest_rating"
