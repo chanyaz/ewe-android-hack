@@ -46,4 +46,8 @@ public class LXOfferSelected {
 		this.regionId = regionId;
 		this.promotionId = promotionId;
 	}
+
+	public String getPromotionId() {
+		return promotionId;
+	}
 }
