@@ -26,6 +26,7 @@ abstract class AbstractItinDetailsResponse {
 
         var totalTripPrice: TotalTripPrice? = null
         var paymentSummary: PaymentSummary? = null
+        var mipQualifications = emptyList<MipQualifications>()
 
         fun getTotalPaidMoney(): Money? {
             ifNotNull(paymentSummary?.totalPaidPrice?.amount, paymentSummary?.totalPaidPrice?.currency?.currencyCode) { amount, currencyCode ->
@@ -46,6 +47,10 @@ abstract class AbstractItinDetailsResponse {
 
         class Rewards {
             var totalPoints: Long? = null
+        }
+
+        class MipQualifications {
+            val destinationName: String? = null
         }
 
         class Email {

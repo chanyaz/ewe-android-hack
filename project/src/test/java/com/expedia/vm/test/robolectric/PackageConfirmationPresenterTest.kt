@@ -129,7 +129,7 @@ class PackageConfirmationPresenterTest {
         testObserver.assertValueCount(1)
         val confirmationPresenter = packagePresenter.confirmationPresenter
         assertEquals("#7316992699395 sent to seokev@gmail.com", confirmationPresenter.itinNumber.text)
-        assertEquals("Los Angeles", confirmationPresenter.destination.text)
+        assertEquals("Orange County", confirmationPresenter.destination.text)
         assertEquals("Farmer's Daughter", confirmationPresenter.destinationCard.title.text)
         assertEquals("Mar 7 - Mar 8, 1 guest", confirmationPresenter.destinationCard.subTitle.text)
         assertEquals("Flight to (SNA) Orange County", confirmationPresenter.outboundFlightCard.title.text)
@@ -153,6 +153,7 @@ class PackageConfirmationPresenterTest {
 
         testObserver.assertValueCount(1)
         val confirmationPresenter = packagePresenter.confirmationPresenter
+        assertEquals("New York", confirmationPresenter.destination.text)
         assertEquals("Flight to (LGA) New York", confirmationPresenter.outboundFlightCard.title.text)
         assertEquals("Feb 22 at 23:15:00, 1 traveler", confirmationPresenter.outboundFlightCard.subTitle.text)
         assertEquals("Flight to (SFO) San Francisco", confirmationPresenter.inboundFlightCard.title.text)

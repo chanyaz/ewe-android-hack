@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -68,7 +69,7 @@ open class PackageConfirmationViewModel(private val context: Context) {
             }
             val hotel = details.hotels.first()
             val guests = details.flights.first().passengers.size
-            destinationObservable.onNext(hotel.hotelPropertyInfo.address.city)
+            destinationObservable.onNext(getPkgDestination(response, hotel))
             destinationTitleObservable.onNext(hotel.hotelPropertyInfo.name)
             destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDateTime.toLocalDate().toString(),
                     hotel.checkOutDateTime.toLocalDate().toString(), guests))
@@ -119,6 +120,16 @@ open class PackageConfirmationViewModel(private val context: Context) {
                 .put("airportcode", airportCode)
                 .put("city", city)
                 .format().toString()
+    }
+
+    private fun getPkgDestination(response: MIDItinDetailsResponse, hotel: HotelItinDetailsResponse.Hotels): String {
+        val destination: String
+        if (response.responseData.mipQualifications.firstOrNull()?.destinationName != null) {
+            destination = response.responseData.mipQualifications.first().destinationName.toString()
+        } else {
+            destination = hotel.hotelPropertyInfo.address.city
+        }
+        return destination
     }
 
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
