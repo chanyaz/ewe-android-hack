@@ -3577,6 +3577,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppBrandColors);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
+		trackAbacusTest(s, AbacusUtils.HomeScreenDisplayLogic);
 		trackAbacusTest(s, AbacusUtils.DownloadableFonts);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountNewSignIn);

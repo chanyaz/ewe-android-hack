@@ -128,6 +128,24 @@ class PhoneLaunchActivityTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun displayLogicIsTrackedOnLaunchScreen_whenBucketed() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.bucketTests(AbacusUtils.HomeScreenDisplayLogic)
+        OmnitureTracking.trackPageLoadLaunchScreen(null)
+        assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(25587), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun displayLogicIsTrackedOnLaunchScreen_whenControl() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.unbucketTests(AbacusUtils.HomeScreenDisplayLogic)
+        OmnitureTracking.trackPageLoadLaunchScreen(null)
+        assertStateTracked("App.LaunchScreen", withAbacusTestControl(25587), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun topNavigationIsHidden_givenUserIsBucketedIntoBottomNav() {
         LaunchNavBucketCache.cacheBucket(context, 1)
         val startedActivity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start()
