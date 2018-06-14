@@ -1,5 +1,12 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.joda.time.LocalDate;
+
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.PointF;
@@ -21,11 +28,16 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.ActivityImages;
+import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
+import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Images;
@@ -35,13 +47,6 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
-
-import org.joda.time.LocalDate;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -168,6 +173,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		offers.setVisibility(View.GONE);
 		discountContainer.setVisibility(View.GONE);
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
+		offers.getOfferClickedSubject().subscribe(this::trackLXDetails);
 		defaultScroll();
 		galleryContainer.getViewTreeObserver().addOnScrollChangedListener(
 			new ViewTreeObserver.OnScrollChangedListener() {
@@ -591,6 +597,24 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 		else {
 			mipInfositeBanner.setVisibility(GONE);
+		}
+	}
+
+	private void trackLXDetails(Offer offer) {
+		LocalDate availabilityDate = ApiDateUtils
+			.yyyyMMddHHmmssToLocalDate(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		String lowestTicketAmount = offer.availabilityInfoOfSelectedDate.getLowestTicket().money.getAmount()
+			.toString();
+
+		for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
+			if (ticket.code == LXTicketType.Adult) {
+				lowestTicketAmount = ticket.money.getAmount().toString();
+				break;
+			}
+		}
+		if (lxState.activity != null) {
+			AdTracker.trackLXDetails(lxState.activity.id, lxState.activity.destination, availabilityDate,
+				lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
 		}
 	}
 }
