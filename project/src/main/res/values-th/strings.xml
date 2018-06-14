@@ -664,10 +664,6 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">กิจกรรมทั้งหมด</string>
 
-    <string name="lx_customers_recommend">ของลูกค้าแนะนำ</string>
-    <!-- LX user recommended percentage template-->
-    <string name="lx_recommend_percent_Template">{recommend}%</string>
-
     <string name="lx_recommendation_no_superlative">จาก 5</string>
     <string name="lx_recommendation_superlativeGood">จาก 5 - ดี!</string>
     <string name="lx_recommendation_superlativeGreat">จาก 5 - ดีมาก!</string>
@@ -675,6 +671,21 @@
 
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">คีย์เวิร์ดหรือชื่อกิจกรรม</string>
+
+    <!-- "LX count string to display number of results on default search results page. Eg. 1 thing to do near you" -->
+    <!-- "LX count string to display number of results on default search results page. Eg. 132 things to do near you" -->
+    <plurals name="lx_activity_count_header_current_location_TEMPLATE">
+        <item quantity="one">มี {activitycount} กิจกรรมใกล้คุณ</item>
+        <item quantity="other">มี {activitycount} กิจกรรมใกล้คุณ</item>
+    </plurals>
+
+
+    <!-- "LX count string to display number of results on explicit search results page. Eg. 1 thing to do in Vegas"-->
+    <!-- "LX count string to display number of results on explicit search results page. Eg. 132 things to do in Vegas"-->
+    <plurals name="lx_activity_count_header_TEMPLATE">
+        <item quantity="one">มี {activitycount} กิจกรรมใน {destination}</item>
+        <item quantity="other">มี {activitycount} กิจกรรมใน {destination}</item>
+    </plurals>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">จำกัดผลการค้นหา</string>
@@ -747,6 +758,8 @@
     <string name="pacakge_price_per_person_includes_hotel_and_flight_message">ต่อคน (โรงแรม + เที่ยวบิน)</string>
     <!-- Label indicating that the price includes taxes and fees -->
     <string name="includes_taxes_and_fees_lower_case">รวมภาษีและค่าธรรมเนียม</string>
+    <!-- Label indicating that the prices are including taxes and fees -->
+    <string name="including_taxes_and_fees_lower_case">รวมภาษีและค่าธรรมเนียม</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">เรียงตาม</string>
@@ -1445,12 +1458,16 @@
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">ยอดรวมที่ต้องจ่ายที่โรงแรม: {amount}</string>
     <!--Hotel itin price summary subtotal label-->
     <string name="itin_hotel_details_price_summary_subtotal_label">ราคารวม</string>
-    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
-    <string name="itin_hotel_details_price_summary_product_description_two">{firstproduct} + {secondproduct}</string>
-    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
-    <string name="itin_hotel_details_price_summary_product_description_many">{products}และ{lastproduct}</string>
-    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
-    <string name="itin_hotel_details_price_summary_product_description_one">{product}</string>
+    <!--Hotel itin price summary mico description-->
+    <string name="itin_hotel_details_price_summary_bundle_description">นี่คือราคารวมทั้งหมดของคุณ ซึ่งรวม:</string>
+    <!--Hotel itin price summary list of mico products (eg. • Hotel)-->
+    <string name="itin_hotel_details_price_summary_bundle_product_TEMPLATE">• {product}</string>
+    <!--Flight type for roundtrip-->
+    <string name="itin_flight_type_roundtrip">เที่ยวบินไป-กลับ</string>
+    <!--Flight type for one way-->
+    <string name="itin_flight_type_one_way">เที่ยวบินแบบเที่ยวเดียว</string>
+    <!--Flight type for multi destination-->
+    <string name="itin_flight_type_multi_destination">เที่ยวบินที่มีปลายทางหลายแห่ง</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">ข้อมูลราคาเพิ่มเติม</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
@@ -1485,20 +1502,16 @@
     <string name="itin_hotel_manage_booking_header">จัดการการจอง</string>
     <!--Hotel itin manage booking hotel help heading-->
     <string name="itin_more_help_heading">เราพร้อมช่วยเหลือคุณ</string>
-    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
-    <string name="itin_hotel_itinerary_number_TEMPLATE">หมายเลขแผนการเดินทาง # {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} ฝ่ายบริการลูกค้า</string>
-    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
-    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">ปุ่มลิงก์ฝ่ายบริการลูกค้า{brand}</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">ฝ่ายบริการลูกค้า</string>
     <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">โทรติดต่อโรงแรมได้ที่ {phonenumber} ปุ่ม</string>
-    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
-    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">โทรติดต่อ {brand} ได้ที่ {phonenumber} ปุ่ม</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">หมายเลขแผนการเดินทาง {number} คลิกเพื่อคัดลอก</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">โทรติดต่อ {brand} ได้ที่ {phonenumber} ปุ่ม</string>
     <!--Hotel itin room details requests header-->
     <string name="itin_hotel_room_details_requests_header">คำขอ</string>
     <!--Hotel itin room details requests disclaimer-->
@@ -1566,16 +1579,37 @@
     <string name="itin_active">ใช้งานได้</string>
     <string name="itin_expires">หมดอายุ</string>
 
+    <!--Car itin redesign-->
+    <!--Car toolbar title template. (e.g. Car rental in San Francisco)-->
+    <string name="itin_car_toolbar_title_TEMPLATE">รถเช่าใน {location}</string>
+    <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
+    <string name="itin_pick_up">รับรถ</string>
+    <string name="itin_drop_off">ส่งคืนรถ</string>
+    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <string name="itin_car_call_button_content_description_TEMPLATE">โทรติดต่อ {vendor} ได้ที่ {phonenumber} ปุ่ม</string>
+    <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_car_address_copy_content_description_TEMPLATE">ที่อยู่ {address} คลิกเพื่อคัดลอกไปยังคลิปบอร์ด ปุ่ม</string>
+
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">แชร์แผนการเดินทาง</string>
     <!--Itin more help confirmation number text -->
     <string name="itin_more_help_confirmation_text">หมายเลขยืนยัน #</string>
+    <!--Itin customer support itin number text -->
+    <string name="itin_customer_support_itin_number_text">หมายเลขแผนการเดินทาง</string>
     <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
     <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">หมายเลขยืนยัน {number} ดับเบิลคลิกและแตะค้างไว้เพื่อเลือก</string>
     <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
     <string name="itin_more_help_text_TEMPLATE">หากมีข้อสงสัยเกี่ยวกับการจองของคุณหรือคำขอพิเศษ โปรดติดต่อ {supplier}</string>
     <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_customer_support_header_text_TEMPLATE">โปรดติดต่อ{brand} หากต้องการความช่วยเหลือในการจัดการแผนการเดินทางนี้</string>
+    <!--Itin customer support itinerary number content description. Itinerary number {number}. Double click and hold to select. (eg., Itinerary number 88888888. Double click and hold to select.)-->
+    <string name="itin_customer_support_itin_number_content_description_TEMPLATE">หมายเลขแผนการเดินทาง {number} ดับเบิลคลิกและแตะค้างไว้เพื่อเลือก</string>
+    <!--Itin call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_call_support_button_content_description_TEMPLATE">โทรติดต่อ {brand} ได้ที่ {phonenumber} ปุ่ม ดับเบิลคลิกและแตะค้างไว้เพื่อเลือก</string>
+    <!--Itin customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_customer_support_site_button_content_description_TEMPLATE">ปุ่มลิงก์ฝ่ายบริการลูกค้า{brand}</string>
+    <!--Itin customer support webview heading-->
+    <string name="itin_customer_service_webview_heading">ฝ่ายบริการลูกค้า</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1648,8 +1682,6 @@
     <string name="itin_flight_summary_status_indicator_text_early_departure">ออกเดินทางก่อนเวลา</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_manage_booking_header">จัดการการจอง</string>
-    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
-    <string name="itin_flight_itinerary_number_TEMPLATE">หมายเลขแผนการเดินทาง # {itin_number}</string>
     <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
     <string name="itin_flight_itinerary_number_content_description_TEMPLATE">หมายเลขแผนการเดินทาง {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -2024,6 +2056,8 @@
     <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยังไม่มีให้บริการในพื้นที่ของคุณ</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">โปรดตรวจสอบว่าเมืองต้นทางและเมืองปลายทางอยู่คนละที่กัน</string>
+    <!-- Error message when the user picks the same multicity for both origin and destination -->
+    <string name="error_same_or_close_origin_destination">ต้นทางและปลายทางของคุณเหมือนกัน หรืออยู่ใกล้กันเกินไป \nกรุณาปรับเปลี่ยนการค้นหาและลองอีกครั้ง</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -2506,11 +2540,11 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">ดีลหมดเขตวันนี้</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="hotel_attach_string1_TEMPLATE">ส่วนลดสูงสุด 55% จากโรงแรมใน{location}</string>
+    <string name="air_attach_variant1_string1_TEMPLATE">ส่วนลดสูงสุด 55% จากโรงแรมใน{location}</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
     <string name="air_attach_variant2_string1_TEMPLATE">โรงแรมใน{location}ลดสูงสุด 55%</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="hotel_attach_string">เพราะคุณจองเที่ยวบิน</string>
+    <string name="air_attach_variant1_string">เพราะคุณจองเที่ยวบิน</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">รับส่วนลดจองโรงแรมเพราะคุณจองเที่ยวบิน</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
@@ -2714,8 +2748,6 @@
     <string name="search_hotel_id_TEMPLATE">โรงแรม%s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
     <string name="member_pricing">ราคาสำหรับสมาชิก</string>
-    <!-- Expedia Generic Attach Bundled Savings for a given property, AB test -->
-    <string name="bundled_savings">ลดแบบแพ็คเกจ</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2999,12 +3031,7 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">ไม่มีรีวิวเชิงลบสำหรับโรงแรมนี้</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">ไม่มีรีวิวเชิงบวกสำหรับโรงแรมนี้</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">ไม่มีรีวิวใหม่สำหรับโรงแรมนี้</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">จองตอนนี้ จ่ายทีหลัง</string>
@@ -3825,7 +3852,10 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">สมัคร {brand_reward_name} วันนี้ โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ&lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไขทั้งหมด&lt;/a&gt;</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">ในการสร้างบัญชีนี้ ฉันยอมรับ &lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไข&lt;/a&gt;ของ {brand_reward_name} และฉันได้อ่านและยอมรับ &lt;a href="{terms_of_use_url}"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="{privacy_policy_url}"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt; แล้ว</string>
+    <string name="account_creation_reward_combined_text_TEMPLATE">ในการสร้างบัญชีนี้ ฉันยอมรับ &lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไข&lt;/a&gt;ของ {brand_reward_name} และฉันได้อ่านและยอมรับ &lt;a href="{terms_of_use_url}"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="{privacy_policy_url}"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt; แล้ว</string>
+    <!--Account creation legal template for terms and reward eg: By creating an account, I agree that I have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_non_reward_text_TEMPLATE">ในการสร้างบัญชีนี้ ฉันได้อ่านและยอมรับ &lt;a href="{terms_of_use_url}"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="{privacy_policy_url}"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt; แล้ว</string>
+
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
 
@@ -4478,6 +4508,8 @@
     <string name="fly_from_hint">บินจาก</string>
     <!-- Fly to hint -->
     <string name="fly_to_hint">บินไปยัง</string>
+    <string name="packages_enter_origin_hint">ป้อนต้นทาง</string>
+    <string name="packages_enter_destination_hint">ป้อนจุดหมายปลายทาง</string>
 
     <!-- Strings used in Orbitz where amount type is rewards  -->
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
@@ -4549,12 +4581,20 @@
     </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">บินไปยัง ปุ่ม {to_destination}</string>
+    <!--Enter destination card content description Eg. Enter destination. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_enter_destination_cont_desc_TEMPLATE">ป้อนจุดหมายปลายทาง ปุ่ม {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
     <string name="search_flying_from_destination_cont_desc_TEMPLATE">บินจาก ปุ่ม {from_destination}</string>
+    <!--Enter origin card content description Eg. Enter origin. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_enter_origin_cont_desc_TEMPLATE">ป้อนต้นทาง ปุ่ม {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
     <string name="packages_search_flying_to_cont_desc">บินไปยัง ปุ่ม</string>
+    <!--Enter destination card content description before a location is selected-->
+    <string name="packages_search_enter_destination_cont_desc">ป้อนจุดหมายปลายทาง ปุ่ม</string>
     <!--Flying from card content description before a location is selected-->
     <string name="packages_search_flying_from_cont_desc">บินจาก ปุ่ม</string>
+    <!--Enter origin card content description before a location is selected-->
+    <string name="packages_search_enter_origin_cont_desc">ป้อนต้นทาง ปุ่ม</string>
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">เลือกวันเดินทาง ปุ่ม เปิดกล่องโต้ตอบ</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
@@ -4617,8 +4657,8 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">ลบผู้เดินทางเด็ก 1 คน</string>
 
-    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
-    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate}\u0020 \u0020{nights}\u0020 \u0020{guests}</string>
+    <!--Recent searches subtitle in the suggestions dropdown, e.g Jun 3 - Jun 5 2 Nights 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate} \u0020 {nights} \u0020 {guests}</string>
 
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">เพิ่มผู้เดินทางเยาวชน 1 คน</string>
@@ -4898,6 +4938,8 @@
     <string name="last_minute_deal_subtitle">อยากไปเที่ยวไหน จองทริปราคาถูกนาทีสุดท้ายได้เลย!</string>
     <string name="last_minute_deals_toolbar_title">ดีลนาทีสุดท้าย</string>
     <string name="last_minute_deals_toolbar_close_cont_desc">ปิดหน้าจอดีลนาทีสุดท้าย</string>
+    <string name="deal_error_no_result_message">ขออภัย เราไม่พบผลลัพธ์ โปรดลองใหม่ภายหลัง</string>
+    <string name="deal_error_go_back">ย้อนกลับ</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">วิธีการจัดเรียงผลการค้นหาโรงแรม</string>
@@ -5053,10 +5095,8 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">ราคาปกติ{ticket_type} {activity_original_price} ราคารวมส่วนลด{ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">คะแนน Expedia Rewards 2 เท่า!</string>
     <string name="hotel_2x_points_search_content">คุณจะได้รับคะแนนเป็นสองเท่าเมื่อจองผ่านแอพ!</string>
-    <!-- Generic attach slim card title on hotel search result to show: You have earned bundled savings on hotels-->
-    <string name="generic_attach_slim_card_title">คุณได้รับส่วนลดโรงแรมแบบแพ็คเกจ</string>
-    <!-- Generic attach slim card content on hotel search result to show: Your purchase unlocked savings for your trip -->
-    <string name="generic_attach_slim_card_content">คุณได้ปลดล็อคส่วนลดแบบแพ็คเกจสำหรับทริปนี้</string>
+    <!-- Add on attach slim card title on hotel search results to indicate special add on discounts availability, ex: You unlocked hotel discounts because you booked on Expedia-->
+    <string name="add_on_attach_slim_card_title_TEMPLATE">คุณได้ปลดล็อคส่วนลดโรงแรม เพราะคุณจองกับ{brand}</string>
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">แท็บที่เลือก</string>
 

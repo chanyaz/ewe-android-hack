@@ -78,6 +78,10 @@ class FlightItinDetailsActivityTest {
     }
 
     inner class TestItinManager : ItineraryManagerInterface {
+        override fun getItinCardDataFromFlightHistoryId(fhid: Int): ItinCardData? {
+            return null
+        }
+
         var first = true
         override fun getItinCardDataFromItinId(id: String?): ItinCardData {
             return if (first) {

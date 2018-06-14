@@ -271,6 +271,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	 * @param fhid - flightHistoryId from flightstats
 	 * @return ItinCardData containing the flight with the matching historyId or null
 	 */
+	@Override
 	public ItinCardData getItinCardDataFromFlightHistoryId(int fhid) {
 		TripFlight tripFlight = getTripComponentFromFlightHistoryId(fhid);
 		if (tripFlight != null) {

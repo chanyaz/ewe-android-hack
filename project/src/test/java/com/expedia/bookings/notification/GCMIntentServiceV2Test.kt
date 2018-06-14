@@ -218,6 +218,10 @@ class GCMIntentServiceV2Test {
     }
 
     private class MockItineraryManager(val isAlwaysSyncing: Boolean = true) : ItineraryManagerInterface {
+        override fun getItinCardDataFromFlightHistoryId(fhid: Int): ItinCardData? {
+            return null
+        }
+
         var syncListenerAdded = false
         var syncListenerRemoved = false
         var syncingCalled = false
