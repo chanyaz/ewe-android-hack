@@ -1,7 +1,13 @@
 package com.expedia.bookings.notification
 
+import android.content.Context
 import com.activeandroid.ActiveAndroid
 import com.expedia.bookings.R
+import com.expedia.bookings.data.trips.ItinCardData
+import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.ItineraryManagerInterface
+import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.After
 import org.junit.Before
@@ -15,10 +21,13 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class PushNotificationUtilsV2Test {
     val sut = PushNotificationUtilsV2
+    val context: Context = RuntimeEnvironment.application
+    lateinit var mockOldAccessor: MockAccessor
 
     @Before
     fun setup() {
         ActiveAndroid.initialize(RuntimeEnvironment.application)
+        mockOldAccessor = MockAccessor()
     }
 
     @Test
@@ -86,6 +95,15 @@ class PushNotificationUtilsV2Test {
         assertEquals(1023, outputString.length)
     }
 
+    @Test
+    fun testNotificationDisplayedForBooking() {
+        val mockNotificationManager = MockNotifcationManager()
+        mockOldAccessor.locKeyForDesktopBooking = true
+        assertFalse(mockOldAccessor.wasGenerateDesktopBookingNotificationCalled)
+        sut.generateNotification(context, 1, "body", emptyArray<String>(), "", "1", "", MockItineraryManagerInterface(), mockNotificationManager, mockOldAccessor)
+        assertTrue(mockOldAccessor.wasGenerateDesktopBookingNotificationCalled)
+    }
+
     private fun buildString(maxCount: Int): String {
         val inputStringBuilder = StringBuilder()
         for (i in 0 until maxCount) {
@@ -97,6 +115,38 @@ class PushNotificationUtilsV2Test {
     @After
     fun tearDown() {
         ActiveAndroid.dispose()
+    }
+
+    class MockItineraryManagerInterface : ItineraryManagerInterface {
+        override fun removeSyncListener(listener: ItineraryManager.ItinerarySyncListener) {
+        }
+
+        override fun getTripComponentFromFlightHistoryId(id: Int): TripFlight? {
+            return null
+        }
+
+        override fun isSyncing(): Boolean {
+            return true
+        }
+
+        override fun startSync(boolean: Boolean): Boolean {
+            return false
+        }
+
+        override fun deepRefreshTrip(key: String, doSyncIfNotFound: Boolean): Boolean {
+            return false
+        }
+
+        override fun getItinCardDataFromFlightHistoryId(fhid: Int): ItinCardData? {
+            return null
+        }
+
+        override fun addSyncListener(listener: ItineraryManager.ItinerarySyncListener) {
+        }
+
+        override fun getItinCardDataFromItinId(id: String?): ItinCardData? {
+            return null
+        }
     }
 
     class MockNotifcationManager : INotificationManager {
@@ -144,6 +194,28 @@ class PushNotificationUtilsV2Test {
         }
 
         override fun deleteAll(itinId: String) {
+        }
+    }
+
+    class MockAccessor : IPushNotifcationUtilAccessor {
+        var hasLocKeyForNewFlightAlertsReturn = false
+        var locKeyForDesktopBooking = false
+        var wasGenerateFlightAlertNotificationCalled = false
+        var wasGenerateDesktopBookingNotificationCalled = false
+        override fun hasLocKeyForNewFlightAlerts(locKey: String): Boolean {
+            return hasLocKeyForNewFlightAlertsReturn
+        }
+
+        override fun generateFlightAlertNotification(context: Context, fhid: Int, locKey: String, locKeyArgs: Array<String>?, titleArg: String, nID: String, data: ItinCardDataFlight) {
+            wasGenerateFlightAlertNotificationCalled = true
+        }
+
+        override fun locKeyForDesktopBooking(locKey: String): Boolean {
+            return locKeyForDesktopBooking
+        }
+
+        override fun generateDesktopBookingNotification(context: Context, fhid: Int, locKey: String, locKeyArgs: Array<String>?) {
+            wasGenerateDesktopBookingNotificationCalled = true
         }
     }
 }

@@ -158,6 +158,10 @@ class HotelItinDetailsActivityTest {
     }
 
     class MockItinManager : ItineraryManagerInterface {
+        override fun getItinCardDataFromFlightHistoryId(fhid: Int): ItinCardData? {
+            return null
+        }
+
         override fun addSyncListener(listener: ItineraryManager.ItinerarySyncListener) {
         }
 
