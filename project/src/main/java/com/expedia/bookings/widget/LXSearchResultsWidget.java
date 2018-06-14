@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.CollectionUtils;
@@ -20,7 +21,9 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function3;
+import io.reactivex.subjects.PublishSubject;
 
 public class LXSearchResultsWidget extends FrameLayout {
 
@@ -38,7 +41,9 @@ public class LXSearchResultsWidget extends FrameLayout {
 	LXErrorWidget errorScreen;
 
 	public LXResultsListAdapter adapter;
-	public BehaviorSubject<String> destinationShortNameObserver = BehaviorSubject.create();
+	public PublishSubject<String> destinationShortNameObserver = PublishSubject.create();
+	public PublishSubject<SearchType> searchTypeStream = PublishSubject.create();
+	public PublishSubject<LXSearchResponse> searchResponseStream = PublishSubject.create();
 
 	@Override
 	protected void onFinishInflate() {
@@ -63,6 +68,17 @@ public class LXSearchResultsWidget extends FrameLayout {
 		recyclerView.setAdapter(adapter);
 		errorScreen.setVisibility(View.GONE);
 		errorScreen.setToolbarVisibility(GONE);
+
+		Observable.combineLatest(searchResponseStream, destinationShortNameObserver, searchTypeStream,
+			new Function3<LXSearchResponse, String, SearchType, Object>() {
+				@Override
+				public Object apply(LXSearchResponse lxSearchResponse, String destinationShortName, SearchType searchType) {
+					adapter.setItems(lxSearchResponse.activities, lxSearchResponse.promoDiscountType, getDestinationName(searchType, destinationShortName));
+					update();
+					return lxSearchResponse;
+				}
+			}
+		).subscribe();
 	}
 
 	@Override
@@ -77,13 +93,8 @@ public class LXSearchResultsWidget extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 
-	public void bind(List<LXActivity> activities, String discountType, SearchType searchType) {
-		adapter.setItems(activities, discountType, getDestinationName(searchType));
-		update();
-	}
-
-	private String getDestinationName(SearchType searchType) {
-		return (searchType == SearchType.EXPLICIT_SEARCH) ? destinationShortNameObserver.getValue() : "";
+	private String getDestinationName(SearchType searchType, String destinationShortName) {
+		return (searchType == SearchType.EXPLICIT_SEARCH) ? destinationShortName : "";
 	}
 
 	public void bind(List<LXActivity> activities) {

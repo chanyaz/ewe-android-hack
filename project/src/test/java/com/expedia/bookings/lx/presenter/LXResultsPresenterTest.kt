@@ -26,7 +26,6 @@ import com.expedia.bookings.widget.LXErrorWidget
 import com.expedia.bookings.widget.LXResultsListAdapter
 import com.expedia.bookings.widget.LXSearchResultsWidget
 import com.google.gson.GsonBuilder
-import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -138,13 +137,14 @@ class LXResultsPresenterTest {
 
     @Test
     fun testSearchResultObserver() {
-        val lxSearchResponse = createLxSearchResponse()
-        buildSearchParams()
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
-        searResultObserver.onNext(lxSearchResponse)
+        val searchResultsWidget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.widget = searchResultsWidget
+        searResultObserver.searchType = SearchType.EXPLICIT_SEARCH
+        searResultObserver.onNext(createLxSearchResponse())
+        searchResultsWidget.destinationShortNameObserver.onNext("Las Cruces (and vicinity)")
         val sortFilterButton = lxResultsPresenter.findViewById<FilterButtonWithCountWidget>(R.id.sort_filter_button_container)
         val filterIcon = lxResultsPresenter.findViewById<View>(R.id.filter_icon)
-        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
         val recyclerView = searchResultsWidget.findViewById<RecyclerView>(R.id.lx_search_results_list)
         val errorScreen = searchResultsWidget.findViewById<LXErrorWidget>(R.id.lx_search_error_widget)
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 1) as LXResultsListAdapter.ViewHolder
@@ -166,78 +166,57 @@ class LXResultsPresenterTest {
 
     @Test
     fun testActivityCountHeaderTextForDefaultSearch() {
-        val lxSearchResponse = createLxSearchResponse()
-        buildSearchParams()
-
+        buildSearchParams(SearchType.DEFAULT_SEARCH)
+        val searchResultsWidget = lxResultsPresenter.searchResultsWidget
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
-        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
-        searResultObserver.widget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.widget = searchResultsWidget
         searResultObserver.searchType = SearchType.DEFAULT_SEARCH
-        searResultObserver.onNext(lxSearchResponse)
+        searResultObserver.onNext(createLxSearchResponse())
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 2) as RecyclerView.ViewHolder
-
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
-        assertNotNull(searchResultsWidget)
         val activityCountText = holder.itemView.findViewById<TextView>(R.id.lx_activity_count_header)
         assertEquals("3 things to do near you", activityCountText.text)
     }
 
     @Test
     fun testSingleActivityCountHeaderTextForDefaultSearch() {
-        val lxSearchResponse = createLxSearchResponse(true)
-        buildSearchParams()
-
+        buildSearchParams(SearchType.DEFAULT_SEARCH)
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
-        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
-        searResultObserver.widget = lxResultsPresenter.searchResultsWidget
+        val searchResultsWidget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.widget = searchResultsWidget
         searResultObserver.searchType = SearchType.DEFAULT_SEARCH
-        searResultObserver.onNext(lxSearchResponse)
+        searResultObserver.onNext(createLxSearchResponse(true))
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 2) as RecyclerView.ViewHolder
-
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
-        assertNotNull(searchResultsWidget)
         val activityCountText = holder.itemView.findViewById<TextView>(R.id.lx_activity_count_header)
         assertEquals("1 thing to do near you", activityCountText.text)
     }
 
     @Test
-    fun testActivityCountHeaderTextForExplicitSearch() {
-        val lxSearchResponse = createLxSearchResponse()
-        buildSearchParams()
-
-        val testSubject: PublishSubject<String> = PublishSubject.create()
+    fun testActivityCountHeaderTextForExplicitSearch() { buildSearchParams()
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
-        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
-        testSubject.subscribe(searchResultsWidget.destinationShortNameObserver)
-        searResultObserver.widget = lxResultsPresenter.searchResultsWidget
+        val searchResultsWidget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.widget = searchResultsWidget
         searResultObserver.searchType = SearchType.EXPLICIT_SEARCH
-        testSubject.onNext("Las Cruces (and vicinity)")
-        searResultObserver.onNext(lxSearchResponse)
+        searchResultsWidget.destinationShortNameObserver.onNext("Las Cruces (and vicinity)")
+        searResultObserver.onNext(createLxSearchResponse())
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 2) as RecyclerView.ViewHolder
-
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
-        assertNotNull(searchResultsWidget)
         val activityCountText = holder.itemView.findViewById<TextView>(R.id.lx_activity_count_header)
         assertEquals("3 things to do in Las Cruces (and vicinity)", activityCountText.text)
     }
 
     @Test
     fun testSingleActivityCountHeaderTextForExplicitSearch() {
-        val lxSearchResponse = createLxSearchResponse(true)
         buildSearchParams()
-
-        val testSubject: PublishSubject<String> = PublishSubject.create()
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
-        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
-        testSubject.subscribe(searchResultsWidget.destinationShortNameObserver)
-        searResultObserver.widget = lxResultsPresenter.searchResultsWidget
+        val searchResultsWidget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.widget = searchResultsWidget
         searResultObserver.searchType = SearchType.EXPLICIT_SEARCH
-        testSubject.onNext("Las Cruces (and vicinity)")
-        searResultObserver.onNext(lxSearchResponse)
+        searchResultsWidget.destinationShortNameObserver.onNext("Las Cruces (and vicinity)")
+        searResultObserver.onNext(createLxSearchResponse(true))
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 2) as RecyclerView.ViewHolder
-
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
-        assertNotNull(searchResultsWidget)
         val activityCountText = holder.itemView.findViewById<TextView>(R.id.lx_activity_count_header)
         assertEquals("1 thing to do in Las Cruces (and vicinity)", activityCountText.text)
     }
@@ -288,8 +267,9 @@ class LXResultsPresenterTest {
         return lxSearchResponse
     }
 
-    fun buildSearchParams(): LxSearchParams {
+    fun buildSearchParams(searchType: SearchType = SearchType.EXPLICIT_SEARCH): LxSearchParams {
         val searchParams = LxSearchParams.Builder()
+                .searchType(searchType)
                 .location("New York")
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(14))

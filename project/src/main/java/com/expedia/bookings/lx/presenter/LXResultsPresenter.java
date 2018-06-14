@@ -266,7 +266,8 @@ public class LXResultsPresenter extends Presenter {
 				}
 			}
 			trackLXSearch();
-			searchResultsWidget.bind(lxSearchResponse.activities, lxSearchResponse.promoDiscountType, searchType);
+			searchResultsWidget.searchTypeStream.onNext(searchType);
+			searchResultsWidget.searchResponseStream.onNext(lxSearchResponse);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
 			sortFilterButton.setVisibility(View.VISIBLE);
@@ -329,6 +330,9 @@ public class LXResultsPresenter extends Presenter {
 		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
 		if (event.lxSearchParams.getSearchType().equals(SearchType.EXPLICIT_SEARCH)) {
 			Events.post(new Events.LXShowLoadingAnimation());
+		}
+		else {
+			searchResultsWidget.destinationShortNameObserver.onNext(event.lxSearchParams.getLocation());
 		}
 
 		cleanup();
