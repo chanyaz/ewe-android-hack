@@ -87,14 +87,14 @@ Feature: Package End To End
     Given I launch the App
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
-      | source              | SEA                            |
-      | destination         | DALY                           |
-      | source_suggest      | SEA - Seattle  -  Tacoma Intl. |
-      | destination_suggest | Daly City, CA                  |
+      | source              | SEA                           |
+      | destination         | LAS                           |
+      | source_suggest      | SEA - Seattle  -  Tacoma Intl.|
+      | destination_suggest | Las Vegas, NV                 |
       | start_date          | 5                             |
       | end_date            | 8                             |
-      | adults              | 1                              |
-      | child               | 1                              |
+      | adults              | 1                             |
+      | child               | 1                             |
     And I wait for hotels results for packages to load
     And I select hotel at position 1 on HSR screen
     And I select first room
@@ -114,7 +114,7 @@ Feature: Package End To End
     And I change travellers count and press done
     Then I can trigger packages search
     Then on Package Overview Screen validate the toolbar
-      | destination    | Daly City, CA              |
+      | destination    | Las Vegas, NV              |
       | start_date     |  5                         |
       | end_date       | 10                         |
       | totalTravelers | 5 travelers                |
