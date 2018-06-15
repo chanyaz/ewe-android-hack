@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -27,6 +28,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.FeatureTestUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
@@ -285,6 +287,42 @@ class HotelViewModelTest {
         setupHotelViewModel()
         val msg = vm.getHighestPriorityUrgencyMessage()
         assertNull(msg)
+    }
+
+    @Test
+    fun testShouldShowFavoriteIcon() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
+        hotel.isPackage = false
+        setupHotelViewModel()
+        assertTrue(vm.shouldShowFavoriteIcon())
+    }
+
+    @Test
+    fun testShouldShowFavoriteIconNotBucketed() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
+        hotel.isPackage = false
+        setupHotelViewModel()
+        assertFalse(vm.shouldShowFavoriteIcon())
+    }
+
+    @Test
+    fun testShouldShowFavoriteIconSignedOut() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
+        hotel.isPackage = false
+        setupHotelViewModel()
+        assertFalse(vm.shouldShowFavoriteIcon())
+    }
+
+    @Test
+    fun testShouldShowFavoriteIconPackage() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
+        hotel.isPackage = true
+        setupHotelViewModel()
+        assertFalse(vm.shouldShowFavoriteIcon())
     }
 
     @Test

@@ -154,6 +154,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         return PackageHotelListAdapter(hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject)
     }
 
+    override fun getHotelMapCarouselAdapter(): HotelMapCarouselAdapter {
+        return HotelMapCarouselAdapter(emptyList(), true)
+    }
+
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
     }

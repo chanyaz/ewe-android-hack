@@ -12,7 +12,8 @@ import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
+class PackageHotelViewModel(var context: Context,
+                            alwaysShowEarnMessageSpace: Boolean = false) : HotelViewModel(context, alwaysShowEarnMessageSpace = alwaysShowEarnMessageSpace) {
     val unrealDealMessageObservable = BehaviorSubject.create<String>()
     val unrealDealMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val shouldDisplayPricingViews = PublishSubject.create<Boolean>()

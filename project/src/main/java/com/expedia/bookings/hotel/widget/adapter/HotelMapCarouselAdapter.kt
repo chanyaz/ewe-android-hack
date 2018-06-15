@@ -20,7 +20,7 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
-class HotelMapCarouselAdapter(var hotels: List<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HotelMapCarouselAdapter(var hotels: List<Hotel>, val isPackage: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val hotelSubject = PublishSubject.create<Hotel>()
     val favoriteAddedSubject = PublishSubject.create<String>()
@@ -65,8 +65,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>) : RecyclerView.Adapter<Re
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val holder: RecyclerView.ViewHolder
         if (isBucketedToShowResultsCellOnMap(parent.context)) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.horizontal_hotel_cell, parent, false)
-            holder = HotelMapCellViewHolder(view as ViewGroup)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.horizontal_hotel_cell, parent, false) as ViewGroup
+            holder = HotelMapCellViewHolder(view, isPackage)
 
             holder.hotelClickedSubject.subscribe {
                 if (holder.adapterPosition >= 0 && holder.adapterPosition < hotels.count()) {
@@ -78,8 +78,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>) : RecyclerView.Adapter<Re
             holder.favoriteAddedSubject.subscribe(favoriteAddedSubject)
             holder.favoriteRemovedSubject.subscribe(favoriteRemovedSubject)
         } else {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_marker_preview_cell, parent, false)
-            holder = HotelCarouselViewHolder(view as ViewGroup)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_marker_preview_cell, parent, false) as ViewGroup
+            holder = HotelCarouselViewHolder(view)
 
             holder.hotelClickedSubject.subscribe {
                 val hotel = hotels[holder.adapterPosition]

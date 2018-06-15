@@ -40,7 +40,7 @@ public class HotelResultsCarouselTest {
 			@Override
 			public void run() {
 				hotelCarouselRecycler
-					.setAdapter(new HotelMapCarouselAdapter(getMockHotelList()));
+					.setAdapter(new HotelMapCarouselAdapter(getMockHotelList(), false));
 			}
 		});
 	}

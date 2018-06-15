@@ -342,8 +342,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         toolbar.navigationIcon = navIcon
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
 
-        mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList())
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSubject.subscribe(hotelSelectedSubject)
+        val mapCarouselAdapter = getHotelMapCarouselAdapter()
+        mapCarouselRecycler.adapter = mapCarouselAdapter
+        mapCarouselAdapter.hotelSubject.subscribe(hotelSelectedSubject)
 
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
@@ -1189,5 +1190,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapSearchAreaClick()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
+    abstract fun getHotelMapCarouselAdapter(): HotelMapCarouselAdapter
     protected abstract fun getScrollListener(): BaseHotelResultsScrollListener
 }

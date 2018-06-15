@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 class HotelMapCarouselAdapterTest {
 
     private val context = RuntimeEnvironment.application
-    private var adapter = HotelMapCarouselAdapter(emptyList())
+    private var adapter = HotelMapCarouselAdapter(emptyList(), false)
     private lateinit var recyclerView: RecyclerView
     private lateinit var parent: LinearLayout
     private var hotels: List<Hotel> = emptyList()
@@ -138,13 +138,25 @@ class HotelMapCarouselAdapterTest {
         val hotelSubscriber = TestObserver<Hotel>()
         adapter.hotelSubject.subscribe(hotelSubscriber)
 
-        val viewHolder = adapter.createViewHolder(parent, 0) as HotelMapCellViewHolder
-        adapter.bindViewHolder(viewHolder, 0)
-        adapter.notifyDataSetChanged()
+        assertFalse(adapter.isPackage)
 
-        viewHolder.hotelClickedSubject.onNext(0)
-        // cant set holder adapterPosition so hotelSubject not called
-        hotelSubscriber.assertEmpty()
+        val viewHolder = adapter.createViewHolder(parent, 0) as HotelMapCellViewHolder
+
+        assertFalse(viewHolder.isPackage)
+    }
+
+    @Test
+    fun testOnCreateHotelCarouselViewHolderPackage() {
+        setUpTestForPackageHotelMapCellViewHolder()
+
+        val hotelSubscriber = TestObserver<Hotel>()
+        adapter.hotelSubject.subscribe(hotelSubscriber)
+
+        assertTrue(adapter.isPackage)
+
+        val viewHolder = adapter.createViewHolder(parent, 0) as HotelMapCellViewHolder
+
+        assertTrue(viewHolder.isPackage)
     }
 
     @Test
@@ -222,17 +234,22 @@ class HotelMapCarouselAdapterTest {
 
     private fun setUpTestForHotelMapCellViewHolder(hotelCount: Int = 3, bindViewHolder: Boolean = true) {
         AbacusTestUtils.bucketTests(AbacusUtils.HotelResultsCellOnMapCarousel)
-        setUpAdapterAndViewHolders(hotelCount, bindViewHolder)
+        setUpAdapterAndViewHolders(hotelCount, bindViewHolder, false)
+    }
+
+    private fun setUpTestForPackageHotelMapCellViewHolder(hotelCount: Int = 3, bindViewHolder: Boolean = true) {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelResultsCellOnMapCarousel)
+        setUpAdapterAndViewHolders(hotelCount, bindViewHolder, true)
     }
 
     private fun setUpTestForHotelCarouselViewHolder(hotelCount: Int = 3, bindViewHolder: Boolean = true) {
         AbacusTestUtils.unbucketTests(AbacusUtils.HotelResultsCellOnMapCarousel)
-        setUpAdapterAndViewHolders(hotelCount, bindViewHolder)
+        setUpAdapterAndViewHolders(hotelCount, bindViewHolder, false)
     }
 
-    private fun setUpAdapterAndViewHolders(hotelCount: Int, bindViewHolder: Boolean) {
+    private fun setUpAdapterAndViewHolders(hotelCount: Int, bindViewHolder: Boolean, isPackage: Boolean) {
         hotels = createHotels(hotelCount)
-        adapter = HotelMapCarouselAdapter(hotels)
+        adapter = HotelMapCarouselAdapter(hotels, isPackage)
         recyclerView.adapter = adapter
         for (i in 0 until hotelCount) {
             val viewHolder = adapter.createViewHolder(parent, 0)

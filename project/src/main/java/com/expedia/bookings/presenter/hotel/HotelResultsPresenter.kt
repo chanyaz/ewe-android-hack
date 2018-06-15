@@ -383,6 +383,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return HotelListAdapter(hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject, canShow2xMessaging)
     }
 
+    override fun getHotelMapCarouselAdapter(): HotelMapCarouselAdapter {
+        return HotelMapCarouselAdapter(emptyList(), false)
+    }
+
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.HOTELS
     }
