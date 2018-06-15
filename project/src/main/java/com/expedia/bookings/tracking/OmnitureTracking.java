@@ -1109,6 +1109,7 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.HotelUGCTranslations);
 		trackAbacusTest(s, AbacusUtils.HotelReviewSelectRoomCta);
+		trackAbacusTest(s, AbacusUtils.HotelUGCSearch);
 
 		// Send the tracking data
 		s.track();

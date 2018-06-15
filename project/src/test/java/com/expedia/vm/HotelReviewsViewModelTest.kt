@@ -127,6 +127,24 @@ class HotelReviewsViewModelTest {
     }
 
     @Test
+    fun testUgcSearchTrackingOn() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCSearch)
+        val vm = HotelReviewsViewModel(context)
+        vm.trackReviewPageLoad()
+        assertStateTracked("App.Hotels.Reviews", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(34 to "25501.0.1"))), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testUgcSearchTrackingOff() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelUGCSearch)
+        val vm = HotelReviewsViewModel(context)
+        vm.trackReviewPageLoad()
+        assertStateTracked("App.Hotels.Reviews", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(34 to "25501.0.0"))), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTranslationTrackingPackagesOn() {
         AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
         val vm = HotelReviewsViewModel(context, LineOfBusiness.PACKAGES)

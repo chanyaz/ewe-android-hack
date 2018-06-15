@@ -457,6 +457,14 @@ class OmnitureTrackingTest {
     }
 
     @Test
+    fun testUGCReviewSearchExposureOnReviewPage() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCSearch)
+        OmnitureTracking.trackHotelV2Reviews()
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Reviews", Matchers.allOf(
+                OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.HotelUGCSearch.key)), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTrackPackageCKOSavingStripClick() {
         OmnitureTracking.trackPackagesBundleCostBreakdownSavingsStripClick()
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.SavingsStrip", mockAnalyticsProvider)
