@@ -16,6 +16,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -55,6 +56,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDispla
 import static com.expedia.bookings.test.pagemodels.common.LaunchScreen.getPackagesLaunchButtonText;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEEMMMdd;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.validateRequestParams;
+import static com.expedia.bookings.test.stepdefs.phone.TestUtil.validateRequestQueryForClientParameter;
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
@@ -258,6 +260,12 @@ public class SearchScreenSteps {
 	@Then("^Validate the \"(.*?)\" API request query params for following parameters for packages")
 	public void validateRequestQueryData(String type, Map<String, String> expParameters) throws Throwable {
 		validateRequestParams(expParameters, apiRequestData);
+	}
+
+	@Then("^Validate \"(.*?)\" API request query for client parameter for packages$")
+	public void validateRequestQueryClientParameter(String type) throws Throwable {
+		String clientValue = ProductFlavorFeatureConfiguration.getInstance().getClientShortName() + ".app.android.phone";
+		validateRequestQueryForClientParameter(clientValue, apiRequestData);
 	}
 
 	@Then("^Validate the getPackages API request query data for following parameters for packages")

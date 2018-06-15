@@ -200,6 +200,10 @@ public class TestUtil {
 		}
 	}
 
+	public static void validateRequestQueryForClientParameter(String clientValue, ApiRequestData apiRequestData) {
+		Assert.assertEquals(clientValue, apiRequestData.getQueryParams().get("client").get(0));
+	}
+
 	public static String getDateInMMMdd(String days) {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
 		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);

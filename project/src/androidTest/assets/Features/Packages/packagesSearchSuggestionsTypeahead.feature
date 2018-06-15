@@ -57,10 +57,10 @@ Feature: Search Suggestions for packages
         | regiontype                  | 863                            |
         | dest                        | false                          |
         | features                    | ta_hierarchy                   |
-        | client                      | expedia.app.android.phone      |
         | lob                         | PACKAGES                       |
         | sourceType                  | mobileapp                      |
         | ab                          | 11996.1                        |
+      Then Validate "TypeAhead" API request query for client parameter for packages
 
 
   @Packages @PackagesTypeahead @Prod
