@@ -25,12 +25,11 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
         }
 
         val shouldShowPackageIncludesTaxesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRIncludesHeader()
-        val shouldShowPackageIncludesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRHeader()
         if (shouldShowPackageIncludesTaxesMessage) {
             return R.string.package_hotel_results_includes_header_TEMPLATE
-        } else if (shouldShowPackageIncludesMessage) {
+        } else {
             return R.string.package_hotel_results_header_TEMPLATE
-        } else return null
+        }
     }
 
     override fun getHeaderTopPadding(context: Context, currentPadding: Int): Int {
