@@ -135,6 +135,7 @@ public class SearchScreenSteps {
 		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
 		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
 		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
+		Thread.sleep(2000);
 		SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
 		pickDates(parameters);
 		selectTravelers(parameters);
