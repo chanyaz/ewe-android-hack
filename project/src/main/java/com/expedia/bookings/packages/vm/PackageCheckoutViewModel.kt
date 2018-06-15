@@ -2,20 +2,16 @@ package com.expedia.bookings.packages.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCheckoutParams
-import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
@@ -43,42 +39,12 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
         checkoutParams.subscribe { params ->
             params as PackageCheckoutParams
             showCheckoutDialogObservable.onNext(true)
-            packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
     }
 
     override fun getTripId(): String {
         return ""
-    }
-
-    fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
-        return object : DisposableObserver<PackageCheckoutResponse>() {
-            override fun onNext(response: PackageCheckoutResponse) {
-                showCheckoutDialogObservable.onNext(false)
-            }
-
-            override fun onError(e: Throwable) {
-                showCheckoutDialogObservable.onNext(false)
-                if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        val params = checkoutParams.value
-                        packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
-                    }
-                    val cancelFun = fun() {
-                        builder.cvv(null)
-                        val activity = context as AppCompatActivity
-                        activity.onBackPressed()
-                        noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                }
-            }
-
-            override fun onComplete() {
-                // ignore
-            }
-        }
     }
 
     override fun getCardFeesCallback(): Observer<CardFeeResponse> {
