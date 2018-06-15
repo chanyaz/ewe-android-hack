@@ -20,6 +20,7 @@ abstract class AbstractItinDetailsResponse {
         val sharableDetailsURL: String? = null
         var rewardList = emptyList<Rewards>()
         val email: Email? = null
+        var insurance: List<Insurance>? = null
 
         lateinit var startTime: Time
         lateinit var endTime: Time
@@ -51,6 +52,16 @@ abstract class AbstractItinDetailsResponse {
         class Email {
             @SerializedName("m_email")
             val address: String? = null
+        }
+
+        class Insurance {
+            var insuranceTypeId: Int? = null
+            var price: Price? = null
+            var travellerCount: Int? = null
+
+            class Price {
+                var total: String? = null
+            }
         }
     }
 

@@ -701,6 +701,28 @@ class PackagesTrackingTest {
     }
 
     @Test
+    fun testTrackMIDWithInsuranceCheckoutConfirmation() {
+        Db.setPackageParams(getDummyPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
+
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        serviceRule.services!!.getTripDetails("mid_trip_details_with_insurance", testObserver)
+        testObserver.awaitTerminalEvent()
+
+        val response = testObserver.values()[0] as MIDItinDetailsResponse
+
+        val pageUsableData = PageUsableData()
+        pageUsableData.markPageLoadStarted(10000)
+        pageUsableData.markAllViewsLoaded(10000)
+        OmnitureTracking.trackMIDConfirmation(response, "MERCHANT", pageUsableData)
+
+        val expectedInsuranceProductString = ",;Insurance:100004;1;26.0"
+        val appState = "App.Package.Checkout.Confirmation"
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProductsString(expectedInsuranceProductString, shouldExactlyMatch = false), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTrackMIDBookingConfirmationDialog() {
 
         Db.setPackageParams(getDummyPackageSearchParams())

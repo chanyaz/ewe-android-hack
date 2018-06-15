@@ -9,7 +9,6 @@ class FlightItinDetailsResponse : AbstractItinDetailsResponse() {
     class FlightResponseData : ResponseData() {
         var flights = emptyList<Flight>()
         var airAttachQualificationInfo: AirAttachQualificationInfo? = null
-        var insurance: List<Insurance>? = null
 
         class AirAttachQualificationInfo {
             var airAttachQualified: Boolean = false
@@ -20,15 +19,6 @@ class FlightItinDetailsResponse : AbstractItinDetailsResponse() {
                 fun airAttachExpirationTime(): DateTime {
                     return DateTime.parse(raw)
                 }
-            }
-        }
-
-        class Insurance {
-            var insuranceTypeId: Int? = null
-            lateinit var price: Price
-
-            class Price {
-                lateinit var total: String
             }
         }
     }

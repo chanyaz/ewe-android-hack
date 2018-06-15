@@ -104,7 +104,7 @@ class OmnitureTrackingFlightTest {
                 8 to "5678|1234",
                 71 to "5678",
                 72 to "")
-        val expectedProducts = ";Flight:SFO:Merchant;1;63.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:100001;1;19.00"
+        val expectedProducts = ";Flight:SFO:Merchant;1;63.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:100001;1;19.0"
         val expectedEvents = "purchase,event220,event221=0.00"
 
         val appState = "App.Flight.Checkout.Confirmation"
@@ -145,7 +145,7 @@ class OmnitureTrackingFlightTest {
                 8 to "5678|1234",
                 71 to "5678",
                 72 to "")
-        val expectedProducts = ";Flight:SFO:Merchant;1;60.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:null;"
+        val expectedProducts = ";Flight:SFO:Merchant;1;60.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:null;;;;"
         val expectedEvents = "purchase,event220,event221=0.00"
 
         val appState = "App.Flight.Checkout.Confirmation"

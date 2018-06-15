@@ -116,6 +116,7 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.PackageUtil;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -1450,7 +1451,7 @@ public class OmnitureTracking {
 		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
 
 		s.setProducts(getHotelProductString(hotelItinDetailsResponse.responseData.getHotels().get(0).getHotelId(),
-			numNights, formattedTotalCost, properCaseSupplierType));
+			numNights, formattedTotalCost, properCaseSupplierType, hotelItinDetailsResponse.responseData.getInsurance()));
 
 		// Currency code
 		s.setCurrencyCode(totalTripPrice.getCurrency());
@@ -1460,7 +1461,7 @@ public class OmnitureTracking {
 	}
 
 	public static String getHotelProductString(String hotelId, int numNights,
-		String totalCost, String properCaseSupplierType) {
+		String totalCost, String properCaseSupplierType, List<AbstractItinDetailsResponse.ResponseData.Insurance> insurances) {
 		if (hotelId == null) {
 			hotelId = "";
 		}
@@ -1471,6 +1472,9 @@ public class OmnitureTracking {
 			+ hotelId;
 
 		products += ";" + numNights + ";" + totalCost;
+		if (insurances != null) {
+			products += "," + TrackingUtils.getInsuranceProductsString(insurances);
+		}
 		return products;
 	}
 
@@ -4560,6 +4564,25 @@ public class OmnitureTracking {
 
 	private static void setPackageProducts(AppAnalytics s, Double productPrice, boolean addEvarInventory,
 		boolean isConfirmation, String hotelSupplierType) {
+		String productsString = getPackageProductsString(productPrice, addEvarInventory, isConfirmation,
+			hotelSupplierType);
+		s.setProducts(productsString);
+	}
+
+	private static void setMidProducts(AppAnalytics s, Double productPrice, boolean addEvarInventory,
+		boolean isConfirmation, String hotelSupplierType, List<AbstractItinDetailsResponse.ResponseData.Insurance> insurances) {
+		String productsString = getPackageProductsString(productPrice, addEvarInventory, isConfirmation,
+			hotelSupplierType);
+		if (insurances != null) {
+			productsString += "," + TrackingUtils.getInsuranceProductsString(insurances);
+		}
+
+		s.setProducts(productsString);
+	}
+
+	@NonNull
+	private static String getPackageProductsString(Double productPrice, boolean addEvarInventory,
+		boolean isConfirmation, String hotelSupplierType) {
 		StringBuilder productString = new StringBuilder();
 		/*
 			Trip type:
@@ -4635,8 +4658,7 @@ public class OmnitureTracking {
 			productString.append(":HOT:");
 			productString.append(eVar30DurationString);
 		}
-
-		s.setProducts(productString.toString());
+		return productString.toString();
 	}
 
 	private static AppAnalytics createTrackPackagePageLoadEventBase(String pageName,
@@ -4838,7 +4860,7 @@ public class OmnitureTracking {
 			totalPaidMoney = new Money("0", "");
 			trackPackagesShoppingError(new ApiCallFailing.ConfirmationPaymentSummaryMissing().getErrorStringForTracking());
 		}
-		setPackageProducts(s, totalPaidMoney.amount.doubleValue(), true, true, hotelSupplierType);
+		setMidProducts(s, totalPaidMoney.amount.doubleValue(), true, true, hotelSupplierType, response.responseData.getInsurance());
 		s.setCurrencyCode(totalPaidMoney.currencyCode);
 		s.setEvents("purchase");
 		String orderId = response.getResponseData().getHotels().get(0).orderNumber;
@@ -5272,21 +5294,10 @@ public class OmnitureTracking {
 	}
 
 	private static String getFlightInsuranceProductStringFromItinResponse(FlightItinDetailsResponse response) {
-		String numberOfTraveler =  Integer.toString(response.getResponseData().getFlights().get(0).passengers.size());
 		List<FlightItinDetailsResponse.FlightResponseData.Insurance> insuranceList = response.getResponseData()
 			.getInsurance();
 		if (insuranceList != null && !insuranceList.isEmpty()) {
-			FlightItinDetailsResponse.FlightResponseData.Insurance insurance = insuranceList.get(0);
-			String price;
-			if (insurance.price == null) {
-				price = "";
-			}
-			else {
-				price = formatTotalPrice(insurance.price.total);
-			}
-			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%s",
-				insurance.getInsuranceTypeId(), numberOfTraveler,
-				price);
+			return TrackingUtils.getInsuranceProductsString(insuranceList);
 		}
 		else {
 			return "";
@@ -5566,12 +5577,12 @@ public class OmnitureTracking {
 		String products;
 		if (!isSplitTicket) {
 			if (takeoffDateStrings.second != null) {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s%s", getFlightProductStringFromItin(itinDetailsResponse),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s,%s", getFlightProductStringFromItin(itinDetailsResponse),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
 					takeoffDateStrings.second, getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse));
 			}
 			else {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductStringFromItin(itinDetailsResponse),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s,%s", getFlightProductStringFromItin(itinDetailsResponse),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
 					getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse));
 			}
