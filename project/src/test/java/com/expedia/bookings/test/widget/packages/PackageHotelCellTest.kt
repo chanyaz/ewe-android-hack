@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -24,6 +25,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.packages.widget.PackageHotelCellViewHolder
 import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -152,6 +154,44 @@ class PackageHotelCellTest {
         setPointOfSale(initialPOSID)
     }
 
+    @Test
+    fun testHotelContentDescWithNoGuestRating() {
+        val vm = packageHotelHolder.viewModel as PackageHotelViewModel
+        vm.bindHotelData(makeHotel())
+        Assert.assertEquals("happy with 3.0 of 5 rating. Not rated for guest rating. Price $10. Includes hotel and flights. Button",
+                vm.getHotelContentDesc().toString())
+    }
+
+    @Test
+    fun testHotelContentDescWithNoGuestRatingWhenBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay, 1)
+        val vm = packageHotelHolder.viewModel as PackageHotelViewModel
+        vm.bindHotelData(makeHotel())
+        Assert.assertEquals("happy with 3.0 of 5 rating. Not rated for guest rating. Price $10/person. This price includes taxes, fees for both flights and hotel. Button",
+                vm.getHotelContentDesc().toString())
+    }
+
+    @Test
+    fun testHotelContentDescWithGuestRating() {
+        val vm = packageHotelHolder.viewModel as PackageHotelViewModel
+        val hotel = makeHotel()
+        hotel.hotelGuestRating = 4.0f
+        vm.bindHotelData(hotel)
+        Assert.assertEquals("happy with 3.0 of 5 rating. 4.0 of 5 guest rating. Price $10. Includes hotel and flights. Button",
+                vm.getHotelContentDesc().toString())
+    }
+
+    @Test
+    fun testHotelContentDescWithGuestRatingWhenBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay, 1)
+        val vm = packageHotelHolder.viewModel as PackageHotelViewModel
+        val hotel = makeHotel()
+        hotel.hotelGuestRating = 4.0f
+        vm.bindHotelData(hotel)
+        Assert.assertEquals("happy with 3.0 of 5 rating. 4.0 of 5 guest rating. Price $10/person. This price includes taxes, fees for both flights and hotel. Button",
+                vm.getHotelContentDesc().toString())
+    }
+
     private fun setPointOfSale(posId: PointOfSaleId) {
         PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
@@ -160,10 +200,13 @@ class PackageHotelCellTest {
         val hotel = Hotel()
         hotel.hotelId = "happy"
         hotel.localizedName = "happy"
-        hotel.lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
+        lowRateInfo.priceToShowUsers = 10f
+        hotel.lowRateInfo = lowRateInfo
         hotel.distanceUnit = "Miles"
         hotel.lowRateInfo.currencyCode = "USD"
         hotel.lowRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), false)
+        hotel.hotelStarRating = 3f
         return hotel
     }
 

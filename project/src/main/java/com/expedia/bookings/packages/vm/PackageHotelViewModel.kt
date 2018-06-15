@@ -35,7 +35,7 @@ class PackageHotelViewModel(var context: Context,
                     .format()
                     .toString())
         }
-        val packagesHotelDescription = if (hotel.hotelGuestRating <= 0f) R.string.packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE else R.string.packages_hotel_details_cont_desc_TEMPLATE
+        val packagesHotelDescription = if (isPackagesHSRPriceDisplayEnabled(context)) getPackagesHotelDescriptionInVariant() else getPackagesHotelDescriptionInControl()
         result.append(Phrase.from(context, packagesHotelDescription)
                 .put("hotel", hotelName)
                 .put("starrating", hotelStarRating.toString())
@@ -93,5 +93,13 @@ class PackageHotelViewModel(var context: Context,
         return Phrase.from(resources.getQuantityString(R.plurals.free_one_night_hotel_deal_TEMPLATE, numberOfNights?.toInt() ?: 1))
                 .put("night", numberOfNights)
                 .format().toString()
+    }
+
+    private fun getPackagesHotelDescriptionInControl(): Int {
+        return if (hotel.hotelGuestRating <= 0f) R.string.packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE else R.string.packages_hotel_details_cont_desc_TEMPLATE
+    }
+
+    private fun getPackagesHotelDescriptionInVariant(): Int {
+        return if (hotel.hotelGuestRating <= 0f) R.string.packages_hotel_card_details_cont_desc_zero_guestrating_TEMPLATE else R.string.packages_hotel_card_details_cont_desc_TEMPLATE
     }
 }
