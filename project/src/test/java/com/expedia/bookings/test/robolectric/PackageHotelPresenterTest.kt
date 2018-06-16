@@ -10,9 +10,12 @@ import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
+import com.expedia.bookings.data.packages.PackageApiError
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.presenter.PackageHotelPresenter
@@ -22,6 +25,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -32,6 +36,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
+import org.robolectric.shadows.ShadowActivity
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -108,24 +113,6 @@ class PackageHotelPresenterTest {
     }
 
     @Test
-    fun testPackageSearchParamsTrackedWithNewTravelerForm() {
-        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
-
-        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
-                null) as PackageHotelPresenter
-
-        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-
-        widget.dataAvailableSubject.onNext(hotelResponse)
-        widget.trackEventSubject.onNext(Unit)
-
-        val expectedEvars = mapOf(
-                47 to "PKG|1R|RT|A1|C1|YTH1|IL1|IS0|E"
-        )
-        OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
-    }
-
-    @Test
     fun testSlidingBundleVisible() {
         hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
@@ -143,6 +130,33 @@ class PackageHotelPresenterTest {
 
         widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
         assertBundlePriceAndSliderVisibilities(View.VISIBLE)
+    }
+
+    @Test
+    fun testHotelSelectedSubject() {
+        setPackageSearchParamsInDb()
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+        Db.setPackageResponse(hotelResponse)
+
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+
+        val hotel = Hotel()
+        hotel.hotelId = "happy"
+        hotel.packageOfferModel = PackageOfferModel()
+        hotel.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        hotel.packageOfferModel.price.packageTotalPrice = Money("111", "USD")
+
+        widget.bundleSlidingWidget.bundlePriceWidget.setOnClickListener { }
+
+        widget.resultsPresenter.hotelSelectedSubject.onNext(hotel)
+
+        assertEquals("happy", Db.sharedInstance.packageParams.latestSelectedOfferInfo.hotelId)
+        assertEquals(hotel.packageOfferModel.price, Db.sharedInstance.packageParams.latestSelectedOfferInfo.productOfferPrice)
+        assertEquals(hotel, widget.selectedPackageHotel)
+
+        assertEquals(View.VISIBLE, widget.loadingOverlay.visibility)
+        assertFalse(widget.bundleSlidingWidget.bundlePriceWidget.hasOnClickListeners())
     }
 
     @Test
@@ -164,6 +178,53 @@ class PackageHotelPresenterTest {
 
         widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
         assertBundlePriceAndSliderVisibilities(View.GONE)
+    }
+
+    @Test
+    fun testFilterSearchResponseError() {
+        setPackageSearchParamsInDb()
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+
+        val errorPair = getErrorPair(PackageApiError.Code.mid_no_offers_post_filtering.toString(), PackageApiError.Code.mid_no_offers_post_filtering)
+
+        widget.resultsPresenter.viewModel.filterSearchErrorDetailsObservable.onNext(errorPair)
+
+        val shadowActivity = Shadows.shadowOf(activity)
+        assertErrorKeyAndCode(shadowActivity, "mid_no_offers_post_filtering", Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY)
+    }
+
+    @Test
+    fun testFilterSearchResponseUnknownError() {
+        setPackageSearchParamsInDb()
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+
+        val errorPair = getErrorPair(PackageApiError.Code.mid_no_offers_post_filtering.toString(), PackageApiError.Code.pkg_unknown_error)
+
+        widget.resultsPresenter.viewModel.filterSearchErrorDetailsObservable.onNext(errorPair)
+
+        val shadowActivity = Shadows.shadowOf(activity)
+        assertErrorKeyAndCode(shadowActivity, "pkg_unknown_error", Constants.UNKNOWN_ERROR_CODE)
+    }
+
+    private fun setPackageSearchParamsInDb() {
+        val searchParams = PackageTestUtil.getPackageSearchParams()
+        Db.setPackageParams(searchParams)
+    }
+
+    private fun assertErrorKeyAndCode(shadowActivity: ShadowActivity, expectedErrorCode: String, expectedErrorKey: String) {
+        assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
+
+        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR)
+        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY)
+        assertEquals(expectedErrorCode, errorCode)
+        assertEquals(expectedErrorKey, errorKey)
+    }
+
+    private fun getErrorPair(apiCallFailingCode: String, apiErrorCode: PackageApiError.Code): Pair<PackageApiError.Code, ApiCallFailing> {
+        val apiFailing = ApiCallFailing.PackageHotelRoom(apiCallFailingCode)
+        return Pair(apiErrorCode, apiFailing)
     }
 
     private fun getHotelOffers(): HotelOffersResponse {
@@ -268,6 +329,34 @@ class PackageHotelPresenterTest {
         val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
         val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
         assertEquals("PACKAGE_SEARCH_ERROR", errorCode)
+        assertEquals("UNKNOWN_ERROR", errorKey)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageHotelDetailsInfoCallFailWithStatusOK() {
+        val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+        Db.setPackageResponse(hotelResponse)
+
+        hotelResponse.getHotels()[0].hotelId = "fail"
+        Db.sharedInstance.packageParams.latestSelectedOfferInfo.hotelId = "happy_room"
+
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+        widget.packageServices = mockPackageServiceRule.services!!
+
+        val testSubscriber = TestObserver<HotelOffersResponse>()
+        widget.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.subscribe(testSubscriber)
+        widget.hotelSelectedObserver.onNext(hotelResponse.getHotels()[0])
+
+        testSubscriber.assertValueCount(0)
+
+        val shadowActivity = Shadows.shadowOf(activity)
+        assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
+
+        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
+        assertEquals("UNKNOWN_ERROR", errorCode)
         assertEquals("UNKNOWN_ERROR", errorKey)
     }
 
