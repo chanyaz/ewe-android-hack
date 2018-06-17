@@ -199,6 +199,25 @@ class FlightCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testUpdateFareFamilyClearsWebViewHistoryInEuPos() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckoutInEUPos)
+        SettingUtils.save(activity, R.string.PointOfSaleKey, PointOfSaleId.FRANCE.id.toString())
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+        val testUrlObserver = TestObserver.create<String>()
+        flightPresenter.webCheckoutViewModel.webViewURLObservable.subscribe(testUrlObserver)
+        flightPresenter.createTripBuilder = FlightCreateTripParams.Builder()
+
+        flightPresenter.flightOverviewPresenter.fareFamilyCardView.viewModel.updateTripObserver
+                .onNext(Pair("test", getFareFamilyDetails(className = "coach")))
+
+        testUrlObserver.assertValue("about:blank")
+        assertFalse(flightPresenter.webCheckoutView.webView.canGoBack())
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testConfirmationUrlForNonINPosBucketedNativeRateDetailsWebview() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
         createMockFlightServices()

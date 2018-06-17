@@ -22,6 +22,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isShowFlightsNativeRateDetailsWebviewCheckoutEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebCheckoutViewViewModel
@@ -219,7 +220,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     private fun shouldShowNativeFlightConfirmation(url: String): Boolean {
         return url.contains(context.getString(R.string.flight_confirmation_url_tag)) &&
-                (PointOfSale.getPointOfSale().shouldShowWebCheckout() || AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout))
+                (PointOfSale.getPointOfSale().shouldShowWebCheckout() || isShowFlightsNativeRateDetailsWebviewCheckoutEnabled(context))
     }
 
     private fun shouldShowNativeLXConfirmation(url: String): Boolean {
