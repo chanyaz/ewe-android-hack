@@ -105,7 +105,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals(false, rows[7].strikeThrough)
         assertEquals(textSize, rows[7].titleTextSize)
 
-        assertEquals("Price Summary Dialog. Here is the price summary for your bundle. Hotels is $200.00. Roundtrip flights is $100.00. Total is $300.00. Savings for booking together is $120.00. Bundle total for booking together is $180.00. This price includes taxes, fees for both flights and hotels.", contDesc)
+        assertEquals("Price Summary Dialog. Here is the price summary for your bundle. Hotel price is $200.00. Roundtrip flight price is $100.00. Total is $300.00. Savings for booking together is $120.00. Bundle total for booking together is $180.00. This price includes taxes, fees for both roundtrip flight and hotel.", contDesc)
     }
 
     private fun getCostSummaryBreakdownRowsAndContDesc(): Pair<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>, String> {
