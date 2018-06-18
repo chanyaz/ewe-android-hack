@@ -13,6 +13,7 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
@@ -29,7 +30,7 @@ public class ItinContentGeneratorTest {
 		return RuntimeEnvironment.application;
 	}
 
-	DateTime mTodayAtNoon;
+	private DateTime mTodayAtNoon;
 
 	@Before
 	public void before() {
@@ -40,6 +41,7 @@ public class ItinContentGeneratorTest {
 		TripHotel trip = new TripHotel();
 		Property property = new Property();
 		property.setPropertyId("1");
+		property.addMedia(new HotelMedia("https://www.expedia.com/fake/image.jpg"));
 		trip.setProperty(property);
 		trip.setStartDate(checkIn);
 		trip.setEndDate(checkOut);
@@ -184,5 +186,32 @@ public class ItinContentGeneratorTest {
 
 		// Reset JodaTime to system clock
 		DateTimeUtils.setCurrentMillisSystem();
+	}
+
+	@Test
+	public void relativeTimeSpan30SecondsInPastYields1MinuteAgo() {
+		ItinContentGenerator sut = getItinGenerator(mTodayAtNoon, mTodayAtNoon);
+
+		CharSequence actual = sut.getItinRelativeTimeSpan(getContext(), mTodayAtNoon.minusSeconds(30), mTodayAtNoon);
+
+		Assert.assertEquals("1 minute ago", actual);
+	}
+
+	@Test
+	public void relativeTimeSpan30SecondsInFutureYieldsIn1Minute() {
+		ItinContentGenerator sut = getItinGenerator(mTodayAtNoon, mTodayAtNoon);
+
+		CharSequence actual = sut.getItinRelativeTimeSpan(getContext(), mTodayAtNoon.plusSeconds(30), mTodayAtNoon);
+
+		Assert.assertEquals("in 1 minute", actual);
+	}
+
+	@Test
+	public void relativeTimeSpanNowYieldsIn1Minute() {
+		ItinContentGenerator sut = getItinGenerator(mTodayAtNoon, mTodayAtNoon);
+
+		CharSequence actual = sut.getItinRelativeTimeSpan(getContext(), mTodayAtNoon, mTodayAtNoon);
+
+		Assert.assertEquals("in 1 minute", actual);
 	}
 }

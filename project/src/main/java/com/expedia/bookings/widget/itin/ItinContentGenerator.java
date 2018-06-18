@@ -836,7 +836,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (hours == 0 && minutes == 0) {
 			Resources res = context.getResources();
 			int resId = past ? R.plurals.minutes_ago : R.plurals.in_minutes;
-			return Phrase.from(res.getQuantityString(resId, 1)).format().toString();
+			return Phrase.from(res.getQuantityString(resId, 1))
+				.put("minutes", 1)
+				.format()
+				.toString();
 		}
 
 		// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
