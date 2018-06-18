@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.pagemodels.hotels
 
+import android.content.ComponentName
+import android.content.Intent
+import android.net.Uri
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.NoMatchingViewException
 import android.support.test.espresso.PerformException
@@ -8,19 +11,24 @@ import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE
 import android.support.test.espresso.matcher.ViewMatchers.hasSibling
 import android.support.test.espresso.matcher.ViewMatchers.isClickable
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.isSelected
 import android.support.test.espresso.matcher.ViewMatchers.withChild
+import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withParentIndex
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.rule.ActivityTestRule
 import android.view.View
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.DeepLinkRouterActivity
 import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
@@ -36,7 +44,10 @@ import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.isEmptyString
 import org.hamcrest.Matchers.not
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import org.junit.Rule
 import java.util.concurrent.TimeUnit
 
 object HotelInfoSiteScreen {
@@ -60,6 +71,23 @@ object HotelInfoSiteScreen {
         THREE(4),
         FOUR(6),
         FIVE(8)
+    }
+
+    object Toolbar {
+        private val container = withId(R.id.hotel_details_toolbar)
+        private val backButton = allOf(isDescendantOfA(container), withContentDescription(R.string.toolbar_nav_icon_close_cont_desc))
+        private val title = allOf(isDescendantOfA(container), withId(R.id.hotel_name_text), withEffectiveVisibility(VISIBLE))
+        private val shareButton = allOf(isDescendantOfA(container), withId(R.id.share_button))
+
+        @JvmStatic
+        fun verifyText(expectedText: String) {
+            EspressoUtils.waitForViewNotYetInLayoutToDisplay(title, 10, TimeUnit.SECONDS)
+            onView(title).check(matches(withText(expectedText)))
+        }
+
+        fun verifyShareButtonIsVisible() {
+            onView(shareButton).check(matches(isDisplayed()))
+        }
     }
 
     /**
@@ -156,6 +184,45 @@ object HotelInfoSiteScreen {
             THREE("Option 3"),
             FOUR("Option 4"),
             FIVE("Option 5")
+        }
+    }
+
+    /**
+     * Use to launch a HotelInfosite directly, instead of having to navigate through the app
+     */
+    class DeepLink(hotelId: String) {
+        @Rule @JvmField val activityRule = ActivityTestRule(DeepLinkRouterActivity::class.java)
+        val baseURL = "expda://hotelSearch?"
+        var parameters = ""
+        val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+
+        init {
+            parameters = "hotelId=$hotelId"
+        }
+
+        fun setDates(checkInDate: DateTime, checkOutDate: DateTime): DeepLink {
+            val cid = dateTimeFormatter.print(checkInDate)
+            val cod = dateTimeFormatter.print(checkOutDate)
+            parameters += "&checkInDate=$cid" +
+                    "&checkOutDate=$cod"
+            return this
+        }
+
+        fun setNumAdults(numAdults: Int): DeepLink {
+            parameters += "&numAdults=$numAdults"
+            return this
+        }
+
+        fun navigate() {
+            val intent = Intent()
+            val deepLinkText = Uri.parse(baseURL + parameters)
+            intent.data = deepLinkText
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.component = ComponentName(BuildConfig.APPLICATION_ID,
+                    "com.expedia.bookings.activity.DeepLinkRouterActivity")
+            activityRule.launchActivity(intent)
+            waitForDetailsLoaded()
         }
     }
 
@@ -280,12 +347,6 @@ object HotelInfoSiteScreen {
     @JvmStatic
     fun validateNumberOfGuests(guestsString: String) {
         numberOfGuests().check(matches(withText(guestsString)))
-    }
-
-    @JvmStatic
-    fun verifyHeaderLabelText(expectedText: String) {
-        EspressoUtils.waitForViewNotYetInLayoutToDisplay(headerLabelText, 10, TimeUnit.SECONDS)
-        onView(headerLabelText).check(matches(withText(expectedText)))
     }
 
     @JvmStatic
