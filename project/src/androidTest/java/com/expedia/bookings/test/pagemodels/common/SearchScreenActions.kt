@@ -91,7 +91,7 @@ object SearchScreenActions {
     }
 
     @Throws(Throwable::class)
-    @JvmStatic fun selectHotelWithText(text: String) {
+    @JvmStatic fun selectHotelIconWithSiblingText(text: String) {
         val viewMatcher = allOf(
                 hasDescendant(withContentDescription(HOTEL_ICON)),
                 hasDescendant(allOf(
@@ -102,13 +102,22 @@ object SearchScreenActions {
     }
 
     @Throws(Throwable::class)
-    @JvmStatic fun selectSpecificLocationWithText(text: String) {
+    @JvmStatic fun selectLocationIconWithSiblingText(text: String) {
         val viewMatcher = allOf(
                 hasDescendant(withContentDescription(LOCATION_ICON)),
                 hasDescendant(allOf(
                         withId(R.id.suggestion_text_container),
                         hasDescendant(withText(text))
                 )))
+        selectSuggestion(viewMatcher)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectLocationInHierarchyWithSiblingText(text: String) {
+        val viewMatcher = allOf(
+                hasDescendant(withId(R.id.hierarchy_imageview)),
+                hasDescendant(withText(text))
+        )
         selectSuggestion(viewMatcher)
     }
 

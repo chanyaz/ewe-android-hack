@@ -1,7 +1,7 @@
-Feature: Hotel deposit and resort fee on infosite
+Feature: HotelInfosite_DepositAndResortFee
 
   @Prod @RC_HotelDepositAndResortFee
-  Scenario Outline: Validate deposit and no resort fee shown on infosite
+  Scenario Outline: Validate deposit without resort fee shown on infosite
 
     Given I launch the App
     And I launch "Hotels" LOB
@@ -9,7 +9,10 @@ Feature: Hotel deposit and resort fee on infosite
     And I select hotel with the text "<destination>"
     And I select <checkInDate> , <checkOutDate> as check in and checkout date
     And I click on Search Button
-    And I verify the hotel label text is "<hotel>"
+    And I wait for hotel search results to load
+    And I verify pinned hotel name is <destination>
+    And I click on pinned hotel
+    And I verify the hotel label text is "<destination>"
     Then I verify the deposit terms text is displayed
     And I verify the resort fees text is not displayed
 
@@ -26,6 +29,9 @@ Feature: Hotel deposit and resort fee on infosite
     And I select hotel with the text "<destination>"
     And I select <checkInDate> , <checkOutDate> as check in and checkout date
     And I click on Search Button
+    And I wait for hotel search results to load
+    And I verify pinned hotel name is <destination>
+    And I click on pinned hotel
     And I verify the hotel label text is "<destination>"
     Then I verify the deposit terms text is displayed
     And I verify the resort fees text is displayed
