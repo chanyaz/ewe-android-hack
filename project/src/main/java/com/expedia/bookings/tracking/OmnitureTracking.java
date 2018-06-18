@@ -5764,6 +5764,7 @@ public class OmnitureTracking {
 		s.setEvar(28, FLIGHTS_V2_CHECKOUT_BUTTON_CLICK);
 		s.setProp(16, FLIGHTS_V2_CHECKOUT_BUTTON_CLICK);
 		trackAbacusTest(s, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout);
+		trackAbacusTest(s, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckoutInEUPos);
 		s.trackLink(FLIGHTS_V2_CHECKOUT_BUTTON_CLICK);
 	}
 

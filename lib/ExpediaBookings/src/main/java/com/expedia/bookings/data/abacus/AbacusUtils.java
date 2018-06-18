@@ -67,6 +67,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsRichContent = new ABTest(25580, true);
 	public static final ABTest EBAndroidAppFlightsUrgencyMessaging = new ABTest(25449, true);
 	public static final ABTest EBAndroidFlightsNativeRateDetailsWebviewCheckout = new ABTest(25620, true);
+	public static final ABTest EBAndroidFlightsNativeRateDetailsWebviewCheckoutInEUPos = new ABTest(26602, true);
 	public static final ABTest EBAndroidAppFlightsContentHighlightInTypeahead = new ABTest(25639, true);
 	public static final ABTest EBAndroidAppFlightsHolidayCalendar = new ABTest(25869, true);
 
@@ -153,6 +154,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing.getKey());
 		testIDs.add(EBAndroidAppFlightByotSearch.getKey());
 		testIDs.add(EBAndroidFlightsNativeRateDetailsWebviewCheckout.getKey());
+		testIDs.add(EBAndroidFlightsNativeRateDetailsWebviewCheckoutInEUPos.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
 		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR.getKey());

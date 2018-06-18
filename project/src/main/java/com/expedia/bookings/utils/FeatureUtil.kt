@@ -37,7 +37,8 @@ fun isAllowCheckinCheckoutDatesInlineEnabled(context: Context): Boolean {
 }
 
 fun isShowFlightsNativeRateDetailsWebviewCheckoutEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout) ||
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckoutInEUPos)
 }
 
 fun isKrazyglueOnFlightsConfirmationEnabled(context: Context): Boolean {

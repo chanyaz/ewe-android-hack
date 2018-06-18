@@ -517,6 +517,14 @@
             android:summary="%s"
             android:title="Native Rate Details Web Checkout - 25620" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="26602"
+            android:summary="%s"
+            android:title="Native Rate Details Web Checkout In EU POS - 26602" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
