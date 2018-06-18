@@ -47,6 +47,7 @@ import com.expedia.bookings.widget.shared.WebCheckoutView;
 import com.expedia.util.Optional;
 import com.expedia.bookings.lx.vm.LXMapViewModel;
 import com.expedia.bookings.lx.vm.LXWebCheckoutViewViewModel;
+import com.expedia.util.PermissionsUtils;
 import com.google.android.gms.maps.MapView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -150,8 +151,15 @@ public class LXPresenter extends Presenter {
 			addTransition(checkoutToResults);
 		}
 
-		show(resultsPresenter);
-		resultsPresenter.setVisibility(VISIBLE);
+		if (PermissionsUtils.havePermissionToAccessLocation(getContext())) {
+			show(resultsPresenter);
+			resultsPresenter.setVisibility(VISIBLE);
+		}
+		else {
+			show(searchParamsWidget);
+			searchParamsWidget.setVisibility(VISIBLE);
+			searchParamsWidget.performLocationClick(false);
+		}
 
 		int[] attrs = { R.attr.skin_lxPrimaryColor };
 		TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);

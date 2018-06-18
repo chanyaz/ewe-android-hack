@@ -1,5 +1,6 @@
 package com.expedia.bookings.lx.presenter
 
+import android.Manifest
 import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
@@ -38,6 +39,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
+import org.robolectric.shadows.ShadowApplication
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -47,6 +49,7 @@ import kotlin.test.assertTrue
 class LXPresenterTest {
     lateinit var lxPresenter: LXPresenter
     lateinit var activity: Activity
+    lateinit var shadowApplication: ShadowApplication
 
     val thrown: ExpectedException = ExpectedException.none()
         @Rule get
@@ -56,6 +59,7 @@ class LXPresenterTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultLXComponents()
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_LX)
+        shadowApplication = Shadows.shadowOf(activity.application)
     }
 
     @Test
@@ -114,10 +118,10 @@ class LXPresenterTest {
     fun testBlankViewObserver() {
         setupPresenterAndBucketWebviewTest()
         showWebCheckoutView()
-        assertEquals(3, lxPresenter.backStack.size)
+        assertEquals(4, lxPresenter.backStack.size)
         lxPresenter.blankViewObserver.onNext(Unit)
 
-        assertEquals(2, lxPresenter.backStack.size)
+        assertEquals(3, lxPresenter.backStack.size)
     }
 
     @Test
@@ -127,14 +131,14 @@ class LXPresenterTest {
         lxPresenter.webCheckoutView.webView.loadUrl(getLxCheckoutUrl("happy_path"))
         lxPresenter.webCheckoutView.webView.loadUrl(getLxCheckoutUrl("test_path"))
         lxPresenter.webCheckoutView.webView.loadUrl(getLxCheckoutUrl("back_path"))
-        assertEquals(3, lxPresenter.backStack.size)
+        assertEquals(4, lxPresenter.backStack.size)
 
         assertTrue(lxPresenter.back())
 
         assertEquals(View.VISIBLE, lxPresenter.webCheckoutView.visibility)
         assertEquals(View.GONE, lxPresenter.detailsPresenter.visibility)
         assertTrue(lxPresenter.webCheckoutView.webView.canGoBack())
-        assertEquals(3, lxPresenter.backStack.size)
+        assertEquals(4, lxPresenter.backStack.size)
     }
 
     @Test
@@ -251,6 +255,22 @@ class LXPresenterTest {
         lxPresenter.createTripResponseObserver.onNext(Optional(createTripResponse))
 
         assertNotNull(tune.trackedEvent)
+    }
+
+    @Test
+    fun testVisibleViewWithPermissionDenyCheck() {
+        lxPresenter = LayoutInflater.from(activity).inflate(R.layout.lx_base_layout, null) as LXPresenter
+        assertEquals(View.VISIBLE, lxPresenter.searchParamsWidget.visibility)
+    }
+
+    @Test
+    fun testVisibleViewWithPermissionGrantCheck() {
+        val permission = Manifest.permission.ACCESS_FINE_LOCATION
+        shadowApplication.grantPermissions(permission)
+        val permissionCheck = ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        assertEquals(0, permissionCheck)
+        lxPresenter = LayoutInflater.from(activity).inflate(R.layout.lx_base_layout, null) as LXPresenter
+        assertEquals(View.VISIBLE, lxPresenter.resultsPresenter.visibility)
     }
 
     private fun setupLxState() {
