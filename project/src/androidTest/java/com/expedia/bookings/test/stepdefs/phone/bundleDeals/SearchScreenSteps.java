@@ -20,6 +20,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
@@ -134,6 +135,7 @@ public class SearchScreenSteps {
 		clickSourceSearchButton();
 		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
 		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
+		SearchScreen.origin().perform(ViewActions.waitForViewToDisplay());
 		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
 		SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
 		pickDates(parameters);

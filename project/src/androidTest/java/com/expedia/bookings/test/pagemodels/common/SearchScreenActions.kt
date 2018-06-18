@@ -69,7 +69,7 @@ object SearchScreenActions {
     @JvmStatic fun selectLocation(location: String) {
         val viewMatcher = Matchers.allOf(
                 hasDescendant(withId(R.id.suggestion_text_container)),
-                hasDescendant(withText(Matchers.containsString(location))),
+                hasDescendant(withText(location)),
                 withEffectiveVisibility(VISIBLE))
         selectSuggestion(viewMatcher)
     }
