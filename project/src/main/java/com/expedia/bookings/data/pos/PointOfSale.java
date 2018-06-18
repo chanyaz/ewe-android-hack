@@ -215,6 +215,8 @@ public class PointOfSale {
 	// Should show cars cross sell button
 	private boolean showCarsCrossSellButton;
 
+	private String hotMIPSavingsPercentage;
+
 	private String businessRegion;
 
 	private static boolean sIsTablet;
@@ -964,6 +966,10 @@ public class PointOfSale {
 	public Boolean shouldShowCustomerFirstGuarantee() {
 		return shouldShowCustomerFirstGuarantee;
 	}
+
+	public String getHotMIPSavingsPercentage() {
+		return hotMIPSavingsPercentage;
+	}
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1306,6 +1312,7 @@ public class PointOfSale {
 		pos.mUrl = data.optString("url", null);
 		pos.mMemberDealCardImageUrl = data.optString("memberDealCardImageUrl", null);
 		pos.mLastMinuteDealImageUrl = data.optString("lastMinuteDealsCardImageUrl", null);
+		pos.hotMIPSavingsPercentage = data.optString("hotMIPSavingsPercentage");
 		pos.mTPID = data.optInt("TPID");
 		pos.mSiteId = data.optInt("siteId", INVALID_SITE_ID);
 		pos.mEAPID = data.optInt("EAPID", INVALID_EAPID);

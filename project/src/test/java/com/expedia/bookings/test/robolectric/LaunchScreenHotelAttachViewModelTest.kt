@@ -10,6 +10,7 @@ import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.launch.LaunchScreenHotelAttachViewModel
 import com.mobiata.flightlib.data.Flight
@@ -21,6 +22,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -59,6 +61,19 @@ class LaunchScreenHotelAttachViewModelTest {
         assertEquals("Save up to 55% off San Francisco Hotels", sut.secondLineObserver.value)
         assertEquals("Offer expires in 4 hours", sut.offerExpiresObserver.value)
         assertEquals(contentDesc, view.contentDescription.toString())
+    }
+
+    @Test
+    fun addOnTitleUsesPercentageFromSharedData() {
+        val expiryDateTime = LocalDateTime.now().plusHours(5)
+
+        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expiryDateTime)
+        airAttachMessageSubscribe()
+
+        PointOfSaleTestConfiguration
+                .configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json", false)
+
+        assertEquals("You unlocked up to 35% off hotels because you booked on Expedia", sut.addOnTitle)
     }
 
     @Test

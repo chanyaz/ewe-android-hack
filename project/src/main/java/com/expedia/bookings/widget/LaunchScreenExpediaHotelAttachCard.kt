@@ -13,6 +13,8 @@ class LaunchScreenExpediaHotelAttachCard(itemView: View) : RecyclerView.ViewHold
     val title: AppCompatTextView by bindView(R.id.title)
 
     override fun bind(vm: LaunchScreenHotelAttachViewModel) {
+        title.text = vm.addOnTitle
+
         FontCache.setTypeface(title, FontCache.Font.ROBOTO_MEDIUM)
         itemView.subscribeOnClick(vm.onClickObserver)
     }

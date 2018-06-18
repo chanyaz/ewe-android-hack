@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripUtils
@@ -42,7 +43,9 @@ open class LaunchListLogic {
 
     open fun showAirAttachMessage(): Boolean {
         return (userStateManager.isUserAuthenticated()
-                && getUpcomingAirAttachQualifiedFlightTrip() != null)
+                && getUpcomingAirAttachQualifiedFlightTrip() != null
+                && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.VIETNAM
+                && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.ARGENTINA)
     }
 
     open fun getUpcomingAirAttachQualifiedFlightTrip(): Trip? {

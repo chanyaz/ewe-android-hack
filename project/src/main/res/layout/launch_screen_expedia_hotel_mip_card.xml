@@ -35,7 +35,6 @@
             android:layout_marginEnd="44dp"
             android:layout_marginStart="44dp"
             android:gravity="center_horizontal"
-            android:text="@string/hotmip_savings_message"
             android:textColor="@color/brand_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
