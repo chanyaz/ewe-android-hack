@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.navigation.HotelNavUtils
@@ -20,6 +21,10 @@ class LaunchScreenHotelAttachViewModel(val context: Context, val itemView: View,
     var firstLineObserver = BehaviorSubject.create<String>()
     var secondLineObserver = BehaviorSubject.create<String>()
     var offerExpiresObserver = BehaviorSubject.create<String>()
+    val addOnTitle: String by lazy {
+        Phrase.from(context, R.string.hotmip_savings_message_TEMPLATE)
+                .put("percentage", PointOfSale.getPointOfSale().hotMIPSavingsPercentage).format().toString()
+    }
 
     private var hoursRemaining: Int
     private var daysRemaining: Int

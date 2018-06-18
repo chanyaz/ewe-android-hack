@@ -19,6 +19,8 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.collections.CollectionLocation
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
@@ -48,6 +50,7 @@ import com.expedia.bookings.widget.LaunchScreenHotelAttachCard
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
 import com.google.android.gms.ads.formats.NativeAd
+import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import org.junit.After
 import org.junit.Before
@@ -610,6 +613,48 @@ class LaunchListAdapterTest {
 
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
+    fun getItemViewType_HidesHotelAttach_GivenPOSIsArgentina() {
+        setPOS(PointOfSaleId.ARGENTINA)
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveStaffPicks()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = adapterUnderTest.getItemViewType(3)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
+    }
+
+    @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
+    fun getItemViewType_HidesHotelAttach_GivenPOSIsVietnam() {
+        setPOS(PointOfSaleId.VIETNAM)
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveStaffPicks()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = adapterUnderTest.getItemViewType(3)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
+    }
+
+    @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_AirAttach() {
         createSystemUnderTest()
         givenCustomerSignedIn()
@@ -983,6 +1028,11 @@ class LaunchListAdapterTest {
 
     private fun setSystemLanguage(lang: String) {
         Locale.setDefault(Locale(lang))
+    }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(context, R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(context)
     }
 
     class TestLaunchListAdapter(context: Context?, header: View?, logic: LaunchListLogic) : LaunchListAdapter(context, header, logic) {

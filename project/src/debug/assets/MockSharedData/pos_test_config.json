@@ -73,6 +73,7 @@
     "realTimeReviewLXEnabled" : true,
     "showBundleTotalWhenResortFees" : true,
     "crossSellPackageOnFSR" : true,
-    "adjustPricingMessagingForAirlinePaymentMethodFee": true
+    "adjustPricingMessagingForAirlinePaymentMethodFee": true,
+    "hotMIPSavingsPercentage": "35"
   }
 }
