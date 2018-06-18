@@ -1,0 +1,1071 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "093e67dd-cfdb-4044-a07c-3cab5df4a9e3",
+    "webDetailsURL": "https://www.expedia.com/trips/7359584248192?email=seokev@gmail.com&langid=1033",
+    "tripNumber": 7359584248192,
+    "title": "Hooters Casino Hotel, Las Vegas",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/093e67dd-cfdb-4044-a07c-3cab5df4a9e3/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-06-28T06:50:00-07:00",
+      "localized": "Jun 28, 2018 6:50:00 AM",
+      "epochSeconds": 1530193800,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "6/28/2018",
+      "localizedMediumDate": "Jun 28",
+      "localizedFullDate": "Thu, Jun 28",
+      "localizedLongDate": "Jun 28, 2018",
+      "localizedShortTime": "6:50am"
+    },
+    "endTime": {
+      "raw": "2018-06-29T11:00:00-08:00",
+      "localized": "Jun 29, 2018 11:00:00 AM",
+      "epochSeconds": 1530298800,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "6/29/2018",
+      "localizedMediumDate": "Jun 29",
+      "localizedFullDate": "Fri, Jun 29",
+      "localizedLongDate": "Jun 29, 2018",
+      "localizedShortTime": "11:00am"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-06-15T23:28:57Z",
+      "localized": "Jun 15, 2018 11:28:57 PM",
+      "epochSeconds": 1529105337,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 15 Jun",
+      "localizedMediumDate": "Jun 15, 2018",
+      "localizedFullDate": "Friday, June 15, 2018",
+      "localizedLongDate": "June 15, 2018",
+      "localizedShortTime": "11:28 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-06-15T23:30:58Z",
+      "localized": "Jun 15, 2018 11:30:58 PM",
+      "epochSeconds": 1529105458,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 15 Jun",
+      "localizedMediumDate": "Jun 15, 2018",
+      "localizedFullDate": "Friday, June 15, 2018",
+      "localizedLongDate": "June 15, 2018",
+      "localizedShortTime": "11:30 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-06-15T23:31:04Z",
+      "localized": "Jun 15, 2018 11:31:04 PM",
+      "epochSeconds": 1529105464,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 15 Jun",
+      "localizedMediumDate": "Jun 15, 2018",
+      "localizedFullDate": "Friday, June 15, 2018",
+      "localizedLongDate": "June 15, 2018",
+      "localizedShortTime": "11:31 PM"
+    },
+    "ownerId": 968314230,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/BoZyuSAH2nQurY6-64rRx8CACaCOpgO3fmi4wF6WGyVyrTHDMaPPI7bx-e4bQ3UQTNpbQmNa5NF_Vyb84_fkpgnU",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7359584248192 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "01753A28-85E8-4A69-8C9C-E3B1D83D55CB_0",
+        "hotelId": "1353440",
+        "checkInDateTime": {
+          "raw": "2018-06-28T15:00:00-08:00",
+          "localized": "Jun 28, 2018 3:00:00 PM",
+          "epochSeconds": 1530226800,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "6/28/2018",
+          "localizedMediumDate": "Jun 28",
+          "localizedFullDate": "Thu, Jun 28",
+          "localizedLongDate": "Jun 28, 2018",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2018-06-29T11:00:00-08:00",
+          "localized": "Jun 29, 2018 11:00:00 AM",
+          "epochSeconds": 1530298800,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "6/29/2018",
+          "localizedMediumDate": "Jun 29",
+          "localizedFullDate": "Fri, Jun 29",
+          "localizedLongDate": "Jun 29, 2018",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2018-06-28T15:00:00-08:00",
+        "checkOutDate": "2018-06-29T11:00:00-08:00",
+        "checkInDateLocalized": "Jun 28, 2018",
+        "checkOutDateLocalized": "Jun 29, 2018",
+        "numberOfNights": 1,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "inventoryType": "MERCHANT",
+        "inventoryTypeEnum": "MERCHANT",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "EXPEDIA_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8124055831758",
+        "state": "PRE_START_4",
+        "infositeURL": "https://www.expedia.com/itin.h1353440.Hotel-Information?langid=1033",
+        "reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7359584248192&htid=1353440&campaignId=APP.REVIEW.DEEPLINK.URL",
+        "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=876597100&bookingItemId=1057987537&itineraryId=7359584248192&checkinDate=06/28/2018&checkoutDate=06/29/2018&tpid=1&eapid=0&siteId=1&hotelId=1353440&hotelName=Hooters+Casino+Hotel&userTokenString=c3hccdKXIysdTD3Lx3H6JVrU5oaq6ySFewCS8iEkYmDEIVGsPRvXu7S0LCtbdf5JWXHdNJYP_BrkAuW4V4eVwAfoXhotW4G-R3-ET6M9dpZBw3vL2TUadg",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "115 East Tropicana Avenue",
+            "city": "Las Vegas",
+            "countrySubdivisionCode": "NV",
+            "postalCode": "89109",
+            "countryCode": "USA",
+            "countryName": " United States of America",
+            "fullAddress": "115 East Tropicana Avenue, Las Vegas, NV, 89109 United States of America",
+            "airportCode": "LAS"
+          },
+          "name": "Hooters Casino Hotel",
+          "starRating": "30",
+          "photoThumbnailURL": "/hotels/2000000/1360000/1353500/1353440/cf9a5a6e_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/2000000/1360000/1353500/1353440/cf9a5a6e_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/2000000/1360000/1353500/1353440/cf9a5a6e_z.jpg",
+          "localPhone": "+1-800-522-7366",
+          "tollFreePhone": "1-800-522-7366",
+          "formattedPhoneNumbers": "Tel: 1 (800) 522-7366, Fax: 1 (702) 7361120",
+          "checkInPolicies": [
+            "Check-in time starts at 4:00 PM",
+            "Minimum check-in age is 21"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "4:00 PM"
+          },
+          "checkInEndTimePolicy": {},
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "11:00 AM"
+          },
+          "generalRules": [
+            "Check-out time is 11:00 AM"
+          ],
+          "restrictionPolicies": [],
+          "fees": [],
+          "mandatoryFees": [
+            "<p>You'll be asked to pay the following charges at the property:</p>",
+            "<ul><li>Deposit: USD 100.00 per stay</li><li>Resort fee: USD 39.68 per accommodation, per night</li></ul>",
+            "The resort fee includes:<ul><li>Fitness center access</li><li>Internet access</li><li>Phone calls</li><li>In-room safe</li><li>In-room bottled water</li><li>Concierge/valet service</li><li>Valet parking</li><li>Housekeeping</li><li>Additional inclusions</li></ul>",
+            "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+          ],
+          "specialCheckInInstructions": [],
+          "latitude": 36.100773,
+          "longitude": -115.167508,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=89109+Las+Vegas%2C+115+East+Tropicana+Avenue+",
+          "regionId": "2008"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "31.64",
+          "baseFormatted": "$31.64",
+          "baseWithAdjustmentForDRRRateDiscount": "14.64",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$14.64",
+          "taxesAndFees": "2.14",
+          "taxesAndFeesFormatted": "$2.14",
+          "mandatoryHotelFees": "39.68",
+          "mandatoryHotelFeesFormatted": "$39.68",
+          "adjustmentForDRRRateDiscount": "-17.00",
+          "adjustmentForDRRRateDiscountFormatted": "-$17.00",
+          "drrRateDiscountDescription": "Book now and save",
+          "subTotalBeforeCoupon": "16.78",
+          "subTotalBeforeCouponFormatted": "$16.78",
+          "taxStatus": "ESTIMATED",
+          "total": "56.46",
+          "totalFormatted": "$56.46",
+          "chargedTotalFormatted": "$16.78",
+          "totalExpediaCollectAmount": "16.78",
+          "totalExpediaCollectAmountFormatted": "$16.78",
+          "isCurrencyConversionEnabled": false,
+          "hasFees": true,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Hooters Casino Hotel charges the following cancellation and change fees.",
+          "cancelChangeRules": [
+            "Cancellations or changes made after 11:59pm (Pacific Daylight Time (US & Canada); Tijuana) on Jun 26, 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2018-06-26T23:59:00-07:00",
+            "localized": "Jun 26, 2018 11:59:00 PM",
+            "epochSeconds": 1530082740,
+            "timeZoneOffsetSeconds": -25200,
+            "localizedShortDate": "Tue, 26 Jun",
+            "localizedMediumDate": "Jun 26, 2018",
+            "localizedFullDate": "Tuesday, June 26, 2018",
+            "localizedLongDate": "June 26, 2018",
+            "localizedShortTime": "11:59 PM"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+          "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+          "currencyDisclaimer": "Unless specified otherwise, rates are quoted in US dollars.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed.",
+            "The fee for extra adults is $25.00 per person."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 1 guest.",
+            "Total maximum number of guests per room/unit is 2.",
+            "Maximum number of adults per room/unit is 2.",
+            "Maximum number of children per room/unit is 1.",
+            "Maximum number of infants per room/unit is 1.",
+            "This property considers guests aged 11 and under, at time of travel, to be children."
+          ],
+          "paymentPolicies": [
+            "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+            "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+          ],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+          "refundEligibiltyText": "Free cancellation until June 26 at 11:59 PM (Pacific Daylight Time (US & Canada); Tijuana)",
+          "taxesAndFeesInfo": "What are the Taxes & Service Fees? The taxes are tax recovery charges Expedia pays to its vendors (e.g. hotels); for details, please see our <a href=\"https://www.expedia.com/p/info-other/legal.htm\">Terms of Use</a>. We retain our service fees and compensation in servicing your travel reservation."
+        },
+        "rooms": [
+          {
+            "uniqueID": "01753A28-85E8-4A69-8C9C-E3B1D83D55CB_0_1057987537",
+            "roomRatePlanDescription": "Standard Room",
+            "roomTypeCode": "200045160",
+            "ratePlanCode": "200266130",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "drrRateDiscountDescription": "Book now and save",
+            "orderLineNumber": "8679918a-5055-487e-b577-8fac6c589243",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=093e67dd-cfdb-4044-a07c-3cab5df4a9e3&ordernumber=8124055831758&orderlineguid=8679918a-5055-487e-b577-8fac6c589243&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.com/trips/093e67dd-cfdb-4044-a07c-3cab5df4a9e3/ordernumber/8124055831758/orderlinenumber/8679918a-5055-487e-b577-8fac6c589243/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/093e67dd-cfdb-4044-a07c-3cab5df4a9e3/ordernumber/8124055831758/orderlinenumber/8679918a-5055-487e-b577-8fac6c589243/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "31.64",
+              "baseFormatted": "$31.64",
+              "baseWithAdjustmentForDRRRateDiscount": "14.64",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "$14.64",
+              "taxesAndFees": "2.14",
+              "taxesAndFeesFormatted": "$2.14",
+              "adjustmentForDRRRateDiscount": "-17.00",
+              "adjustmentForDRRRateDiscountFormatted": "-$17.00",
+              "subTotalBeforeCoupon": "16.78",
+              "subTotalBeforeCouponFormatted": "$16.78",
+              "total": "16.78",
+              "totalFormatted": "$16.78",
+              "chargedTotalFormatted": "$16.78",
+              "isCurrencyConversionEnabled": false,
+              "averagePricePerDay": "14.64",
+              "averagePricePerDayFormatted": "$14.64",
+              "averageTaxPerDay": "2.14",
+              "averageTaxPerDayFormatted": "$2.14",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2018-06-28T15:00:00-08:00",
+                    "localized": "Jun 28, 2018 3:00:00 PM",
+                    "epochSeconds": 1530226800,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "Thu, 28 Jun",
+                    "localizedMediumDate": "Jun 28, 2018",
+                    "localizedFullDate": "Thursday, June 28, 2018",
+                    "localizedLongDate": "June 28, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "14.64",
+                  "amountFormatted": "$14.64",
+                  "localizedDay": {
+                    "raw": "2018-06-28T15:00:00-08:00",
+                    "localized": "Jun 28, 2018 3:00:00 PM",
+                    "epochSeconds": 1530226800,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "6/28/2018",
+                    "localizedMediumDate": "Jun 28",
+                    "localizedFullDate": "Thu, Jun 28",
+                    "localizedLongDate": "Jun 28, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "Kevin",
+                "fullName": "Kevin Seo",
+                "email": "seokev@gmail.com",
+                "phone": "1-408-3157399"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 1,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 king bed",
+                "defaultBedTypeName": "1 king bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37365",
+                    "description": "2 Double Beds",
+                    "selected": false
+                  },
+                  {
+                    "id": "37321",
+                    "description": "1 King Bed",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "accessibilityOptions": [
+                  {
+                    "id": "2420",
+                    "description": "Accessible bathroom",
+                    "selected": false
+                  },
+                  {
+                    "id": "2421",
+                    "description": "Roll-in shower",
+                    "selected": false
+                  },
+                  {
+                    "id": "2423",
+                    "description": "In-room accessibility",
+                    "selected": false
+                  }
+                ],
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "isVatIncluded": false,
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 524288
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "These fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": false,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      }
+    ],
+    "flights": [
+      {
+        "uniqueID": "B47E1256-D3AF-40E5-B0F9-9E596465F1B7_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+        "startTime": {
+          "raw": "2018-06-28T06:50:00-07:00",
+          "localized": "Jun 28, 2018 6:50:00 AM",
+          "epochSeconds": 1530193800,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "6/28/2018",
+          "localizedMediumDate": "Jun 28",
+          "localizedFullDate": "Thu, Jun 28",
+          "localizedLongDate": "Jun 28, 2018",
+          "localizedShortTime": "6:50am"
+        },
+        "endTime": {
+          "raw": "2018-06-29T07:57:00-07:00",
+          "localized": "Jun 29, 2018 7:57:00 AM",
+          "epochSeconds": 1530284220,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "6/29/2018",
+          "localizedMediumDate": "Jun 29",
+          "localizedFullDate": "Fri, Jun 29",
+          "localizedLongDate": "Jun 29, 2018",
+          "localizedShortTime": "7:57am"
+        },
+        "ticketingStatus": "COMPLETE",
+        "orderNumber": "8124055831758",
+        "webCancelPathURL": "https://www.expedia.com/flight-cancel-exchange?tripnumber=7359584248192&arl=409554547&bookingid=SAWXSO&userToken=2HJCP-mENB8Lz4deSuGiZTeVxrSmbLRBTCqpTfegrufCAWX28DyfIKyWbiiA6GaWcNmmOfgd2yoMA1C6mrYmqEgmAQxJxxRegvPizSmZB4toMOlm8D_ZVA",
+        "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/093e67dd-cfdb-4044-a07c-3cab5df4a9e3/updateFrequentFlyerInformation",
+        "orderLineNumber": "92ab1a99-d472-4ecb-927e-96f8d7df711b",
+        "expediaBookingId": "SAWXSO",
+        "paymentModel": "MERCHANT",
+        "fareType": "PACKAGE_NET",
+        "flightType": "ROUND_TRIP",
+        "isInternational": false,
+        "fareTotal": {
+          "subTotal": "178.15",
+          "subTotalFormatted": "$178.15",
+          "currency": "USD",
+          "base": "139.3",
+          "baseFormatted": "$139.30",
+          "taxes": "38.85",
+          "taxesFormatted": "$38.85",
+          "total": "178.15",
+          "totalFormatted": "$178.15"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "139.3",
+            "baseFormatted": "$139.30",
+            "taxes": "38.85",
+            "taxesFormatted": "$38.85",
+            "total": "178.15",
+            "totalFormatted": "$178.15"
+          }
+        ],
+        "isSplitTicket": false,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "firstName": "Kevin",
+            "lastName": "Seo",
+            "fullName": "Kevin Seo",
+            "age": 23,
+            "gender": "Male",
+            "dateOfBirth": "1994-9-22",
+            "TSARedressNumber": "6355566",
+            "TSAKnownTravelerNumber": "",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "4083157399"
+              }
+            ],
+            "ticketNumbers": [],
+            "frequentFlyerPlans": [],
+            "seats": [],
+            "seatPreferenceCode": "Z"
+          }
+        ],
+        "brandedFareFamilyName": "",
+        "legs": [
+          {
+            "type": "NONSTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 0,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "departureTime": {
+                  "raw": "2018-06-28T06:50:00-07:00",
+                  "localized": "Jun 28, 2018 6:50:00 AM",
+                  "epochSeconds": 1530193800,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "6/28/2018",
+                  "localizedMediumDate": "Jun 28",
+                  "localizedFullDate": "Thu, Jun 28",
+                  "localizedLongDate": "Jun 28, 2018",
+                  "localizedShortTime": "6:50am"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 36.085393,
+                  "longitude": -115.150098,
+                  "name": "McCarran Intl.",
+                  "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                  "airportCode": "LAS",
+                  "airportMetroCode": "LAS",
+                  "city": "Las Vegas",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NV",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalTime": {
+                  "raw": "2018-06-28T08:23:00-07:00",
+                  "localized": "Jun 28, 2018 8:23:00 AM",
+                  "epochSeconds": 1530199380,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "6/28/2018",
+                  "localizedMediumDate": "Jun 28",
+                  "localizedFullDate": "Thu, Jun 28",
+                  "localizedLongDate": "Jun 28, 2018",
+                  "localizedShortTime": "8:23am"
+                },
+                "departureTerminal": "3",
+                "arrivalTerminal": "3",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "confirmationNUmber": "",
+                "flightNumber": "2236",
+                "equipmentCode": "739",
+                "equipmentDescription": "Boeing 737-900",
+                "formattedLayoverDuration": "",
+                "duration": "PT1H33M",
+                "formattedDuration": "1h 33m",
+                "providerCode": "Amadeus",
+                "bookingCode": "T",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "B47E1256-D3AF-40E5-B0F9-9E596465F1B7_0_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "OK",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/4iT-b855G7EQC_QAueLKQMCAc4-bgjY4OPhfkVozQqJ3fJw5syz5rlAt8hFXglDe4mBSd8BFjeStn7xFjeki7Yswdz3VE-c0eg3MY6R3Z6c2dhkXM66yN3sL9cUuXZ9o3krxR-i6BzdxGTOOPcyD09YQWiinCBWBMjIdzFZTJIIwUA",
+            "duration": "PT1H33M",
+            "formattedDuration": "1h 33m",
+            "departingAirport": {
+              "code": "SFO",
+              "name": "San Francisco (SFO)",
+              "city": "San Francisco",
+              "latitude": 37.61594,
+              "longitude": -122.387996,
+              "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5195347,
+              "localName": "San Francisco Intl.",
+              "airportCityCode": "San Francisco, CA (SFO)",
+              "airportStateCode": " CA",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 2",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "International Terminal",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "arrivalAirport": {
+              "code": "LAS",
+              "name": "Las Vegas (McCarran Intl.)",
+              "city": "Las Vegas",
+              "metroCode": "LAS",
+              "latitude": 36.085393,
+              "longitude": -115.150098,
+              "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 5456204,
+              "localName": "McCarran Intl.",
+              "airportCityCode": "Las Vegas, NV (LAS)",
+              "airportStateCode": " NV",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1: Concourse A, Concourse B, Concourse C",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_concourse_a_b_c.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Concourse D",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_concourse_d.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_terminal_3.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "legDepartureTime": {
+              "raw": "2018-06-28T06:50:00-07:00",
+              "localized": "Jun 28, 2018 6:50:00 AM",
+              "epochSeconds": 1530193800,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "6/28/2018",
+              "localizedMediumDate": "Jun 28",
+              "localizedFullDate": "Thu, Jun 28",
+              "localizedLongDate": "Jun 28, 2018",
+              "localizedShortTime": "6:50am"
+            },
+            "legArrivaltime": {
+              "raw": "2018-06-28T08:23:00-07:00",
+              "localized": "Jun 28, 2018 8:23:00 AM",
+              "epochSeconds": 1530199380,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "6/28/2018",
+              "localizedMediumDate": "Jun 28",
+              "localizedFullDate": "Thu, Jun 28",
+              "localizedLongDate": "Jun 28, 2018",
+              "localizedShortTime": "8:23am"
+            },
+            "fareBasisCode": "TRA1AQEN/EX04"
+          },
+          {
+            "type": "NONSTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 0,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 36.085393,
+                  "longitude": -115.150098,
+                  "name": "McCarran Intl.",
+                  "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                  "airportCode": "LAS",
+                  "airportMetroCode": "LAS",
+                  "city": "Las Vegas",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NV",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "departureTime": {
+                  "raw": "2018-06-29T06:30:00-07:00",
+                  "localized": "Jun 29, 2018 6:30:00 AM",
+                  "epochSeconds": 1530279000,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "6/29/2018",
+                  "localizedMediumDate": "Jun 29",
+                  "localizedFullDate": "Fri, Jun 29",
+                  "localizedLongDate": "Jun 29, 2018",
+                  "localizedShortTime": "6:30am"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalTime": {
+                  "raw": "2018-06-29T07:57:00-07:00",
+                  "localized": "Jun 29, 2018 7:57:00 AM",
+                  "epochSeconds": 1530284220,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "6/29/2018",
+                  "localizedMediumDate": "Jun 29",
+                  "localizedFullDate": "Fri, Jun 29",
+                  "localizedLongDate": "Jun 29, 2018",
+                  "localizedShortTime": "7:57am"
+                },
+                "departureTerminal": "3",
+                "arrivalTerminal": "3",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "confirmationNUmber": "",
+                "flightNumber": "2241",
+                "equipmentCode": "739",
+                "equipmentDescription": "Boeing 737-900",
+                "formattedLayoverDuration": "",
+                "duration": "PT1H27M",
+                "formattedDuration": "1h 27m",
+                "providerCode": "Amadeus",
+                "bookingCode": "K",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "B47E1256-D3AF-40E5-B0F9-9E596465F1B7_0_L2_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "OK",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/uuB9lNEXRGk-ZWO9XnlwdMCAyBYTbt3sj-8MEMPI40Avil-9kAvM-bWll4UxMao7cOOO4DRqvpq5Bh-_YGSsAzm-OKbWhbYckl3IzoRRvz0n5LTORwAZVXk2DmBil2Yd8nWVjNJ8xiAYBvR-iBj40eZ1xWgWIuhGbwXWjkfMZLyM9g",
+            "duration": "PT1H27M",
+            "formattedDuration": "1h 27m",
+            "departingAirport": {
+              "code": "LAS",
+              "name": "Las Vegas (McCarran Intl.)",
+              "city": "Las Vegas",
+              "metroCode": "LAS",
+              "latitude": 36.085393,
+              "longitude": -115.150098,
+              "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 5456204,
+              "localName": "McCarran Intl.",
+              "airportCityCode": "Las Vegas, NV (LAS)",
+              "airportStateCode": " NV",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1: Concourse A, Concourse B, Concourse C",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_concourse_a_b_c.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Concourse D",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_concourse_d.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_terminal_3.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "arrivalAirport": {
+              "code": "SFO",
+              "name": "San Francisco (SFO)",
+              "city": "San Francisco",
+              "latitude": 37.61594,
+              "longitude": -122.387996,
+              "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5195347,
+              "localName": "San Francisco Intl.",
+              "airportCityCode": "San Francisco, CA (SFO)",
+              "airportStateCode": " CA",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 2",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "International Terminal",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "legDepartureTime": {
+              "raw": "2018-06-29T06:30:00-07:00",
+              "localized": "Jun 29, 2018 6:30:00 AM",
+              "epochSeconds": 1530279000,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "6/29/2018",
+              "localizedMediumDate": "Jun 29",
+              "localizedFullDate": "Fri, Jun 29",
+              "localizedLongDate": "Jun 29, 2018",
+              "localizedShortTime": "6:30am"
+            },
+            "legArrivaltime": {
+              "raw": "2018-06-29T07:57:00-07:00",
+              "localized": "Jun 29, 2018 7:57:00 AM",
+              "epochSeconds": 1530284220,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "6/29/2018",
+              "localizedMediumDate": "Jun 29",
+              "localizedFullDate": "Fri, Jun 29",
+              "localizedLongDate": "Jun 29, 2018",
+              "localizedShortTime": "7:57am"
+            },
+            "fareBasisCode": "KRA4AQEN/EX04"
+          }
+        ],
+        "rules": {
+          "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+          "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+          "refundableStatus": "NonRefundable",
+          "insuranceTerms": {
+            "text": "View the complete terms and the condition of the description of coverage.",
+            "url": "https://www.expedia.com/vacation-waiver-terms",
+            "textAndURL": "View the complete terms and conditions in the <a href=\"https://www.expedia.com/vacation-waiver-terms\"  target=\"_blank\">Description of Coverage.<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+          },
+          "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=UA&farebasis=TRA1AQEN/EX04&bookingclass=T&travelDate=2018-06-28&flightNumber=2236",
+            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=UA&farebasis=TRA1AQEN/EX04&bookingclass=T&travelDate=2018-06-28&flightNumber=2236\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+          },
+          "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "url": "https://www.expedia.com/p/info-main/warsaw",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+          },
+          "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+          "railFeederMessages": [],
+          "expediaChangeFeeChargeable": false,
+          "hasElectronicsBannedMessage": false
+        },
+        "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/Xhzh-epOjLr2Bn1a8kQ6J8CAe-shR4y9pRCFec2j2-wfmj2vpc3EcIu_UCPuUthFwpoiz_YvlGvdU4swnCaZvQV9HfN3Hwp3OvZsn89JQX-Y3mZXdv29FY50GP1OMEDDFeKqmJrEE7GzdsowKKmFGtvZ",
+        "airRecordLocator": "409554547",
+        "isSeatMapAvailable": true,
+        "webChangePathURL": "https://www.expedia.com/flight-change-gds?tripnumber=7359584248192&arl=409554547&cname=United&userToken=MRt46BloEIe-3P0wKSdRMNDXKjSKfcUaTJtvMd4TpRmxarLw2WHpPbPC5g3Ahitn64aZ2RZLRHs_1_szspYcJ67KgsOUyxPP9ZDHWkmbVQkp7OMQvIoiNA",
+        "bookingProvider": "Amadeus",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "United"
+        ],
+        "isLccOrCharter": false,
+        "destinationRegionId": 5456204,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": false
+        }
+      }
+    ],
+    "insurance": [
+      {
+        "uniqueID": "D1344D4C-3FD8-4D3B-89DE-4310CA9D5E22",
+        "policyID": "",
+        "insuredItemUniqueID": "B47E1256-D3AF-40E5-B0F9-9E596465F1B7_0",
+        "name": "Expedia Waiver",
+        "displayName": "",
+        "lineOfBusiness": "Package",
+        "bookingStatus": "BOOKED",
+        "orderNumber": "8124055831758",
+        "orderLineNumber": "1c35e9c4-d267-4d2c-98f0-b89911612d96",
+        "termsURL": "https://www.expedia.com/vacation-waiver-terms",
+        "claimsURL": "",
+        "webCancelPathURL": "https://www.expedia.com/api/cancelInsuranceBooking/093e67dd-cfdb-4044-a07c-3cab5df4a9e3",
+        "coverageQuoteTime": {
+          "raw": "2018-06-15T16:30:46-07:00",
+          "localized": "Jun 15, 2018 4:30:46 PM",
+          "epochSeconds": 1529105446,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Fri, 15 Jun",
+          "localizedMediumDate": "Jun 15, 2018",
+          "localizedFullDate": "Friday, June 15, 2018",
+          "localizedLongDate": "June 15, 2018",
+          "localizedShortTime": "4:30 PM"
+        },
+        "coverageStartTime": {
+          "raw": "2018-06-28T06:50:00-07:00",
+          "localized": "Jun 28, 2018 6:50:00 AM",
+          "epochSeconds": 1530193800,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "6/28/2018",
+          "localizedMediumDate": "Jun 28",
+          "localizedFullDate": "Thu, Jun 28",
+          "localizedLongDate": "Jun 28, 2018",
+          "localizedShortTime": "6:50am"
+        },
+        "coverageEndTime": {
+          "raw": "2018-06-29T11:00:00-07:00",
+          "localized": "Jun 29, 2018 11:00:00 AM",
+          "epochSeconds": 1530295200,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "6/29/2018",
+          "localizedMediumDate": "Jun 29",
+          "localizedFullDate": "Fri, Jun 29",
+          "localizedLongDate": "Jun 29, 2018",
+          "localizedShortTime": "11:00am"
+        },
+        "productCoverage": "Cancellation",
+        "medicalTaxPercentage": 0,
+        "medicalCoveragePremiumPercentage": 0,
+        "insuranceTax": 0.0000,
+        "currencySymbol": "$",
+        "proofOfCoverageURL": "",
+        "insurancePolicyMessage": "You have purchased the <a href=\"https://www.expedia.com/vacation-waiver-terms\" target=\"_blank\">Travel Protection - Vacation Waiver<span class=\"visually-hidden\" style=\"display:none\">Opens in a new window</span></a>. Please refer to your itinerary number when calling to ask questions or file a claim.",
+        "price": {
+          "currency": "USD",
+          "base": "26.0",
+          "baseFormatted": "$26.00",
+          "total": "26.0",
+          "totalFormatted": "$26.00"
+        },
+        "insuranceTypeId": 100004,
+        "totalInsurancePremium": 26.00,
+        "totalReserveAmount": 4.3600,
+        "travellerCount": 1
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "204.15",
+      "totalFormatted": "$204.15",
+      "totalWithoutInsurance": "178.15",
+      "totalWithoutInsuranceFormatted": "$178.15"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 220.93,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 40.99,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 179.94,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$220.93",
+      "totalPaidTaxAndFeesLocalizedPrice": "$40.99",
+      "subTotalPaidLocalizedPrice": "$179.94",
+      "totalPropertyFeeLocalizedPrice": "",
+      "multiCurrencyFeatureEnabled": false
+    },
+    "readTripError": false,
+    "tripSource": "[hotels, clientId]",
+    "clientId": "expedia.app.android.phone:18.25.0",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "LUNA-PARTIAL",
+    "isTripUpgradable": false,
+    "mipQualifications": [
+      {
+        "startDate": 1529971199000,
+        "endDate": 1530575999000,
+        "bookedType": "ATTACHED",
+        "bookedLOBs": [
+          "PACKAGE"
+        ],
+        "itinNums": [
+          "7359584248192",
+          "7359584248192"
+        ],
+        "mipType": "CARMIP",
+        "expirationDate": 1530316799000,
+        "expirationRemainingInMillis": 1211333677,
+        "destinationName": "Las Vegas",
+        "destinationId": "178276"
+      },
+      {
+        "startDate": 1529971199000,
+        "endDate": 1530575999000,
+        "bookedType": "ATTACHED",
+        "bookedLOBs": [
+          "PACKAGE"
+        ],
+        "itinNums": [
+          "7359584248192",
+          "7359584248192"
+        ],
+        "mipType": "HOTMIP",
+        "expirationDate": 1529969459140,
+        "expirationRemainingInMillis": 863993817,
+        "destinationName": "Las Vegas",
+        "destinationId": "178276"
+      }
+    ],
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}

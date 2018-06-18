@@ -106,9 +106,9 @@ object ItinOmnitureUtils {
     //These methods are for other LOBs using new objects rather than ItinCardData
 
     @JvmStatic
-    fun createOmnitureTrackingValuesNew(trip: Itin, lob: LOB): HashMap<String, String?> {
+    fun createOmnitureTrackingValuesNew(trip: Itin, lob: LOB, currentDate: DateTime = DateTime.now()): HashMap<String, String?> {
         val duration = calculateTripDurationNew(trip, lob)
-        val daysUntilTrip = calculateDaysUntilTripStartNew(trip)
+        val daysUntilTrip = calculateDaysUntilTripStartNew(trip, currentDate)
         val orderAndTripNumbers = buildOrderNumberAndItinNumberStringNew(trip)
         val tripStartDate = JodaUtils.format(trip.tripStartDate(), "yyyy-MM-dd")
         val tripEndDate = JodaUtils.format(trip.tripEndDate(), "yyyy-MM-dd")
@@ -146,12 +146,11 @@ object ItinOmnitureUtils {
         return duration
     }
 
-    fun calculateDaysUntilTripStartNew(trip: Itin): String? {
-        val now = DateTime.now()
+    fun calculateDaysUntilTripStartNew(trip: Itin, currentDate: DateTime): String? {
         val startDate = trip.tripStartDate()
         if (startDate != null) {
             val tripStartDate = startDate.withTimeAtStartOfDay()
-            var daysUntil = Days.daysBetween(now, tripStartDate).days
+            var daysUntil = Days.daysBetween(currentDate, tripStartDate).days
             if (daysUntil >= 1) {
                 daysUntil += 1 //this accounts for today
                 return daysUntil.toString()

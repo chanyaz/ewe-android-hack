@@ -177,11 +177,11 @@ class FlightTestUtil {
             val flights = ArrayList<FlightItinDetailsResponse.Flight>()
             flights.add(flight)
 
-            val insurance = FlightItinDetailsResponse.FlightResponseData.Insurance()
+            val insurance = AbstractItinDetailsResponse.ResponseData.Insurance()
             insurance.insuranceTypeId = 12345
-            insurance.price = FlightItinDetailsResponse.FlightResponseData.Insurance.Price()
-            insurance.price.total = "10.00"
-            val insuranceList = ArrayList<FlightItinDetailsResponse.FlightResponseData.Insurance>()
+            insurance.price = AbstractItinDetailsResponse.ResponseData.Insurance.Price()
+            insurance.price?.total = "10.00"
+            val insuranceList = ArrayList<AbstractItinDetailsResponse.ResponseData.Insurance>()
             insuranceList.add(insurance)
 
             val response = FlightItinDetailsResponse()

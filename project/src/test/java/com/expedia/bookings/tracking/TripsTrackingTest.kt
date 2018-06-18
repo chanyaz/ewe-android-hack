@@ -9,6 +9,8 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import org.hamcrest.Matchers
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -237,7 +239,8 @@ class TripsTrackingTest {
     @Test
     fun testTrackItinPageLoad() {
         assertNoTrackingHasOccurred()
-        val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.hotelDetailsHappy, ItinOmnitureUtils.LOB.HOTEL)
+        val overdueDate = DateTime(2020, 6, 29, 9, 34, 47, 0, DateTimeZone.UTC)
+        val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.hotelDetailsHappy, ItinOmnitureUtils.LOB.HOTEL, currentDate = overdueDate)
         val s = OmnitureTracking.createTrackPageLoadEventBase("Itin.Page.Load")
         TripsTracking.trackItinPageLoad(s, omnitureValues)
 

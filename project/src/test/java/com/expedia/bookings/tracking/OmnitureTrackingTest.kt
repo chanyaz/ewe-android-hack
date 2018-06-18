@@ -436,6 +436,13 @@ class OmnitureTrackingTest {
     }
 
     @Test
+    fun testHotelWebviewConfirmationWithInsuranceTracking() {
+        val mockItin = mockObject(HotelItinDetailsResponse::class.java, "api/trips/hotel_trip_details_with_insurance.json")
+        OmnitureTracking.trackHotelV2PurchaseFromWebView(mockItin)
+        assertStateTracked("App.Hotels.Checkout.Confirmation", withProductsString("Hotel;Merchant Hotel:15930;1;88.31,;Insurance:100290;1;9.0"), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testHotelWebviewConfirmationCurrencyCodeTracking() {
         val mockItin = mockObject(HotelItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")
         OmnitureTracking.trackHotelV2PurchaseFromWebView(mockItin)

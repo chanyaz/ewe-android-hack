@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.helpers.ItinMocker
+import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -31,7 +32,7 @@ class NewItinOmnitureUtilsTest {
     @Test
     fun getNewDaysUntilTrip() {
         val hotelItin = ItinMocker.hotelDetailsHappy
-        val daysUntil = sut.calculateDaysUntilTripStartNew(hotelItin)
+        val daysUntil = sut.calculateDaysUntilTripStartNew(hotelItin, DateTime.now())
         assertEquals("0.0", daysUntil)
     }
 
