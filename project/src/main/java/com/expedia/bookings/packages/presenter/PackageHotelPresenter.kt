@@ -240,6 +240,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             bindData()
         }
 
+        resultsPresenter.viewModel.filterResultsObservable.subscribe {
+            dataAvailableSubject.onNext(Db.getPackageResponse())
+        }
+
         bundleSlidingWidget.animationFinished.subscribe {
             resultsPresenter.viewModel.isFilteredResponse = false
             resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse(), false))

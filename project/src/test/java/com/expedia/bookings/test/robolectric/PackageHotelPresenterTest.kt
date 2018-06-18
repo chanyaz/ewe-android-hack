@@ -92,6 +92,22 @@ class PackageHotelPresenterTest {
     }
 
     @Test
+    fun testPackageHotelDataAvailableForTrackingFilters() {
+        val testFilterResponseDataAvailableSubscriber = TestObserver<BundleSearchResponse>()
+
+        val filterResponse = mockPackageServiceRule.getMIDHotelResponse()
+
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+        widget.resultsPresenter.viewModel.isFilteredResponse = true
+        widget.dataAvailableSubject.subscribe(testFilterResponseDataAvailableSubscriber)
+
+        widget.resultsPresenter.viewModel.filterResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(filterResponse, true))
+        assertNotNull(testFilterResponseDataAvailableSubscriber.values()[0])
+        assertEquals(filterResponse, testFilterResponseDataAvailableSubscriber.values()[0])
+    }
+
+    @Test
     fun testPackageSearchParamsTrackedWithNewTravelerForm() {
         hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
