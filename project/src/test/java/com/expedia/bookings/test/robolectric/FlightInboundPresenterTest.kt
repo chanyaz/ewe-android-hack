@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.LineOfBusiness
@@ -23,7 +25,9 @@ import com.expedia.bookings.presenter.flight.FlightInboundPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getRichContent
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
@@ -54,6 +58,8 @@ class FlightInboundPresenterTest {
     private lateinit var service: FlightServices
     private lateinit var activity: Activity
     private lateinit var flightInboundPresenter: FlightInboundPresenter
+    val FLIGHT_LEG_ID = "ab64aefca28e772ca024d4a00e6ae131"
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     val server: MockWebServer = MockWebServer()
         @Rule get
@@ -71,6 +77,7 @@ class FlightInboundPresenterTest {
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
         flightInboundPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_inbound_stub, null) as FlightInboundPresenter
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -279,6 +286,39 @@ class FlightInboundPresenterTest {
         val testSubscriber = TestObserver<Unit>()
         flightInboundPresenter.resultsPresenter.resultsViewModel.abortRichContentCallObservable.subscribe(testSubscriber)
         flightInboundPresenter.back()
+    }
+
+    @Test
+    fun testOmnitureForRichContentAmenities() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
+        val flightLeg = FlightTestUtil.getFlightLeg(FLIGHT_LEG_ID)
+        flightLeg.richContent = getRichContent(FLIGHT_LEG_ID, true, true, true)
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        invokeSetupComplete()
+        flightInboundPresenter.trackFlightOverviewLoad(flightLeg)
+        OmnitureTestUtils.assertStateTracked("App.Flight.Search.Roundtrip.In.Details", OmnitureMatchers.withProps(mapOf(45 to "Wifi,Enter,Power")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForRichContentAmenitiesWifiOnly() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
+        val flightLeg = FlightTestUtil.getFlightLeg(FLIGHT_LEG_ID)
+        flightLeg.richContent = getRichContent(FLIGHT_LEG_ID, true, false, false)
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        invokeSetupComplete()
+        flightInboundPresenter.trackFlightOverviewLoad(flightLeg)
+        OmnitureTestUtils.assertStateTracked("App.Flight.Search.Roundtrip.In.Details", OmnitureMatchers.withProps(mapOf(45 to "Wifi")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForRichContentNoAmenities() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
+        val flightLeg = FlightTestUtil.getFlightLeg(FLIGHT_LEG_ID)
+        flightLeg.richContent = FlightTestUtil.getRichContent(FLIGHT_LEG_ID, false, false, false)
+        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(true, true))
+        invokeSetupComplete()
+        flightInboundPresenter.trackFlightOverviewLoad(flightLeg)
+        OmnitureTestUtils.assertStateTracked("App.Flight.Search.Roundtrip.In.Details", OmnitureMatchers.withProps(mapOf(45 to "None")), mockAnalyticsProvider)
     }
 
     private fun createFlightSegment(departureCity: String, departureAirport: String, arrivalCity: String, arrivalAirport: String, layoverHrs: Int, layoverMins: Int): FlightLeg.FlightSegment {

@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.RichContentUtils.getAmenitiesString
 import com.expedia.bookings.utils.Ui
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
     }
 
     override fun trackFlightOverviewLoad(flight: FlightLeg) {
-        FlightsV2Tracking.trackFlightOverview(false, true, flight)
+        FlightsV2Tracking.trackFlightOverview(false, true, flight, getAmenitiesString(context, flight))
     }
 
     override fun trackFlightScrollDepth(scrollDepth: Int) {

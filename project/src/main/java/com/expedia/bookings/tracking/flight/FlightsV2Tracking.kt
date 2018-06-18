@@ -60,8 +60,8 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Search(trackingData)
     }
 
-    fun trackFlightOverview(isOutboundFlight: Boolean, isRoundTrip: Boolean, flight: FlightLeg) {
-        OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip, flight)
+    fun trackFlightOverview(isOutboundFlight: Boolean, isRoundTrip: Boolean, flight: FlightLeg, amenities: String) {
+        OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip, flight, amenities)
     }
 
     fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData, outboundSelectedAndTotalLegRank: Pair<Int, Int>) {
@@ -258,6 +258,14 @@ object FlightsV2Tracking {
 
     fun trackRouteHappyNotDisplayed(isOutboundFlight: Boolean, isRoundTrip: Boolean) {
         OmnitureTracking.trackRouteHappyNotApplicable(isOutboundFlight, isRoundTrip)
+    }
+
+    fun trackGuideScreenShown(counter: Int) {
+        OmnitureTracking.trackGuideScreenShown(counter)
+    }
+
+    fun trackGuideScreenClosed(counter: Int) {
+        OmnitureTracking.trackGuideScreenClosed(counter)
     }
 
     fun createCheckoutError(error: ApiError): String {

@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.support.v4.content.ContextCompat
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -615,5 +616,10 @@ object FlightV2Utils {
         }
         val airlineFee = context.resources.getString(resId)
         return SpannableStringBuilder(airlineFee)
+    }
+
+    @JvmStatic
+    fun getRichContentSharedPref(context: Context): SharedPreferences {
+        return context.getSharedPreferences("richContentGuide", Context.MODE_PRIVATE)
     }
 }

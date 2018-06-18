@@ -13,9 +13,11 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.Traveler
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.bookings.flights.vm.FlightViewModel
@@ -238,10 +240,36 @@ class FlightTestUtil {
         fun getFlightLeg(legId: String = "12345", numberOfTickets: Int = 1): FlightLeg {
             val flightLeg = FlightLeg()
             flightLeg.legId = legId
+            flightLeg.naturalKey = legId
             flightLeg.packageOfferModel = PackageOfferModel()
             flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
             flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = numberOfTickets
+            flightLeg.carrierName = "American Airlines"
+            flightLeg.carrierLogoUrl = "https/AmericanAirline"
+            flightLeg.elapsedDays = 1
+            flightLeg.durationHour = 19
+            flightLeg.durationMinute = 10
+            flightLeg.flightSegments = ArrayList<FlightLeg.FlightSegment>()
+            flightLeg.departureDateTimeISO = "2016-09-07T20:20:00.000-05:00"
+            flightLeg.arrivalDateTimeISO = "2016-09-08T19:20:00.000+01:00"
+            flightLeg.stopCount = 1
+            flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
+            flightLeg.packageOfferModel.price.packageTotalPrice = Money("200", "USD")
+            flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200", "USD")
+            flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(200)
             return flightLeg
+        }
+        @JvmStatic
+        fun getRichContent(FLIGHT_LEG_ID: String, wifi: Boolean, entertainment: Boolean, power: Boolean): RichContent {
+            val richContent = RichContent()
+            richContent.legId = FLIGHT_LEG_ID
+            richContent.score = 7.9F
+            richContent.legAmenities = RichContent.RichContentAmenity()
+            richContent.legAmenities!!.wifi = wifi
+            richContent.legAmenities!!.entertainment = entertainment
+            richContent.legAmenities!!.power = power
+            richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
+            return richContent
         }
 
         class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :

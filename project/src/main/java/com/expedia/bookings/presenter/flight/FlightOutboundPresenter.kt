@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.RichContentUtils.getAmenitiesString
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import javax.inject.Inject
@@ -42,7 +43,7 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
 
     override fun trackFlightOverviewLoad(flight: FlightLeg) {
         val isRoundTrip = flightOfferViewModel.isRoundTripSearchSubject.value
-        FlightsV2Tracking.trackFlightOverview(true, isRoundTrip, flight)
+        FlightsV2Tracking.trackFlightOverview(true, isRoundTrip, flight, getAmenitiesString(context, flight))
     }
 
     override fun trackFlightSortFilterLoad() {

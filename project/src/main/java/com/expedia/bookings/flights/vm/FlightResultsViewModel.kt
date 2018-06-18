@@ -11,6 +11,7 @@ import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightRichContentService
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isRichContentEnabled
@@ -29,7 +30,7 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
     override val showLoadingStateV1 = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
     override val showRichContent = isRichContentEnabled(context)
     val richContentStream = PublishSubject.create<Map<String, RichContent>>()
-    val sharedPref = context.getSharedPreferences("richContentGuide", Context.MODE_PRIVATE)
+    val sharedPref = FlightV2Utils.getRichContentSharedPref(context)
     var isRichContentGuideDisplayed = false
     var richContentOutboundSubscription: Disposable? = null
     var richContentInboundSubscription: Disposable? = null

@@ -130,6 +130,7 @@ import com.mobiata.android.util.SettingUtils;
 import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isFlightGreedySearchEnabled;
+import static com.expedia.bookings.utils.FeatureUtilKt.isRichContentShowAmenityEnabled;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -5220,6 +5221,8 @@ public class OmnitureTracking {
 	private static final String FLIGHT_V2_RS_ITEMS_TEMPLATE = "App.Flight.Dest.Search.RS.";
 	private static final String FLIGHT_V2_RS_ITEM_CLICK_TEMPLATE = "App.Flight.Dest.Search.RS.Clicked.";
 	private static final String FLIGHTS_V2_CHECKOUT_BUTTON_CLICK = "App.Flights.RD.CKO.Transition";
+	private static final String FLIGHTS_V2_RH_AMENITIES_SHOWN = "App.Flight.FSR.AmenitiesPopupshown.";
+	private static final String FLIGHTS_V2_RH_POPUP_OK_CLICKED = "App.Flight.FSR.AmenitiesPopup.Ok.";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -5899,7 +5902,7 @@ public class OmnitureTracking {
 		return layoverDuration;
 	}
 
-	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip, FlightLeg flight) {
+	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip, FlightLeg flight, String amenities) {
 		String pageName = !isRoundTrip ? FLIGHT_SEARCH_ONE_WAY_DETAILS :
 			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
 		AppAnalytics s = createTrackPageLoadEventBase(pageName);
@@ -5908,6 +5911,9 @@ public class OmnitureTracking {
 		if (isOutboundFlight) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode);
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging);
+		}
+		if (isRichContentShowAmenityEnabled()) {
+			s.setProp(45, amenities);
 		}
 		appendEmptyFareRulesTracking(s, flight);
 		s.track();
@@ -5930,6 +5936,16 @@ public class OmnitureTracking {
 	public static void trackRouteHappyNotApplicable(Boolean isOutboundFlight, Boolean isRoundTrip) {
 		String pageName = (!isRoundTrip ? FLIGHTS_V2_SEARCH_ONEWAY :
 			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHT_SEARCH_ROUNDTRIP_IN) + ".RouteHappy.NA";
+		createAndTrackLinkEvent(pageName, pageName);
+	}
+
+	public static void trackGuideScreenShown(int counter) {
+		String pageName = FLIGHTS_V2_RH_AMENITIES_SHOWN + counter;
+		createAndTrackLinkEvent(pageName, pageName);
+	}
+
+	public static void trackGuideScreenClosed(int counter) {
+		String pageName = FLIGHTS_V2_RH_POPUP_OK_CLICKED + counter;
 		createAndTrackLinkEvent(pageName, pageName);
 	}
 

@@ -1,9 +1,12 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.fragment.FilghtsRouteHappyGuideFragment
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -20,11 +23,13 @@ class FilghtsRouteHappyGuideFragmentTest {
     private val context = RuntimeEnvironment.application
     lateinit var testFragment: FilghtsRouteHappyGuideFragment
     private lateinit var fragmentManager: FragmentManager
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
         val activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         fragmentManager = activity.supportFragmentManager
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -101,5 +106,38 @@ class FilghtsRouteHappyGuideFragmentTest {
         assertEquals(View.VISIBLE, ratingLabel.visibility)
         assertEquals(View.VISIBLE, moreInfoLabel.visibility)
         assertEquals("Flight amenities & score", titleLabel.text)
+    }
+
+    @Test
+    fun testOmnitureOnDialogButtonClick() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        val sharedPref = context.getSharedPreferences("richContentGuide", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt("counter", 2)
+        editor.apply()
+        testFragment = FilghtsRouteHappyGuideFragment()
+        testFragment.show(fragmentManager, "dummy_tag")
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        testFragment.onViewCreated(view, null)
+        testFragment.onCreateDialog(null)
+        testFragment.dismissButton.performClick()
+        OmnitureTestUtils.assertLinkTracked("App.Flight.FSR.AmenitiesPopup.Ok.1",
+                "App.Flight.FSR.AmenitiesPopup.Ok.1", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForRichContentPopUpDisplayed() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        val sharedPref = context.getSharedPreferences("richContentGuide", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt("counter", 2)
+        editor.apply()
+        testFragment = FilghtsRouteHappyGuideFragment()
+        testFragment.show(fragmentManager, "dummy_tag")
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        testFragment.onViewCreated(view, null)
+        testFragment.onCreateDialog(null)
+        OmnitureTestUtils.assertLinkTracked("App.Flight.FSR.AmenitiesPopupshown.1",
+                "App.Flight.FSR.AmenitiesPopupshown.1", mockAnalyticsProvider)
     }
 }

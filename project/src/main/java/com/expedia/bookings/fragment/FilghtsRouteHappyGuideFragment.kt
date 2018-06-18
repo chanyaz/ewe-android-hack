@@ -19,6 +19,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FlightV2Utils
 
 class FilghtsRouteHappyGuideFragment : DialogFragment() {
 
@@ -43,7 +45,8 @@ class FilghtsRouteHappyGuideFragment : DialogFragment() {
     internal lateinit var ratingsLottieView: LottieAnimationView
     @VisibleForTesting
     internal lateinit var dotsLottieView: LottieAnimationView
-    private lateinit var dismissButton: Button
+    @VisibleForTesting
+    internal lateinit var dismissButton: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val routeHappyDialog = inflater.inflate(R.layout.flights_route_happy_guide, container, false)
@@ -63,10 +66,14 @@ class FilghtsRouteHappyGuideFragment : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPref = FlightV2Utils.getRichContentSharedPref(context)
+        val counter = sharedPref.getInt("counter", 1) - 1
         dismissButton.setOnClickListener {
             dismiss()
+            FlightsV2Tracking.trackGuideScreenClosed(counter)
         }
         richGuideAnimation()
+        FlightsV2Tracking.trackGuideScreenShown(counter)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

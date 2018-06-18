@@ -7,7 +7,8 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.data.flights.RichContentRequestInfo
+import com.expedia.bookings.data.flights.RichContentDetail
+import com.expedia.bookings.data.flights.RichContentDetail.RichContentInfo
 import com.expedia.bookings.data.flights.RichContentFlightCriteria
 import com.expedia.bookings.data.flights.RichContentFlightLegDetail
 import com.expedia.bookings.data.flights.RichContentFlightLegDetail.RichContentFlightLeg
@@ -20,8 +21,7 @@ import com.expedia.bookings.data.flights.RichContentFlightSegmentDetail.RichCont
 import com.expedia.bookings.data.flights.RichContentFlightTravelerCategory
 import com.expedia.bookings.data.flights.RichContentFlightTravelerDetail
 import com.expedia.bookings.data.flights.RichContentRequest
-import com.expedia.bookings.data.flights.RichContentDetail
-import com.expedia.bookings.data.flights.RichContentDetail.RichContentInfo
+import com.expedia.bookings.data.flights.RichContentRequestInfo
 import com.expedia.bookings.data.flights.TravelerCode
 import com.expedia.bookings.data.flights.TripType
 import com.expedia.bookings.data.pos.PointOfSale
@@ -44,6 +44,28 @@ object RichContentUtils {
         richContentRequestPayload.requestInfo = getRequestInfo(context)
         richContentRequestPayload.richInfoDetail = getRichInfoDetail(flightLegList)
         return richContentRequestPayload
+    }
+
+    @JvmStatic
+    fun getAmenitiesString(context: Context, flightLeg: FlightLeg): String {
+        val listAmenities = ArrayList<String>()
+        val richContent = flightLeg.richContent
+        richContent?.legAmenities?.let {
+            if (it.wifi) {
+                listAmenities.add(context.resources.getString(R.string.flight_rich_content_amenity_wifi))
+            }
+            if (it.entertainment) {
+                listAmenities.add(context.resources.getString(R.string.flight_rich_content_amenity_entertainment))
+            }
+            if (it.power) {
+                listAmenities.add(context.resources.getString(R.string.flight_rich_content_amenity_power))
+            }
+        }
+        if (listAmenities.isEmpty()) {
+            return "None"
+        } else {
+            return listAmenities.joinToString(",").format()
+        }
     }
 
     private fun getRequestInfo(context: Context): RichContentRequestInfo {

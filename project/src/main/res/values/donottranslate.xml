@@ -497,6 +497,9 @@
     <string name="hotel_shortlist_test_client_token">YjNlMmM2YzYtYTJhNS00NDEwLWE1NjMtMTI4MmRmNTc2MTcy</string>
     <string name="hotel_shortlist_prod_client_token">MTA3ZTc3ZmYtZjZiMi00M2IxLWFjODEtYzY3ZjcwMmFlY2Iy</string>
     <string name="hotel_shortlist_client_id">androidHotel</string>
+    <string name="flight_rich_content_amenity_wifi">Wifi</string>
+    <string name="flight_rich_content_amenity_entertainment">Enter</string>
+    <string name="flight_rich_content_amenity_power">Power</string>
 
     <!-- Hotel Reviews Values-->
     <string name="hotel_reviews_api_key">0601x448cd474e227077mlq964842293</string>
