@@ -558,11 +558,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     }
 
     fun handleHotelFilterAPIError(filterSearchErrorString: String?) {
-        val filterSearchErrorKey = if (filterSearchErrorString == PackageApiError.Code.mid_no_offers_post_filtering.name) Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY else Constants.UNKNOWN_ERROR_CODE
-
         Db.setPackageResponse(Db.getUnfilteredRespnse())
         val errorCode = if (PackageApiError.Code.mid_no_offers_post_filtering.name == filterSearchErrorString) PackageApiError.Code.mid_no_offers_post_filtering else PackageApiError.Code.pkg_error_code_not_mapped
-        val apiCallFailing = ApiCallFailing.PackageFilterSearch(filterSearchErrorKey)
+        val apiCallFailing = ApiCallFailing.PackageFilterSearch(filterSearchErrorString ?: Constants.UNKNOWN_ERROR_CODE)
         filterSearchErrorObservable.onNext(Pair(errorCode, apiCallFailing))
     }
 
@@ -595,9 +593,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         intent.putExtra(Constants.REQUEST, Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE)
         backStack.push(intent)
 
-        if (Db.sharedInstance.packageParams.isChangePackageSearch()) {
-            changedOutboundFlight = true
-        }
+        changedOutboundFlight = Db.sharedInstance.packageParams.isChangePackageSearch()
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
         bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.sharedInstance.packageSelectedOutboundFlight)
     }

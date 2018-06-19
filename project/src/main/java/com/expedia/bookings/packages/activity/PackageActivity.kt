@@ -18,17 +18,16 @@ import com.expedia.bookings.utils.isGlassboxForPackagesEnabled
 import com.expedia.ui.AbstractAppCompatActivity
 
 class PackageActivity : AbstractAppCompatActivity() {
-    private var isCrossSellPackageOnFSREnabled = false
     private val IS_RESTORED = "isRestored"
 
     val packagePresenter by bindView<PackagePresenter>(R.id.package_presenter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState?.containsKey(IS_RESTORED) ?: false) {
+        if (savedInstanceState?.containsKey(IS_RESTORED) == true) {
             PackagesTracking().trackDormantUserHomeRedirect()
             val intent = Intent(this, PhoneLaunchActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             finish()
             startActivity(intent)
         } else {
@@ -37,7 +36,6 @@ class PackageActivity : AbstractAppCompatActivity() {
             Ui.getApplication(this).defaultTravelerComponent()
             setContentView(R.layout.package_activity)
             Ui.showTransparentStatusBar(this)
-            isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
             if (isGlassboxForPackagesEnabled()) {
                 glassBoxStart()
             }
