@@ -386,12 +386,12 @@ Feature: Flights Search
       | child               | 2                                        |
     And I wait for results to load
     Then Validate the "flight Search" API request query data for following parameters
-      | maxOfferCount                         | 1600                          |
       | cabinClassPreference                  | COACH                         |
       | childTravelerAge                      | 10                            |
       | lccAndMerchantFareCheckoutAllowed     | true                          |
       | sourceType                            | mobileapp                     |
     Then Validate the flight Search API request form data for following parameters
+      | maxOfferCount                         | 1600                          |
       | infantSeatingInLap                    | false                         |
       | departureAirport                      | SFO                           |
       | arrivalAirport                        | LAS                           |
@@ -405,12 +405,12 @@ Feature: Flights Search
     Then I can trigger flights search
     And I wait for results to load
     Then Validate the "flight Search" API request query data for following parameters
-      | maxOfferCount                         | 1600                          |
       | cabinClassPreference                  | PREMIUM_COACH                 |
       | childTravelerAge                      | 10                            |
       | lccAndMerchantFareCheckoutAllowed     | true                          |
       | sourceType                            | mobileapp                     |
     Then Validate the flight Search API request form data for following parameters
+      | maxOfferCount                         | 1600                          |
       | infantSeatingInLap                    | false                         |
       | departureAirport                      | SFO                           |
       | arrivalAirport                        | LAS                           |
