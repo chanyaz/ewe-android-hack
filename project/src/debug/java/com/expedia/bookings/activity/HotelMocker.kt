@@ -38,7 +38,7 @@ class HotelMocker : AppCompatActivity() {
 
         setupMockButton()
         ItineraryManager.getInstance().removeItin(id)
-        fileUtil.deleteTripFile(fileId)
+        fileUtil.deleteFile(fileId)
     }
 
     private fun setupMockButton() {
@@ -53,7 +53,7 @@ class HotelMocker : AppCompatActivity() {
             card.tripComponent.parentTrip.tripId = fileId
             manager.itinCardData.add(card)
             val json = JSONObject(createMock().toString())
-            fileUtil.writeTripToFile(fileId, json.toString())
+            fileUtil.writeToFile(fileId, json.toString())
             this.startActivity(HotelItinDetailsActivity.createIntent(this, card.id, card.tripId),
                     ActivityOptionsCompat
                             .makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left_complete)

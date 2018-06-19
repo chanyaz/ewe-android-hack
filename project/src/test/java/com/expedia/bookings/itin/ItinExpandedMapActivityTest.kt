@@ -25,7 +25,7 @@ class ItinExpandedMapActivityTest {
     fun before() {
         val itinId = "7123456789"
         val fileUtils = Ui.getApplication(RuntimeEnvironment.application).appComponent().tripJsonFileUtils()
-        fileUtils.writeTripToFile(itinId, getJsonStringFromMock("api/trips/activity_trip_details.json", null))
+        fileUtils.writeToFile(itinId, getJsonStringFromMock("api/trips/activity_trip_details.json", null))
         val intent = Intent()
         intent.putExtra("ITINID", itinId)
         intent.putExtra("ITIN_TYPE", TripProducts.ACTIVITY.name)

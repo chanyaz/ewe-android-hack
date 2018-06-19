@@ -8,7 +8,7 @@ class TripsJsonFileUtils(private val tripsDirectory: File) : ITripsJsonFileUtils
     private val TEMP_FILE = "TEMP_FILE"
 
     @Synchronized
-    override fun writeTripToFile(filename: String?, content: String?) {
+    override fun writeToFile(filename: String?, content: String?) {
         try {
             if (tripsDirectory.exists() && filename != null && filename.isNotEmpty() && content != null && content.isNotEmpty()) {
                 val hashedFileName = hashString(filename)
@@ -24,13 +24,17 @@ class TripsJsonFileUtils(private val tripsDirectory: File) : ITripsJsonFileUtils
     }
 
     @Synchronized
-    override fun readTripFromFile(filename: String?): String? {
+    override fun readFromFile(filename: String?): String? {
         try {
             if (tripsDirectory.exists() && filename != null && filename.isNotEmpty()) {
                 val hashedFileName = hashString(filename)
                 val tripFile = File(tripsDirectory, hashedFileName)
 
-                return tripFile.readText()
+                return if (tripFile.exists()) {
+                    tripFile.readText()
+                } else {
+                    null
+                }
             }
         } catch (e: Exception) {
             println("$LOGGING_TAG Exception occurred while reading from file : ${e.printStackTrace()}")
@@ -39,7 +43,7 @@ class TripsJsonFileUtils(private val tripsDirectory: File) : ITripsJsonFileUtils
     }
 
     @Synchronized
-    override fun readTripsFromFile(): List<String> {
+    override fun readFromFileDirectory(): List<String> {
         val retList = mutableListOf<String>()
         try {
             if (tripsDirectory.exists()) {
@@ -56,7 +60,7 @@ class TripsJsonFileUtils(private val tripsDirectory: File) : ITripsJsonFileUtils
     }
 
     @Synchronized
-    override fun deleteTripFile(filename: String?): Boolean {
+    override fun deleteFile(filename: String?): Boolean {
         try {
             if (tripsDirectory.exists() && filename != null && filename.isNotEmpty()) {
                 val hashedFileName = hashString(filename)
@@ -71,7 +75,7 @@ class TripsJsonFileUtils(private val tripsDirectory: File) : ITripsJsonFileUtils
     }
 
     @Synchronized
-    override fun deleteTripStore() {
+    override fun deleteAllFiles() {
         try {
             if (tripsDirectory.exists()) {
                 val tripFiles = tripsDirectory.listFiles()

@@ -24,7 +24,7 @@ class HotelItinPricingRewardsActivityTest {
     fun setup() {
         val itinId = "ITIN1"
         val fileUtils = Ui.getApplication(RuntimeEnvironment.application).appComponent().tripJsonFileUtils()
-        fileUtils.writeTripToFile(itinId, getJsonStringFromMock("api/trips/hotel_trip_details_for_mocker.json", null))
+        fileUtils.writeToFile(itinId, getJsonStringFromMock("api/trips/hotel_trip_details_for_mocker.json", null))
         val intent = Intent()
         intent.putExtra("ITINID", itinId)
         activity = Robolectric.buildActivity(HotelItinPricingRewardsActivity::class.java, intent).create().start().get()

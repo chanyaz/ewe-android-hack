@@ -407,23 +407,23 @@ class ItineraryManagerTest {
     }
 
     private class TestTripJsonFileUtils : ITripsJsonFileUtils {
-        override fun readTripsFromFile(): List<String> {
+        override fun readFromFileDirectory(): List<String> {
             return emptyList()
         }
 
-        override fun writeTripToFile(filename: String?, content: String?) {
+        override fun writeToFile(filename: String?, content: String?) {
             return
         }
 
-        override fun readTripFromFile(filename: String?): String? {
+        override fun readFromFile(filename: String?): String? {
             return ""
         }
 
-        override fun deleteTripFile(filename: String?): Boolean {
+        override fun deleteFile(filename: String?): Boolean {
             return true
         }
 
-        override fun deleteTripStore() {
+        override fun deleteAllFiles() {
             return
         }
     }

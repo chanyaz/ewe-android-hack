@@ -22,7 +22,7 @@ class CarItinMoreHelpActivityTest {
     fun setup() {
         val itinId = "ITIN1"
         val fileUtils = Ui.getApplication(RuntimeEnvironment.application).appComponent().tripJsonFileUtils()
-        fileUtils.writeTripToFile(itinId, getJsonStringFromMock("api/trips/car_trip_details_happy.json", null))
+        fileUtils.writeToFile(itinId, getJsonStringFromMock("api/trips/car_trip_details_happy.json", null))
         val intent = Intent()
         intent.putExtra("CAR_ITIN_ID", itinId)
         activity = Robolectric.buildActivity(CarItinMoreHelpActivity::class.java, intent).create().start().get()

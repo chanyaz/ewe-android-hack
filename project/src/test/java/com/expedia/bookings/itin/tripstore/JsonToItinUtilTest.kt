@@ -24,12 +24,12 @@ class JsonToItinUtilTest {
 
     @Before
     fun setup() {
-        fileUtils.deleteTripStore()
+        fileUtils.deleteAllFiles()
     }
 
     @After
     fun tearDown() {
-        fileUtils.deleteTripStore()
+        fileUtils.deleteAllFiles()
     }
 
     @Test
@@ -46,7 +46,7 @@ class JsonToItinUtilTest {
 
     @Test
     fun validItinIdInvalidJson() {
-        fileUtils.writeTripToFile(TEST_FILENAME, "blah blah")
+        fileUtils.writeToFile(TEST_FILENAME, "blah blah")
         val itin = jsonUtils.getItin(TEST_FILENAME)
         assertNull(itin)
     }
@@ -54,16 +54,16 @@ class JsonToItinUtilTest {
     @Test
     fun validItinIdValidJsonInvalidItin() {
         val errorData: String = getJsonStringFromMock("api/trips/error_bad_request_trip_response.json", null)
-        fileUtils.writeTripToFile(TEST_FILENAME, errorData)
+        fileUtils.writeToFile(TEST_FILENAME, errorData)
         val itin = jsonUtils.getItin(TEST_FILENAME)
         assertNull(itin)
     }
 
     @Test
     fun validItinIdValidJsonValidItin() {
-        val mockData: String = getJsonStringFromMock("api/trips/hotel_trip_details.json", null)
-        val mockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details.json")?.itin
-        fileUtils.writeTripToFile(TEST_FILENAME, mockData)
+        val mockData: String = getJsonStringFromMock("api/trips/hotel_trip_details_for_mocker.json", null)
+        val mockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")?.itin
+        fileUtils.writeToFile(TEST_FILENAME, mockData)
         val itin = jsonUtils.getItin(TEST_FILENAME)
         assertEquals(mockObject, itin)
     }
@@ -74,8 +74,8 @@ class JsonToItinUtilTest {
         val firstMockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")?.itin
         val secondMockData: String = getJsonStringFromMock("api/trips/car_trip_details_happy.json", null)
         val secondMockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/car_trip_details_happy.json")?.itin
-        fileUtils.writeTripToFile("Mock1", firstMockData)
-        fileUtils.writeTripToFile("Mock2", secondMockData)
+        fileUtils.writeToFile("Mock1", firstMockData)
+        fileUtils.writeToFile("Mock2", secondMockData)
         val itinList = jsonUtils.getItinList()
         assertTrue(itinList.contains(firstMockObject))
         assertTrue(itinList.contains(secondMockObject))
@@ -85,15 +85,15 @@ class JsonToItinUtilTest {
     fun getItinListOneValidOneInvalid() {
         val secondMockData: String = getJsonStringFromMock("api/trips/car_trip_details_happy.json", null)
         val secondMockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/car_trip_details_happy.json")?.itin
-        fileUtils.writeTripToFile("Mock1", "Yo")
-        fileUtils.writeTripToFile("Mock2", secondMockData)
+        fileUtils.writeToFile("Mock1", "Yo")
+        fileUtils.writeToFile("Mock2", secondMockData)
         val itinList = jsonUtils.getItinList()
         assertEquals(listOf(secondMockObject), itinList)
     }
 
     @Test
     fun getItinListInvalidItin() {
-        fileUtils.writeTripToFile("Mock1", "Yo")
+        fileUtils.writeToFile("Mock1", "Yo")
         val itinList = jsonUtils.getItinList()
         assertEquals(emptyList(), itinList)
     }

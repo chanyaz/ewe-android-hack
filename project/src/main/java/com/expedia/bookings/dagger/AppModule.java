@@ -26,6 +26,8 @@ import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
+import com.expedia.bookings.itin.tripsync.ITripSync;
+import com.expedia.bookings.itin.tripsync.TripSync;
 import com.expedia.bookings.itin.utils.AbacusProvider;
 import com.expedia.bookings.itin.utils.AbacusSource;
 import com.expedia.bookings.itin.utils.IToaster;
@@ -448,6 +450,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
+	@Named("TripDetailsFileUtil")
 	ITripsJsonFileUtils provideTripsJsonFileUtils(Context context) {
 		File tripsDirectory = context.getDir("TRIPS_JSON_STORE", Context.MODE_PRIVATE);
 		return new TripsJsonFileUtils(tripsDirectory);
@@ -455,7 +458,15 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	IJsonToItinUtil provideReadJsonUtil(ITripsJsonFileUtils tripsJsonFileUtils) {
+	@Named("TripFoldersFileUtil")
+	ITripsJsonFileUtils provideTripFoldersJsonFileUtils(Context context) {
+		File tripsDirectory = context.getDir("TRIP_FOLDERS_JSON_STORE", Context.MODE_PRIVATE);
+		return new TripsJsonFileUtils(tripsDirectory);
+	}
+
+	@Provides
+	@Singleton
+	IJsonToItinUtil provideReadJsonUtil(@Named("TripDetailsFileUtil") ITripsJsonFileUtils tripsJsonFileUtils) {
 		return new JsonToItinUtil(tripsJsonFileUtils);
 	}
 
@@ -469,6 +480,13 @@ public class AppModule {
 	@Singleton
 	AbacusSource provideAbacusSource(Context context) {
 		return new AbacusProvider(context);
+	}
+
+	@Provides
+	@Singleton
+	ITripSync providesTripSync(TripFolderServiceInterface tripFolderService,
+		@Named("TripFoldersFileUtil") ITripsJsonFileUtils tripsJsonFileUtils) {
+		return new TripSync(tripFolderService, tripsJsonFileUtils);
 	}
 
 	@Provides

@@ -4,14 +4,13 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.google.gson.GsonBuilder
 import com.mobiata.android.Log
-import javax.inject.Inject
 
-class JsonToItinUtil @Inject constructor(private val fileUtils: ITripsJsonFileUtils) : IJsonToItinUtil {
+class JsonToItinUtil(private val fileUtils: ITripsJsonFileUtils) : IJsonToItinUtil {
 
     private val LOGGING_TAG = "JsonToItinUtil"
 
     override fun getItin(itinId: String?): Itin? {
-        val itinJson = fileUtils.readTripFromFile(itinId)
+        val itinJson = fileUtils.readFromFile(itinId)
         return parseItin(itinJson)
     }
 
@@ -30,7 +29,7 @@ class JsonToItinUtil @Inject constructor(private val fileUtils: ITripsJsonFileUt
 
     override fun getItinList(): List<Itin> {
         val retList = mutableListOf<Itin>()
-        val jsonList = fileUtils.readTripsFromFile()
+        val jsonList = fileUtils.readFromFileDirectory()
         jsonList.forEach { json ->
             parseItin(json)?.let { nonNullItin ->
                 retList.add(nonNullItin)

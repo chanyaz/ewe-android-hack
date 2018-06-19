@@ -24,7 +24,7 @@ class LxItinDetailsActivityTest {
         val intent = Intent()
         intent.putExtra("LX_ITIN_ID", itinId)
         val fileUtils = Ui.getApplication(RuntimeEnvironment.application).appComponent().tripJsonFileUtils()
-        fileUtils.writeTripToFile(itinId, getJsonStringFromMock("api/trips/lx_trip_details_for_mocker.json", null))
+        fileUtils.writeToFile(itinId, getJsonStringFromMock("api/trips/lx_trip_details_for_mocker.json", null))
         sut = Robolectric.buildActivity(LxItinDetailsActivity::class.java, intent).create().start().get()
     }
 

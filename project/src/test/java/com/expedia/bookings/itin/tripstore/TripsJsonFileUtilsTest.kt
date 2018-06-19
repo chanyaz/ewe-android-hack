@@ -35,7 +35,7 @@ class TripsJsonFileUtilsTest {
 
     @Test
     fun writeOnlyOneFile() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
 
         val tripFiles = tripsDirectory.listFiles()
         val tripFile = File(tripsDirectory, tripJsonUtils.hashString(TEST_FILENAME))
@@ -47,8 +47,8 @@ class TripsJsonFileUtilsTest {
 
     @Test
     fun writingIntoSameFileAgainOverwrites() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
 
         val tripFiles = tripsDirectory.listFiles()
         val tripFile = File(tripsDirectory, tripJsonUtils.hashString(TEST_FILENAME))
@@ -60,7 +60,7 @@ class TripsJsonFileUtilsTest {
 
     @Test
     fun writeEmptyFileName() {
-        tripJsonUtils.writeTripToFile("", data)
+        tripJsonUtils.writeToFile("", data)
         val tripFiles = tripsDirectory.listFiles()
         val tripFile = File(tripsDirectory, tripJsonUtils.hashString(TEST_FILENAME))
 
@@ -70,7 +70,7 @@ class TripsJsonFileUtilsTest {
 
     @Test
     fun writeEmptyContent() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, "")
+        tripJsonUtils.writeToFile(TEST_FILENAME, "")
         val tripFiles = tripsDirectory.listFiles()
         val tripFile = File(tripsDirectory, tripJsonUtils.hashString(TEST_FILENAME))
 
@@ -80,7 +80,7 @@ class TripsJsonFileUtilsTest {
 
     @Test
     fun writeEmptyFileNameContent() {
-        tripJsonUtils.writeTripToFile("", "")
+        tripJsonUtils.writeToFile("", "")
         val tripFiles = tripsDirectory.listFiles()
         val tripFile = File(tripsDirectory, tripJsonUtils.hashString(TEST_FILENAME))
 
@@ -91,7 +91,7 @@ class TripsJsonFileUtilsTest {
     @Test
     fun writeLongFileName() {
         val SHARED_TRIP_FILE = "https://www.expedia.com/m/trips/shared/PviRCGFgfPM0NTy6zDg5-cCAHfv7oCCPfdYUMEMe6_aFzWOrjuX1wfhFeYfqL2zcCK38qjENrl4lgPJhKDirwYjr"
-        tripJsonUtils.writeTripToFile(SHARED_TRIP_FILE, data)
+        tripJsonUtils.writeToFile(SHARED_TRIP_FILE, data)
         val tripFiles = tripsDirectory.listFiles()
         val tripFile = File(tripsDirectory, tripJsonUtils.hashString(SHARED_TRIP_FILE))
 
@@ -102,103 +102,103 @@ class TripsJsonFileUtilsTest {
 
     @Test
     fun writeFileNameNull() {
-        tripJsonUtils.writeTripToFile(null, "test_content")
+        tripJsonUtils.writeToFile(null, "test_content")
         val tripFiles = tripsDirectory.listFiles()
         assertEquals(0, tripFiles.size)
     }
 
     @Test
     fun writeContentNull() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, null)
+        tripJsonUtils.writeToFile(TEST_FILENAME, null)
         val tripFiles = tripsDirectory.listFiles()
         assertEquals(0, tripFiles.size)
     }
 
     @Test
     fun writeFileNAMEContentNull() {
-        tripJsonUtils.writeTripToFile(null, null)
+        tripJsonUtils.writeToFile(null, null)
         val tripFiles = tripsDirectory.listFiles()
         assertEquals(0, tripFiles.size)
     }
 
     @Test
     fun readValidFile() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        val readData = tripJsonUtils.readTripFromFile(TEST_FILENAME)
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        val readData = tripJsonUtils.readFromFile(TEST_FILENAME)
         assertNotNull(readData)
         assertEquals(data, readData)
     }
 
     @Test
     fun readTripsFromFile() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        tripJsonUtils.writeTripToFile(TEST_FILENAME_TWO, dataTwo)
-        val readList = tripJsonUtils.readTripsFromFile()
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        tripJsonUtils.writeToFile(TEST_FILENAME_TWO, dataTwo)
+        val readList = tripJsonUtils.readFromFileDirectory()
         assertTrue(readList.contains(data))
         assertTrue(readList.contains(dataTwo))
     }
 
     @Test
     fun readTripsFromFileWithANull() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        tripJsonUtils.writeTripToFile(null, null)
-        val readList = tripJsonUtils.readTripsFromFile()
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        tripJsonUtils.writeToFile(null, null)
+        val readList = tripJsonUtils.readFromFileDirectory()
         assertEquals(listOf(data), readList)
     }
 
     @Test
     fun readFileNotFound() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        val readData = tripJsonUtils.readTripFromFile("INVALID_FILE")
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        val readData = tripJsonUtils.readFromFile("INVALID_FILE")
         assertNull(readData)
     }
 
     @Test
     fun readEmptyFileName() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        val readData = tripJsonUtils.readTripFromFile("")
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        val readData = tripJsonUtils.readFromFile("")
         assertNull(readData)
     }
 
     @Test
     fun readFileNameNull() {
-        tripJsonUtils.readTripFromFile(null)
+        tripJsonUtils.readFromFile(null)
         val tripFiles = tripsDirectory.listFiles()
         assertEquals(0, tripFiles.size)
     }
 
     @Test
     fun deleteTripFile() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        val result = tripJsonUtils.deleteTripFile(TEST_FILENAME)
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        val result = tripJsonUtils.deleteFile(TEST_FILENAME)
         assertTrue(result)
     }
 
     @Test
     fun deleteTripEmptyFileName() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        val result = tripJsonUtils.deleteTripFile("")
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        val result = tripJsonUtils.deleteFile("")
         assertFalse(result)
     }
 
     @Test
     fun deleteTripInvalidFile() {
-        tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
-        val result = tripJsonUtils.deleteTripFile("INVALID_FILE")
+        tripJsonUtils.writeToFile(TEST_FILENAME, data)
+        val result = tripJsonUtils.deleteFile("INVALID_FILE")
         assertFalse(result)
     }
 
     @Test
     fun deleteTripFilenameNull() {
-        tripJsonUtils.deleteTripFile(null)
+        tripJsonUtils.deleteFile(null)
         val tripFiles = tripsDirectory.listFiles()
         assertEquals(0, tripFiles.size)
     }
 
     @Test
     fun deleteTripStore() {
-        tripJsonUtils.writeTripToFile("FILE_1", data)
-        tripJsonUtils.writeTripToFile("FILE_2", data)
+        tripJsonUtils.writeToFile("FILE_1", data)
+        tripJsonUtils.writeToFile("FILE_2", data)
         val tripFiles = tripsDirectory.listFiles()
         val tripFile1 = File(tripsDirectory, tripJsonUtils.hashString("FILE_1"))
         val tripFile2 = File(tripsDirectory, tripJsonUtils.hashString("FILE_2"))
@@ -207,7 +207,7 @@ class TripsJsonFileUtilsTest {
         assertTrue(tripFiles.contains(tripFile1))
         assertTrue(tripFiles.contains(tripFile2))
 
-        tripJsonUtils.deleteTripStore()
+        tripJsonUtils.deleteAllFiles()
         assertTrue(tripsDirectory.exists())
         assertTrue(tripsDirectory.listFiles().isEmpty())
     }

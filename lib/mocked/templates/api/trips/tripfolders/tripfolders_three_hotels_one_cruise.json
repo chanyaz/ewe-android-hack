@@ -1,0 +1,190 @@
+[
+  {
+    "tripFolderType": "VIRTUAL_FOLDER",
+    "tripFolderId": "8a246ebb-ef3d-43cc-aa9e-0bede99e38bd",
+    "tripFolderApiUrl": "/trips/71296028520",
+    "timing": "UPCOMING",
+    "state": "BOOKED",
+    "title": "7-night Alaska Cruise from Seattle (Roundtrip)",
+    "startTime": {
+      "raw": "2018-09-25T17:00:00-07:00",
+      "epochSeconds": 1537920000,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "endTime": {
+      "raw": "2018-10-01T17:00:00-07:00",
+      "epochSeconds": 1538524800,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "hero": {
+      "destination": "destinationUrl",
+      "images": {
+        "image": "imageUrl"
+      }
+    },
+    "lobs": [
+      "Cruise"
+    ],
+    "elements": [
+      {
+        "type": "TRIP",
+        "sourceId": {
+          "tripId": "8a246ebb-ef3d-43cc-aa9e-0bede99e38bd"
+        },
+        "destination": "destination",
+        "startTime": {
+          "raw": "2018-09-22T17:00:00-07:00",
+          "epochSeconds": 1537660800,
+          "timeZoneOffsetSeconds": -25200
+        },
+        "endTime": {
+          "raw": "2018-09-29T17:00:00-07:00",
+          "epochSeconds": 1538265600,
+          "timeZoneOffsetSeconds": -25200
+        },
+        "lob": "Cruise"
+      }
+    ]
+  },
+  {
+    "tripFolderType": "VIRTUAL_FOLDER",
+    "tripFolderId": "c99f4136-f468-42e8-b387-4a88f9909cec",
+    "tripFolderApiUrl": "/trips/79147184073",
+    "timing": "UPCOMING",
+    "state": "BOOKED",
+    "title": "Aparthotel Adagio Frankfurt City Messe, Frankfurt",
+    "startTime": {
+      "raw": "2018-05-09T15:00:00-07:00",
+      "epochSeconds": 1525816800,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "endTime": {
+      "raw": "2018-05-16T11:00:00-07:00",
+      "epochSeconds": 1526407200,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "hero": {
+      "destination": "destinationUrl",
+      "images": {
+        "image": "imageUrl"
+      }
+    },
+    "lobs": [
+      "Hotel"
+    ],
+    "elements": [
+      {
+        "type": "TRIP",
+        "sourceId": {
+          "tripId": "c99f4136-f468-42e8-b387-4a88f9909cec"
+        },
+        "destination": "destination",
+        "startTime": {
+          "raw": "2018-05-08T15:00:00-07:00",
+          "epochSeconds": 1525816800,
+          "timeZoneOffsetSeconds": -25200
+        },
+        "endTime": {
+          "raw": "2018-05-15T11:00:00-07:00",
+          "epochSeconds": 1526407200,
+          "timeZoneOffsetSeconds": -25200
+        },
+        "lob": "Hotel"
+      }
+    ]
+  },
+  {
+    "tripFolderType": "VIRTUAL_FOLDER",
+    "tripFolderId": "2515dc80-7aa5-4ddb-ad66-1c381d36989d",
+    "tripFolderApiUrl": "/trips/790102842968",
+    "timing": "UPCOMING",
+    "state": "BOOKED",
+    "title": "Portland Suites Airport East, Portland",
+    "startTime": {
+      "raw": "2018-06-09T15:00:00-07:00",
+      "epochSeconds": 1528581600,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "endTime": {
+      "raw": "2018-06-10T11:00:00-07:00",
+      "epochSeconds": 1528653600,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "hero": {
+      "destination": "destinationUrl",
+      "images": {
+        "image": "imageUrl"
+      }
+    },
+    "lobs": [
+      "Hotel"
+    ],
+    "elements": [
+      {
+        "type": "TRIP",
+        "sourceId": {
+          "tripId": "2515dc80-7aa5-4ddb-ad66-1c381d36989d"
+        },
+        "destination": "destination",
+        "startTime": {
+          "raw": "2018-06-09T15:00:00-07:00",
+          "epochSeconds": 1528581600,
+          "timeZoneOffsetSeconds": -25200
+        },
+        "endTime": {
+          "raw": "2018-06-10T11:00:00-07:00",
+          "epochSeconds": 1528653600,
+          "timeZoneOffsetSeconds": -25200
+        },
+        "lob": "Hotel"
+      }
+    ]
+  },
+  {
+    "tripFolderType": "VIRTUAL_FOLDER",
+    "tripFolderId": "70cd722e-20c5-4d81-8bb1-cbdee92b2ea5",
+    "tripFolderApiUrl": "/trips/790166642530",
+    "timing": "UPCOMING",
+    "state": "BOOKED",
+    "title": "Hyatt Regency Aurora-Denver Conference Center, Aurora",
+    "startTime": {
+      "raw": "2019-01-15T15:00:00-08:00",
+      "epochSeconds": 1547593200,
+      "timeZoneOffsetSeconds": -28800
+    },
+    "endTime": {
+      "raw": "2019-01-16T11:00:00-08:00",
+      "epochSeconds": 1547665200,
+      "timeZoneOffsetSeconds": -28800
+    },
+    "hero": {
+      "destination": "destinationUrl",
+      "images": {
+        "image": "imageUrl"
+      }
+    },
+    "lobs": [
+      "Hotel"
+    ],
+    "elements": [
+      {
+        "type": "TRIP",
+        "sourceId": {
+          "tripId": "70cd722e-20c5-4d81-8bb1-cbdee92b2ea5"
+        },
+        "destination": "destination",
+        "startTime": {
+          "raw": "2019-01-15T15:00:00-08:00",
+          "epochSeconds": 1547593200,
+          "timeZoneOffsetSeconds": -28800
+        },
+        "endTime": {
+          "raw": "2019-01-16T11:00:00-08:00",
+          "epochSeconds": 1547665200,
+          "timeZoneOffsetSeconds": -28800
+        },
+        "lob": "Hotel"
+      }
+    ]
+  }
+]

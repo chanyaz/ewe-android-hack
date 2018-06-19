@@ -332,7 +332,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			file.delete();
 		}
 
-		tripsJsonFileUtils.deleteTripStore();
+		tripsJsonFileUtils.deleteAllFiles();
 
 		mStartTimes.clear();
 		mEndTimes.clear();
@@ -1661,19 +1661,19 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				catch (JSONException e) {
 					e.printStackTrace();
 				}
-				tripsJsonFileUtils.writeTripToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
+				tripsJsonFileUtils.writeToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
 			}
 			else {
-				tripsJsonFileUtils.writeTripToFile(trip.getTripId(), json.toString());
+				tripsJsonFileUtils.writeToFile(trip.getTripId(), json.toString());
 			}
 		}
 
 		void deleteTripJsonFromFile(Trip trip) {
 			if (trip.isShared()) {
-				tripsJsonFileUtils.deleteTripFile(trip.getShareInfo().getSharableDetailsUrl());
+				tripsJsonFileUtils.deleteFile(trip.getShareInfo().getSharableDetailsUrl());
 			}
 			else {
-				tripsJsonFileUtils.deleteTripFile(trip.getTripId());
+				tripsJsonFileUtils.deleteFile(trip.getTripId());
 			}
 		}
 

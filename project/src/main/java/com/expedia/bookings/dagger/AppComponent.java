@@ -120,8 +120,11 @@ public interface AppComponent {
 	TNSServices tnsService();
 	FlightRegistrationHandler flightRegistrationService();
 
-	NotificationScheduler notificationScheduler();
+	@Named("TripDetailsFileUtil")
 	ITripsJsonFileUtils tripJsonFileUtils();
+	@Named("TripFoldersFileUtil")
+	ITripsJsonFileUtils tripFolderJsonFileUtils();
+	NotificationScheduler notificationScheduler();
 	StringSource stringProvider();
 	AbacusSource abacusProvider();
 	IJsonToItinUtil jsonUtilProvider();
