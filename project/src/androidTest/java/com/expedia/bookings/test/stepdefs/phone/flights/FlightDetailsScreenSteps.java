@@ -124,19 +124,19 @@ public class FlightDetailsScreenSteps {
 
 	@And("^flight total duration on the flight details is \"([^\"]*)\"$")
 	public void verifyFlightTotalDuration(String totalDuration) throws Throwable {
-		onView(withId(R.id.flight_total_duration))
+		onView(allOf(withId(R.id.flight_total_duration), isDescendantOfA(withId(R.id.widget_flight_outbound))))
 			.check(matches(withText(containsString(totalDuration))));
 	}
 
 	@And("^Baggage link \"([^\"]*)\" is present on the flight details$")
 	public void verifyBaggageLink(String baggageText) throws Throwable {
-		onView(withId(R.id.show_baggage_fees))
+		onView(allOf(withId(R.id.show_baggage_fees), isDescendantOfA(withId(R.id.widget_flight_outbound))))
 			.check(matches(withText(containsString(baggageText))));
 	}
 
 	@And("^Select button \"([^\"]*)\" is displayed at the bottom of the flight details screen$")
 	public void verifySelectButtonAtBottom(String button) throws Throwable {
-		onView(withId(R.id.select_flight_button)).check(matches(withText(containsString(button))));
+		onView(allOf(withId(R.id.select_flight_button), isDescendantOfA(withId(R.id.widget_flight_outbound)))).check(matches(withText(containsString(button))));
 	}
 
 	@And("^flight layover airport is \"([^\"]*)\"$")
