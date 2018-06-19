@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Søg efter oplevelser</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">Vælg en kategori</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Søg efter transport</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">pr. segway</string>
     <string name="per_ticket_type_vehicle">pr. køretøj</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">Populære oplevelser</string>
-    <string name="top_rated_activities_description">Oplevelser anbefalet af kunder som dig</string>
-
-    <string name="adventure_around">Tag på eventyr</string>
-    <string name="adventure_around_description">Udforsk din destination ved at tage på dagsture og spændende udflugter</string>
-
-    <string name="see_the_sights">Oplev seværdighederne</string>
-    <string name="see_the_sights_description">Til fods, på cykel eller om bord en bus - se alt det, området har at byde på</string>
-
-    <string name="tour_the_area">Tag en tur rundt i området</string>
-    <string name="tour_the_area_description">Tag en tur rundt i byen, og bliv klogere på byens historie og nutid</string>
-
-    <string name="fun_for_the_family">Sjov for hele familien</string>
-    <string name="fun_for_the_family_description">Familievenlige oplevelser for familiemedlemmer i alle aldre</string>
-
-    <string name="pure_entertainment">Ren underholdning</string>
-    <string name="pure_entertainment_description">Sportsevents, forlystelsesparker og forestillinger</string>
-
-    <string name="eat_play_enjoy">Kulinariske oplevelser, natteliv og afslapning</string>
-    <string name="eat_play_enjoy_description">Mad og drikke, natteliv og en masse afslapning</string>
-
-    <string name="all_things_to_do_description">En liste over alle tilgængelige oplevelser på dine valgte datoer.</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Indtast kontaktoplysninger</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">%1$s passagerer</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Denne dato ligger før dags dato; vælg venligst en ny dato.</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">Alle aktiviteter</string>
 
     <string name="lx_recommendation_no_superlative">ud af 5</string>
     <string name="lx_recommendation_superlativeGood">ud af 5 - Godt!</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
     <string name="itin_pick_up">Afhentning</string>
     <string name="itin_drop_off">Aflevering</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">Ring til {vendor} på {phonenumber}. Knap</string>
+    <string name="itin_car_more_info_heading">Yderligere hjælp</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">Adresse. {address}. Klik for at kopiere til udklipsholder. Knap</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">Afhentningssted:</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">Afleveringssted:</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Del rejseplan</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Tilbuddet udløber i dag</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Op til 55% rabat på hoteller i {location}</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">Op til 55% rabat på hoteller i {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Op til 55% rabat på hoteller i {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Fordi du har booket en flyrejse</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">Spar penge på et hotel, når du har booket en flyrejse</string>
+    <string name="hotel_attach_string">Fordi du har booket en flyrejse</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Knap</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Ankommer</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">Afgår</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">Du har fået adgang til op til 43% rabat på hoteller, fordi du bookede hos Expedia</string>
+    <string name="add_on_content_desc">Add On-fordele</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">Se oplysninger</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Kort</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Sorter</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Eksklusivt for mobil</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3006,7 +2980,7 @@
     <string name="no_reviews">Ingen anmeldelser</string>
 
     <!-- Text for button to translate a hotel review into user's language -->
-    <string name="user_review_see_translation">Oversæt anmeldelsem</string>
+    <string name="user_review_see_translation">Oversæt anmeldelse</string>
     <!-- Text for button while the review is being translated -->
     <string name="user_review_translation_loading">Henter…</string>
     <!-- Text for button to see original, untranslated review text -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">Søg efter anmeldelser</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">Vi kunne ikke finde nogen anmeldelser, der matchede din søgning.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">Pakkerejse i alt</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Se din pakkerejse</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">Se din rejse</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Trin 1: Vælg hotel</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,12 +4671,18 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Den samlede pris for pakkerejsen er {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">Den samlede pris for pakkerejsen ved at booke samlet er {total_price}. Denne pris inkluderer skatter og gebyrer for både fly og hotel.</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Den samlede pris for pakkerejsen er {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}. Dialogvindue for prisoversigt. Knap.</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">Den samlede pris er i alt på {reference_total_price}. Den samlede pris for pakkerejsen ved at booke samlet er {total_price}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. Book nu! Den samlede besparelse for pakkerejsen ved at booke samlet er {savings}. Prisoversigt Knap.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakkerejseprisen er {price_per_person} pr. person. Denne pris inkluderer skatter og gebyrer for både fly og hotel. Knap til at se pakkerejser.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">Dialogvindue for prisoversigt. Her er prisoversigten for din pakkerejse. Prisen for hotel er {hotel_price}. Prisen for flyrejse tur-retur er {flights_price}. Den samlede pris er {reference_price}. Den samlede besparelse for pakkerejsen ved at booke samlet er {savings}. Den samlede pris for pakkerejsen ved at booke samlet er {total_price}. Denne pris inkluderer skatter og gebyrer for både fly og hoteller.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">Rejse til {city_name}, {startdate} til {enddate}, {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">Rejse til {city_name}. {startdate} til {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">Flyfaciliteter</string>
     <string name="flight_route_happy_guide_title_v2">Flybedømmelse</string>
     <string name="flight_route_happy_guide_title_v3">Flybedømmelse og -faciliteter</string>
-    <string name="flight_route_happy_guide_info">Nu kan du se, om der er Wi-Fi, underholdning og strømudtag på dine flyrejser.</string>
-    <string name="flight_route_happy_guide_more_info">Flybedømmelsen hjælper dig med at vælge den bedste flyrejse baseret på flyrejsens varighed, faciliteter og flytype.</string>
+    <string name="flight_route_happy_guide_info">Nu kan vælge fly ud fra faciliteter som Wi-Fi ombord, opladning af diverse enheder samt et udvalg af film med mere.</string>
+    <string name="flight_route_happy_guide_more_info">Vi har tilføjet flybedømmelsen, baseret på flyvetiden, flytypen, fordelene ombord samt andre faktorer.</string>
 </resources>

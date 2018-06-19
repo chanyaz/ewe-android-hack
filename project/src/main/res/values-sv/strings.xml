@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Sök aktiviteter</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">Välj kategori</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Sök transport</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per fordon</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">De populäraste aktiviteterna</string>
-    <string name="top_rated_activities_description">De mest rekommenderade aktiviteterna av kunder som du</string>
-
-    <string name="adventure_around">Äventyret väntar</string>
-    <string name="adventure_around_description">Upptäck din destination med dagsturer och fantastiska utflykter</string>
-
-    <string name="see_the_sights">Ta in sevärdheterna</string>
-    <string name="see_the_sights_description">Vandra, cykla eller ta bussen för att se allt som området har att erbjuda</string>
-
-    <string name="tour_the_area">Undersök området</string>
-    <string name="tour_the_area_description">Gör en rundtur för att lära dig mer om stadens historia och nutid</string>
-
-    <string name="fun_for_the_family">Nöjen för hela familjen</string>
-    <string name="fun_for_the_family_description">Familjevänliga aktiviteter som erbjuder något för alla åldrar</string>
-
-    <string name="pure_entertainment">Ren underhållning</string>
-    <string name="pure_entertainment_description">Sport, nöjesparker och föreställningar</string>
-
-    <string name="eat_play_enjoy">Ät gott, roa dig och koppla av</string>
-    <string name="eat_play_enjoy_description">Mat och dryck, uteliv och alla sorters avkoppling</string>
-
-    <string name="all_things_to_do_description">En lista med alla tillgängliga aktiviteter för dina valda datum.</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Ange kontaktuppgifter</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">%1$s passagerare</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Datumet har passerat. Välj ett nytt datum.</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">Alla saker att göra</string>
 
     <string name="lx_recommendation_no_superlative">av 5</string>
     <string name="lx_recommendation_superlativeGood">av 5 - Bra!</string>
@@ -1585,15 +1556,20 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
     <string name="itin_pick_up">Hämtning</string>
     <string name="itin_drop_off">Avlämning</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">Ring {vendor} på {phonenumber}. Knapp</string>
+    <string name="itin_car_more_info_heading">Mer hjälp</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">Adress. {address}. Klicka för att kopiera till clipboard. Knapp</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">Hämtning:</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">Avlämning:</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Delad resplan</string>
     <!--Itin more help confirmation number text -->
-    <string name="itin_more_help_confirmation_text">Bekräftelsenummer:</string>
+    <string name="itin_more_help_confirmation_text">Bekräftelsenummer: </string>
     <!--Itin customer support itin number text -->
     <string name="itin_customer_support_itin_number_text">Resplansnummer</string>
     <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Erbjudandet går ut idag</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Spara upp till 55% på hotell i {location}</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">Upp till 55% rabatt på hotell i {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Spara upp till 55% på hotell i {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Eftersom du bokat ett flyg</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">Spara på hotell eftersom du har bokat ett flyg</string>
+    <string name="hotel_attach_string">Eftersom du bokat ett flyg</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Knapp</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Ankomst</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">Avgång</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">Du har fått tillgång till hotellrabatter på upp till 43% eftersom du bokade på Expedia</string>
+    <string name="add_on_content_desc">Add On-bonus</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">Se info</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Karta</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Sortera</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Exklusivt för mobilkunder</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">Sök bland recensioner</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">Vi hittade inga recensioner som matchar dina sökkriterier.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">Paket totalt</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Se ditt paket</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">Se din resa</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Steg 1: Välj hotell</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,10 +4671,16 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Totalpris för paketet är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">Paketpris för att boka samtidigt är {total_price}. I priset ingår skatter samt avgifter för både flyg och hotell.</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totalpris för paketet är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}. Dialogruta för prisinformation. Knapp.</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">Totalpriset är {reference_total_price}. Paketpris för att boka samtidigt är {total_price}. I priset ingår skatter samt avgifter för både flyg och hotell. Boka nu! Besparingarna för att boka samtidigt är {savings}. Fönster med prisöversikt. Knapp.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Paketpriset är {price_per_person} per person. I priset ingår skatter samt avgifter för både flyg och hotell. Knapp för att se paket.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">Fönster med prisöversikt. Detta är en prisöversikt för din paketresa. Priset för hotell är {hotel_price}. Priset för tur-och-returflyg {flights_price}. Totalpriset är {reference_price}. Besparingarna för att boka samtidigt är {savings}. Paketpris för att boka samtidigt är {total_price}. I priset ingår skatter samt avgifter för både flyg och hotell.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Resa till {city_name}. {startdate} till {enddate}, {guests}</string>
     <!-- Package filter checkbox.
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">Flygbekvämligheter</string>
     <string name="flight_route_happy_guide_title_v2">Flygbetyg</string>
     <string name="flight_route_happy_guide_title_v3">Flygbekvämligheter och betyg</string>
-    <string name="flight_route_happy_guide_info">Nu kan du se om ditt flyg har wi-fi, underhållning och eluttag.</string>
-    <string name="flight_route_happy_guide_more_info">Med hjälp av flygbetyget kan du enkelt välja det bästa flyget, med tanke på flygtid, typ av flygplan och vilka bekvämligheter som erbjuds ombord.</string>
+    <string name="flight_route_happy_guide_info">Du kan du välja flyg efter bekvämlighet, som wi-fi på flyget, laddningsstationer, urval av filmer och ännu mer.</string>
+    <string name="flight_route_happy_guide_more_info">Nu har vi lagt till flygbetyg, som bedömer flyg efter restid, flygplanstyp, förmåner och andra faktorer.</string>
 </resources>

@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Activiteiten zoeken</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">Selecteer een categorie</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Vervoer zoeken</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per voertuig</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">Activiteiten met de beste beoordelingen</string>
-    <string name="top_rated_activities_description">De meest aanbevolen activiteiten door klanten als jij</string>
-
-    <string name="adventure_around">Altijd avontuur</string>
-    <string name="adventure_around_description">Verken, maak dagreisjes en ontdek topexcursies op je bestemming</string>
-
-    <string name="see_the_sights">Kijk je ogen uit</string>
-    <string name="see_the_sights_description">Van wandelingen en fietstochten tot bustours, zie alles wat de omgeving te bieden heeft</string>
-
-    <string name="tour_the_area">Tour de omgeving</string>
-    <string name="tour_the_area_description">Maak een rondleiding door de stad en leer meer over historische en moderne evenementen</string>
-
-    <string name="fun_for_the_family">Fun met de familie</string>
-    <string name="fun_for_the_family_description">Gezinsvriendelijke activiteiten voor alle leeftijden</string>
-
-    <string name="pure_entertainment">Puur entertainment</string>
-    <string name="pure_entertainment_description">Sport, pretparken, shows en optredens</string>
-
-    <string name="eat_play_enjoy">Eat, Play &amp; Relax</string>
-    <string name="eat_play_enjoy_description">Eten en drinken, nachtleven en lekker ontspannen</string>
-
-    <string name="all_things_to_do_description">Een lijst van alle beschikbare activiteiten voor jouw geselecteerde datums.</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Contactinfo invoeren</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">%1$sPassagiers</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Deze datum ligt in het verleden, kies een nieuwe datum.</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">Alle activiteiten</string>
 
     <string name="lx_recommendation_no_superlative">/ 5</string>
     <string name="lx_recommendation_superlativeGood">/ 5 - Goed!</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
     <string name="itin_pick_up">Ophalen</string>
     <string name="itin_drop_off">Afleveren</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">Bel {vendor} op {phonenumber}. Knop</string>
+    <string name="itin_car_more_info_heading">Meer hulp</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">Adres. {address}. Klik om naar klembord te kopiëren. Knop</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">Ophaallocatie:</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">Afleverlocatie:</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Deel reisplan</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Aanbieding verloopt vandaag</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Bespaar tot 55% bij hotels in {location}</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">Tot 55% korting bij hotels in {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Bespaar tot 55% bij hotels in {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Omdat je een vlucht hebt geboekt</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">Bespaar op een hotel omdat je een vlucht hebt geboekt</string>
+    <string name="hotel_attach_string">Omdat je een vlucht hebt geboekt</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Knop</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Luchthaven van aankomst</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">Luchthaven van vertrek</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">Je hebt tot 43% korting op hotels ontgrendeld omdat je via Expedia hebt geboekt</string>
+    <string name="add_on_content_desc">Add-on voordeel</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">Details bekijken</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Kaart</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Sorteren</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Exclusieve mobiele deal</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">Beoordelingen zoeken</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">We konden geen beoordelingen vinden die aan je zoekcriteria voldoen.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">Totaal pakket</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Pakket weergeven</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">Je reisinfo bekijken</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Stap 1: Selecteer hotel</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,12 +4671,18 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Pakkettotaal is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">Totaalprijs voor het boeken van het pakket is {total_price}. Deze prijs is inclusief belastingen en toeslagen voor de vluchten en het hotel.</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakkettotaal is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}. Dialoogvenster kostenoverzicht. Knop.</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">Totaalprijs is {reference_total_price}. Totaalprijs voor het boeken van het pakket is {total_price}. Deze prijs is inclusief belastingen en toeslagen voor de vluchten en het hotel. Boek nu! Door samen te boeken bespaar je {savings}. Dialoogvenster prijsoverzicht. Knop.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakketprijs is {price_per_person} per persoon. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. Knop om pakket te bekijken.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">Dialoogvenster prijsoverzicht. Hier is het prijsoverzicht van je bundel. Hotel kost {hotel_price}. Retourvlucht kost {flights_price}. Totaal kost {reference_price}. Door samen te boeken bespaar je {savings}. Totaalprijs voor het boeken van het pakket is {total_price}. Deze prijs is inclusief belastingen en toeslagen voor de vluchten en hotels.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">Reis naar {city_name} {startdate} tot {enddate}, {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">Reis naar {city_name}. {startdate} tot {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">Vluchtvoorzieningen</string>
     <string name="flight_route_happy_guide_title_v2">Vluchtscore</string>
     <string name="flight_route_happy_guide_title_v3">Vluchtvoorzieningen &amp; score</string>
-    <string name="flight_route_happy_guide_info">Ontdek of je vlucht wifi, entertainment en stroomvoorzieningen heeft.</string>
-    <string name="flight_route_happy_guide_more_info">Vluchtscores helpen je de beste vlucht te kiezen en houden daarbij rekening met de vluchtduur, het type vliegtuig en de kwaliteit van de vluchtvoorzieningen.</string>
+    <string name="flight_route_happy_guide_info">Je kunt nu een vlucht kiezen op voorziening, zoals wifi tijdens de vlucht, aan boord opladen, een filmselectie en meer.</string>
+    <string name="flight_route_happy_guide_more_info">We hebben nu vluchtscores toegevoegd. Vluchten zijn beoordeeld op duur, type vliegtuig, extra\&apos;s aan boord en andere factoren.</string>
 </resources>

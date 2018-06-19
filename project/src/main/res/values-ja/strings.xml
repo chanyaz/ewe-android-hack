@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">現地ツアーを検索</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">カテゴリーを選択</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">送迎サービスを検索</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">/ セグウェイ</string>
     <string name="per_ticket_type_vehicle">/ 車両</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">人気の現地ツアー</string>
-    <string name="top_rated_activities_description">他のお客様がおすすめする現地ツアー</string>
-
-    <string name="adventure_around">周辺のアクティビティ</string>
-    <string name="adventure_around_description">日帰りツアーに参加して現地の魅力を満喫</string>
-
-    <string name="see_the_sights">観光スポットを見る</string>
-    <string name="see_the_sights_description">徒歩や自転車、バスで観光スポットを巡る</string>
-
-    <string name="tour_the_area">市内ツアー</string>
-    <string name="tour_the_area_description">市内ツアーに参加して歴史と現代について学ぶ</string>
-
-    <string name="fun_for_the_family">ファミリー向けのアクティビティ</string>
-    <string name="fun_for_the_family_description">お子様から大人まで、家族で楽しめるアクティビティ</string>
-
-    <string name="pure_entertainment">エンターテイメント</string>
-    <string name="pure_entertainment_description">スポーツ、遊園地、ショー、パフォーマンス</string>
-
-    <string name="eat_play_enjoy">グルメ &amp; ナイトスポット</string>
-    <string name="eat_play_enjoy_description">食事やドリンク、ナイトスポットなどを楽しむ</string>
-
-    <string name="all_things_to_do_description">指定の期間に利用できる現地ツアーの一覧</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">連絡先情報を入力</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">乗客 %1$s 名</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">過去の日付が入力されています。新しい日付を選択してください。</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">すべての現地ツアー</string>
 
     <string name="lx_recommendation_no_superlative">/ 5 段階中</string>
     <string name="lx_recommendation_superlativeGood">/ 5 段階中 - 良い</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} ～ {enddate}</string>
     <string name="itin_pick_up">借出日時</string>
     <string name="itin_drop_off">返却日時</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">{vendor} ({phonenumber}) に電話する。ボタン</string>
+    <string name="itin_car_more_info_heading">お問い合わせ</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">住所。{address}。クリックしてクリップボードにコピー。ボタン</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">借出場所 :</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">返却場所 :</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">旅程をシェアする</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">本日終了</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">{location}のホテルが最大 55% OFF</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">{location}のホテルが最大 55% OFF</string>
+    <string name="hotel_attach_string1_TEMPLATE">{location}のホテルが最大 55% OFF</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">航空券を予約した人限定</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">航空券を予約した人限定のホテル割引</string>
+    <string name="hotel_attach_string">航空券を予約した人限定</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}。{title}。{content}。ボタン</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">到着空港</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">出発空港</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">エクスペディアで予約した人だけ ! 最大 43% のホテル割引をご利用いただけます</string>
+    <string name="add_on_content_desc">Add-on (アドオン) - 追加予約でもっとお得に !</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">詳細を表示</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">マップ</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">並べ替え</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">モバイル限定</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">口コミを検索</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">検索条件と一致する口コミは見つかりませんでした。</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">合計料金</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">合計料金を表示</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">旅行を表示</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">ステップ 1 : ホテルを選択する</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4696,13 +4670,19 @@
     <string name="flight_overview_price_widget_button_open_TEMPLATE">旅行料金は 1 名 {price_per_person} です。税およびサービス料込みフライトを表示するボタン。</string>
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget_TEMPLATE">合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">同時予約の合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">同時予約の合計料金は {total_price} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}。料金明細のダイアログ。ボタン。</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">同時予約の合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}。料金明細のダイアログ。ボタン。</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">合計料金は {reference_total_price} です。同時予約の合計料金は {total_price} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。今すぐ予約 ! 同時予約で {savings} お得になります。料金の概要ダイアログ。ボタン。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ホテル + 航空券を表示するボタン。</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">同時予約の料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ホテル + 航空券を表示するボタン。</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">料金の概要ダイアログ。こちらが、同時予約の料金の概要です。ホテルは {hotel_price}、往復航空券は {flights_price} で、個別の合計料金は {reference_price} です。同時予約なら {savings} お得になります。同時予約の合計料金は {total_price} です。この料金には、航空券とホテル両方の税およびサービス料が含まれています。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}への旅行。{startdate} → {enddate}、出発日 : {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}への旅行。{startdate} ～ {enddate}、旅行者 : {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">フライトの設備</string>
     <string name="flight_route_happy_guide_title_v2">フライト スコア</string>
     <string name="flight_route_happy_guide_title_v3">フライトの設備とスコア</string>
-    <string name="flight_route_happy_guide_info">ご搭乗便の機内 WiFi やエンターテインメント、電源に関する情報をこちらからご確認いただけます。</string>
-    <string name="flight_route_happy_guide_more_info">フライト スコアでは飛行時間や機種、提供される設備の質をチェックして、人気のフライトを選択することができます。</string>
+    <string name="flight_route_happy_guide_info">飛行時間や機種、提供される設備その他の項目でフライトを評価するフライト スコアが追加されました !</string>
+    <string name="flight_route_happy_guide_more_info">WiFi や電源、エンターテインメントなど、機内の設備をチェックしてフライトをお選びいただけます。</string>
 </resources>

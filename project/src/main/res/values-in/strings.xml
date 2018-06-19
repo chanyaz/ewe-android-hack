@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Cari Aktivitas</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">Pilih Kategori</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Cari Transportasi</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per kendaraan</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">Aktivitas Paling Direkomendasikan</string>
-    <string name="top_rated_activities_description">Aktivitas yang paling direkomendasikan oleh traveler seperti Anda</string>
-
-    <string name="adventure_around">Jalan-Jalan Berpetualang</string>
-    <string name="adventure_around_description">Jelajahi dan ikuti tur-tur sehari di destinasi Anda</string>
-
-    <string name="see_the_sights">Mengunjungi Objek Wisata</string>
-    <string name="see_the_sights_description">Dengan jalan kaki, bersepeda, ataupun naik bus, kunjungi berbagai objek wisata</string>
-
-    <string name="tour_the_area">Berkeliling Kota</string>
-    <string name="tour_the_area_description">Jelajahi kota destinasi Anda untuk mempelajari kebudayaan dan arsitekturnya</string>
-
-    <string name="fun_for_the_family">Bersenang-senang Sekeluarga</string>
-    <string name="fun_for_the_family_description">Kegiatan yang cocok untuk semua anggota keluarga, untuk usia berapa saja</string>
-
-    <string name="pure_entertainment">Ragam Pilihan Hiburan</string>
-    <string name="pure_entertainment_description">Mulai dari pertandingan olahraga, tiket taman hiburan, pertunjukan, musik, dan lainnya</string>
-
-    <string name="eat_play_enjoy">Makan-Makan dan Berpesta</string>
-    <string name="eat_play_enjoy_description">Wisata kuliner dan beragam hiburan malam, untuk relaksasi yang sesungguhnya</string>
-
-    <string name="all_things_to_do_description">Semua pilihan aktivitas untuk tanggal perjalanan yang Anda pilih</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Masukkan rincian kontak</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">%1$s Penumpang</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Sepertinya tanggal ini sudah lewat, harap pilih tanggal yang baru.</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">Semua Atraksi Wisata</string>
 
     <string name="lx_recommendation_no_superlative">dari 5</string>
     <string name="lx_recommendation_superlativeGood">dari 5 - Bagus!</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
     <string name="itin_pick_up">Pengambilan</string>
     <string name="itin_drop_off">Pengembalian</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">Hubungi {vendor} di {phonenumber}. Tombol</string>
+    <string name="itin_car_more_info_heading">Bantuan lainnya</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">Alamat. {address}. Klik untuk menyalin ke clipboard. Tombol</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">Lokasi pengambilan:</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">Lokasi pengembalian:</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Bagikan Itinerary</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Promo berakhir hari ini</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Hemat hingga 55% untuk Hotel di {location}</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">Diskon hingga 55% di {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Hemat hingga 55% untuk Hotel di {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Karena Anda Memesan Penerbangan</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">Hemat harga hotel karena Anda memesan penerbangan</string>
+    <string name="hotel_attach_string">Karena Anda Memesan Penerbangan</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Tombol</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Kedatangan</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">Keberangkatan</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">Anda mendapat diskon hotel hingga 43% karena memesan di Expedia</string>
+    <string name="add_on_content_desc">Manfaat Add-On</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">Lihat Rincian</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Peta</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Urutkan</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Eksklusif Mobile</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">Cari ulasan</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">Kami tidak dapat menemukan ulasan yang cocok dengan kriteria pencarian Anda.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">Total paket</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Lihat paket Anda</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">Lihat perjalanan Anda</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Langkah 1: Pilih Hotel</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,10 +4671,16 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Harga total paket {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">Total paket untuk pemesanan sekaligus sebesar {total_price}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel.</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Harga total paket {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}. Kotak Rincian Biaya. Tombol.</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">Harga total sebesar {reference_total_price}. Total paket untuk pemesanan sekaligus sebesar {total_price}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. Pesan sekarang! Pemesanan sekaligus hemat {savings}. Dialog Ringkasan Harga. Tombol.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Harga package adalah {price_per_person} per orang. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. Tombol untuk melihat package.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">Dialog Ringkasan Harga. Berikut adalah ringkasan harga untuk paket Anda. Hotel {hotel_price}. Penerbangan pulang-pergi {flights_price}. Total {reference_price}. Pemesanan sekaligus hemat {savings}. Total paket untuk pemesanan sekaligus sebesar {total_price}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Perjalanan ke {city_name}. {startdate} hingga {enddate}, {guests}</string>
     <!-- Package filter checkbox.
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">Fasilitas penerbangan</string>
     <string name="flight_route_happy_guide_title_v2">Skor penerbangan</string>
     <string name="flight_route_happy_guide_title_v3">Fasilitas &amp; nilai penerbangan</string>
-    <string name="flight_route_happy_guide_info">Sekarang Anda dapat melihat apakah pada penerbangan Anda terdapat WiFi, hiburan, dan koneksi daya.</string>
-    <string name="flight_route_happy_guide_more_info">Nilai penerbangan membantu Anda memilih penerbangan terbaik, dengan mempertimbangkan durasi penerbangan, jenis pesawat, dan kualitas dari fasilitas yang ditawarkan.</string>
+    <string name="flight_route_happy_guide_info">Sekarang Anda dapat memilih penerbangan berdasarkan fasilitas, seperti Wi-Fi dalam penerbangan, pengisian daya dalam penerbangan, pilihan film, dan lainnya.</string>
+    <string name="flight_route_happy_guide_more_info">Kami kini telah menambahkan skor penerbangan, yang menilai penerbangan berdasarkan durasi, jenis pesawat, keuntungan dalam penerbangan, dan faktor lainnya.</string>
 </resources>
