@@ -26,6 +26,14 @@ object SearchScreen {
         return onView(withId(R.id.search_src_text)).perform(ViewActions.waitForViewToDisplay())
     }
 
+    @JvmStatic fun searchEditTypeAhead(text: String) {
+        val firstPart= text.subSequence(0, text.lastIndex)
+        val lastChar = text.last()
+        onView(withId(R.id.search_src_text)).perform(typeText(firstPart.toString()))
+        Common.delay(1)
+        onView(withId(R.id.search_src_text)).perform(typeText(lastChar.toString()))
+    }
+
     @JvmStatic fun origin(): ViewInteraction {
         return onView(withId(R.id.origin_card))
     }
