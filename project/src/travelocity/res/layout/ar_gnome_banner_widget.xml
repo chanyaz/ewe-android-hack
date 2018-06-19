@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/ar_relative_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:elevation="4dp">
+
+            <View
+                android:id="@+id/bottom_sheet_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gnome_banner_height"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:visibility="gone"/>
+
+            <FrameLayout
+                android:id="@+id/gnome_image_frame_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/gnome_height"
+                android:layout_alignParentBottom="true"
+                android:clipChildren="false">
+
+                <ImageView
+                    android:id="@+id/gnome_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/gnome_hi_res"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/top_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/bottom_sheet_view"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_toEndOf="@+id/gnome_image_frame_layout"
+                android:layout_toStartOf="@+id/button_frame_layout"
+                android:alpha="0"
+                android:text="@string/ar_gnome_homescreen_banner_title"
+                android:textColor="@color/app_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/secondary_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/top_title_text_view"
+                android:layout_below="@+id/top_title_text_view"
+                android:layout_marginEnd="12dp"
+                android:layout_toStartOf="@+id/button_frame_layout"
+                android:alpha="0"
+                android:text="@string/ar_gnome_homescreen_banner_secondary_text"
+                android:textColor="@color/app_primary"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
+
+            <FrameLayout
+                android:id="@+id/button_frame_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="62dp"
+                android:layout_alignBottom="@+id/bottom_sheet_view"
+                android:layout_alignEnd="@+id/bottom_sheet_view"
+                android:layout_alignTop="@+id/bottom_sheet_view"
+                android:alpha="0">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    app:cardBackgroundColor="@color/app_primary"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        style="@style/Core.Text.300"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="@string/ar_gnome_homescreen_try_button"
+                        android:textColor="@color/white"/>
+
+                </android.support.v7.widget.CardView>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+</merge>

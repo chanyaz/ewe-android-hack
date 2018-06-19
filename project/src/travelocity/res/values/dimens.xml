@@ -9,4 +9,10 @@
 
     <!-- Dimension for left margin on icon of new login button on car & LX checkout-->
     <dimen name="checkout_icon_right_margin_lx">14dp</dimen>
+
+    <!-- Dimension for AR Gnome image height-->
+    <dimen name="gnome_height">100dp</dimen>
+
+    <!-- Dimension for Ar Gnome banner height-->
+    <dimen name="gnome_banner_height">72dp</dimen>
 </resources>

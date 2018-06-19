@@ -24,6 +24,7 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.widget.interfaces.ArGnomeWidgetBase;
 
 public abstract class BaseFeatureConfiguration {
 
@@ -82,6 +83,20 @@ public abstract class BaseFeatureConfiguration {
 
 	public boolean isSplashLoadingAnimationEnabled() {
 		return false;
+	}
+
+	public ArGnomeWidgetBase getGnomeWidgetBase(Context context, ViewGroup viewGroup) {
+		return new ArGnomeWidgetBase() {
+			@Override
+			public void onParentScrolledAwayFromTop() {
+				//Travelocity only
+			}
+
+			@Override
+			public void onParentScrolledToTop() {
+				//Travelocity only
+			}
+		};
 	}
 
 	public boolean isAppIntroEnabled() {

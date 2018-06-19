@@ -34,6 +34,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import io.reactivex.Observer
@@ -84,6 +85,10 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarHeight: Float by lazy {
         Ui.getToolbarSize(context).toFloat()
+    }
+
+    val arGnomeWidget by lazy {
+        ProductFlavorFeatureConfiguration.getInstance().getGnomeWidgetBase(context, this)
     }
 
     private fun getFabHeightAndBottomMargin(): Float {
@@ -279,6 +284,8 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         if ((fab.translationY >= getFabHeightAndBottomMargin())
                 && !fabAnimIn.isRunning) {
             fabAnimIn.start()
+
+            arGnomeWidget.onParentScrolledAwayFromTop()
         }
     }
 
@@ -286,6 +293,10 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         if ((fab.translationY <= 0f)
                 && !fabAnimOut.isRunning) {
             fabAnimOut.start()
+
+            if (fab.visibility == View.VISIBLE) {
+                arGnomeWidget.onParentScrolledToTop()
+            }
         }
     }
 

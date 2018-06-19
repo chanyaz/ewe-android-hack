@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.content.pm.PackageManager
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -97,6 +98,13 @@ fun shouldShowJoinRewardsLaunchCard(context: Context): Boolean {
             && userStateManager.getCurrentUserLoyaltyTier() == LoyaltyMembershipTier.NONE
             && PointOfSale.getPointOfSale().shouldShowJoinRewardsCard()
             && Locale.getDefault().language != "es"
+}
+
+fun shouldShowTravelocityGnomeArModule(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TravelocityArModule)
+            && context.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)
+            && context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
+            && Locale.getDefault().language != "fr"
 }
 
 fun isBottomNavigationBarEnabled(context: Context): Boolean {

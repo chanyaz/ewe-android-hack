@@ -9,10 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.widget.interfaces.ArGnomeWidgetBase;
 
 public class FeatureConfiguration extends BaseFeatureConfiguration {
 	@Override
@@ -68,6 +70,11 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 				context.startActivity(viewInsuranceIntent);
 			}
 		};
+	}
+
+	@Override
+	public ArGnomeWidgetBase getGnomeWidgetBase(Context context, ViewGroup phoneLaunchWidget) {
+		return phoneLaunchWidget.findViewById(R.id.arGnomeBannerWidget);
 	}
 
 	@Override
