@@ -64,7 +64,6 @@ import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.LaunchNavBucketCache
-import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.checkIfTripFoldersEnabled
@@ -230,8 +229,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             }
             val errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", lobName).format()
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
-        } else if (intent.getBooleanExtra(ARG_FORCE_UPGRADE, false)) {
-            PlayStoreUtil.showForceUpgradeDailogWithMessage(this)
         }
         startupTimer.addSplit("Time for operation related with intent")
 
@@ -823,7 +820,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         const val PAGER_POS_ACCOUNT = 2
 
         @JvmField val ARG_LINE_OF_BUSINESS = "ARG_LINE_OF_BUSINESS"
-        @JvmField val ARG_FORCE_UPGRADE = "ARG_FORCE_UPGRADE"
         @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
         @JvmField val ARG_IS_FROM_CONFIRMATION = "ARG_IS_FROM_CONFIRMATION"
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"

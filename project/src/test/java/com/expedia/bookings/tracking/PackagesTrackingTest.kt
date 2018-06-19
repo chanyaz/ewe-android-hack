@@ -644,21 +644,6 @@ class PackagesTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testTrackAppUpgradeClick() {
-        sut.trackAppUpgradeClick()
-        val controlEvar = mapOf(28 to "App.LS.Package.AppUpdate")
-        OmnitureTestUtils.assertLinkTracked("App Landing", "App.LS.Package.AppUpdate", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testTrackForceUpgradeBanner() {
-        sut.trackForceUpgradeBanner()
-        OmnitureTestUtils.assertStateTracked("App.LS.Srch.Package", OmnitureMatchers.withEventsString("event335"), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFHCTabClick() {
         sut.trackFHCTabClick()
         val controlEvar = mapOf(28 to "App.Package.DS.FHC.TabClicked")

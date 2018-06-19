@@ -3217,7 +3217,6 @@ public class OmnitureTracking {
 	private static final String NEW_USER_ONBOARDING_LOYALTY = "App.Onboarding.Loyalty";
 	private static final String NEW_USER_ONBOARDING_GO_SIGNIN = "App.Onboarding.SignIn";
 	private static final String PENDING_POINTS_TAP = "App.PointsToolTip.Tap";
-	private static final String LEGACY_USER_APP_UPDATE_TAP = "App.LS.Package.AppUpdate";
 	private static final String CARNIVAL_PUSH_NOTIFICATION = "App.Carnival.Push.Notification";
 	private static final String CUSTOMER_FIRST_ACCOUNT_LINK_TAP = "App.Account.Support.CFG";
 	private static final String CUSTOMER_FIRST_SUPPORT_PAGE_LOAD = "App.Support.CFG";
@@ -3691,11 +3690,6 @@ public class OmnitureTracking {
 		s.setAppState(LAUNCH_SCREEN_PACKAGE_NAVIGATION);
 		s.setEvents("event335");
 		s.track();
-	}
-
-	public static void trackAppUpgradeClick() {
-		AppAnalytics s = createTrackLinkEvent(LEGACY_USER_APP_UPDATE_TAP);
-		s.trackLink("App Landing");
 	}
 
 	public static void trackClickClearPrivateData() {

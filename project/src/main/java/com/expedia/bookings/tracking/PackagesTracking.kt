@@ -300,14 +300,6 @@ class PackagesTracking {
         return "$errorType$eSource$eSourceErrorId"
     }
 
-    fun trackAppUpgradeClick() {
-        OmnitureTracking.trackAppUpgradeClick()
-    }
-
-    fun trackForceUpgradeBanner() {
-        OmnitureTracking.trackForceUpgradeBanner()
-    }
-
     fun trackFHCTabClick() {
         OmnitureTracking.trackPackagesFHCTabClick()
     }
