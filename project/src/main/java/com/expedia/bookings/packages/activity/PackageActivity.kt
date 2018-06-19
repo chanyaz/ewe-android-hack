@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.view.View
+import com.clarisite.mobile.ClarisiteAgent
+import com.clarisite.mobile.exceptions.EyeViewException
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -21,6 +23,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isGlassboxForPackagesEnabled
 import com.expedia.ui.AbstractAppCompatActivity
 
 class PackageActivity : AbstractAppCompatActivity() {
@@ -46,6 +49,9 @@ class PackageActivity : AbstractAppCompatActivity() {
             setContentView(R.layout.package_activity)
             Ui.showTransparentStatusBar(this)
             isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
+            if (isGlassboxForPackagesEnabled()) {
+                glassBoxStart()
+            }
         }
     }
 
@@ -232,6 +238,13 @@ class PackageActivity : AbstractAppCompatActivity() {
     private fun packageFlightSearch() {
         PackagesTracking().trackViewBundlePageLoad()
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.sharedInstance.packageParams)
+    }
+
+    private fun glassBoxStart() {
+        try {
+            ClarisiteAgent.start()
+        } catch (e: EyeViewException) {
+        }
     }
 
     @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)

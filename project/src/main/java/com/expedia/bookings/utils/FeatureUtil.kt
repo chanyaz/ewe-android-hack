@@ -186,6 +186,10 @@ fun isHotMipRedesignEnabled(): Boolean {
     return Features.all.hotMipRedesign.enabled()
 }
 
+fun isGlassboxForPackagesEnabled(): Boolean {
+    return Features.all.packagesGlassbox.enabled()
+}
+
 fun islXEssRegionTypeCallEnabled(): Boolean {
     return Features.all.lxEssRegionTypeCall.enabled()
 }
