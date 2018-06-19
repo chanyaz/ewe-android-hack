@@ -62,6 +62,7 @@
                 android:layout_gravity="right"
                 android:gravity="right"
                 android:orientation="vertical"
+                android:paddingBottom="2dp"
                 android:paddingRight="12dp">
 
                 <com.expedia.bookings.widget.TextView
@@ -69,6 +70,7 @@
                     style="@style/Core.Text.300.Medium.LightColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
                     android:text="@string/pacakge_price_per_person_includes_hotel_and_flight_message"
                     android:visibility="gone" />
 
@@ -78,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
+                    android:paddingBottom="4dp"
                     android:text="@string/includes_taxes_and_fees_lower_case"
                     android:visibility="gone" />
             </LinearLayout>
