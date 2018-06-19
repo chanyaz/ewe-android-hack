@@ -19,7 +19,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Interceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
+class ReviewsServices(endPoint: String, client: OkHttpClient,
+                      interceptor: Interceptor, reviewsInterceptor: Interceptor,
+                      private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
 
     val reviewsApi: ReviewsApi by lazy {
         val gson = GsonBuilder()
@@ -41,7 +43,7 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
                 .baseUrl(endPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client.newBuilder().addInterceptor(interceptor).build())
+                .client(client.newBuilder().addInterceptor(interceptor).addInterceptor(reviewsInterceptor).build())
                 .build()
 
         adapter.create(ReviewsApi::class.java)

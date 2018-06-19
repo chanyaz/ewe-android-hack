@@ -56,12 +56,14 @@ public interface HotelComponent {
 	Interceptor travelGraphInterceptor();
 	@Named("HotelShortlistInterceptor")
 	Interceptor hotelShortlistInterceptor();
+	@Named("HotelReviewsInterceptor")
+	Interceptor hotelReviewsInterceptor();
 
 	SuggestionV4Services suggestionsService();
 	TravelGraphServices travelGraphServices();
 	HotelShortlistServices hotelShortlistServices();
 	HotelFavoritesManager hotelFavoritesManager();
-	ReviewsServices reviewsServices();
+	ReviewsServices hotelReviewsServices();
 	IPayWithPointsViewModel payWithPointsViewModel();
 
 	void inject(@NotNull HotelSearchActivity hotelSearchActivity);

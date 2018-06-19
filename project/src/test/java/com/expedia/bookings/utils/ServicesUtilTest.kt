@@ -58,4 +58,14 @@ class ServicesUtilTest {
     fun testGetHotelShortlistClientTokenNonProduction() {
         assertEquals("YjNlMmM2YzYtYTJhNS00NDEwLWE1NjMtMTI4MmRmNTc2MTcy", ServicesUtil.getHotelShortlistClientToken(context, EndPoint.INTEGRATION))
     }
+
+    @Test
+    fun testGetHotelReviewsClientId() {
+        assertEquals("MOBILE-APP-ANDROID", ServicesUtil.getHotelReviewsClientId(context))
+    }
+
+    @Test
+    fun testGetHotelReviewsApiKey() {
+        assertEquals("0601x448cd474e227077mlq964842293", ServicesUtil.getHotelReviewsApiKey(context))
+    }
 }

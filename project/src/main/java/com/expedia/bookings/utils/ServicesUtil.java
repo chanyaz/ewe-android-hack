@@ -204,4 +204,12 @@ public class ServicesUtil {
 		}
 		return context.getResources().getString(R.string.hotel_shortlist_prod_client_token);
 	}
+
+	public static String getHotelReviewsClientId(Context context) {
+		return context.getString(R.string.hotel_reviews_client_id);
+	}
+
+	public static String getHotelReviewsApiKey(Context context) {
+		return context.getString(R.string.hotel_reviews_api_key);
+	}
 }

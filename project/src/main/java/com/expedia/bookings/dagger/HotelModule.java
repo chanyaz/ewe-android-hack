@@ -17,6 +17,7 @@ import com.expedia.bookings.hotel.util.HotelInfoManager;
 import com.expedia.bookings.hotel.util.HotelReviewsDataProvider;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
 import com.expedia.bookings.hotel.util.HotelSearchParamsProvider;
+import com.expedia.bookings.http.HotelReviewsRequestInterceptor;
 import com.expedia.bookings.http.HotelShortlistRequestInterceptor;
 import com.expedia.bookings.http.TravelGraphRequestInterceptor;
 import com.expedia.bookings.server.EndpointProvider;
@@ -71,10 +72,21 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor) {
+	@Named("HotelReviewsInterceptor")
+	Interceptor provideHotelReviewsInterceptor(final Context context) {
+		return new HotelReviewsRequestInterceptor(context);
+	}
+
+	@Provides
+	@HotelScope
+	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider,
+		OkHttpClient client,
+		Interceptor interceptor,
+		@Named("HotelReviewsInterceptor") Interceptor hotelReviewsInterceptor) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
-		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new ReviewsServices(endpoint, client,
+			interceptor, hotelReviewsInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

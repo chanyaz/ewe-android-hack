@@ -1,8 +1,11 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.PackageScope;
+import com.expedia.bookings.http.HotelReviewsRequestInterceptor;
 import com.expedia.bookings.packages.util.PackageServicesManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.ItinTripServices;
@@ -28,9 +31,19 @@ public final class PackageModule {
 
 	@Provides
 	@PackageScope
-	ReviewsServices provideReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	@Named("PackageReviewsInterceptor")
+	Interceptor providePackageReviewsInterceptor(final Context context) {
+		return new HotelReviewsRequestInterceptor(context);
+	}
+
+	@Provides
+	@PackageScope
+	ReviewsServices provideReviewsServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor, @Named("PackageReviewsInterceptor") Interceptor packageReviewsInterceptor) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
-		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new ReviewsServices(endpoint, client,
+			interceptor, packageReviewsInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

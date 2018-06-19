@@ -24,8 +24,8 @@ class HotelShortlistRequestInterceptor(private val context: Context, private val
 
         requestBuilder.url(url.build())
 
-        requestBuilder.addHeader("client-token",
-                ServicesUtil.getHotelShortlistClientToken(context, endpointProvider.endPoint))
+        val clientToken = ServicesUtil.getHotelShortlistClientToken(context, endpointProvider.endPoint)
+        requestBuilder.addHeader("client-token", clientToken)
 
         return chain.proceed(requestBuilder.build())
     }

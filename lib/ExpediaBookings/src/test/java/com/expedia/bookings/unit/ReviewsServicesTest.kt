@@ -20,19 +20,24 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class ReviewsServicesTest {
     private var server = MockWebServer()
     private var service: ReviewsServices by Delegates.notNull()
+    private lateinit var interceptor: MockInterceptor
+    private lateinit var reviewsInterceptor: MockInterceptor
 
     @Before
     fun before() {
         val logger = HttpLoggingInterceptor()
-        val interceptor = MockInterceptor()
+        interceptor = MockInterceptor()
+        reviewsInterceptor = MockInterceptor()
 
         service = ReviewsServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, reviewsInterceptor,
+                Schedulers.trampoline(), Schedulers.trampoline())
 
         val root = File("../mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
@@ -129,5 +134,18 @@ class ReviewsServicesTest {
         val review = response.reviewDetails.reviewCollection.review[0]
         assertNotEquals("11544584", review.hotelId)
         assertEquals("26500", review.hotelId)
+    }
+
+    @Test
+    fun testReviewsHitAllInterceptors() {
+        val testObserver = TestObserver<HotelReviewsResponse>()
+        var reviewsParams = HotelReviewsParams("11544584", "RATINGDESC", 20, 100, "", "PrivateBank")
+        service.reviews(reviewsParams).subscribe(testObserver)
+
+        testObserver.awaitTerminalEvent()
+        testObserver.assertComplete()
+
+        assertTrue(interceptor.wasCalled())
+        assertTrue(reviewsInterceptor.wasCalled())
     }
 }

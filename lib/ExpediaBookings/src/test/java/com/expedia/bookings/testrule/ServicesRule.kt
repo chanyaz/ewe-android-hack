@@ -6,6 +6,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.HotelShortlistServices
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.services.ReviewsServices
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.Scheduler
@@ -75,6 +76,11 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler: Sch
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
                     Schedulers.trampoline(), scheduler)
         } else if (servicesClass.equals(HotelShortlistServices::class.java)) {
+            val endpoint = "http://localhost:" + server.port
+            return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java,
+                    Interceptor::class.java, Scheduler::class.java, Scheduler::class.java).newInstance(endpoint,
+                    client.build(), MockInterceptor(), MockInterceptor(), Schedulers.trampoline(), scheduler)
+        } else if (servicesClass.equals(ReviewsServices::class.java)) {
             val endpoint = "http://localhost:" + server.port
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java,
                     Interceptor::class.java, Scheduler::class.java, Scheduler::class.java).newInstance(endpoint,

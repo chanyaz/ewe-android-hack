@@ -182,18 +182,18 @@ class HotelReviewsTest {
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {
-        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam) + "&clientid=expedia.app.android.phone%3A6.9.0"
+        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam) + "&clientid=expedia.app.android.phone%3A6.9.0&clientid=expedia.app.android.phone%3A6.9.0"
     }
 
     private fun getExpectedReviewRequestStrHighestRatingFirst(): String {
-        return "/api/hotelreviews/hotel/26650?sortBy=RATINGDESC&start=0&items=25&locale=en_US&clientid=expedia.app.android.phone%3A6.9.0"
+        return "/api/hotelreviews/hotel/26650?sortBy=RATINGDESC&start=0&items=25&locale=en_US&clientid=expedia.app.android.phone%3A6.9.0&clientid=expedia.app.android.phone%3A6.9.0"
     }
 
     private fun getExpectedReviewRequestStrForTrueRecencyLocaleEmpty(): String {
-        return "/api/hotelreviews/hotel/26650?sortBy=DATEDESC&start=0&items=25&locale=&clientid=expedia.app.android.phone%3A6.9.0"
+        return "/api/hotelreviews/hotel/26650?sortBy=DATEDESC&start=0&items=25&locale=&clientid=expedia.app.android.phone%3A6.9.0&clientid=expedia.app.android.phone%3A6.9.0"
     }
 
     private fun getExpectedReviewRequestStrForTrueRecencyLocaleNotEmpty(): String {
-        return "/api/hotelreviews/hotel/26650?sortBy=DATEDESC&start=0&items=25&locale=en_US&clientid=expedia.app.android.phone%3A6.9.0"
+        return "/api/hotelreviews/hotel/26650?sortBy=DATEDESC&start=0&items=25&locale=en_US&clientid=expedia.app.android.phone%3A6.9.0&clientid=expedia.app.android.phone%3A6.9.0"
     }
 }

@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+
 import com.expedia.bookings.dagger.tags.PackageScope;
 import com.expedia.bookings.packages.presenter.PackageHotelPresenter;
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter;
@@ -12,6 +14,7 @@ import com.expedia.bookings.packages.presenter.PackageCheckoutPresenter;
 import com.expedia.bookings.packages.vm.PackageCheckoutViewModel;
 
 import dagger.Component;
+import okhttp3.Interceptor;
 
 @PackageScope
 @Component(dependencies = {AppComponent.class}, modules = {PackageModule.class, FeesModule.class})
@@ -22,8 +25,11 @@ public interface PackageComponent {
 	void inject(PackageCheckoutViewModel model);
 	void inject(PackageOverviewPresenter packageWebCheckoutViewViewModel);
 
+	@Named("PackageReviewsInterceptor")
+	Interceptor packageReviewsInterceptor();
+
 	PackageServices packageServices();
-	ReviewsServices reviewsServices();
+	ReviewsServices packageReviewsServices();
 	SuggestionV4Services suggestionsService();
 	ItinTripServices itinTripServices();
 }

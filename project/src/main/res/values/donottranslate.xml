@@ -498,4 +498,8 @@
     <string name="hotel_shortlist_prod_client_token">MTA3ZTc3ZmYtZjZiMi00M2IxLWFjODEtYzY3ZjcwMmFlY2Iy</string>
     <string name="hotel_shortlist_client_id">androidHotel</string>
 
+    <!-- Hotel Reviews Values-->
+    <string name="hotel_reviews_api_key">0601x448cd474e227077mlq964842293</string>
+    <string name="hotel_reviews_client_id">MOBILE-APP-ANDROID</string>
+
 </resources>
