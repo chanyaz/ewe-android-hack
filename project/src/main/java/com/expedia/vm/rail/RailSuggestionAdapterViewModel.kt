@@ -8,7 +8,7 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import io.reactivex.Observable
 
-class RailSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
+class RailSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, false) {
     override fun getSuggestionService(query: String) {
         suggestionsService.suggestRailsV4(query, isDest, generateSuggestionServiceCallback())
     }

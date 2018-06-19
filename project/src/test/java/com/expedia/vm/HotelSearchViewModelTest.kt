@@ -319,19 +319,6 @@ class HotelSearchViewModelTest {
     }
 
     @Test
-    fun testRawTextSearch() {
-        val suggestion = suggestionBuilder.type("RAW_TEXT_SEARCH").build()
-        triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
-
-        val testSubscriber = TestObserver.create<HotelSearchParams>()
-        testViewModel.rawTextSearchSubject.subscribe(testSubscriber)
-
-        testViewModel.searchObserver.onNext(Unit)
-        assertEquals(1, testSubscriber.valueCount())
-        assertEquals(0, testGenericSearchSubscriber.valueCount())
-    }
-
-    @Test
     fun testGenericSearch() {
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = today.plusDays(1))
@@ -362,16 +349,6 @@ class HotelSearchViewModelTest {
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
         val suggestion = suggestionBuilder.hotelId("12345").build()
-        triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
-        assertEquals(0, testSubscriber.valueCount())
-    }
-
-    @Test
-    fun testPrefetchDisabled_rawTextSearch() {
-        val testSubscriber = TestObserver.create<Unit>()
-        mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
-
-        val suggestion = suggestionBuilder.type("RAW_TEXT_SEARCH").build()
         triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
         assertEquals(0, testSubscriber.valueCount())
     }

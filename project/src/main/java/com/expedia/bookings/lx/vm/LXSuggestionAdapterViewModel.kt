@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.islXEssRegionTypeCallEnabled
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import io.reactivex.Observable
 
-class LXSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {
+class LXSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation) {
     override fun getSuggestionService(query: String) {
         suggestionsService.getLxSuggestionsV4(query, generateSuggestionServiceCallback(),
                 AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLXDisablePOISearch), islXEssRegionTypeCallEnabled())

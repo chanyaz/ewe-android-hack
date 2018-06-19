@@ -93,7 +93,7 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
     override fun onFinishInflate() {
         super.onFinishInflate()
         val service = Ui.getApplication(context).lxComponent().suggestionsService()
-        suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, false)
+        suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.location_activity_details)
         if (isLXMultipleDatesSearchEnabled()) {
             calendarWidgetV2.text = context.resources.getString(R.string.select_dates)

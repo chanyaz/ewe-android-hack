@@ -26,9 +26,6 @@ object SuggestionV4Utils {
     fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String, shouldSaveSuggestionHierarchyChildInfo: Boolean) {
         Thread(Runnable {
             val suggest = suggestion.copy()
-            if (suggest.type == "RAW_TEXT_SEARCH") {
-                return@Runnable // don't store raw (non-ESS) searches
-            }
 
             if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
                 suggest.regionNames.displayName = suggest.regionNames.shortName

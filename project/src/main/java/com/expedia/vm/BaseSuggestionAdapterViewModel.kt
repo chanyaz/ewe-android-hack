@@ -13,7 +13,6 @@ import com.expedia.bookings.extensions.toSearchInfoDataItemList
 import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.shared.data.SuggestionDataItem
 import com.expedia.bookings.shared.util.GaiaNearbyManager
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
@@ -26,7 +25,7 @@ import java.util.ArrayList
 
 abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggestionsService: ISuggestionV4Services,
                                               locationObservable: Observable<Location>?,
-                                              private val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
+                                              private val shouldShowCurrentLocation: Boolean) {
     protected enum class Category {
         CURRENT_LOCATION,
         NEARBY,
@@ -93,11 +92,7 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
     fun generateSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
         return object : DisposableObserver<List<SuggestionV4>>() {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
-                val rawQuerySuggestion = if (rawQueryEnabled && !lastQuery.isNullOrBlank()) listOf(suggestionWithRawQueryString(lastQuery)) else emptyList()
-                val essAndRawTextSuggestions = ArrayList<SuggestionV4>(rawQuerySuggestion)
-                essAndRawTextSuggestions.addAll(essSuggestions)
-
-                val suggestionDataItems = essAndRawTextSuggestions.map { suggestion ->
+                val suggestionDataItems = essSuggestions.map { suggestion ->
                     SuggestionDataItem.SuggestionDropDown(suggestion)
                 }
                 suggestionItemsSubject.onNext(suggestionDataItems)
@@ -186,12 +181,7 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
     private fun getSuggestionsForLocation(location: Location) {
         gaiaSubscriptions.add(gaiaManager.suggestionsSubject.subscribe { gaiaSuggestions ->
             updateNearBy(location, gaiaSuggestions)
-            val suggestionItems = ArrayList<SuggestionDataItem>()
-            getRawQueryAsSuggestion()?.let { rawQuerySuggestion ->
-                suggestionItems.add(SuggestionDataItem.SuggestionDropDown(rawQuerySuggestion))
-            }
-            suggestionItems.addAll(getSuggestionAdapterItems())
-            suggestionItemsSubject.onNext(suggestionItems)
+            suggestionItemsSubject.onNext(getSuggestionAdapterItems())
         })
         fetchNearBySuggestions(location)
     }
@@ -228,25 +218,5 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
     private fun fetchNearBySuggestions(location: Location) {
         gaiaManager.nearBySuggestions(location, getNearbySortTypeForGaia(),
                 getLineOfBusinessForGaia(), isMISForRealWorldEnabled())
-    }
-
-    private fun getRawQueryAsSuggestion(): SuggestionV4? {
-        if (rawQueryEnabled && lastQuery.isNotBlank()) {
-            return suggestionWithRawQueryString(lastQuery)
-        }
-        return null
-    }
-
-    private fun suggestionWithRawQueryString(query: String): SuggestionV4 {
-        val rawQuerySuggestion = SuggestionV4()
-        rawQuerySuggestion.type = Constants.RAW_TEXT_SEARCH
-        rawQuerySuggestion.iconType = SuggestionV4.IconType.MAGNIFYING_GLASS_ICON
-        rawQuerySuggestion.regionNames = SuggestionV4.RegionNames()
-        rawQuerySuggestion.regionNames.displayName = "\"" + query + "\""
-        rawQuerySuggestion.regionNames.shortName = query // shown in results toolbar title
-        rawQuerySuggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        rawQuerySuggestion.hierarchyInfo?.isChild = false
-        rawQuerySuggestion.coordinates = SuggestionV4.LatLng()
-        return rawQuerySuggestion
     }
 }

@@ -48,7 +48,6 @@ class HotelSearchActivity : AppCompatActivity() {
             HotelTracking.trackPinnedSearch()
             handleHotelIdSearch(params, goToResults = true)
         }
-        searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
     }
 
     @Suppress("UNUSED_PARAMETER")

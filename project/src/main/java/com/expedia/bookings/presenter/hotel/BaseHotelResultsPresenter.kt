@@ -71,7 +71,6 @@ import com.expedia.bookings.hotel.widget.HotelResultsSortFaqWebView
 import com.expedia.util.endlessObserver
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.mobiata.android.BackgroundDownloader
-import com.mobiata.android.LocationServices
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
@@ -1135,17 +1134,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     class ResultsSortFaqWebView
 
     fun moveMapToDestination(suggestion: SuggestionV4?) {
-        if (suggestion != null) {
-            if (suggestion.coordinates != null &&
-                    suggestion.coordinates?.lat != 0.0 &&
-                    suggestion.coordinates?.lng != 0.0) {
-                mapWidget.moveCamera(suggestion.coordinates.lat, suggestion.coordinates.lng)
-            } else if (suggestion.regionNames?.fullName != null) {
-                val BD_KEY = "geo_search"
-                val bd = BackgroundDownloader.getInstance()
-                bd.cancelDownload(BD_KEY)
-                bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
-            }
+        if (suggestion?.coordinates != null &&
+                suggestion.coordinates?.lat != 0.0 &&
+                suggestion.coordinates?.lng != 0.0) {
+            mapWidget.moveCamera(suggestion.coordinates.lat, suggestion.coordinates.lng)
         }
     }
 
@@ -1164,12 +1156,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             return (bottom + mapWidget.translationY).toInt()
         }
         return 0
-    }
-
-    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
-        return BackgroundDownloader.Download<List<android.location.Address>?> {
-            LocationServices.geocodeGoogle(context, query)
-        }
     }
 
     private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {

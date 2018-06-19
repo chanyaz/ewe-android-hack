@@ -10,7 +10,7 @@ import io.reactivex.Observable
 
 class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?) :
         BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable,
-                shouldShowCurrentLocation = true, rawQueryEnabled = true) {
+                shouldShowCurrentLocation = true) {
     private var selectedSuggestion: SuggestionV4? = null
 
     init {

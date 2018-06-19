@@ -3,11 +3,9 @@ package com.expedia.bookings.presenter.hotel
 import android.animation.ArgbEvaluator
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -54,7 +52,6 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isGrowthSocialSharingEnabled
@@ -67,7 +64,6 @@ import com.expedia.ui.HotelActivity
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
 import com.expedia.util.setShareButton
-import com.expedia.vm.GeocodeSearchModel
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelConfirmationViewModel
 import com.expedia.vm.HotelCreateTripViewModel
@@ -144,7 +140,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             HotelTracking.trackPinnedSearch()
             handleHotelIdSearch(params, goToResults = true)
         }
-        searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
 
         presenter
     }
@@ -387,7 +382,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
-    val geoCodeSearchModel = GeocodeSearchModel(context)
     private val checkoutDialog = DeprecatedProgressDialog(context)
 
     init {
@@ -395,30 +389,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         initDetailViewModel()
 
-        geoCodeSearchModel.geoResults.subscribe { geoResults ->
-            fun triggerNewSearch(selectedResultIndex: Int) {
-                val newHotelSearchParams = hotelSearchParams
-                val geoLocation = geoResults[selectedResultIndex]
-                newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
-                newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
-                newHotelSearchParams.suggestion.type = "GOOGLE_SUGGESTION_SEARCH"
-                // trigger search with selected geoLocation
-                handleGenericSearch(newHotelSearchParams)
-            }
-
-            if (geoResults.count() > 0) {
-                val freeformLocations = StrUtils.formatAddresses(geoResults)
-                val builder = AlertDialog.Builder(context)
-                builder.setTitle(R.string.ChooseLocation)
-                val dialogItemClickListener = DialogInterface.OnClickListener { _, which ->
-                    triggerNewSearch(which)
-                    HotelTracking.trackGeoSuggestionClick()
-                }
-                builder.setItems(freeformLocations, dialogItemClickListener)
-                val alertDialog = builder.create()
-                alertDialog.show()
-            }
-        }
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
@@ -546,9 +516,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         errorPresenter.viewmodel.productKeyExpiryObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
-
-        geoCodeSearchModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        geoCodeSearchModel.errorObservable.subscribe { show(errorPresenter) }
     }
 
     private fun showPaymentFormAndClearTempCard() {
@@ -920,11 +887,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             setDefaultTransition(Screen.DETAILS)
             showDetails(params.suggestion.hotelId)
         }
-    }
-
-    private fun handleGeoSearch(params: HotelSearchParams) {
-        updateSearchParams(params)
-        geoCodeSearchModel.searchObserver.onNext(params)
     }
 
     private fun updateSearchParams(params: HotelSearchParams) {

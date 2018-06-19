@@ -25,7 +25,7 @@ class SuggestionAdapterViewModelTest {
     fun testLanguagesTriggeringEss() {
         val languageMap = createLanguageMap()
         for ((_, list) in languageMap) {
-            val vm = MockSuggestionAdapterViewModel(context, mockSuggestionService, null, false, false)
+            val vm = MockSuggestionAdapterViewModel(context, mockSuggestionService, null, false)
             vm.queryObserver.onNext(list[0])
             assertNull(vm.receivedSuggestion)
             vm.queryObserver.onNext(list[1])
@@ -33,8 +33,8 @@ class SuggestionAdapterViewModelTest {
         }
     }
 
-    private class MockSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) :
-            BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {
+    private class MockSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean) :
+            BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation) {
 
         var receivedSuggestion: String? = null
 

@@ -25,7 +25,6 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
 
     // outputs
     val hotelIdSearchSubject = PublishSubject.create<HotelSearchParams>()
-    val rawTextSearchSubject = PublishSubject.create<HotelSearchParams>()
     val genericSearchSubject = PublishSubject.create<HotelSearchParams>()
 
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
@@ -147,9 +146,6 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         if (params.suggestion.hotelId != null) {
             hotelSearchManager.reset()
             hotelIdSearchSubject.onNext(params)
-        } else if (params.suggestion.isRawTextSearch) {
-            hotelSearchManager.reset()
-            rawTextSearchSubject.onNext(params)
         } else {
             if (!params.equalForPrefetch(prefetchParams)) {
                 hotelSearchManager.doSearch(params)
@@ -173,7 +169,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
             val suggestion = params.suggestion
 
             return !ignoreGreedyForDeepLink && !suggestion.isPinnedHotelSearch
-                    && !suggestion.isRawTextSearch && params.filterOptions?.isEmpty() ?: true
+                    && params.filterOptions?.isEmpty() ?: true
         }
         return false
     }

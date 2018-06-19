@@ -1,7 +1,6 @@
 package com.mobiata.android;
 
 import java.util.Calendar;
-import java.util.List;
 
 import android.Manifest;
 import android.content.Context;
@@ -10,8 +9,6 @@ import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.content.ContextCompat;
-
-import com.mobiata.android.services.GoogleServices;
 
 /**
  * Location-based utilities.
@@ -25,13 +22,6 @@ import com.mobiata.android.services.GoogleServices;
 // permissions are only needed if you're actually using this class, so not included in the lib manifest
 @SuppressWarnings("MissingPermission")
 public class LocationServices {
-
-	public static List<Address> geocodeGoogle(Context context, String locationName) {
-		Log.d(Params.LOGGING_TAG, "Geocoding location (google) \"" + locationName + "\".");
-
-		GoogleServices services = new GoogleServices(context);
-		return services.geocode(locationName);
-	}
 
 	public static String formatAddress(Address address) {
 		int len = address.getMaxAddressLineIndex() + 1;

@@ -11,13 +11,11 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
-import android.location.Address;
 import android.text.TextUtils;
 
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
-import com.mobiata.android.net.GeocoderResponseHandler;
 import com.mobiata.android.util.NetUtils;
 
 @SuppressWarnings("unchecked")
@@ -32,23 +30,6 @@ public class GoogleServices implements DownloadListener {
 
 	public GoogleServices(Context context) {
 		mContext = context;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Geocoder
-	//
-	// Documentation: http://code.google.com/apis/maps/documentation/geocoding/
-	//
-
-	public List<Address> geocode(String query) {
-		List<BasicNameValuePair> params = new ArrayList<>();
-		params.add(new BasicNameValuePair("sensor", "true"));
-		params.add(new BasicNameValuePair("address", query));
-
-		addLanguage(params);
-
-		return (List<Address>) doRequest("http://maps.googleapis.com/maps/api/geocode/json", params,
-				new GeocoderResponseHandler());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

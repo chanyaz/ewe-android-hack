@@ -4,7 +4,6 @@ public class Constants {
 	public static final String PRODUCT_FLIGHT = "flight";
 	public static final String PRODUCT_HOTEL = "hotel";
 	public static final int HOTEL_REQUEST_CODE = 101;
-	public static final String RAW_TEXT_SEARCH = "RAW_TEXT_SEARCH";
 	public static final String DEFAULT_HIDE_FIELDS_CONFIG_ID = "5";
 	public static final int PERMISSION_REQUEST_LOCATION = 7;
 	public static final int PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE = 102;

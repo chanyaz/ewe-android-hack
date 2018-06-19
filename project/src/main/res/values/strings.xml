@@ -2696,8 +2696,6 @@
     <string name="refundable_flight_filter_label">Refundable flights only</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">Hotel name</string>
-    <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-    <string name="ChooseLocation">Did you mean…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">DONE</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->

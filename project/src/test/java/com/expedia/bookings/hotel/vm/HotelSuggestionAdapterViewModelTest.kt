@@ -20,6 +20,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionAdapterViewModelTest {
@@ -100,8 +101,7 @@ class HotelSuggestionAdapterViewModelTest {
 
         @Suppress("UNCHECKED_CAST")
         val output = testSubscriber.values()[0] as List<SuggestionDataItem.SuggestionDropDown>
-        assertEquals("\"ORD\"", output[0].suggestion.regionNames.displayName)
-        assertEquals(1, output.size)
+        assertTrue(output.isEmpty())
     }
 
     @Test
@@ -129,8 +129,7 @@ class HotelSuggestionAdapterViewModelTest {
 
         @Suppress("UNCHECKED_CAST")
         val output = testSubscriber.values()[0] as List<SuggestionDataItem.SuggestionDropDown>
-        assertEquals("\"ORD\"", output[0].suggestion.regionNames.displayName)
-        assertEquals(expectedId, output[1].suggestion.gaiaId)
+        assertEquals(expectedId, output[0].suggestion.gaiaId)
     }
 
     @Test

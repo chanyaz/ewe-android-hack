@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import io.reactivex.Observable
 
-class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
+class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, false) {
     override fun getSuggestionService(query: String) {
         val guid = Db.sharedInstance.getAbacusGuid()
         suggestionsService.suggestPackagesV4(query, isDest, generateSuggestionServiceCallback(), guid)

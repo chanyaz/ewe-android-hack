@@ -4,7 +4,6 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
@@ -14,16 +13,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.ViewActions
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 
 object SearchScreen {
     private val suggestionList = withId(R.id.suggestion_list)
-    @JvmField val didYouMeanAlert = allOf(
-            isDescendantOfA(withId(R.id.action_bar_root)), withId(R.id.parentPanel),
-            hasDescendant(withId(R.id.alertTitle)), hasDescendant(withText("Did you mean…"))
-    )
 
     @JvmStatic fun suggestionList(): ViewInteraction {
         return onView(suggestionList)
@@ -131,13 +125,5 @@ object SearchScreen {
     @JvmStatic fun errorDialog(text: String): ViewInteraction {
         return onView(withText(text))
                 .inRoot(withDecorView(not(`is`(SpoonScreenshotUtils.getCurrentActivity().window.decorView))))
-    }
-
-    @JvmStatic fun didYouMeanAlertSuggestion(suggestionHasText: String): ViewInteraction {
-        return onView(allOf(
-                isDescendantOfA(didYouMeanAlert),
-                withId(R.id.select_dialog_listview),
-                hasDescendant(withText(containsString(suggestionHasText)))
-        ))
     }
 }
