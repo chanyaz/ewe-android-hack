@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.argThat
+import org.mockito.ArgumentMatchers.argThat
 import org.mockito.Mockito
 
 class NewCreateAccountHandlerTest {

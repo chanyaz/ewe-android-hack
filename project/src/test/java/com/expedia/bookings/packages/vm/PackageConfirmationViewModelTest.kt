@@ -1,15 +1,14 @@
 package com.expedia.bookings.packages.vm
 
 import android.app.Activity
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.MIDItinDetailsResponse
-import com.expedia.bookings.data.HotelItinDetailsResponse
-import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightItinDetailsResponse
+import com.expedia.bookings.data.HotelItinDetailsResponse
+import com.expedia.bookings.data.MIDItinDetailsResponse
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
@@ -18,6 +17,10 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -25,10 +28,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.LOBWebViewActivity
-import com.expedia.bookings.test.MockPackageServiceTestRule
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.PointOfSaleTestConfiguration
-import com.expedia.bookings.test.RunForBrands
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -54,7 +53,7 @@ class PackageConfirmationViewModelTest {
     private var shadowApplication: ShadowApplication? = null
     private var activity: Activity by Delegates.notNull()
     lateinit var hotelResponse: BundleSearchResponse
-    lateinit var viewModel: TestPackageConfirmationViewModel
+    lateinit var viewModel: PackageConfirmationViewModel
 
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
@@ -227,8 +226,9 @@ class PackageConfirmationViewModelTest {
         Db.setPackageResponse(hotelResponse)
         setupTripBucket()
         setUpSelectedFlight()
-        viewModel = TestPackageConfirmationViewModel(activity)
-        val mockItineraryManager = viewModel.mockItineraryManager
+        val mockItineraryManager: ItineraryManager = Mockito.spy(ItineraryManager.getInstance())
+        viewModel = Mockito.spy(PackageConfirmationViewModel(activity))
+        Mockito.`when`(viewModel.getItineraryManager()).thenReturn(mockItineraryManager)
         Mockito.doNothing()
                 .`when`(mockItineraryManager).addGuestTrip("expedia.imt@gmail.com", "11111111")
     }
@@ -256,13 +256,5 @@ class PackageConfirmationViewModelTest {
         leg2.destinationAirportLocalName = "Heathrow Intl."
 
         Db.setPackageFlightBundle(leg1, leg2)
-    }
-
-    class TestPackageConfirmationViewModel(context: Context) : PackageConfirmationViewModel(context) {
-        var mockItineraryManager: ItineraryManager = Mockito.spy(ItineraryManager.getInstance())
-
-        override fun getItineraryManager(): ItineraryManager {
-            return mockItineraryManager
-        }
     }
 }

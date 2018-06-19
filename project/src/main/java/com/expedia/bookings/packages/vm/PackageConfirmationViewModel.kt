@@ -27,7 +27,7 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 
-open class PackageConfirmationViewModel(private val context: Context) {
+class PackageConfirmationViewModel(private val context: Context) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
     val itinDetailsResponseObservable = PublishSubject.create<MIDItinDetailsResponse>()
     val setRewardsPoints = PublishSubject.create<String>()
@@ -139,7 +139,7 @@ open class PackageConfirmationViewModel(private val context: Context) {
         }
     }
 
-    open fun getItineraryManager(): ItineraryManager {
+    fun getItineraryManager(): ItineraryManager {
         return ItineraryManager.getInstance()
     }
 }
