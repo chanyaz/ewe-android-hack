@@ -74,8 +74,9 @@ class NotificationSchedulerTest {
         sut.scheduleLocalNotifications(itinDatas)
         Mockito.verify(notificationManagerMock, Mockito.times(1)).cancelAllExpired()
         Mockito.verify(notificationManagerMock, Mockito.times(1)).scheduleAll()
-        assertNotNull(notificationManagerMock.mNotification)
-        Mockito.verify(notificationManagerMock, Mockito.times(1)).searchForExistingAndUpdate(notificationManagerMock.mNotification!!)
+        val notification = notificationManagerMock.mNotification
+        assertNotNull(notification)
+        Mockito.verify(notificationManagerMock, Mockito.times(1)).searchForExistingAndUpdate(notification!!)
     }
 
     @Test

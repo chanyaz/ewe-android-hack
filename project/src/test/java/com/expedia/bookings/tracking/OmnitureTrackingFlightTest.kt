@@ -274,9 +274,7 @@ class OmnitureTrackingFlightTest {
 
     private fun getCreateTripMockResponse(withInsuranceProduct: Boolean = false): FlightCreateTripResponse {
         val mockResponse = Mockito.mock(FlightCreateTripResponse::class.java)
-        val mockOffer = Mockito.mock(FlightTripDetails.FlightOffer::class.java)
-        mockOffer.availableInsuranceProducts = if (withInsuranceProduct) listOf(InsuranceProduct()) else emptyList()
-        whenever(mockResponse.getOffer()).thenReturn(mockOffer)
+        whenever(mockResponse.getAvailableInsuranceProducts()).thenReturn(if (withInsuranceProduct) listOf(InsuranceProduct()) else emptyList())
         return mockResponse
     }
 }

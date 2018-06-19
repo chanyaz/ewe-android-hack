@@ -5,16 +5,14 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.util.AttributeSet
 import com.expedia.bookings.fragment.CalendarDialogFragment
-import com.expedia.bookings.hotel.util.HotelCalendarRules
+import com.expedia.bookings.packages.vm.PackageSearchViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.CalendarWidgetV2
-import com.expedia.vm.BaseSearchViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import io.reactivex.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -31,7 +29,7 @@ class PackageDatePickerWidgetTest {
 
     @Test
     fun testCustomDatePicker() {
-        val mockViewModel = getMockViewModel()
+        val mockViewModel = Mockito.spy(PackageSearchViewModel(activity))
         calendarWidget.viewModel = mockViewModel
         calendarWidget.showCalendarDialog()
         assertEquals(true, calendarWidget.showCustomCalendarCalls)
@@ -43,13 +41,6 @@ class PackageDatePickerWidgetTest {
         calendarWidget.calendarDialog = mockCalendarDialog
         calendarWidget.showCustomCalendarDialog()
         Mockito.verify(mockCalendarDialog).show(Mockito.any<FragmentManager>(), Mockito.anyString())
-    }
-
-    fun getMockViewModel(): BaseSearchViewModel {
-        val mockViewModel = Mockito.mock(BaseSearchViewModel::class.java)
-        Mockito.`when`(mockViewModel.getCalendarRules()).thenReturn(HotelCalendarRules(activity))
-        mockViewModel.dateTextObservable = BehaviorSubject.create<CharSequence>()
-        return mockViewModel
     }
 
     class TestCalendarWidgetV2(context: Context, attrs: AttributeSet?) : CalendarWidgetV2(context, attrs) {
