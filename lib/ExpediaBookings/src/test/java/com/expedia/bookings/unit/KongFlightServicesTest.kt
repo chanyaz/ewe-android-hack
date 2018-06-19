@@ -60,7 +60,7 @@ class KongFlightServicesTest {
                 .adults(1)
                 .build() as FlightSearchParams
 
-        service!!.flightSearch(params, observer, resultsResponseReceived)
+        service!!.flightSearch(params, resultsResponseReceived).subscribe(observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoValues()
@@ -85,7 +85,7 @@ class KongFlightServicesTest {
                 .adults(1)
                 .build() as FlightSearchParams
 
-        service!!.flightSearch(params, observer, resultsResponseReceived)
+        service!!.flightSearch(params, resultsResponseReceived).subscribe(observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
@@ -97,40 +97,6 @@ class KongFlightServicesTest {
         Assert.assertEquals(5, response.offers.size.toLong())
         Assert.assertEquals("coach", response.offers[0].offersSeatClassAndBookingCode[0][0].seatClass)
         Assert.assertEquals("-3.00", response.offers[0].discountAmount.amount.toString())
-        Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.legs[0].segments[0].airlineLogoURL)
-    }
-
-    @Test
-    @Throws(Throwable::class)
-    fun testMockGreedySearch() {
-        setServiceDispatcher()
-        val resultsResponseReceived = PublishSubject.create<Unit>()
-
-        val observer = TestObserver<FlightSearchResponse>()
-        val resultsResponseReceivedTestSubscriber = TestObserver<Unit>()
-        resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber)
-        val params = FlightSearchParams.Builder(26, 500)
-                .flightCabinClass("COACH")
-                .origin(dummySuggestion)
-                .destination(dummySuggestion)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .adults(1)
-                .build() as FlightSearchParams
-
-        service!!.greedyFlightSearch(params, observer, resultsResponseReceived)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
-
-        observer.assertNoErrors()
-        observer.assertComplete()
-        observer.assertValueCount(1)
-        resultsResponseReceivedTestSubscriber.assertValueCount(1)
-        val response = observer.values()[0]
-        Assert.assertEquals(7, response.legs.size.toLong())
-        Assert.assertEquals(5, response.offers.size.toLong())
-        Assert.assertEquals("coach", response.offers[0].offersSeatClassAndBookingCode[0][0].seatClass)
-        Assert.assertEquals("-3.00", response.offers[0].discountAmount.amount.toString())
-        Assert.assertEquals(FlightSearchResponse.FlightSearchType.GREEDY, response.searchType)
         Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.legs[0].segments[0].airlineLogoURL)
     }
 

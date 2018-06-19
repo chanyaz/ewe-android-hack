@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.flight.FlightOutboundPresenter
 import com.expedia.bookings.services.FlightServices
@@ -96,7 +97,7 @@ class FlightOutboundPresenterTest {
     }
 
     private fun invokeSetupComplete() {
-        flightOutboundPresenter.flightOfferViewModel = FlightOffersViewModel(activity, service)
+        flightOutboundPresenter.flightOfferViewModel = FlightOffersViewModel(activity, FlightServicesManager(service))
         flightOutboundPresenter.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(true).build())
         flightOutboundPresenter.setupComplete()
     }

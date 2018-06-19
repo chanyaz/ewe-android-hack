@@ -32,12 +32,12 @@ import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.fragment.FilghtsRouteHappyGuideFragment
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -78,7 +78,7 @@ import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
-    lateinit var flightServices: FlightServices
+    lateinit var flightServicesManager: FlightServicesManager
         @Inject set
 
     lateinit var flightCreateTripViewModel: FlightCreateTripViewModel
@@ -390,9 +390,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val flightOfferViewModel: BaseFlightOffersViewModel by lazy {
         val viewModel: BaseFlightOffersViewModel
         if (isByotEnabled) {
-            viewModel = FlightOffersViewModelByot(context, flightServices)
+            viewModel = FlightOffersViewModelByot(context, flightServicesManager)
         } else {
-            viewModel = FlightOffersViewModel(context, flightServices)
+            viewModel = FlightOffersViewModel(context, flightServicesManager)
         }
 
         viewModel.flightProductId.subscribe { productKey ->

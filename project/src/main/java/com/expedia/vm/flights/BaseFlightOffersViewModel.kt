@@ -14,23 +14,16 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.tracking.ApiCallFailing
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
-import io.reactivex.Observer
+import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import java.util.HashMap
 
-import java.util.LinkedHashSet
-
-abstract class BaseFlightOffersViewModel(val context: Context, val flightServices: FlightServices) {
-
+abstract class BaseFlightOffersViewModel(val context: Context, val flightServicesManager: FlightServicesManager) {
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val errorObservable = PublishSubject.create<ApiError>()
     val errorObservableForGreedyCall = PublishSubject.create<ApiError>()
@@ -67,7 +60,6 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     var totalInboundResults = 0
     var isSubPub = false
     var isGreedyCallAborted = false
-    var isGreedyCallCompleted = false
 
     protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
@@ -75,7 +67,35 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     protected var flightSearchSubscription: Disposable? = null
     protected var flightGreedySearchSubscription: Disposable? = null
 
+    val successResponseHandler = PublishSubject.create<Pair<FlightSearchType, FlightSearchResponse>>()
+    val errorResponseHandler = PublishSubject.create<Pair<FlightSearchType, ApiError>>()
+
     init {
+        successResponseHandler.subscribe { (type, response) ->
+            obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)) {
+                setSubPubAvailability(response.hasSubPub)
+            }
+            mayChargePaymentFeesSubject.onNext(response.mayChargePaymentFees)
+            makeFlightOffer(type, response)
+        }
+
+        errorResponseHandler.subscribe { (type, error) ->
+            if (error.errorCode == ApiError.Code.NO_INTERNET) {
+                handleNetworkError(type)
+            } else {
+                when (type) {
+                    FlightSearchType.GREEDY -> {
+                        errorObservableForGreedyCall.onNext(error)
+                        hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
+                    }
+                    FlightSearchType.NORMAL -> {
+                        errorObservable.onNext(error)
+                    }
+                }
+            }
+        }
+
         searchParamsObservable.subscribe { params ->
             isRoundTripSearchSubject.onNext(params.isRoundTrip())
             params.flightCabinClass?.let {
@@ -85,7 +105,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             nonStopSearchFilterAppliedSubject.onNext(params.nonStopFlight ?: false)
             searchingForFlightDateTime.onNext(Unit)
             if (!isFlightGreedySearchEnabled(context) || isGreedyCallAborted) {
-                flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+                flightSearchSubscription?.dispose()
+                flightSearchSubscription = flightServicesManager.doFlightSearch(params, FlightSearchType.NORMAL, successResponseHandler, errorResponseHandler)
                 showDebugToast("Normal Search call is triggerred")
             }
             if (isFlightGreedySearchEnabled(context) && isGreedyCallAborted) {
@@ -95,7 +116,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         if (isFlightGreedySearchEnabled(context)) {
             greedyFlightSearchObservable.subscribe { params ->
-                flightGreedySearchSubscription = flightServices.greedyFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+                flightGreedySearchSubscription?.dispose()
+                flightGreedySearchSubscription = flightServicesManager.doFlightSearch(params, FlightSearchType.GREEDY, successResponseHandler, errorResponseHandler)
                 showDebugToast("Greedy call is triggerred")
             }
 
@@ -199,63 +221,19 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         cancelGreedySearchObservable.onNext(Unit)
     }
 
-    protected fun makeResultsObserver(): Observer<FlightSearchResponse> {
-
-        return object : DisposableObserver<FlightSearchResponse>() {
-            override fun onNext(response: FlightSearchResponse) {
-                if (isFlightGreedySearchEnabled(context) && !isGreedyCallAborted) {
-                    isGreedyCallCompleted =
-                            when (response.searchType) {
-                                FlightSearchType.GREEDY -> true
-                                FlightSearchType.NORMAL -> false
-                            }
-                }
-                if (response.hasErrors()) {
-                    if (isGreedyCallCompleted) {
-                        errorObservableForGreedyCall.onNext(response.firstError)
-                        hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
-                        isGreedyCallCompleted = false
-                    } else {
-                        errorObservable.onNext(response.firstError)
-                    }
-                } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
-                    if (isGreedyCallCompleted) {
-                        errorObservableForGreedyCall.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
-                        hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
-                        isGreedyCallCompleted = false
-                    } else {
-                        errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
-                    }
-                } else {
-                    obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
-                    if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)) {
-                        setSubPubAvailability(response.hasSubPub)
-                    }
-                    mayChargePaymentFeesSubject.onNext(response.mayChargePaymentFees)
-                    makeFlightOffer(response)
-                }
+    private fun handleNetworkError(type: FlightSearchType) {
+        if (type == FlightSearchType.GREEDY && searchParamsObservable.value == null) {
+            isGreedyCallAborted = true
+        } else {
+            val retryFun = fun() {
+                retrySearchObservable.onNext(Unit)
+                flightServicesManager.doFlightSearch(searchParamsObservable.value, FlightSearchType.NORMAL, successResponseHandler, errorResponseHandler)
             }
-
-            override fun onError(e: Throwable) {
-                if (RetrofitUtils.isNetworkError(e)) {
-                    if (isFlightGreedySearchEnabled(context) && searchParamsObservable.value == null) {
-                        isGreedyCallAborted = true
-                    } else {
-                        val retryFun = fun() {
-                            retrySearchObservable.onNext(Unit)
-                            flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver(), resultsReceivedDateTimeObservable)
-                        }
-                        val cancelFun = fun() {
-                            noNetworkObservable.onNext(Unit)
-                        }
-                        DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                        FlightsV2Tracking.trackFlightShoppingError(ApiCallFailing.FlightSearch(Constants.NO_INTERNET_ERROR_CODE))
-                    }
-                }
+            val cancelFun = fun() {
+                noNetworkObservable.onNext(Unit)
             }
-
-            override fun onComplete() {
-            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+            FlightsV2Tracking.trackFlightShoppingError(ApiCallFailing.FlightSearch(Constants.NO_INTERNET_ERROR_CODE))
         }
     }
 
@@ -266,11 +244,10 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         }
     }
 
-    protected fun sendOutboundFlights(outBoundFlights: LinkedHashSet<FlightLeg>) {
-        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted && !isGreedyCallAborted) {
+    protected fun sendOutboundFlights(type: FlightSearchType, outBoundFlights: LinkedHashSet<FlightLeg>) {
+        if (isFlightGreedySearchEnabled(context) && type == FlightSearchType.GREEDY && !isGreedyCallAborted) {
             greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
             hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
-            isGreedyCallCompleted = false
         } else if (searchParamsObservable.value != null) {
             outboundResultsObservable.onNext(outBoundFlights.toList())
         }
@@ -286,6 +263,6 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     }
 
     protected abstract fun selectOutboundFlight(legId: String)
-    protected abstract fun createFlightMap(response: FlightSearchResponse)
-    protected abstract fun makeFlightOffer(response: FlightSearchResponse)
+    protected abstract fun createFlightMap(type: FlightSearchType, response: FlightSearchResponse)
+    protected abstract fun makeFlightOffer(type: FlightSearchType, response: FlightSearchResponse)
 }

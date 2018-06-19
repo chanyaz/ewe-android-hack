@@ -29,7 +29,13 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         }
 
         return when {
-            FlightApiRequestMatcher.isSearchRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params), params)
+            FlightApiRequestMatcher.isSearchRequest(urlPath) -> {
+                if (params["departureAirport"] == "malformed") {
+                    MockResponse()
+                } else {
+                    getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params), params)
+                }
+            }
 
             FlightApiRequestMatcher.isOldCreateTripRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getCreateTripResponseFilePath(params), params)
 

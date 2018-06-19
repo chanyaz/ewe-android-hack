@@ -8,6 +8,7 @@ import android.content.Context;
 import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.flights.utils.FlightServicesManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
@@ -46,6 +47,12 @@ public final class FlightModule {
 		else {
 			return new FlightServices(endpoint, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
 		}
+	}
+
+	@Provides
+	@FlightScope
+	FlightServicesManager provideFlightServicesManager(FlightServices flightServices) {
+		return new FlightServicesManager(flightServices);
 	}
 
 	@Provides
