@@ -436,17 +436,15 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(searchToError)
         addTransition(detailsToError)
 
-        if (shouldUseWebCheckout()) {
-            addTransition(detailsToWebCheckoutView)
-            addTransition(webCheckoutViewToConfirmation)
-            addTransition(webCheckoutViewToError)
-            addTransition(webCheckoutViewToSearch)
-        } else {
-            addTransition(detailsToCheckout)
-            addTransition(checkoutToConfirmation)
-            addTransition(checkoutToError)
-            addTransition(checkoutToSearch)
-        }
+        addTransition(detailsToWebCheckoutView)
+        addTransition(webCheckoutViewToConfirmation)
+        addTransition(webCheckoutViewToError)
+        addTransition(webCheckoutViewToSearch)
+
+        addTransition(detailsToCheckout)
+        addTransition(checkoutToConfirmation)
+        addTransition(checkoutToError)
+        addTransition(checkoutToSearch)
 
         setUpErrorPresenter()
         loadingOverlay.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
