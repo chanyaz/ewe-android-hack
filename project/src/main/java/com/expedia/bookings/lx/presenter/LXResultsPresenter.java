@@ -117,6 +117,7 @@ public class LXResultsPresenter extends Presenter {
 
 	private int searchTop;
 	private ArrowXDrawable navIcon;
+	private View toolbarSearchButton;
 
 	private SearchResultObserver searchResultObserver = new SearchResultObserver();
 
@@ -211,11 +212,13 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onComplete() {
+			toolbarSearchButton.setVisibility(VISIBLE);
 			cleanup();
 		}
 
 		@Override
 		public void onError(Throwable e) {
+			toolbarSearchButton.setVisibility(VISIBLE);
 			Log.e("LXSearch - onError", e);
 			show(widget, FLAG_CLEAR_BACKSTACK);
 
@@ -329,6 +332,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 
 		cleanup();
+		toolbarSearchButton.setVisibility(GONE);
 		sortFilterWidget.bind(null);
 		sortFilterButton.setVisibility(View.GONE);
 		searchResultFilterObserver.searchType = event.lxSearchParams.getSearchType();
@@ -393,6 +397,8 @@ public class LXResultsPresenter extends Presenter {
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc);
 		toolbar.inflateMenu(R.menu.lx_results_details_menu);
+		toolbarSearchButton = toolbar.findViewById(R.id.menu_open_search);
+		toolbarSearchButton.setVisibility(GONE);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
