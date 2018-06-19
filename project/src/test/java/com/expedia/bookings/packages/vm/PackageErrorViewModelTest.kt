@@ -1,7 +1,6 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
-import android.support.annotation.StringRes
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
@@ -98,52 +97,6 @@ class PackageErrorViewModelTest {
     }
 
     @Test
-    fun observableEmissionsOnPaymentCardApiError() {
-        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "nameOnCard", R.string.error_name_on_card_mismatch)
-        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "creditCardNumber", R.string.e3_error_checkout_payment_failed)
-        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "expirationDate", R.string.e3_error_checkout_payment_failed)
-        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "cvv", R.string.e3_error_checkout_payment_failed)
-        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "cardLimitExceeded", R.string.e3_error_checkout_payment_failed)
-        observableEmissionsOnPaymentApiError(ApiError.Code.PAYMENT_FAILED, "cvv", R.string.e3_error_checkout_payment_failed)
-    }
-
-    private fun observableEmissionsOnPaymentApiError(errorCode: ApiError.Code, field: String, @StringRes errorMessageId: Int) {
-        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
-
-        val checkoutCardErrorObservableTestSubscriber = TestObserver.create<Unit>()
-        subjectUnderTest.checkoutCardErrorObservable.subscribe(checkoutCardErrorObservableTestSubscriber)
-
-        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
-
-        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
-
-        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
-
-        val titleObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.titleObservable.subscribe(titleObservableTestSubscriber)
-
-        val subtitleObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.subTitleObservable.subscribe(subtitleObservableTestSubscriber)
-
-        val apiError = ApiError(errorCode)
-        apiError.errorInfo = ApiError.ErrorInfo()
-        apiError.errorInfo.field = field
-
-        subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
-
-        checkoutCardErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
-        errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(errorMessageId))
-        errorButtonObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.edit_payment))
-        titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.payment_failed_label))
-        subtitleObservableTestSubscriber.assertValues("")
-    }
-
-    @Test
     fun observableEmissionsOnUnknownError() {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
@@ -235,86 +188,6 @@ class PackageErrorViewModelTest {
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
         defaultErrorObservableTestSubscriber.assertValues(Unit)
-    }
-
-    @Test
-    fun observableEmissionsOnCreateTripTravelerDetailsError() {
-        observableEmissionsOnCreateTripTravelerDetailsError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS, "phone", R.string.phone_number_field_text)
-        observableEmissionsOnCreateTripTravelerDetailsError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS, "mainMobileTraveler.firstName", R.string.first_name_field_text)
-        observableEmissionsOnCreateTripTravelerDetailsError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS, "mainMobileTraveler.lastName", R.string.last_name_field_text)
-        observableEmissionsOnCreateTripTravelerDetailsError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS, "", -1)
-    }
-
-    private fun observableEmissionsOnCreateTripTravelerDetailsError(errorCode: ApiError.Code, field: String = "", @StringRes errorMessageId: Int) {
-        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
-
-        val checkoutTravelerErrorObservableTestSubscriber = TestObserver.create<Unit>()
-        subjectUnderTest.checkoutTravelerErrorObservable.subscribe(checkoutTravelerErrorObservableTestSubscriber)
-
-        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
-
-        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
-
-        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
-
-        val titleObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.titleObservable.subscribe(titleObservableTestSubscriber)
-
-        val subtitleObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.subTitleObservable.subscribe(subtitleObservableTestSubscriber)
-
-        val apiError = ApiError(errorCode)
-        apiError.errorInfo = ApiError.ErrorInfo()
-        apiError.errorInfo.field = field
-
-        subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
-
-        val errorMessage = if (errorMessageId != -1) getContext().getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, getContext().getString(errorMessageId))
-                            else getContext().getString(R.string.e3_error_checkout_invalid_input)
-
-        checkoutTravelerErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
-        errorMessageObservableTestSubscriber.assertValues(errorMessage)
-        errorButtonObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.edit_guest_details))
-        titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.payment_failed_label))
-        subtitleObservableTestSubscriber.assertValues("")
-    }
-
-    @Test
-    fun observableEmissionsOnCreateTripDateMismatchError() {
-        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
-
-        val createTripUnknownErrorObservableTestSubscriber = TestObserver.create<Unit>()
-        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestSubscriber)
-
-        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
-
-        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
-
-        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
-
-        val apiError = ApiError(ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR)
-        apiError.errorInfo = ApiError.ErrorInfo()
-        apiError.errorInfo.source = "UK"
-
-        val checkoutError = PackagesTracking().createCheckoutError(apiError)
-
-        assertEquals("CKO:UK:PACKAGE_DATE_MISMATCH_ERROR", checkoutError)
-
-        subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
-
-        createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
-        errorMessageObservableTestSubscriber.assertValues("Sorry, this flight arrives way before the hotel check-in time. Please pick a different hotel or flights.")
-        errorButtonObservableTestSubscriber.assertValues("Retry")
     }
 
     @Test

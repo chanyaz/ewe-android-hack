@@ -74,7 +74,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     lateinit var itinTripServices: ItinTripServices
 
-    var isCrossSellPackageOnFSREnabled = false
+    private var isCrossSellPackageOnFSREnabled = false
     val bundlePresenterViewStub: ViewStub by bindView(R.id.widget_bundle_overview_view_stub)
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)

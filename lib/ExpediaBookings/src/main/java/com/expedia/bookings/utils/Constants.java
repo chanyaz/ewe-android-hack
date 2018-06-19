@@ -26,7 +26,6 @@ public class Constants {
 	public static final String PACKAGE_HOTEL_API_ERROR_KEY = "package hotel api error key";
 	public static final String PACKAGE_API_ERROR = "packageApiError";
 	public static final String PACKAGE_FILTER_SEARCH_ERROR = "packageFilterSearchApiError";
-	public static final String PACKAGE_FILTER_SEARCH_ERROR_KEY = "package filter search error key";
 
 	// itin airline code for check in
 	public static final String ITIN_CHECK_IN_AIRLINE_NAME = "ITIN_CHECK_IN_AIRLINE_NAME";

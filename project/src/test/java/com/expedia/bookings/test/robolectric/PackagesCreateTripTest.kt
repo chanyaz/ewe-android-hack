@@ -122,7 +122,9 @@ class PackagesCreateTripTest {
         baseMidResponse.setCurrentOfferPrice(setPackagePrice())
         Db.setPackageResponse(baseMidResponse)
         PackageTestUtil.setDbPackageSelectedHotel()
-        activity.packageCreateTrip()
+        Db.sharedInstance.packageParams.pageType = null
+        activity.packagePresenter.changedOutboundFlight = false
+        activity.packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
         createTripSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         createTripSubscriber.assertValueCount(1)

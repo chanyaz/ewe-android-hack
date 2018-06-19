@@ -319,6 +319,8 @@ class PackageTestUtil {
             rateInfo.chargeableRateInfo.mandatoryDisplayType = displayType
             rateInfo.chargeableRateInfo.mandatoryDisplayCurrency = displayCurrency
             rateInfo.chargeableRateInfo.totalMandatoryFees = 50F
+            rateInfo.chargeableRateInfo.packageTotalPrice = Money(1000, "USD")
+            rateInfo.chargeableRateInfo.packageSavings = Money(300, "USD")
             return rateInfo
         }
     }

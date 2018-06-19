@@ -36,11 +36,13 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowValueAnimator
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
@@ -441,6 +443,69 @@ class PackageOverviewPresenterTest {
         assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
     }
 
+    @Test
+    fun testResetToLoadedOutboundFlights() {
+        setupOverviewPresenter()
+
+        val overviewPresenterSpy = Mockito.spy(overviewPresenter)
+        val bundleWidgetSpy = Mockito.spy(overviewPresenterSpy.bundleWidget)
+        Mockito.`when`(overviewPresenterSpy.bundleWidget).thenReturn(bundleWidgetSpy)
+        Mockito.doNothing().`when`(bundleWidgetSpy).revertBundleViewToSelectOutbound()
+
+        Db.sharedInstance.packageParams.currentFlights = arrayOf("actualOutboundLegId", "actualInboundLegId")
+        Db.sharedInstance.packageParams.defaultFlights = arrayOf("expectedOutboundLegId", "expectedInboundLegId")
+
+        val expectedPackageTotalPrice = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo.packageTotalPrice
+        val expectedPackageSavings = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo.packageSavings
+
+        val testTotalObserver = TestObserver<Money>()
+        val testSavingsObserver = TestObserver<Money>()
+        val testShowLoadingStateObservable = TestObserver<Boolean>()
+        overviewPresenterSpy.totalPriceWidget.viewModel.total.subscribe(testTotalObserver)
+        overviewPresenterSpy.totalPriceWidget.viewModel.savings.subscribe(testSavingsObserver)
+        overviewPresenterSpy.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.subscribe(testShowLoadingStateObservable)
+
+        assertArrayEquals(arrayOf("actualOutboundLegId", "actualInboundLegId"), Db.sharedInstance.packageParams.currentFlights)
+        assertArrayEquals(arrayOf("expectedOutboundLegId", "expectedInboundLegId"), Db.sharedInstance.packageParams.defaultFlights)
+
+        overviewPresenterSpy.resetToLoadedOutboundFlights()
+
+        assertArrayEquals(arrayOf("expectedOutboundLegId", "expectedInboundLegId"), Db.sharedInstance.packageParams.currentFlights)
+        testShowLoadingStateObservable.assertValue(false)
+        testTotalObserver.assertValue(expectedPackageTotalPrice)
+        testSavingsObserver.assertValue(expectedPackageSavings)
+        Mockito.verify(bundleWidgetSpy, Mockito.times(1)).revertBundleViewToSelectOutbound()
+    }
+
+    @Test
+    fun testResetToLoadedHotels() {
+        setupOverviewPresenter()
+
+        val overviewPresenterSpy = Mockito.spy(overviewPresenter)
+        val bundleWidgetSpy = Mockito.spy(overviewPresenterSpy.bundleWidget)
+        val totalPriceWidgetSpy = Mockito.spy(overviewPresenterSpy.totalPriceWidget)
+        Mockito.`when`(overviewPresenterSpy.bundleWidget).thenReturn(bundleWidgetSpy)
+        Mockito.`when`(overviewPresenterSpy.totalPriceWidget).thenReturn(totalPriceWidgetSpy)
+        Mockito.doNothing().`when`(bundleWidgetSpy).revertBundleViewToSelectHotel()
+        Mockito.doNothing().`when`(totalPriceWidgetSpy).resetPriceWidget()
+
+        Db.sharedInstance.packageParams.currentFlights = arrayOf("actualOutboundLegId", "actualInboundLegId")
+        Db.sharedInstance.packageParams.defaultFlights = arrayOf("expectedOutboundLegId", "expectedInboundLegId")
+
+        val testShowLoadingStateObservable = TestObserver<Boolean>()
+        overviewPresenterSpy.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.subscribe(testShowLoadingStateObservable)
+
+        assertArrayEquals(arrayOf("actualOutboundLegId", "actualInboundLegId"), Db.sharedInstance.packageParams.currentFlights)
+        assertArrayEquals(arrayOf("expectedOutboundLegId", "expectedInboundLegId"), Db.sharedInstance.packageParams.defaultFlights)
+
+        overviewPresenterSpy.resetToLoadedHotels()
+
+        assertArrayEquals(arrayOf("expectedOutboundLegId", "expectedInboundLegId"), Db.sharedInstance.packageParams.currentFlights)
+        testShowLoadingStateObservable.assertValue(false)
+        Mockito.verify(bundleWidgetSpy, Mockito.times(1)).revertBundleViewToSelectHotel()
+        Mockito.verify(totalPriceWidgetSpy, Mockito.times(1)).resetPriceWidget()
+    }
+
     private fun setPointOfSale(posId: PointOfSaleId) {
         PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
@@ -450,7 +515,6 @@ class PackageOverviewPresenterTest {
         val outboundFlight = PackageTestUtil.getDummyPackageFlightLeg()
         Db.setPackageSelectedOutboundFlight(outboundFlight)
         Db.setPackageFlightBundle(outboundFlight, PackageTestUtil.getDummyPackageFlightLeg())
-        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
 
         val baseMidResponse = PackageTestUtil.getMockMIDResponse(offers = emptyList(),
