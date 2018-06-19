@@ -79,6 +79,19 @@ object AccessibilityUtil {
         setFocusForView(view)
         view.requestFocus()
     }
+
+    fun makeExpandedCollapsedAnnouncement(view: View, isExpanded: Boolean) {
+        val parentView = view.parent
+        val manager = view.context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        if (manager.isEnabled) {
+            val event = AccessibilityEvent.obtain()
+            event.eventType = AccessibilityEvent.TYPE_ANNOUNCEMENT
+            view.onInitializeAccessibilityEvent(event)
+            val stateString = if (isExpanded) view.context.getString(R.string.widget_expanded_announcement) else view.context.getString(R.string.widget_collapsed_announcement)
+            event.text.add(stateString)
+            parentView.requestSendAccessibilityEvent(view, event)
+        }
+    }
 }
 
 fun setContentDescriptionToolbarTabs(context: Context, tabs: TabLayout) {
