@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.pagemodels.common;
+package com.expedia.bookings.test.pagemodels.appengagement;
 
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
@@ -30,6 +30,7 @@ import static android.support.test.espresso.web.webdriver.DriverAtoms.webClick;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.webKeys;
 import static com.expedia.bookings.test.espresso.Common.device;
 import static com.expedia.bookings.test.espresso.Common.waitForOneOfViewsToDisplay;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 
 public class LogInScreen {
@@ -48,6 +49,10 @@ public class LogInScreen {
 		return onView(withId(R.id.account_sign_in));
 	}
 
+	public static void clickSignInWithExpediaButton() {
+		signInWithExpediaButton().perform(waitForViewToDisplay(), click());
+	}
+
 	public static ViewInteraction signInButton() {
 		return onView(withId(R.id.sign_in_button));
 	}
@@ -55,6 +60,19 @@ public class LogInScreen {
 	public static ViewInteraction signInWithFacebookButton() {
 		return onView(withId(R.id.sign_in_with_facebook_button));
 	}
+
+	public static void clickSignInWithFacebookButton() {
+		signInWithFacebookButton().perform(waitForViewToDisplay(), click());
+	}
+
+	public static ViewInteraction createYourExpediaAccountButton() {
+		return onView(withId(R.id.create_account));
+	}
+
+	public static void clickCreateYourExpediaAccountButton() {
+		createYourExpediaAccountButton().perform(waitForViewToDisplay(), click());
+	}
+
 	// Object interaction
 
 	public static void clickOnLoginButton() {

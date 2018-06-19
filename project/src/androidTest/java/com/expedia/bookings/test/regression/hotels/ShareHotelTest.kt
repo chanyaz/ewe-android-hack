@@ -3,7 +3,7 @@ package com.expedia.bookings.test.regression.hotels
 import com.expedia.bookings.test.espresso.PhoneTestCase
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
-import com.expedia.bookings.test.stepdefs.phone.CommonSteps
+import com.expedia.bookings.test.stepdefs.phone.common.CommonSteps
 import org.joda.time.DateTime
 import org.junit.Test
 

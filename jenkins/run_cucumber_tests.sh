@@ -78,7 +78,7 @@ function build() {
         then
             ./gradlew --no-daemon clean
     fi
-    ./gradlew --no-daemon -PrunProguard=false -PcucumberInstrumentation=true assemble${flavor}Debug assemble${flavor}DebugAndroidTest
+    ./gradlew --no-daemon -PrunProguard=false -PcucumberInstrumentation=true --stacktrace assemble${flavor}Debug assemble${flavor}DebugAndroidTest
     buildDebug=$?
 }
 

@@ -9,12 +9,12 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.pagemodels.appengagement.LogInScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
-import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
+import com.expedia.bookings.test.stepdefs.phone.common.HomeScreenSteps;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

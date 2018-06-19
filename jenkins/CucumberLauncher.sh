@@ -167,10 +167,12 @@ function prepareRerun() {
         executedFeature="${feature/#$baseFeaturePath}"
         jsonFile="$reportDir/$executedFeature/cucumber-htmlreport/cucumber.json"
 
-        #if File has "failed" or
-        #   File does not have "passed" and with either of the above being true
-        #   File contains "elements": key <- this is crucial for tagging to work
+        #if File has "failed" or File does not have "passed"
+        # and with either of the above being true if File contains "elements": key
         # then add feature to be re-run
+        #### elements key is crucial for tagging to work. It is crucial, because if elements key is
+        #### not there, that means that a feature file was not executed due to exclusion tagging. If
+        #### elements key is present, then that means that a feature file was executed.
         if ( grep -q "\"status\": \"failed\"" $jsonFile ||
         ! grep -q "\"status\": \"passed\"" $jsonFile ) &&
         grep -q "\"elements\":" $jsonFile ; then
@@ -196,8 +198,9 @@ function ensureCucumberJsonExists() {
         executedFeature="${feature/#$baseFeaturePath}"
         jsonFile="$reportDir/$executedFeature/cucumber-htmlreport/cucumber.json"
         #If file is missing, or empty, add a dummy json file to the html report directory
-        if [ ! -f "$jsonFile" ] ||
+        if [ ! -e "$jsonFile" ] ||
         [ ! -s "$jsonFile" ]; then
+
             mkdir -p "$reportDir/$executedFeature/cucumber-htmlreport/"
             fileName="$jsonFile"
             featureName=(${executedFeature##*/}) #Get Only Feature Name
@@ -261,13 +264,13 @@ function finalRunStatus() {
 echo ''
 echo "######################################################################"
 echo "###### Running Cucumber UI tests with the following parameters:"
-echo "###### Flavor:      $flavor"
-echo "###### Package:     $packageName"
-echo "###### Tags:        $tags"
-echo "###### Feature Dir: $featuresDir"
-echo "###### Max Reruns:  $maxReRuns"
-echo "###### No Clean:    $noclean"
-echo "###### Debug:       $debug"
+echo "###### Flavor:       $flavor"
+echo "###### Package:      $packageName"
+echo "###### Tags:         $tags"
+echo "###### Features Dir: $featuresDir"
+echo "###### Max Reruns:   $maxReRuns"
+echo "###### No Clean:     $noclean"
+echo "###### Debug:        $debug"
 echo "######################################################################"
 echo ''
 

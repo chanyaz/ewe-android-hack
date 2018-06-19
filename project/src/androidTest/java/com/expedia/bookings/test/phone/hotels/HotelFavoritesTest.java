@@ -13,7 +13,7 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
-import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
+import com.expedia.bookings.test.stepdefs.phone.account.AccountScreenSteps;
 import com.expedia.bookings.test.support.User;
 import org.hamcrest.Matchers;
 
@@ -70,7 +70,7 @@ public class HotelFavoritesTest extends PhoneTestCase {
 		disableAutoFill();
 		LaunchScreen.waitForLOBHeaderToBeDisplayed();
 		LaunchScreen.accountButton().perform(click());
-		HomeScreenSteps.logInToTheApp(new User("goldstatus@mobiata.com", "password", "expedia"));
+		new AccountScreenSteps().logInToTheApp(new User("goldstatus@mobiata.com", "password", "expedia"));
 		LaunchScreen.shopButton().perform(click());
 	}
 

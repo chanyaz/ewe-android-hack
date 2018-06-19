@@ -10,7 +10,7 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.pagemodels.appengagement.LogInScreen;
 import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 

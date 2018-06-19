@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.stepdefs.phone;
+package com.expedia.bookings.test.stepdefs.phone.common;
 
 import android.support.test.InstrumentationRegistry;
 
@@ -26,6 +26,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToComple
 public class CommonSteps {
 	AbacusResponse abacusResponse = new AbacusResponse();
 	@And("^I set the POS to \"(.*?)\"$")
+	@Deprecated
 	public void setPOS(String name) throws Throwable {
 		switch (name) {
 			case "Indonesia":
@@ -74,6 +75,13 @@ public class CommonSteps {
 				Common.setPOS(PointOfSaleId.MEXICO);
 				break;
 		}
+	}
+
+	@And("^I switch the POS to \"(.*?)\"$")
+	public static void switchToPOS(String name) throws Throwable {
+		Field pos = PointOfSaleId.class.getDeclaredField(name);
+		pos.setAccessible(true);
+		Common.setPOS((PointOfSaleId) pos.get(PointOfSaleId.class));
 	}
 
 	@And("^I set the Locale to \"(.*?)\" language of \"(.*?)\" dialect$")
@@ -138,5 +146,4 @@ public class CommonSteps {
 			Common.pressBack();
 		}
 	}
-
 }

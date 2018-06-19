@@ -1,7 +1,10 @@
-package com.expedia.bookings.test.stepdefs.phone
+package com.expedia.bookings.test.stepdefs.phone.trips
 
 import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen
 import com.expedia.bookings.test.pagemodels.trips.TripsScreen
+import com.expedia.bookings.test.stepdefs.phone.account.AccountScreenSteps
+import com.expedia.bookings.test.stepdefs.phone.common.CommonSteps
+import com.expedia.bookings.test.stepdefs.phone.common.HomeScreenSteps
 import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
@@ -31,7 +34,7 @@ class TripsScreenSteps {
     fun iNavigateToTrips() {
         CommonSteps.validateHomeScreenAppears()
         HomeScreenSteps.switchToTab("Account")
-        HomeScreenSteps.logInGivenParameters(mapOf("Tier" to "Blue", "Type" to "Facebook"))
+        AccountScreenSteps().logInGivenParameters(mapOf("Tier" to "Blue", "Type" to "Facebook"))
         HomeScreenSteps.switchToTab("Trips")
         TripsScreen.waitForTripsViewToLoad()
     }
