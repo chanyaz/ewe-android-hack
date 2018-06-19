@@ -5,6 +5,7 @@ data class ItinLx(
         val activityLocation: ActivityLocation?,
         val activityId: String?,
         val travelerCount: String?,
+        val travelers: List<Traveler>?,
         val price: LxPrice?,
         val voucherPrintURL: String?,
         val lxVoucherPrintURL: String?,
@@ -37,4 +38,8 @@ data class VendorCustomerServiceOffices(
 
 data class ItinImage(
         val url: String?
+)
+
+data class Traveler(
+        val fullName: String
 )

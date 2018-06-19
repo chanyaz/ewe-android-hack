@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -52,4 +53,5 @@ class PricingAdditionalInfoToolbarViewModel : NewItinToolbarViewModel {
     override val shareIconVisibleSubject: PublishSubject<Boolean> = PublishSubject.create()
     override val navigationBackPressedSubject: PublishSubject<Unit> = PublishSubject.create()
     override val shareIconClickedSubject: PublishSubject<Unit> = PublishSubject.create()
+    override val itinShareTextGeneratorSubject: PublishSubject<ItinShareTextGenerator> = PublishSubject.create()
 }

@@ -12,6 +12,7 @@ import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.FeatureSource
 import com.expedia.bookings.itin.utils.IActivityLauncher
+import com.expedia.bookings.itin.utils.IPOSInfoProvider
 import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -101,4 +102,8 @@ interface HasToaster {
 
 interface HasPhoneHandler {
     val phoneHandler: IPhoneHandler
+}
+
+interface HasPOSProvider {
+    val posInfoProvider: IPOSInfoProvider
 }

@@ -10,7 +10,8 @@ import android.os.Build
 import com.activeandroid.Cache
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.utils.ItinShareTargetBroadcastReceiver
-import com.expedia.bookings.itin.utils.ShareItinTextCreator
+import com.expedia.bookings.itin.utils.ItinShareTextGenerator
+import com.expedia.bookings.itin.utils.NewItinShareTargetBroadcastReceiver
 import com.mobiata.android.util.SettingUtils
 
 class ItinShareDialog(val context: Context) {
@@ -35,14 +36,12 @@ class ItinShareDialog(val context: Context) {
         }
     }
 
-    fun showItinShareDialog(shareItinTextCreator: ShareItinTextCreator, tripType: String) {
+    fun showItinShareDialog(itinShareTextGenerator: ItinShareTextGenerator) {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
 
-        SettingUtils.save(context, "TripType", tripType)
-
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareItinTextCreator.getSmsBody())
+            shareIntent.putExtra(Intent.EXTRA_TEXT, itinShareTextGenerator.getSmsBody())
             context.startActivity(shareIntent)
         } else {
             val packageManager = context.packageManager
@@ -68,11 +67,11 @@ class ItinShareDialog(val context: Context) {
 
                 // If app is an email app, add email content to intent; otherwise, sms content and store in chooserIntent
                 if (emailAppPackageNames.contains(packageName)) {
-                    intent.putExtra(Intent.EXTRA_SUBJECT, shareItinTextCreator.getEmailSubject())
-                    intent.putExtra(Intent.EXTRA_TEXT, shareItinTextCreator.getEmailBody())
+                    intent.putExtra(Intent.EXTRA_SUBJECT, itinShareTextGenerator.getEmailSubject())
+                    intent.putExtra(Intent.EXTRA_TEXT, itinShareTextGenerator.getEmailBody())
                     intent.type = "message/rfc822"
                 } else {
-                    intent.putExtra(Intent.EXTRA_TEXT, shareItinTextCreator.getSmsBody())
+                    intent.putExtra(Intent.EXTRA_TEXT, itinShareTextGenerator.getSmsBody())
                     intent.type = "text/plain"
                 }
                 intents.add(LabeledIntent(intent, packageName, app.loadLabel(packageManager), app.icon))
@@ -80,7 +79,8 @@ class ItinShareDialog(val context: Context) {
 
             val appIntents = intents.toArray(arrayOfNulls<LabeledIntent>(intents.size))
 
-            val receiver = Intent(context, ItinShareTargetBroadcastReceiver::class.java)
+            val receiver = Intent(context, NewItinShareTargetBroadcastReceiver::class.java)
+            receiver.putExtra(Intent.EXTRA_KEY_EVENT, itinShareTextGenerator.getType())
             val pendingIntent = PendingIntent.getBroadcast(context, 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT)
             val chooserIntent = Intent.createChooser(Intent(), context.resources.getString(R.string.itin_share_dialog_title), pendingIntent.intentSender)
             chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -1,7 +1,8 @@
 package com.expedia.bookings.itin.utils
 
-interface ShareItinTextCreator {
+interface ItinShareTextGenerator {
     fun getEmailSubject(): String
     fun getEmailBody(): String
     fun getSmsBody(): String
+    fun getType(): String
 }

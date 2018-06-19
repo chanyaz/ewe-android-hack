@@ -23,10 +23,16 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
     val toolbarSubTitleText: TextView by bindView(R.id.itin_toolbar_subtitle)
     val toolbarShareIcon: TextView by bindView(R.id.itin_share_button)
 
-    var viewModel: NewItinToolbarViewModel by notNullAndObservable {
-        viewModel.toolbarTitleSubject.subscribeText(toolbarTitleText)
-        viewModel.toolbarSubTitleSubject.subscribeTextAndVisibility(toolbarSubTitleText)
-        viewModel.shareIconVisibleSubject.subscribeVisibility(toolbarShareIcon)
+    var viewModel: NewItinToolbarViewModel by notNullAndObservable { vm ->
+        vm.toolbarTitleSubject.subscribeText(toolbarTitleText)
+        vm.toolbarSubTitleSubject.subscribeTextAndVisibility(toolbarSubTitleText)
+        vm.shareIconVisibleSubject.subscribeVisibility(toolbarShareIcon)
+        vm.itinShareTextGeneratorSubject.subscribe { textGen ->
+            val shareDialog = ItinShareDialog(context)
+            vm.shareIconClickedSubject.subscribe {
+                shareDialog.showItinShareDialog(textGen)
+            }
+        }
     }
 
     init {
