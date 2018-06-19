@@ -25,6 +25,20 @@ class LaunchScreenHotelAttachViewModel(val context: Context, val itemView: View,
         Phrase.from(context, R.string.hotmip_savings_message_TEMPLATE)
                 .put("percentage", PointOfSale.getPointOfSale().hotMIPSavingsPercentage).format().toString()
     }
+    val hotelAttachContentDescription: CharSequence by lazy {
+        Phrase.from(itemView, R.string.air_attach_card_cont_desc_TEMPLATE)
+                .put("expiry", offerExpiresObserver.value)
+                .put("title", firstLineObserver.value)
+                .put("content", secondLineObserver.value)
+                .format()
+    }
+
+    val addOnContentDescription: CharSequence by lazy {
+        Phrase.from(itemView, R.string.hotmip_card_cont_desc_TEMPLATE)
+                .put("logo", context.getString(R.string.add_on_title_content_desc))
+                .put("title", addOnTitle)
+                .format()
+    }
 
     private var hoursRemaining: Int
     private var daysRemaining: Int
@@ -54,12 +68,5 @@ class LaunchScreenHotelAttachViewModel(val context: Context, val itemView: View,
             offerExpiresObserver.onNext(Phrase.from(context.resources.getString(R.string.air_attach_offer_expires_TEMPLATE))
                     .put("daysorhours", offerExpiryInDays).format().toString())
         }
-
-        itemView.contentDescription =
-                Phrase.from(itemView, R.string.air_attach_card_cont_desc_TEMPLATE)
-                        .put("expiry", offerExpiresObserver.value)
-                        .put("title", firstLineObserver.value)
-                        .put("content", secondLineObserver.value)
-                        .format()
     }
 }

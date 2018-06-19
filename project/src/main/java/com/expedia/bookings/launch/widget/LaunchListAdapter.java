@@ -50,7 +50,7 @@ import com.expedia.bookings.widget.HotelAttachCardViewHolder;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenHotelAttachCard;
-import com.expedia.bookings.widget.LaunchScreenExpediaHotelAttachCard;
+import com.expedia.bookings.widget.LaunchScreenAddOnHotMIPCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.Optional;
 import com.expedia.util.PermissionsUtils;
@@ -203,7 +203,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (FeatureUtilKt.isHotMipRedesignEnabled()) {
 				View view = LayoutInflater.from(context)
 					.inflate(R.layout.launch_screen_expedia_hotel_mip_card, parent, false);
-				return new LaunchScreenExpediaHotelAttachCard(view);
+				return new LaunchScreenAddOnHotMIPCard(view);
 			}
 			else {
 				View view = LayoutInflater.from(context)
