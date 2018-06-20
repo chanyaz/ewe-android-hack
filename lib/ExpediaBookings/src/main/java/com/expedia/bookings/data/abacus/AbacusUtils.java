@@ -101,7 +101,6 @@ public class AbacusUtils {
 
 	// Packages Tests
 	public static final ABTest PackagesTitleChange = new ABTest(15787);
-	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(24551);
 	public static final ABTest EBAndroidAppPackagesFFPremiumClass = new ABTest(25557, true);
 	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
 	public static final ABTest EBAndroidAppPackagesWebviewFHC = new ABTest(25555, true);
@@ -175,7 +174,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidRailHybridAppForUKEnabled.getKey());
 		testIDs.add(EBAndroidRailHybridAppForEbookersUKEnabled.getKey());
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel.getKey());
-		testIDs.add(EBAndroidAppPackagesEnablePOS.getKey());
 		testIDs.add(EBAndroidAppCarsAATest.getKey());
 		testIDs.add(EBAndroidAppFlightRateDetailsFromCache.getKey());
 		testIDs.add(EBAndroidAppSoftPromptLocation.getKey());

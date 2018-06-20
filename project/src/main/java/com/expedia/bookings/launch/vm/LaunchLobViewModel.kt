@@ -5,7 +5,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -39,7 +38,7 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
         lobs.add(LobInfo.HOTELS)
         lobs.add(LobInfo.FLIGHTS)
 
-        val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest || AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesEnablePOS)
+        val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest
         val forceEnablePackagesLOB = SettingUtils.get(context, R.string.preference_force_enable_packages_lob, false)
 
         if ((pos.supports(LineOfBusiness.PACKAGES) && packagesPOSABTestEnabled) || forceEnablePackagesLOB) {
