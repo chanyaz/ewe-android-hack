@@ -38,6 +38,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 import static android.support.test.espresso.Espresso.onView;
+import com.expedia.bookings.test.espresso.ViewActions;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
