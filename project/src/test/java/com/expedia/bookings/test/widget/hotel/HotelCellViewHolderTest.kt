@@ -19,6 +19,7 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelFavoritesCache
 import com.expedia.bookings.hotel.widget.HotelCellViewHolder
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -41,7 +42,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class])
 class HotelCellViewHolderTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var hotelViewHolder: HotelCellViewHolder by Delegates.notNull()
@@ -225,6 +226,18 @@ class HotelCellViewHolderTest {
 
         errorImageDrawable = Shadows.shadowOf(hotelViewHolder.favoriteIcon.drawable)
         Assert.assertEquals(R.drawable.ic_favorite_active, errorImageDrawable.createdFromResId)
+    }
+
+    @Test
+    fun testOnClick() {
+        val hotel = makeHotel()
+        hotelViewHolder.bindHotelData(hotel)
+
+        val testObserver = TestObserver<Int>()
+        hotelViewHolder.hotelClickedSubject.subscribe(testObserver)
+
+        hotelViewHolder.itemView.callOnClick()
+        testObserver.assertValue(-1)
     }
 
     private fun loginUser() {
