@@ -132,9 +132,10 @@ public class SearchScreenSteps {
 	public void packagesSearchCall(Map<String, String> parameters) throws Throwable {
 		TestUtil.dataSet = parameters;
 		clickSourceSearchButton();
-		SearchScreen.searchEditTypeAhead(parameters.get("source")));
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
 		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
-		SearchScreen.searchEditTypeAhead(parameters.get("destination")));
+		SearchScreen.origin().perform(ViewActions.waitForViewToDisplay());
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
 		SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
 		pickDates(parameters);
 		selectTravelers(parameters);
