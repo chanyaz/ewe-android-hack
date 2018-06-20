@@ -91,19 +91,23 @@ class FilghtsRouteHappyGuideFragmentTest {
         val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
-        val ratingLabel = testFragment.ratingLabel
         val titleLabel = testFragment.titleLabel
         val infoLabel = testFragment.infoLabel
         val moreInfoLabel = testFragment.moreInfoLabel
         val amenitiesLottieView = testFragment.amenitiesLottieView
         val ratingsLottieView = testFragment.ratingsLottieView
         val dotsLottieView = testFragment.dotsLottieView
+        val wifiLabel = testFragment.wifiLabel
+        val powerLabel = testFragment.powerLabel
+        val enterLabel = testFragment.entertainmentLabel
         assertEquals(View.VISIBLE, dotsLottieView.visibility)
-        assertEquals(View.INVISIBLE, amenitiesLottieView.visibility)
+        assertEquals(View.VISIBLE, amenitiesLottieView.visibility)
         assertEquals(View.VISIBLE, infoLabel.visibility)
         assertEquals(View.VISIBLE, titleLabel.visibility)
-        assertEquals(View.VISIBLE, ratingsLottieView.visibility)
-        assertEquals(View.VISIBLE, ratingLabel.visibility)
+        assertEquals(View.INVISIBLE, ratingsLottieView.visibility)
+        assertEquals(View.VISIBLE, wifiLabel.visibility)
+        assertEquals(View.VISIBLE, powerLabel.visibility)
+        assertEquals(View.VISIBLE, enterLabel.visibility)
         assertEquals(View.VISIBLE, moreInfoLabel.visibility)
         assertEquals("Flight amenities & score", titleLabel.text)
     }

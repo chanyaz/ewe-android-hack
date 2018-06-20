@@ -9,6 +9,7 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RichContentUtils.getAmenitiesString
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isRichContentEnabled
 import javax.inject.Inject
 
 class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
@@ -31,6 +32,13 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
                 resultsPresenter.setLoadingState()
             }
         }
+    }
+
+    override fun back(): Boolean {
+        if (isRichContentEnabled(context)) {
+            resultsPresenter.resultsViewModel.abortRichContentInboundObservable.onNext(Unit)
+        }
+        return super.back()
     }
 
     override fun isOutboundResultsPresenter(): Boolean {

@@ -14,10 +14,10 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.RichContentUtils
 import io.reactivex.disposables.CompositeDisposable
 import org.junit.Before
 import org.junit.Test
@@ -103,7 +103,8 @@ class FlightResultsViewModelTest {
         sut.richContentOutboundSubscription = CompositeDisposable()
         assertEquals(false, sut.richContentInboundSubscription!!.isDisposed)
         assertEquals(false, sut.richContentOutboundSubscription!!.isDisposed)
-        sut.abortRichContentCallObservable.onNext(Unit)
+        sut.abortRichContentOutboundObservable.onNext(Unit)
+        sut.abortRichContentInboundObservable.onNext(Unit)
         assertEquals(true, sut.richContentInboundSubscription!!.isDisposed)
         assertEquals(true, sut.richContentOutboundSubscription!!.isDisposed)
     }
