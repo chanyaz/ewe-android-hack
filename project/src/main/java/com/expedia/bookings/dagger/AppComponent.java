@@ -35,7 +35,6 @@ import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.TNSServices;
-import com.expedia.bookings.services.TripFolderServiceInterface;
 import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppCreateTimeLogger;
@@ -116,14 +115,11 @@ public interface AppComponent {
 	SatelliteServices satelliteServices();
 	HotelGalleryManager hotelGalleryManager();
 
-	TripFolderServiceInterface tripFolderService();
 	TNSServices tnsService();
 	FlightRegistrationHandler flightRegistrationService();
 
 	@Named("TripDetailsFileUtil")
 	ITripsJsonFileUtils tripJsonFileUtils();
-	@Named("TripFoldersFileUtil")
-	ITripsJsonFileUtils tripFolderJsonFileUtils();
 	NotificationScheduler notificationScheduler();
 	StringSource stringProvider();
 	AbacusSource abacusProvider();

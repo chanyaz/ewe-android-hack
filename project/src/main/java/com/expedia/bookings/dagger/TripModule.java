@@ -1,9 +1,17 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+
+import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.itin.common.ItinPageUsableTracking;
+import com.expedia.bookings.itin.tripstore.utils.IJsonToFoldersUtil;
+import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
+import com.expedia.bookings.itin.tripstore.utils.JsonToFoldersUtil;
+import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.HotelNotificationGenerator;
@@ -56,5 +64,19 @@ public final class TripModule {
 	@TripScope
 	HotelNotificationGenerator provideHotelNotificationGenerator(Context context, StringSource stringSource, INotificationManager notificationManager) {
 		return new HotelNotificationGenerator(context, stringSource, notificationManager);
+	}
+
+	@Provides
+	@TripScope
+	@Named("TripFoldersFileUtil")
+	ITripsJsonFileUtils provideTripFoldersJsonFileUtils(Context context) {
+		File tripsDirectory = context.getDir("TRIP_FOLDERS_JSON_STORE", Context.MODE_PRIVATE);
+		return new TripsJsonFileUtils(tripsDirectory);
+	}
+
+	@Provides
+	@TripScope
+	IJsonToFoldersUtil provideJsonToFoldersUtil(@Named("TripFoldersFileUtil") ITripsJsonFileUtils jsonFileUtils) {
+		return new JsonToFoldersUtil(jsonFileUtils);
 	}
 }

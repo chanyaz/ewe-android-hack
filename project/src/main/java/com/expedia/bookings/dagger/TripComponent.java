@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.itin.cars.details.CarsItinDetailsActivity;
 import com.expedia.bookings.itin.common.ItinExpandedMapActivity;
@@ -9,7 +11,9 @@ import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingAdditionalInfoActivity;
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity;
 import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity;
+import com.expedia.bookings.itin.tripstore.utils.IJsonToFoldersUtil;
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
+import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface;
@@ -39,4 +43,8 @@ public interface TripComponent {
 	TripsServicesInterface tripServices();
 	TripShareUrlShortenServiceInterface tripShareUrlShortenService();
 	IJsonToItinUtil jsonUtilProvider();
+
+	@Named("TripFoldersFileUtil")
+	ITripsJsonFileUtils tripFolderJsonFileUtils();
+	IJsonToFoldersUtil jsonToFolderUtil();
 }

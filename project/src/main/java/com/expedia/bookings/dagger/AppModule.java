@@ -458,14 +458,6 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	@Named("TripFoldersFileUtil")
-	ITripsJsonFileUtils provideTripFoldersJsonFileUtils(Context context) {
-		File tripsDirectory = context.getDir("TRIP_FOLDERS_JSON_STORE", Context.MODE_PRIVATE);
-		return new TripsJsonFileUtils(tripsDirectory);
-	}
-
-	@Provides
-	@Singleton
 	IJsonToItinUtil provideReadJsonUtil(@Named("TripDetailsFileUtil") ITripsJsonFileUtils tripsJsonFileUtils) {
 		return new JsonToItinUtil(tripsJsonFileUtils);
 	}

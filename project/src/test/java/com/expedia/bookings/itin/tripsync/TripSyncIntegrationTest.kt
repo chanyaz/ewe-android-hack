@@ -36,7 +36,7 @@ class TripSyncIntegrationTest {
     @Before
     fun setup() {
         fileOpener = FileSystemOpener(root)
-        fileUtils = Ui.getApplication(context).appComponent().tripFolderJsonFileUtils()
+        fileUtils = Ui.getApplication(context).tripComponent().tripFolderJsonFileUtils()
         service = TripFolderService(
                 "http://localhost:" + server.port,
                 OkHttpClient.Builder().build(),
