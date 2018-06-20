@@ -252,7 +252,7 @@ class TripsTrackingTest {
     }
 
     @Test
-    fun testTrackItinPageLoad() {
+    fun testTrackHotelItinPageLoad() {
         assertNoTrackingHasOccurred()
         val overdueDate = DateTime(2020, 6, 29, 9, 34, 47, 0, DateTimeZone.UTC)
         val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.hotelDetailsHappy, ItinOmnitureUtils.LOB.HOTEL, currentDate = overdueDate)
@@ -264,6 +264,21 @@ class TripsTrackingTest {
                 OmnitureMatchers.withProps(mapOf(2 to "itinerary", 5 to "2018-03-12", 6 to "2018-03-16", 8 to "8065305197869|7280999576135")),
                 OmnitureMatchers.withEventsString("event63"),
                 OmnitureMatchers.withProductsString(";Hotel:17669432;4;3500.00")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCarItinPageLoad() {
+        assertNoTrackingHasOccurred()
+        val overdueDate = DateTime(2020, 6, 29, 9, 34, 47, 0, DateTimeZone.UTC)
+        val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.carDetailsHappy, ItinOmnitureUtils.LOB.CAR, currentDate = overdueDate)
+        val s = OmnitureTracking.createTrackPageLoadEventBase("App.Itinerary.Car")
+        TripsTracking.trackItinPageLoad(s, omnitureValues)
+
+        OmnitureTestUtils.assertStateTracked("App.Itinerary.Car", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 5 to "13074", 6 to "1", 18 to "App.Itinerary.Car")),
+                OmnitureMatchers.withProps(mapOf(2 to "itinerary", 5 to "2056-04-15", 6 to "2056-04-15", 8 to "8053084518926|7175610882378")),
+                OmnitureMatchers.withEventsString("event63"),
+                OmnitureMatchers.withProductsString(";CAR:ZT:EC;1;327.55;;eVar30=Agency:CAR:SYD-MEL:20560415-20560415")), mockAnalyticsProvider)
     }
 
     @Test

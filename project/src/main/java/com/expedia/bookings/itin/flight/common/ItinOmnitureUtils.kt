@@ -179,10 +179,10 @@ object ItinOmnitureUtils {
         return orderItinstring.toString()
     }
 
-    private fun carProductInfo(trip: ItinCar): String {
-        val vendorCode = trip.carVendor?.code
-        val carCatergoryCharacter = getCarCategoryCharacter(trip.carCategory)
-        val carTypeCharacter = getCarTypeCharacter(trip.carType)
+    fun carProductInfo(trip: ItinCar?): String {
+        val vendorCode = trip?.carVendor?.code
+        val carCatergoryCharacter = getCarCategoryCharacter(trip?.carCategory)
+        val carTypeCharacter = getCarTypeCharacter(trip?.carType)
         val sippCode = StringBuilder()
         sippCode.append(carCatergoryCharacter).append(carTypeCharacter)
 
@@ -194,7 +194,7 @@ object ItinOmnitureUtils {
         return carProductString.toString()
     }
 
-    private fun getCarCategoryCharacter(carCategory: CarCategory?): String {
+    fun getCarCategoryCharacter(carCategory: CarCategory?): String {
         when (carCategory) {
             CarCategory.Mini -> return "M"
             CarCategory.Economy -> return "E"
@@ -218,7 +218,7 @@ object ItinOmnitureUtils {
         return ""
     }
 
-    private fun getCarTypeCharacter(carType: CarType?): String {
+    fun getCarTypeCharacter(carType: CarType?): String {
         when (carType) {
             CarType.TwoDoorCar -> return "C"
             CarType.ThreeDoorCar -> return "B"
@@ -246,7 +246,7 @@ object ItinOmnitureUtils {
         return ""
     }
 
-    private fun carPaymentModel(paymentModel: CarPaymentModel?): String {
+    fun carPaymentModel(paymentModel: CarPaymentModel?): String {
         when (paymentModel) {
             CarPaymentModel.AGENCY_COLLECT -> return "Agency"
             CarPaymentModel.MERCHANT_COLLECT -> return "Merchant"

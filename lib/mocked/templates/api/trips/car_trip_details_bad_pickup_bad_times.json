@@ -79,7 +79,6 @@
         "state": "PRE_START_4",
         "orderNumber": 8053084518926,
         "orderLineNumber": "8d9daa6f-8e8a-4891-a61c-534f79a93995",
-        "paymentModel": "AGENCY_COLLECT",
         "reservationGuaranteePolicy": "RESERVATION_GUARANTEE_OPTIONAL",
         "price": {
           "rateTerm": "DAILY",
@@ -155,7 +154,6 @@
           "postalCode": "98188",
           "provinceStateName": "Victoria",
           "countryCode": "AUS",
-          "locationCode": "SYD",
           "regionId": 6034399
         },
         "dropOffLocation": {
@@ -168,7 +166,6 @@
           "postalCode": "",
           "provinceStateName": "",
           "countryCode": "",
-          "locationCode": "MEL",
           "regionId": 6034399
         },
         "pickupDateOpenHoursSummaryString": "7:30am - 5:00pm",

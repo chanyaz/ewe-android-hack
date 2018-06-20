@@ -77,7 +77,6 @@ class CarsItinDetailsActivity : AppCompatActivity() {
     }
 
     lateinit var repo: ItinCarRepoInterface
-    //lateinit var carRepo: ItinCarRepo
     var tripsTracking: ITripsTracking = TripsTracking
 
     override fun onCreate(savedInstanceState: Bundle?) {
