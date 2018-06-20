@@ -14,6 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
 import com.expedia.bookings.tracking.TripsTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -59,6 +60,7 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             expandedRoomDetails.visibility = View.VISIBLE
             AnimUtils.rotate(roomDetailsChevron)
         }
+        AccessibilityUtil.makeExpandedCollapsedAnnouncement(collapsedRoomDetails, isExpanded = true)
     }
 
     fun collapseRoomDetailsView() {
@@ -66,6 +68,7 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             expandedRoomDetails.visibility = View.GONE
             AnimUtils.reverseRotate(roomDetailsChevron)
         }
+        AccessibilityUtil.makeExpandedCollapsedAnnouncement(collapsedRoomDetails, isExpanded = false)
     }
 
     fun setUpRoomAndOccupantInfo(room: TripHotelRoom) {

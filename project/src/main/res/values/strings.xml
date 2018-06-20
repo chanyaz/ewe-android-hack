@@ -5133,4 +5133,9 @@
     <string name="flight_route_happy_guide_title_v3">Flight amenities &amp; score</string>
     <string name="flight_route_happy_guide_info">Now you can choose a flight by amenity, like in-flight Wi-Fi, onboard charging, a movie selection, and more.</string>
     <string name="flight_route_happy_guide_more_info">We have now added flight scores, which rate flights by duration, aircraft type, onboard perks, and other factors.</string>
+
+    <!-- Accessibility announcement for when widget is expanded -->
+    <string name="widget_expanded_announcement">Expanded</string>
+    <!-- Accessibility announcement for when widget is collapsed -->
+    <string name="widget_collapsed_announcement">Collapsed</string>
 </resources>
