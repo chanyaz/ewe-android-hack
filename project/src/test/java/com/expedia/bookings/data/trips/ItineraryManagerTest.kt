@@ -358,12 +358,13 @@ class ItineraryManagerTest {
     @Test
     fun facebookReauth_mustBeSynchronous() {
         var observeTime = Long.MAX_VALUE
+        val observable = Observable.just(FacebookLinkResponse())
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
         val mockAccountService = Mockito.mock(AccountService::class.java)
         Mockito.`when`(mockAccountService.facebookReauth(Mockito.any()))
-                .thenReturn(Observable.just(FacebookLinkResponse())
-                        .observeOn(Schedulers.io())
-                        .subscribeOn(Schedulers.io())
-                        .doOnNext({ observeTime = System.nanoTime() }))
+                .thenReturn(observable)
+        observable.blockingSubscribe({ observeTime = System.nanoTime() }, {}, {})
 
         val syncTask = itinManager.SyncTask(null, null, mockAccountService)
         syncTask.reAuthenticateFacebookUser()

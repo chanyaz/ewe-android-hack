@@ -34,6 +34,7 @@ import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
 import com.expedia.account.AccountService;
+import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -68,6 +69,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.HttpException;
 
@@ -1387,12 +1389,29 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 		void reAuthenticateFacebookUser() {
 			accountService.facebookReauth(mContext)
-				.doOnNext(linkResponse -> {
-					if (linkResponse != null
-						&& linkResponse.isSuccess()) {
-						Log.w(LOGGING_TAG, "FB: Autologin success");
-					}
-				}).blockingSubscribe();
+					.blockingSubscribe(new DisposableObserver<FacebookLinkResponse>() {
+						@Override
+						public void onComplete() {
+						}
+
+						@Override
+						public void onError(Throwable e) {
+							Log.w("FB: Auto-Login failed, " + e.getMessage());
+						}
+
+						@Override
+						public void onNext(FacebookLinkResponse response) {
+							if (response == null) {
+								Log.w("FB: Auto-Login failed, null response");
+							}
+							else if (response.isSuccess()) {
+								Log.i("FB: Auto-Login succeeded");
+							}
+							else {
+								Log.w("FB: Auto-Login failed, " + response.tlError);
+							}
+						}
+					});
 		}
 
 		void refreshAllTrips(TimeSource timeSource, Map<String, Trip> trips) {
