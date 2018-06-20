@@ -7,13 +7,19 @@ data class ItinCar(
         val pickupTime: ItinTime?,
         val dropOffTime: ItinTime?,
         val dropOffLocation: CarLocation?,
-        val pickupLocation: CarLocation?
+        val pickupLocation: CarLocation?,
+        val price: CarPrice?,
+        val paymentModel: CarPaymentModel?,
+        val carCategory: CarCategory?,
+        val carType: CarType?
+
 ) : ItinLOB
 
 data class CarVendor(
         val longName: String?,
         val localPhoneNumber: String?,
-        val shortName: String?
+        val shortName: String?,
+        val code: String?
 )
 
 data class CarLocation(
@@ -23,5 +29,61 @@ data class CarLocation(
         val postalCode: String?,
         val countryCode: String?,
         val latitude: Double?,
-        val longitude: Double?
+        val longitude: Double?,
+        val locationCode: String?
 )
+
+data class CarPrice(
+        val total: String?
+)
+
+enum class CarPaymentModel {
+    AGENCY_COLLECT,
+    MERCHANT_COLLECT
+}
+
+enum class CarCategory {
+    Mini,
+    Economy,
+    Compact,
+    Midsize,
+    Standard,
+    Fullsize,
+    Premium,
+    Luxury,
+    Special,
+    MiniElite,
+    EconomyElite,
+    CompactElite,
+    MidsizeElite,
+    StandardElite,
+    FullsizeElite,
+    PremiumElite,
+    LuxuryElite,
+    Oversize
+}
+
+enum class CarType {
+    TwoDoorCar,
+    ThreeDoorCar,
+    FourDoorCar,
+    Van,
+    Wagon,
+    Limousine,
+    RecreationalVehicle,
+    Convertible,
+    SportsCar,
+    SUV,
+    PickupRegularCab,
+    OpenAirAllTerrain,
+    Special,
+    CommercialVanTruck,
+    PickupExtendedCab,
+    SpecialOfferCar,
+    Coupe,
+    Monospace,
+    Motorhome,
+    TwoWheelVehicle,
+    Roadster,
+    Crossover
+}

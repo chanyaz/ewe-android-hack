@@ -282,6 +282,8 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Action")
     }
 
+    //CAR Tracking
+    private const val ITIN_CAR = "App.Itinerary.Car"
     private const val ITIN_CAR_DETAILS_DIRECTION = "App.Itinerary.Car.Directions"
     private const val ITIN_CAR_DETAILS_MAP = "App.Itinerary.Car.Map"
     private const val ITIN_CAR_MORE_HELP = "App.Itinerary.Car.MoreHelp"
@@ -317,6 +319,12 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     override fun trackItinCarCustomerServiceLinkClicked() {
         val s = createTrackLinkEvent(ITIN_CAR_CUSTOMER_SUPPORT)
         s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinCarDetailsPageLoad(trip: HashMap<String, String?>) {
+        Log.d(TAG, "Tracking \"$ITIN_CAR\" pageLoad")
+        val s = createTrackPageLoadEventBase(ITIN_CAR)
+        trackItinPageLoad(s, trip)
     }
 
     //LX Tracking

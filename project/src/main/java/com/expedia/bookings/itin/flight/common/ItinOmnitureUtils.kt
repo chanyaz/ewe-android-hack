@@ -1,7 +1,12 @@
 package com.expedia.bookings.itin.flight.common
 
 import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.itin.tripstore.data.CarCategory
+import com.expedia.bookings.itin.tripstore.data.CarPaymentModel
+import com.expedia.bookings.itin.tripstore.data.CarType
 import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.data.ItinCar
+import com.expedia.bookings.itin.tripstore.extensions.firstCar
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.tripstore.extensions.tripEndDate
@@ -14,7 +19,8 @@ object ItinOmnitureUtils {
 
     enum class LOB {
         HOTEL,
-        LX
+        LX,
+        CAR
     }
 
     //These methods are for Flights using ItinCardData
@@ -124,7 +130,7 @@ object ItinOmnitureUtils {
         return valueMap
     }
 
-    fun calculateTripDurationNew(trip: Itin, lob: LOB): String? {
+    fun calculateTripDurationNew(trip: Itin, lob: LOB): String {
         var duration = ""
         if (lob == LOB.HOTEL) {
             trip.firstHotel()?.let { hotel ->
@@ -173,11 +179,91 @@ object ItinOmnitureUtils {
         return orderItinstring.toString()
     }
 
+    private fun carProductInfo(trip: ItinCar): String {
+        val vendorCode = trip.carVendor?.code
+        val carCatergoryCharacter = getCarCategoryCharacter(trip.carCategory)
+        val carTypeCharacter = getCarTypeCharacter(trip.carType)
+        val sippCode = StringBuilder()
+        sippCode.append(carCatergoryCharacter).append(carTypeCharacter)
+
+        val carProductString = StringBuilder()
+        carProductString.append(vendorCode)
+                .append(":")
+                .append(sippCode)
+
+        return carProductString.toString()
+    }
+
+    private fun getCarCategoryCharacter(carCategory: CarCategory?): String {
+        when (carCategory) {
+            CarCategory.Mini -> return "M"
+            CarCategory.Economy -> return "E"
+            CarCategory.Compact -> return "C"
+            CarCategory.Midsize -> return "I"
+            CarCategory.Standard -> return "S"
+            CarCategory.Fullsize -> return "F"
+            CarCategory.Premium -> return "P"
+            CarCategory.Luxury -> return "L"
+            CarCategory.Special -> return "X"
+            CarCategory.MiniElite -> return "N"
+            CarCategory.EconomyElite -> return "H"
+            CarCategory.CompactElite -> return "D"
+            CarCategory.MidsizeElite -> return "J"
+            CarCategory.StandardElite -> return "R"
+            CarCategory.FullsizeElite -> return "G"
+            CarCategory.PremiumElite -> return "U"
+            CarCategory.LuxuryElite -> return "W"
+            CarCategory.Oversize -> return "O"
+        }
+        return ""
+    }
+
+    private fun getCarTypeCharacter(carType: CarType?): String {
+        when (carType) {
+            CarType.TwoDoorCar -> return "C"
+            CarType.ThreeDoorCar -> return "B"
+            CarType.FourDoorCar -> return "D"
+            CarType.Van -> return "V"
+            CarType.Wagon -> return "W"
+            CarType.Limousine -> return "L"
+            CarType.RecreationalVehicle -> return "R"
+            CarType.Convertible -> return "T"
+            CarType.SportsCar -> return "S"
+            CarType.SUV -> return "F"
+            CarType.PickupRegularCab -> return "P"
+            CarType.OpenAirAllTerrain -> return "J"
+            CarType.Special -> return "X"
+            CarType.CommercialVanTruck -> return "K"
+            CarType.PickupExtendedCab -> return "Q"
+            CarType.SpecialOfferCar -> return "Z"
+            CarType.Coupe -> return "E"
+            CarType.Monospace -> return "M"
+            CarType.Motorhome -> return "H"
+            CarType.TwoWheelVehicle -> return "Y"
+            CarType.Roadster -> return "N"
+            CarType.Crossover -> return "G"
+        }
+        return ""
+    }
+
+    private fun carPaymentModel(paymentModel: CarPaymentModel?): String {
+        when (paymentModel) {
+            CarPaymentModel.AGENCY_COLLECT -> return "Agency"
+            CarPaymentModel.MERCHANT_COLLECT -> return "Merchant"
+        }
+        return ""
+    }
+
     fun buildLOBProductString(trip: Itin, lob: LOB): String {
         var productLOBType = ""
         var productId = ""
         var numberOfUnits = ""
         var totalPrice = ""
+        var eVar30 = ""
+        var carPickUpLocation = ""
+        var carDropOffLocation = ""
+        var carPickUpDate = ""
+        var carDropOffDate = ""
         when (lob) {
             LOB.HOTEL ->
                 trip.firstHotel()?.let { hotel ->
@@ -193,6 +279,18 @@ object ItinOmnitureUtils {
                     numberOfUnits = lx.travelerCount ?: ""
                     totalPrice = lx.price?.total ?: ""
                 }
+            LOB.CAR ->
+                trip.firstCar()?.let { car ->
+                    productLOBType = ";CAR:"
+                    productId = carProductInfo(car)
+                    numberOfUnits = calculateTripDurationNew(trip, LOB.CAR)
+                    totalPrice = car.price?.total ?: ""
+                    eVar30 = carPaymentModel(car.paymentModel)
+                    carPickUpLocation = car.pickupLocation?.locationCode ?: ""
+                    carDropOffLocation = car.dropOffLocation?.locationCode ?: ""
+                    carPickUpDate = JodaUtils.format(trip.tripStartDate(), "yyyyMMdd")
+                    carDropOffDate = JodaUtils.format(trip.tripEndDate(), "yyyyMMdd")
+                }
         }
         val productString = StringBuilder()
         productString.append(productLOBType)
@@ -201,6 +299,22 @@ object ItinOmnitureUtils {
                 .append(numberOfUnits)
                 .append(";")
                 .append(totalPrice)
-        return productString.toString()
+
+        if (productLOBType.contains("CAR")) {
+            productString.append(";;")
+                    .append("eVar30=")
+                    .append(eVar30)
+                    .append(":CAR:")
+                    .append(carPickUpLocation)
+                    .append("-")
+                    .append(carDropOffLocation)
+                    .append(":")
+                    .append(carPickUpDate)
+                    .append("-")
+                    .append(carDropOffDate)
+            return productString.toString()
+        } else {
+            return productString.toString()
+        }
     }
 }

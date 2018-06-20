@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.cars.details
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,12 +11,14 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.cars.ItinCarRepo
 import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.common.ItinImageWidget
-import com.expedia.bookings.itin.common.ItinMapWidget
-import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinManageBookingWidget
+import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinTimingsWidget
+import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.scopes.CarsMasterScope
+import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.ActivityLauncher
@@ -25,6 +28,7 @@ import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.PhoneHandler
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.itin.utils.WebViewLauncher
+import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -73,6 +77,8 @@ class CarsItinDetailsActivity : AppCompatActivity() {
     }
 
     lateinit var repo: ItinCarRepoInterface
+    //lateinit var carRepo: ItinCarRepo
+    var tripsTracking: ITripsTracking = TripsTracking
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +109,23 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         dropOffMapWidget.viewModel = dropOffMapViewModel
 
         manageBookingWidget.viewModel = CarItinManageBookingWidgetViewModel(scope)
+
+        setRepoObservers()
+    }
+
+    fun setRepoObservers() {
+        repo.liveDataItin.observe(this, object : Observer<Itin> {
+            override fun onChanged(t: Itin?) {
+                t?.let {
+                    val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(it, ItinOmnitureUtils.LOB.CAR)
+                    tripsTracking.trackItinCarDetailsPageLoad(omnitureValues)
+                }
+                repo.liveDataItin.removeObserver(this)
+            }
+        })
+        repo.invalidDataSubject.subscribe {
+            finish()
+        }
     }
 
     override fun finish() {
