@@ -140,6 +140,18 @@ class FeatureUtilTest {
     }
 
     @Test
+    fun testLXMODEnabled() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidLXMOD)
+        assertTrue(isMODForLXEnabled(context))
+    }
+
+    @Test
+    fun testLXMIPEnabled() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidLXMIP)
+        assertTrue(isMIPForLXEnabled(context))
+    }
+
+    @Test
     fun testLXMultipleDatesSearchEnabled() {
         FeatureTestUtils.enableFeature(context, Features.all.lxMultipleDatesSearch)
         assertTrue(isLXMultipleDatesSearchEnabled())

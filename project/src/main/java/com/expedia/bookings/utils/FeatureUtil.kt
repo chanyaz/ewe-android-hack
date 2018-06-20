@@ -203,3 +203,11 @@ fun isGlassboxEnabled(): Boolean {
 fun islXEssRegionTypeCallEnabled(): Boolean {
     return Features.all.lxEssRegionTypeCall.enabled()
 }
+
+fun isMODForLXEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidLXMOD)
+}
+
+fun isMIPForLXEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidLXMIP)
+}

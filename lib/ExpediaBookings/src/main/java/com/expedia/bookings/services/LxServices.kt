@@ -16,6 +16,7 @@ import com.expedia.bookings.data.lx.LXSortFilterMetadata
 import com.expedia.bookings.data.lx.LXSortType
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.extensions.applySortFilter
+import com.expedia.bookings.extensions.getSortedActivityList
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.Strings
@@ -29,8 +30,6 @@ import org.joda.time.LocalDate
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.Collections
-import java.util.Comparator
 import java.util.LinkedHashSet
 
 class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
@@ -211,7 +210,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         }
     }
 
-    private fun CombineSearchResponseAndSortFilterStreams(lxSearchResponse: LXSearchResponse, lxSortFilterMetadata: LXSortFilterMetadata): LXSearchResponse {
+    private fun CombineSearchResponseAndSortFilterStreams(lxSearchResponse: LXSearchResponse, lxSortFilterMetadata: LXSortFilterMetadata, isMipEnabled: Boolean, isModEnabled: Boolean): LXSearchResponse {
 
         if (lxSortFilterMetadata.lxCategoryMetadataMap == null) {
             // No filters Applied.
@@ -222,14 +221,13 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 lxCategoryMetadata.checked = false
             }
         } else {
-            lxSearchResponse.activities = applySortFilter(lxSearchResponse.unFilteredActivities, lxSearchResponse,
-                    lxSortFilterMetadata)
+            lxSearchResponse.activities = applySortFilter(lxSearchResponse.unFilteredActivities, lxSortFilterMetadata, isMipEnabled, isModEnabled)
         }
         return lxSearchResponse
     }
 
     fun lxSearchSortFilter(lxSearchParams: LxSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,
-                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchEnabled: Boolean): Disposable {
+                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchEnabled: Boolean, isMipEnabled: Boolean, isModEnabled: Boolean): Disposable {
 
         val lxSearchResponseObservable = if (lxSearchParams == null)
             Observable.just<LXSearchResponse>(cachedLXSearchResponse) else lxSearch(lxSearchParams)
@@ -239,10 +237,10 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                     ObservableOld.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
                             { searchResponse, sortFilterMetadata ->
                                 if (lxFilterTextSearchEnabled) {
-                                    searchResponse.activities = searchResponse.unFilteredActivities.applySortFilter(sortFilterMetadata)
+                                    searchResponse.activities = searchResponse.unFilteredActivities.applySortFilter(sortFilterMetadata, isMipEnabled, isModEnabled)
                                     searchResponse
                                 } else {
-                                    CombineSearchResponseAndSortFilterStreams(searchResponse, sortFilterMetadata)
+                                    CombineSearchResponseAndSortFilterStreams(searchResponse, sortFilterMetadata, isMipEnabled, isModEnabled)
                                 }
                             })
                 else lxSearch(lxSearchParams!!)
@@ -264,8 +262,9 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         cachedLXSearchResponse = response
     }
 
-    fun applySortFilter(unfilteredActivities: List<LXActivity>, lxSearchResponse: LXSearchResponse, lxSortFilterMetadata: LXSortFilterMetadata): List<LXActivity> {
+    fun applySortFilter(unfilteredActivities: List<LXActivity>, lxSortFilterMetadata: LXSortFilterMetadata, isMipEnabled: Boolean, isModEnabled: Boolean): List<LXActivity> {
 
+        var activities = mutableListOf<LXActivity>()
         val filteredSet = LinkedHashSet<LXActivity>()
         for (i in unfilteredActivities.indices) {
             for (filterCategory in lxSortFilterMetadata.lxCategoryMetadataMap.entries) {
@@ -278,22 +277,13 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 }
             }
         }
-
-        lxSearchResponse.activities.clear()
-
         // Filtering.
-        lxSearchResponse.activities.addAll(if (filteredSet.size != 0) filteredSet else unfilteredActivities)
+        activities.addAll(if (filteredSet.size != 0) filteredSet else unfilteredActivities)
 
         // Sorting.
         if (lxSortFilterMetadata.sort == LXSortType.PRICE) {
-            Collections.sort<LXActivity>(lxSearchResponse.activities, object : Comparator<LXActivity> {
-                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
-                    val leftMoney = lhs.price
-                    val rightMoney = rhs.price
-                    return leftMoney.compareTo(rightMoney)
-                }
-            })
+            activities = getSortedActivityList(activities, isMipEnabled, isModEnabled).toMutableList()
         }
-        return lxSearchResponse.activities
+        return activities
     }
 }

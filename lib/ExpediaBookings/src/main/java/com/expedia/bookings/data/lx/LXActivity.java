@@ -61,4 +61,13 @@ public class LXActivity {
 	public boolean mipPricingEnabled(boolean mipTestEnabled) {
 		return mipTestEnabled && Constants.LX_AIR_MIP.equals(discountType);
 	}
+
+	public Money getActivityPriceForSorting(boolean isMipEnabled, boolean isModEnabled) {
+		if (mipPricingEnabled(isMipEnabled) || modPricingEnabled(isModEnabled)) {
+			return mipPrice;
+		}
+		else {
+			return price;
+		}
+	}
 }

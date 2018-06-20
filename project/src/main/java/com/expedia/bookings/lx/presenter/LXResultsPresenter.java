@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +36,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.LXUtils;
@@ -124,8 +126,8 @@ public class LXResultsPresenter extends Presenter {
 	private SearchResultFilterObserver searchResultFilterObserver = new SearchResultFilterObserver();
 	private LXSearchResponse searchResponse;
 
-	private boolean lxFilterTextSearchEnabled;
-	private boolean isMipEnabled;
+	@VisibleForTesting
+	boolean lxFilterTextSearchEnabled;
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
@@ -186,8 +188,6 @@ public class LXResultsPresenter extends Presenter {
 		lxFilterTextSearchEnabled = AbacusFeatureConfigManager
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch);
 
-		isMipEnabled = AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXMIP);
-
 		setupToolbar();
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
@@ -242,7 +242,8 @@ public class LXResultsPresenter extends Presenter {
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 
 			if (lxSearchResponse.promoDiscountType != null) {
-				if (isMipEnabled  && !Constants.MOD_PROMO_TYPE.equals(lxSearchResponse.promoDiscountType)) {
+				if (FeatureUtilKt.isMIPForLXEnabled(getContext()) && !Constants.MOD_PROMO_TYPE
+					.equals(lxSearchResponse.promoDiscountType)) {
 					lxState.setPromoDiscountType(searchResponse.promoDiscountType);
 					mipSrpBanner.setVisibility(VISIBLE);
 
@@ -261,7 +262,7 @@ public class LXResultsPresenter extends Presenter {
 				}
 				else {
 					mipSrpBanner.setVisibility(GONE);
-					if (AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXMOD)) {
+					if (FeatureUtilKt.isMODForLXEnabled(getContext())) {
 						lxState.setPromoDiscountType(Constants.MOD_PROMO_TYPE);
 					}
 				}
@@ -287,7 +288,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private class SearchResultFilterObserver extends SearchResultObserver {
+	class SearchResultFilterObserver extends SearchResultObserver {
 
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
@@ -353,7 +354,8 @@ public class LXResultsPresenter extends Presenter {
 		searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
 			areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
 			areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver,
-			lxFilterTextSearchEnabled);
+			lxFilterTextSearchEnabled, FeatureUtilKt.isMIPForLXEnabled(getContext()),
+			FeatureUtilKt.isMODForLXEnabled(getContext()));
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 		sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
 		setToolbarTitles(event.lxSearchParams.getLocation(),
@@ -377,7 +379,8 @@ public class LXResultsPresenter extends Presenter {
 	public void onLXFilterChanged(LXSortFilterMetadata lxSortFilterMetadata) {
 		searchSubscription = lxServices
 			.lxSearchSortFilter(null, lxSortFilterMetadata, searchResultFilterObserver,
-				lxFilterTextSearchEnabled);
+				lxFilterTextSearchEnabled, FeatureUtilKt.isMIPForLXEnabled(getContext()),
+				FeatureUtilKt.isMODForLXEnabled(getContext()));
 	}
 
 	public void onLXFilterDoneClicked() {

@@ -10,31 +10,44 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LXCategoryMetadata
 import com.expedia.bookings.data.lx.LXCategoryType
 import com.expedia.bookings.data.lx.LXSearchResponse
+import com.expedia.bookings.data.lx.LXSortFilterMetadata
+import com.expedia.bookings.data.lx.LXSortType
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.SearchType
+import com.expedia.bookings.extensions.applySortFilter
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.services.LxServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.LXErrorWidget
 import com.expedia.bookings.widget.LXResultsListAdapter
 import com.expedia.bookings.widget.LXSearchResultsWidget
 import com.google.gson.GsonBuilder
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.shadows.ShadowAlertDialog
 import java.io.IOException
 import java.util.ArrayList
+import java.util.HashMap
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -43,6 +56,9 @@ import kotlin.test.assertNotNull
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class LXResultsPresenterTest {
     var lxResultsPresenter by Delegates.notNull<LXResultsPresenter>()
+    var searchResponse by Delegates.notNull<LXSearchResponse>()
+    var serviceRule: ServicesRule<LxServices> = ServicesRule(LxServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
+        @Rule get
 
     @Before
     fun before() {
@@ -50,6 +66,7 @@ class LXResultsPresenterTest {
         activity.setTheme(R.style.V2_Theme_LX)
         Ui.getApplication(activity).defaultLXComponents()
         lxResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.lx_result_presenter, null) as LXResultsPresenter
+        searchResponse = getLxResponse()
     }
 
     @Test
@@ -106,7 +123,6 @@ class LXResultsPresenterTest {
 
     @Test
     fun testWhenNoInternetConnected() {
-
         val searchResultObserver = lxResultsPresenter.SearchResultObserver()
         val lxSearchResultWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
         val toolbarSearchButton = lxResultsPresenter.toolbar.findViewById<View>(R.id.menu_open_search)
@@ -120,10 +136,10 @@ class LXResultsPresenterTest {
         val cancelButton = alertDialog.findViewById<Button>(android.R.id.button2)
         val retryButton = alertDialog.findViewById<Button>(android.R.id.button1)
 
-        assertEquals(true , alertDialog.isShowing)
+        assertEquals(true, alertDialog.isShowing)
         assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", errorMessage.text)
-        assertEquals("Cancel", cancelButton.text )
-        assertEquals("Retry", retryButton.text )
+        assertEquals("Cancel", cancelButton.text)
+        assertEquals("Retry", retryButton.text)
         assertEquals(View.VISIBLE, toolbarSearchButton.visibility)
 
         //Tap on cancel button
@@ -131,7 +147,6 @@ class LXResultsPresenterTest {
         assertEquals(false, alertDialog.isShowing)
         //Tap on retry button
         searchResultObserver.onError(IOException())
-        retryButton.performClick()
         assertEquals(false, alertDialog.isShowing)
         assertEquals(View.VISIBLE, lxSearchResultWidget.visibility)
     }
@@ -259,6 +274,62 @@ class LXResultsPresenterTest {
         assertEquals(View.VISIBLE, searchResultsWidget.visibility)
     }
 
+    @Test
+    fun testLXFilterChanged() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidLXMOD)
+        val response = getLxResponse()
+        response.promoDiscountType = Constants.MOD_PROMO_TYPE
+        buildSearchParams()
+
+        val searResultObserver = lxResultsPresenter.SearchResultObserver()
+        searResultObserver.widget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.searchType = SearchType.EXPLICIT_SEARCH
+        searResultObserver.onNext(response)
+        val searchResultFilterObserver = lxResultsPresenter.SearchResultFilterObserver()
+        searchResultFilterObserver.widget = lxResultsPresenter.searchResultsWidget
+        searchResultFilterObserver.searchType = SearchType.EXPLICIT_SEARCH
+        searchResultFilterObserver.onNext(response)
+        lxResultsPresenter.onLXFilterChanged(createLXSortFilterMetaData())
+
+        assertNotNull(lxResultsPresenter.searchSubscription)
+    }
+
+    @Test
+    fun testSimpleSort() {
+        assertEquals("2d", searchResponse.unFilteredActivities.get(0).duration.toString())
+
+        val sortedActivityList = searchResponse.unFilteredActivities.applySortFilter(createLXSortFilterMetaData(), false, false)
+        assertNotNull(sortedActivityList)
+        assertEquals(3, sortedActivityList.size)
+        val activity = sortedActivityList.get(0)
+        assertEquals("72", activity.price.getAmount().toString())
+    }
+
+    @Test
+    fun testSortModEnabled() {
+        val sortedActivityList = searchResponse.unFilteredActivities.applySortFilter(createLXSortFilterMetaData(), false, true)
+        assertNotNull(sortedActivityList)
+        assertEquals(3, sortedActivityList.size)
+        val activity = sortedActivityList.get(0)
+        assertEquals("0", activity.mipPrice.getAmount().toString())
+    }
+
+    @Test
+    fun testSortMipEnabled() {
+        val sortedActivityList = searchResponse.unFilteredActivities.applySortFilter(createLXSortFilterMetaData(), true, true)
+        assertNotNull(sortedActivityList)
+        assertEquals(3, sortedActivityList.size)
+        val activity = sortedActivityList.get(0)
+        assertEquals("0", activity.mipPrice.getAmount().toString())
+    }
+
+    private fun createLXSortFilterMetaData(): LXSortFilterMetadata {
+        var lxCategoryMetadataMap: MutableMap<String, LXCategoryMetadata> = HashMap()
+        val lxSortFilterMetaData = LXSortFilterMetadata(lxCategoryMetadataMap, LXSortType.PRICE, "")
+        lxSortFilterMetaData.isCategoryFilterApplied = false
+        return lxSortFilterMetaData
+    }
+
     fun createLxSearchResponse(returnSingleActivity: Boolean = false): LXSearchResponse {
         val lxSearchResponse = LXSearchResponse()
         val lxcategoryMetadata = LXCategoryMetadata()
@@ -286,6 +357,25 @@ class LXResultsPresenterTest {
         lxSearchResponse.filterCategories = filterCategories
         buildSearchParams()
         return lxSearchResponse
+    }
+
+    private fun getLxResponse(): LXSearchResponse {
+        serviceRule.setDefaultExpediaDispatcher()
+
+        val observer = TestObserver<LXSearchResponse>()
+        val searchParams = LxSearchParams.Builder()
+                .location("New York")
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(14))
+                .build() as LxSearchParams
+        serviceRule.services!!.lxSearch(searchParams, observer)
+
+        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        observer.assertNoErrors()
+        observer.assertComplete()
+        observer.assertValueCount(1)
+        return observer.values()[0]
     }
 
     fun buildSearchParams(): LxSearchParams {

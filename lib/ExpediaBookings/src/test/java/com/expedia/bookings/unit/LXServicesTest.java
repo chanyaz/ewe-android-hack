@@ -3,7 +3,9 @@ package com.expedia.bookings.unit;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -17,11 +19,14 @@ import com.expedia.bookings.data.lx.ActivityAvailabilities;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
+import com.expedia.bookings.data.lx.LXSortFilterMetadata;
+import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
@@ -29,6 +34,7 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.testrule.ServicesRule;
 
+import io.reactivex.disposables.Disposable;
 import okhttp3.mockwebserver.MockResponse;
 import com.expedia.bookings.services.TestObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -43,9 +49,12 @@ public class LXServicesTest {
 	public ServicesRule<LxServices> serviceRule = new ServicesRule<>(LxServices.class, Schedulers.trampoline(), "../mocked/templates", false);
 	private LXCheckoutParams checkoutParams;
 	private LXCreateTripParams createTripParams;
+	private TestObserver searchResultFilterObserver;
+	private Disposable searchDisposable;
 
 	@Before
 	public void before() {
+		searchResultFilterObserver = new TestObserver();
 		checkoutParams = new LXCheckoutParams();
 		checkoutParams.suppressFinalBooking = true;
 		checkoutParams.storedCreditCardId = "";
@@ -328,6 +337,126 @@ public class LXServicesTest {
 		LXCheckoutResponse lxCheckoutResponse = observer.values().get(0);
 		assertTrue(lxCheckoutResponse.hasPriceChange());
 		assertNotNull(lxCheckoutResponse.newTotalPrice);
+	}
+
+	@Test
+	public void testSimpleSort() {
+		LXSearchResponse response = getLXSearchResponse();
+		assertEquals(3, response.unFilteredActivities.size());
+
+		List<LXActivity> activities = serviceRule.getServices()
+			.applySortFilter(response.unFilteredActivities, createLXSortFilterMetaData(), false, false);
+		assertNotNull(activities);
+		assertEquals(3, activities.size());
+		LXActivity activity1 = activities.get(0);
+		assertEquals("72", activity1.price.getAmount().toString());
+	}
+
+	@Test
+	public void testSortModEnabled() {
+		LXSearchResponse response = getLXSearchResponse();
+
+		List<LXActivity> activities = serviceRule.getServices()
+			.applySortFilter(response.unFilteredActivities, createLXSortFilterMetaData(), false, true);
+		assertNotNull(activities);
+		assertEquals(3, activities.size());
+		LXActivity activity = activities.get(0);
+		assertEquals("0", activity.mipPrice.getAmount().toString());
+	}
+
+	@Test
+	public void testSortMipEnabled() {
+		LXSearchResponse response = getLXSearchResponse();
+
+		List<LXActivity> activities = serviceRule.getServices()
+			.applySortFilter(response.unFilteredActivities, createLXSortFilterMetaData(), true, true);
+		assertNotNull(activities);
+		assertEquals(3, activities.size());
+		LXActivity activity = activities.get(0);
+		assertEquals("0", activity.mipPrice.getAmount().toString());
+	}
+
+	@Test
+	public void testSimpleLXSortAndFilterForLxFilterTextSearchDisabled() {
+		searchDisposable = serviceRule.getServices()
+			.lxSearchSortFilter(getLXSearchParams(), createLXSortFilterMetaData(), searchResultFilterObserver, false,
+				false,
+				false);
+		assertNotNull(searchDisposable);
+	}
+
+	@Test
+	public void testLXSortAndFilterModEnabledForLxFilterTextSearchDisabled() {
+		searchDisposable = serviceRule.getServices()
+			.lxSearchSortFilter(getLXSearchParams(), createLXSortFilterMetaData(), searchResultFilterObserver, false,
+				false,
+				true);
+		assertNotNull(searchDisposable);
+	}
+
+	@Test
+	public void testLXSortAndFilterMipEnabledForLxFilterTextSearchDisabled() {
+		searchDisposable = serviceRule.getServices()
+			.lxSearchSortFilter(getLXSearchParams(), createLXSortFilterMetaData(), searchResultFilterObserver, false,
+				true,
+				true);
+		assertNotNull(searchDisposable);
+	}
+
+	@Test
+	public void testSimpleLXSortAndFilterForLxFilterTextSearchEnabled() {
+		searchDisposable = serviceRule.getServices()
+			.lxSearchSortFilter(getLXSearchParams(), createLXSortFilterMetaData(), searchResultFilterObserver, true,
+				false,
+				false);
+		assertNotNull(searchDisposable);
+	}
+
+	@Test
+	public void testLXSortAndFilterModEnabledForLxFilterTextSearchEnabled() {
+		searchDisposable = serviceRule.getServices()
+			.lxSearchSortFilter(getLXSearchParams(), createLXSortFilterMetaData(), searchResultFilterObserver, true,
+				false,
+				true);
+		assertNotNull(searchDisposable);
+	}
+
+	@Test
+	public void testLXSortAndFilterMipEnabledForLxFilterTextSearchEnabled() {
+		searchDisposable = serviceRule.getServices()
+			.lxSearchSortFilter(getLXSearchParams(), createLXSortFilterMetaData(), searchResultFilterObserver, true,
+				true,
+				true);
+		assertNotNull(searchDisposable);
+	}
+
+	private LXSortFilterMetadata createLXSortFilterMetaData() {
+		HashMap<String, LXCategoryMetadata> lxCategoryMetaDataMap = new HashMap<>();
+		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(lxCategoryMetaDataMap, LXSortType.PRICE,
+			"");
+		lxSortFilterMetadata.isCategoryFilterApplied = false;
+		return lxSortFilterMetadata;
+	}
+
+	private LxSearchParams getLXSearchParams() {
+		return (LxSearchParams) new LxSearchParams.Builder().location("New York")
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(14)).build();
+	}
+
+	private LXSearchResponse getLXSearchResponse() {
+		serviceRule.setDefaultExpediaDispatcher();
+
+		TestObserver<LXSearchResponse> observer = new TestObserver<>();
+		LxSearchParams searchParams = getLXSearchParams();
+		serviceRule.getServices().lxSearch(searchParams, observer);
+
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertComplete();
+		observer.assertValueCount(1);
+		return observer.values().get(0);
 	}
 
 	private void givenCreateTripParamsHasOneOffer(String activityId) {
