@@ -249,7 +249,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchTrackingBuilder.markResultsUsable()
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
-                FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank,
+                FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(Db.getFlightSearchParams().latestSelectedOfferInfo.selectedLegList[0].legRank,
                         flightOfferViewModel.totalOutboundResults))
             }
         }
@@ -283,6 +283,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 clearWebViewHistory()
             }
         }
+
         ObservableOld.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
@@ -316,13 +317,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.viewModel.obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
             checkoutViewModel.obFeeDetailsUrlSubject.onNext(obFeeDetailsUrl)
         }
-        flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
-            presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable)
-            presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalOutboundResults)
-            presenter.viewModel.inboundSelectedAndTotalLegRank = null
-        }
-        flightOfferViewModel.confirmedInboundFlightSelection.subscribe {
-            presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalInboundResults)
+        flightOfferViewModel.confirmedLegSelection.subscribe {
+            val selectedLegList = Db.getFlightSearchParams().latestSelectedOfferInfo.selectedLegList
+            when (it) {
+                0 -> {
+                    val leg = selectedLegList[0]
+                    presenter.viewModel.showFreeCancellationObservable.onNext(leg.isFreeCancellable)
+                    presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(leg.legRank, flightOfferViewModel.totalOutboundResults)
+                    presenter.viewModel.inboundSelectedAndTotalLegRank = null
+                }
+                1 -> {
+                    val leg = selectedLegList[1]
+                    presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(leg.legRank, flightOfferViewModel.totalInboundResults)
+                }
+            }
         }
         flightOfferViewModel.ticketsLeftObservable.subscribe(checkoutViewModel.seatsRemainingObservable)
         flightOfferViewModel.flightOfferSelected.subscribe { flightOffer ->
@@ -431,7 +439,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     .put("city", StrUtils.formatCity(viewModel.searchParamsObservable.value.arrivalAirport))
                     .format().toString())
         }
-        viewModel.confirmedOutboundFlightSelection.subscribe {
+        viewModel.confirmedLegSelection.filter { it == 0 }.subscribe {
             if (isByotEnabled && viewModel.isRoundTripSearchSubject.value) {
                 inboundPresenter.showResults()
                 showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)

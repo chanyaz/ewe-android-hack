@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -32,7 +33,11 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
             resultsPresenter.setLoadingState()
         }
         flightOfferViewModel.outboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
-        detailsPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedOutboundFlightSelection)
+        detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
+            val params = Db.getFlightSearchParams()
+            params.latestSelectedOfferInfo.selectedLegList[flightOfferViewModel.currentLeg] = it
+            flightOfferViewModel.confirmedLegSelection.onNext(flightOfferViewModel.currentLeg)
+        }
         detailsPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.outboundSelected)
     }
 

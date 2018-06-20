@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -21,12 +22,17 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
 
     override fun setupComplete() {
         super.setupComplete()
-        flightOfferViewModel.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)
-        detailsPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedInboundFlightSelection)
+        flightOfferViewModel.confirmedLegSelection.filter { it == 0 }.map { Db.getFlightSearchParams().latestSelectedOfferInfo.selectedLegList[0] }
+                .subscribe(resultsPresenter.outboundFlightSelectedSubject)
+        detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
+            val params = Db.getFlightSearchParams()
+            params.latestSelectedOfferInfo.selectedLegList[flightOfferViewModel.currentLeg] = it
+            flightOfferViewModel.confirmedLegSelection.onNext(flightOfferViewModel.currentLeg)
+        }
         detailsPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.inboundSelected)
         flightOfferViewModel.inboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)) {
-            flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
+            flightOfferViewModel.confirmedLegSelection.filter { it == 0 }.subscribe {
                 resultsPresenter.setLoadingState()
             }
         }
@@ -50,7 +56,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
 
     override fun trackFlightResultsLoad() {
         val trackingData = searchTrackingBuilder.build()
-        FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank, flightOfferViewModel.totalOutboundResults))
+        FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(Db.getFlightSearchParams().latestSelectedOfferInfo.selectedLegList[0].legRank, flightOfferViewModel.totalOutboundResults))
     }
 
     class FlightInboundMissingTransitionException(exceptionMessage: String) : RuntimeException(exceptionMessage)

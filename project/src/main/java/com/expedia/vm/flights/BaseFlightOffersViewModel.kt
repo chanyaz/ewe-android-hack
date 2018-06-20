@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -24,6 +25,8 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 abstract class BaseFlightOffersViewModel(val context: Context, val flightServicesManager: FlightServicesManager) {
+    var currentLeg = 0
+
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val errorObservable = PublishSubject.create<ApiError>()
     val errorObservableForGreedyCall = PublishSubject.create<ApiError>()
@@ -35,6 +38,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val confirmedInboundFlightSelection = BehaviorSubject.create<FlightLeg>()
     val outboundSelected = BehaviorSubject.create<FlightLeg>()
     val inboundSelected = PublishSubject.create<FlightLeg>()
+  //  val legSelection = PublishSubject.create<FlightLeg>()
+    val confirmedLegSelection = PublishSubject.create<Int>()
+
     val offerSelectedChargesObFeesSubject = BehaviorSubject.create<String>()
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val flightProductId = PublishSubject.create<String>()
@@ -159,28 +165,32 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     }
 
     protected fun setupFlightSelectionObservables() {
-        confirmedOutboundFlightSelection.subscribe { flight ->
-            if (isRoundTripSearch) {
-                selectOutboundFlight(flight.legId)
-            } else {
-                // one-way flights
-                val outboundLegId = flight.legId
-                val inboundLegId = flight.legId // yes, they are the same. It will get us the flight offer
-                selectFlightOffer(outboundLegId, inboundLegId)
-                ticketsLeftObservable.onNext(flight.packageOfferModel.urgencyMessage.ticketsLeft)
+        confirmedLegSelection.subscribe {
+            val selectedLegList = Db.getFlightSearchParams().latestSelectedOfferInfo.selectedLegList
+            when (it) {
+                0 -> {
+                    val flight = selectedLegList[0]
+                    if (isRoundTripSearch) {
+                        selectOutboundFlight(flight.legId)
+                    } else {
+                        // one-way flights
+                        val outboundLegId = flight.legId
+                        val inboundLegId = flight.legId // yes, they are the same. It will get us the flight offer
+                        selectFlightOffer(outboundLegId, inboundLegId)
+                        ticketsLeftObservable.onNext(flight.packageOfferModel.urgencyMessage.ticketsLeft)
+                    }
+                }
+                1 -> {
+                    val flight = selectedLegList[1]
+                    val outboundFlight = selectedLegList[0]
+                    val inboundLegId = flight.legId
+                    val outboundLegId = outboundFlight.legId
+                    selectFlightOffer(outboundLegId, inboundLegId)
+                    val minimumTicketsLeft = getMinimumTicketsLeft(outboundFlight.packageOfferModel.urgencyMessage.ticketsLeft,
+                            flight.packageOfferModel.urgencyMessage.ticketsLeft)
+                    ticketsLeftObservable.onNext(minimumTicketsLeft)
+                }
             }
-        }
-
-        // return trip flights
-        confirmedInboundFlightSelection.subscribe {
-            val outboundFlight = confirmedOutboundFlightSelection.value
-
-            val inboundLegId = it.legId
-            val outboundLegId = outboundFlight.legId
-            selectFlightOffer(outboundLegId, inboundLegId)
-            val minimumTicketsLeft = getMinimumTicketsLeft(outboundFlight.packageOfferModel.urgencyMessage.ticketsLeft,
-                    it.packageOfferModel.urgencyMessage.ticketsLeft)
-            ticketsLeftObservable.onNext(minimumTicketsLeft)
         }
 
         // fires offer selected before flight selection confirmed to lookup terms, fees etc. in offer

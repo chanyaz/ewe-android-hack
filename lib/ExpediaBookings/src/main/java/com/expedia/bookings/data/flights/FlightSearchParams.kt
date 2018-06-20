@@ -18,6 +18,8 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         RETURN,
         MULTI_DEST
     }
+    var latestSelectedOfferInfo: FlightSelectedOfferInfo = FlightSelectedOfferInfo()
+
 
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
         private var isRoundTrip = true
