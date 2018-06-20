@@ -286,14 +286,11 @@ public class FlightsOverviewScreenSteps {
 
 	@Then("^Validate \"(.*?)\" is present on the overview screen for isOutbound : (true|false)$")
 	public void validatePreferredClassOnOverview(String preferredClass, boolean outBound) throws Throwable {
-		validateFlightInfoWithMoreInfo(R.id.flight_class_text_view, preferredClass, outBound);
+		validateFlightInfoWithMoreInfo(R.id.selected_classes, preferredClass, outBound);
 	}
 
 	private void validateFlightInfoWithMoreInfo(int resId, String parameter, boolean outBound) throws Throwable {
-		onView(Matchers.allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
-				: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
-			withId(R.id.card_view)))
-			.check(matches(hasDescendant(allOf(withId(resId), withText(containsString(parameter))))));
+		onView(withId(resId)).check(matches(withText(containsString(parameter))));
 	}
 	@Then("^Validate that fare family widget card is displayed$")
 	public void validateFareFamilyCard() {

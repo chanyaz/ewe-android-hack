@@ -421,8 +421,6 @@ Feature: Flights Search
 @Flights @FlightSearchSet3 @Prod
   Scenario Outline: Verify if preferred class search works for one-way trip
   Given I launch the App
-  And I set bucketing rules for A/B tests as
-    | EBAndroidAppFlightsMoreInfoOnOverview | BUCKETED               |
   And I launch "Flights" LOB
   And I select one way trip
   When I enter source and destination for flights
