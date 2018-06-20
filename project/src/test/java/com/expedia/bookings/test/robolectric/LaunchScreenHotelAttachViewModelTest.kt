@@ -85,7 +85,19 @@ class LaunchScreenHotelAttachViewModelTest {
         airAttachMessageSubscribe()
 
         assertEquals("Offer expires soon", sut.offerExpiresObserver.value)
-        assertEquals(contentDesc, view.contentDescription.toString())
+        assertEquals(contentDesc, sut.hotelAttachContentDescription.toString())
+    }
+
+    @Test
+    fun addOnContentDescriptionIsFormattedCorrectly() {
+        val expiryDateTime = LocalDateTime.now()
+        val contentDesc = "Add-On Advantage. You unlocked up to 43% off hotels because you booked on Expedia. Button"
+
+        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expiryDateTime)
+        airAttachMessageSubscribe()
+
+        assertEquals("Offer expires soon", sut.offerExpiresObserver.value)
+        assertEquals(contentDesc, sut.addOnContentDescription.toString())
     }
 
     private fun airAttachMessageSubscribe() {

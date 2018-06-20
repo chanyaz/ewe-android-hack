@@ -17,6 +17,7 @@ class LaunchScreenHotelAttachCard(itemView: View) : RecyclerView.ViewHolder(item
         vm.firstLineObserver.subscribeText(firstLineTextView)
         vm.secondLineObserver.subscribeText(secondLineTextView)
         vm.offerExpiresObserver.subscribeText(offerExpiresTextView)
+        itemView.contentDescription = vm.hotelAttachContentDescription
 
         itemView.subscribeOnClick(vm.onClickObserver)
     }

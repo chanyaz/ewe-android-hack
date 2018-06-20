@@ -2528,7 +2528,9 @@
     <!-- Hotel MIP Attach -->
     <!-- Add on title message. e.g "You unlocked up to 43% off hotels becaues you booked on Expedia -->
     <string name="hotmip_savings_message_TEMPLATE">You unlocked up to {percentage}% off hotels because you booked on Expedia</string>
-    <string name="add_on_content_desc">Add-On Advantage</string>
+    <string name="add_on_title_content_desc">Add-On Advantage</string>
+    <!-- Add On HotMIP card content description; describes the entire content on the hotMIP card; e.g. Add-On Advantage. You unlocked up to 43% off hotels because you booked on Expedia. Button -->
+    <string name="hotmip_card_cont_desc_TEMPLATE">{logo}. {title}. Button</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->

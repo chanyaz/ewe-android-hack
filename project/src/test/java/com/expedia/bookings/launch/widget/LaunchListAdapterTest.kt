@@ -45,7 +45,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.FeatureTestUtils
 import com.expedia.bookings.utils.LaunchNavBucketCache
-import com.expedia.bookings.widget.LaunchScreenExpediaHotelAttachCard
+import com.expedia.bookings.widget.LaunchScreenAddOnHotMIPCard
 import com.expedia.bookings.widget.LaunchScreenHotelAttachCard
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
@@ -862,7 +862,7 @@ class LaunchListAdapterTest {
 
         val itemViewType = adapterUnderTest.getItemViewType(2)
         val viewHolder = adapterUnderTest.createViewHolder(recyclerView, itemViewType)
-        assertTrue(viewHolder is LaunchScreenExpediaHotelAttachCard)
+        assertTrue(viewHolder is LaunchScreenAddOnHotMIPCard)
     }
 
     @Test
