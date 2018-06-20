@@ -49,12 +49,6 @@ gradle.buildFinished {
     def scriptPath = "jenkins/time_tracker_logging.rb"
     def buildNameForClientLog = project.gradle.startParameter.taskNames.join('_')
     boolean build_cache = project.gradle.startParameter.buildCacheEnabled
-    println "********"
-    println project.gradle.startParameter
-
-    println "********buildNameForClientLog"
-    println buildNameForClientLog
-
     if (build_cache)
         startParameter = "build_cache_" + buildNameForClientLog
     def command = "ruby $scriptPath $buildNameForClientLog"
