@@ -10,6 +10,8 @@
     <color name="brand_primary">@color/brand2</color>
     <color name="brand_secondary">@color/brand1</color>
 
+    <color name="canvas_color">@color/neutral200</color>
+
     <color name="app_divider_on_white">@color/neutral300</color>
     <color name="app_divider_on_gray">@color/neutral400</color>
 
@@ -250,7 +252,11 @@
     <color name="launch_screen_active_itin_bg">@color/neutral800</color>
     <color name="launch_screen_meso_ad_text_color">@color/neutral800</color>
     <color name="launch_screen_placeholder_color">@color/neutral600</color>
-    <color name="launch_screen_selected_tab_icon">@color/accent2</color>
+    <color name="launch_screen_tab_selected_text">@color/accent2</color>
+    <color name="launch_screen_tab_selected_icon">@color/accent1</color>
+    <color name="launch_screen_tab_base_icon">@color/neutral500</color>
+    <color name="launch_screen_tab_base_text">@color/neutral700</color>
+
 
     <!-- LX colors -->
     <color name="lx_primary_color">@color/accent2</color>
@@ -446,7 +452,7 @@
     <!-- New Hotels Launch Screen LOB button colors -->
     <color name="launch_primary_color">@color/accent2</color>
     <color name="launch_alert_dialog_button_color">@color/accent2</color>
-    <color name="launch_lob_text_color">@color/accent2</color>
+    <color name="launch_lob_text_color">@color/neutral900</color>
 
     <!-- hotels swp colors-->
     <color name="hotelsv2_loyalty_applied_text_color">@color/neutral600</color>

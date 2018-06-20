@@ -1,6 +1,6 @@
 <vector android:height="24dp" android:viewportHeight="18.0"
     android:viewportWidth="18.0" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@color/member_only_tag_bg_color"
+    <path android:fillColor="@color/member_pricing_flag_bg_color"
         android:pathData="M9,9m-9,0a9,9 0,1 1,18 0a9,9 0,1 1,-18 0"
         android:strokeColor="#00000000" android:strokeWidth="1"/>
     <path android:fillColor="@color/member_pricing_text_color"
