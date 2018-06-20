@@ -50,7 +50,7 @@ gradle.buildFinished {
     def buildNameForClientLog = project.gradle.startParameter.taskNames.join('_')
     boolean build_cache = project.gradle.startParameter.buildCacheEnabled
     if (build_cache)
-        startParameter = "build_cache_" + buildNameForClientLog
+        def startParameter = "build_cache_" + buildNameForClientLog
     def command = "ruby $scriptPath $buildNameForClientLog"
     println command
     println command.execute().text
