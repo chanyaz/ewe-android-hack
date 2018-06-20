@@ -122,7 +122,6 @@ class OrbitzLaunchListAdapterTest {
 
     @Test
     fun itemViewPosition_showingHotels_signedInItin_memberDeals__last_minute_deals() {
-        givenLastMinuteDealIsEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -365,10 +364,6 @@ class OrbitzLaunchListAdapterTest {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.
         }
-    }
-
-    private fun givenLastMinuteDealIsEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLastMinuteDeals, 1)
     }
 
     private fun givenJoinRewardsLaunchCardEnabled() {

@@ -298,7 +298,6 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			query.addExperiment(AbacusUtils.DownloadableFonts.getKey());
 			query.addExperiment(AbacusUtils.DisableSignInPageAsFirstScreen.getKey());
 			query.addExperiment(AbacusUtils.MesoAd.getKey());
-			query.addExperiment(AbacusUtils.EBAndroidAppLastMinuteDeals.getKey());
 			query.addExperiment(AbacusUtils.HomeScreenDisplayLogic.getKey());
 			query.addExperiment(AbacusUtils.JoinRewardsLaunchCard.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppPackagesFFPremiumClass.getKey());

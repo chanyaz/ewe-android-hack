@@ -80,13 +80,6 @@ class LaunchListLogicTest {
     }
 
     @Test
-    fun lastMinuteDeal() {
-        assertEquals(false, launchListLogic.showLastMinuteDeal())
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppLastMinuteDeals, AbacusVariant.ONE.value)
-        assertEquals(true, launchListLogic.showLastMinuteDeal())
-    }
-
-    @Test
     fun mesoDestinationAd() {
         assertEquals(false, launchListLogic.showMesoDestinationAd())
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusVariant.TWO.value)

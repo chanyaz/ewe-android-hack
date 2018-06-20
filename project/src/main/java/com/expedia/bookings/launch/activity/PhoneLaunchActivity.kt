@@ -805,9 +805,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         if (launchListLogic.showMesoDestinationAd()) {
             events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_MESO_DESTINATION)
         }
-        if (launchListLogic.showLastMinuteDeal()) {
-            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_LMD)
-        }
+        events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_LMD)
         if (havePermissionToAccessLocation(this)) {
             events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_HOTELS_NEARBY)
         }

@@ -64,10 +64,6 @@ open class LaunchListLogic {
         return userStateManager.isUserAuthenticated()
     }
 
-    fun showLastMinuteDeal(): Boolean {
-        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLastMinuteDeals)
-    }
-
     fun showMesoHotelAd(): Boolean {
         if (AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.MesoAd)) {
             val variateForTest = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.MesoAd)

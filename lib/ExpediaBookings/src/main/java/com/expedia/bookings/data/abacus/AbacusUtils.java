@@ -20,7 +20,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppLXDisablePOISearch = new ABTest(13050);
 	public static final ABTest EBAndroidAppFlightsConfirmationItinSharing = new ABTest(14137);
 	public static final ABTest EBAndroidAppLXNavigateToSRP = new ABTest(13152);
-	public static final ABTest EBAndroidAppLastMinuteDeals = new ABTest(15844);
 	public static final ABTest EBAndroidLXMOD = new ABTest(25418, true);
 	public static final ABTest EBAndroidLXMIP = new ABTest(25417, true);
 	public static final ABTest EBAndroidAppAPIMAuth = new ABTest(14654);
@@ -155,7 +154,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidFlightsNativeRateDetailsWebviewCheckout.getKey());
 		testIDs.add(EBAndroidFlightsNativeRateDetailsWebviewCheckoutInEUPos.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
-		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR.getKey());
 		testIDs.add(EBAndroidAppFlightsUrgencyMessaging.getKey());
 		testIDs.add(PackagesTitleChange.getKey());

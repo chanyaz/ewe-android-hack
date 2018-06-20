@@ -70,8 +70,9 @@ class LaunchScreenTest {
         launchListWidget.measure(0, 0)
         launchListWidget.layout(0, 0, 100, 10000)
 
-        assertEquals(LaunchHeaderViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(2).javaClass)
-        assertEquals(CollectionViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(3).javaClass)
+        // position 0: Lob Header, position 1: sign-in card, position 2: last minute deal header, position 3: last minute deal card
+        assertEquals(LaunchHeaderViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(4).javaClass)
+        assertEquals(CollectionViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(5).javaClass)
     }
 
     @Test
@@ -93,8 +94,8 @@ class LaunchScreenTest {
         launchListWidget.measure(0, 0)
         launchListWidget.layout(0, 0, 100, 10000)
 
-        assertEquals(LaunchHeaderViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(2).javaClass)
-        assertEquals(HotelViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(3).javaClass)
+        assertEquals(LaunchHeaderViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(4).javaClass)
+        assertEquals(HotelViewHolder::class.java, launchListWidget.findViewHolderForAdapterPosition(5).javaClass)
     }
 
     @Test
@@ -118,12 +119,12 @@ class LaunchScreenTest {
         launchListWidget.measure(0, 0)
         launchListWidget.layout(0, 0, 100, 10000)
 
-        val h1 = launchListWidget.findViewHolderForAdapterPosition(3) as HotelViewHolder
-        val h2 = launchListWidget.findViewHolderForAdapterPosition(4) as HotelViewHolder
-        val h3 = launchListWidget.findViewHolderForAdapterPosition(5) as HotelViewHolder
-        val h4 = launchListWidget.findViewHolderForAdapterPosition(6) as HotelViewHolder
-        val h5 = launchListWidget.findViewHolderForAdapterPosition(7) as HotelViewHolder
-        val h6 = launchListWidget.findViewHolderForAdapterPosition(8) as HotelViewHolder
+        val h1 = launchListWidget.findViewHolderForAdapterPosition(5) as HotelViewHolder
+        val h2 = launchListWidget.findViewHolderForAdapterPosition(6) as HotelViewHolder
+        val h3 = launchListWidget.findViewHolderForAdapterPosition(7) as HotelViewHolder
+        val h4 = launchListWidget.findViewHolderForAdapterPosition(8) as HotelViewHolder
+        val h5 = launchListWidget.findViewHolderForAdapterPosition(9) as HotelViewHolder
+        val h6 = launchListWidget.findViewHolderForAdapterPosition(10) as HotelViewHolder
 
         assertEquals("5.0", h1.rating.text)
         assertEquals(View.VISIBLE.toLong(), h1.ratingText.visibility.toLong())

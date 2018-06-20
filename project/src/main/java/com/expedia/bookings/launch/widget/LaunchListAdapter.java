@@ -445,9 +445,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (launchListLogic.showMemberDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 			}
-			if (showMesoLMDSection()) {
-				items.add(new LaunchDataItem(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW));
-			}
+			items.add(new LaunchDataItem(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW));
 			if (launchListLogic.showMesoHotelAd()) {
 				if (mesoHotelAdViewModel != null && mesoHotelAdViewModel.dataIsValid()) {
 					items.add(new LaunchDataItem(LaunchDataItem.MESO_HOTEL_AD_VIEW));
@@ -458,9 +456,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 					items.add(new LaunchDataItem(LaunchDataItem.MESO_DESTINATION_AD_VIEW));
 				}
 			}
-			if (launchListLogic.showLastMinuteDeal()) {
-				items.add(new LaunchDataItem(LaunchDataItem.LAST_MINUTE_DEALS));
-			}
+			items.add(new LaunchDataItem(LaunchDataItem.LAST_MINUTE_DEALS));
 			if (FeatureUtilKt.shouldShowRewardLaunchCard(context)) {
 				items.add(new LaunchDataItem(LaunchDataItem.REWARD_CARD_VIEW));
 			}
@@ -592,14 +588,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return new ActiveItinViewModel(
 			context.getString(R.string.launch_upcoming_trips_signed_in),
 			context.getString(R.string.launch_upcoming_trips_subtext_signed_in));
-	}
-
-	// The get inspired header should show if a meso ad (with data) or last minute deals tests are bucketed.
-	@VisibleForTesting
-	protected boolean showMesoLMDSection() {
-		return (launchListLogic.showMesoHotelAd() && mesoHotelAdViewModel != null && mesoHotelAdViewModel.dataIsValid())
-			|| (launchListLogic.showMesoDestinationAd() && mesoDestinationViewModel != null && mesoDestinationViewModel.getMesoDestinationAdResponse() != null)
-			|| launchListLogic.showLastMinuteDeal();
 	}
 
 	public void initMesoAd() {
