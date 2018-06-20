@@ -1,6 +1,7 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
@@ -26,6 +27,7 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -55,6 +57,57 @@ class PackageFilterViewModelTest {
 
         vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.One, false, false)
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
+    }
+
+    @Test
+    fun testStarFilterSelections() {
+        Db.setPackageResponse(mockPackageServiceRule.getMIDHotelResponse())
+        vm.originalResponse = fakeFilteredResponse()
+
+        applyFiltersAndAssertCount(StarRatingValue.One, expectedCount = 0)
+        applyFiltersAndAssertCount(StarRatingValue.Two, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.One, StarRatingValue.Two, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Three, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Three, StarRatingValue.One, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Three, StarRatingValue.Two, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Three, StarRatingValue.Two, StarRatingValue.One, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Four, expectedCount = 0)
+        applyFiltersAndAssertCount(StarRatingValue.Four, StarRatingValue.One, expectedCount = 0)
+        applyFiltersAndAssertCount(StarRatingValue.Four, StarRatingValue.Two, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Four, StarRatingValue.Two, StarRatingValue.One, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Four, StarRatingValue.Three, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Four, StarRatingValue.Three, StarRatingValue.One, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Four, StarRatingValue.Three, StarRatingValue.Two, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Four, StarRatingValue.Three, StarRatingValue.Two, StarRatingValue.One, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.One, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Two, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Two, StarRatingValue.One, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Three, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Three, StarRatingValue.One, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Three, StarRatingValue.Two, expectedCount = 3)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Three, StarRatingValue.Two, StarRatingValue.One, expectedCount = 3)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Four, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Four, StarRatingValue.One, expectedCount = 1)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Four, StarRatingValue.Two, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Four, StarRatingValue.Two, StarRatingValue.One, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Four, StarRatingValue.Three, expectedCount = 2)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Four, StarRatingValue.Three, StarRatingValue.Two, expectedCount = 3)
+        applyFiltersAndAssertCount(StarRatingValue.Five, StarRatingValue.Four, StarRatingValue.Three, StarRatingValue.Two, StarRatingValue.One, expectedCount = 3)
+    }
+
+    private fun applyFiltersAndAssertCount(vararg ratings: StarRatingValue, expectedCount: Int) {
+        for (starRating in ratings) {
+            when (starRating) {
+                StarRatingValue.One -> vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.One, true, false)
+                StarRatingValue.Two -> vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Two, true, false)
+                StarRatingValue.Three -> vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Three, true, false)
+                StarRatingValue.Four -> vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Four, true, false)
+                StarRatingValue.Five -> vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Five, true, false)
+            }
+        }
+        assertEquals(expectedCount, vm.filteredResponse.hotelList.size)
+        vm.clearObservable.onNext(Unit)
     }
 
     @Test
@@ -107,10 +160,6 @@ class PackageFilterViewModelTest {
         vm.clearObservable.onNext(Unit)
         vm.onHotelVipFilterChangedListener.onHotelVipFilterChanged(true, false)
         assertEquals(1, vm.filteredResponse.hotelList.size)
-
-        vm.clearObservable.onNext(Unit)
-        vm.onHotelPriceFilterChangedListener.onHotelPriceFilterChanged(0, 10, false)
-        assertEquals(1, vm.filteredResponse.hotelList.size)
     }
 
     @Test
@@ -129,6 +178,7 @@ class PackageFilterViewModelTest {
     @Test
     fun sortByRecommendedMID() {
         vm.filteredResponse = HotelSearchResponse.convertPackageToSearchResponse(mockPackageServiceRule.getMIDHotelResponse(), false)
+        vm.sortByObservable.onNext(DisplaySort.DEALS)
         vm.sortByObservable.onNext(DisplaySort.RECOMMENDED)
         assertResultsSortedByRecommended()
     }
@@ -356,7 +406,7 @@ class PackageFilterViewModelTest {
         val testSubscriber = TestObserver.create<Unit>()
         vm.showPreviousResultsObservable.subscribe(testSubscriber)
         vm.doneObservable.onNext(Unit)
-        assertEquals(testSubscriber.values()[0], Unit)
+        testSubscriber.assertValueCount(1)
     }
 
     @Test
@@ -370,6 +420,26 @@ class PackageFilterViewModelTest {
         vm.filterChoicesObservable.subscribe(testSubscriber)
         vm.doneObservable.onNext(Unit)
         assertEquals(testSubscriber.values()[0], vm.userFilterChoices)
+    }
+
+    @Test
+    fun testIsFilteredToZeroResults_noFiltersApplied() {
+        vm.originalResponse = fakeFilteredResponse()
+        assertFalse(vm.isFilteredToZeroResults())
+    }
+
+    @Test
+    fun testIsFilteredToZeroResults_filterAppliedWithFilteredResults() {
+        vm.originalResponse = fakeFilteredResponse()
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged("Hil", false)
+        assertFalse(vm.isFilteredToZeroResults())
+    }
+
+    @Test
+    fun testIsFilteredToZeroResults_filterAppliedWithNoResults() {
+        vm.originalResponse = fakeFilteredResponse()
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged("Wrong_hotel_name", false)
+        assertTrue(vm.isFilteredToZeroResults())
     }
 
     private fun assertResultsSortedByRecommended() {

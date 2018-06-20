@@ -40,7 +40,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
             setFilteredHotelListAndRetainLoyaltyInformation(hotels)
         }
 
-        if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
+        if (filteredResponse.hotelList.isNotEmpty()) {
             filterObservable.onNext(filteredResponse)
         } else {
             filteredZeroResultObservable.onNext(Unit)
@@ -80,10 +80,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         val filterCount = userFilterChoices.filterCount()
         val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
-
-        if (isClientSideFiltering()) {
-            doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
-        }
+        doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
     }
 
     override fun isFilteredToZeroResults(): Boolean {
@@ -118,8 +115,6 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         return filterIsVipAccess(hotel)
                 && filterHotelStarRating(hotel)
                 && filterName(hotel)
-                && filterPriceRange(hotel)
-                && filterNeighborhood(hotel)
     }
 
     private fun filterIsVipAccess(hotel: Hotel): Boolean {
@@ -145,27 +140,6 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         if (name.isBlank()) return true
         val namePattern = Pattern.compile(".*" + userFilterChoices.name + ".*", Pattern.CASE_INSENSITIVE)
         return namePattern.matcher(hotel.localizedName).find()
-    }
-
-    private fun filterPriceRange(hotel: Hotel): Boolean {
-        if (hotel.isSoldOut) {
-            //Check if price filters have not been changed
-            return userFilterChoices.minPrice == 0 && userFilterChoices.maxPrice == 0
-        }
-        val price = hotel.lowRateInfo.priceToShowUsers
-        return (userFilterChoices.minPrice == 0 && price < 0) || (userFilterChoices.minPrice <= price &&
-                (userFilterChoices.maxPrice == 0 || price <= userFilterChoices.maxPrice))
-    }
-
-    private fun filterNeighborhood(hotel: Hotel): Boolean {
-        if (userFilterChoices.neighborhoods.isEmpty()) return true
-
-        for (neighborhood in userFilterChoices.neighborhoods) {
-            if (neighborhood.name == hotel.locationDescription) {
-                return true
-            }
-        }
-        return false
     }
 
     private val popular_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->

@@ -9,8 +9,11 @@ import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 
+import org.jetbrains.annotations.NotNull;
+
 public class HotelSearchResponse extends BaseApiResponse {
 	public String pageViewBeaconPixelUrl = "";
+	@NotNull
 	public List<Hotel> hotelList = new ArrayList<>();
 	public List<Neighborhood> allNeighborhoodsInSearchRegion = new ArrayList<>();
 	public Map<String, AmenityOptions> amenityFilterOptions = new HashMap<>();
