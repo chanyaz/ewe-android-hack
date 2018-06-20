@@ -1495,7 +1495,7 @@ public class OmnitureTracking {
 			String memberDealCode = hotel.isMemberDeal ? "-MOD" : "";
 
 			String strikeThroughPriceString = "";
-			float strikeThroughPriceFloat = hotel.lowRateInfo.strikethroughPriceToShowUsers;
+			float strikeThroughPriceFloat = hotel.lowRateInfo.getStrikeThroughPrice();
 
 			if (strikeThroughPriceFloat > 0) {
 				BigDecimal strikeThroughBd = new BigDecimal(Float.toString(strikeThroughPriceFloat));

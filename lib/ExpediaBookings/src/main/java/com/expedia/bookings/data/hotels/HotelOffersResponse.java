@@ -211,7 +211,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 			.getAmount().floatValue();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().deltaPricePerPerson()
 			.getCurrency();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
+		hotelRoomResponse.rateInfo.chargeableRateInfo.setStrikeThroughPrice(0);
 		hotelRoomResponse.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
 		hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = room.getPrice().getSavings().getAmount()
 			.floatValue();

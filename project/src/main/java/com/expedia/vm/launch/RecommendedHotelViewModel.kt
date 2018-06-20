@@ -81,7 +81,7 @@ class RecommendedHotelViewModel(val context: Context, val hotel: Hotel) {
     }
 
     private fun getStrikethroughPrice(resources: Resources): CharSequence {
-        val formattedMoney = StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.lowRateInfo.currencyCode))
+        val formattedMoney = StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.strikeThroughPrice).toString(), hotel.lowRateInfo.currencyCode))
         return HtmlCompat.fromHtml(resources.getString(R.string.strike_template,
                 formattedMoney),
                 null,

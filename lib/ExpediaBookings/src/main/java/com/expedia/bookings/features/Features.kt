@@ -31,5 +31,6 @@ class Features {
     val lxActivityResultsHeader: Feature by RemoteFeatureDelegate()
     val hotMipRedesign: Feature by RemoteFeatureDelegate()
     val lxEssRegionTypeCall: Feature by RemoteFeatureDelegate()
+    val strikethroughPricingExcludesBurnAmount: Feature by RemoteFeatureDelegate()
     val packagesGlassbox: Feature by RemoteFeatureDelegate()
 }

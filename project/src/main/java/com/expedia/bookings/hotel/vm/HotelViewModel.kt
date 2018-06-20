@@ -44,7 +44,7 @@ open class HotelViewModel(private val context: Context,
     val hotelName: String get() = hotel.localizedName
     val hotelPriceFormatted: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)
     val hotelStrikeThroughPriceFormatted: CharSequence? get() = getStrikeThroughPriceToShowUsers()
-    val strikeThroughPriceToShowUsers: Float get() = hotel.lowRateInfo?.strikethroughPriceToShowUsers ?: -1f
+    val strikeThroughPriceToShowUsers: Float get() = hotel.lowRateInfo?.strikeThroughPrice ?: -1f
     val priceToShowUsers: Float get() = hotel.lowRateInfo?.priceToShowUsers ?: -1f
     val pricePerNight: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)
     val pricePerNightColor: Int get() = ContextCompat.getColor(context, getPricePerNightTextColor())

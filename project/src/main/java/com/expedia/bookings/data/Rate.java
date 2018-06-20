@@ -696,7 +696,7 @@ public class Rate implements JSONable {
 
 		mStrikeThroughPriceToShowUsers = new Money();
 		mStrikeThroughPriceToShowUsers.setCurrency(rate.currencyCode);
-		mStrikeThroughPriceToShowUsers.setAmount(rate.strikethroughPriceToShowUsers);
+		mStrikeThroughPriceToShowUsers.setAmount(rate.getStrikeThroughPrice());
 
 		mShowResortFees = rate.showResortFeeMessage;
 		mResortFeeInclusion = rate.resortFeeInclusion;

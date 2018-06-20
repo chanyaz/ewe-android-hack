@@ -465,7 +465,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         earnMessageVisibilityObservable.onNext(earnMessageVisibility)
 
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
-        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
+        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikeThroughPrice ?: 0f
 
         val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
         if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {

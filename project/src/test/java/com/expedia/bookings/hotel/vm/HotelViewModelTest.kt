@@ -87,7 +87,7 @@ class HotelViewModelTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA, MultiBrand.ORBITZ])
     fun strikeThroughPriceShow() {
         hotel.lowRateInfo.priceToShowUsers = 10f
-        hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f
+        hotel.lowRateInfo.strikeThroughPrice = 12f
 
         setupHotelViewModel()
 
@@ -100,7 +100,7 @@ class HotelViewModelTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA, MultiBrand.ORBITZ])
     fun contentDescriptionWithStrikeThroughPercent() {
         hotel.lowRateInfo.priceToShowUsers = 10f
-        hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f
+        hotel.lowRateInfo.strikeThroughPrice = 12f
         hotel.lowRateInfo.discountPercent = 10f
         hotel.lowRateInfo.airAttached = false
         hotel.hotelStarRating = 4f
@@ -161,7 +161,7 @@ class HotelViewModelTest {
 
     @Test
     fun strikeThroughPriceZeroDontShow() {
-        hotel.lowRateInfo.strikethroughPriceToShowUsers = 0f
+        hotel.lowRateInfo.strikeThroughPrice = 0f
 
         setupHotelViewModel()
 
@@ -171,7 +171,7 @@ class HotelViewModelTest {
     @Test
     fun strikeThroughPriceLessThanPriceToShowUsers() {
         hotel.lowRateInfo.priceToShowUsers = 10f
-        hotel.lowRateInfo.strikethroughPriceToShowUsers = 2f
+        hotel.lowRateInfo.strikeThroughPrice = 2f
 
         setupHotelViewModel()
 
@@ -182,7 +182,7 @@ class HotelViewModelTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY])
     fun zeroIsDisplayedWhenPriceToShowUsersIsNegative() {
         hotel.lowRateInfo.priceToShowUsers = -10f
-        hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f
+        hotel.lowRateInfo.strikeThroughPrice = 12f
         setupHotelViewModel()
 
         assertEquals("$12", vm.hotelStrikeThroughPriceFormatted!!.toString())

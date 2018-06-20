@@ -19,7 +19,7 @@ data class HotelPriceInfo(
         }
 
         strikeThroughPrice?.let { strikeThroughPrice ->
-            hotelRate.strikethroughPriceToShowUsers = strikeThroughPrice
+            hotelRate.strikeThroughPrice = strikeThroughPrice
         }
 
         discountPercentage?.let { discountPercentage ->

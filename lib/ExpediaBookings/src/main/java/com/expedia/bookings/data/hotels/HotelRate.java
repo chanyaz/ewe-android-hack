@@ -6,6 +6,7 @@ import java.util.List;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.multiitem.MandatoryFees;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
@@ -29,6 +30,7 @@ public class HotelRate {
 	public String posuCurrency;
 	public float priceToShowUsers;
 	public float strikethroughPriceToShowUsers;
+	private float strikethroughPriceToShowUsersWithOutBurn;
 	public float dailyMandatoryFee;
 	public float totalMandatoryFees;
 	public List<MandatoryFeesInPOSuCurrency> mandatoryFeesInPOSuCurrency;
@@ -146,14 +148,14 @@ public class HotelRate {
 	}
 
 	public boolean isStrikeThroughPriceValid() {
-		return strikethroughPriceToShowUsers > 0 && getDisplayPrice() < strikethroughPriceToShowUsers;
+		return getStrikeThroughPrice() > 0 && getDisplayPrice() < getStrikeThroughPrice();
 	}
 
 	public Money getDisplayMoney(boolean strikeThrough, boolean shouldFallbackToZeroIfNegative) {
 		// In case of shop with points, price to show users can be negative. We need to show 0 in such cases.
 		float price;
 		if (strikeThrough) {
-			price = shouldFallbackToZeroIfNegative ? getDisplayStrikeThroughPrice() : strikethroughPriceToShowUsers;
+			price = shouldFallbackToZeroIfNegative ? getDisplayStrikeThroughPrice() : getStrikeThroughPrice();
 		}
 		else {
 			price = shouldFallbackToZeroIfNegative ? getDisplayPrice() : priceToShowUsers;
@@ -167,10 +169,24 @@ public class HotelRate {
 	}
 
 	public float getDisplayStrikeThroughPrice() {
-		return (strikethroughPriceToShowUsers < 0) ? 0f : strikethroughPriceToShowUsers;
+		return (getStrikeThroughPrice() < 0) ? 0f : getStrikeThroughPrice();
 	}
 
 	public boolean isDiscountPercentNotZero() {
 		return discountPercent != 0;
+	}
+
+	public float getStrikeThroughPrice() {
+		if (Features.Companion.getAll().getStrikethroughPricingExcludesBurnAmount().enabled()) {
+			return strikethroughPriceToShowUsersWithOutBurn;
+		}
+		else {
+			return strikethroughPriceToShowUsers;
+		}
+	}
+
+	public void setStrikeThroughPrice(float strikeThroughPrice) {
+		this.strikethroughPriceToShowUsersWithOutBurn = strikeThroughPrice;
+		this.strikethroughPriceToShowUsers = strikeThroughPrice;
 	}
 }
