@@ -227,38 +227,25 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return syncFinishObservable;
 	}
 
-	/**
-	 * Get a TripComponent object from a flightHistoryId
-	 * This is useful for push notifications which provide us with a flightHistoryId as
-	 * the only identifier
-	 * <p/>
-	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
-	 * in the itin list will be searched
-	 *
-	 * @param fhid - flightHistoryId from flightstats
-	 * @return TripComponent containing the flight with the matching historyId or null
-	 */
-	@Override
-	public TripFlight getTripComponentFromFlightHistoryId(int fhid) {
-
+	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
+		ItinCardDataFlight fData = null;
 		synchronized (mItinCardDatas) {
-			ItinCardDataFlight fData = null;
 			for (ItinCardData data : mItinCardDatas) {
 				if (data instanceof ItinCardDataFlight) {
 					fData = (ItinCardDataFlight) data;
-					FlightLeg flightLeg = fData.getFlightLeg();
-					for (Flight segment : flightLeg.getSegments()) {
+					for (Flight segment : fData.getFlightLeg().getSegments()) {
 						if (segment.mFlightHistoryId == fhid) {
 							return (TripFlight) fData.getTripComponent();
 						}
 					}
 				}
 			}
-			if (SettingUtils.get(mContext,
-				mContext.getString(R.string.preference_push_notification_any_flight), false) && fData != null) {
-				return (TripFlight) fData.getTripComponent();
-			}
 		}
+		final String key = mContext.getString(R.string.preference_push_notification_any_flight);
+		if (fData != null && SettingUtils.get(mContext, key, false)) {
+			return (TripFlight) fData.getTripComponent();
+		}
+
 		return null;
 	}
 
