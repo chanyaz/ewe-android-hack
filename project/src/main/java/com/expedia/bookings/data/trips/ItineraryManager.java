@@ -182,7 +182,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return comparison;
 	};
 
-	/* ************************************ */
+	/* ********* CLASS METHODS *************************** */
 
 	private ItineraryManager() {
 		this.itinCardData = new ArrayList<>();
@@ -192,6 +192,19 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	public static ItineraryManager getInstance() {
 		return ITINERARY_MANAGER;
 	}
+
+	public static boolean haveTimelyItinItem() {
+		return hasUpcomingOrInProgressTrip(
+				ITINERARY_MANAGER.startTimes,
+				ITINERARY_MANAGER.endTimes
+		);
+	}
+
+	/* ************************************ */
+
+
+
+
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -408,7 +421,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	public void init(Context context) {
 		long start = System.nanoTime();
 
-		context = context;
+		this.context = context;
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 		NotificationScheduler notificationScheduler = Ui.getApplication(context).appComponent().notificationScheduler();
@@ -465,14 +478,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Start times data
-
-	private List<DateTime> getStartTimes() {
-		return startTimes;
-	}
-
-	private List<DateTime> getEndTimes() {
-		return endTimes;
-	}
 
 	private void saveStartAndEndTimes() {
 		// Sync start times whenever we save to disk
@@ -2014,11 +2019,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return true;
 	}
 
-	public static boolean haveTimelyItinItem() {
-		List<DateTime> startTimes = ITINERARY_MANAGER.getStartTimes();
-		List<DateTime> endTimes = ITINERARY_MANAGER.getEndTimes();
-		return hasUpcomingOrInProgressTrip(startTimes, endTimes);
-	}
+
 
 	@VisibleForTesting
 	static boolean hasUpcomingOrInProgressTrip(List<DateTime> startTimes, List<DateTime> endTimes) {
