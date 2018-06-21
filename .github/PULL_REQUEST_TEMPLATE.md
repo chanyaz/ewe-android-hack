@@ -1,5 +1,5 @@
 #### Mingle Card
-CARD_LINK
+https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/{card_number}
 
 #### Reviewer Responsibilities
 - Ensure good test coverage
