@@ -212,6 +212,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//***** initializer *****//
 
+	private ItineraryManager() {
+		this.itinCardData = new ArrayList<>();
+		this.syncFinishObservable = PublishSubject.create();
+	}
+
 	public void init(Context context) {
 		final long start = System.nanoTime();
 
@@ -383,11 +388,40 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
+	private void generateItinCards() {
+		synchronized (itinCardData) {
+			itinCardData.clear();
+
+			final DateTime pastCutOffDateTime = DateTime.now().minusHours(CUTOFF_HOURS);
+			for (Trip trip : trips.values()) {
+				if (trip.getTripComponents() != null) {
+					final List<TripComponent> components = trip.getTripComponents(true);
+					for (TripComponent comp : components) {
+						final List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
+						if (items != null) {
+							for (ItinCardData item : items) {
+								final DateTime endDate = item.getEndDate();
+								if (endDate != null && endDate.isAfter(pastCutOffDateTime)) {
+									itinCardData.add(item);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			Collections.sort(itinCardData, mItinCardDataComparator);
+		}
+	}
+
 	/* ********* PRIVATE METHODS *************************** */
 
-	private ItineraryManager() {
-		this.itinCardData = new ArrayList<>();
-		this.syncFinishObservable = PublishSubject.create();
+	private long getStartMillisUtc(ItinCardData data) {
+		DateTime date = data.getStartDate();
+		if (date == null) {
+			return 0;
+		}
+		return date.withZoneRetainFields(DateTimeZone.UTC).getMillis();
 	}
 
 	private void loadStartAndEndTimes() {
@@ -513,41 +547,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	/* *********** /^\ *************************** */
 	/* ********** (@_@) *************************** */
 	/* ********** <(@)> *************************** */
-
-
-	private void generateItinCardData() {
-		synchronized (itinCardData) {
-			itinCardData.clear();
-
-			DateTime pastCutOffDateTime = DateTime.now().minusHours(CUTOFF_HOURS);
-			for (Trip trip : trips.values()) {
-				if (trip.getTripComponents() != null) {
-					List<TripComponent> components = trip.getTripComponents(true);
-					for (TripComponent comp : components) {
-						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
-						if (items != null) {
-							for (ItinCardData item : items) {
-								DateTime endDate = item.getEndDate();
-								if (endDate != null && endDate.isAfter(pastCutOffDateTime)) {
-									itinCardData.add(item);
-								}
-							}
-						}
-					}
-				}
-			}
-
-			Collections.sort(itinCardData, mItinCardDataComparator);
-		}
-	}
-
-	private long getStartMillisUtc(ItinCardData data) {
-		DateTime date = data.getStartDate();
-		if (date == null) {
-			return 0;
-		}
-		return date.withZoneRetainFields(DateTimeZone.UTC).getMillis();
-	}
 
 	static {
 		// Try to format in UTC for comparison purposes
@@ -1144,7 +1143,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					saveStateToDisk();
 					break;
 				case GENERATE_ITIN_CARDS:
-					generateItinCardData();
+					generateItinCards();
 					break;
 				}
 
