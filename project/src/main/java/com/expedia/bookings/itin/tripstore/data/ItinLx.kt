@@ -28,7 +28,8 @@ data class ActivityLocation(
 )
 
 data class LxPrice(
-        val base: String?
+        val base: String?,
+        val total: String?
 )
 
 data class VendorCustomerServiceOffices(
