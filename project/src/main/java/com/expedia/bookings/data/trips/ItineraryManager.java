@@ -251,7 +251,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 								   + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
-	/* ********* INSTANCE METHODS - JSON *************************** */
+	/* ********* JSON *************************** */
 
 	@Override
 	public JSONObject toJson() {
@@ -274,7 +274,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return true;
 	}
 
-	/* ********* INSTANCE METHODS - Cleanup *************************** */
+	/* ********* CLEAN UP *************************** */
 
 	public void clear() {
 		if (isSyncing()) {
@@ -285,7 +285,31 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ********* INSTANCE METHODS - GETTERS *************************** */
+	/* ********* BACKGROUND TASKS *************************** */
+
+	private void loadStateFromDisk() {
+		if (trips != null) {
+			return;
+		}
+
+		trips = new HashMap<>();
+		final File file = context.getFileStreamPath(MANAGER_PATH);
+		if (file.exists()) {
+			try {
+				fromJson(new JSONObject(
+						IoUtils.readStringFromFile(MANAGER_PATH, context)
+				));
+				Log.i(LOGGING_TAG, "Loaded " + trips.size() + " trips from disk.");
+			} catch (Exception e) {
+				Log.w(LOGGING_TAG, "Could not loadStateFromDisk ItineraryManager data.", e);
+				//noinspection ResultOfMethodCallIgnored
+				file.delete();
+				Log.i(LOGGING_TAG, "Starting with a fresh set of itineraries.");
+			}
+		}
+	}
+
+	/* ********* GETTERS *************************** */
 
 	private List<ItinCardData> getImmutableItinCardDatas() {
 		return Collections.unmodifiableList(new ArrayList<>(itinCardData));
@@ -346,7 +370,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return null;
 	}
 
-	/* ********* INSTANCE METHODS - SETTERS *************************** */
+	/* ********* SETTERS *************************** */
 
 	public void addGuestTrip(String email, String tripNumber) {
 		this.addGuestTrip(email, tripNumber, null);
@@ -449,30 +473,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 		catch (IOException e) {
 			Log.w(LOGGING_TAG, "Could not save ItineraryManager data", e);
-		}
-	}
-
-	private void load() {
-		if (trips == null) {
-			File file = context.getFileStreamPath(MANAGER_PATH);
-			if (file.exists()) {
-				try {
-					JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_PATH, context));
-					fromJson(obj);
-					Log.i(LOGGING_TAG, "Loaded " + trips.size() + " trips from disk.");
-				}
-				catch (Exception e) {
-					Log.w(LOGGING_TAG, "Could not load ItineraryManager data, starting from scratch again...", e);
-					//noinspection ResultOfMethodCallIgnored
-					file.delete();
-				}
-			}
-		}
-
-		if (trips == null) {
-			trips = new HashMap<>();
-
-			Log.i(LOGGING_TAG, "Starting a fresh set of itineraries.");
 		}
 	}
 
@@ -1104,7 +1104,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 				switch (nextTask.mOp) {
 				case LOAD_FROM_DISK:
-					load();
+					loadStateFromDisk();
 					break;
 				case REAUTH_FACEBOOK_USER:
 					reAuthenticateFacebookUser();
