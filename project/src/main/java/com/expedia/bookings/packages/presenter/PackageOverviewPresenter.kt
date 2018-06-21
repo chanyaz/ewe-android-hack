@@ -388,7 +388,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidgetSetup()
         val searchResponse = Db.getPackageResponse() as MultiItemApiSearchResponse
         val hotel = Db.getPackageSelectedHotel()
-        bundleWidget.viewModel.getHotelNameAndDaysToSetUpTitle()
+        bundleWidget.viewModel.setUpAirlineFeeTextAndSplitTicketMessagingOnBundleOverview()
         val cityName = StrUtils.formatCity(Db.sharedInstance.packageParams.destination)
 
         val headerData = OverviewHeaderData(cityName, searchResponse.getHotelCheckOutDate(),

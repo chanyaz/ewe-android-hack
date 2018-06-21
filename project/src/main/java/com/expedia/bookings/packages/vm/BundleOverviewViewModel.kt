@@ -19,8 +19,6 @@ import com.squareup.phrase.Phrase
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import org.joda.time.Days
-import org.joda.time.format.DateTimeFormat
 
 class BundleOverviewViewModel(val context: Context, private val packageServicesManager: PackageServicesManager?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -122,38 +120,9 @@ class BundleOverviewViewModel(val context: Context, private val packageServicesM
         }
     }
 
-    private fun setUpTitle(hotelCity: String, numberOfNights: String) {
-        val stepOne = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, numberOfNights.toInt()))
-                .put("number", numberOfNights)
-                .put("city", hotelCity)
-                .format().toString()
-
-        stepOneTextObservable.onNext(stepOne)
-
-        val stepOneContentDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE_cont_desc, numberOfNights.toInt()))
-                .put("number", numberOfNights)
-                .put("city", hotelCity)
-                .format().toString()
-        stepOneContentDescriptionObservable.onNext(stepOneContentDesc)
-
-        val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
-                .put("origin", Db.sharedInstance.packageParams.origin?.hierarchyInfo?.airport?.airportCode)
-                .put("destination", Db.sharedInstance.packageParams.destination?.hierarchyInfo?.airport?.airportCode)
-                .format().toString()
-        stepTwoTextObservable.onNext(stepTwo)
-        stepThreeTextObservale.onNext("")
+    fun setUpAirlineFeeTextAndSplitTicketMessagingOnBundleOverview() {
         setAirlineFeeTextOnBundleOverview()
         setSplitTicketMessagingOnBundleOverview(Db.sharedInstance.packageParams)
-    }
-
-    fun getHotelNameAndDaysToSetUpTitle() {
-        val packageResponse = Db.getPackageResponse()
-        val hotel = Db.getPackageSelectedHotel()
-        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val checkInDate = dtf.parseLocalDate(packageResponse.getHotelCheckInDate())
-        val checkoutDate = dtf.parseLocalDate(packageResponse.getHotelCheckOutDate())
-        val numOfDaysStay = Days.daysBetween(checkInDate, checkoutDate).days.toString()
-        setUpTitle(hotel.city, numOfDaysStay)
     }
 
     private fun getStepText(stepNumber: Number) = when (stepNumber) {

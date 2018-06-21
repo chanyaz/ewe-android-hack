@@ -4152,25 +4152,12 @@
     <string name="in_lap">In Lap</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">In Seat</string>
-    <!-- Label for flights on checkout overview of Packages -->
-    <string name="flight_checkout_overview_TEMPLATE">Flights - {origin} to {destination}, round trip</string>
-    <!-- Label for hotel on checkout overview of Packages -->
-    <plurals name="hotel_checkout_overview_TEMPLATE">
-        <item quantity="one">Hotel in {city} - 1 room, {number} night</item>
-        <item quantity="other">Hotel in {city} - 1 room, {number} nights</item>
-    </plurals>
     <!-- Label for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_title">Hotel + Flight</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">Save when you book your flights and hotels together</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
     <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
-
-    <!-- Accessibility Label for hotel on checkout overview of Packages -->
-    <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
-        <item quantity="one">Hotel in {city}, 1 room, {number} night</item>
-        <item quantity="other">Hotel in {city}, 1 room, {number} nights</item>
-    </plurals>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">Slide to purchase</string>

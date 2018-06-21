@@ -121,18 +121,12 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testPackageBundleWidgetTitleTextFromMultiItemResponse() {
-        val stepOneTestSubscriber = TestObserver<String>()
-        val stepTwoTestSubscriber = TestObserver<String>()
-        val stepThreeTestSubscriber = TestObserver<String>()
         setupOverviewPresenter()
-        overviewPresenter.bundleWidget.viewModel.stepOneTextObservable.subscribe(stepOneTestSubscriber)
-        overviewPresenter.bundleWidget.viewModel.stepTwoTextObservable.subscribe(stepTwoTestSubscriber)
-        overviewPresenter.bundleWidget.viewModel.stepThreeTextObservale.subscribe(stepThreeTestSubscriber)
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
-        assertEquals("Hotel in Detroit - 1 room, 3 nights", stepOneTestSubscriber.values()[0])
-        assertEquals("Flights - SEA to SFO, round trip", stepTwoTestSubscriber.values()[0])
-        assertEquals("", stepThreeTestSubscriber.values()[0])
+        assertEquals("Step 1: Select hotel", overviewPresenter.bundleWidget.stepOneText.text)
+        assertEquals("Step 2: Select outbound flight", overviewPresenter.bundleWidget.stepTwoText.text)
+        assertEquals("Step 3: Select inbound flight", overviewPresenter.bundleWidget.stepThreeText.text)
     }
 
     @Test

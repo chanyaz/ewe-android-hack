@@ -256,7 +256,7 @@ class BundleOverviewViewModelTests {
         setHotelResponseAndPackageSelectedHotel()
         setUpParams("JFK", true)
 
-        sut.getHotelNameAndDaysToSetUpTitle()
+        sut.setUpAirlineFeeTextAndSplitTicketMessagingOnBundleOverview()
 
         assertEquals(1, splitTicketSubscriber.valueCount())
         assertEquals(true, showSplitTicketSubsciber.values()[0])
@@ -273,7 +273,7 @@ class BundleOverviewViewModelTests {
         setHotelResponseAndPackageSelectedHotel()
         setUpParams("JFK", false)
 
-        sut.getHotelNameAndDaysToSetUpTitle()
+        sut.setUpAirlineFeeTextAndSplitTicketMessagingOnBundleOverview()
 
         assertEquals(0, splitTicketSubscriber.valueCount())
         assertEquals(false, showSplitTicketSubsciber.values()[0])
@@ -290,7 +290,7 @@ class BundleOverviewViewModelTests {
         setHotelResponseAndPackageSelectedHotel()
         setUpParams("JFK", true, true, false)
 
-        sut.getHotelNameAndDaysToSetUpTitle()
+        sut.setUpAirlineFeeTextAndSplitTicketMessagingOnBundleOverview()
 
         assertEquals(0, splitTicketSubscriber.valueCount())
         assertEquals(true, showSplitTicketSubsciber.values()[0])
@@ -307,7 +307,7 @@ class BundleOverviewViewModelTests {
         setHotelResponseAndPackageSelectedHotel()
         setUpParams("JFK", true, false, true)
 
-        sut.getHotelNameAndDaysToSetUpTitle()
+        sut.setUpAirlineFeeTextAndSplitTicketMessagingOnBundleOverview()
 
         assertEquals(0, splitTicketSubscriber.valueCount())
         assertEquals(true, showSplitTicketSubsciber.values()[0])
