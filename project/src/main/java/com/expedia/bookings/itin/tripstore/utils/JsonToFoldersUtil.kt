@@ -7,7 +7,7 @@ import com.mobiata.android.Log
 class JsonToFoldersUtil(private val fileUtils: ITripsJsonFileUtils) : IJsonToFoldersUtil {
     private val LOGGING_TAG = "JsonToFoldersUtil"
 
-    override fun getTripFolders(): List<TripFolder> {
+    override fun getTripFoldersFromDisk(): List<TripFolder> {
         val foldersJsonList = fileUtils.readFromFileDirectory()
         return parseTripFolders(foldersJsonList)
     }
@@ -28,5 +28,5 @@ class JsonToFoldersUtil(private val fileUtils: ITripsJsonFileUtils) : IJsonToFol
 }
 
 interface IJsonToFoldersUtil {
-    fun getTripFolders(): List<TripFolder>
+    fun getTripFoldersFromDisk(): List<TripFolder>
 }

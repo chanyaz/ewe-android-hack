@@ -31,14 +31,14 @@ class JsonToFoldersUtilTest {
 
     @Test
     fun noFolderExists() {
-        val folders = utilToTest.getTripFolders()
+        val folders = utilToTest.getTripFoldersFromDisk()
         assertTrue(folders.isEmpty())
     }
 
     @Test
     fun corruptedFolder() {
         fileUtils.writeToFile("TEST_FILE_1", "Corrupted Content")
-        val folders = utilToTest.getTripFolders()
+        val folders = utilToTest.getTripFoldersFromDisk()
         assertTrue(folders.isEmpty())
     }
 
@@ -46,7 +46,7 @@ class JsonToFoldersUtilTest {
     fun oneFolderExists() {
         val arrayOfFolders = JSONArray(getJsonStringFromMock("api/trips/tripfolders/tripfolders_happy_path_m1_hotel.json", null))
         fileUtils.writeToFile("2515dc80-7aa5-4ddb-ad66-1c381d36989d", arrayOfFolders[0].toString())
-        val folders = utilToTest.getTripFolders()
+        val folders = utilToTest.getTripFoldersFromDisk()
         assertTrue(folders.isNotEmpty())
         assertTrue(folders.size == 1)
         assertEquals("2515dc80-7aa5-4ddb-ad66-1c381d36989d", folders[0].tripFolderId)
@@ -65,7 +65,7 @@ class JsonToFoldersUtilTest {
         fileUtils.writeToFile(tripFolderIds[1], arrayOfFolders[1].toString())
         fileUtils.writeToFile(tripFolderIds[2], arrayOfFolders[2].toString())
         fileUtils.writeToFile(tripFolderIds[3], arrayOfFolders[3].toString())
-        val folders = utilToTest.getTripFolders()
+        val folders = utilToTest.getTripFoldersFromDisk()
         assertTrue(folders.isNotEmpty())
         assertTrue(folders.size == 4)
         val actualFolderIds = listOf(
