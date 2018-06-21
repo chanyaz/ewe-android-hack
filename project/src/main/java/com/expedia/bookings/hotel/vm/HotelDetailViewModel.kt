@@ -108,8 +108,8 @@ class HotelDetailViewModel(context: Context, private val hotelInfoManager: Hotel
         apiSubscriptions.clear()
     }
 
-    fun toggleHotelFavorited(favorited: Boolean) {
-        if (favorited) {
+    fun toggleFavoriteHotel(favorite: Boolean) {
+        if (favorite) {
             hotelFavoritesManager.saveFavorite(context, hotelOffersResponse.hotelId, paramsSubject.value)
         } else {
             hotelFavoritesManager.removeFavorite(context, hotelOffersResponse.hotelId)

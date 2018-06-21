@@ -19,7 +19,8 @@ class HotelFavoritesViewModel(private val context: Context,
                               private val userStateManager: UserStateManager,
                               private val hotelFavoritesManager: HotelFavoritesManager) {
     var receivedResponseSubject = ReplaySubject.create<Unit>()
-    var favoriteHotelRemovedSubject = BehaviorSubject.create<Int>()
+    var favoriteRemovedAtIndexSubject = BehaviorSubject.create<Int>()
+    var favoriteAddedAtIndexSubject = BehaviorSubject.create<Int>()
     var favoritesEmptySubject = BehaviorSubject.create<Unit>()
 
     var response: HotelShortlistResponse<HotelShortlistItem>? = null
@@ -36,6 +37,9 @@ class HotelFavoritesViewModel(private val context: Context,
     val compositeDisposable = CompositeDisposable()
 
     var useShopWithPoints: Boolean? = null
+
+    private var lastRemovedShortlistItem: HotelShortlistItem? = null
+    private var lastRemovedIndex = -1
 
     init {
         if (isUserAuthenticated()) {
@@ -70,17 +74,27 @@ class HotelFavoritesViewModel(private val context: Context,
         return userStateManager.isUserAuthenticated()
     }
 
-    fun removeFavoritedHotel(favoritedHotelIndex: Int) {
-        val favoritedHotel = favoritesList.getOrNull(favoritedHotelIndex)
-        val hotelId = favoritedHotel?.getHotelId()
+    fun removeFavoriteHotelAtIndex(favoriteHotelIndex: Int) {
+        val favoriteHotel = favoritesList.getOrNull(favoriteHotelIndex)
+        val hotelId = favoriteHotel?.getHotelId()
         if (hotelId.isNullOrBlank()) {
             return
         }
+        lastRemovedShortlistItem = favoriteHotel
+        lastRemovedIndex = favoriteHotelIndex
         hotelFavoritesManager.removeFavorite(context, hotelId!!)
-        favoritesList.remove(favoritedHotel)
-        favoriteHotelRemovedSubject.onNext(favoritedHotelIndex)
+        favoritesList.remove(favoriteHotel)
+        favoriteRemovedAtIndexSubject.onNext(favoriteHotelIndex)
         if (favoritesList.isEmpty()) {
             favoritesEmptySubject.onNext(Unit)
+        }
+    }
+
+    fun undoLastRemove() {
+        if (lastRemovedIndex >= 0 && lastRemovedIndex <= favoritesList.size && lastRemovedShortlistItem != null) {
+            hotelFavoritesManager.saveFavorite(context, lastRemovedShortlistItem!!)
+            favoritesList.add(lastRemovedIndex, lastRemovedShortlistItem!!)
+            favoriteAddedAtIndexSubject.onNext(lastRemovedIndex)
         }
     }
 

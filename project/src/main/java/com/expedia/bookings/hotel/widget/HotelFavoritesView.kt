@@ -1,5 +1,6 @@
 package com.expedia.bookings.hotel.widget
 
+import android.app.Activity
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.LinearLayoutManager
@@ -17,6 +18,8 @@ import com.expedia.bookings.hotel.widget.adapter.HotelFavoritesRecyclerViewAdapt
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 
 class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     @VisibleForTesting
@@ -27,6 +30,14 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
     val viewModel = HotelFavoritesViewModel(context,
             Ui.getApplication(context).appComponent().userStateManager(),
             Ui.getApplication(context).hotelComponent().hotelFavoritesManager())
+    @VisibleForTesting
+    val undoSnackbar by lazy {
+        val parentView = (context as Activity).findViewById<View>(android.R.id.content)
+        Snackbar.make(parentView, R.string.hotel_favorites_page_undo_message, Snackbar.LENGTH_LONG)
+                .setAction(R.string.hotel_favorites_page_undo_button_text) { _ -> viewModel.undoLastRemove() }
+                .setActionTextColor(ContextCompat.getColor(context, R.color.brand_secondary))
+    }
+
     private val isUserLoggedIn = viewModel.isUserAuthenticated()
     private lateinit var adapter: HotelFavoritesRecyclerViewAdapter
     private val hotelFavoritesPageEmptyTitle by bindView<TextView>(R.id.hotel_favorites_page_empty_text_view)
@@ -37,9 +48,7 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
         initRecyclerView()
         hotelFavoritesPageEmptyTitle.setVisibility(isUserLoggedIn)
         hotelFavoritesSignInTitle.setInverseVisibility(isUserLoggedIn)
-        viewModel.receivedResponseSubject.subscribe { updateViews() }
-        viewModel.favoriteHotelRemovedSubject.subscribe { index -> adapter.notifyItemRemoved(index) }
-        viewModel.favoritesEmptySubject.subscribe { updateViews() }
+        initViewModelSubscriptions()
     }
 
     fun onClear() {
@@ -57,21 +66,43 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
         adapter.hotelSelectedSubject.subscribe { hotelShortlistItem ->
             navigateToInfosite(hotelShortlistItem)
         }
-        adapter.hotelFavoriteButtonClickedSubject.subscribe { unfavoritedHotel ->
-            viewModel.removeFavoritedHotel(unfavoritedHotel)
+        adapter.favoriteButtonClickedAtIndexSubject.subscribe { favoriteHotelIndex ->
+            viewModel.removeFavoriteHotelAtIndex(favoriteHotelIndex)
         }
         recyclerView.adapter = adapter
     }
 
     private fun updateViews() {
+        updateListVisibility()
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun updateListVisibility() {
         recyclerView.setVisibility(viewModel.shouldShowList())
         emptyContainer.setVisibility(!viewModel.shouldShowList())
-        adapter.notifyDataSetChanged()
     }
 
     private fun navigateToInfosite(hotelShortlistItem: HotelShortlistItem) {
         viewModel.createHotelIntent(hotelShortlistItem)?.let { intent ->
             HotelNavUtils.goToHotels(context, intent)
         }
+    }
+
+    private fun updateRecyclerForUndo(index: Int) {
+        updateListVisibility()
+        adapter.notifyItemInserted(index)
+        recyclerView.scrollToPosition(index)
+    }
+
+    private fun initViewModelSubscriptions() {
+        viewModel.receivedResponseSubject.subscribe { updateViews() }
+        viewModel.favoriteRemovedAtIndexSubject.subscribe { index ->
+            adapter.notifyItemRemoved(index)
+            undoSnackbar.show()
+        }
+        viewModel.favoriteAddedAtIndexSubject.subscribe { index ->
+            updateRecyclerForUndo(index)
+        }
+        viewModel.favoritesEmptySubject.subscribe { updateViews() }
     }
 }

@@ -829,9 +829,9 @@ class HotelDetailViewModelTest {
         vm.hotelFavoritesManager = HotelFavoritesManager(shortlistServicesRule.services!!)
         vm.paramsSubject.onNext(createSearchParams())
         vm.hotelOffersSubject.onNext(offer1)
-        vm.toggleHotelFavorited(true)
+        vm.toggleFavoriteHotel(true)
         assertTrue(HotelFavoritesCache.isFavoriteHotel(context, offer1.hotelId))
-        vm.toggleHotelFavorited(false)
+        vm.toggleFavoriteHotel(false)
         assertFalse(HotelFavoritesCache.isFavoriteHotel(context, offer1.hotelId))
     }
 

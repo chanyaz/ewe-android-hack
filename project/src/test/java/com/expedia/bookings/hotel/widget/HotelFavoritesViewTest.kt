@@ -21,6 +21,9 @@ import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import android.support.design.internal.SnackbarContentLayout
+import android.support.design.widget.Snackbar
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = [ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class])
@@ -57,6 +60,16 @@ class HotelFavoritesViewTest {
         favoriteViewHolder.favoriteTouchTarget.performClick()
         assertEquals(view.recyclerView.visibility, View.GONE)
         assertEquals(view.emptyContainer.visibility, View.VISIBLE)
+        assertTrue(view.undoSnackbar.isShown)
+
+        val snackbarLayout = view.undoSnackbar.view as Snackbar.SnackbarLayout
+        val snackbarContent = snackbarLayout.getChildAt(0) as SnackbarContentLayout
+        snackbarContent.actionView.performClick()
+        forceRecyclerUiUpdate()
+        assertEquals(view.recyclerView.visibility, View.VISIBLE)
+        assertEquals(view.emptyContainer.visibility, View.GONE)
+        favoriteViewHolder = view.recyclerView.findViewHolderForAdapterPosition(0) as HotelFavoritesItemViewHolder
+        assertEquals(favoriteViewHolder.favoriteTouchTarget.visibility, View.VISIBLE)
     }
 
     private fun createHotelShortlistItem(): HotelShortlistItem {

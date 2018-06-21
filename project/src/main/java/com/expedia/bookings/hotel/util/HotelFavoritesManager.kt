@@ -32,6 +32,15 @@ class HotelFavoritesManager(private val shortlistService: HotelShortlistServices
                 createSaveFavoriteObserver(context, hotelId))
     }
 
+    fun saveFavorite(context: Context, hotelShortlistItem: HotelShortlistItem) {
+        saveRequestSubscription?.dispose()
+        val metadata = hotelShortlistItem.shortlistItem?.metaData
+        val hotelId = hotelShortlistItem.getHotelId()
+        if (hotelId != null && metadata != null) {
+            saveRequestSubscription = shortlistService.saveFavoriteHotel(hotelId, metadata, createSaveFavoriteObserver(context, hotelId))
+        }
+    }
+
     fun removeFavorite(context: Context, hotelId: String) {
         deleteRequestSubscription?.dispose()
         deleteRequestSubscription = shortlistService.removeFavoriteHotel(hotelId, createRemoveFavoriteObserver(context, hotelId))

@@ -49,6 +49,10 @@ class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
             this.chkOut = checkOut.toString("yyyyMMdd")
             this.roomConfiguration = roomConfiguration
         }
+        return saveFavoriteHotel(hotelId, metadata, observer)
+    }
+
+    fun saveFavoriteHotel(hotelId: String, metadata: ShortlistItemMetadata, observer: Observer<HotelShortlistResponse<ShortlistItem>>): Disposable {
         return hotelShortListApi.save(metadata, hotelId, CONFIG_ID, PAGE_NAME)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

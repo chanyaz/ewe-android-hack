@@ -3,6 +3,7 @@ package com.expedia.bookings.unit
 import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
 import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
 import com.expedia.bookings.data.hotels.shortlist.ShortlistItem
+import com.expedia.bookings.data.hotels.shortlist.ShortlistItemMetadata
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelShortlistServices
 import com.expedia.bookings.services.TestObserver
@@ -87,6 +88,29 @@ class HotelShortlistServicesTest {
 
         assertEquals(1, response.results.size)
         assertTrue(response.results[0].items.isNotEmpty())
+    }
+
+    @Test
+    fun testSaveShortlistWithMetadata() {
+        val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
+        val metadata = ShortlistItemMetadata().apply {
+            hotelId = ""
+            chkIn = "20180617"
+            chkOut = "20180616"
+            roomConfiguration = "1"
+        }
+        service.saveFavoriteHotel("", metadata, testObserver)
+
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+        testObserver.assertValueCount(1)
+
+        val response = testObserver.values()[0]
+        assertNotNull(response)
+
+        assertEquals(1, response.results.size)
+        assertTrue(response.results[0].items.isNotEmpty())
+        assertTrue(interceptor.wasCalled())
+        assertTrue(hotelShortlistInterceptor.wasCalled())
     }
 
     @Test

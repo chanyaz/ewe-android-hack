@@ -191,10 +191,10 @@ class HotelFavoritesViewModelTest {
         viewModel.favoritesList.add(hotelShortlistItem)
         val testRemoveObserver = TestObserver<Int>()
         val testEmptyObserver = TestObserver<Unit>()
-        viewModel.favoriteHotelRemovedSubject.subscribe(testRemoveObserver)
+        viewModel.favoriteRemovedAtIndexSubject.subscribe(testRemoveObserver)
         viewModel.favoritesEmptySubject.subscribe(testEmptyObserver)
-        viewModel.removeFavoritedHotel(0)
-        viewModel.removeFavoritedHotel(0)
+        viewModel.removeFavoriteHotelAtIndex(0)
+        viewModel.removeFavoriteHotelAtIndex(0)
         testRemoveObserver.assertValueCount(2)
         testEmptyObserver.assertValueCount(1)
     }
@@ -203,9 +203,9 @@ class HotelFavoritesViewModelTest {
     fun testRemoveHotelOutOfBounds() {
         val testRemoveObserver = TestObserver<Int>()
         val testEmptyObserver = TestObserver<Unit>()
-        viewModel.favoriteHotelRemovedSubject.subscribe(testRemoveObserver)
+        viewModel.favoriteRemovedAtIndexSubject.subscribe(testRemoveObserver)
         viewModel.favoritesEmptySubject.subscribe(testEmptyObserver)
-        viewModel.removeFavoritedHotel(0)
+        viewModel.removeFavoriteHotelAtIndex(0)
         testRemoveObserver.assertValueCount(0)
         testEmptyObserver.assertValueCount(0)
     }
@@ -223,12 +223,44 @@ class HotelFavoritesViewModelTest {
 
         val testRemoveObserver = TestObserver<Int>()
         val testEmptyObserver = TestObserver<Unit>()
-        viewModel.favoriteHotelRemovedSubject.subscribe(testRemoveObserver)
+        viewModel.favoriteRemovedAtIndexSubject.subscribe(testRemoveObserver)
         viewModel.favoritesEmptySubject.subscribe(testEmptyObserver)
-        viewModel.removeFavoritedHotel(0)
+        viewModel.removeFavoriteHotelAtIndex(0)
 
         testRemoveObserver.assertValueCount(0)
         testEmptyObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testUndoRemove() {
+        viewModel.favoritesList.add(hotelShortlistItem)
+        val testAddObserver = TestObserver<Int>()
+        viewModel.favoriteAddedAtIndexSubject.subscribe(testAddObserver)
+        viewModel.removeFavoriteHotelAtIndex(0)
+        assertEquals(viewModel.favoritesList.size, 0)
+        viewModel.undoLastRemove()
+        testAddObserver.assertValue(0)
+        assertEquals(viewModel.favoritesList.size, 1)
+
+        shortlistServicesRule.server.takeRequest().path.contains("save/hotelId")
+        shortlistServicesRule.server.takeRequest().path.contains("remove/hotelId")
+    }
+
+    @Test
+    fun testUndoBadIndex() {
+        viewModel.favoritesList.add(hotelShortlistItem)
+        viewModel.favoritesList.add(hotelShortlistItem)
+        val testAddObserver = TestObserver<Int>()
+        viewModel.favoriteAddedAtIndexSubject.subscribe(testAddObserver)
+
+        viewModel.undoLastRemove()
+        assertEquals(viewModel.favoritesList.size, 2)
+        testAddObserver.assertValueCount(0)
+
+        viewModel.removeFavoriteHotelAtIndex(1)
+        viewModel.favoritesList.clear()
+        viewModel.undoLastRemove()
+        testAddObserver.assertValueCount(0)
     }
 
     private fun createHotelShortlistItem(): HotelShortlistItem {

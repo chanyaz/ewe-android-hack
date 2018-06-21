@@ -117,7 +117,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         contentView.viewModel = vm
         hotelInfoToolbarViewModel.favoriteToggledObserver.subscribe { toggled ->
-            (vm as? HotelDetailViewModel)?.toggleHotelFavorited(toggled)
+            (vm as? HotelDetailViewModel)?.toggleFavoriteHotel(toggled)
         }
     }
 

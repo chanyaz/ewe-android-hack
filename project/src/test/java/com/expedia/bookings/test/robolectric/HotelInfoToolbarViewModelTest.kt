@@ -123,7 +123,7 @@ class HotelInfoToolbarViewModelTest {
     }
 
     @Test
-    fun testBindWithInitiallyFavorited() {
+    fun testBindWithInitiallyFavorite() {
         HotelFavoritesCache.saveFavoriteId(context, hotelOffer.hotelId)
         val viewModelUnderTest = HotelInfoToolbarViewModel(context)
         val hotelFavoriteResourceSubscriber = TestObserver.create<Int>()
