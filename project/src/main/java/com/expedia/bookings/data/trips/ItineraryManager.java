@@ -385,8 +385,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* PRIVATE METHODS *************************** */
 
-	//***** initializer *****//
-
 	private ItineraryManager() {
 		this.itinCardData = new ArrayList<>();
 		this.syncFinishObservable = PublishSubject.create();
@@ -408,8 +406,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			}
 		}
 	}
-
-	//***** cleanup *****//
 
 	private void doClearData() {
 		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
@@ -445,12 +441,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		trips.clear();
 	}
 
-	//
-
-	private List<ItinCardData> getImmutableItinCardDatas() {
-		return Collections.unmodifiableList(new ArrayList<>(itinCardData));
-	}
-
 	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 		ItinCardDataFlight fData = null;
 		synchronized (itinCardData) {
@@ -473,7 +463,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return null;
 	}
 
-	/* ********* PRIVATE HELPERS - L2 *************************** */
+	private List<ItinCardData> getImmutableItinCardDatas() {
+		return Collections.unmodifiableList(new ArrayList<>(itinCardData));
+	}
+
+	/* ********* PRIVATE METHODS - L2 *************************** */
 
 	private void saveStartAndEndTimes() {
 		// Sync data before disk write
@@ -516,27 +510,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ************************************ */
+	/* *********** /^\ *************************** */
+	/* ********** (@_@) *************************** */
+	/* ********** <(@)> *************************** */
 
-	//////////////////////////////////////////////////////////////////////////
-	// Data
-	@VisibleForTesting
-	void setTripsJsonFileUtils(ITripsJsonFileUtils tripsJsonFileUtils) {
-		this.tripsJsonFileUtils = tripsJsonFileUtils;
-	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Start times data
-	private void deleteStartAndEndTimes() {
-		File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
-		if (file.exists()) {
-			//noinspection ResultOfMethodCallIgnored
-			file.delete();
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Itin card data
 	private void generateItinCardData() {
 		synchronized (itinCardData) {
 			itinCardData.clear();
