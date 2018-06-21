@@ -118,6 +118,14 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
+	@SuppressWarnings("serial")
+	private static class TaskPriorityQueue extends PriorityBlockingQueue<Task> {
+		@Override
+		public boolean add(Task o) {
+			return !contains(o) && super.add(o);
+		}
+	}
+
 	private class Task implements Comparable<Task> {
 		SyncOperation mOp;
 		Trip mTrip;
@@ -1299,7 +1307,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* INSTANCE METHODS *************************** */
 
-	//***** initializer *****//
+	//***** Initializer *****//
 
 	private ItineraryManager() {
 		this.endTimes = new ArrayList<>();
@@ -1353,7 +1361,54 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return true;
 	}
 
-	//***** cleanup *****//
+	//***** Sync *****//
+
+	@Override
+	public boolean startSync(boolean forceRefresh) {
+		return startSync(forceRefresh, true, true);
+	}
+
+	public boolean startSync(boolean forceRefresh, boolean load, boolean update) {
+		if (!forceRefresh && DateTime.now().getMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
+			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
+			return false;
+		}
+		else if (trips != null && trips.size() == 0 && !userStateManager.isUserAuthenticated()
+						 && !hasFetchSharedInQueue()) {
+			Log.d(LOGGING_TAG,
+					"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
+							+
+							" we're not starting a formal sync; but we will call onSyncFinished() with no results");
+			onSyncFinished(trips.values());
+			return false;
+		}
+		else if (isSyncing()) {
+			Log.d(LOGGING_TAG, "Tried to start a sync while one is already in progress.");
+			return true;
+		}
+		else {
+			Log.i(LOGGING_TAG, "Starting an ItineraryManager sync...");
+
+			// Add default sync operations
+			if (load) {
+				mSyncOpQueue.add(new Task(SyncOperation.LOAD_FROM_DISK));
+			}
+			if (update) {
+				mSyncOpQueue.add(new Task(SyncOperation.REAUTHENTICATE_FACEBOOK_USER));
+				mSyncOpQueue.add(new Task(SyncOperation.REFRESH_USER_TRIPS));
+				mSyncOpQueue.add(new Task(SyncOperation.GATHER_TRIPS));
+				mSyncOpQueue.add(new Task(SyncOperation.DEDUPLICATE_TRIPS));
+				mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+				mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
+			}
+
+			startSyncIfNotInProgress();
+
+			return true;
+		}
+	}
+
+	//***** Clean Up *****//
 
 	public void clear() {
 		if (isSyncing()) {
@@ -1364,7 +1419,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	//***** getters *****//
+	//***** Getters *****//
 
 	public Collection<Trip> getTrips() {
 		return trips != null ? trips.values() : Collections.emptyList();
@@ -1426,7 +1481,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		mSyncListeners.add(listener);
 	}
 
-	//***** setters *****//
+	//***** Setters *****//
 
 	public void addGuestTrip(String email, String tripNumber) {
 		this.addGuestTrip(email, tripNumber, null);
@@ -1454,7 +1509,9 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		mSyncListeners.remove(listener);
 	}
 
-	/* ********* PROGRESS UPDATES *************************** */
+	/* ********* PRIVATE METHODS *************************** */
+
+	//***** Progress Updates *****//
 
 	private void onTripRemoved(Trip trip) {
 		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
@@ -1472,7 +1529,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ********* PRIVATE METHODS *************************** */
+	//***** Called from public methods *****//
 
 	private long getStartMillisUtc(ItinCardData data) {
 		DateTime date = data.getStartDate();
@@ -1559,7 +1616,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return Collections.unmodifiableList(new ArrayList<>(itinCardData));
 	}
 
-	/* ********* PRIVATE METHODS - L2 *************************** */
+	//***** Called from private methods *****//
 
 	private void saveStartAndEndTimes() {
 		// Sync data before disk write
@@ -1606,21 +1663,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	/* ********** (@_@) *************************** */
 	/* ********** <(@)> *************************** */
 
-
-
-	// Priority queue that doesn't allow duplicates to be added
-	@SuppressWarnings("serial")
-	private static class TaskPriorityQueue extends PriorityBlockingQueue<Task> {
-		@Override
-		public boolean add(Task o) {
-			if (!contains(o)) {
-				return super.add(o);
-			}
-
-			return false;
-		}
-	}
-
 	/**
 	 * Start a sync operation.
 	 * <p/>
@@ -1628,50 +1670,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	 *
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
-	@Override
-	public boolean startSync(boolean forceRefresh) {
-		return startSync(forceRefresh, true, true);
-	}
 
-	public boolean startSync(boolean forceRefresh, boolean load, boolean update) {
-		if (!forceRefresh && DateTime.now().getMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
-			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
-			return false;
-		}
-		else if (trips != null && trips.size() == 0 && !userStateManager.isUserAuthenticated()
-			&& !hasFetchSharedInQueue()) {
-			Log.d(LOGGING_TAG,
-				"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
-					+
-					" we're not starting a formal sync; but we will call onSyncFinished() with no results");
-			onSyncFinished(trips.values());
-			return false;
-		}
-		else if (isSyncing()) {
-			Log.d(LOGGING_TAG, "Tried to start a sync while one is already in progress.");
-			return true;
-		}
-		else {
-			Log.i(LOGGING_TAG, "Starting an ItineraryManager sync...");
-
-			// Add default sync operations
-			if (load) {
-				mSyncOpQueue.add(new Task(SyncOperation.LOAD_FROM_DISK));
-			}
-			if (update) {
-				mSyncOpQueue.add(new Task(SyncOperation.REAUTHENTICATE_FACEBOOK_USER));
-				mSyncOpQueue.add(new Task(SyncOperation.REFRESH_USER_TRIPS));
-				mSyncOpQueue.add(new Task(SyncOperation.GATHER_TRIPS));
-				mSyncOpQueue.add(new Task(SyncOperation.DEDUPLICATE_TRIPS));
-				mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
-				mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
-			}
-
-			startSyncIfNotInProgress();
-
-			return true;
-		}
-	}
 
 	public boolean deepRefreshTrip(Trip trip) {
 		return deepRefreshTrip(trip.getItineraryKey(), false);
