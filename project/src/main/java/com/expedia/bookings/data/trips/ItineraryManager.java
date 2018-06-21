@@ -95,6 +95,871 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* DATA TYPES *************************** */
 
+	private enum Operation {
+		LOAD_FROM_DISK,
+		REAUTHENTICATE_FACEBOOK_USER,
+		REFRESH_USER_TRIPS,
+		GATHER_TRIPS,
+		REFRESH_FLIGHT_STATUS,
+		PUBLISH_TRIP_UPDATE,
+		REFRESH_ALL_TRIPS,
+		DEEP_REFRESH_TRIP,
+		REFRESH_TRIP,
+		FETCH_SHARED_ITIN,
+		REMOVE_ITIN,
+		DEDUPLICATE_TRIPS,
+		SAVE_TO_DISK,
+		GENERATE_ITIN_CARDS,
+	}
+
+	//TODO: to be formatted
+	class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
+
+		/*
+		 * Implementation note - we regularly check if the sync has been
+		 * cancelled (after every service call).  If it has been cancelled,
+		 * then we exit out quickly.  If you add any service calls, also
+		 * check afterwards (since the service calls are where the app
+		 * will get hung up during a cancel).
+		 */
+		private ExpediaServices mServices;
+		private TripsServicesInterface tripsServices;
+		private AccountService accountService;
+
+		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
+		private Set<String> mGuestTripsNotYetLoaded = new HashSet<>();
+
+		// Earlier versions of AsyncTask do not tell you when they are cancelled correctly.
+		// This will let us know when the AsyncTask has fully completed its mission (even
+		// if it was cancelled).
+		private boolean mFinished = false;
+
+		// These variables are used for stat tracking
+		private Map<Operation, Integer> mOpCount = new HashMap<>();
+		private int tripsRefreshed = 0;
+		private int mTripRefreshFailures = 0;
+		private int tripsAdded = 0;
+		private int tripsRemoved = 0;
+		private int mFlightsUpdated = 0;
+
+		SyncTask(TripsServicesInterface tripsServices, ExpediaServices legacyExpediaServices, AccountService accountService) {
+			mServices = legacyExpediaServices;
+			this.tripsServices = tripsServices;
+			this.accountService = accountService;
+
+			for (Operation op : Operation.values()) {
+				mOpCount.put(op, 0);
+			}
+		}
+
+		private class CurrentTime implements TimeSource {
+
+			@Override
+			public long now() {
+				return DateTime.now().getMillis();
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (trips == null) {
+				Log.i(LOGGING_TAG,
+					"Sync called with trips == null. Loading trips from disk and generating itin cards before other operations in queue.");
+				TaskPriorityQueue queueWithLoadFromDiskFirst = new TaskPriorityQueue();
+				queueWithLoadFromDiskFirst.add(new Task(Operation.LOAD_FROM_DISK));
+				queueWithLoadFromDiskFirst.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				queueWithLoadFromDiskFirst.addAll(mSyncOpQueue);
+
+				mSyncOpQueue.clear();
+				mSyncOpQueue.addAll(queueWithLoadFromDiskFirst);
+			}
+		}
+
+		@Override
+		protected Collection<Trip> doInBackground(Void... params) {
+
+			while (!mSyncOpQueue.isEmpty()) {
+				Task nextTask = mSyncOpQueue.remove();
+
+				switch (nextTask.mOp) {
+					case LOAD_FROM_DISK:
+						loadStateFromDisk();
+						break;
+					case REAUTHENTICATE_FACEBOOK_USER:
+						reAuthenticateFacebookUser();
+						break;
+					case REFRESH_USER_TRIPS:
+						refreshUserList();
+						break;
+					case GATHER_TRIPS:
+						gatherTrips();
+						break;
+					case REFRESH_FLIGHT_STATUS:
+						updateFlightStatuses(nextTask.mTrip);
+						break;
+					case PUBLISH_TRIP_UPDATE:
+						publishTripUpdate(nextTask.mTrip);
+						break;
+					case REFRESH_ALL_TRIPS:
+						refreshAllTrips(new CurrentTime(), trips);
+						break;
+					case DEEP_REFRESH_TRIP:
+						Trip trip = nextTask.mTrip;
+						if (trip == null && !TextUtils.isEmpty(nextTask.mTripNumber)) {
+							// Try to retrieve a trip here
+							trip = trips.get(nextTask.mTripNumber);
+
+							if (trip == null) {
+								Log.w(LOGGING_TAG, "Could not deep refresh trip # " + nextTask.mTripNumber
+														   + "; it was not loaded as a guest trip nor user trip");
+							}
+						}
+
+						if (trip != null) {
+							refreshTrip(trip, true);
+						}
+						break;
+					case REFRESH_TRIP:
+						refreshTrip(nextTask.mTrip, false);
+						break;
+					case DEDUPLICATE_TRIPS:
+						deduplicateTrips();
+						break;
+					case FETCH_SHARED_ITIN:
+						downloadSharedItinTrip(nextTask.mTripNumber);
+						break;
+					case REMOVE_ITIN:
+						removeTrip(nextTask.mTripNumber);
+						break;
+					case SAVE_TO_DISK:
+						saveStateToDisk();
+						break;
+					case GENERATE_ITIN_CARDS:
+						generateItinCards();
+						break;
+				}
+
+				// Update stats
+				mOpCount.put(nextTask.mOp, mOpCount.get(nextTask.mOp) + 1);
+
+				// After each task, check if we've been cancelled
+				if (isCancelled()) {
+					return null;
+				}
+			}
+
+			// If we get down to here, we can assume that the operation queue is finished
+			// and we return a list of the existing Trips.
+			return trips.values();
+		}
+
+		@Override
+		protected void onProgressUpdate(ProgressUpdate... values) {
+			super.onProgressUpdate(values);
+
+			ProgressUpdate update = values[0];
+
+			switch (update.mType) {
+				case ADDED:
+					onTripAdded(update.mTrip);
+					break;
+				case UPDATED:
+					onTripUpdated(update.mTrip);
+					break;
+				case UPDATE_FAILED:
+					onTripUpdateFailed(update.mTrip);
+					break;
+				case FAILED_FETCHING_GUEST_ITINERARY:
+					onTripFailedFetchingGuestItinerary();
+					break;
+				case FAILED_FETCHING_REGISTERED_USER_ITINERARY:
+					onTripFailedFetchingRegisteredUserItinerary();
+					break;
+				case REMOVED:
+					onTripRemoved(update.mTrip);
+					break;
+				case SYNC_ERROR:
+					onSyncFailed(update.mError);
+					break;
+				case USER_ADDED_COMPLETED_TRIP:
+					onCompletedTripAdded(update.mTrip);
+					break;
+				case USER_ADDED_CANCELLED_TRIP:
+					onCancelledTripAdded(update.mTrip);
+					break;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Collection<Trip> trips) {
+			super.onPostExecute(trips);
+
+			onSyncFinished(trips);
+			logStats();
+
+			mFinished = true;
+			if (userStateManager.isUserAuthenticated() || (trips != null && trips.size() > 0)) {
+				// Only remember the last update time if there was something actually updated;
+				// either the user was logged in (but had no trips) or there are guest trips
+				// present.  Also, don't bother doing this w/ quick sync as we'll just be
+				// starting a new sync immediately (which should trigger this)
+				mLastUpdateTime = DateTime.now().getMillis();
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			// Currently, the only reason we are canceled is if
+			// the user signs out mid-update.  So continue
+			// the signout in that case.
+			doClearData();
+
+			onSyncFailed(SyncError.CANCELLED);
+
+			onSyncFinished(null);
+
+			logStats();
+
+			mFinished = true;
+		}
+
+		// Should be called in addition to cancel(boolean), in order
+		// to cancel the update mid-download
+		void cancelDownloads() {
+			mServices.onCancel();
+		}
+
+		boolean finished() {
+			return mFinished;
+		}
+
+		private void logStats() {
+			Log.d(LOGGING_TAG, "Sync Finished; stats below.");
+			for (Operation op : Operation.values()) {
+				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
+			}
+
+			Log.i(LOGGING_TAG,
+					"# Trips=" + (trips == null ? 0 : trips.size()) + "; # Added=" + tripsAdded + "; # Removed="
+							+ tripsRemoved);
+			Log.i(LOGGING_TAG, "# Refreshed=" + tripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
+			Log.i(LOGGING_TAG, "# Flights Updated=" + mFlightsUpdated);
+		}
+
+		//////////////////////////////////////////////////////////////////////
+		// Operations
+
+		private void updateFlightStatuses(Trip trip) {
+			long now = DateTime.now().getMillis();
+
+			for (TripComponent tripComponent : trip.getTripComponents(true)) {
+				if (tripComponent.getType() == Type.FLIGHT) {
+					TripFlight tripFlight = (TripFlight) tripComponent;
+					FlightTrip flightTrip = tripFlight.getFlightTrip();
+					for (int i = 0; i < flightTrip.getLegCount(); i++) {
+						FlightLeg fl = flightTrip.getLeg(i);
+
+						for (Flight segment : fl.getSegments()) {
+							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getMillis();
+							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getMillis();
+							long timeToTakeOff = takeOff - now;
+							long timeSinceLastUpdate = now - segment.mLastUpdated;
+							if (segment.mFlightHistoryId == -1) {
+								// we have never got data from FS, so segment.mLastUpdated is unreliable at best
+								timeSinceLastUpdate = Long.MAX_VALUE;
+							}
+
+							// Logic for whether to update; this could be compacted, but I've left it
+							// somewhat unwound so that it can actually be understood.
+							boolean update = false;
+							String status = segment.mStatusCode;
+							if (!status.equals(Flight.STATUS_CANCELLED) && !status.equals(Flight.STATUS_DIVERTED)) {
+								// only worth updating if we haven't already hit a final state (Cancelled, Diverted)
+								// we will potentially check after LANDED as we get updated arrival info for a little while after landing
+								if (timeToTakeOff > 0) {
+									if ((timeToTakeOff < TWELVE_HOURS && timeSinceLastUpdate > FIVE_MINUTES)
+												|| (timeToTakeOff < TWENTY_FOUR_HOURS && timeSinceLastUpdate > ONE_HOUR)
+												|| (timeToTakeOff < SEVENTY_TWO_HOURS && timeSinceLastUpdate > TWELVE_HOURS)) {
+										update = true;
+									}
+								} else if (now < landing && timeSinceLastUpdate > FIVE_MINUTES) {
+									update = true;
+								} else if (now > landing) {
+									if (now < (landing + SEVEN_DAYS)
+												&& timeSinceLastUpdate > (now - (landing + ONE_HOUR))
+												&& timeSinceLastUpdate > FIVE_MINUTES) {
+										// flight should have landed some time in the last seven days
+										// AND the last update was less than 1 hour after the flight should have landed (or did land)
+										// AND the last update was more than 5 minutes ago
+										update = true;
+									}
+								}
+							}
+
+							if (update) {
+								Flight updatedFlight = mServices.getUpdatedFlight(segment);
+
+								if (isCancelled()) {
+									return;
+								}
+
+								segment.updateFrom(updatedFlight);
+
+								mFlightsUpdated++;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		private void publishTripUpdate(Trip trip) {
+			// We only consider a guest trip added once it has some meaningful info
+			if (trip.isGuest() && mGuestTripsNotYetLoaded.contains(trip.getTripNumber())) {
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
+				tripsAdded++;
+			} else {
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATED, trip));
+			}
+
+			// POSSIBLE TODO: Only call tripUpated() when it's actually changed
+		}
+
+		void reAuthenticateFacebookUser() {
+			accountService.facebookReauth(context)
+					.blockingSubscribe(new DisposableObserver<FacebookLinkResponse>() {
+						@Override
+						public void onComplete() {
+						}
+
+						@Override
+						public void onError(Throwable e) {
+							Log.w("FB: Auto-Login failed, " + e.getMessage());
+						}
+
+						@Override
+						public void onNext(FacebookLinkResponse response) {
+							if (response == null) {
+								Log.w("FB: Auto-Login failed, null response");
+							} else if (response.isSuccess()) {
+								Log.i("FB: Auto-Login succeeded");
+							} else {
+								Log.w("FB: Auto-Login failed, " + response.tlError);
+							}
+						}
+					});
+		}
+
+		void refreshAllTrips(TimeSource timeSource, Map<String, Trip> trips) {
+			final Map<String, Trip> readMap = Collections.unmodifiableMap(new HashMap(trips));
+			final List<Observable<JSONObject>> observables = new ArrayList<>();
+			for (Trip trip : readMap.values()) {
+				if (timeSource.now() - REFRESH_TRIP_CUTOFF > trip.getLastCachedUpdateMillis()) {
+					if (trip.isShared() && trip.hasExpired(CUTOFF_HOURS)) {
+						Log.w(LOGGING_TAG, "REFRESH_ALL_TRIPS: Removing a shared trip because it is completed and past the cutoff.  tripNum=" + trip.getItineraryKey());
+
+						Trip removeTrip = trips.remove(trip.getItineraryKey());
+						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
+
+						tripsRemoved++;
+						continue;
+					}
+					if (trip.isShared()) {
+						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for shared trip.  tripNum=" + trip.getItineraryKey());
+						observables.add(tripsServices.getSharedTripDetailsObservable(trip.getShareInfo().getSharableDetailsApiUrl()).onErrorReturn(onErrorReturnNull()));
+					} else if (trip.isGuest()) {
+						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for guest trip.  tripNum=" + trip.getItineraryKey());
+						observables.add(tripsServices.getGuestTripObservable(trip.getTripNumber(), trip.getGuestEmailAddress(), false).onErrorReturn(onErrorReturnNull()));
+					} else {
+						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for user trip.  tripNum=" + trip.getItineraryKey());
+						observables.add(tripsServices.getTripDetailsObservable(trip.getTripId(), false).onErrorReturn(onErrorReturnNull()));
+					}
+				}
+			}
+			waitAndParseDetailResponses(observables, trips, new HandleTripResponse());
+		}
+
+		@NonNull
+		private Function<Throwable, JSONObject> onErrorReturnNull() {
+			return new Function<Throwable, JSONObject>() {
+				@Override
+				public JSONObject apply(Throwable throwable) {
+					try {
+						String jsonString = ((HttpException) throwable).response().errorBody().string();
+						return new JSONObject(jsonString);
+					} catch (Exception e) {
+						return null;
+					}
+				}
+			};
+		}
+
+		void waitAndParseDetailResponses(List<Observable<JSONObject>> observables, final Map<String, Trip> trips, final IHandleTripResponse handleTripResponse) {
+			Observable.zip(observables, new Function<Object[], List<JSONObject>>() {
+				@Override
+				public List<JSONObject> apply(Object[] objects) throws Exception {
+					ArrayList<JSONObject> responseList = new ArrayList<>();
+					for (Object arg : objects) {
+						responseList.add((JSONObject) arg);
+					}
+					Log.i(LOGGING_TAG,
+							"REFRESH_ALL_TRIPS: Number of responses received in zip " + responseList.size());
+					return responseList;
+				}
+			}).flatMap(new Function<List<JSONObject>, Observable<JSONObject>>() {
+				@Override
+				public Observable<JSONObject> apply(List<JSONObject> jsonObjects) {
+					return Observable.fromIterable(jsonObjects);
+				}
+			}).blockingSubscribe(new Observer<JSONObject>() {
+				@Override
+				public void onComplete() {
+				}
+
+				@Override
+				public void onError(Throwable e) {
+					Log.e(LOGGING_TAG, "REFRESH_ALL_TRIPS: Error observable");
+					e.printStackTrace();
+				}
+
+				@Override
+				public void onSubscribe(Disposable d) {
+				}
+
+				@Override
+				public void onNext(JSONObject jsonObject) {
+					TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(jsonObject);
+					if ((response == null) || (response.getTrip() == null)) {
+						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is null");
+						handleTripResponse.refreshTripResponseNull(new Trip());
+					} else {
+						Trip updatedTrip = response.getTrip();
+						//getItineraryKey() handles both user and shared trips
+						String itineraryKey = updatedTrip.getItineraryKey();
+						if (trips.containsKey(itineraryKey)) {
+							Trip trip = trips.get(itineraryKey);
+							if (response.hasErrors()) {
+								Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response has errors");
+								handleTripResponse.refreshTripResponseHasErrors(trip, response);
+							} else {
+								Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is a success");
+								handleTripResponse.refreshTripResponseSuccess(trip, false, response);
+								writeTripJsonResponseToFile(trip, jsonObject);
+							}
+						}
+					}
+				}
+			});
+		}
+
+		private void refreshTrip(Trip trip, boolean deepRefresh) {
+			// It's possible for a trip to be removed during refresh (if it ends up being canceled
+			// during the refresh).  If it's been somehow queued for multiple refreshes (e.g.,
+			// deep refresh called during a sync) then we want to skip trying to refresh it twice.
+			if (!trips.containsKey(trip.getItineraryKey())) {
+				return;
+			}
+
+			// Only update if we are outside the cutoff
+			long now = DateTime.now().getMillis();
+			if (now - REFRESH_TRIP_CUTOFF > trip.getLastCachedUpdateMillis() || deepRefresh) {
+				// Limit the user to one deep refresh per DEEP_REFRESH_RATE_LIMIT. Use cache refresh if user attempts to
+				// deep refresh within the limit.
+				if (now - trip.getLastFullUpdateMillis() < DEEP_REFRESH_RATE_LIMIT) {
+					deepRefresh = false;
+				}
+
+				if (trip.isShared() && trip.hasExpired(CUTOFF_HOURS)) {
+					Log.w(LOGGING_TAG,
+							"Removing a shared trip because it is completed and past the cutoff.  tripNum="
+									+ trip.getItineraryKey());
+
+					Trip removeTrip = trips.remove(trip.getItineraryKey());
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
+
+					tripsRemoved++;
+					return;
+				}
+
+				TripDetailsResponse response;
+				response = getTripDetailsResponse(trip, deepRefresh);
+
+				HandleTripResponse handleTripResponse = new HandleTripResponse();
+				if (response == null) {
+					handleTripResponse.refreshTripResponseNull(trip);
+				} else if (response.hasErrors()) {
+					handleTripResponse.refreshTripResponseHasErrors(trip, response);
+				} else {
+					handleTripResponse.refreshTripResponseSuccess(trip, deepRefresh, response);
+				}
+			}
+		}
+
+		class HandleTripResponse implements IHandleTripResponse {
+			@Override
+			public void refreshTripResponseNull(@NotNull Trip trip) {
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+				mTripRefreshFailures++;
+			}
+
+			@Override
+			public void refreshTripResponseHasErrors(@NotNull Trip trip, @NotNull TripDetailsResponse response) {
+				Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": " + response.gatherErrorMessage(context));
+
+				// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
+				// As such, we should remove it (but don't remove a trip if it's ever been loaded
+				// or it's not a guest trip).
+				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
+					if (response.getErrors().size() > 0) {
+						Log.w(LOGGING_TAG, "Tried to load guest trip, but failed, so we're removing it.  Email="
+												   + trip.getGuestEmailAddress() + " itinKey="
+												   + trip.getItineraryKey());
+						trips.remove(trip.getItineraryKey());
+						ServerError.ErrorCode errorCode = response.getErrors().get(0).getErrorCode();
+						if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY, trip));
+						} else {
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+						}
+					}
+				}
+				mTripRefreshFailures++;
+			}
+
+			@Override
+			public void refreshTripResponseSuccess(@NotNull Trip trip, boolean deepRefresh, @NotNull TripDetailsResponse response) {
+				Trip updatedTrip = response.getTrip();
+
+				BookingStatus bookingStatus = updatedTrip.getBookingStatus();
+				if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
+							&& trip.getLastCachedUpdateMillis() == 0) {
+					// Normally we'd filter this out; but there is a special case wherein a guest trip is
+					// still in a SAVED state right after booking (when we'd normally add it).  So we give
+					// any guest trip a one-refresh; if we see that it's already been tried once, we let it
+					// die a normal death
+					Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
+
+					trip.markUpdated(false, new CurrentTime());
+				} else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
+					Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
+											   + updatedTrip.getItineraryKey() + " status=" + bookingStatus);
+					removeTrip(updatedTrip.getItineraryKey());
+				} else {
+					// Update trip
+					trip.updateFrom(updatedTrip);
+					trip.markUpdated(deepRefresh, new CurrentTime());
+
+					tripsRefreshed++;
+
+					if (trip.getAirAttach() != null && !trip.isShared()) {
+						Db.getTripBucket().setAirAttach(trip.getAirAttach());
+					}
+
+					if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
+						mSyncOpQueue.add(new Task(Operation.REFRESH_FLIGHT_STATUS, trip));
+						mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
+					}
+				}
+			}
+		}
+
+		TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh) {
+			JSONObject json;
+			if (trip.isShared()) {
+				json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+			} else if (trip.isGuest()) {
+				json = tripsServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
+			} else {
+				json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
+			}
+			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
+			if (json != null && response != null && !response.hasErrors() && response.getTrip() != null) {
+				response.getTrip().setGuestEmailAddress(trip.getGuestEmailAddress());
+				response.getTrip().setIsShared(trip.isShared());
+				writeTripJsonResponseToFile(response.getTrip(), json);
+			}
+			return response;
+		}
+
+		void writeTripJsonResponseToFile(Trip trip, JSONObject json) {
+			if (trip.isGuest()) {
+				try {
+					JSONObject itin = json.optJSONObject("responseData");
+					if (itin != null) {
+						itin.put("isGuest", true);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (trip.isShared()) {
+				try {
+					JSONObject itin = json.optJSONObject("responseData");
+					if (itin != null) {
+						itin.put("isShared", true);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				tripsJsonFileUtils.writeToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
+			} else {
+				tripsJsonFileUtils.writeToFile(trip.getTripId(), json.toString());
+			}
+		}
+
+		void deleteTripJsonFromFile(Trip trip) {
+			if (trip.isShared()) {
+				tripsJsonFileUtils.deleteFile(trip.getShareInfo().getSharableDetailsUrl());
+			} else {
+				tripsJsonFileUtils.deleteFile(trip.getTripId());
+			}
+		}
+
+		// If the user is logged in, retrieve a listing of current trips for logged in user
+		private void refreshUserList() {
+			if (!userStateManager.isUserAuthenticated()) {
+				Log.d(LOGGING_TAG, "User is not logged in, not refreshing user list.");
+			} else {
+				// We only want to get the first N cached details if it's been more than
+				// REFRESH_TRIP_CUTOFF since the last refresh.  If we've refreshed more
+				// recently, then we only want to update individual trips as is necessary
+				// (so that the summary call goes out quickly).
+				boolean getCachedDetails = DateTime.now().getMillis() - REFRESH_TRIP_CUTOFF > mLastUpdateTime;
+
+				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
+										   + getCachedDetails);
+
+				TripResponse response = mServices.getTrips();
+				trackTripRefreshCallMade();
+
+				if (isCancelled()) {
+					return;
+				}
+
+				if (response == null || response.hasErrors()) {
+					String errorMessage = null;
+					if (response != null && response.hasErrors()) {
+						errorMessage = response.gatherErrorMessage(context);
+						for (ServerError serverError : response.getErrors()) {
+							ServerError.ErrorCode errorCode = serverError.getErrorCode();
+							if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
+								logForcedLogoutToCrashlytics();
+								userStateManager.signOut();
+								break;
+							}
+						}
+						Log.w(LOGGING_TAG, "Error updating trips: " + response.gatherErrorMessage(context));
+					}
+					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
+					if (errorMessage == null || errorMessage.isEmpty()) {
+						errorMessage = "Trip details response is null or has errors";
+					}
+					TripsTracking.trackItinTripRefreshCallFailure(errorMessage);
+				} else {
+					Set<String> currentTrips = new HashSet<>(trips.keySet());
+
+					for (Trip trip : response.getTrips()) {
+						if (BookingStatus.filterOut(trip.getBookingStatus())) {
+							continue;
+						}
+
+						String tripKey = trip.getItineraryKey();
+
+						LevelOfDetail lod = trip.getLevelOfDetail();
+						boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
+						if (!trips.containsKey(tripKey)) {
+							trips.put(tripKey, trip);
+
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
+
+							tripsAdded++;
+						} else if (hasFullDetails) {
+							trips.get(tripKey).updateFrom(trip);
+						}
+
+						if (hasFullDetails) {
+							// If we have full details, mark this as recently updated so we don't
+							// refresh it below
+							trip.markUpdated(false, new CurrentTime());
+
+							tripsRefreshed++;
+						}
+
+						if (trip.getAirAttach() != null && !trip.isShared()) {
+							Db.getTripBucket().setAirAttach(trip.getAirAttach());
+						}
+
+						currentTrips.remove(tripKey);
+					}
+
+					// Remove all trips that were not returned by the server (not including guest trips or imported shared trips)
+					for (String tripNumber : currentTrips) {
+						Trip trip = trips.get(tripNumber);
+						if (!trip.isGuest() && !trip.isShared()) {
+							trip = trips.remove(tripNumber);
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+							tripsRemoved++;
+						}
+					}
+					trackTripRefreshCallSuccess();
+				}
+			}
+		}
+
+		void trackTripRefreshCallSuccess() {
+			if (Features.Companion.getAll().getTripsApiCallSuccess().enabled()) {
+				TripsTracking.trackItinTripRefreshCallSuccess();
+			}
+		}
+
+		void trackTripRefreshCallMade() {
+			if (Features.Companion.getAll().getTripsApiCallMade().enabled()) {
+				TripsTracking.trackItinTripRefreshCallMade();
+			}
+		}
+
+		// Add all trips to be updated, even ones that may not need to be refreshed
+		// (so we can see if any of the ancillary data needs to be refreshed).
+		private void gatherTrips() {
+			Log.i(LOGGING_TAG, "Gathering " + trips.values().size() + " trips...");
+
+			Log.i(LOGGING_TAG, "====REFRESH_ALL_TRIPS====");
+			mSyncOpQueue.add(new Task(Operation.REFRESH_ALL_TRIPS));
+		}
+
+		private void deduplicateTrips() {
+			Map<String, String> sharedTripsMap = new HashMap<>();
+			Set<String> sharedTripsToRemove = new HashSet<>();
+
+			// Collect all of the shared trips
+			for (Trip trip : trips.values()) {
+				if (trip.isShared()) {
+					sharedTripsMap.put(trip.getTripComponents().get(0).getUniqueId(), trip.getItineraryKey());
+				}
+			}
+
+			// Check each "regular" trip and see if it matches one of the shared trips
+			for (Trip trip : trips.values()) {
+				if (!trip.isShared()) {
+					for (TripComponent tc : trip.getTripComponents()) {
+						if (sharedTripsMap.keySet().contains(tc.getUniqueId())) {
+							sharedTripsToRemove.add(sharedTripsMap.get(tc.getUniqueId()));
+						}
+					}
+				}
+			}
+
+			// Remove the shared trips
+			Trip trip;
+			for (String key : sharedTripsToRemove) {
+				Log.i(LOGGING_TAG, "Removing duplicate shared itin key=" + key);
+				trip = trips.remove(key);
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+				tripsRemoved++;
+			}
+		}
+
+		private void removeTrip(String tripNumber) {
+			Trip trip = trips.get(tripNumber);
+			if (trip == null) {
+				Log.w(LOGGING_TAG, "Tried to remove a tripNumber that doesn't exist: " + tripNumber);
+			} else {
+				Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
+
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+				// Delete notifications if any.
+				deletePendingNotification(trip);
+				trips.remove(tripNumber);
+				tripsRemoved++;
+
+				deleteTripJsonFromFile(trip);
+			}
+		}
+
+		private void downloadSharedItinTrip(String shareableUrl) {
+			Log.i(LOGGING_TAG, "Creating shared itin placeholder " + shareableUrl);
+			// Create a placeholder trip for this shared itin so that the ItineraryManager knows to
+			// notify the UI to show loading indicator.
+			Trip trip = new Trip();
+			trip.setIsShared(true);
+			trip.getShareInfo().setSharableDetailsUrl(shareableUrl);
+			trips.put(shareableUrl, trip);
+
+			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
+			JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
+			if (json != null && response != null && !response.hasErrors()) {
+				writeTripJsonResponseToFile(trip, json);
+			}
+
+			if (isCancelled()) {
+				return;
+			}
+
+			if (response == null || response.hasErrors()) {
+				if (response != null && response.hasErrors()) {
+					Log.w(LOGGING_TAG, "Error fetching shared itin : " + response.gatherErrorMessage(context));
+				}
+				removeItin(shareableUrl);
+			} else {
+				Trip sharedTrip = response.getTrip();
+				sharedTrip.setIsShared(true);
+
+				// Stuff the URL in the parent trip for later retrieval in case the sharee wants to become a sharer.
+				// This response does not contain any shareable url, so, we gotta save it for later on our own.
+				sharedTrip.getShareInfo().setSharableDetailsUrl(shareableUrl);
+
+				if (sharedTrip.hasExpired(CUTOFF_HOURS)) {
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.USER_ADDED_COMPLETED_TRIP, sharedTrip));
+					// Remove placeholder for loading
+					removeItin(shareableUrl);
+					return;
+				}
+				if (sharedTrip.getBookingStatus() == BookingStatus.CANCELLED) {
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.USER_ADDED_CANCELLED_TRIP, sharedTrip));
+					// Remove placeholder for loading
+					removeItin(shareableUrl);
+					return;
+				}
+
+				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
+				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
+				if (!trips.containsKey(shareableUrl)) {
+					trips.put(shareableUrl, sharedTrip);
+
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, sharedTrip));
+
+					tripsAdded++;
+				} else if (hasFullDetails) {
+					trips.get(shareableUrl).updateFrom(sharedTrip);
+				}
+
+				if (hasFullDetails) {
+					// If we have full details, mark this as recently updated so we don't
+					// refresh it below
+					sharedTrip.markUpdated(false, new CurrentTime());
+
+					tripsRefreshed++;
+
+					mSyncOpQueue.add(new Task(Operation.REFRESH_FLIGHT_STATUS, sharedTrip));
+				}
+
+				if (trip.getAirAttach() != null && !trip.isShared()) {
+					Db.getTripBucket().setAirAttach(trip.getAirAttach());
+				}
+
+				// Note: In the future, we may be getting these parameters from the URL. Currently, we do not, thus we just
+				// send the generic "AppShare" event any time that we import a shared itin. Ideally, the URL will contain
+				// some more info pertaining to tracking and we'd send something like "AppShare.Facebook".
+				HashMap<String, String> deepLinkArg = new HashMap<>();
+				deepLinkArg.put("brandcid", "AppShare");
+				OmnitureTracking.storeDeepLinkParams(deepLinkArg);
+			}
+		}
+
+	}
+
 	public enum SyncError {
 		OFFLINE,
 		USER_LIST_REFRESH_FAILURE,
@@ -201,17 +1066,16 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	private final PublishSubject<List<ItinCardData>> syncFinishObservable;
 
 	private Context context;
-	private UserStateManager userStateManager;
 	private INotificationManager notificationManager;
 	private ITripsJsonFileUtils tripsJsonFileUtils;
+	private List<DateTime> endTimes;
+	private List<DateTime> startTimes;
 	private long mLastUpdateTime;
 	private Map<String, Trip> trips;
+	private Queue<Task> mSyncOpQueue;
+	private Set<ItinerarySyncListener> mSyncListeners;
 	private SyncTask mSyncTask;
-
-	private List<DateTime> endTimes = new ArrayList<>();
-	private List<DateTime> startTimes = new ArrayList<>();
-	private Queue<Task> mSyncOpQueue = new TaskPriorityQueue();
-	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<>();
+	private UserStateManager userStateManager;
 
 	private Comparator<ItinCardData> mItinCardDataComparator = (dataOne, dataTwo) -> {
 
@@ -280,6 +1144,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	//***** initializer *****//
 
 	private ItineraryManager() {
+		this.endTimes = new ArrayList<>();
+		this.startTimes = new ArrayList<>();
+		this.mSyncOpQueue = new TaskPriorityQueue();
+		this.mSyncListeners = new HashSet<>();
+
 		this.itinCardData = new ArrayList<>();
 		this.syncFinishObservable = PublishSubject.create();
 	}
@@ -394,6 +1263,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return null;
 	}
 
+	@Override
+	public void addSyncListener(ItinerarySyncListener listener) {
+		mSyncListeners.add(listener);
+	}
+
 	//***** setters *****//
 
 	public void addGuestTrip(String email, String tripNumber) {
@@ -415,6 +1289,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 		startSyncIfNotInProgress();
+	}
+
+	@Override
+	public void removeSyncListener(ItinerarySyncListener listener) {
+		mSyncListeners.remove(listener);
 	}
 
 	/* ********* BACKGROUND TASKS *************************** */
@@ -618,25 +1497,17 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 
 
-	@Override
-	public void addSyncListener(ItinerarySyncListener listener) {
-		mSyncListeners.add(listener);
-	}
-
-	@Override
-	public void removeSyncListener(ItinerarySyncListener listener) {
-		mSyncListeners.remove(listener);
-	}
+	/* ********* SYNC PROGRESS *************************** */
 
 	private void onTripAdded(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
+		final Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripAdded(trip);
 		}
 	}
 
 	private void onTripUpdated(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
+		final Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripUpdated(trip);
 		}
@@ -730,42 +1601,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	// the looper will pick the highest order operation to execute next.
 	//
 	// !!!!!!
-	private enum Operation {
-		LOAD_FROM_DISK,
-		// Loads saved trips from disk, if we're just starting up
-		REAUTH_FACEBOOK_USER,
-		// Autologin for facebook users
-		REFRESH_USER,
-		// If logged in, refreshes the trip list of the user
-		GATHER_TRIPS,
-		// Enqueues all trips for later operation
 
-		// Refresh ancillary parts of a trip; these are higher priority so that they're
-		// completed after each trip is refreshed (for lazy loading purposes)
-		REFRESH_TRIP_FLIGHT_STATUS,
-		// Refreshes trip statuses on trip
-		PUBLISH_TRIP_UPDATE,
-		// Publishes that we've updated a trip
-
-		// Trip refresh operations
-		REFRESH_ALL_TRIPS,
-		DEEP_REFRESH_TRIP,
-		REFRESH_TRIP,
-
-		FETCH_SHARED_ITIN,
-		// Fetches the shared itin data
-		REMOVE_ITIN,
-		// Removes the selected itin.
-
-		DEDUPLICATE_TRIPS,
-		// Remove shared trip if it matches one associated to a user
-
-		SAVE_TO_DISK,
-		// Saves state of ItineraryManager to disk
-
-		GENERATE_ITIN_CARDS,
-		// Generates itin card data for use
-	}
 
 	private class Task implements Comparable<Task> {
 		Operation mOp;
@@ -882,8 +1718,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 			}
 			if (update) {
-				mSyncOpQueue.add(new Task(Operation.REAUTH_FACEBOOK_USER));
-				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
+				mSyncOpQueue.add(new Task(Operation.REAUTHENTICATE_FACEBOOK_USER));
+				mSyncOpQueue.add(new Task(Operation.REFRESH_USER_TRIPS));
 				mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
 				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
 				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
@@ -909,7 +1745,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				Log.i(LOGGING_TAG, "Deep refreshing trip " + key + ", trying a full refresh just in case.");
 
 				// We'll try to refresh the user to find the trip
-				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
+				mSyncOpQueue.add(new Task(Operation.REFRESH_USER_TRIPS));
 
 				// Refresh the trip via tripNumber; does not guarantee it will be found
 				// by the time we get here (esp. if the user isn't logged in).
@@ -975,880 +1811,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	@Override
 	public boolean isSyncing() {
 		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
-	}
-
-	class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
-
-		/*
-		 * Implementation note - we regularly check if the sync has been
-		 * cancelled (after every service call).  If it has been cancelled,
-		 * then we exit out quickly.  If you add any service calls, also
-		 * check afterwards (since the service calls are where the app
-		 * will get hung up during a cancel).
-		 */
-		private ExpediaServices mServices;
-		private TripsServicesInterface tripsServices;
-		private AccountService accountService;
-
-		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
-		private Set<String> mGuestTripsNotYetLoaded = new HashSet<>();
-
-		// Earlier versions of AsyncTask do not tell you when they are cancelled correctly.
-		// This will let us know when the AsyncTask has fully completed its mission (even
-		// if it was cancelled).
-		private boolean mFinished = false;
-
-		// These variables are used for stat tracking
-		private Map<Operation, Integer> mOpCount = new HashMap<>();
-		private int tripsRefreshed = 0;
-		private int mTripRefreshFailures = 0;
-		private int tripsAdded = 0;
-		private int tripsRemoved = 0;
-		private int mFlightsUpdated = 0;
-
-		SyncTask(TripsServicesInterface tripsServices, ExpediaServices legacyExpediaServices, AccountService accountService) {
-			mServices = legacyExpediaServices;
-			this.tripsServices = tripsServices;
-			this.accountService = accountService;
-
-			for (Operation op : Operation.values()) {
-				mOpCount.put(op, 0);
-			}
-		}
-
-		private class CurrentTime implements TimeSource {
-
-			@Override
-			public long now() {
-				return DateTime.now().getMillis();
-			}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			if (trips == null) {
-				Log.i(LOGGING_TAG,
-					"Sync called with trips == null. Loading trips from disk and generating itin cards before other operations in queue.");
-				TaskPriorityQueue queueWithLoadFromDiskFirst = new TaskPriorityQueue();
-				queueWithLoadFromDiskFirst.add(new Task(Operation.LOAD_FROM_DISK));
-				queueWithLoadFromDiskFirst.add(new Task(Operation.GENERATE_ITIN_CARDS));
-				queueWithLoadFromDiskFirst.addAll(mSyncOpQueue);
-
-				mSyncOpQueue.clear();
-				mSyncOpQueue.addAll(queueWithLoadFromDiskFirst);
-			}
-		}
-
-		@Override
-		protected Collection<Trip> doInBackground(Void... params) {
-
-			while (!mSyncOpQueue.isEmpty()) {
-				Task nextTask = mSyncOpQueue.remove();
-
-				switch (nextTask.mOp) {
-				case LOAD_FROM_DISK:
-					loadStateFromDisk();
-					break;
-				case REAUTH_FACEBOOK_USER:
-					reAuthenticateFacebookUser();
-					break;
-				case REFRESH_USER:
-					refreshUserList();
-					break;
-				case GATHER_TRIPS:
-					gatherTrips();
-					break;
-				case REFRESH_TRIP_FLIGHT_STATUS:
-					updateFlightStatuses(nextTask.mTrip);
-					break;
-				case PUBLISH_TRIP_UPDATE:
-					publishTripUpdate(nextTask.mTrip);
-					break;
-				case REFRESH_ALL_TRIPS:
-					refreshAllTrips(new CurrentTime(), trips);
-					break;
-				case DEEP_REFRESH_TRIP:
-					Trip trip = nextTask.mTrip;
-					if (trip == null && !TextUtils.isEmpty(nextTask.mTripNumber)) {
-						// Try to retrieve a trip here
-						trip = trips.get(nextTask.mTripNumber);
-
-						if (trip == null) {
-							Log.w(LOGGING_TAG, "Could not deep refresh trip # " + nextTask.mTripNumber
-								+ "; it was not loaded as a guest trip nor user trip");
-						}
-					}
-
-					if (trip != null) {
-						refreshTrip(trip, true);
-					}
-					break;
-				case REFRESH_TRIP:
-					refreshTrip(nextTask.mTrip, false);
-					break;
-				case DEDUPLICATE_TRIPS:
-					deduplicateTrips();
-					break;
-				case FETCH_SHARED_ITIN:
-					downloadSharedItinTrip(nextTask.mTripNumber);
-					break;
-				case REMOVE_ITIN:
-					removeTrip(nextTask.mTripNumber);
-					break;
-				case SAVE_TO_DISK:
-					saveStateToDisk();
-					break;
-				case GENERATE_ITIN_CARDS:
-					generateItinCards();
-					break;
-				}
-
-				// Update stats
-				mOpCount.put(nextTask.mOp, mOpCount.get(nextTask.mOp) + 1);
-
-				// After each task, check if we've been cancelled
-				if (isCancelled()) {
-					return null;
-				}
-			}
-
-			// If we get down to here, we can assume that the operation queue is finished
-			// and we return a list of the existing Trips.
-			return trips.values();
-		}
-
-		@Override
-		protected void onProgressUpdate(ProgressUpdate... values) {
-			super.onProgressUpdate(values);
-
-			ProgressUpdate update = values[0];
-
-			switch (update.mType) {
-			case ADDED:
-				onTripAdded(update.mTrip);
-				break;
-			case UPDATED:
-				onTripUpdated(update.mTrip);
-				break;
-			case UPDATE_FAILED:
-				onTripUpdateFailed(update.mTrip);
-				break;
-			case FAILED_FETCHING_GUEST_ITINERARY:
-				onTripFailedFetchingGuestItinerary();
-				break;
-			case FAILED_FETCHING_REGISTERED_USER_ITINERARY:
-				onTripFailedFetchingRegisteredUserItinerary();
-				break;
-			case REMOVED:
-				onTripRemoved(update.mTrip);
-				break;
-			case SYNC_ERROR:
-				onSyncFailed(update.mError);
-				break;
-			case USER_ADDED_COMPLETED_TRIP:
-				onCompletedTripAdded(update.mTrip);
-				break;
-			case USER_ADDED_CANCELLED_TRIP:
-				onCancelledTripAdded(update.mTrip);
-				break;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(Collection<Trip> trips) {
-			super.onPostExecute(trips);
-
-			onSyncFinished(trips);
-			logStats();
-
-			mFinished = true;
-			if (userStateManager.isUserAuthenticated() || (trips != null && trips.size() > 0)) {
-				// Only remember the last update time if there was something actually updated;
-				// either the user was logged in (but had no trips) or there are guest trips
-				// present.  Also, don't bother doing this w/ quick sync as we'll just be
-				// starting a new sync immediately (which should trigger this)
-				mLastUpdateTime = DateTime.now().getMillis();
-			}
-		}
-
-		@Override
-		protected void onCancelled() {
-			// Currently, the only reason we are canceled is if
-			// the user signs out mid-update.  So continue
-			// the signout in that case.
-			doClearData();
-
-			onSyncFailed(SyncError.CANCELLED);
-
-			onSyncFinished(null);
-
-			logStats();
-
-			mFinished = true;
-		}
-
-		// Should be called in addition to cancel(boolean), in order
-		// to cancel the update mid-download
-		void cancelDownloads() {
-			mServices.onCancel();
-		}
-
-		boolean finished() {
-			return mFinished;
-		}
-
-		private void logStats() {
-			Log.d(LOGGING_TAG, "Sync Finished; stats below.");
-			for (Operation op : Operation.values()) {
-				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
-			}
-
-			Log.i(LOGGING_TAG,
-				"# Trips=" + (trips == null ? 0 : trips.size()) + "; # Added=" + tripsAdded + "; # Removed="
-					+ tripsRemoved);
-			Log.i(LOGGING_TAG, "# Refreshed=" + tripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
-			Log.i(LOGGING_TAG, "# Flights Updated=" + mFlightsUpdated);
-		}
-
-		//////////////////////////////////////////////////////////////////////
-		// Operations
-
-		private void updateFlightStatuses(Trip trip) {
-			long now = DateTime.now().getMillis();
-
-			for (TripComponent tripComponent : trip.getTripComponents(true)) {
-				if (tripComponent.getType() == Type.FLIGHT) {
-					TripFlight tripFlight = (TripFlight) tripComponent;
-					FlightTrip flightTrip = tripFlight.getFlightTrip();
-					for (int i = 0; i < flightTrip.getLegCount(); i++) {
-						FlightLeg fl = flightTrip.getLeg(i);
-
-						for (Flight segment : fl.getSegments()) {
-							long takeOff = segment.getOriginWaypoint().getMostRelevantDateTime().getMillis();
-							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getMillis();
-							long timeToTakeOff = takeOff - now;
-							long timeSinceLastUpdate = now - segment.mLastUpdated;
-							if (segment.mFlightHistoryId == -1) {
-								// we have never got data from FS, so segment.mLastUpdated is unreliable at best
-								timeSinceLastUpdate = Long.MAX_VALUE;
-							}
-
-							// Logic for whether to update; this could be compacted, but I've left it
-							// somewhat unwound so that it can actually be understood.
-							boolean update = false;
-							String status = segment.mStatusCode;
-							if (!status.equals(Flight.STATUS_CANCELLED) && !status.equals(Flight.STATUS_DIVERTED)) {
-								// only worth updating if we haven't already hit a final state (Cancelled, Diverted)
-								// we will potentially check after LANDED as we get updated arrival info for a little while after landing
-								if (timeToTakeOff > 0) {
-									if ((timeToTakeOff < TWELVE_HOURS && timeSinceLastUpdate > FIVE_MINUTES)
-										|| (timeToTakeOff < TWENTY_FOUR_HOURS && timeSinceLastUpdate > ONE_HOUR)
-										|| (timeToTakeOff < SEVENTY_TWO_HOURS && timeSinceLastUpdate > TWELVE_HOURS)) {
-										update = true;
-									}
-								}
-								else if (now < landing && timeSinceLastUpdate > FIVE_MINUTES) {
-									update = true;
-								}
-								else if (now > landing) {
-									if (now < (landing + SEVEN_DAYS)
-										&& timeSinceLastUpdate > (now - (landing + ONE_HOUR))
-										&& timeSinceLastUpdate > FIVE_MINUTES) {
-										// flight should have landed some time in the last seven days
-										// AND the last update was less than 1 hour after the flight should have landed (or did land)
-										// AND the last update was more than 5 minutes ago
-										update = true;
-									}
-								}
-							}
-
-							if (update) {
-								Flight updatedFlight = mServices.getUpdatedFlight(segment);
-
-								if (isCancelled()) {
-									return;
-								}
-
-								segment.updateFrom(updatedFlight);
-
-								mFlightsUpdated++;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		private void publishTripUpdate(Trip trip) {
-			// We only consider a guest trip added once it has some meaningful info
-			if (trip.isGuest() && mGuestTripsNotYetLoaded.contains(trip.getTripNumber())) {
-				publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
-				tripsAdded++;
-			}
-			else {
-				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATED, trip));
-			}
-
-			// POSSIBLE TODO: Only call tripUpated() when it's actually changed
-		}
-
-		void reAuthenticateFacebookUser() {
-			accountService.facebookReauth(context)
-					.blockingSubscribe(new DisposableObserver<FacebookLinkResponse>() {
-						@Override
-						public void onComplete() {
-						}
-
-						@Override
-						public void onError(Throwable e) {
-							Log.w("FB: Auto-Login failed, " + e.getMessage());
-						}
-
-						@Override
-						public void onNext(FacebookLinkResponse response) {
-							if (response == null) {
-								Log.w("FB: Auto-Login failed, null response");
-							}
-							else if (response.isSuccess()) {
-								Log.i("FB: Auto-Login succeeded");
-							}
-							else {
-								Log.w("FB: Auto-Login failed, " + response.tlError);
-							}
-						}
-					});
-		}
-
-		void refreshAllTrips(TimeSource timeSource, Map<String, Trip> trips) {
-			final Map<String, Trip> readMap = Collections.unmodifiableMap(new HashMap(trips));
-			final List<Observable<JSONObject>> observables = new ArrayList<>();
-			for (Trip trip : readMap.values()) {
-				if (timeSource.now() - REFRESH_TRIP_CUTOFF > trip.getLastCachedUpdateMillis()) {
-					if (trip.isShared() && trip.hasExpired(CUTOFF_HOURS)) {
-						Log.w(LOGGING_TAG, "REFRESH_ALL_TRIPS: Removing a shared trip because it is completed and past the cutoff.  tripNum=" + trip.getItineraryKey());
-
-						Trip removeTrip = trips.remove(trip.getItineraryKey());
-						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
-
-						tripsRemoved++;
-						continue;
-					}
-					if (trip.isShared()) {
-						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for shared trip.  tripNum=" + trip.getItineraryKey());
-						observables.add(tripsServices.getSharedTripDetailsObservable(trip.getShareInfo().getSharableDetailsApiUrl()).onErrorReturn(onErrorReturnNull()));
-					}
-					else if (trip.isGuest()) {
-						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for guest trip.  tripNum=" + trip.getItineraryKey());
-						observables.add(tripsServices.getGuestTripObservable(trip.getTripNumber(), trip.getGuestEmailAddress(), false).onErrorReturn(onErrorReturnNull()));
-					}
-					else {
-						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for user trip.  tripNum=" + trip.getItineraryKey());
-						observables.add(tripsServices.getTripDetailsObservable(trip.getTripId(), false).onErrorReturn(onErrorReturnNull()));
-					}
-				}
-			}
-			waitAndParseDetailResponses(observables, trips, new HandleTripResponse());
-		}
-
-		@NonNull
-		private Function<Throwable, JSONObject> onErrorReturnNull() {
-			return new Function<Throwable, JSONObject>() {
-				@Override
-				public JSONObject apply(Throwable throwable) {
-					try {
-						String jsonString = ((HttpException) throwable).response().errorBody().string();
-						return new JSONObject(jsonString);
-					}
-					catch (Exception e) {
-						return null;
-					}
-				}
-			};
-		}
-
-		void waitAndParseDetailResponses(List<Observable<JSONObject>> observables, final Map<String, Trip> trips, final IHandleTripResponse handleTripResponse) {
-			Observable.zip(observables, new Function<Object[], List<JSONObject>>() {
-					@Override
-					public List<JSONObject> apply(Object[] objects) throws Exception {
-						ArrayList<JSONObject> responseList = new ArrayList<>();
-						for (Object arg : objects) {
-							responseList.add((JSONObject) arg);
-						}
-						Log.i(LOGGING_TAG,
-							"REFRESH_ALL_TRIPS: Number of responses received in zip " + responseList.size());
-						return responseList;
-					}
-				}).flatMap(new Function<List<JSONObject>, Observable<JSONObject>>() {
-					@Override
-					public Observable<JSONObject> apply(List<JSONObject> jsonObjects) {
-						return Observable.fromIterable(jsonObjects);
-					}
-				}).blockingSubscribe(new Observer<JSONObject>() {
-					@Override
-					public void onComplete() {
-					}
-
-					@Override
-					public void onError(Throwable e) {
-						Log.e(LOGGING_TAG, "REFRESH_ALL_TRIPS: Error observable");
-						e.printStackTrace();
-					}
-
-					@Override
-					public void onSubscribe(Disposable d) {
-					}
-
-					@Override
-					public void onNext(JSONObject jsonObject) {
-						TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(jsonObject);
-						if ((response == null) || (response.getTrip() == null)) {
-							Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is null");
-							handleTripResponse.refreshTripResponseNull(new Trip());
-						}
-						else {
-							Trip updatedTrip = response.getTrip();
-							//getItineraryKey() handles both user and shared trips
-							String itineraryKey = updatedTrip.getItineraryKey();
-							if (trips.containsKey(itineraryKey)) {
-								Trip trip = trips.get(itineraryKey);
-								if (response.hasErrors()) {
-									Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response has errors");
-									handleTripResponse.refreshTripResponseHasErrors(trip, response);
-								}
-								else {
-									Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is a success");
-									handleTripResponse.refreshTripResponseSuccess(trip, false, response);
-									writeTripJsonResponseToFile(trip, jsonObject);
-								}
-							}
-						}
-					}
-			});
-		}
-
-		private void refreshTrip(Trip trip, boolean deepRefresh) {
-			// It's possible for a trip to be removed during refresh (if it ends up being canceled
-			// during the refresh).  If it's been somehow queued for multiple refreshes (e.g.,
-			// deep refresh called during a sync) then we want to skip trying to refresh it twice.
-			if (!trips.containsKey(trip.getItineraryKey())) {
-				return;
-			}
-
-			// Only update if we are outside the cutoff
-			long now = DateTime.now().getMillis();
-			if (now - REFRESH_TRIP_CUTOFF > trip.getLastCachedUpdateMillis() || deepRefresh) {
-				// Limit the user to one deep refresh per DEEP_REFRESH_RATE_LIMIT. Use cache refresh if user attempts to
-				// deep refresh within the limit.
-				if (now - trip.getLastFullUpdateMillis() < DEEP_REFRESH_RATE_LIMIT) {
-					deepRefresh = false;
-				}
-
-				if (trip.isShared() && trip.hasExpired(CUTOFF_HOURS)) {
-					Log.w(LOGGING_TAG,
-						"Removing a shared trip because it is completed and past the cutoff.  tripNum="
-							+ trip.getItineraryKey());
-
-					Trip removeTrip = trips.remove(trip.getItineraryKey());
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
-
-					tripsRemoved++;
-					return;
-				}
-
-				TripDetailsResponse response;
-				response = getTripDetailsResponse(trip, deepRefresh);
-
-				HandleTripResponse handleTripResponse = new HandleTripResponse();
-				if (response == null) {
-					handleTripResponse.refreshTripResponseNull(trip);
-				}
-				else if (response.hasErrors()) {
-					handleTripResponse.refreshTripResponseHasErrors(trip, response);
-				}
-				else {
-					handleTripResponse.refreshTripResponseSuccess(trip, deepRefresh, response);
-				}
-			}
-		}
-
-		class HandleTripResponse implements IHandleTripResponse {
-			@Override
-			public void refreshTripResponseNull(@NotNull Trip trip) {
-				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
-				mTripRefreshFailures++;
-			}
-
-			@Override
-			public void refreshTripResponseHasErrors(@NotNull Trip trip, @NotNull TripDetailsResponse response) {
-				Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": " + response.gatherErrorMessage(context));
-
-				// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
-				// As such, we should remove it (but don't remove a trip if it's ever been loaded
-				// or it's not a guest trip).
-				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-					if (response.getErrors().size() > 0) {
-						Log.w(LOGGING_TAG, "Tried to load guest trip, but failed, so we're removing it.  Email="
-							+ trip.getGuestEmailAddress() + " itinKey="
-							+ trip.getItineraryKey());
-						trips.remove(trip.getItineraryKey());
-						ServerError.ErrorCode errorCode = response.getErrors().get(0).getErrorCode();
-						if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY, trip));
-						}
-						else {
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
-						}
-					}
-				}
-				mTripRefreshFailures++;
-			}
-
-			@Override
-			public void refreshTripResponseSuccess(@NotNull Trip trip, boolean deepRefresh, @NotNull TripDetailsResponse response) {
-				Trip updatedTrip = response.getTrip();
-
-				BookingStatus bookingStatus = updatedTrip.getBookingStatus();
-				if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
-					&& trip.getLastCachedUpdateMillis() == 0) {
-					// Normally we'd filter this out; but there is a special case wherein a guest trip is
-					// still in a SAVED state right after booking (when we'd normally add it).  So we give
-					// any guest trip a one-refresh; if we see that it's already been tried once, we let it
-					// die a normal death
-					Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
-
-					trip.markUpdated(false, new CurrentTime());
-				}
-				else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
-					Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
-						+ updatedTrip.getItineraryKey() + " status=" + bookingStatus);
-					removeTrip(updatedTrip.getItineraryKey());
-				}
-				else {
-					// Update trip
-					trip.updateFrom(updatedTrip);
-					trip.markUpdated(deepRefresh, new CurrentTime());
-
-					tripsRefreshed++;
-
-					if (trip.getAirAttach() != null && !trip.isShared()) {
-						Db.getTripBucket().setAirAttach(trip.getAirAttach());
-					}
-
-					if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
-						mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
-						mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
-					}
-				}
-			}
-		}
-
-		TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh) {
-			JSONObject json;
-			if (trip.isShared()) {
-				json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
-			}
-			else if (trip.isGuest()) {
-				json = tripsServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
-			}
-			else {
-				json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
-			}
-			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
-			if (json != null && response != null && !response.hasErrors() && response.getTrip() != null) {
-				response.getTrip().setGuestEmailAddress(trip.getGuestEmailAddress());
-				response.getTrip().setIsShared(trip.isShared());
-				writeTripJsonResponseToFile(response.getTrip(), json);
-			}
-			return response;
-		}
-
-		void writeTripJsonResponseToFile(Trip trip, JSONObject json) {
-			if (trip.isGuest()) {
-				try {
-					JSONObject itin = json.optJSONObject("responseData");
-					if (itin != null) {
-						itin.put("isGuest", true);
-					}
-				}
-				catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-
-			if (trip.isShared()) {
-				try {
-					JSONObject itin = json.optJSONObject("responseData");
-					if (itin != null) {
-						itin.put("isShared", true);
-					}
-				}
-				catch (JSONException e) {
-					e.printStackTrace();
-				}
-				tripsJsonFileUtils.writeToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
-			}
-			else {
-				tripsJsonFileUtils.writeToFile(trip.getTripId(), json.toString());
-			}
-		}
-
-		void deleteTripJsonFromFile(Trip trip) {
-			if (trip.isShared()) {
-				tripsJsonFileUtils.deleteFile(trip.getShareInfo().getSharableDetailsUrl());
-			}
-			else {
-				tripsJsonFileUtils.deleteFile(trip.getTripId());
-			}
-		}
-
-		// If the user is logged in, retrieve a listing of current trips for logged in user
-		private void refreshUserList() {
-			if (!userStateManager.isUserAuthenticated()) {
-				Log.d(LOGGING_TAG, "User is not logged in, not refreshing user list.");
-			}
-			else {
-				// We only want to get the first N cached details if it's been more than
-				// REFRESH_TRIP_CUTOFF since the last refresh.  If we've refreshed more
-				// recently, then we only want to update individual trips as is necessary
-				// (so that the summary call goes out quickly).
-				boolean getCachedDetails = DateTime.now().getMillis() - REFRESH_TRIP_CUTOFF > mLastUpdateTime;
-
-				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
-					+ getCachedDetails);
-
-				TripResponse response = mServices.getTrips();
-				trackTripRefreshCallMade();
-
-				if (isCancelled()) {
-					return;
-				}
-
-				if (response == null || response.hasErrors()) {
-					String errorMessage = null;
-					if (response != null && response.hasErrors()) {
-						errorMessage = response.gatherErrorMessage(context);
-						for (ServerError serverError : response.getErrors()) {
-							ServerError.ErrorCode errorCode = serverError.getErrorCode();
-							if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
-								logForcedLogoutToCrashlytics();
-								userStateManager.signOut();
-								break;
-							}
-						}
-						Log.w(LOGGING_TAG, "Error updating trips: " + response.gatherErrorMessage(context));
-					}
-					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
-					if (errorMessage == null || errorMessage.isEmpty()) {
-						errorMessage = "Trip details response is null or has errors";
-					}
-					TripsTracking.trackItinTripRefreshCallFailure(errorMessage);
-				}
-				else {
-					Set<String> currentTrips = new HashSet<>(trips.keySet());
-
-					for (Trip trip : response.getTrips()) {
-						if (BookingStatus.filterOut(trip.getBookingStatus())) {
-							continue;
-						}
-
-						String tripKey = trip.getItineraryKey();
-
-						LevelOfDetail lod = trip.getLevelOfDetail();
-						boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
-						if (!trips.containsKey(tripKey)) {
-							trips.put(tripKey, trip);
-
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
-
-							tripsAdded++;
-						}
-						else if (hasFullDetails) {
-							trips.get(tripKey).updateFrom(trip);
-						}
-
-						if (hasFullDetails) {
-							// If we have full details, mark this as recently updated so we don't
-							// refresh it below
-							trip.markUpdated(false, new CurrentTime());
-
-							tripsRefreshed++;
-						}
-
-						if (trip.getAirAttach() != null && !trip.isShared()) {
-							Db.getTripBucket().setAirAttach(trip.getAirAttach());
-						}
-
-						currentTrips.remove(tripKey);
-					}
-
-					// Remove all trips that were not returned by the server (not including guest trips or imported shared trips)
-					for (String tripNumber : currentTrips) {
-						Trip trip = trips.get(tripNumber);
-						if (!trip.isGuest() && !trip.isShared()) {
-							trip = trips.remove(tripNumber);
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
-							tripsRemoved++;
-						}
-					}
-					trackTripRefreshCallSuccess();
-				}
-			}
-		}
-
-		void trackTripRefreshCallSuccess() {
-			if (Features.Companion.getAll().getTripsApiCallSuccess().enabled()) {
-				TripsTracking.trackItinTripRefreshCallSuccess();
-			}
-		}
-
-		void trackTripRefreshCallMade() {
-			if (Features.Companion.getAll().getTripsApiCallMade().enabled()) {
-				TripsTracking.trackItinTripRefreshCallMade();
-			}
-		}
-
-		// Add all trips to be updated, even ones that may not need to be refreshed
-		// (so we can see if any of the ancillary data needs to be refreshed).
-		private void gatherTrips() {
-			Log.i(LOGGING_TAG, "Gathering " + trips.values().size() + " trips...");
-
-			Log.i(LOGGING_TAG, "====REFRESH_ALL_TRIPS====");
-			mSyncOpQueue.add(new Task(Operation.REFRESH_ALL_TRIPS));
-		}
-
-		private void deduplicateTrips() {
-			Map<String, String> sharedTripsMap = new HashMap<>();
-			Set<String> sharedTripsToRemove = new HashSet<>();
-
-			// Collect all of the shared trips
-			for (Trip trip : trips.values()) {
-				if (trip.isShared()) {
-					sharedTripsMap.put(trip.getTripComponents().get(0).getUniqueId(), trip.getItineraryKey());
-				}
-			}
-
-			// Check each "regular" trip and see if it matches one of the shared trips
-			for (Trip trip : trips.values()) {
-				if (!trip.isShared()) {
-					for (TripComponent tc : trip.getTripComponents()) {
-						if (sharedTripsMap.keySet().contains(tc.getUniqueId())) {
-							sharedTripsToRemove.add(sharedTripsMap.get(tc.getUniqueId()));
-						}
-					}
-				}
-			}
-
-			// Remove the shared trips
-			Trip trip;
-			for (String key : sharedTripsToRemove) {
-				Log.i(LOGGING_TAG, "Removing duplicate shared itin key=" + key);
-				trip = trips.remove(key);
-				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
-				tripsRemoved++;
-			}
-		}
-
-		private void removeTrip(String tripNumber) {
-			Trip trip = trips.get(tripNumber);
-			if (trip == null) {
-				Log.w(LOGGING_TAG, "Tried to remove a tripNumber that doesn't exist: " + tripNumber);
-			}
-			else {
-				Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
-
-				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
-				// Delete notifications if any.
-				deletePendingNotification(trip);
-				trips.remove(tripNumber);
-				tripsRemoved++;
-
-				deleteTripJsonFromFile(trip);
-			}
-		}
-
-		private void downloadSharedItinTrip(String shareableUrl) {
-			Log.i(LOGGING_TAG, "Creating shared itin placeholder " + shareableUrl);
-			// Create a placeholder trip for this shared itin so that the ItineraryManager knows to
-			// notify the UI to show loading indicator.
-			Trip trip = new Trip();
-			trip.setIsShared(true);
-			trip.getShareInfo().setSharableDetailsUrl(shareableUrl);
-			trips.put(shareableUrl, trip);
-
-			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
-			JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
-			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
-			if (json != null && response != null && !response.hasErrors()) {
-				writeTripJsonResponseToFile(trip, json);
-			}
-
-			if (isCancelled()) {
-				return;
-			}
-
-			if (response == null || response.hasErrors()) {
-				if (response != null && response.hasErrors()) {
-					Log.w(LOGGING_TAG, "Error fetching shared itin : " + response.gatherErrorMessage(context));
-				}
-				removeItin(shareableUrl);
-			}
-			else {
-				Trip sharedTrip = response.getTrip();
-				sharedTrip.setIsShared(true);
-
-				// Stuff the URL in the parent trip for later retrieval in case the sharee wants to become a sharer.
-				// This response does not contain any shareable url, so, we gotta save it for later on our own.
-				sharedTrip.getShareInfo().setSharableDetailsUrl(shareableUrl);
-
-				if (sharedTrip.hasExpired(CUTOFF_HOURS)) {
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.USER_ADDED_COMPLETED_TRIP, sharedTrip));
-					// Remove placeholder for loading
-					removeItin(shareableUrl);
-					return;
-				}
-				if (sharedTrip.getBookingStatus() == BookingStatus.CANCELLED) {
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.USER_ADDED_CANCELLED_TRIP, sharedTrip));
-					// Remove placeholder for loading
-					removeItin(shareableUrl);
-					return;
-				}
-
-				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
-				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
-				if (!trips.containsKey(shareableUrl)) {
-					trips.put(shareableUrl, sharedTrip);
-
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, sharedTrip));
-
-					tripsAdded++;
-				}
-				else if (hasFullDetails) {
-					trips.get(shareableUrl).updateFrom(sharedTrip);
-				}
-
-				if (hasFullDetails) {
-					// If we have full details, mark this as recently updated so we don't
-					// refresh it below
-					sharedTrip.markUpdated(false, new CurrentTime());
-
-					tripsRefreshed++;
-
-					mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, sharedTrip));
-				}
-
-				if (trip.getAirAttach() != null && !trip.isShared()) {
-					Db.getTripBucket().setAirAttach(trip.getAirAttach());
-				}
-
-				// Note: In the future, we may be getting these parameters from the URL. Currently, we do not, thus we just
-				// send the generic "AppShare" event any time that we import a shared itin. Ideally, the URL will contain
-				// some more info pertaining to tracking and we'd send something like "AppShare.Facebook".
-				HashMap<String, String> deepLinkArg = new HashMap<>();
-				deepLinkArg.put("brandcid", "AppShare");
-				OmnitureTracking.storeDeepLinkParams(deepLinkArg);
-			}
-		}
-
 	}
 
 	private static class ProgressUpdate {
