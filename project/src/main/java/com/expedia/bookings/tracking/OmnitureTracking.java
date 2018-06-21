@@ -3554,10 +3554,6 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.PackagesTitleChange);
 		}
 
-		if (PackageUtil.INSTANCE.isPackageLOBUnderABTest()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesEnablePOS);
-		}
-
 		trackAbacusTest(s, AbacusUtils.DisableSignInPageAsFirstScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 		trackAbacusTest(s, AbacusUtils.HotelEarn2xMessaging);

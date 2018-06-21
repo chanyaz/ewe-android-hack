@@ -14,7 +14,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PackageUtilTest {
@@ -168,13 +167,6 @@ class PackageUtilTest {
     fun testPackageUNITED_STATESLOBDisabled() {
         RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
         assertFalse(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
-    fun testPackageEBOOKERS_FRANCELOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.EBOOKERS_FRANCE)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
     }
 
     @Test
