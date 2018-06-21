@@ -1,28 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
-import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -63,6 +40,29 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
+
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -235,6 +235,29 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 		Log.d(LOGGING_TAG, "Initialized ItineraryManager in "
 				+ ((System.nanoTime() - start) / 1000000) + " ms");
+	}
+
+	/* ********* INSTANCE METHODS - JSON *************************** */
+
+	@Override
+	public JSONObject toJson() {
+		try {
+			final JSONObject obj = new JSONObject();
+			JSONUtils.putJSONableList(obj, "trips", trips.values());
+			return obj;
+		} catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		this.trips = new HashMap<>();
+		final List<Trip> tripsFromJson = JSONUtils.getJSONableList(obj, "trips", Trip.class);
+		for (Trip tripFromJson : tripsFromJson) {
+			trips.put(tripFromJson.getItineraryKey(), tripFromJson);
+		}
+		return true;
 	}
 
 	/* ************************************ */
@@ -2006,33 +2029,5 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	//
 	// Please don't actually try to serialize this object; this is mostly for
 	// ease of being able to internally save/reproduce this manager.
-
-	@Override
-	public JSONObject toJson() {
-		try {
-			JSONObject obj = new JSONObject();
-
-			JSONUtils.putJSONableList(obj, "trips", trips.values());
-
-			return obj;
-		}
-		catch (JSONException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
-	public boolean fromJson(JSONObject obj) {
-		trips = new HashMap<>();
-		List<Trip> trips = JSONUtils.getJSONableList(obj, "trips", Trip.class);
-		for (Trip trip : trips) {
-			this.trips.put(trip.getItineraryKey(), trip);
-		}
-
-		return true;
-	}
-
-
-
 
 }
