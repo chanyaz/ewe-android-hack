@@ -200,7 +200,6 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
 
     @Subscribe
     open fun otto(e: Events.NewAccountSignInButtonClicked) {
-        showLoading()
         val handler = NewSignInHandler(AndroidSimpleDialogBuilder(context), AndroidNetworkConnectivity(context),
                 config, e.email, e.password, this)
         if (config.enableRecaptcha) {
@@ -213,7 +212,6 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
 
     @Subscribe
     open fun otto(e: Events.NewCreateAccountButtonClicked) {
-        showLoading()
         val handler = NewCreateAccountHandler(AndroidSimpleDialogBuilder(context), AndroidStringSource(context),
                 config, brand, this, this)
         if (config.enableRecaptcha) {

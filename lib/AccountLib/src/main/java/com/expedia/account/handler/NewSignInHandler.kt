@@ -28,6 +28,7 @@ class NewSignInHandler(private val dialogBuilder: SimpleDialogBuilder,
     }
 
     fun doSignIn(recaptchaResponseToken: String?) {
+        loadingView.showLoading()
         config.service.signIn(email, password, recaptchaResponseToken)
                 .subscribe(object : Observer<AccountResponse> {
                     override fun onComplete() {

@@ -33,6 +33,7 @@ class NewCreateAccountHandler(private val dialogBuilder: SimpleDialogBuilder,
     }
 
     fun doCreateAccount(recaptchaResponseToken: String?) {
+        loadingView.showLoading()
         val user = Db.getNewUser()
         user.recaptchaResponseToken = recaptchaResponseToken
         config.service.createUser(user)
