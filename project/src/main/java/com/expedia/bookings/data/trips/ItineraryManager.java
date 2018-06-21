@@ -204,6 +204,74 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			}
 		}
 
+		class HandleTripResponse implements IHandleTripResponse {
+			@Override
+			public void refreshTripResponseNull(@NotNull Trip trip) {
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+				mTripRefreshFailures++;
+			}
+
+			@Override
+			public void refreshTripResponseHasErrors(@NotNull Trip trip, @NotNull TripDetailsResponse response) {
+				Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": " + response.gatherErrorMessage(context));
+
+				// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
+				// As such, we should remove it (but don't remove a trip if it's ever been loaded
+				// or it's not a guest trip).
+				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
+					if (response.getErrors().size() > 0) {
+						Log.w(LOGGING_TAG, "Tried to load guest trip, but failed, so we're removing it.  Email="
+												   + trip.getGuestEmailAddress() + " itinKey="
+												   + trip.getItineraryKey());
+						trips.remove(trip.getItineraryKey());
+						ServerError.ErrorCode errorCode = response.getErrors().get(0).getErrorCode();
+						if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY, trip));
+						} else {
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+						}
+					}
+				}
+				mTripRefreshFailures++;
+			}
+
+			@Override
+			public void refreshTripResponseSuccess(@NotNull Trip trip, boolean deepRefresh, @NotNull TripDetailsResponse response) {
+				Trip updatedTrip = response.getTrip();
+
+				BookingStatus bookingStatus = updatedTrip.getBookingStatus();
+				if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
+							&& trip.getLastCachedUpdateMillis() == 0) {
+					// Normally we'd filter this out; but there is a special case wherein a guest trip is
+					// still in a SAVED state right after booking (when we'd normally add it).  So we give
+					// any guest trip a one-refresh; if we see that it's already been tried once, we let it
+					// die a normal death
+					Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
+
+					trip.markUpdated(false, new CurrentTime());
+				} else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
+					Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
+											   + updatedTrip.getItineraryKey() + " status=" + bookingStatus);
+					removeTrip(updatedTrip.getItineraryKey());
+				} else {
+					// Update trip
+					trip.updateFrom(updatedTrip);
+					trip.markUpdated(deepRefresh, new CurrentTime());
+
+					tripsRefreshed++;
+
+					if (trip.getAirAttach() != null && !trip.isShared()) {
+						Db.getTripBucket().setAirAttach(trip.getAirAttach());
+					}
+
+					if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
+						mSyncOpQueue.add(new Task(SyncOperation.REFRESH_FLIGHT_STATUS, trip));
+						mSyncOpQueue.add(new Task(SyncOperation.PUBLISH_TRIP_UPDATE, trip));
+					}
+				}
+			}
+		}
+
 		private boolean mFinished;
 		private int tripsRefreshed;
 		private int mTripRefreshFailures;
@@ -932,6 +1000,28 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			};
 		}
 
+		private void logForcedLogoutToCrashlytics() {
+			User user = userStateManager.getUserSource().getUser();
+
+			if (user != null) {
+				String tuidString = user.getTuidString();
+				String expediaId = user.getExpediaUserId();
+				Throwable exception = new Throwable("Forced logout on itinerary refresh - " + "UserTUID: " + tuidString + " - ExpediaUserId: " + expediaId);
+				Crashlytics.logException(exception);
+			}
+		}
+
+		private void deletePendingNotification(Trip trip) {
+			List<TripComponent> components = trip.getTripComponents(true);
+			if (components == null) {
+				return;
+			}
+			for (TripComponent tc : components) {
+				String itinId = tc.getUniqueId();
+				notificationManager.deleteAll(itinId);
+			}
+		}
+
 		void waitAndParseDetailResponses(List<Observable<JSONObject>> observables, final Map<String, Trip> trips, final IHandleTripResponse handleTripResponse) {
 			Observable.zip(observables, new Function<Object[], List<JSONObject>>() {
 				@Override
@@ -988,74 +1078,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					}
 				}
 			});
-		}
-
-		class HandleTripResponse implements IHandleTripResponse {
-			@Override
-			public void refreshTripResponseNull(@NotNull Trip trip) {
-				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
-				mTripRefreshFailures++;
-			}
-
-			@Override
-			public void refreshTripResponseHasErrors(@NotNull Trip trip, @NotNull TripDetailsResponse response) {
-				Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": " + response.gatherErrorMessage(context));
-
-				// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
-				// As such, we should remove it (but don't remove a trip if it's ever been loaded
-				// or it's not a guest trip).
-				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-					if (response.getErrors().size() > 0) {
-						Log.w(LOGGING_TAG, "Tried to load guest trip, but failed, so we're removing it.  Email="
-												   + trip.getGuestEmailAddress() + " itinKey="
-												   + trip.getItineraryKey());
-						trips.remove(trip.getItineraryKey());
-						ServerError.ErrorCode errorCode = response.getErrors().get(0).getErrorCode();
-						if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY, trip));
-						} else {
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
-						}
-					}
-				}
-				mTripRefreshFailures++;
-			}
-
-			@Override
-			public void refreshTripResponseSuccess(@NotNull Trip trip, boolean deepRefresh, @NotNull TripDetailsResponse response) {
-				Trip updatedTrip = response.getTrip();
-
-				BookingStatus bookingStatus = updatedTrip.getBookingStatus();
-				if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
-							&& trip.getLastCachedUpdateMillis() == 0) {
-					// Normally we'd filter this out; but there is a special case wherein a guest trip is
-					// still in a SAVED state right after booking (when we'd normally add it).  So we give
-					// any guest trip a one-refresh; if we see that it's already been tried once, we let it
-					// die a normal death
-					Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
-
-					trip.markUpdated(false, new CurrentTime());
-				} else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
-					Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
-											   + updatedTrip.getItineraryKey() + " status=" + bookingStatus);
-					removeTrip(updatedTrip.getItineraryKey());
-				} else {
-					// Update trip
-					trip.updateFrom(updatedTrip);
-					trip.markUpdated(deepRefresh, new CurrentTime());
-
-					tripsRefreshed++;
-
-					if (trip.getAirAttach() != null && !trip.isShared()) {
-						Db.getTripBucket().setAirAttach(trip.getAirAttach());
-					}
-
-					if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
-						mSyncOpQueue.add(new Task(SyncOperation.REFRESH_FLIGHT_STATUS, trip));
-						mSyncOpQueue.add(new Task(SyncOperation.PUBLISH_TRIP_UPDATE, trip));
-					}
-				}
-			}
 		}
 
 		TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh) {
@@ -1600,6 +1622,15 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//***** Called from public methods *****//
 
+	private boolean hasFetchSharedInQueue() {
+		for (Task task : mSyncOpQueue) {
+			if (task.mOp == SyncOperation.FETCH_SHARED_ITIN) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void startSyncIfNotInProgress() {
 		if (!isSyncing()) {
 			Log.i(LOGGING_TAG, "Starting a sync...");
@@ -1743,47 +1774,5 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	/* *********** /^\ *************************** */
 	/* ********** (@_@) *************************** */
 	/* ********** <(@)> *************************** */
-
-
-
-
-
-
-	private void deletePendingNotification(Trip trip) {
-		List<TripComponent> components = trip.getTripComponents(true);
-		if (components == null) {
-			return;
-		}
-		for (TripComponent tc : components) {
-			String itinId = tc.getUniqueId();
-			notificationManager.deleteAll(itinId);
-		}
-	}
-
-	private boolean hasFetchSharedInQueue() {
-		for (Task task : mSyncOpQueue) {
-			if (task.mOp == SyncOperation.FETCH_SHARED_ITIN) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private void logForcedLogoutToCrashlytics() {
-		User user = userStateManager.getUserSource().getUser();
-
-		if (user != null) {
-			String tuidString = user.getTuidString();
-			String expediaId = user.getExpediaUserId();
-			Throwable exception = new Throwable("Forced logout on itinerary refresh - " + "UserTUID: " + tuidString + " - ExpediaUserId: " + expediaId);
-			Crashlytics.logException(exception);
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// JSONable
-	//
-	// Please don't actually try to serialize this object; this is mostly for
-	// ease of being able to internally save/reproduce this manager.
 
 }
