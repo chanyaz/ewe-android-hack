@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -19,7 +20,8 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
     open val delayBeforeShowingDestinationSuggestions = 325L
     open val waitForOtherSuggestionListeners = 350L
 
-    protected open var originSuggestionViewModel: BaseSuggestionAdapterViewModel by notNullAndObservable { vm ->
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    open var originSuggestionViewModel: BaseSuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
 
         vm.suggestionSelectedSubject

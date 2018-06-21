@@ -1,6 +1,7 @@
 package com.expedia.bookings.packages.presenter
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.AdapterView
@@ -16,7 +17,8 @@ import com.mobiata.android.BackgroundDownloader
 
 class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet) : PackageSearchPresenter(context, attrs) {
 
-    private val recentAirports = RecentAirports(context)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val recentAirports = RecentAirports(context)
 
     private val originListAdapter by lazy {
         createFlightRouterAdapter(isOrigin = true)
@@ -26,21 +28,24 @@ class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSe
         createFlightRouterAdapter(isOrigin = false)
     }
 
-    private val originAirportListPopup by lazy {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val originAirportListPopup by lazy {
         val listPopupWindow = AirportDropDownUtils.createAirportListPopupWindow(context, originCardView)
         listPopupWindow.setAdapter(originListAdapter)
         listPopupWindow.setOnItemClickListener(originAirportSelectedListener())
         listPopupWindow
     }
 
-    private val destinationAirportListPopup by lazy {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val destinationAirportListPopup by lazy {
         val listPopupWindow = AirportDropDownUtils.createAirportListPopupWindow(context, originCardView)
         listPopupWindow.setAdapter(destinationListAdapter)
         listPopupWindow.setOnItemClickListener(destinationAirportSelectedListener())
         listPopupWindow
     }
 
-    private val progressDialog by lazy {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val progressDialog by lazy {
         AirportDropDownUtils.fetchingRoutesProgressDialog(context)
     }
 
