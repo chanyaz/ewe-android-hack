@@ -97,21 +97,41 @@ import retrofit2.HttpException;
  */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
-	private static final long ONE_MINUTE = TimeUnit.MINUTES.toMillis(1);
-	private static final long FIVE_MINUTES = TimeUnit.MINUTES.toMillis(5);
+	/* ********* CLASS DATA MEMBERS *************************** */
 
+	private static final int CUTOFF_HOURS = 48;
+
+	private static final long FIVE_MINUTES = TimeUnit.MINUTES.toMillis(5);
 	private static final long ONE_HOUR = TimeUnit.HOURS.toMillis(1);
+	private static final long ONE_MINUTE = TimeUnit.MINUTES.toMillis(1);
+	private static final long REFRESH_TRIP_CUTOFF = TimeUnit.MINUTES.toMillis(15);
+	private static final long SEVEN_DAYS = TimeUnit.DAYS.toMillis(7);
+	private static final long SEVENTY_TWO_HOURS = TimeUnit.HOURS.toMillis(72);
 	private static final long TWELVE_HOURS = TimeUnit.HOURS.toMillis(12);
 	private static final long TWENTY_FOUR_HOURS = TimeUnit.HOURS.toMillis(24);
-	private static final long SEVENTY_TWO_HOURS = TimeUnit.HOURS.toMillis(72);
 
-	private static final long SEVEN_DAYS = TimeUnit.DAYS.toMillis(7);
-
-	private static final long UPDATE_CUTOFF = ONE_MINUTE; // At most once a minute
-	private static final long REFRESH_TRIP_CUTOFF = TimeUnit.MINUTES.toMillis(15);
 	private static final long DEEP_REFRESH_RATE_LIMIT = ONE_MINUTE;
+	private static final long UPDATE_CUTOFF = ONE_MINUTE;
+
+	private static final DateTime FAKE_END_TIME = new DateTime(0);
 
 	private static final String LOGGING_TAG = "ItineraryManager";
+	private static final String MANAGER_PATH = "itin-manager.dat";
+	private static final String MANAGER_START_END_TIMES_PATH = "itin-starts-and-ends.dat";
+
+	private static final ItineraryManager ITINERARY_MANAGER = new ItineraryManager();
+
+	@SuppressLint("SimpleDateFormat")
+	private static final SimpleDateFormat SORT_DATE_FORMATTER = new SimpleDateFormat("yyyyMMdd");
+
+	static {
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		if (tz != null) {
+			SORT_DATE_FORMATTER.setTimeZone(tz);
+		}
+	}
+
+	/* ************************************ */
 
 	private static final ItineraryManager sManager = new ItineraryManager();
 
@@ -352,9 +372,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	//////////////////////////////////////////////////////////////////////////
 	// Data
 
-	private static final String MANAGER_PATH = "itin-manager.dat";
 
-	private static final String MANAGER_START_END_TIMES_PATH = "itin-starts-and-ends.dat";
 
 	/**
 	 * Must be called before using ItineraryManager for the first time.
@@ -497,8 +515,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	//////////////////////////////////////////////////////////////////////////
 	// Itin card data
 
-	private static final int CUTOFF_HOURS = 48;
-
 	private void generateItinCardData() {
 		synchronized (mItinCardDatas) {
 			mItinCardDatas.clear();
@@ -576,8 +592,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return date.withZoneRetainFields(DateTimeZone.UTC).getMillis();
 	}
 
-	@SuppressLint("SimpleDateFormat")
-	private static final DateFormat SORT_DATE_FORMATTER = new SimpleDateFormat("yyyyMMdd");
+
 
 	static {
 		// Try to format in UTC for comparison purposes
