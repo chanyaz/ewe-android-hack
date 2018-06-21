@@ -271,6 +271,51 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
+	/* ********* INSTANCE METHODS - GETTERS *************************** */
+
+	public Collection<Trip> getTrips() {
+		return trips != null ? trips.values() : Collections.emptyList();
+	}
+
+	public List<ItinCardData> getItinCardData() {
+		return itinCardData;
+	}
+
+	public String getItinIdByTripNumber(String tripNumber) {
+		if (tripNumber == null || tripNumber.length() == 0) {
+			return null;
+		}
+
+		String itinerary = "";
+		synchronized (itinCardData) {
+			for (ItinCardData currentItin : itinCardData) {
+				if (tripNumber.equals(currentItin.getTripNumber())) {
+					itinerary = currentItin.getId();
+					break;
+				}
+			}
+		}
+		return itinerary;
+	}
+
+	public Observable<List<ItinCardData>> getSyncFinishObservable() {
+		return syncFinishObservable;
+	}
+
+	public ItinCardData getItinCardDataFromFlightHistoryId(int fhid) {
+		final TripFlight tripFlight = getTripComponentFromFlightHistoryId(fhid);
+		if (tripFlight != null) {
+			synchronized (itinCardData) {
+				for (ItinCardData data : itinCardData) {
+					if (data.getTripComponent() == tripFlight) {
+						return data;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	/* ************************************ */
 
 
@@ -332,45 +377,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		addGuestTrip(email, tripNumber, null);
 	}
 
-	/**
-	 * Get a list of the current Trips.
-	 * <p/>
-	 * Be warned: these Trips will be updated from a sync
-	 * operation.  If this behavior seems wrong, talk with
-	 * DLew since he's open to the idea of changing this
-	 * behavior.
-	 */
-	public Collection<Trip> getTrips() {
-		if (trips != null) {
-			return trips.values();
-		}
-
-		return Collections.emptyList();
-	}
-
-	public List<ItinCardData> getItinCardData() {
-		return itinCardData;
-	}
-
 	public List<ItinCardData> getImmutableItinCardDatas() {
 		return Collections.unmodifiableList(new ArrayList(itinCardData));
-	}
-
-	public String getItinIdByTripNumber(String tripNumber) {
-		synchronized (itinCardData) {
-			if (!TextUtils.isEmpty(tripNumber)) {
-				for (int i = 0; i < itinCardData.size(); i++) {
-					if (tripNumber.equals(itinCardData.get(i).getTripNumber())) {
-						return itinCardData.get(i).getId();
-					}
-				}
-			}
-		}
-		return null;
-	}
-
-	public Observable<List<ItinCardData>> getSyncFinishObservable() {
-		return syncFinishObservable;
 	}
 
 	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
@@ -392,32 +400,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			return (TripFlight) fData.getTripComponent();
 		}
 
-		return null;
-	}
-
-	/**
-	 * Get a ItinCardData object from a flightHistoryId
-	 * This is useful for push notifications which provide us with a flightHistoryId as
-	 * the only identifier
-	 * <p/>
-	 * Note: We are only searching the itinCardData collection, so only itins displayed
-	 * in the itin list will be searched
-	 *
-	 * @param fhid - flightHistoryId from flightstats
-	 * @return ItinCardData containing the flight with the matching historyId or null
-	 */
-	@Override
-	public ItinCardData getItinCardDataFromFlightHistoryId(int fhid) {
-		TripFlight tripFlight = getTripComponentFromFlightHistoryId(fhid);
-		if (tripFlight != null) {
-			synchronized (itinCardData) {
-				for (ItinCardData data : itinCardData) {
-					if (data.getTripComponent() == tripFlight) {
-						return data;
-					}
-				}
-			}
-		}
 		return null;
 	}
 
