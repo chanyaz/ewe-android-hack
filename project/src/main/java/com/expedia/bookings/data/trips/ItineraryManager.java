@@ -260,7 +260,35 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return true;
 	}
 
+	/* ********* INSTANCE METHODS - Cleanup *************************** */
+
+	public void clear() {
+		if (isSyncing()) {
+			mSyncTask.cancel(true);
+			mSyncTask.cancelDownloads();
+		} else {
+			doClearData();
+		}
+	}
+
 	/* ************************************ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -411,22 +439,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Clear all data from the itinerary manager.  Used on sign out or
-	 * when private data is cleared.
-	 */
-	public void clear() {
-		if (isSyncing()) {
-			// If we're syncing, cancel the sync (then let the canceled task
-			// do the sign out once it's finished).
-			mSyncTask.cancel(true);
-			mSyncTask.cancelDownloads();
-		}
-		else {
-			doClearData();
-		}
 	}
 
 	private void doClearData() {
