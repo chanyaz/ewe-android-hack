@@ -1,5 +1,28 @@
 package com.expedia.bookings.data.trips;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -40,29 +63,6 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
-
-import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -184,11 +184,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* CLASS METHODS *************************** */
 
-	private ItineraryManager() {
-		this.itinCardData = new ArrayList<>();
-		this.syncFinishObservable = PublishSubject.create();
-	}
-
 	public static ItineraryManager getInstance() {
 		return ITINERARY_MANAGER;
 	}
@@ -199,8 +194,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				ITINERARY_MANAGER.endTimes
 		);
 	}
-
-	/* ********* INITIALIZER *************************** */
 
 	@VisibleForTesting
 	static boolean hasUpcomingOrInProgressTrip(List<DateTime> startTimes, List<DateTime> endTimes) {
@@ -216,6 +209,32 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			}
 		}
 		return false;
+	}
+
+	/* ********* INITIALIZER *************************** */
+
+	private ItineraryManager() {
+		this.itinCardData = new ArrayList<>();
+		this.syncFinishObservable = PublishSubject.create();
+	}
+
+	public void init(Context context) {
+		final long start = System.nanoTime();
+
+		this.context = context;
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+		final NotificationScheduler notificationScheduler = Ui.getApplication(context)
+				.appComponent()
+				.notificationScheduler();
+		if (!ExpediaBookingApp.isAutomation()) {
+			notificationScheduler.subscribeToListener(syncFinishObservable);
+		}
+		tripsJsonFileUtils = Ui.getApplication(context).appComponent().tripJsonFileUtils();
+		loadStartAndEndTimes();
+
+		Log.d(LOGGING_TAG, "Initialized ItineraryManager in "
+				+ ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
 	/* ************************************ */
@@ -427,30 +446,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data
-
-
-
-	/**
-	 * Must be called before using ItineraryManager for the first time.
-	 * <p/>
-	 * I expect this to be called from the Application.  That way the
-	 * context won't leak.
-	 */
-	public void init(Context context) {
-		long start = System.nanoTime();
-
-		this.context = context;
-		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
-		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
-		NotificationScheduler notificationScheduler = Ui.getApplication(context).appComponent().notificationScheduler();
-		if (!ExpediaBookingApp.isAutomation()) {
-			notificationScheduler.subscribeToListener(syncFinishObservable);
-		}
-		tripsJsonFileUtils = Ui.getApplication(context).appComponent().tripJsonFileUtils();
-		loadStartAndEndTimes();
-
-		Log.d(LOGGING_TAG, "Initialized ItineraryManager in " + ((System.nanoTime() - start) / 1000000) + " ms");
-	}
 
 	@VisibleForTesting
 	void setTripsJsonFileUtils(ITripsJsonFileUtils tripsJsonFileUtils) {
