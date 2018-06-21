@@ -118,7 +118,74 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ********* START OF SYNC_TASK DEFINITION *************************** */
+	private class Task implements Comparable<Task> {
+		SyncOperation mOp;
+		Trip mTrip;
+		String mTripNumber;
+
+		Task(SyncOperation op) {
+			this(op, null, null);
+		}
+
+		Task(SyncOperation op, Trip trip) {
+			this(op, trip, null);
+		}
+
+		Task(SyncOperation op, String tripNumber) {
+			this(op, null, tripNumber);
+		}
+
+		Task(SyncOperation op, Trip trip, String tripNumber) {
+			mOp = op;
+			mTrip = trip;
+			mTripNumber = tripNumber;
+		}
+
+		/**
+		 * Using SyncOperation's enum ordinal here for ordering.
+		 * first value appearing in an enum has ordinal 0.
+		 * following values take ordinal or previous plus one.
+		 * i.e. LOAD_FROM_DISK has ordinal 0
+		 * REAUTHENTICATE_FACEBOOK_USER has ordinal 1
+		 * and so on.
+		 * @param another the other task to be compared with this task
+		 * @return -ve integer if this task has smaller ordinal than another;
+		 * 			0 if both have same ordinal value;
+		 * 			+ve integer if this task has bigger ordinal value than another
+		 */
+		@Override
+		public int compareTo(@NonNull Task another) {
+			if (mOp != another.mOp) {
+				return mOp.ordinal() - another.mOp.ordinal();
+			}
+			if (mTrip != null) {
+				return mTrip.compareTo(another.mTrip);
+			}
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			return (o instanceof Task) && compareTo((Task) o) == 0;
+		}
+
+		@Override
+		public String toString() {
+			String tripKey = mTripNumber;
+			if (TextUtils.isEmpty(tripKey) && mTrip != null) {
+				tripKey = mTrip.getItineraryKey();
+			}
+
+			final StringBuilder builder = new StringBuilder();
+			builder.append("task ").append(mOp);
+			if (!TextUtils.isEmpty(tripKey)) {
+				builder.append(" trip=").append(tripKey);
+			}
+			return builder.toString();
+		}
+	}
+
+	//***** START OF SYNC_TASK DEFINITION *****//
 
 	class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
 
@@ -1049,7 +1116,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ********* END OF SYNC_TASK DEFINITION *************************** */
+	//***** END OF SYNC_TASK DEFINITION *****//
 
 	public enum SyncError {
 		OFFLINE,
@@ -1540,105 +1607,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	/* ********** <(@)> *************************** */
 
 
-
-
-	/* ********* SYNC PROGRESS *************************** */
-
-
-
-	//////////////////////////////////////////////////////////////////////////
-	// Data syncing
-	//
-	// Syncing is implemented as an operation queue.  Operations are added
-	// to the queue, then sorted in priority order.  There is a sync looper
-	// which executes each in order.
-	//
-	// There are a few advantages to this setup:
-	//
-	// 1. It allows anyone to enqueue operations while a sync is in progress.
-	//    No matter where you are in the sync, new operations can be added
-	//    safely and will get executed.
-	//
-	// 2. It allows for flexible updates.  If you just need to do a deep
-	//    refresh of a single trip, that's possible using the same code that
-	//    refreshes all data.
-	//
-	// 3. It makes updating routes easier.  For example, getting cached
-	//    details in the user list update can still get images/flight status
-	//    updates without wonky sync code.
-
-	// !!!!!
-	//
-	// SUPER IMPORTANT, READ THIS OR I WILL HURT YOU:
-	// The order of operations in this enum determines the priorities of each item;
-	// the looper will pick the highest order operation to execute next.
-	//
-	// !!!!!!
-
-
-	private class Task implements Comparable<Task> {
-		SyncOperation mOp;
-
-		Trip mTrip;
-
-		String mTripNumber;
-
-		Task(SyncOperation op) {
-			this(op, null, null);
-		}
-
-		Task(SyncOperation op, Trip trip) {
-			this(op, trip, null);
-		}
-
-		Task(SyncOperation op, String tripNumber) {
-			this(op, null, tripNumber);
-		}
-
-		Task(SyncOperation op, Trip trip, String tripNumber) {
-			mOp = op;
-			mTrip = trip;
-			mTripNumber = tripNumber;
-		}
-
-		@Override
-		public int compareTo(@NonNull Task another) {
-			if (mOp != another.mOp) {
-				return mOp.ordinal() - another.mOp.ordinal();
-			}
-
-			// We can safely assume that if the ops are the same, they will both have a Trip associated
-			if (mTrip != null) {
-				return mTrip.compareTo(another.mTrip);
-			}
-
-			return 0;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (!(o instanceof Task)) {
-				return false;
-			}
-
-			return compareTo((Task) o) == 0;
-		}
-
-		@Override
-		public String toString() {
-			String str = "task " + mOp;
-
-			String tripKey = mTripNumber;
-			if (TextUtils.isEmpty(tripKey) && mTrip != null) {
-				tripKey = mTrip.getItineraryKey();
-			}
-			if (!TextUtils.isEmpty(tripKey)) {
-				str += " trip=" + tripKey;
-			}
-
-			return str;
-		}
-	}
 
 	// Priority queue that doesn't allow duplicates to be added
 	@SuppressWarnings("serial")
