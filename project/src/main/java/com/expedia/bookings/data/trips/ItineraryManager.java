@@ -93,6 +93,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
+	/* ********* DATA TYPES *************************** */
+
+	public enum SyncError {
+		OFFLINE,
+		USER_LIST_REFRESH_FAILURE,
+		CANCELLED,
+	}
+
 	/* ********* CLASS DATA *************************** */
 
 	private static final int CUTOFF_HOURS = 48;
@@ -121,7 +129,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	private static final SimpleDateFormat SORT_DATE_FORMATTER = new SimpleDateFormat("yyyyMMdd");
 
 	static {
-		TimeZone tz = TimeZone.getTimeZone("UTC");
+		final TimeZone tz = TimeZone.getTimeZone("UTC");
 		if (tz != null) {
 			SORT_DATE_FORMATTER.setTimeZone(tz);
 		}
@@ -548,21 +556,9 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	/* ********** (@_@) *************************** */
 	/* ********** <(@)> *************************** */
 
-	static {
-		// Try to format in UTC for comparison purposes
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		if (tz != null) {
-			SORT_DATE_FORMATTER.setTimeZone(tz);
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Sync listener
-	public enum SyncError {
-		OFFLINE,
-		USER_LIST_REFRESH_FAILURE,
-		CANCELLED,
-	}
+
 
 	public interface ItinerarySyncListener {
 
