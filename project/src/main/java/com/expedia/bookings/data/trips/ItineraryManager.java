@@ -1,28 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
-import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -64,6 +41,29 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -96,7 +96,7 @@ import retrofit2.HttpException;
  */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
-	/* ********* CLASS DATA MEMBERS *************************** */
+	/* ********* DATA MEMBERS - CLASS *************************** */
 
 	private static final int CUTOFF_HOURS = 48;
 
@@ -130,7 +130,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ********* INSTANCE DATA MEMBERS *************************** */
+	/* ********* DATA MEMBERS - INSTANCE *************************** */
 
 	// In memory trips, updated with every sync, assumed to be sorted
 	private final List<ItinCardData> itinCardData;
@@ -198,6 +198,24 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				ITINERARY_MANAGER.startTimes,
 				ITINERARY_MANAGER.endTimes
 		);
+	}
+
+	/* ********* INITIALIZER *************************** */
+
+	@VisibleForTesting
+	static boolean hasUpcomingOrInProgressTrip(List<DateTime> startTimes, List<DateTime> endTimes) {
+		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
+			final DateTime now = DateTime.now();
+			final DateTime oneWeekFromNow = now.plusWeeks(1);
+			for (int i = 0; i < startTimes.size(); i++) {
+				final DateTime start = startTimes.get(i);
+				final DateTime end = endTimes.get(i);
+				if (now.isBefore(end) && oneWeekFromNow.isAfter(start)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/* ************************************ */
@@ -2021,20 +2039,5 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 
 
-	@VisibleForTesting
-	static boolean hasUpcomingOrInProgressTrip(List<DateTime> startTimes, List<DateTime> endTimes) {
-		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
-			DateTime now = DateTime.now();
-			DateTime oneWeekFromNow = now.plusWeeks(1);
-			for (int i = 0; i < startTimes.size(); i++) {
-				DateTime start = startTimes.get(i);
-				DateTime end = endTimes.get(i);
-				if (now.isBefore(end) && oneWeekFromNow.isAfter(start)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 }
