@@ -208,29 +208,9 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return false;
 	}
 
-	/* ********* INITIALIZER *************************** */
+	/* ********* INSTANCE METHODS *************************** */
 
-	private ItineraryManager() {
-		this.itinCardData = new ArrayList<>();
-		this.syncFinishObservable = PublishSubject.create();
-	}
-
-	private void loadStartAndEndTimes() {
-		Log.d(LOGGING_TAG, "Loading start and end times...");
-
-		final File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
-		if (file.exists()) {
-			try {
-				final JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_END_TIMES_PATH, context));
-				startTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "startDateTimes", "startTimes");
-				endTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "endDateTimes", "endTimes");
-			} catch (Exception e) {
-				Log.w(LOGGING_TAG, "Could not loadStateFromDisk start times", e);
-				//noinspection ResultOfMethodCallIgnored
-				file.delete();
-			}
-		}
-	}
+	//***** initializer *****//
 
 	public void init(Context context) {
 		final long start = System.nanoTime();
@@ -251,7 +231,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 								   + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
-	/* ********* JSONable *************************** */
+	//***** JSONable *****//
 
 	@Override
 	public JSONObject toJson() {
@@ -274,42 +254,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return true;
 	}
 
-	/* ********* CLEAN UP *************************** */
-
-	private void doClearData() {
-		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
-
-		final File file = context.getFileStreamPath(MANAGER_PATH);
-		if (file.exists()) {
-			//noinspection ResultOfMethodCallIgnored
-			file.delete();
-		}
-
-		tripsJsonFileUtils.deleteAllFiles();
-
-		clearStartAndEndTimes(true, true);
-
-		mLastUpdateTime = 0;
-
-		synchronized (itinCardData) {
-			itinCardData.clear();
-		}
-
-		if (trips == null) {
-			return;
-		}
-
-		Log.d(LOGGING_TAG, "Informing the removal of " + trips.size()
-								   + " trips due to clearing of ItineraryManager...");
-		for (Trip trip : trips.values()) {
-			onTripRemoved(trip);
-		}
-
-		notificationManager.deleteAll();
-
-		trips.clear();
-	}
-
+	//***** cleanup *****//
 
 	public void clear() {
 		if (isSyncing()) {
@@ -320,49 +265,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ********* BACKGROUND TASKS *************************** */
-
-	private void loadStateFromDisk() {
-		if (trips != null) {
-			return;
-		}
-
-		trips = new HashMap<>();
-		final File file = context.getFileStreamPath(MANAGER_PATH);
-		if (file.exists()) {
-			try {
-				fromJson(new JSONObject(
-						IoUtils.readStringFromFile(MANAGER_PATH, context)
-				));
-				Log.i(LOGGING_TAG, "Loaded " + trips.size() + " trips from disk.");
-			} catch (Exception e) {
-				Log.w(LOGGING_TAG, "Could not loadStateFromDisk ItineraryManager data.", e);
-				//noinspection ResultOfMethodCallIgnored
-				file.delete();
-				Log.i(LOGGING_TAG, "Starting with a fresh set of itineraries.");
-			}
-		}
-	}
-
-	private void saveStateToDisk() {
-		Log.i(LOGGING_TAG, "Saving ItineraryManager data to disk...");
-		saveStartAndEndTimes();
-		try {
-			IoUtils.writeStringToFile(
-					MANAGER_PATH,
-					toJson().toString(),
-					context
-			);
-		} catch (IOException e) {
-			Log.w(LOGGING_TAG, "Could not saveStateToDisk ItineraryManager data", e);
-		}
-	}
-
-	/* ********* GETTERS *************************** */
-
-	private List<ItinCardData> getImmutableItinCardDatas() {
-		return Collections.unmodifiableList(new ArrayList<>(itinCardData));
-	}
+	//***** getters *****//
 
 	public Collection<Trip> getTrips() {
 		return trips != null ? trips.values() : Collections.emptyList();
@@ -419,7 +322,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return null;
 	}
 
-	/* ********* SETTERS *************************** */
+	//***** setters *****//
 
 	public void addGuestTrip(String email, String tripNumber) {
 		this.addGuestTrip(email, tripNumber, null);
@@ -442,7 +345,111 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		startSyncIfNotInProgress();
 	}
 
-	/* ********* PRIVATE HELPERS *************************** */
+	/* ********* BACKGROUND TASKS *************************** */
+
+	private void loadStateFromDisk() {
+		if (trips != null) {
+			return;
+		}
+
+		trips = new HashMap<>();
+		final File file = context.getFileStreamPath(MANAGER_PATH);
+		if (file.exists()) {
+			try {
+				fromJson(new JSONObject(
+						IoUtils.readStringFromFile(MANAGER_PATH, context)
+				));
+				Log.i(LOGGING_TAG, "Loaded " + trips.size() + " trips from disk.");
+			} catch (Exception e) {
+				Log.w(LOGGING_TAG, "Could not loadStateFromDisk ItineraryManager data.", e);
+				//noinspection ResultOfMethodCallIgnored
+				file.delete();
+				Log.i(LOGGING_TAG, "Starting with a fresh set of itineraries.");
+			}
+		}
+	}
+
+	private void saveStateToDisk() {
+		Log.i(LOGGING_TAG, "Saving ItineraryManager data to disk...");
+		saveStartAndEndTimes();
+		try {
+			IoUtils.writeStringToFile(
+					MANAGER_PATH,
+					toJson().toString(),
+					context
+			);
+		} catch (IOException e) {
+			Log.w(LOGGING_TAG, "Could not saveStateToDisk ItineraryManager data", e);
+		}
+	}
+
+	/* ********* PRIVATE METHODS *************************** */
+
+	//***** initializer *****//
+
+	private ItineraryManager() {
+		this.itinCardData = new ArrayList<>();
+		this.syncFinishObservable = PublishSubject.create();
+	}
+
+	private void loadStartAndEndTimes() {
+		Log.d(LOGGING_TAG, "Loading start and end times...");
+
+		final File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
+		if (file.exists()) {
+			try {
+				final JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_END_TIMES_PATH, context));
+				startTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "startDateTimes", "startTimes");
+				endTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "endDateTimes", "endTimes");
+			} catch (Exception e) {
+				Log.w(LOGGING_TAG, "Could not loadStateFromDisk start times", e);
+				//noinspection ResultOfMethodCallIgnored
+				file.delete();
+			}
+		}
+	}
+
+	//***** cleanup *****//
+
+	private void doClearData() {
+		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
+
+		final File file = context.getFileStreamPath(MANAGER_PATH);
+		if (file.exists()) {
+			//noinspection ResultOfMethodCallIgnored
+			file.delete();
+		}
+
+		tripsJsonFileUtils.deleteAllFiles();
+
+		clearStartAndEndTimes(true, true);
+
+		mLastUpdateTime = 0;
+
+		synchronized (itinCardData) {
+			itinCardData.clear();
+		}
+
+		if (trips == null) {
+			return;
+		}
+
+		Log.d(LOGGING_TAG, "Informing the removal of " + trips.size()
+								   + " trips due to clearing of ItineraryManager...");
+		for (Trip trip : trips.values()) {
+			onTripRemoved(trip);
+		}
+
+		notificationManager.deleteAll();
+
+		trips.clear();
+	}
+
+	//
+
+	private List<ItinCardData> getImmutableItinCardDatas() {
+		return Collections.unmodifiableList(new ArrayList<>(itinCardData));
+	}
 
 	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 		ItinCardDataFlight fData = null;
