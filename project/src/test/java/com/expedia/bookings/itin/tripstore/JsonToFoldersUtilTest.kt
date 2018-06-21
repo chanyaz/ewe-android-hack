@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.tripstore
 
 import android.content.Context
+import com.expedia.bookings.itin.tripstore.utils.JsonToFoldersUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.mobiata.mocke3.getJsonStringFromMock
@@ -17,7 +18,7 @@ import kotlin.test.assertTrue
 class JsonToFoldersUtilTest {
     private val context: Context = RuntimeEnvironment.application
     private val fileUtils = Ui.getApplication(context).tripComponent().tripFolderJsonFileUtils()
-    private val utilToTest = Ui.getApplication(context).tripComponent().jsonToFolderUtil()
+    private val utilToTest = JsonToFoldersUtil(fileUtils)
 
     @Before
     fun setup() {
