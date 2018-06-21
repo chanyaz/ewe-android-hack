@@ -228,6 +228,21 @@ class TripsTrackingTest {
     }
 
     @Test
+    fun testTrackItinLxActivityPageLoad() {
+        assertNoTrackingHasOccurred()
+        val overdueDate = DateTime(2020, 6, 29, 9, 34, 47, 0, DateTimeZone.UTC)
+        val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.lxDetailsHappy, ItinOmnitureUtils.LOB.LX, currentDate = overdueDate)
+        val s = OmnitureTracking.createTrackPageLoadEventBase("App.Itinerary.Activity")
+        TripsTracking.trackItinPageLoad(s, omnitureValues)
+
+        OmnitureTestUtils.assertStateTracked("App.Itinerary.Activity", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 5 to "0.0", 6 to "1", 18 to "App.Itinerary.Activity")),
+                OmnitureMatchers.withProps(mapOf(2 to "itinerary", 5 to "2018-10-24", 6 to "2018-10-24", 8 to "8104062917948|71196729802")),
+                OmnitureMatchers.withEventsString("event63"),
+                OmnitureMatchers.withProductsString(";LX:358734;5;1575.0")), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTrackItinLxMoreHelpPageLoad() {
         assertNoTrackingHasOccurred()
         val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.lxDetailsAlsoHappy, ItinOmnitureUtils.LOB.LX)
@@ -248,7 +263,7 @@ class TripsTrackingTest {
                 OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 5 to "0.0", 6 to "4", 18 to "Itin.Page.Load")),
                 OmnitureMatchers.withProps(mapOf(2 to "itinerary", 5 to "2018-03-12", 6 to "2018-03-16", 8 to "8065305197869|7280999576135")),
                 OmnitureMatchers.withEventsString("event63"),
-                OmnitureMatchers.withProductsString(";Hotel:17669432;4;10000.00")), mockAnalyticsProvider)
+                OmnitureMatchers.withProductsString(";Hotel:17669432;4;3500.00")), mockAnalyticsProvider)
     }
 
     @Test

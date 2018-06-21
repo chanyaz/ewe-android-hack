@@ -184,14 +184,14 @@ object ItinOmnitureUtils {
                     productLOBType = ";Hotel:"
                     productId = hotel.hotelId ?: ""
                     numberOfUnits = hotel.numberOfNights ?: ""
-                    totalPrice = hotel.totalPriceDetails?.base ?: ""
+                    totalPrice = hotel.totalPriceDetails?.total ?: ""
                 }
             LOB.LX ->
                 trip.firstLx()?.let { lx ->
                     productLOBType = ";LX:"
                     productId = lx.activityId ?: ""
                     numberOfUnits = lx.travelerCount ?: ""
-                    totalPrice = lx.price?.base ?: ""
+                    totalPrice = lx.price?.total ?: ""
                 }
         }
         val productString = StringBuilder()

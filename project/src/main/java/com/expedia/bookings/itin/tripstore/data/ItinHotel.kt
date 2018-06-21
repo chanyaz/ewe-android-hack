@@ -44,7 +44,8 @@ data class TotalPriceDetails(
         val extraGuestChargesFormatted: String?,
         val taxesAndFeesFormatted: String?,
         val adjustmentForCouponFormatted: String?,
-        val totalPOSFormatted: String?
+        val totalPOSFormatted: String?,
+        val total: String?
 )
 
 data class HotelPropertyInfo(
