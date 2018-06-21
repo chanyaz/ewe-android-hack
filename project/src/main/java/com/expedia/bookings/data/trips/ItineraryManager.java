@@ -1364,8 +1364,48 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	//***** Sync *****//
 
 	@Override
+	public boolean isSyncing() {
+		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
+	}
+
+	@Override
 	public boolean startSync(boolean forceRefresh) {
 		return startSync(forceRefresh, true, true);
+	}
+
+	@Override
+	public boolean deepRefreshTrip(String key, boolean doSyncIfNotFound) {
+		Trip trip = trips.get(key);
+
+		if (trip == null) {
+			if (doSyncIfNotFound) {
+				Log.i(LOGGING_TAG, "Deep refreshing trip " + key + ", trying a full refresh just in case.");
+
+				// We'll try to refresh the user to find the trip
+				mSyncOpQueue.add(new Task(SyncOperation.REFRESH_USER_TRIPS));
+
+				// Refresh the trip via tripNumber; does not guarantee it will be found
+				// by the time we get here (esp. if the user isn't logged in).
+				mSyncOpQueue.add(new Task(SyncOperation.DEEP_REFRESH_TRIP, key));
+			}
+			else {
+				Log.w(LOGGING_TAG, "Tried to deep refresh a trip which doesn't exist.");
+				return false;
+			}
+		}
+		else {
+			Log.i(LOGGING_TAG, "Deep refreshing trip " + key);
+
+			mSyncOpQueue.add(new Task(SyncOperation.DEEP_REFRESH_TRIP, trip));
+		}
+
+		// We're set to sync; add the rest of the ops and go
+		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
+
+		startSyncIfNotInProgress();
+
+		return true;
 	}
 
 	public boolean startSync(boolean forceRefresh, boolean load, boolean update) {
@@ -1406,6 +1446,35 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 			return true;
 		}
+	}
+
+	public boolean deepRefreshTrip(Trip trip) {
+		return deepRefreshTrip(trip.getItineraryKey(), false);
+	}
+
+	public boolean fetchSharedItin(String shareableUrl) {
+		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
+
+		mSyncOpQueue.add(new Task(SyncOperation.LOAD_FROM_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.FETCH_SHARED_ITIN, shareableUrl));
+		mSyncOpQueue.add(new Task(SyncOperation.DEDUPLICATE_TRIPS));
+		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
+
+		startSyncIfNotInProgress();
+
+		return true;
+	}
+
+	public boolean removeItin(String tripNumber) {
+		Log.i(LOGGING_TAG, "Removing Itin num = " + tripNumber);
+		mSyncOpQueue.add(new Task(SyncOperation.REMOVE_ITIN, tripNumber));
+		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
+
+		startSyncIfNotInProgress();
+
+		return true;
 	}
 
 	//***** Clean Up *****//
@@ -1530,6 +1599,18 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	}
 
 	//***** Called from public methods *****//
+
+	private void startSyncIfNotInProgress() {
+		if (!isSyncing()) {
+			Log.i(LOGGING_TAG, "Starting a sync...");
+
+			Ui.getApplication(context).defaultTripComponents();
+			mSyncTask = new SyncTask(Ui.getApplication(context).tripComponent().tripServices(),
+					new ExpediaServices(context),
+					ServicesUtil.generateAccountService(context));
+			mSyncTask.execute();
+		}
+	}
 
 	private long getStartMillisUtc(ItinCardData data) {
 		DateTime date = data.getStartDate();
@@ -1663,95 +1744,10 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	/* ********** (@_@) *************************** */
 	/* ********** <(@)> *************************** */
 
-	/**
-	 * Start a sync operation.
-	 * <p/>
-	 * If a sync is already in progress then calls to this are ignored.
-	 *
-	 * @return true if the sync started or is in progress, false if it never started
-	 */
 
 
-	public boolean deepRefreshTrip(Trip trip) {
-		return deepRefreshTrip(trip.getItineraryKey(), false);
-	}
 
-	@Override
-	public boolean deepRefreshTrip(String key, boolean doSyncIfNotFound) {
-		Trip trip = trips.get(key);
 
-		if (trip == null) {
-			if (doSyncIfNotFound) {
-				Log.i(LOGGING_TAG, "Deep refreshing trip " + key + ", trying a full refresh just in case.");
-
-				// We'll try to refresh the user to find the trip
-				mSyncOpQueue.add(new Task(SyncOperation.REFRESH_USER_TRIPS));
-
-				// Refresh the trip via tripNumber; does not guarantee it will be found
-				// by the time we get here (esp. if the user isn't logged in).
-				mSyncOpQueue.add(new Task(SyncOperation.DEEP_REFRESH_TRIP, key));
-			}
-			else {
-				Log.w(LOGGING_TAG, "Tried to deep refresh a trip which doesn't exist.");
-				return false;
-			}
-		}
-		else {
-			Log.i(LOGGING_TAG, "Deep refreshing trip " + key);
-
-			mSyncOpQueue.add(new Task(SyncOperation.DEEP_REFRESH_TRIP, trip));
-		}
-
-		// We're set to sync; add the rest of the ops and go
-		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
-		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
-
-		startSyncIfNotInProgress();
-
-		return true;
-	}
-
-	public boolean fetchSharedItin(String shareableUrl) {
-		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
-
-		mSyncOpQueue.add(new Task(SyncOperation.LOAD_FROM_DISK));
-		mSyncOpQueue.add(new Task(SyncOperation.FETCH_SHARED_ITIN, shareableUrl));
-		mSyncOpQueue.add(new Task(SyncOperation.DEDUPLICATE_TRIPS));
-		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
-		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
-
-		startSyncIfNotInProgress();
-
-		return true;
-	}
-
-	public boolean removeItin(String tripNumber) {
-		Log.i(LOGGING_TAG, "Removing Itin num = " + tripNumber);
-		mSyncOpQueue.add(new Task(SyncOperation.REMOVE_ITIN, tripNumber));
-		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
-		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
-
-		startSyncIfNotInProgress();
-
-		return true;
-	}
-
-	private void startSyncIfNotInProgress() {
-		if (!isSyncing()) {
-			Log.i(LOGGING_TAG, "Starting a sync...");
-
-			Ui.getApplication(context).defaultTripComponents();
-			mSyncTask = new SyncTask(Ui.getApplication(context).tripComponent().tripServices(),
-				new ExpediaServices(context),
-				ServicesUtil.generateAccountService(context));
-			mSyncTask.execute();
-		}
-	}
-
-	@Override
-	public boolean isSyncing() {
-		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
-	}
 
 	private void deletePendingNotification(Trip trip) {
 		List<TripComponent> components = trip.getTripComponents(true);

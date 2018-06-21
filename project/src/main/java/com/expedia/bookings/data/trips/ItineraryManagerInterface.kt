@@ -26,6 +26,14 @@ interface ItineraryManagerInterface {
     fun addSyncListener(listener: ItineraryManager.ItinerarySyncListener)
     fun removeSyncListener(listener: ItineraryManager.ItinerarySyncListener)
     fun isSyncing(): Boolean
+
+    /**
+     * Start a sync operation.
+     * <p/>
+     * If a sync is already in progress then calls to this are ignored.
+     *
+     * @return true if the sync started or is in progress, false if it never started
+     */
     fun startSync(boolean: Boolean): Boolean
     fun deepRefreshTrip(key: String, doSyncIfNotFound: Boolean): Boolean
     fun getItinCardDataFromFlightHistoryId(fhid: Int): ItinCardData?
