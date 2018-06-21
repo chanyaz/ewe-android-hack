@@ -276,6 +276,41 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* CLEAN UP *************************** */
 
+	private void doClearData() {
+		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
+
+		final File file = context.getFileStreamPath(MANAGER_PATH);
+		if (file.exists()) {
+			//noinspection ResultOfMethodCallIgnored
+			file.delete();
+		}
+
+		tripsJsonFileUtils.deleteAllFiles();
+
+		clearStartAndEndTimes(true, true);
+
+		mLastUpdateTime = 0;
+
+		synchronized (itinCardData) {
+			itinCardData.clear();
+		}
+
+		if (trips == null) {
+			return;
+		}
+
+		Log.d(LOGGING_TAG, "Informing the removal of " + trips.size()
+								   + " trips due to clearing of ItineraryManager...");
+		for (Trip trip : trips.values()) {
+			onTripRemoved(trip);
+		}
+
+		notificationManager.deleteAll();
+
+		trips.clear();
+	}
+
+
 	public void clear() {
 		if (isSyncing()) {
 			mSyncTask.cancel(true);
@@ -409,6 +444,30 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* PRIVATE HELPERS *************************** */
 
+	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
+		ItinCardDataFlight fData = null;
+		synchronized (itinCardData) {
+			for (ItinCardData data : itinCardData) {
+				if (data instanceof ItinCardDataFlight) {
+					fData = (ItinCardDataFlight) data;
+					for (Flight segment : fData.getFlightLeg().getSegments()) {
+						if (segment.mFlightHistoryId == fhid) {
+							return (TripFlight) fData.getTripComponent();
+						}
+					}
+				}
+			}
+		}
+		final String key = context.getString(R.string.preference_push_notification_any_flight);
+		if (fData != null && SettingUtils.get(context, key, false)) {
+			return (TripFlight) fData.getTripComponent();
+		}
+
+		return null;
+	}
+
+	/* ********* PRIVATE HELPERS - L2 *************************** */
+
 	private void saveStartAndEndTimes() {
 		// Sync data before disk write
 		clearStartAndEndTimes(true, false);
@@ -435,30 +494,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
-		ItinCardDataFlight fData = null;
-		synchronized (itinCardData) {
-			for (ItinCardData data : itinCardData) {
-				if (data instanceof ItinCardDataFlight) {
-					fData = (ItinCardDataFlight) data;
-					for (Flight segment : fData.getFlightLeg().getSegments()) {
-						if (segment.mFlightHistoryId == fhid) {
-							return (TripFlight) fData.getTripComponent();
-						}
-					}
-				}
-			}
-		}
-		final String key = context.getString(R.string.preference_push_notification_any_flight);
-		if (fData != null && SettingUtils.get(context, key, false)) {
-			return (TripFlight) fData.getTripComponent();
-		}
-
-		return null;
-	}
-
-	/* ********* PRIVATE HELPERS - L2 *************************** */
-
 	private void clearStartAndEndTimes(boolean fromMemory, boolean fromDisk) {
 		if (fromMemory) {
 			startTimes.clear();
@@ -476,47 +511,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ************************************ */
 
-	private void doClearData() {
-		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
-
-		// Delete the file, so it can't be reloaded later
-		File file = context.getFileStreamPath(MANAGER_PATH);
-		if (file.exists()) {
-			//noinspection ResultOfMethodCallIgnored
-			file.delete();
-		}
-
-		tripsJsonFileUtils.deleteAllFiles();
-
-		startTimes.clear();
-		endTimes.clear();
-		deleteStartAndEndTimes();
-
-		mLastUpdateTime = 0;
-
-		synchronized (itinCardData) {
-			itinCardData.clear();
-		}
-
-		if (trips == null) {
-			return;
-		}
-
-		Log.d(LOGGING_TAG, "Informing the removal of " + trips.size()
-			+ " trips due to clearing of ItineraryManager...");
-
-		for (Trip trip : trips.values()) {
-			onTripRemoved(trip);
-		}
-
-		notificationManager.deleteAll();
-
-		trips.clear();
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Data
-
 	@VisibleForTesting
 	void setTripsJsonFileUtils(ITripsJsonFileUtils tripsJsonFileUtils) {
 		this.tripsJsonFileUtils = tripsJsonFileUtils;
@@ -524,7 +520,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Start times data
-
 	private void deleteStartAndEndTimes() {
 		File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
 		if (file.exists()) {
@@ -535,7 +530,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Itin card data
-
 	private void generateItinCardData() {
 		synchronized (itinCardData) {
 			itinCardData.clear();
@@ -580,7 +574,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Sync listener
-
 	public enum SyncError {
 		OFFLINE,
 		USER_LIST_REFRESH_FAILURE,
