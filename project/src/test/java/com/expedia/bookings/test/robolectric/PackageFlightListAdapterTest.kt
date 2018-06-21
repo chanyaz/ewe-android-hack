@@ -234,7 +234,7 @@ class PackageFlightListAdapterTest {
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Roundtrip price per person", headerViewHolder.priceHeader.text)
+        assertEquals("Price per person for hotel and roundtrip flight from…", headerViewHolder.priceHeader.text)
 
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.JAPAN)
@@ -249,7 +249,7 @@ class PackageFlightListAdapterTest {
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Roundtrip price per person", headerViewHolder.priceHeader.text)
+        assertEquals("Price per person for hotel and roundtrip flight from…", headerViewHolder.priceHeader.text)
 
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.UNITED_KINGDOM)

@@ -94,12 +94,11 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
 
     override fun getPriceDescriptorMessageIdForFSR(): Int? {
         val shouldShowPackageIncludesTaxesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRIncludesHeader()
-        val shouldShowPackageIncludesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRHeader()
         if (shouldShowPackageIncludesTaxesMessage) {
             return R.string.package_prices_taxes_fees_included_label
-        } else if (shouldShowPackageIncludesMessage) {
+        } else {
             return R.string.package_prices_roundtrip_person_minimum_fsr_label
-        } else return null
+        }
     }
 
     override fun showAllFlightsHeader(): Boolean {

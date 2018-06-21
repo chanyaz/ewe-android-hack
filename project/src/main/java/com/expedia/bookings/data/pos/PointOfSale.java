@@ -128,9 +128,6 @@ public class PointOfSale {
 	// Whether to show packages on this POS
 	private boolean mSupportsPackages;
 
-	// Whether to show packages HSR header message on this POS
-	private boolean mSupportsPackagesHSRHeader;
-
 	// Whether to show packages HSR header including taxes message on this POS
 	private boolean mSupportsPackagesHSRIncludesHeader;
 
@@ -688,10 +685,6 @@ public class PointOfSale {
 
 	public boolean supportsRailsWebView() {
 		return mSupportsRailsWebView;
-	}
-
-	public boolean supportsPackagesHSRHeader() {
-		return mSupportsPackagesHSRHeader;
 	}
 
 	public boolean supportsPackagesHSRIncludesHeader() {
@@ -1347,7 +1340,6 @@ public class PointOfSale {
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
-		pos.mSupportsPackagesHSRHeader = data.optBoolean("packagesHSRHeaderEnabled", false);
 		pos.mSupportsPackagesHSRIncludesHeader = data.optBoolean("packagesHSRIncludesHeaderEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
 		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
