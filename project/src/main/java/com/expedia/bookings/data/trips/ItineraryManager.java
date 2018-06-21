@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
-
 import com.crashlytics.android.Crashlytics;
 import com.expedia.account.AccountService;
 import com.expedia.account.data.FacebookLinkResponse;
@@ -40,12 +39,18 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
-
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.subjects.PublishSubject;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
+import retrofit2.HttpException;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,14 +68,6 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.subjects.PublishSubject;
-import retrofit2.HttpException;
 
 /**
  * This singleton keeps all itinerary data together from loading, sync & storage.
@@ -225,8 +222,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 		final NotificationScheduler notificationScheduler = Ui.getApplication(context)
-				.appComponent()
-				.notificationScheduler();
+																	.appComponent()
+																	.notificationScheduler();
 		if (!ExpediaBookingApp.isAutomation()) {
 			notificationScheduler.subscribeToListener(syncFinishObservable);
 		}
@@ -234,7 +231,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		loadStartAndEndTimes();
 
 		Log.d(LOGGING_TAG, "Initialized ItineraryManager in "
-				+ ((System.nanoTime() - start) / 1000000) + " ms");
+								   + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
 	/* ********* INSTANCE METHODS - JSON *************************** */
@@ -272,6 +269,10 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	}
 
 	/* ********* INSTANCE METHODS - GETTERS *************************** */
+
+	private List<ItinCardData> getImmutableItinCardDatas() {
+		return Collections.unmodifiableList(new ArrayList<>(itinCardData));
+	}
 
 	public Collection<Trip> getTrips() {
 		return trips != null ? trips.values() : Collections.emptyList();
@@ -316,70 +317,42 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return null;
 	}
 
-	/* ************************************ */
+	@Nullable
+	public ItinCardData getItinCardDataFromItinId(String itinId) {
+		synchronized (itinCardData) {
+			for (ItinCardData data : itinCardData) {
+				if (data.getId().equals(itinId) && data.hasDetailData()) {
+					return data;
+				}
+			}
+		}
+		return null;
+	}
 
+	/* ********* INSTANCE METHODS - SETTERS *************************** */
 
+	public void addGuestTrip(String email, String tripNumber) {
+		this.addGuestTrip(email, tripNumber, null);
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * Adds a guest trip to the itinerary list.
-	 * <p/>
-	 * Automatically starts to try to get info on the trip from the server.  If a sync is already
-	 * in progress it will queue the guest trip for refresh; otherwise it will only refresh this
-	 * single guest trip.
-	 */
 	public void addGuestTrip(String email, String tripNumber, String tripID) {
 		Log.i(LOGGING_TAG, "Adding guest trip, email=" + email + " tripNum=" + tripNumber);
-
-		if (trips == null) {
+		if (this.trips == null) {
 			Log.w(LOGGING_TAG, "ItineraryManager - Attempt to add guest trip, trips == null. Init");
-			trips = new HashMap<>();
+			this.trips = new HashMap<>();
 		}
 
-		Trip trip = new Trip(email, tripNumber);
+		final Trip trip = new Trip(email, tripNumber);
 		trip.setTripId(tripID);
 		trips.put(tripNumber, trip);
 
 		mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-
 		startSyncIfNotInProgress();
 	}
 
-
-	/**
-	 * Adds a guest trip to the itinerary list.
-	 * <p/>
-	 * Automatically starts to try to get info on the trip from the server.  If a sync is already
-	 * in progress it will queue the guest trip for refresh; otherwise it will only refresh this
-	 * single guest trip.
-	 */
-	public void addGuestTrip(String email, String tripNumber) {
-		addGuestTrip(email, tripNumber, null);
-	}
-
-	public List<ItinCardData> getImmutableItinCardDatas() {
-		return Collections.unmodifiableList(new ArrayList(itinCardData));
-	}
+	/* ************************************ */
 
 	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 		ItinCardDataFlight fData = null;
@@ -398,26 +371,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		final String key = context.getString(R.string.preference_push_notification_any_flight);
 		if (fData != null && SettingUtils.get(context, key, false)) {
 			return (TripFlight) fData.getTripComponent();
-		}
-
-		return null;
-	}
-
-	/**
-	 * Get an ItinCardData object from all known itins given a known data.getId()
-	 *
-	 * @return first ItinCardData found matching the passed id or null
-	 */
-	@Nullable
-	@Override
-	public ItinCardData getItinCardDataFromItinId(String itinId) {
-
-		synchronized (itinCardData) {
-			for (ItinCardData data : itinCardData) {
-				if (data.getId().equals(itinId) && data.hasDetailData()) {
-					return data;
-				}
-			}
 		}
 
 		return null;
