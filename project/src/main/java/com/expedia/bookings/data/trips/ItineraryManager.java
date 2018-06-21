@@ -75,9 +75,9 @@ import java.util.concurrent.TimeUnit;
  * Call init() before using in the app for the first time
  * Call startSync() before manipulating data.
  * <p/>
- * Sync uses a Priority Operation queue, allowing dynamic ordering and reordering of tasks.
+ * Sync uses a Priority SyncOperation queue, allowing dynamic ordering and reordering of tasks.
  * <p/>
- * Operation Steps:-
+ * SyncOperation Steps:-
  * 1. Initial loadStateFromDisk - can be safely called whenever
  * 2. Refresh/loadStateFromDisk trips - loadStateFromDisk data from all sources
  * 3. Load ancillary data for trips e.g. flight stats data about trips.
@@ -89,13 +89,13 @@ import java.util.concurrent.TimeUnit;
  * generating data for the app to consume
  * registering loaded data with notifications.
  * <p/>
- * See more in Operation enum.
+ * See more in SyncOperation enum.
  */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* DATA TYPES *************************** */
 
-	private enum Operation {
+	private enum SyncOperation {
 		LOAD_FROM_DISK,
 		REAUTHENTICATE_FACEBOOK_USER,
 		REFRESH_USER_TRIPS,
@@ -110,6 +110,35 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		DEDUPLICATE_TRIPS,
 		SAVE_TO_DISK,
 		GENERATE_ITIN_CARDS,
+	}
+
+	private static class ProgressUpdate {
+		enum Type {
+			ADDED,
+			UPDATED,
+			UPDATE_FAILED,
+			FAILED_FETCHING_GUEST_ITINERARY,
+			FAILED_FETCHING_REGISTERED_USER_ITINERARY,
+			REMOVED,
+			SYNC_ERROR,
+			USER_ADDED_COMPLETED_TRIP,
+			USER_ADDED_CANCELLED_TRIP,
+		}
+
+		public Type mType;
+		Trip mTrip;
+
+		SyncError mError;
+
+		ProgressUpdate(Type type, Trip trip) {
+			mType = type;
+			mTrip = trip;
+		}
+
+		ProgressUpdate(SyncError error) {
+			mType = Type.SYNC_ERROR;
+			mError = error;
+		}
 	}
 
 	//TODO: to be formatted
@@ -135,7 +164,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		private boolean mFinished = false;
 
 		// These variables are used for stat tracking
-		private Map<Operation, Integer> mOpCount = new HashMap<>();
+		private Map<SyncOperation, Integer> mOpCount = new HashMap<>();
 		private int tripsRefreshed = 0;
 		private int mTripRefreshFailures = 0;
 		private int tripsAdded = 0;
@@ -147,7 +176,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			this.tripsServices = tripsServices;
 			this.accountService = accountService;
 
-			for (Operation op : Operation.values()) {
+			for (SyncOperation op : SyncOperation.values()) {
 				mOpCount.put(op, 0);
 			}
 		}
@@ -163,11 +192,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		@Override
 		protected void onPreExecute() {
 			if (trips == null) {
-				Log.i(LOGGING_TAG,
-					"Sync called with trips == null. Loading trips from disk and generating itin cards before other operations in queue.");
+				Log.i(LOGGING_TAG, "Sync called with trips == null. Loading trips from disk and " +
+										   "generating itin cards before other operations in queue.");
 				TaskPriorityQueue queueWithLoadFromDiskFirst = new TaskPriorityQueue();
-				queueWithLoadFromDiskFirst.add(new Task(Operation.LOAD_FROM_DISK));
-				queueWithLoadFromDiskFirst.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				queueWithLoadFromDiskFirst.add(new Task(SyncOperation.LOAD_FROM_DISK));
+				queueWithLoadFromDiskFirst.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
 				queueWithLoadFromDiskFirst.addAll(mSyncOpQueue);
 
 				mSyncOpQueue.clear();
@@ -335,7 +364,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 		private void logStats() {
 			Log.d(LOGGING_TAG, "Sync Finished; stats below.");
-			for (Operation op : Operation.values()) {
+			for (SyncOperation op : SyncOperation.values()) {
 				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
 			}
 
@@ -656,8 +685,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					}
 
 					if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
-						mSyncOpQueue.add(new Task(Operation.REFRESH_FLIGHT_STATUS, trip));
-						mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
+						mSyncOpQueue.add(new Task(SyncOperation.REFRESH_FLIGHT_STATUS, trip));
+						mSyncOpQueue.add(new Task(SyncOperation.PUBLISH_TRIP_UPDATE, trip));
 					}
 				}
 			}
@@ -825,7 +854,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			Log.i(LOGGING_TAG, "Gathering " + trips.values().size() + " trips...");
 
 			Log.i(LOGGING_TAG, "====REFRESH_ALL_TRIPS====");
-			mSyncOpQueue.add(new Task(Operation.REFRESH_ALL_TRIPS));
+			mSyncOpQueue.add(new Task(SyncOperation.REFRESH_ALL_TRIPS));
 		}
 
 		private void deduplicateTrips() {
@@ -942,7 +971,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 					tripsRefreshed++;
 
-					mSyncOpQueue.add(new Task(Operation.REFRESH_FLIGHT_STATUS, sharedTrip));
+					mSyncOpQueue.add(new Task(SyncOperation.REFRESH_FLIGHT_STATUS, sharedTrip));
 				}
 
 				if (trip.getAirAttach() != null && !trip.isShared()) {
@@ -1285,9 +1314,9 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		trip.setTripId(tripID);
 		trips.put(tripNumber, trip);
 
-		mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
-		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(SyncOperation.REFRESH_TRIP, trip));
+		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
 		startSyncIfNotInProgress();
 	}
 
@@ -1604,25 +1633,25 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 
 	private class Task implements Comparable<Task> {
-		Operation mOp;
+		SyncOperation mOp;
 
 		Trip mTrip;
 
 		String mTripNumber;
 
-		Task(Operation op) {
+		Task(SyncOperation op) {
 			this(op, null, null);
 		}
 
-		Task(Operation op, Trip trip) {
+		Task(SyncOperation op, Trip trip) {
 			this(op, trip, null);
 		}
 
-		Task(Operation op, String tripNumber) {
+		Task(SyncOperation op, String tripNumber) {
 			this(op, null, tripNumber);
 		}
 
-		Task(Operation op, Trip trip, String tripNumber) {
+		Task(SyncOperation op, Trip trip, String tripNumber) {
 			mOp = op;
 			mTrip = trip;
 			mTripNumber = tripNumber;
@@ -1715,15 +1744,15 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 			// Add default sync operations
 			if (load) {
-				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
+				mSyncOpQueue.add(new Task(SyncOperation.LOAD_FROM_DISK));
 			}
 			if (update) {
-				mSyncOpQueue.add(new Task(Operation.REAUTHENTICATE_FACEBOOK_USER));
-				mSyncOpQueue.add(new Task(Operation.REFRESH_USER_TRIPS));
-				mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
-				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
-				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				mSyncOpQueue.add(new Task(SyncOperation.REAUTHENTICATE_FACEBOOK_USER));
+				mSyncOpQueue.add(new Task(SyncOperation.REFRESH_USER_TRIPS));
+				mSyncOpQueue.add(new Task(SyncOperation.GATHER_TRIPS));
+				mSyncOpQueue.add(new Task(SyncOperation.DEDUPLICATE_TRIPS));
+				mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+				mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
 			}
 
 			startSyncIfNotInProgress();
@@ -1745,11 +1774,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				Log.i(LOGGING_TAG, "Deep refreshing trip " + key + ", trying a full refresh just in case.");
 
 				// We'll try to refresh the user to find the trip
-				mSyncOpQueue.add(new Task(Operation.REFRESH_USER_TRIPS));
+				mSyncOpQueue.add(new Task(SyncOperation.REFRESH_USER_TRIPS));
 
 				// Refresh the trip via tripNumber; does not guarantee it will be found
 				// by the time we get here (esp. if the user isn't logged in).
-				mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, key));
+				mSyncOpQueue.add(new Task(SyncOperation.DEEP_REFRESH_TRIP, key));
 			}
 			else {
 				Log.w(LOGGING_TAG, "Tried to deep refresh a trip which doesn't exist.");
@@ -1759,12 +1788,12 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		else {
 			Log.i(LOGGING_TAG, "Deep refreshing trip " + key);
 
-			mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, trip));
+			mSyncOpQueue.add(new Task(SyncOperation.DEEP_REFRESH_TRIP, trip));
 		}
 
 		// We're set to sync; add the rest of the ops and go
-		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
 
 		startSyncIfNotInProgress();
 
@@ -1774,11 +1803,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	public boolean fetchSharedItin(String shareableUrl) {
 		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
 
-		mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
-		mSyncOpQueue.add(new Task(Operation.FETCH_SHARED_ITIN, shareableUrl));
-		mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
-		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(SyncOperation.LOAD_FROM_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.FETCH_SHARED_ITIN, shareableUrl));
+		mSyncOpQueue.add(new Task(SyncOperation.DEDUPLICATE_TRIPS));
+		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
 
 		startSyncIfNotInProgress();
 
@@ -1787,9 +1816,9 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	public boolean removeItin(String tripNumber) {
 		Log.i(LOGGING_TAG, "Removing Itin num = " + tripNumber);
-		mSyncOpQueue.add(new Task(Operation.REMOVE_ITIN, tripNumber));
-		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(SyncOperation.REMOVE_ITIN, tripNumber));
+		mSyncOpQueue.add(new Task(SyncOperation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(SyncOperation.GENERATE_ITIN_CARDS));
 
 		startSyncIfNotInProgress();
 
@@ -1813,35 +1842,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
 	}
 
-	private static class ProgressUpdate {
-		enum Type {
-			ADDED,
-			UPDATED,
-			UPDATE_FAILED,
-			FAILED_FETCHING_GUEST_ITINERARY,
-			FAILED_FETCHING_REGISTERED_USER_ITINERARY,
-			REMOVED,
-			SYNC_ERROR,
-			USER_ADDED_COMPLETED_TRIP,
-			USER_ADDED_CANCELLED_TRIP,
-		}
-
-		public Type mType;
-		Trip mTrip;
-
-		SyncError mError;
-
-		ProgressUpdate(Type type, Trip trip) {
-			mType = type;
-			mTrip = trip;
-		}
-
-		ProgressUpdate(SyncError error) {
-			mType = Type.SYNC_ERROR;
-			mError = error;
-		}
-	}
-
 	private void deletePendingNotification(Trip trip) {
 		List<TripComponent> components = trip.getTripComponents(true);
 		if (components == null) {
@@ -1855,7 +1855,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	private boolean hasFetchSharedInQueue() {
 		for (Task task : mSyncOpQueue) {
-			if (task.mOp == Operation.FETCH_SHARED_ITIN) {
+			if (task.mOp == SyncOperation.FETCH_SHARED_ITIN) {
 				return true;
 			}
 		}
