@@ -69,6 +69,9 @@ import java.util.TimeZone;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/* ***** /^\ ****** Are ***** */
+/* **** (@_@) ***** You ***** */
+/* **** <(@)> ***** Ready *** */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* DATA TYPES *************************** */
@@ -1770,9 +1773,5 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			}
 		}
 	}
-
-	/* *********** /^\ *************************** */
-	/* ********** (@_@) *************************** */
-	/* ********** <(@)> *************************** */
 
 }
