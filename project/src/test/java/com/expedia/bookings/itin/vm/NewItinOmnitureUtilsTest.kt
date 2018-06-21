@@ -47,7 +47,7 @@ class NewItinOmnitureUtilsTest {
     fun buildNewHotelProductString() {
         val hotelItin = ItinMocker.hotelDetailsHappy
         val hotelProductString = sut.buildLOBProductString(hotelItin, ItinOmnitureUtils.LOB.HOTEL)
-        assertEquals(";Hotel:17669432;4;10000.00", hotelProductString)
+        assertEquals(";Hotel:17669432;4;3500.00", hotelProductString)
     }
 
     @Test
