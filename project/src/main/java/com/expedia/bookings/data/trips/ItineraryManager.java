@@ -2,7 +2,6 @@ package com.expedia.bookings.data.trips;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -131,42 +130,78 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
+	/* ********* INSTANCE DATA MEMBERS *************************** */
+
+	// In memory trips, updated with every sync, assumed to be sorted
+	private final List<ItinCardData> itinCardData;
+	private final PublishSubject<List<ItinCardData>> syncFinishObservable;
+
+	private Context context;
+	private UserStateManager userStateManager;
+	private INotificationManager notificationManager;
+	private ITripsJsonFileUtils tripsJsonFileUtils;
+	private long mLastUpdateTime;
+	private Map<String, Trip> trips;
+	private SyncTask mSyncTask;
+
+	private List<DateTime> endTimes = new ArrayList<>();
+	private List<DateTime> startTimes = new ArrayList<>();
+	private Queue<Task> mSyncOpQueue = new TaskPriorityQueue();
+	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<>();
+
+	private Comparator<ItinCardData> mItinCardDataComparator = (dataOne, dataTwo) -> {
+
+		final long startMillis1 = getStartMillisUtc(dataOne);
+		final long startMillis2 = getStartMillisUtc(dataTwo);
+		final int startDate1 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis1));
+		final int startDate2 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis2));
+
+		// checkInDate (but ignoring the time)
+		int comparison = startDate1 - startDate2;
+		if (comparison != 0) {
+			return comparison;
+		}
+
+		// Type (flight < car < activity < hotel < cruise)
+		comparison = dataOne.getTripComponentType().ordinal() - dataTwo.getTripComponentType().ordinal();
+		if (comparison != 0) {
+			return comparison;
+		}
+
+		// checkInDate (including time)
+		long millisComp = startMillis1 - startMillis2;
+		if (millisComp > 0) {
+			return 1;
+		} else if (millisComp < 0) {
+			return -1;
+		}
+
+		// Unique ID
+		comparison = dataOne.getId().compareTo(dataTwo.getId());
+
+		return comparison;
+	};
+
 	/* ************************************ */
 
-	private static final ItineraryManager sManager = new ItineraryManager();
-
 	private ItineraryManager() {
-		// Cannot be instantiated
+		this.itinCardData = new ArrayList<>();
+		this.syncFinishObservable = PublishSubject.create();
 	}
 
 	public static ItineraryManager getInstance() {
-		return sManager;
+		return ITINERARY_MANAGER;
 	}
 
 	// Should be initialized from the Application so that this does not leak a component
 	private Context mContext;
-	private UserStateManager userStateManager;
-	private INotificationManager notificationManager;
-	private ITripsJsonFileUtils tripsJsonFileUtils;
-
-	// Don't try refreshing too often
-	private long mLastUpdateTime;
 
 	private Map<String, Trip> mTrips;
-
-	// This is an in-memory representation of the trips.  It is not
-	// saved, but rather reproduced from the trip list.  It updates
-	// each time a sync occurs.
-	//
-	// It can be assumed that it is sorted at all times.
-	private final List<ItinCardData> mItinCardDatas = new ArrayList<>();
 
 	// These are lists of all trip start and end times; unlike mTrips, they will be loaded at app startup, so you can use them to
 	// determine whether you should launch in itin or not.
 	private List<DateTime> mStartTimes = new ArrayList<>();
 	private List<DateTime> mEndTimes = new ArrayList<>();
-
-	private final PublishSubject<List<ItinCardData>> syncFinishObservable = PublishSubject.create();
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -223,19 +258,19 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	}
 
 	public List<ItinCardData> getItinCardData() {
-		return mItinCardDatas;
+		return itinCardData;
 	}
 
 	public List<ItinCardData> getImmutableItinCardDatas() {
-		return Collections.unmodifiableList(new ArrayList(mItinCardDatas));
+		return Collections.unmodifiableList(new ArrayList(itinCardData));
 	}
 
 	public String getItinIdByTripNumber(String tripNumber) {
-		synchronized (mItinCardDatas) {
+		synchronized (itinCardData) {
 			if (!TextUtils.isEmpty(tripNumber)) {
-				for (int i = 0; i < mItinCardDatas.size(); i++) {
-					if (tripNumber.equals(mItinCardDatas.get(i).getTripNumber())) {
-						return mItinCardDatas.get(i).getId();
+				for (int i = 0; i < itinCardData.size(); i++) {
+					if (tripNumber.equals(itinCardData.get(i).getTripNumber())) {
+						return itinCardData.get(i).getId();
 					}
 				}
 			}
@@ -249,8 +284,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 		ItinCardDataFlight fData = null;
-		synchronized (mItinCardDatas) {
-			for (ItinCardData data : mItinCardDatas) {
+		synchronized (itinCardData) {
+			for (ItinCardData data : itinCardData) {
 				if (data instanceof ItinCardDataFlight) {
 					fData = (ItinCardDataFlight) data;
 					for (Flight segment : fData.getFlightLeg().getSegments()) {
@@ -274,7 +309,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	 * This is useful for push notifications which provide us with a flightHistoryId as
 	 * the only identifier
 	 * <p/>
-	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
+	 * Note: We are only searching the itinCardData collection, so only itins displayed
 	 * in the itin list will be searched
 	 *
 	 * @param fhid - flightHistoryId from flightstats
@@ -284,8 +319,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	public ItinCardData getItinCardDataFromFlightHistoryId(int fhid) {
 		TripFlight tripFlight = getTripComponentFromFlightHistoryId(fhid);
 		if (tripFlight != null) {
-			synchronized (mItinCardDatas) {
-				for (ItinCardData data : mItinCardDatas) {
+			synchronized (itinCardData) {
+				for (ItinCardData data : itinCardData) {
 					if (data.getTripComponent() == tripFlight) {
 						return data;
 					}
@@ -304,8 +339,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	@Override
 	public ItinCardData getItinCardDataFromItinId(String itinId) {
 
-		synchronized (mItinCardDatas) {
-			for (ItinCardData data : mItinCardDatas) {
+		synchronized (itinCardData) {
+			for (ItinCardData data : itinCardData) {
 				if (data.getId().equals(itinId) && data.hasDetailData()) {
 					return data;
 				}
@@ -349,8 +384,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 		mLastUpdateTime = 0;
 
-		synchronized (mItinCardDatas) {
-			mItinCardDatas.clear();
+		synchronized (itinCardData) {
+			itinCardData.clear();
 		}
 
 		if (mTrips == null) {
@@ -463,8 +498,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				}
 				else {
 					//We want a valid date object even if it is bunk
-					DateTime fakeEnd = new DateTime(0);
-					mEndTimes.add(fakeEnd);
+					mEndTimes.add(FAKE_END_TIME);
 				}
 			}
 		}
@@ -516,8 +550,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	// Itin card data
 
 	private void generateItinCardData() {
-		synchronized (mItinCardDatas) {
-			mItinCardDatas.clear();
+		synchronized (itinCardData) {
+			itinCardData.clear();
 
 			DateTime pastCutOffDateTime = DateTime.now().minusHours(CUTOFF_HOURS);
 			for (Trip trip : mTrips.values()) {
@@ -529,7 +563,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 							for (ItinCardData item : items) {
 								DateTime endDate = item.getEndDate();
 								if (endDate != null && endDate.isAfter(pastCutOffDateTime)) {
-									mItinCardDatas.add(item);
+									itinCardData.add(item);
 								}
 							}
 						}
@@ -537,52 +571,9 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				}
 			}
 
-			Collections.sort(mItinCardDatas, mItinCardDataComparator);
+			Collections.sort(itinCardData, mItinCardDataComparator);
 		}
 	}
-
-	private Comparator<ItinCardData> mItinCardDataComparator = new Comparator<ItinCardData>() {
-		@Override
-		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
-			// Sort by:
-			// 1. "checkInDate" (but ignoring the time)
-			// 2. Type (flight < car < activity < hotel < cruise)
-			// 3. "checkInDate" (including time)
-			// 4. Unique ID
-
-			long startMillis1 = getStartMillisUtc(dataOne);
-			long startMillis2 = getStartMillisUtc(dataTwo);
-
-			int startDate1 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis1));
-			int startDate2 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis2));
-
-			// 1
-			int comparison = startDate1 - startDate2;
-			if (comparison != 0) {
-				return comparison;
-			}
-
-			// 2
-			comparison = dataOne.getTripComponentType().ordinal() - dataTwo.getTripComponentType().ordinal();
-			if (comparison != 0) {
-				return comparison;
-			}
-
-			// 3
-			long millisComp = startMillis1 - startMillis2;
-			if (millisComp > 0) {
-				return 1;
-			}
-			else if (millisComp < 0) {
-				return -1;
-			}
-
-			// 4
-			comparison = dataOne.getId().compareTo(dataTwo.getId());
-
-			return comparison;
-		}
-	};
 
 	private long getStartMillisUtc(ItinCardData data) {
 		DateTime date = data.getStartDate();
@@ -708,8 +699,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		public void onSyncFinished(Collection<Trip> trips) {
 		}
 	}
-
-	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<>();
 
 	@Override
 	public void addSyncListener(ItinerarySyncListener listener) {
@@ -936,10 +925,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			return false;
 		}
 	}
-
-	private Queue<Task> mSyncOpQueue = new TaskPriorityQueue();
-
-	private SyncTask mSyncTask;
 
 	/**
 	 * Start a sync operation.
@@ -2040,8 +2025,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	}
 
 	public static boolean haveTimelyItinItem() {
-		List<DateTime> startTimes = sManager.getStartTimes();
-		List<DateTime> endTimes = sManager.getEndTimes();
+		List<DateTime> startTimes = ITINERARY_MANAGER.getStartTimes();
+		List<DateTime> endTimes = ITINERARY_MANAGER.getEndTimes();
 		return hasUpcomingOrInProgressTrip(startTimes, endTimes);
 	}
 
