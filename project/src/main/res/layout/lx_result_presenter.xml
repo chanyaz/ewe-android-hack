@@ -59,12 +59,12 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.expedia.bookings.widget.LXSearchResultsWidget
+        <com.expedia.bookings.lx.widget.LXSearchResultsWidget
             android:id="@+id/lx_search_results_widget"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.expedia.bookings.widget.LXErrorWidget
+            <com.expedia.bookings.lx.widget.LXErrorWidget
                 android:id="@+id/lx_search_error_widget"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -82,7 +82,7 @@
                 android:orientation="vertical"
                 android:visibility="gone" />
 
-        </com.expedia.bookings.widget.LXSearchResultsWidget>
+        </com.expedia.bookings.lx.widget.LXSearchResultsWidget>
     </LinearLayout>
     
     <View
@@ -106,7 +106,7 @@
             android:layout_weight="1"
             android:visibility="invisible"/>
 
-        <com.expedia.bookings.widget.LXSortFilterWidget
+        <com.expedia.bookings.lx.widget.LXSortFilterWidget
             android:id="@+id/sort_filter_widget"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

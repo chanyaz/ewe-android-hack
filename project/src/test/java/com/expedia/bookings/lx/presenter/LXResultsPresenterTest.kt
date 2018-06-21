@@ -22,9 +22,9 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
-import com.expedia.bookings.widget.LXErrorWidget
+import com.expedia.bookings.lx.widget.LXErrorWidget
 import com.expedia.bookings.widget.LXResultsListAdapter
-import com.expedia.bookings.widget.LXSearchResultsWidget
+import com.expedia.bookings.lx.widget.LXSearchResultsWidget
 import com.google.gson.GsonBuilder
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate

@@ -19,7 +19,7 @@
             android:text="@string/name_must_match_warning_new"
             android:visibility="gone"/>
 
-        <com.expedia.bookings.widget.LXTravelerEntryWidget
+        <com.expedia.bookings.lx.widget.LXTravelerEntryWidget
             android:id="@+id/traveler_entry_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

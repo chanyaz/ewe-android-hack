@@ -35,7 +35,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.CheckoutBasePresenter;
-import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
+import com.expedia.bookings.lx.widget.LXCheckoutSummaryWidget;
 import com.expedia.bookings.widget.PaymentWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;

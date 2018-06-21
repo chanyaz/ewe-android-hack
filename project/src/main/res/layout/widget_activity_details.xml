@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.LXActivityDetailsWidget
+<com.expedia.bookings.lx.widget.LXActivityDetailsWidget
     android:id="@+id/activity_details"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -201,4 +201,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</com.expedia.bookings.widget.LXActivityDetailsWidget>
+</com.expedia.bookings.lx.widget.LXActivityDetailsWidget>

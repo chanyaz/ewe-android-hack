@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,8 @@ import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LXResultsListAdapter;
+import com.expedia.bookings.widget.RecyclerDividerDecoration;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;

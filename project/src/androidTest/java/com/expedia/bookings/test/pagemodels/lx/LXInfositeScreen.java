@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.lx.models.TicketSummaryDataModel;
-import com.expedia.bookings.widget.LXOffersListWidget;
+import com.expedia.bookings.lx.widget.LXOffersListWidget;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

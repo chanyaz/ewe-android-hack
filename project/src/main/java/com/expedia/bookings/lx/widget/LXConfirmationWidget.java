@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import java.util.List;
 
@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.lx.vm.LXConfirmationWidgetViewModel;
+import com.expedia.bookings.widget.TextView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;

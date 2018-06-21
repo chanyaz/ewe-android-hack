@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.lx.widget
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.TextView
 
 class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), View.OnClickListener {
 

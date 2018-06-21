@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +35,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.DynamicFeedbackWidget;
 import com.expedia.util.RxKt;
 import com.squareup.otto.Subscribe;
 

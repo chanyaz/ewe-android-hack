@@ -41,7 +41,7 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.LXConfirmationWidget;
+import com.expedia.bookings.lx.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
 import com.expedia.bookings.widget.shared.WebCheckoutView;
 import com.expedia.util.Optional;

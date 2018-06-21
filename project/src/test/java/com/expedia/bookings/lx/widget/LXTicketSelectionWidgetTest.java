@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.lx.widget;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,10 +26,8 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.widget.LXOfferDescription;
-import com.expedia.bookings.widget.LXTicketPicker;
-import com.expedia.bookings.widget.LXTicketSelectionWidget;
 
 import butterknife.ButterKnife;
 

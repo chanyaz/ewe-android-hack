@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.lx.widget
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.LXOfferDatesButton
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test

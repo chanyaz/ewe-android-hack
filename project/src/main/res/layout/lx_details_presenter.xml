@@ -15,7 +15,7 @@
 
     <include layout="@layout/toolbar_lx_results_and_details" />
 
-    <com.expedia.bookings.widget.LXMapView
+    <com.expedia.bookings.lx.widget.LXMapView
         android:id="@+id/lx_maps_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

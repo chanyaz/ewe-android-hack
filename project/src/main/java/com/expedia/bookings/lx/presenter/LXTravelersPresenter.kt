@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.shared.AbstractTravelersPresenter
-import com.expedia.bookings.widget.LXTravelerEntryWidget
+import com.expedia.bookings.lx.widget.LXTravelerEntryWidget
 import com.expedia.vm.traveler.TravelersViewModel
 
 class LXTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractTravelersPresenter(context, attrs) {

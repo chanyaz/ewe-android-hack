@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.lx.widget
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.expedia.bookings.data.lx.Ticket
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.LXTicketPicker
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.google.gson.GsonBuilder
 import org.junit.Before
 import org.junit.Test

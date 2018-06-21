@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.lx.widget
 
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +29,8 @@ import com.expedia.bookings.tracking.OmnitureTracking.trackAppLXConfirmationFrom
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.bookings.utils.TuneUtilsTests
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.LXConfirmationWidget
+import com.expedia.bookings.test.robolectric.LXStateTestUtil
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.google.gson.Gson
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.lx_base_layout.lx_base_presenter

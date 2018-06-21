@@ -1,4 +1,4 @@
-<com.expedia.bookings.widget.LXOffersListWidget
+<com.expedia.bookings.lx.widget.LXOffersListWidget
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/offers"
     android:layout_width="match_parent"
@@ -32,4 +32,4 @@
             android:padding="10dp" />
 
     </LinearLayout>
-</com.expedia.bookings.widget.LXOffersListWidget>
+</com.expedia.bookings.lx.widget.LXOffersListWidget>

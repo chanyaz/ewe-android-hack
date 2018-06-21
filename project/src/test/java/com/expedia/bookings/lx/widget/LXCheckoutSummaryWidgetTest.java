@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.lx.widget;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +12,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
+import com.expedia.bookings.test.robolectric.LXStateTestUtil;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
 import com.expedia.bookings.widget.TextView;
 
 import static org.junit.Assert.assertEquals;

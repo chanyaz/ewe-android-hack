@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.lx.widget.LXTicketSelectionWidget;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
@@ -29,7 +30,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 	//List of Offers for an Activity
 	private List<Offer> offers = new ArrayList<>();
-	PublishSubject<Offer> offerClickedSubject = PublishSubject.create();
+	public PublishSubject<Offer> offerClickedSubject = PublishSubject.create();
 	private String activityId;
 	private String promoDiscountType;
 	private String activityDiscountType;
@@ -171,7 +172,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 				if (Constants.LX_AIR_MIP.equals(activityDiscountType) && !Constants.LX_AIR_MIP.equals(offer.discountType)) {
 					OmnitureTracking.trackLXProductForNonMipMod(activityId);
 				}
-				ticketSelectionWidget.offerDescription.minimizeDescription();
+				ticketSelectionWidget.minimizeDescription();
 				ticketSelectionWidget.setVisibility(View.VISIBLE);
 			}
 			else {

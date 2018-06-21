@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import org.joda.time.LocalDate;
 

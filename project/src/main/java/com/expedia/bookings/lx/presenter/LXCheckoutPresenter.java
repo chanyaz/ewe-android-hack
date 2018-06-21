@@ -30,8 +30,8 @@ import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.DeprecatedProgressDialog;
-import com.expedia.bookings.widget.LXErrorWidget;
-import com.expedia.bookings.widget.LxRulesWidget;
+import com.expedia.bookings.lx.widget.LXErrorWidget;
+import com.expedia.bookings.lx.widget.LxRulesWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 

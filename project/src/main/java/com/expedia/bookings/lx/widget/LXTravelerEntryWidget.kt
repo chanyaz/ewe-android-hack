@@ -1,9 +1,10 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.lx.widget
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.widget.AbstractTravelerEntryWidget
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 
 class LXTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {

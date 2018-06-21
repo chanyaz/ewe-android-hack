@@ -1,10 +1,12 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.OverScroller;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.FullscreenGalleryOverScroller;
+import com.expedia.bookings.widget.GalleryScrollView;
 
 public class LXDetailsScrollView extends GalleryScrollView {
 

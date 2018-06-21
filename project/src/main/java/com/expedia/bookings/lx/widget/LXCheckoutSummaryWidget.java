@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TextView;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;

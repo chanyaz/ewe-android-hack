@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.lx.widget
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.TextView
 import com.google.gson.GsonBuilder
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals

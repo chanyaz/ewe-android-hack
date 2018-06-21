@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +22,8 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LXOffersListAdapter;
+import com.expedia.bookings.widget.ShowMoreWithCountWidget;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

@@ -8,7 +8,7 @@ import com.expedia.bookings.data.lx.LXCreateTripResponseV2
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.presenter.BaseSingleScreenOverviewPresenter
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.LXCheckoutSummaryWidget
+import com.expedia.bookings.lx.widget.LXCheckoutSummaryWidget
 import com.expedia.bookings.lx.vm.LXCheckoutViewModel
 import com.expedia.bookings.lx.vm.LXCreateTripViewModel
 

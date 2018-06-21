@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -33,6 +33,10 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.GalleryScrollView;
+import com.expedia.bookings.widget.LocationMapImageView;
+import com.expedia.bookings.widget.RecyclerGallery;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
@@ -140,7 +144,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	private int mGalleryHeight = 0;
 	private int mInitialScrollTop = 0;
 	private boolean mHasBeenTouched = false;
-	SegmentedLinearInterpolator mIGalleryScroll;
+	GalleryScrollView.SegmentedLinearInterpolator mIGalleryScroll;
 	public PublishSubject<Unit> mapClickSubject =  PublishSubject.create();
 
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
@@ -322,8 +326,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	public void buildMapSection(ActivityDetailsResponse activityDetailsResponse) {
-		mapDivider.setVisibility(VISIBLE);
-		miniMapContainer.setVisibility(VISIBLE);
+		mapDivider.setVisibility(View.VISIBLE);
+		miniMapContainer.setVisibility(View.VISIBLE);
 		miniMapView.setLocation(ActivityDetailsResponse.LXLocation.getLocation(activityDetails.eventLocation.latLng));
 		if (Strings.isNotEmpty(activityDetailsResponse.eventLocation.city)) {
 			List<String> eventLocationCity = new ArrayList<>();
@@ -469,7 +473,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			PointF p1 = new PointF(0, screenHeight - mGalleryHeight / 2);
 			PointF p2 = new PointF(mGalleryHeight, screenHeight - mGalleryHeight);
 			PointF p3 = new PointF(screenHeight, (screenHeight - mGalleryHeight) / 2);
-			mIGalleryScroll = new SegmentedLinearInterpolator(p1, p2, p3);
+			mIGalleryScroll = new GalleryScrollView.SegmentedLinearInterpolator(p1, p2, p3);
 		}
 
 		// The number of y-pixels available to the gallery
@@ -571,19 +575,19 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		if (AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXMIP) && lxState.getPromoDiscountType() != null
 			&& Strings.isNotEmpty(activityDetails.maxPromoPricingDiscount)) {
 			mipInfositeDiscount.setText(Phrase.from(getContext(), R.string.mip_infosite_discount_TEMPLATE).put("discount", activityDetails.maxPromoPricingDiscount).format().toString());
-			mipInfositeBanner.setVisibility(VISIBLE);
-			discountContainer.setVisibility(GONE);
+			mipInfositeBanner.setVisibility(View.VISIBLE);
+			discountContainer.setVisibility(View.GONE);
 			int mipImageId = LXDataUtils.getMIPImageId(lxState.getPromoDiscountType());
 			if (mipImageId == 0) {
-				mipInfositeBanner.setVisibility(GONE);
-				discountContainer.setVisibility(VISIBLE);
+				mipInfositeBanner.setVisibility(View.GONE);
+				discountContainer.setVisibility(View.VISIBLE);
 			}
 			else {
 				mipInfositeImage.setImageResource(mipImageId);
 			}
 		}
 		else {
-			mipInfositeBanner.setVisibility(GONE);
+			mipInfositeBanner.setVisibility(View.GONE);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import android.content.Context;
 import android.graphics.PorterDuff;

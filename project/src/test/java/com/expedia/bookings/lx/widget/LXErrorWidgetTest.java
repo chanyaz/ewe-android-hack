@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.lx.widget;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
-import com.expedia.bookings.widget.LXErrorWidget;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 
 import static org.junit.Assert.assertEquals;
 

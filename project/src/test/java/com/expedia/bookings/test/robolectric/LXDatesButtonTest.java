@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.ApiDateUtils;
-import com.expedia.bookings.widget.LXOfferDatesButton;
+import com.expedia.bookings.lx.widget.LXOfferDatesButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

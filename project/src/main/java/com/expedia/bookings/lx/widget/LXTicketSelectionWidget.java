@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -260,6 +260,10 @@ public class LXTicketSelectionWidget extends LinearLayout {
 			actualPrice.setContentDescription(priceSummaryContDescr);
 			priceSummaryContainer.setVisibility(View.VISIBLE);
 		}
+	}
+
+	public void minimizeDescription() {
+		offerDescription.minimizeDescription();
 	}
 
 	private void updateTicketCountInSelectedTicketsFrom(Ticket updatedTicket) {

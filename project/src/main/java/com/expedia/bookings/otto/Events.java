@@ -25,7 +25,7 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.widget.LXOfferDatesButton;
+import com.expedia.bookings.lx.widget.LXOfferDatesButton;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 

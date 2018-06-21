@@ -23,8 +23,8 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.LXCheckoutSummaryWidget
-import com.expedia.bookings.widget.LXErrorWidget
+import com.expedia.bookings.lx.widget.LXCheckoutSummaryWidget
+import com.expedia.bookings.lx.widget.LXErrorWidget
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.PaymentViewModel

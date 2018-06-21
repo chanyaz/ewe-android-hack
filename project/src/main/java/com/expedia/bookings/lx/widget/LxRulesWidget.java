@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.lx.widget;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;

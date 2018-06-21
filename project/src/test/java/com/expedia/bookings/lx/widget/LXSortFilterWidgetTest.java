@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.lx.widget;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.widget.LXSortFilterWidget;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 
 import butterknife.ButterKnife;
 
