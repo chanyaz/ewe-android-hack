@@ -8,6 +8,7 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RichContentUtils.getAmenitiesString
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.isRichContentEnabled
 import javax.inject.Inject
 
 class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
@@ -23,6 +24,9 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
         if (isFlightGreedySearchEnabled(context)) {
             flightOfferViewModel.isGreedyCallAborted = true
             flightOfferViewModel.cancelGreedyCalls()
+        }
+        if (isRichContentEnabled(context)) {
+            resultsPresenter.resultsViewModel.abortRichContentOutboundObservable.onNext(Unit)
         }
         return super.back()
     }

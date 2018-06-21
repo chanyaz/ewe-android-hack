@@ -17,7 +17,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.withLatestFrom
-import com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
+import com.expedia.bookings.flights.vm.SelectedOutboundFlightViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHighlightSortFilterOnPackagesEnabled
@@ -28,10 +28,10 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
+import com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseResultsViewModel
-import com.expedia.bookings.flights.vm.SelectedOutboundFlightViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 
@@ -126,7 +126,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         flightProgressBar.translationY = 0f
         flightLoadingWidget.setupLoadingState()
         flightProgressBar.max = FLIGHT_PROGRESS_BAR_MAX
-        progressBarAnimation(12000, 0f, 500f, false)
+        progressBarAnimation(12000, 0f, 500f, false, false)
     }
 
     var resultsViewModel: BaseResultsViewModel by notNullAndObservable { vm ->
@@ -154,7 +154,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                 setPaymentLegalMessage(showAirlineChargesFees)
             }
         }
-        vm.updateFlightsStream.subscribe { flightListAdapter.notifyDataSetChanged() }
+        vm.updateFlightsStream.subscribe { flightListAdapter.notifyItemRangeChanged(0, flightListAdapter.itemCount) }
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
@@ -163,8 +163,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (isShowingOutboundResults) {
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
-                if (!resultsViewModel.showRichContent) {
-                    completeProgressBarAnimation()
+                if (resultsViewModel.showRichContent) {
+                    progressBarAnimation(1000, flightProgressBar.progress.toFloat(), 540f, true, false)
+                } else {
+                    progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true, true)
                 }
             } else {
                 showPaymentLegalMessageSubject.onNext(Unit)
@@ -182,10 +184,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun completeProgressBarAnimation() {
-        progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
+        progressBarAnimation(300, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true, true)
     }
 
-    private fun progressBarAnimation(duration: Long, fromProgress: Float, toProgress: Float, resultsReceived: Boolean) {
+    private fun progressBarAnimation(duration: Long, fromProgress: Float, toProgress: Float, resultsReceived: Boolean, hideProgressBar: Boolean) {
         val anim = ProgressBarAnimation(flightProgressBar, fromProgress, toProgress)
         anim.duration = duration
         flightProgressBar.startAnimation(anim)
@@ -193,9 +195,11 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             anim.setAnimationListener(object : AnimationListenerAdapter() {
                 override fun onAnimationEnd(animation: Animation?) {
                     super.onAnimationEnd(animation)
-                    flightProgressBar.animate().translationYBy(-30f).alpha(0f).setDuration(300).withEndAction {
-                        flightProgressBar.visibility = View.GONE
-                        showPaymentLegalMessageSubject.onNext(Unit)
+                    if (hideProgressBar) {
+                        flightProgressBar.animate().translationYBy(-30f).alpha(0f).setDuration(300).withEndAction {
+                            flightProgressBar.visibility = View.GONE
+                            showPaymentLegalMessageSubject.onNext(Unit)
+                        }
                     }
                     filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
                     floatingPill.visibility = if (showFilterPill) View.VISIBLE else View.GONE

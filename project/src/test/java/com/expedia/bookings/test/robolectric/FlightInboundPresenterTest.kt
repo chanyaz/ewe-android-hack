@@ -284,7 +284,7 @@ class FlightInboundPresenterTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
         invokeSetupComplete()
         val testSubscriber = TestObserver<Unit>()
-        flightInboundPresenter.resultsPresenter.resultsViewModel.abortRichContentCallObservable.subscribe(testSubscriber)
+        flightInboundPresenter.resultsPresenter.resultsViewModel.abortRichContentInboundObservable.subscribe(testSubscriber)
         flightInboundPresenter.back()
     }
 

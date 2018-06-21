@@ -88,79 +88,82 @@ class FilghtsRouteHappyGuideFragment : DialogFragment() {
     }
 
     private fun richGuideAnimation() {
+        val fadeInAnimator = fadeInAnimator()
+        val fadeOutAnimator = fadeOutAnimator()
         val amenitiesFadeInAnimator = amenitiesFadeInAnimator()
-        val amenitiesFadeOutAnimator = amenitiesFadeOutAnimator()
-        val routeScoreFadeInAnimator = routeScoreFadeInAnimator()
 
         if (abacusVariant == AbacusVariant.ONE.value) {
             titleLabel.text = context.resources.getString(R.string.flight_route_happy_guide_title_v1)
             infoLabel.visibility = View.VISIBLE
             amenitiesLottieView.visibility = View.VISIBLE
+            amenitiesLottieView.playAnimation()
             amenitiesFadeInAnimator.start()
         } else if (abacusVariant == AbacusVariant.TWO.value) {
             titleLabel.text = context.resources.getString(R.string.flight_route_happy_guide_title_v2)
             moreInfoLabel.visibility = View.VISIBLE
             ratingsLottieView.visibility = View.VISIBLE
             ratingsLottieView.playAnimation()
-            routeScoreFadeInAnimator.start()
+            fadeInAnimator.start()
         } else {
             titleLabel.text = context.resources.getString(R.string.flight_route_happy_guide_title_v3)
             infoLabel.visibility = View.VISIBLE
             moreInfoLabel.visibility = View.VISIBLE
-            amenitiesLottieView.visibility = View.VISIBLE
+            ratingsLottieView.visibility = View.VISIBLE
             dotsLottieView.visibility = View.VISIBLE
-            amenitiesFadeInAnimator.addListener(object : AnimatorListenerAdapter() {
+            ratingsLottieView.playAnimation()
+            dotsLottieView.playAnimation()
+            fadeInAnimator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    amenitiesFadeOutAnimator.start()
+                    fadeOutAnimator.start()
                 }
             })
-            amenitiesFadeOutAnimator.addListener(object : AnimatorListenerAdapter() {
+            fadeOutAnimator.addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    amenitiesLottieView.visibility = View.INVISIBLE
-                    ratingsLottieView.visibility = View.VISIBLE
-                    ratingsLottieView.playAnimation()
-                    routeScoreFadeInAnimator.start()
+                    ratingsLottieView.visibility = View.INVISIBLE
+                    amenitiesLottieView.visibility = View.VISIBLE
+                    amenitiesLottieView.playAnimation()
+                    amenitiesFadeInAnimator.start()
                 }
             })
-            amenitiesFadeInAnimator.start()
+            fadeInAnimator.start()
         }
+    }
+
+    private fun fadeInAnimator(): ValueAnimator {
+        val fadeInAnimator = ValueAnimator.ofFloat(0f, 1f)
+        fadeInAnimator.duration = 300
+        fadeInAnimator.startDelay = 600
+        fadeInAnimator.cancel()
+        fadeInAnimator.addUpdateListener {
+            val animatedValue = it.animatedValue as Float
+            ratingLabel.alpha = animatedValue
+        }
+        return fadeInAnimator
+    }
+
+    private fun fadeOutAnimator(): ValueAnimator {
+        val fadeOutAnimator = ValueAnimator.ofFloat(1f, 0f)
+        fadeOutAnimator.duration = 300
+        fadeOutAnimator.startDelay = 1800
+        fadeOutAnimator.cancel()
+        fadeOutAnimator.addUpdateListener {
+            val animatedValue = it.animatedValue as Float
+            ratingsLottieView.alpha = animatedValue
+            ratingLabel.alpha = animatedValue
+        }
+        return fadeOutAnimator
     }
 
     private fun amenitiesFadeInAnimator(): ValueAnimator {
         val amenitiesFadeInAnimator = ValueAnimator.ofFloat(0f, 1f)
         amenitiesFadeInAnimator.duration = 300
-        amenitiesFadeInAnimator.startDelay = 600
+        amenitiesFadeInAnimator.startDelay = 100
         amenitiesFadeInAnimator.cancel()
         amenitiesFadeInAnimator.addUpdateListener {
             val animatedValue = it.animatedValue as Float
             animateLabels(animatedValue)
         }
         return amenitiesFadeInAnimator
-    }
-
-    private fun amenitiesFadeOutAnimator(): ValueAnimator {
-        val amenitiesFadeOutAnimator = ValueAnimator.ofFloat(1f, 0f)
-        amenitiesFadeOutAnimator.duration = 300
-        amenitiesFadeOutAnimator.startDelay = 1800
-        amenitiesFadeOutAnimator.cancel()
-        amenitiesFadeOutAnimator.addUpdateListener {
-            val animatedValue = it.animatedValue as Float
-            animateLabels(animatedValue)
-            amenitiesLottieView.alpha = animatedValue
-        }
-        return amenitiesFadeOutAnimator
-    }
-
-    private fun routeScoreFadeInAnimator(): ValueAnimator {
-        val routeScoreFadeInAnimator = ValueAnimator.ofFloat(0f, 1f)
-        routeScoreFadeInAnimator.duration = 300
-        routeScoreFadeInAnimator.startDelay = 100
-        routeScoreFadeInAnimator.cancel()
-        routeScoreFadeInAnimator.addUpdateListener {
-            val animatedValue = it.animatedValue as Float
-            ratingLabel.alpha = animatedValue
-        }
-        return routeScoreFadeInAnimator
     }
 
     private fun animateLabels(animatedValue: Float) {

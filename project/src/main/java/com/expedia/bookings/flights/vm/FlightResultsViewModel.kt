@@ -81,8 +81,10 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
                 }
             }).subscribe()
         }
-        abortRichContentCallObservable.subscribe {
+        abortRichContentOutboundObservable.subscribe {
             richContentOutboundSubscription?.dispose()
+        }
+        abortRichContentInboundObservable.subscribe {
             richContentInboundSubscription?.dispose()
         }
     }
