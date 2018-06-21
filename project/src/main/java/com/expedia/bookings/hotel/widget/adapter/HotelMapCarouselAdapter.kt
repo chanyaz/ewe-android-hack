@@ -68,11 +68,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val isPackage: Boolean) :
             val view = LayoutInflater.from(parent.context).inflate(R.layout.horizontal_hotel_cell, parent, false) as ViewGroup
             holder = HotelMapCellViewHolder(view, isPackage)
 
-            holder.hotelClickedSubject.subscribe {
-                if (holder.adapterPosition >= 0 && holder.adapterPosition < hotels.count()) {
-                    val hotel = hotels[holder.adapterPosition]
-                    hotelSubject.onNext(hotel)
-                }
+            holder.hotelClickedSubject.subscribe { adapterPosition ->
+                handleHolderClicked(adapterPosition)
             }
 
             holder.favoriteAddedSubject.subscribe(favoriteAddedSubject)
@@ -81,9 +78,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val isPackage: Boolean) :
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_marker_preview_cell, parent, false) as ViewGroup
             holder = HotelCarouselViewHolder(view)
 
-            holder.hotelClickedSubject.subscribe {
-                val hotel = hotels[holder.adapterPosition]
-                hotelSubject.onNext(hotel)
+            holder.hotelClickedSubject.subscribe { adapterPosition ->
+                handleHolderClicked(adapterPosition)
             }
         }
         return holder
@@ -106,6 +102,13 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val isPackage: Boolean) :
 
     private fun isBucketedToShowResultsCellOnMap(context: Context): Boolean {
         return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultsCellOnMapCarousel)
+    }
+
+    private fun handleHolderClicked(adapterPosition: Int) {
+        if (adapterPosition >= 0 && adapterPosition < hotels.count()) {
+            val hotel = hotels[adapterPosition]
+            hotelSubject.onNext(hotel)
+        }
     }
 }
 

@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Cerca attività</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">Seleziona una categoria</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Cerca trasferimenti</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">per segway</string>
     <string name="per_ticket_type_vehicle">per veicolo</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">Le attività più gettonate</string>
-    <string name="top_rated_activities_description">Le attività più consigliate da viaggiatori come te</string>
-
-    <string name="adventure_around">Per chi ama l\&apos;avventura</string>
-    <string name="adventure_around_description">Esplorazioni, gite fuori porta ed escursioni all\&apos;insegna dell\&apos;avventura</string>
-
-    <string name="see_the_sights">Luoghi da vedere</string>
-    <string name="see_the_sights_description">A piedi o in bicicletta, parti alla scoperta delle principali attrazioni della zona</string>
-
-    <string name="tour_the_area">Tour della zona</string>
-    <string name="tour_the_area_description">Scopri le meraviglie della città attraverso monumenti storici e altri luoghi di interesse</string>
-
-    <string name="fun_for_the_family">Divertimento per la tutta la famiglia</string>
-    <string name="fun_for_the_family_description">Scegli tra decine di attività, ideali per grandi e piccini</string>
-
-    <string name="pure_entertainment">Svago allo stato puro</string>
-    <string name="pure_entertainment_description">Sport, parchi divertimenti, spettacoli e altri imperdibili eventi</string>
-
-    <string name="eat_play_enjoy">Relax, divertimento e ottima cucina</string>
-    <string name="eat_play_enjoy_description">Ristoranti, locali notturni e luoghi ideali per un po\&apos; di meritato relax</string>
-
-    <string name="all_things_to_do_description">Ecco un elenco di tutte le attività disponibili per le date selezionate.</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Inserisci i contatti</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">%1$s passeggeri</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Questa data è nel passato. Seleziona un\&apos;altra data.</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">Cose da fare</string>
 
     <string name="lx_recommendation_no_superlative">su 5</string>
     <string name="lx_recommendation_superlativeGood">su 5 - buono!</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
     <string name="itin_pick_up">Ritiro</string>
     <string name="itin_drop_off">Riconsegna</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">Chiama {vendor} al numero {phonenumber}. Pulsante</string>
+    <string name="itin_car_more_info_heading">Serve aiuto?</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">Indirizzo. {address}. Clicca per copiare negli appunti. Pulsante</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">Luogo di ritiro:</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">Luogo di riconsegna:</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Condividi itinerario</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">L\&apos;offerta scade oggi</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Risparmia fino al 55% sugli hotel a {location}</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">Fino al 55% di sconto sugli hotel a {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Risparmia fino al 55% sugli hotel a {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Per aver prenotato un volo</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">Per aver prenotato un volo, puoi risparmiare sulla prenotazione di un hotel</string>
+    <string name="hotel_attach_string">Per aver prenotato un volo</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Pulsante</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Aeroporto di arrivo</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">Aeroporto di partenza</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">Per aver prenotato su Expedia ricevi fino al 43% di sconto sugli hotel</string>
+    <string name="add_on_content_desc">Vantaggio Add On</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">Mostra dettagli</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Mappa</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Ordina</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Esclusiva mobile</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">Cerca recensioni</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">Non siamo riusciti a trovare recensioni che soddisfano i tuoi criteri di ricerca.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">Totale pacchetto</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Mostra pacchetto</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">Visualizza il tuo viaggio</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">1: seleziona l\&apos;hotel</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,10 +4671,16 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Il totale del pacchetto è di {totalprice}. Questo prezzo include tasse e oneri per voli e hotel. {savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">Il totale del pacchetto è di {total_price}. Questo prezzo include tasse e oneri per voli e hotel.</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Il totale del pacchetto è di {totalprice}. Questo prezzo include tasse e oneri per voli e hotel. {savings}. Finestra Dettaglio dei costi. Pulsante.</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">Il prezzo totale è {reference_total_price}. Il totale del pacchetto è di {total_price}. Questo prezzo include tasse e oneri per voli e hotel. Prenota subito! Prenotando insieme risparmi {savings}. Finestra di dialogo con il riepilogo del prezzo. Pulsante.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Il prezzo del pacchetto è di {price_per_person} a persona. Questo prezzo include tasse e oneri per voli e hotel. Pulsante per visualizzare il pacchetto.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">Finestra di dialogo con il riepilogo del prezzo. Ecco il riepilogo del prezzo per il tuo pacchetto. Il prezzo dell\&apos;hotel è di {hotel_price}. Il prezzo dei voli di andata e ritorno è di {flights_price}. Il totale è di {reference_price} Prenotando insieme risparmi {savings}. Il totale del pacchetto è di {total_price}. Questo prezzo include tasse e oneri per voli e hotel.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Viaggio a {city_name} dal giorno {startdate} al giorno {enddate}, {guests}</string>
     <!-- Package filter checkbox.
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">Servizi a bordo</string>
     <string name="flight_route_happy_guide_title_v2">Punteggio del volo</string>
     <string name="flight_route_happy_guide_title_v3">Servizi e punteggio del volo</string>
-    <string name="flight_route_happy_guide_info">Ora puoi scoprire se il tuo volo offre Wi-Fi, opzioni di intrattenimento e prese di corrente.</string>
-    <string name="flight_route_happy_guide_more_info">Il punteggio del volo ti aiuta a scegliere la migliore soluzione per il tuo viaggio, tenendo in conto la durata del volo, il tipo di aereo e la qualità dei servizi offerti a bordo.</string>
+    <string name="flight_route_happy_guide_info">Ora puoi scegliere un volo a seconda dei servizi a bordo, come Wi-Fi, caricabatterie, selezione di film e altro ancora.</string>
+    <string name="flight_route_happy_guide_more_info">Abbiamo aggiunto anche il punteggio dei voli, con valutazioni in base alla durata, al tipo di aereo, ai vantaggi a bordo e ad altri fattori.</string>
 </resources>

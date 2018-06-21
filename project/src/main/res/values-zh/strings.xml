@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">搜索活动</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">选择一个类别</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">搜索交通服务</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">每辆电动平衡车</string>
     <string name="per_ticket_type_vehicle">每辆车</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">评分最高的活动</string>
-    <string name="top_rated_activities_description">像您一样的客户最为推荐的活动</string>
-
-    <string name="adventure_around">四处探险</string>
-    <string name="adventure_around_description">在您的目的地尽情探索、参加精彩的一日游和远足行程</string>
-
-    <string name="see_the_sights">观光揽胜</string>
-    <string name="see_the_sights_description">从步行、骑自行车到乘坐公车，将本区所有美妙事物一览无余</string>
-
-    <string name="tour_the_area">区内游览</string>
-    <string name="tour_the_area_description">游览城市各处，了解历史与现代大事</string>
-
-    <string name="fun_for_the_family">家庭乐</string>
-    <string name="fun_for_the_family_description">无年龄限制的家庭欢乐活动</string>
-
-    <string name="pure_entertainment">娱乐不打烊</string>
-    <string name="pure_entertainment_description">体育赛事、游乐园、表演和各种节目</string>
-
-    <string name="eat_play_enjoy">吃喝玩乐</string>
-    <string name="eat_play_enjoy_description">美酒佳肴、精彩夜生活与全方位休闲</string>
-
-    <string name="all_things_to_do_description">您所选日期提供的全部活动列表</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">请输入详细联系信息</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">%1$s 位乘客</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">此日期已过去了，请选择新的日期。</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">全部游览观光活动</string>
 
     <string name="lx_recommendation_no_superlative">/5</string>
     <string name="lx_recommendation_superlativeGood">/5 - 很好！</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
     <string name="itin_pick_up">取车</string>
     <string name="itin_drop_off">还车</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">致电 {vendor}：{phonenumber}。按钮</string>
+    <string name="itin_car_more_info_heading">更多帮助</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">地址。{address}。点按可复制到剪切板。按钮</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">取车地点：</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">还车地点：</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">分享行程</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">优惠今天到期</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">{location}酒店订房 45 折起</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">{location}酒店 45 折起</string>
+    <string name="hotel_attach_string1_TEMPLATE">{location}酒店订房 45 折起</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">由于您预订了机票，</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">由于您预订了机票，您可享酒店优惠</string>
+    <string name="hotel_attach_string">由于您预订了机票，</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}.{title}.{content}.按钮</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">到达</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">出发</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">您已通过 Expedia 预订，最高可享订酒店 43% 的折扣优惠</string>
+    <string name="add_on_content_desc">Add On 加订优惠</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">查看详细信息</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">地图</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">排序</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">手机+平板尊享优惠</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">搜索点评</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">我们无法找到符合您搜索条件的点评。</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">套餐总额</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">查看您的套餐</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">查看您的行程</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">第 1 步：选酒店</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,10 +4671,16 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">一起预订的套餐总额为 {total_price}。此价格不含机票和酒店的税费。</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}。费用明细对话框。按钮。</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">总价为 {reference_total_price}。一起预订的套餐总额为 {total_price}。此价格不含机票和酒店的税费。立即预订！一起预订节省的金额为 {savings}。价格摘要对话框。按钮。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套餐价格为每人 {price_per_person}。此价格不含机票和酒店的税费。查看套餐的按钮。</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">价格摘要对话框。这是您套餐的价格摘要。酒店为 {hotel_price}。往返机票为 {flights_price}。总价为 {reference_price}。一起预订节省的金额为 {savings}。一起预订的套餐总额为 {total_price}。此价格不含机票和酒店的税费。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}之旅；{startdate}至 {enddate}，{guests} 位旅客</string>
     <!-- Package filter checkbox.
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">航班服务设施</string>
     <string name="flight_route_happy_guide_title_v2">航班得分</string>
     <string name="flight_route_happy_guide_title_v3">航班服务设施与得分</string>
-    <string name="flight_route_happy_guide_info">您现在可以查看您的航班是否提供 WiFi、娱乐设备和充电设备。</string>
-    <string name="flight_route_happy_guide_more_info">航班得分综合考虑飞行时长、机型以及航班提供的服务设施品质等因素，可以帮助您选择最优航班。</string>
+    <string name="flight_route_happy_guide_info">您现在可以按服务设施选择航班，如机上 Wi-Fi、机上充电、电影选择等。</string>
+    <string name="flight_route_happy_guide_more_info">我们现已添加航班评分，根据飞行时长、机型、机上和其他因素进行评分。</string>
 </resources>

@@ -116,33 +116,35 @@ class HotelMapCarouselAdapterTest {
         val favoriteRemovedSubscriber = TestObserver<String>()
         adapter.favoriteRemovedSubject.subscribe(favoriteRemovedSubscriber)
 
+        assertFalse(adapter.isPackage)
+
         val viewHolder = adapter.createViewHolder(parent, 0) as HotelMapCellViewHolder
-        adapter.bindViewHolder(viewHolder, 0)
-        adapter.notifyDataSetChanged()
 
         viewHolder.hotelClickedSubject.onNext(0)
-        // cant set holder adapterPosition so hotelSubject not called
-        hotelSubscriber.assertEmpty()
+        hotelSubscriber.assertValue(hotels[0])
 
         viewHolder.favoriteAddedSubject.onNext("0")
         favoriteAddedSubscriber.assertValue("0")
 
         viewHolder.favoriteRemovedSubject.onNext("0")
         favoriteRemovedSubscriber.assertValue("0")
+
+        assertFalse(viewHolder.isPackage)
     }
 
     @Test
     fun testOnCreateHotelCarouselViewHolder() {
-        setUpTestForHotelMapCellViewHolder()
+        setUpTestForHotelCarouselViewHolder()
 
         val hotelSubscriber = TestObserver<Hotel>()
         adapter.hotelSubject.subscribe(hotelSubscriber)
 
         assertFalse(adapter.isPackage)
 
-        val viewHolder = adapter.createViewHolder(parent, 0) as HotelMapCellViewHolder
+        val viewHolder = adapter.createViewHolder(parent, 0) as HotelCarouselViewHolder
 
-        assertFalse(viewHolder.isPackage)
+        viewHolder.hotelClickedSubject.onNext(1)
+        hotelSubscriber.assertValue(hotels[1])
     }
 
     @Test
@@ -155,6 +157,9 @@ class HotelMapCarouselAdapterTest {
         assertTrue(adapter.isPackage)
 
         val viewHolder = adapter.createViewHolder(parent, 0) as HotelMapCellViewHolder
+
+        viewHolder.hotelClickedSubject.onNext(2)
+        hotelSubscriber.assertValue(hotels[2])
 
         assertTrue(viewHolder.isPackage)
     }
@@ -187,6 +192,34 @@ class HotelMapCarouselAdapterTest {
         adapter.hotelSoldOut.onNext("1")
 
         soldOutSubscriber.assertEmpty()
+    }
+
+    @Test
+    fun testHotelMapCellViewHolderClickedInvalidPosition() {
+        setUpTestForHotelMapCellViewHolder()
+
+        val hotelSubscriber = TestObserver<Hotel>()
+        adapter.hotelSubject.subscribe(hotelSubscriber)
+
+        val viewHolder = adapter.createViewHolder(parent, 0) as HotelMapCellViewHolder
+
+        viewHolder.hotelClickedSubject.onNext(-1)
+        viewHolder.hotelClickedSubject.onNext(3)
+        hotelSubscriber.assertEmpty()
+    }
+
+    @Test
+    fun testHotelCarouselViewHolderClickedInvalidPosition() {
+        setUpTestForHotelCarouselViewHolder()
+
+        val hotelSubscriber = TestObserver<Hotel>()
+        adapter.hotelSubject.subscribe(hotelSubscriber)
+
+        val viewHolder = adapter.createViewHolder(parent, 0) as HotelCarouselViewHolder
+
+        viewHolder.hotelClickedSubject.onNext(-1)
+        viewHolder.hotelClickedSubject.onNext(3)
+        hotelSubscriber.assertEmpty()
     }
 
     private fun assertOnBindViewHolder() {
