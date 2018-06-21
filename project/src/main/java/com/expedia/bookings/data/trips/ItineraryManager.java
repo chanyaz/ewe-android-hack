@@ -93,7 +93,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
-	/* ********* DATA MEMBERS - CLASS *************************** */
+	/* ********* CLASS DATA *************************** */
 
 	private static final int CUTOFF_HOURS = 48;
 
@@ -127,7 +127,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	/* ********* DATA MEMBERS - INSTANCE *************************** */
+	/* ********* INSTANCE DATA *************************** */
 
 	// In memory trips, updated with every sync, assumed to be sorted
 	private final List<ItinCardData> itinCardData;
@@ -251,7 +251,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 								   + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
-	/* ********* JSON *************************** */
+	/* ********* JSONable *************************** */
 
 	@Override
 	public JSONObject toJson() {
@@ -407,7 +407,33 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		startSyncIfNotInProgress();
 	}
 
-	/* ************************************ */
+	/* ********* PRIVATE HELPERS *************************** */
+
+	private void saveStartAndEndTimes() {
+		// Sync data before disk write
+		clearStartAndEndTimes(true, false);
+		for (Trip trip : trips.values()) {
+			final DateTime startDate = trip.getStartDate();
+			final DateTime endDate = trip.getEndDate();
+			if (startDate != null) {
+				startTimes.add(startDate);
+				endTimes.add(endDate != null ? endDate : FAKE_END_TIME);
+			}
+		}
+
+		if (startTimes.size() <= 0 && endTimes.size() <= 0) {
+			clearStartAndEndTimes(false, true);
+		} else {
+			try {
+				final JSONObject jsonObject = new JSONObject();
+				JodaUtils.putDateTimeListInJson(jsonObject, "startDateTimes", startTimes);
+				JodaUtils.putDateTimeListInJson(jsonObject, "endDateTimes", endTimes);
+				IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, jsonObject.toString(), context);
+			} catch (Exception e) {
+				Log.w(LOGGING_TAG, "Could not save start & end times to disk", e);
+			}
+		}
+	}
 
 	private TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 		ItinCardDataFlight fData = null;
@@ -430,6 +456,25 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 		return null;
 	}
+
+	/* ********* PRIVATE HELPERS - L2 *************************** */
+
+	private void clearStartAndEndTimes(boolean fromMemory, boolean fromDisk) {
+		if (fromMemory) {
+			startTimes.clear();
+			endTimes.clear();
+		}
+
+		if (fromDisk) {
+			final File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
+			if (file.exists()) {
+				//noinspection ResultOfMethodCallIgnored
+				file.delete();
+			}
+		}
+	}
+
+	/* ************************************ */
 
 	private void doClearData() {
 		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
@@ -479,42 +524,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Start times data
-
-	private void saveStartAndEndTimes() {
-		// Sync start times whenever we save to disk
-		startTimes.clear();
-		endTimes.clear();
-		for (Trip trip : trips.values()) {
-			DateTime startDate = trip.getStartDate();
-			DateTime endDate = trip.getEndDate();
-			if (startDate != null) {
-				startTimes.add(startDate);
-				if (endDate != null) {
-					endTimes.add(endDate);
-				}
-				else {
-					//We want a valid date object even if it is bunk
-					endTimes.add(FAKE_END_TIME);
-				}
-			}
-		}
-
-		if (startTimes.size() <= 0 && endTimes.size() <= 0) {
-			deleteStartAndEndTimes();
-		}
-		else {
-			try {
-				// Save to disk
-				JSONObject obj = new JSONObject();
-				JodaUtils.putDateTimeListInJson(obj, "startDateTimes", startTimes);
-				JodaUtils.putDateTimeListInJson(obj, "endDateTimes", endTimes);
-				IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, obj.toString(), context);
-			}
-			catch (Exception e) {
-				Log.w(LOGGING_TAG, "Could not save start and end times", e);
-			}
-		}
-	}
 
 	private void deleteStartAndEndTimes() {
 		File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
