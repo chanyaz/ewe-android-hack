@@ -69,28 +69,6 @@ import java.util.TimeZone;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-/**
- * This singleton keeps all itinerary data together from loading, sync & storage.
- * <p/>
- * Call init() before using in the app for the first time
- * Call startSync() before manipulating data.
- * <p/>
- * Sync uses a Priority SyncOperation queue, allowing dynamic ordering and reordering of tasks.
- * <p/>
- * SyncOperation Steps:-
- * 1. Initial loadStateFromDisk - can be safely called whenever
- * 2. Refresh/loadStateFromDisk trips - loadStateFromDisk data from all sources
- * 3. Load ancillary data for trips e.g. flight stats data about trips.
- * Any call other than normal refresh goes here.
- * Loading trip data in #2 should be followed by this step.
- * 4. Post-processing operations - these assume that all of the data in the itins have been loaded.
- * These operations include
- * saving the loaded data to disk
- * generating data for the app to consume
- * registering loaded data with notifications.
- * <p/>
- * See more in SyncOperation enum.
- */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	/* ********* DATA TYPES *************************** */
@@ -125,9 +103,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			USER_ADDED_CANCELLED_TRIP,
 		}
 
-		public Type mType;
+		Type mType;
 		Trip mTrip;
-
 		SyncError mError;
 
 		ProgressUpdate(Type type, Trip trip) {
