@@ -309,6 +309,20 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
+	private void saveStateToDisk() {
+		Log.i(LOGGING_TAG, "Saving ItineraryManager data to disk...");
+		saveStartAndEndTimes();
+		try {
+			IoUtils.writeStringToFile(
+					MANAGER_PATH,
+					toJson().toString(),
+					context
+			);
+		} catch (IOException e) {
+			Log.w(LOGGING_TAG, "Could not saveStateToDisk ItineraryManager data", e);
+		}
+	}
+
 	/* ********* GETTERS *************************** */
 
 	private List<ItinCardData> getImmutableItinCardDatas() {
@@ -461,19 +475,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	@VisibleForTesting
 	void setTripsJsonFileUtils(ITripsJsonFileUtils tripsJsonFileUtils) {
 		this.tripsJsonFileUtils = tripsJsonFileUtils;
-	}
-
-	private void save() {
-		Log.i(LOGGING_TAG, "Saving ItineraryManager data...");
-
-		saveStartAndEndTimes();
-
-		try {
-			IoUtils.writeStringToFile(MANAGER_PATH, toJson().toString(), context);
-		}
-		catch (IOException e) {
-			Log.w(LOGGING_TAG, "Could not save ItineraryManager data", e);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1153,7 +1154,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					removeTrip(nextTask.mTripNumber);
 					break;
 				case SAVE_TO_DISK:
-					save();
+					saveStateToDisk();
 					break;
 				case GENERATE_ITIN_CARDS:
 					generateItinCardData();
