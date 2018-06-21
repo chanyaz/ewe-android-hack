@@ -128,6 +128,38 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		void onTripUpdateFailed(Trip trip);
 	}
 
+	public static class DefaultItinerarySyncListener implements ItinerarySyncListener {
+		public void onTripAdded(Trip trip) {
+		}
+
+		public void onTripUpdated(Trip trip) {
+		}
+
+		public void onTripUpdateFailed(Trip trip) {
+		}
+
+		public void onTripFailedFetchingGuestItinerary() {
+		}
+
+		public void onTripFailedFetchingRegisteredUserItinerary() {
+		}
+
+		public void onTripRemoved(Trip trip) {
+		}
+
+		public void onCompletedTripAdded(Trip trip) {
+		}
+
+		public void onCancelledTripAdded(Trip trip) {
+		}
+
+		public void onSyncFailure(SyncError error) {
+		}
+
+		public void onSyncFinished(Collection<Trip> trips) {
+		}
+	}
+
 	/* ********* CLASS DATA *************************** */
 
 	private static final int CUTOFF_HOURS = 48;
@@ -583,40 +615,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	/* ********** (@_@) *************************** */
 	/* ********** <(@)> *************************** */
 
-	//////////////////////////////////////////////////////////////////////////
-	// Sync listener
-	// Makes it so you don't have to implement everything from the interface
-	public static class ItinerarySyncAdapter implements ItinerarySyncListener {
-		public void onTripAdded(Trip trip) {
-		}
 
-		public void onTripUpdated(Trip trip) {
-		}
 
-		public void onTripUpdateFailed(Trip trip) {
-		}
-
-		public void onTripFailedFetchingGuestItinerary() {
-		}
-
-		public void onTripFailedFetchingRegisteredUserItinerary() {
-		}
-
-		public void onTripRemoved(Trip trip) {
-		}
-
-		public void onCompletedTripAdded(Trip trip) {
-		}
-
-		public void onCancelledTripAdded(Trip trip) {
-		}
-
-		public void onSyncFailure(SyncError error) {
-		}
-
-		public void onSyncFinished(Collection<Trip> trips) {
-		}
-	}
 
 	@Override
 	public void addSyncListener(ItinerarySyncListener listener) {

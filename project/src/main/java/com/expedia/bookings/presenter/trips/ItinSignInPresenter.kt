@@ -19,7 +19,7 @@ import javax.inject.Inject
 class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
     val signInWidget: ItinSignInWidget by bindView(R.id.sign_in_widget)
     val itinFetchProgressWidget: ItinFetchProgressWidget by bindView(R.id.itin_fetch_progress_widget)
-    val syncListenerAdapter = createSyncAdapter()
+    val syncListenerAdapter = createSyncListenerDefault()
 
     lateinit var itinPageUsablePerformanceModel: ItinPageUsableTracking
         @Inject set
@@ -68,7 +68,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         show(itinFetchProgressWidget)
     }
 
-    inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
+    inner class createSyncListenerDefault : ItineraryManager.DefaultItinerarySyncListener() {
         override fun onSyncFailure(error: ItineraryManager.SyncError?) {
             signInWidget.viewModel.syncFailure()
         }

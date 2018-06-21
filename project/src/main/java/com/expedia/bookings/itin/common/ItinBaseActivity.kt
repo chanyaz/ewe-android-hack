@@ -9,7 +9,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.utils.Constants
 
 abstract class ItinBaseActivity : AppCompatActivity() {
-    val syncListener: ItinSyncListener = ItinSyncListener()
+    val syncListener: ItinSyncListenerDefault = ItinSyncListenerDefault()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -24,7 +24,7 @@ abstract class ItinBaseActivity : AppCompatActivity() {
         }
     }
 
-    inner class ItinSyncListener : ItineraryManager.ItinerarySyncAdapter() {
+    inner class ItinSyncListenerDefault : ItineraryManager.DefaultItinerarySyncListener() {
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             super.onSyncFinished(trips)
             onSyncFinish()

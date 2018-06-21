@@ -155,10 +155,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 	}
 
 	@VisibleForTesting
-	public ItineraryManager.ItinerarySyncAdapter makeValidTripSyncListener(final Context context,
-		final Notification finalNotification, final ItineraryManager itineraryManager) {
+	public ItineraryManager.DefaultItinerarySyncListener makeValidTripSyncListener(final Context context,
+																				   final Notification finalNotification, final ItineraryManager itineraryManager) {
 
-		return new ItineraryManager.ItinerarySyncAdapter() {
+		return new ItineraryManager.DefaultItinerarySyncListener() {
 
 			@Override
 			public void onSyncFailure(ItineraryManager.SyncError error) {

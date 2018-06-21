@@ -42,7 +42,7 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
     @VisibleForTesting
     var isSyncCalledFromHere = false
     @VisibleForTesting
-    val syncListenerAdapter = createSyncAdapter()
+    val syncListenerAdapter = createSyncListenerDefault()
 
     private val guestItinToProgressTransition by lazy {
         object : VisibilityTransition(presenter, AddGuestItinWidget::class.java, ItinFetchProgressWidget::class.java) {}
@@ -100,7 +100,7 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
     }
 
     @VisibleForTesting
-    inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
+    inner class createSyncListenerDefault : ItineraryManager.DefaultItinerarySyncListener() {
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             if (!hasAddGuestItinErrors && isSyncCalledFromHere) {
                 finish()

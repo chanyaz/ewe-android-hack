@@ -62,7 +62,7 @@ open class AddGuestItinViewModel(val context: Context) {
         return CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == ValidationError.NO_ERROR
     }
 
-    inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
+    inner class createSyncListenerDefault : ItineraryManager.DefaultItinerarySyncListener() {
         override fun onTripFailedFetchingGuestItinerary() {
             showErrorObservable.onNext(true)
             showErrorMessageObservable.onNext(context.getString(R.string.unable_to_find_guest_itinerary))
@@ -78,7 +78,7 @@ open class AddGuestItinViewModel(val context: Context) {
     }
 
     fun addItinSyncListener() {
-        getItinManager().addSyncListener(createSyncAdapter())
+        getItinManager().addSyncListener(createSyncListenerDefault())
     }
 
     open fun getItinManager(): ItineraryManager {

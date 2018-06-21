@@ -88,8 +88,8 @@ class GCMIntentServiceV2 : IntentService("GCMIntentServiceV2: " + PushNotificati
         }
     }
 
-    private fun makeSyncListener(fhid: Int, locKey: String, locArgs: Array<String>?, type: String, titleKey: String, nID: String): ItineraryManager.ItinerarySyncAdapter {
-        return object : ItineraryManager.ItinerarySyncAdapter() {
+    private fun makeSyncListener(fhid: Int, locKey: String, locArgs: Array<String>?, type: String, titleKey: String, nID: String): ItineraryManager.DefaultItinerarySyncListener {
+        return object : ItineraryManager.DefaultItinerarySyncListener() {
             override fun onSyncFinished(trips: Collection<Trip>) {
                 Log.d(LOGGING_TAG, "GCM onMessage - ItinManager finished syncing, building notification now.")
                 intenaryManager.removeSyncListener(this)

@@ -55,7 +55,7 @@ class NotificationReceiverTest {
         notificationReceiver = TestNotificationReceiver(mockItineraryManager, ourNotification)
         notificationReceiver.onReceive(context, ourIntent)
 
-        Mockito.verify(mockItineraryManager, Mockito.times(0)).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
+        Mockito.verify(mockItineraryManager, Mockito.times(0)).addSyncListener(Mockito.any(ItineraryManager.DefaultItinerarySyncListener::class.java))
         Mockito.verify(mockItineraryManager, Mockito.times(1)).startSync(false)
         Mockito.verify(mockItineraryManager, Mockito.times(1)).trips
     }
@@ -69,7 +69,7 @@ class NotificationReceiverTest {
         val listener = notificationReceiver.makeValidTripSyncListener(context, makeNotification(uniqueId), mockItineraryManager)
         listener.onSyncFailure(ItineraryManager.SyncError.CANCELLED)
 
-        Mockito.verify(mockItineraryManager, Mockito.times(1)).removeSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
+        Mockito.verify(mockItineraryManager, Mockito.times(1)).removeSyncListener(Mockito.any(ItineraryManager.DefaultItinerarySyncListener::class.java))
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val shadowNotificationManager = shadowOf(notificationManager)
@@ -126,7 +126,7 @@ class NotificationReceiverTest {
         val shadowNotificationManager = shadowOf(notificationManager)
         val allNotifications = shadowNotificationManager.allNotifications
 
-        Mockito.verify(mockItineraryManager, never()).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
+        Mockito.verify(mockItineraryManager, never()).addSyncListener(Mockito.any(ItineraryManager.DefaultItinerarySyncListener::class.java))
         Mockito.verify(mockItineraryManager, never()).startSync(false)
         assertEquals(1, allNotifications.size)
     }

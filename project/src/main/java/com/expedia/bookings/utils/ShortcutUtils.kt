@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.util.SettingUtils
 
 @RequiresApi(25)
-object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
+object ShortcutUtils : ItineraryManager.DefaultItinerarySyncListener() {
 
     private lateinit var mainContext: Context
     private var shortcutManager: ShortcutManager? = null

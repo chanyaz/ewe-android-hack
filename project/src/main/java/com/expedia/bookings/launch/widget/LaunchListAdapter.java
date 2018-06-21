@@ -659,7 +659,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return staticCards.size();
 	}
 
-	private class ItinSyncListener extends ItineraryManager.ItinerarySyncAdapter {
+	private class ItinSyncListenerDefault extends ItineraryManager.DefaultItinerarySyncListener {
 		@Override
 		public void onSyncFinished(Collection<Trip> trips) {
 			if (isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW)) {
@@ -711,7 +711,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	public void addSyncListener() {
-		getItinManager().addSyncListener(new ItinSyncListener());
+		getItinManager().addSyncListener(new ItinSyncListenerDefault());
 	}
 
 	protected ItineraryManager getItinManager() {
