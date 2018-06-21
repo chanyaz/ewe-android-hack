@@ -74,26 +74,26 @@ import io.reactivex.subjects.PublishSubject;
 import retrofit2.HttpException;
 
 /**
- * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
+ * This singleton keeps all itinerary data together from loading, sync & storage.
  * <p/>
- * Make sure to call init() before using in the app!  In addition, make sure to call startSync()
- * before manipulating data.
+ * Call init() before using in the app for the first time
+ * Call startSync() before manipulating data.
  * <p/>
- * An explanation about how the syncs happen: in order to allow syncs to be modified mid-execution, we implemented
- * a priority Operation queue which re-orders a series of instructions to perform a sync.
+ * Sync uses a Priority Operation queue, allowing dynamic ordering and reordering of tasks.
  * <p/>
- * There are essentially four steps to how Operations worked:
- * <p/>
- * 1. Initial load.  This can be safely called whenever.
- * 2. Refresh/load trips.  These steps load data from all sources.
- * 3. Load ancillary data about trips.  For example, flight stats data about trips.  Any calls beyond
- * our normal refresh should go here.  Also, anyone who loads trip data in #2 should make sure to call
- * these ancillary data calls.
- * 4. Post-processing operations; these assume that all of the data in the itins have been loaded.  These
- * operations include saving the loaded data to disk, generating data for the app to consume, and
+ * Operation Steps:-
+ * 1. Initial loadStateFromDisk - can be safely called whenever
+ * 2. Refresh/loadStateFromDisk trips - loadStateFromDisk data from all sources
+ * 3. Load ancillary data for trips e.g. flight stats data about trips.
+ * Any call other than normal refresh goes here.
+ * Loading trip data in #2 should be followed by this step.
+ * 4. Post-processing operations - these assume that all of the data in the itins have been loaded.
+ * These operations include
+ * saving the loaded data to disk
+ * generating data for the app to consume
  * registering loaded data with notifications.
  * <p/>
- * For more information, check out the Operation enum comments.
+ * See more in Operation enum.
  */
 public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
