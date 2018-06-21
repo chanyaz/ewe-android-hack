@@ -215,6 +215,23 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		this.syncFinishObservable = PublishSubject.create();
 	}
 
+	private void loadStartAndEndTimes() {
+		Log.d(LOGGING_TAG, "Loading start and end times...");
+
+		final File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
+		if (file.exists()) {
+			try {
+				final JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_END_TIMES_PATH, context));
+				startTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "startDateTimes", "startTimes");
+				endTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "endDateTimes", "endTimes");
+			} catch (Exception e) {
+				Log.w(LOGGING_TAG, "Could not loadStateFromDisk start times", e);
+				//noinspection ResultOfMethodCallIgnored
+				file.delete();
+			}
+		}
+	}
+
 	public void init(Context context) {
 		final long start = System.nanoTime();
 
@@ -498,24 +515,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
-	private void loadStartAndEndTimes() {
-		Log.d(LOGGING_TAG, "Loading start and end times...");
-
-		File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
-		if (file.exists()) {
-			try {
-				JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_END_TIMES_PATH, context));
-				startTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "startDateTimes", "startTimes");
-				endTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "endDateTimes", "endTimes");
-			}
-			catch (Exception e) {
-				Log.w(LOGGING_TAG, "Could not load start times", e);
-				//noinspection ResultOfMethodCallIgnored
-				file.delete();
-			}
-		}
-	}
-
 	private void deleteStartAndEndTimes() {
 		File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
 		if (file.exists()) {
@@ -560,8 +559,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 		return date.withZoneRetainFields(DateTimeZone.UTC).getMillis();
 	}
-
-
 
 	static {
 		// Try to format in UTC for comparison purposes
