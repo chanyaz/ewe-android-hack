@@ -101,6 +101,33 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		CANCELLED,
 	}
 
+	public interface ItinerarySyncListener {
+
+		void onCancelledTripAdded(Trip trip);
+
+		void onCompletedTripAdded(Trip trip);
+
+		void onSyncFailure(SyncError error);
+
+		void onSyncFinished(Collection<Trip> trips);
+
+		/**
+		 * Notes when a trip is added with basic info.
+		 * May not be valid for guest trips.
+		 */
+		void onTripAdded(Trip trip);
+
+		void onTripFailedFetchingGuestItinerary();
+
+		void onTripFailedFetchingRegisteredUserItinerary();
+
+		void onTripRemoved(Trip trip);
+
+		void onTripUpdated(Trip trip);
+
+		void onTripUpdateFailed(Trip trip);
+	}
+
 	/* ********* CLASS DATA *************************** */
 
 	private static final int CUTOFF_HOURS = 48;
@@ -558,73 +585,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Sync listener
-
-
-	public interface ItinerarySyncListener {
-
-		/**
-		 * Notes when a trip is added with basic info.
-		 * <p/>
-		 * Note: Guest trips will not have this called right when you add them
-		 * (because they have no meaningful info at that point, and may not
-		 * even be a valid trip).
-		 */
-		void onTripAdded(Trip trip);
-
-		/**
-		 * Each Trip that is updated during a sync gets its own callback
-		 * so that you can update the UI before the entire sync process
-		 * is complete.
-		 * <p/>
-		 * Not all Trips may get an updated trip call (e.g., a trip doesn't
-		 * need an update because it was just updated a few minutes ago).
-		 */
-		void onTripUpdated(Trip trip);
-
-		/**
-		 * Notification when a trip failed to update
-		 * <p/>
-		 * This can be particularly useful to know when a guest trip that
-		 * was added can't be updated at all.
-		 * <p/>
-		 * POSSIBLE TODO: info on why the update failed?
-		 */
-		void onTripUpdateFailed(Trip trip);
-
-		void onTripFailedFetchingGuestItinerary();
-
-		void onTripFailedFetchingRegisteredUserItinerary();
-
-		/**
-		 * Notification for when a Trip has been removed, either automatically
-		 * from a logged in user account or manually for guest trips.
-		 */
-		void onTripRemoved(Trip trip);
-
-		/**
-		 * Notification for when a Trip added by the user is already completed + 48h
-		 */
-		void onCompletedTripAdded(Trip trip);
-
-		/**
-		 * Notification for when a Trip added by the user has a cancelled status
-		 */
-		void onCancelledTripAdded(Trip trip);
-
-		/**
-		 * Notification if sync itself has a failure.  There can be multiple
-		 * failures during the sync process.  onSyncFinished() will still
-		 * be called at the end.
-		 */
-		void onSyncFailure(SyncError error);
-
-		/**
-		 * Once the sync process is done it returns the list of Trips as
-		 * it thinks exists.  Returns all trips currently in the ItineraryManager.
-		 */
-		void onSyncFinished(Collection<Trip> trips);
-	}
-
 	// Makes it so you don't have to implement everything from the interface
 	public static class ItinerarySyncAdapter implements ItinerarySyncListener {
 		public void onTripAdded(Trip trip) {
