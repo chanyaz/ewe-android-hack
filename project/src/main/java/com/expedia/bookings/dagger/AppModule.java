@@ -26,8 +26,6 @@ import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
-import com.expedia.bookings.itin.tripsync.ITripSync;
-import com.expedia.bookings.itin.tripsync.TripSync;
 import com.expedia.bookings.itin.utils.AbacusProvider;
 import com.expedia.bookings.itin.utils.AbacusSource;
 import com.expedia.bookings.itin.utils.IToaster;
@@ -472,13 +470,6 @@ public class AppModule {
 	@Singleton
 	AbacusSource provideAbacusSource(Context context) {
 		return new AbacusProvider(context);
-	}
-
-	@Provides
-	@Singleton
-	ITripSync providesTripSync(TripFolderServiceInterface tripFolderService,
-		@Named("TripFoldersFileUtil") ITripsJsonFileUtils tripsJsonFileUtils) {
-		return new TripSync(tripFolderService, tripsJsonFileUtils);
 	}
 
 	@Provides
