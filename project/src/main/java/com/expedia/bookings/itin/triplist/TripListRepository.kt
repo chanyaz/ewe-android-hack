@@ -6,27 +6,17 @@ import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils
 import com.expedia.bookings.services.TripFolderServiceInterface
 import com.google.gson.Gson
 import io.reactivex.observers.DisposableObserver
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class TripListRepository @Inject constructor(
-        private val jsonToFolderUtil: IJsonToFoldersUtil,
+        jsonToFolderUtil: IJsonToFoldersUtil,
         private val tripFolderService: TripFolderServiceInterface,
         private val tripFolderJsonFileUtils: ITripsJsonFileUtils) : ITripListRepository {
 
-    override val foldersSubject: PublishSubject<List<TripFolder>> = PublishSubject.create()
-
-    override fun getTripFolders() {
-        val folders = jsonToFolderUtil.getTripFoldersFromDisk()
-        if (folders.isEmpty()) {
-            refreshTripFolders()
-        } else {
-            foldersSubject.onNext(folders)
-        }
-    }
+    override val foldersSubject: BehaviorSubject<List<TripFolder>> = BehaviorSubject.create()
 
     override fun refreshTripFolders() {
-        //TODO: dispose?
         tripFolderService.getTripFoldersObservable(object : DisposableObserver<List<TripFolder>>() {
             override fun onNext(folders: List<TripFolder>) {
                 folders.forEach { folder ->
@@ -42,10 +32,18 @@ class TripListRepository @Inject constructor(
             override fun onError(e: Throwable) {}
         })
     }
+
+    init {
+        val folders = jsonToFolderUtil.getTripFoldersFromDisk()
+        if (folders.isEmpty()) {
+            refreshTripFolders()
+        } else {
+            foldersSubject.onNext(folders)
+        }
+    }
 }
 
 interface ITripListRepository {
-    val foldersSubject: PublishSubject<List<TripFolder>>
-    fun getTripFolders()
+    val foldersSubject: BehaviorSubject<List<TripFolder>>
     fun refreshTripFolders()
 }

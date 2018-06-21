@@ -38,7 +38,6 @@ class TripListRepositoryIntegrationTest {
     @Before
     fun setup() {
         fileOpener = FileSystemOpener(root)
-        server.setDispatcher(ExpediaDispatcher(fileOpener, mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to "tripfolders_happy_path_m1_hotel")))
         fileUtils = Ui.getApplication(context).tripComponent().tripFolderJsonFileUtils()
         jsonToFolderUtil = Ui.getApplication(context).tripComponent().jsonToFolderUtil()
         service = TripFolderService(
@@ -49,33 +48,42 @@ class TripListRepositoryIntegrationTest {
                 Schedulers.trampoline(),
                 Schedulers.trampoline()
         )
-        repo = TripListRepository(jsonToFolderUtil, service, fileUtils)
     }
 
     @Test
-    fun testGetTripFoldersFoldersOnDisk() {
+    fun testTripFoldersExistOnDisk() {
         val testObserver = TestObserver<List<TripFolder>>()
-        repo.foldersSubject.subscribe(testObserver)
-        testObserver.assertEmpty()
 
         writeOneTripFolderToDisk()
-        repo.getTripFolders()
+        repo = TripListRepository(jsonToFolderUtil, service, fileUtils)
+        repo.foldersSubject.subscribe(testObserver)
 
+        val tripFoldersFromDisk = getTripFoldersFromDisk()
+        assertTrue(tripFoldersFromDisk.isNotEmpty())
+        assertTrue(tripFoldersFromDisk.size == 1)
         testObserver.assertValueCount(1)
-        testObserver.assertValue(getTripFoldersFromDisk())
+        testObserver.assertValue(tripFoldersFromDisk)
     }
 
     @Test
-    fun testGetTripFoldersNoFoldersOnDisk() {
+    fun testNoFolderExistsOnDiskNoFoldersFromApi() {
         val testObserver = TestObserver<List<TripFolder>>()
+
+        repo = TripListRepository(jsonToFolderUtil, service, fileUtils)
         repo.foldersSubject.subscribe(testObserver)
+
         testObserver.assertEmpty()
-        assertTrue(getTripFoldersFromDisk().isEmpty())
+        testObserver.assertNoValues()
+    }
 
-        repo.getTripFolders()
+    @Test
+    fun testNoFolderExistsOnDiskFoldersExistOnApi() {
+        val testObserver = TestObserver<List<TripFolder>>()
 
-        assertTrue(getTripFoldersFromDisk().isNotEmpty())
-        assertTrue(getTripFoldersFromDisk().size == 1)
+        server.setDispatcher(ExpediaDispatcher(fileOpener, mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to "tripfolders_happy_path_m1_hotel")))
+        repo = TripListRepository(jsonToFolderUtil, service, fileUtils)
+        repo.foldersSubject.subscribe(testObserver)
+
         testObserver.assertValueCount(1)
         testObserver.assertValue(getTripFoldersFromDisk())
     }
@@ -83,16 +91,47 @@ class TripListRepositoryIntegrationTest {
     @Test
     fun testRefreshTripFolders() {
         val testObserver = TestObserver<List<TripFolder>>()
+
+        server.setDispatcher(ExpediaDispatcher(fileOpener, mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to "tripfolders_happy_path_m1_hotel")))
+        repo = TripListRepository(jsonToFolderUtil, service, fileUtils)
         repo.foldersSubject.subscribe(testObserver)
-        testObserver.assertEmpty()
+
+        testObserver.assertValueCount(1)
+        testObserver.assertValuesAndClear(getTripFoldersFromDisk())
+
+        fileUtils.deleteAllFiles()
         assertTrue(getTripFoldersFromDisk().isEmpty())
 
         repo.refreshTripFolders()
 
-        assertTrue(getTripFoldersFromDisk().isNotEmpty())
-        assertTrue(getTripFoldersFromDisk().size == 1)
+        val tripFoldersFromDisk = getTripFoldersFromDisk()
+        assertTrue(tripFoldersFromDisk.isNotEmpty())
+        assertTrue(tripFoldersFromDisk.size == 1)
         testObserver.assertValueCount(1)
-        testObserver.assertValue(getTripFoldersFromDisk())
+        testObserver.assertValue(tripFoldersFromDisk)
+    }
+
+    @Test
+    fun testFolderFromDiskThenFolderFromApi() {
+        val testObserver = TestObserver<List<TripFolder>>()
+
+        server.setDispatcher(ExpediaDispatcher(fileOpener, mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to "tripfolders_happy_path_m1_hotel")))
+        repo = TripListRepository(jsonToFolderUtil, service, fileUtils)
+        repo.foldersSubject.subscribe(testObserver)
+
+        val tripFoldersFromDisk1 = getTripFoldersFromDisk()
+        assertTrue(tripFoldersFromDisk1.isNotEmpty())
+        assertTrue(tripFoldersFromDisk1.size == 1)
+        testObserver.assertValueCount(1)
+        testObserver.assertValue(tripFoldersFromDisk1)
+
+        repo.refreshTripFolders()
+
+        val tripFoldersFromDisk2 = getTripFoldersFromDisk()
+        assertTrue(tripFoldersFromDisk2.isNotEmpty())
+        assertTrue(tripFoldersFromDisk2.size == 1)
+        testObserver.assertValueCount(2)
+        testObserver.assertValues(tripFoldersFromDisk1, tripFoldersFromDisk2)
     }
 
     private fun writeOneTripFolderToDisk() {
