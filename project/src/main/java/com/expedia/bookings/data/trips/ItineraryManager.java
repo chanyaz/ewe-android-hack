@@ -230,7 +230,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 						ServerError.ErrorCode errorCode = response.getErrors().get(0).getErrorCode();
 						if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY, trip));
-						} else {
+						}
+						else {
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
 						}
 					}
@@ -252,11 +253,13 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
 
 					trip.markUpdated(false, new CurrentTime());
-				} else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
+				}
+				else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
 					Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
 											   + updatedTrip.getItineraryKey() + " status=" + bookingStatus);
 					removeTrip(updatedTrip.getItineraryKey());
-				} else {
+				}
+				else {
 					// Update trip
 					trip.updateFrom(updatedTrip);
 					trip.markUpdated(deepRefresh, new CurrentTime());
@@ -474,7 +477,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 							IoUtils.readStringFromFile(MANAGER_PATH, context)
 					));
 					Log.i(LOGGING_TAG, "Loaded " + trips.size() + " trips from disk.");
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					Log.w(LOGGING_TAG, "Could not loadStateFromDisk ItineraryManager data.", e);
 					//noinspection ResultOfMethodCallIgnored
 					file.delete();
@@ -492,7 +496,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 						toJson().toString(),
 						context
 				);
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				Log.w(LOGGING_TAG, "Could not saveStateToDisk ItineraryManager data", e);
 			}
 		}
@@ -539,9 +544,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 						public void onNext(FacebookLinkResponse response) {
 							if (response == null) {
 								Log.w("FB: Auto-Login failed, null response");
-							} else if (response.isSuccess()) {
+							}
+							else if (response.isSuccess()) {
 								Log.i("FB: Auto-Login succeeded");
-							} else {
+							}
+							else {
 								Log.w("FB: Auto-Login failed, " + response.tlError);
 							}
 						}
@@ -551,7 +558,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		private void refreshUserList() {
 			if (!userStateManager.isUserAuthenticated()) {
 				Log.d(LOGGING_TAG, "User is not logged in, not refreshing user list.");
-			} else {
+			}
+			else {
 				// We only want to get the first N cached details if it's been more than
 				// REFRESH_TRIP_CUTOFF since the last refresh.  If we've refreshed more
 				// recently, then we only want to update individual trips as is necessary
@@ -587,7 +595,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 						errorMessage = "Trip details response is null or has errors";
 					}
 					TripsTracking.trackItinTripRefreshCallFailure(errorMessage);
-				} else {
+				}
+				else {
 					Set<String> currentTrips = new HashSet<>(trips.keySet());
 
 					for (Trip trip : response.getTrips()) {
@@ -605,7 +614,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
 
 							tripsAdded++;
-						} else if (hasFullDetails) {
+						}
+						else if (hasFullDetails) {
 							trips.get(tripKey).updateFrom(trip);
 						}
 
@@ -680,9 +690,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 												|| (timeToTakeOff < SEVENTY_TWO_HOURS && timeSinceLastUpdate > TWELVE_HOURS)) {
 										update = true;
 									}
-								} else if (now < landing && timeSinceLastUpdate > FIVE_MINUTES) {
+								}
+								else if (now < landing && timeSinceLastUpdate > FIVE_MINUTES) {
 									update = true;
-								} else if (now > landing) {
+								}
+								else if (now > landing) {
 									if (now < (landing + SEVEN_DAYS)
 												&& timeSinceLastUpdate > (now - (landing + ONE_HOUR))
 												&& timeSinceLastUpdate > FIVE_MINUTES) {
@@ -717,7 +729,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			if (trip.isGuest() && mGuestTripsNotYetLoaded.contains(trip.getTripNumber())) {
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
 				tripsAdded++;
-			} else {
+			}
+			else {
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATED, trip));
 			}
 
@@ -759,9 +772,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				HandleTripResponse handleTripResponse = new HandleTripResponse();
 				if (response == null) {
 					handleTripResponse.refreshTripResponseNull(trip);
-				} else if (response.hasErrors()) {
+				}
+				else if (response.hasErrors()) {
 					handleTripResponse.refreshTripResponseHasErrors(trip, response);
-				} else {
+				}
+				else {
 					handleTripResponse.refreshTripResponseSuccess(trip, deepRefresh, response);
 				}
 			}
@@ -784,10 +799,12 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					if (trip.isShared()) {
 						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for shared trip.  tripNum=" + trip.getItineraryKey());
 						observables.add(tripsServices.getSharedTripDetailsObservable(trip.getShareInfo().getSharableDetailsApiUrl()).onErrorReturn(onErrorReturnNull()));
-					} else if (trip.isGuest()) {
+					}
+					else if (trip.isGuest()) {
 						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for guest trip.  tripNum=" + trip.getItineraryKey());
 						observables.add(tripsServices.getGuestTripObservable(trip.getTripNumber(), trip.getGuestEmailAddress(), false).onErrorReturn(onErrorReturnNull()));
-					} else {
+					}
+					else {
 						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Adding observable for user trip.  tripNum=" + trip.getItineraryKey());
 						observables.add(tripsServices.getTripDetailsObservable(trip.getTripId(), false).onErrorReturn(onErrorReturnNull()));
 					}
@@ -832,7 +849,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			Trip trip = trips.get(tripNumber);
 			if (trip == null) {
 				Log.w(LOGGING_TAG, "Tried to remove a tripNumber that doesn't exist: " + tripNumber);
-			} else {
+			}
+			else {
 				Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
 
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
@@ -870,7 +888,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					Log.w(LOGGING_TAG, "Error fetching shared itin : " + response.gatherErrorMessage(context));
 				}
 				removeItin(shareableUrl);
-			} else {
+			}
+			else {
 				Trip sharedTrip = response.getTrip();
 				sharedTrip.setIsShared(true);
 
@@ -899,7 +918,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, sharedTrip));
 
 					tripsAdded++;
-				} else if (hasFullDetails) {
+				}
+				else if (hasFullDetails) {
 					trips.get(shareableUrl).updateFrom(sharedTrip);
 				}
 
@@ -996,7 +1016,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					try {
 						String jsonString = ((HttpException) throwable).response().errorBody().string();
 						return new JSONObject(jsonString);
-					} catch (Exception e) {
+					}
+					catch (Exception e) {
 						return null;
 					}
 				}
@@ -1063,7 +1084,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					if ((response == null) || (response.getTrip() == null)) {
 						Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is null");
 						handleTripResponse.refreshTripResponseNull(new Trip());
-					} else {
+					}
+					else {
 						Trip updatedTrip = response.getTrip();
 						//getItineraryKey() handles both user and shared trips
 						String itineraryKey = updatedTrip.getItineraryKey();
@@ -1072,7 +1094,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 							if (response.hasErrors()) {
 								Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response has errors");
 								handleTripResponse.refreshTripResponseHasErrors(trip, response);
-							} else {
+							}
+							else {
 								Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is a success");
 								handleTripResponse.refreshTripResponseSuccess(trip, false, response);
 								writeTripJsonResponseToFile(trip, jsonObject);
@@ -1087,9 +1110,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			JSONObject json;
 			if (trip.isShared()) {
 				json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
-			} else if (trip.isGuest()) {
+			}
+			else if (trip.isGuest()) {
 				json = tripsServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
-			} else {
+			}
+			else {
 				json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
 			}
 			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
@@ -1108,7 +1133,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					if (itin != null) {
 						itin.put("isGuest", true);
 					}
-				} catch (JSONException e) {
+				}
+				catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
@@ -1119,11 +1145,13 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					if (itin != null) {
 						itin.put("isShared", true);
 					}
-				} catch (JSONException e) {
+				}
+				catch (JSONException e) {
 					e.printStackTrace();
 				}
 				tripsJsonFileUtils.writeToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
-			} else {
+			}
+			else {
 				tripsJsonFileUtils.writeToFile(trip.getTripId(), json.toString());
 			}
 		}
@@ -1131,7 +1159,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		void deleteTripJsonFromFile(Trip trip) {
 			if (trip.isShared()) {
 				tripsJsonFileUtils.deleteFile(trip.getShareInfo().getSharableDetailsUrl());
-			} else {
+			}
+			else {
 				tripsJsonFileUtils.deleteFile(trip.getTripId());
 			}
 		}
@@ -1291,7 +1320,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		long millisComp = startMillis1 - startMillis2;
 		if (millisComp > 0) {
 			return 1;
-		} else if (millisComp < 0) {
+		}
+		else if (millisComp < 0) {
 			return -1;
 		}
 
@@ -1371,7 +1401,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			final JSONObject obj = new JSONObject();
 			JSONUtils.putJSONableList(obj, "trips", trips.values());
 			return obj;
-		} catch (JSONException e) {
+		}
+		catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -1508,7 +1539,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		if (isSyncing()) {
 			mSyncTask.cancel(true);
 			mSyncTask.cancelDownloads();
-		} else {
+		}
+		else {
 			doClearData();
 		}
 	}
@@ -1663,7 +1695,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				final JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_END_TIMES_PATH, context));
 				startTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "startDateTimes", "startTimes");
 				endTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "endDateTimes", "endTimes");
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				Log.w(LOGGING_TAG, "Could not loadStateFromDisk start times", e);
 				//noinspection ResultOfMethodCallIgnored
 				file.delete();
@@ -1673,7 +1706,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	private void doClearData() {
 		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
-
 		final File file = context.getFileStreamPath(MANAGER_PATH);
 		if (file.exists()) {
 			//noinspection ResultOfMethodCallIgnored
@@ -1681,9 +1713,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 
 		tripsJsonFileUtils.deleteAllFiles();
-
 		clearStartAndEndTimes(true, true);
-
 		mLastUpdateTime = 0;
 
 		synchronized (itinCardData) {
@@ -1694,14 +1724,11 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			return;
 		}
 
-		Log.d(LOGGING_TAG, "Informing the removal of " + trips.size()
-								   + " trips due to clearing of ItineraryManager...");
+		Log.d(LOGGING_TAG, "Informing the removal of " + trips.size() + " trips due to clearing of ItineraryManager...");
 		for (Trip trip : trips.values()) {
 			onTripRemoved(trip);
 		}
-
 		notificationManager.deleteAll();
-
 		trips.clear();
 	}
 
@@ -1723,7 +1750,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		if (fData != null && SettingUtils.get(context, key, false)) {
 			return (TripFlight) fData.getTripComponent();
 		}
-
 		return null;
 	}
 
@@ -1747,13 +1773,15 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 		if (startTimes.size() <= 0 && endTimes.size() <= 0) {
 			clearStartAndEndTimes(false, true);
-		} else {
+		}
+		else {
 			try {
 				final JSONObject jsonObject = new JSONObject();
 				JodaUtils.putDateTimeListInJson(jsonObject, "startDateTimes", startTimes);
 				JodaUtils.putDateTimeListInJson(jsonObject, "endDateTimes", endTimes);
 				IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, jsonObject.toString(), context);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				Log.w(LOGGING_TAG, "Could not save start & end times to disk", e);
 			}
 		}
@@ -1764,7 +1792,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			startTimes.clear();
 			endTimes.clear();
 		}
-
 		if (fromDisk) {
 			final File file = context.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
 			if (file.exists()) {
@@ -1773,5 +1800,4 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			}
 		}
 	}
-
 }
