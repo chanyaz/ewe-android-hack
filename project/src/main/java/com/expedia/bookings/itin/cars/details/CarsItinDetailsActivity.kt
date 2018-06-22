@@ -1,6 +1,5 @@
 package com.expedia.bookings.itin.cars.details
 
-import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,12 +12,11 @@ import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinManageBookingWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
+import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.common.ItinTimingsWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
-import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.scopes.CarsMasterScope
-import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.ActivityLauncher
@@ -64,6 +62,12 @@ class CarsItinDetailsActivity : AppCompatActivity() {
     val imageWidget: ItinImageWidget<ItinCar> by bindView(R.id.itin_image_widget)
     val timingsWidget: ItinTimingsWidget<ItinCar> by bindView(R.id.itin_timings_widget)
 
+    var viewModel: CarItinDetailsViewModel<CarsMasterScope> by notNullAndObservable { vm ->
+        vm.invalidSubject.subscribe {
+            finish()
+        }
+    }
+
     var toolbarViewModel: NewItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
             finish()
@@ -89,10 +93,13 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         val itinId = intent.getStringExtra(CAR_ITIN_ID)
         val tripsTracking = TripsTracking
         val phoneHandler = PhoneHandler(this)
+
         repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
 
-        val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking)
+        val itinRepo = ItinRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
+        val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking, itinRepo)
 
+        viewModel = CarItinDetailsViewModel(scope)
         imageWidget.viewModel = CarItinImageViewModel(scope)
 
         toolbarViewModel = CarItinToolbarViewModel(scope)
@@ -108,28 +115,13 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         dropOffMapWidget.viewModel = dropOffMapViewModel
 
         manageBookingWidget.viewModel = CarItinManageBookingWidgetViewModel(scope)
-
-        setRepoObservers()
-    }
-
-    fun setRepoObservers() {
-        repo.liveDataItin.observe(this, object : Observer<Itin> {
-            override fun onChanged(t: Itin?) {
-                t?.let {
-                    val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(it, ItinOmnitureUtils.LOB.CAR)
-                    tripsTracking.trackItinCarDetailsPageLoad(omnitureValues)
-                }
-                repo.liveDataItin.removeObserver(this)
-            }
-        })
-        repo.invalidDataSubject.subscribe {
-            finish()
-        }
     }
 
     override fun finish() {
         super.finish()
+        viewModel.finishSubject.onNext(Unit)
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
+        //remove when we move carRepo to itinRepo
         repo.dispose()
     }
 }

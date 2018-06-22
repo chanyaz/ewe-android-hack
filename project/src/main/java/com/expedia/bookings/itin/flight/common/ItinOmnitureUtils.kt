@@ -6,6 +6,8 @@ import com.expedia.bookings.itin.tripstore.data.CarPaymentModel
 import com.expedia.bookings.itin.tripstore.data.CarType
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinCar
+import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.extensions.firstCar
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
@@ -254,67 +256,86 @@ object ItinOmnitureUtils {
         return ""
     }
 
+    private data class BuildProductObject(val productLOBType: String, val productId: String, val numberOfUnits: String, val totalPrice: String, val bonusMaterial: String = "")
+
     fun buildLOBProductString(trip: Itin, lob: LOB): String {
-        var productLOBType = ""
-        var productId = ""
-        var numberOfUnits = ""
-        var totalPrice = ""
-        var eVar30 = ""
-        var carPickUpLocation = ""
-        var carDropOffLocation = ""
-        var carPickUpDate = ""
-        var carDropOffDate = ""
+        val productObject: BuildProductObject
         when (lob) {
-            LOB.HOTEL ->
-                trip.firstHotel()?.let { hotel ->
-                    productLOBType = ";Hotel:"
-                    productId = hotel.hotelId ?: ""
-                    numberOfUnits = hotel.numberOfNights ?: ""
-                    totalPrice = hotel.totalPriceDetails?.total ?: ""
+            LOB.HOTEL -> {
+                val hotel = trip.firstHotel()
+                productObject = if (hotel != null) {
+                    hotelProductBuilder(hotel)
+                } else {
+                    BuildProductObject("", "", "", "")
                 }
-            LOB.LX ->
-                trip.firstLx()?.let { lx ->
-                    productLOBType = ";LX:"
-                    productId = lx.activityId ?: ""
-                    numberOfUnits = lx.travelerCount ?: ""
-                    totalPrice = lx.price?.total ?: ""
+            }
+            LOB.LX -> {
+                val lx = trip.firstLx()
+                productObject = if (lx != null) {
+                    lxProductBuilder(lx)
+                } else {
+                    BuildProductObject("", "", "", "")
                 }
-            LOB.CAR ->
-                trip.firstCar()?.let { car ->
-                    productLOBType = ";CAR:"
-                    productId = carProductInfo(car)
-                    numberOfUnits = calculateTripDurationNew(trip, LOB.CAR)
-                    totalPrice = car.price?.total ?: ""
-                    eVar30 = carPaymentModel(car.paymentModel)
-                    carPickUpLocation = car.pickupLocation?.locationCode ?: ""
-                    carDropOffLocation = car.dropOffLocation?.locationCode ?: ""
-                    carPickUpDate = JodaUtils.format(trip.tripStartDate(), "yyyyMMdd")
-                    carDropOffDate = JodaUtils.format(trip.tripEndDate(), "yyyyMMdd")
+            }
+            LOB.CAR -> {
+                val car = trip.firstCar()
+                productObject = if (car != null) {
+                    carProductBuilder(car, trip)
+                } else {
+                    BuildProductObject("", "", "", "")
                 }
+            }
         }
         val productString = StringBuilder()
-        productString.append(productLOBType)
-                .append(productId)
+        productString.append(productObject.productLOBType)
+                .append(productObject.productId)
                 .append(";")
-                .append(numberOfUnits)
+                .append(productObject.numberOfUnits)
                 .append(";")
-                .append(totalPrice)
+                .append(productObject.totalPrice)
+                .append(productObject.bonusMaterial)
 
-        if (productLOBType.contains("CAR")) {
-            productString.append(";;")
-                    .append("eVar30=")
-                    .append(eVar30)
-                    .append(":CAR:")
-                    .append(carPickUpLocation)
-                    .append("-")
-                    .append(carDropOffLocation)
-                    .append(":")
-                    .append(carPickUpDate)
-                    .append("-")
-                    .append(carDropOffDate)
-            return productString.toString()
-        } else {
-            return productString.toString()
-        }
+        return productString.toString()
+    }
+
+    private fun hotelProductBuilder(hotel: ItinHotel): BuildProductObject {
+        val productLOBType = ";Hotel:"
+        val productId = hotel.hotelId ?: ""
+        val numberOfUnits = hotel.numberOfNights ?: ""
+        val totalPrice = hotel.totalPriceDetails?.total ?: ""
+        return BuildProductObject(productLOBType = productLOBType, productId = productId, numberOfUnits = numberOfUnits, totalPrice = totalPrice)
+    }
+
+    private fun lxProductBuilder(lx: ItinLx): BuildProductObject {
+        val productLOBType = ";LX:"
+        val productId = lx.activityId ?: ""
+        val numberOfUnits = lx.travelerCount ?: ""
+        val totalPrice = lx.price?.total ?: ""
+        return BuildProductObject(productLOBType = productLOBType, productId = productId, numberOfUnits = numberOfUnits, totalPrice = totalPrice)
+    }
+
+    private fun carProductBuilder(car: ItinCar, trip: Itin): BuildProductObject {
+        val productLOBType = ";CAR:"
+        val productId = carProductInfo(car)
+        val numberOfUnits = calculateTripDurationNew(trip, ItinOmnitureUtils.LOB.CAR)
+        val totalPrice = car.price?.total ?: ""
+        val stringBuilder = StringBuilder()
+        val eVar30 = carPaymentModel(car.paymentModel)
+        val carPickUpLocation = car.pickupLocation?.locationCode ?: ""
+        val carDropOffLocation = car.dropOffLocation?.locationCode ?: ""
+        val carPickUpDate = JodaUtils.format(trip.tripStartDate(), "yyyyMMdd")
+        val carDropOffDate = JodaUtils.format(trip.tripEndDate(), "yyyyMMdd")
+        stringBuilder.append(";;")
+                .append("eVar30=")
+                .append(eVar30)
+                .append(":CAR:")
+                .append(carPickUpLocation)
+                .append("-")
+                .append(carDropOffLocation)
+                .append(":")
+                .append(carPickUpDate)
+                .append("-")
+                .append(carDropOffDate)
+        return BuildProductObject(productLOBType = productLOBType, productId = productId, numberOfUnits = numberOfUnits, totalPrice = totalPrice, bonusMaterial = stringBuilder.toString())
     }
 }
