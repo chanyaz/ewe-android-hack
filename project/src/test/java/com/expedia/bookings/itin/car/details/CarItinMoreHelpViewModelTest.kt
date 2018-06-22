@@ -5,14 +5,17 @@ import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.cars.details.CarItinMoreHelpViewModel
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockCarRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.scopes.HasCarRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -129,11 +132,12 @@ class CarItinMoreHelpViewModelTest {
         vm.confirmationNumberContentDescriptionSubject.subscribe(confirmationNumberContentDescriptionTestObserver)
     }
 
-    private class MockCarItinMoreHelpScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasCarRepo {
+    private class MockCarItinMoreHelpScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasCarRepo, HasItinRepo {
         override val strings: StringSource = MockStringProvider()
         override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         override val tripsTracking = MockTripsTracking()
         override val itinCarRepo: ItinCarRepoInterface = MockCarRepo()
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
     }
 }

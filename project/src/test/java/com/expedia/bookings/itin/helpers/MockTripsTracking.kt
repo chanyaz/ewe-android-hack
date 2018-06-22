@@ -35,6 +35,7 @@ class MockTripsTracking : ITripsTracking {
     var trackItinCarCustomerServiceLinkClickedCalled = false
     var trackItinLxShareIconClicked = false
     var trackItinCarDetailsPageLoad = false
+    var trackItinCarMoreHelpPageLoad = false
 
     override fun trackItinLxDetailsMap() {
         mapClicked = true
@@ -154,5 +155,9 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackItinCarDetailsPageLoad(trip: HashMap<String, String?>) {
         trackItinCarDetailsPageLoad = true
+    }
+
+    override fun trackItinCarMoreHelpPageLoad(trip: HashMap<String, String?>) {
+        trackItinCarMoreHelpPageLoad = true
     }
 }
