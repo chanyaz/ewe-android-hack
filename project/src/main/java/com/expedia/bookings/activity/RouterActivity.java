@@ -308,7 +308,6 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			query.addExperiment(PointOfSale.getPointOfSale().getRailsWebViewABTestID().getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsRecentSearch.getKey());
-			query.addExperiment(AbacusUtils.EBAndroidAppBrandColors.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppBottomNavTabs.getKey());
 			query.addExperiment(AbacusUtils.HotelEarn2xMessaging.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint.getKey());

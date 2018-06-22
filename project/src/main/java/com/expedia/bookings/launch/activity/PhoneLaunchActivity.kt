@@ -14,7 +14,6 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -70,7 +69,6 @@ import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.checkIfTripFoldersEnabled
-import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.DisableableViewPager
@@ -175,11 +173,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = pagerAdapter
-
-        if (isBrandColorEnabled(this@PhoneLaunchActivity)) {
-            window.statusBarColor = ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand_primary_dark)
-            toolbar.setBackgroundColor(ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand_primary))
-        }
 
         startupTimer.addSplit("Time for setting up background")
 

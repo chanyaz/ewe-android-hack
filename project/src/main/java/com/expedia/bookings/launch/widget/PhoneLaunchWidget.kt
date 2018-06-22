@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -32,7 +31,6 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
@@ -116,11 +114,6 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         lobViewContainer.visibility = VISIBLE
         lobView.lobViewHeightChangeSubject.subscribe {
             adjustLobViewHeight()
-        }
-
-        if (isBrandColorEnabled(context)) {
-            lobViewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
-            fab.backgroundTintList = ContextCompat.getColorStateList(context, R.color.brand_primary)
         }
 
         fab.setOnClickListener {

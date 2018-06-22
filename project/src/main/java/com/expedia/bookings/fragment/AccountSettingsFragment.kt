@@ -47,7 +47,6 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isAccountEditWebViewEnabled
 import com.expedia.bookings.utils.isBottomNavigationBarEnabled
-import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.shouldShowCustomerFirstGuarantee
 import com.mobiata.android.SocialUtils
@@ -203,7 +202,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         val context = this.context ?: return
         val activity = this.activity ?: return
 
-        handleBrandColorBackground(context)
         handleAccountHeaderVisibility(context)
 
         // Account
@@ -364,13 +362,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
             val pendingPointsDialog = PendingPointsDialogFragment.newInstance(resources.getString(R.string.pending_points_dialog_title))
             pendingPointsDialog.show(fragmentManager, "fragment_dialog_pending_points")
             OmnitureTracking.trackPendingPointsTooltipTapped()
-        }
-    }
-
-    private fun handleBrandColorBackground(context: Context) {
-        if (isBrandColorEnabled(context)) {
-            loyaltySection.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
-            accountHeader.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
         }
     }
 

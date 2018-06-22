@@ -1,11 +1,9 @@
 package com.expedia.bookings.mia.vm
 
 import android.content.Context
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.enums.DiscountColors
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -78,14 +76,7 @@ class MemberDealsCardViewModelTest {
     }
 
     @Test
-    fun discountColors_areDefault_byDefault() {
-        setupSystemUnderTest()
-        assertEquals(DiscountColors.DEFAULT, vm.discountColors)
-    }
-
-    @Test
-    fun discountColors_areMemberDealsColors_whenBucketed() {
-        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppBrandColors)
+    fun discountColors_areMemberDealsColors_byDefault() {
         setupSystemUnderTest()
         assertEquals(DiscountColors.MEMBER_DEALS, vm.discountColors)
     }

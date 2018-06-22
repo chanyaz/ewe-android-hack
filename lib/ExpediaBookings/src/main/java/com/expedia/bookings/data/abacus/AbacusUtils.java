@@ -115,7 +115,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppAccountNewSignIn = new ABTest(24581, true);
 
 	// Launch
-	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
 	public static final ABTest MesoAd = new ABTest(25552, true);
 	public static final ABTest EBAndroidAppBottomNavTabs = new ABTest(25565, true);
 	public static final ABTest DisableSignInPageAsFirstScreen = new ABTest(25030, true);
@@ -180,7 +179,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsEvolable.getKey());
 		testIDs.add(EBAndroidAppConfirmationToolbarXHidden.getKey());
 		testIDs.add(TripFoldersFragment.getKey());
-		testIDs.add(EBAndroidAppBrandColors.getKey());
 		testIDs.add(MesoAd.getKey());
 		testIDs.add(JoinRewardsLaunchCard.getKey());
 		testIDs.add(HomeScreenDisplayLogic.getKey());

@@ -48,7 +48,6 @@ import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.widget.LaunchScreenAddOnHotMIPCard
 import com.expedia.bookings.widget.LaunchScreenHotelAttachCard
 import com.expedia.model.UserLoginStateChangedModel
-import com.expedia.vm.launch.SignInPlaceHolderViewModel
 import com.google.android.gms.ads.formats.NativeAd
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
@@ -664,21 +663,6 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun testSignInPlaceholderCardButtonTexts() {
-        createSystemUnderTest()
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val recyclerView = RecyclerView(context)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapterUnderTest
-
-        val viewHolder = adapterUnderTest.onCreateViewHolder(recyclerView, LaunchDataItem.SIGN_IN_VIEW) as SignInPlaceholderCard
-        viewHolder.bind(makeSignInPlaceholderViewModel())
-
-        assertEquals(View.GONE, viewHolder.button_one.visibility)
-        assertEquals(View.GONE, viewHolder.button_two.visibility)
-    }
-
-    @Test
     fun lastMinuteDealsCardLaunchIsTracked() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTracking.trackLaunchLastMinuteDeal()
@@ -700,8 +684,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun earn2xMessagingSignInShown() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEarn2xMessaging)
+    fun brandSignInShownWithCorrectContent() {
         createSystemUnderTest()
         givenCustomerSignedOut()
         givenWeHaveCurrentLocationAndHotels()
@@ -709,12 +692,15 @@ class LaunchListAdapterTest {
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val recyclerView = RecyclerView(context)
         recyclerView.layoutManager = layoutManager
-        val viewHolder = adapterUnderTest.onCreateViewHolder(recyclerView, LaunchDataItem.SIGN_IN_VIEW) as SignInPlaceholderCard
+        val viewHolder = adapterUnderTest.onCreateViewHolder(recyclerView, LaunchDataItem.SIGN_IN_VIEW) as BrandSignInLaunchCard
         adapterUnderTest.onBindViewHolder(viewHolder, 1)
-        assertEquals(viewHolder.firstLineTextView.text, context.getString(R.string.launch_screen_sign_in_2x_title))
-        assertEquals(viewHolder.secondLineTextView.text, context.getString(R.string.launch_screen_sign_in_2x_subtitle))
-        assertEquals(viewHolder.button_one.text, context.getString(R.string.sign_in))
-        assertEquals(viewHolder.button_two.text, context.getString(R.string.Create_Account))
+
+        val expectedPhrase = Phrase.from(context, R.string.shop_as_a_member_TEMPLATE)
+                .putOptional("brand", BuildConfig.brand).format().toString()
+
+        assertEquals(expectedPhrase, viewHolder.firstLineTextView.text)
+        assertEquals(context.getString(R.string.member_prices_signin), viewHolder.secondLineTextView.text)
+        assertEquals(context.getString(R.string.sign_in_create_account), viewHolder.button_one.text)
 
         val secondPosition = adapterUnderTest.getItemViewType(1)
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
@@ -795,16 +781,6 @@ class LaunchListAdapterTest {
         expectedList.forEachIndexed { index, launchDataItem ->
             assertEquals(launchDataItem.getKey(), adapterUnderTest.getItemViewType(index))
         }
-    }
-
-    private fun makeSignInPlaceholderViewModel(): SignInPlaceHolderViewModel {
-        return SignInPlaceHolderViewModel(getBrandForSignInView(),
-                context.getString(R.string.earn_rewards_and_unlock_deals), "", "")
-    }
-
-    private fun getBrandForSignInView(): String {
-        return Phrase.from(context, R.string.shop_as_a_member_TEMPLATE)
-                .putOptional("brand", BuildConfig.brand).format().toString()
     }
 
     private fun assertViewHolderIsFullSpan(position: Int) {

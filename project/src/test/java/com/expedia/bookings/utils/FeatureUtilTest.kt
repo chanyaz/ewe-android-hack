@@ -40,18 +40,6 @@ class FeatureUtilTest {
     }
 
     @Test
-    fun testEnableBrandColors() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        assertTrue(isBrandColorEnabled(context))
-    }
-
-    @Test
-    fun testDisableBrandColors() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        assertFalse(isBrandColorEnabled(context))
-    }
-
-    @Test
     fun testEnableTripFolders() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.TripFoldersFragment)
         assertTrue(checkIfTripFoldersEnabled(context))

@@ -52,7 +52,7 @@ class BigImageLaunchViewHolderTest {
 
         assertEquals("Member Pricing", bigImageLaunchViewHolderUnderTest.getMockTitleView().text)
         assertEquals("Discounts off select hotels", bigImageLaunchViewHolderUnderTest.getMockSubtitleView().text)
-        assertEquals(ContextCompat.getDrawable(activity, R.drawable.ic_member_deals_icon), bigImageLaunchViewHolderUnderTest.getMockIconImageView().drawable)
+        assertEquals(ContextCompat.getDrawable(activity, R.drawable.ic_member_only_tag_bg), bigImageLaunchViewHolderUnderTest.getMockIconImageView().drawable)
     }
 
     @Test
@@ -65,7 +65,7 @@ class BigImageLaunchViewHolderTest {
 
         assertEquals("Insider Prices", bigImageLaunchViewHolderUnderTest.getMockTitleView().text)
         assertEquals("Discounts off select hotels", bigImageLaunchViewHolderUnderTest.getMockSubtitleView().text)
-        assertEquals(ContextCompat.getDrawable(activity, R.drawable.ic_member_deals_icon), bigImageLaunchViewHolderUnderTest.getMockIconImageView().drawable)
+        assertEquals(ContextCompat.getDrawable(activity, R.drawable.ic_member_only_tag_bg), bigImageLaunchViewHolderUnderTest.getMockIconImageView().drawable)
     }
 
     @Test
@@ -77,7 +77,7 @@ class BigImageLaunchViewHolderTest {
         assertEquals("some url", vm.backgroundUrl)
     }
 
-    private fun getMockBigImageLaunchViewModel(icon: Int = R.drawable.ic_member_deals_icon,
+    private fun getMockBigImageLaunchViewModel(icon: Int = R.drawable.ic_member_only_tag_bg,
                                                bgGradient: Int = R.color.member_deals_background_gradient,
                                                titleId: Int = R.string.member_deal_title,
                                                subtitleId: Int = R.string.member_deal_subtitle,
