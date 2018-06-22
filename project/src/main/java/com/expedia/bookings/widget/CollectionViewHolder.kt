@@ -7,11 +7,12 @@ import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.collections.CollectionLocation
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.bindView
 
 /**
@@ -48,7 +49,7 @@ class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnC
 
     private fun bindLocationData(location: CollectionLocation) {
         title.text = location.title
-        FontCache.setTypeface(title, FontCache.Font.ROBOTO_MEDIUM)
+        title.setTypeface(Font.ROBOTO_MEDIUM)
         subtitle.text = location.subtitle
         subtitle.visibility = View.VISIBLE
     }

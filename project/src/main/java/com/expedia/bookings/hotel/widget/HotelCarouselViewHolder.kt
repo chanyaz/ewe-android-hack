@@ -13,7 +13,7 @@ import com.expedia.bookings.extensions.setTextAndVisibility
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.hotel.util.shouldShowCircleForRatings
 import com.expedia.bookings.hotel.vm.HotelViewModel
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
@@ -91,11 +91,11 @@ class HotelCarouselViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root) {
     }
 
     private fun updateFonts() {
-        hotelPreviewText.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
-        hotelPricePerNight.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)
-        hotelStrikeThroughPrice.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
-        hotelGuestRating.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
-        hotelGuestRecommend.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
+        hotelPreviewText.typeface = Font.ROBOTO_MEDIUM.typeface
+        hotelPricePerNight.typeface = Font.ROBOTO_BOLD.typeface
+        hotelStrikeThroughPrice.typeface = Font.ROBOTO_REGULAR.typeface
+        hotelGuestRating.typeface = Font.ROBOTO_MEDIUM.typeface
+        hotelGuestRecommend.typeface = Font.ROBOTO_REGULAR.typeface
     }
 
     private fun updateHotelRating(viewModel: HotelViewModel) {

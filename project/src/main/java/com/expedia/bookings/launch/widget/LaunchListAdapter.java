@@ -43,7 +43,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FeatureUtilKt;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LaunchNavBucketCache;
 import com.expedia.bookings.widget.HotelAttachCardViewHolder;
@@ -125,7 +125,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		seeAllButton.setContentDescription(Phrase.from(context, R.string.a11y_button_TEMPLATE)
 				.put("description", context.getString(R.string.nearby_deals_expand)).format().toString());
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
-		FontCache.setTypeface(launchListTitle, FontCache.Font.ROBOTO_MEDIUM);
+		Font.ROBOTO_MEDIUM.setTypefaceOnTextView(launchListTitle);
 		setListData(new ArrayList<LaunchDataItem>(), "");
 	}
 

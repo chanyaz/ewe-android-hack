@@ -55,7 +55,7 @@ import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateRangeUtils;
 import com.expedia.bookings.utils.FlightUtils;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
@@ -371,7 +371,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			vh.mBulb = Ui.findView(convertView, R.id.flight_status_bulb);
 
 			// One-time setup
-			FontCache.setTypeface(vh.mTopLine, FontCache.Font.ROBOTO_REGULAR);
+			Font.ROBOTO_REGULAR.setTypefaceOnTextView(vh.mTopLine);
 
 			convertView.setTag(vh);
 		}

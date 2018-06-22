@@ -19,7 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 
@@ -121,7 +121,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 		boolean isChecked = filter.getPreferredAirlines().contains(airlineCode);
 		SpannableBuilder sb = new SpannableBuilder();
 		String airlineName = Db.getAirline(airlineCode).mAirlineName;
-		sb.append(airlineName, FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
+		sb.append(airlineName, Font.ROBOTO_REGULAR.getTypefaceSpan());
 
 		setChecked(isChecked);
 		setDescription(sb.build());

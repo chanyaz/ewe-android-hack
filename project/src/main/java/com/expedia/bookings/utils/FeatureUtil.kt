@@ -82,10 +82,6 @@ fun isAccountEditWebViewEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAccountsEditWebView)
 }
 
-fun isDownloadableFontsEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.DownloadableFonts)
-}
-
 fun shouldShowRewardLaunchCard(context: Context): Boolean {
     return !shouldShowJoinRewardsLaunchCard(context)
             && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()

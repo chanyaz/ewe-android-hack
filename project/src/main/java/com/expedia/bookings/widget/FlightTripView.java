@@ -21,7 +21,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Font;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 
@@ -136,7 +136,7 @@ public class FlightTripView extends View {
 		mTextPaint.setTextAlign(Align.CENTER);
 		mTextPaint.setColor(textColor);
 		if (typeface == TYPEFACE_MEDIUM) {
-			mTextPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
+			mTextPaint.setTypeface(Font.ROBOTO_MEDIUM.getTypeface());
 		}
 		else {
 			mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);

@@ -26,7 +26,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
@@ -212,7 +212,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			sectionTravelerInfo.bind(traveler);
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
-			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
+			Font.ROBOTO_MEDIUM.setTypefaceOnTextView(enterDetailsText);
 			String travelerFullName = traveler != null ? traveler.getFullNameBasedOnPos() : null;
 			travelerButton.updateSelectTravelerText(travelerFullName);
 			enterDetailsText.setText(travelerFullName);
@@ -226,7 +226,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			sectionTravelerInfo.refreshOnLoginStatusChange();
 			sectionTravelerInfo.bind(traveler);
-			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
+			Font.ROBOTO_MEDIUM.setTypefaceOnTextView(enterDetailsText);
 			lastName.setNextFocusRightId(emailAddress.getId());
 			lastName.setNextFocusDownId(emailAddress.getId());
 		}
@@ -235,11 +235,11 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			travelerPhoneText.setVisibility(GONE);
 			travelerPhoneText.setText("");
 			if (lineOfBusiness == LineOfBusiness.HOTELS) {
-				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
+				Font.ROBOTO_MEDIUM.setTypefaceOnTextView(enterDetailsText);
 				enterDetailsText.setText(getResources().getString(R.string.enter_traveler_details));
 			}
 			else {
-				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_REGULAR);
+				Font.ROBOTO_REGULAR.setTypefaceOnTextView(enterDetailsText);
 				enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
 			}
 

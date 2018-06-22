@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -28,14 +28,14 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
     val titleObservable = BehaviorSubject.create<String>()
     val subtitleObservable = BehaviorSubject.create<String>()
     val subtitleTextColorObservable = BehaviorSubject.create<Int>()
-    val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
+    val titleFontObservable = BehaviorSubject.create<Font>()
     val refreshStatusObservable = PublishSubject.create<Unit>()
     var passportRequired = BehaviorSubject.createDefault<Boolean>(false)
     var currentStatusObservable = BehaviorSubject.createDefault<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
-        setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
+        setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, Font.ROBOTO_REGULAR)
         subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
         passportRequired.map { Unit }.subscribe(refreshStatusObservable)
         refreshStatusObservable.subscribe {
@@ -49,7 +49,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         if (!validForBooking) {
             if (travelerValidator.isTravelerEmpty(traveler)) {
                 currentStatusObservable.onNext(TravelerCheckoutStatus.CLEAN)
-                setTravelerSummaryInfo(getTitle(traveler), "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
+                setTravelerSummaryInfo(getTitle(traveler), "", ContactDetailsCompletenessStatus.DEFAULT, Font.ROBOTO_REGULAR)
             } else {
                 currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
                 setTravelerSummaryInfo(getTitle(traveler), getErrorSubtitle(),
@@ -76,8 +76,8 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         return traveler.birthDate?.toString("MM/dd/yyyy")
     }
 
-    private fun getFont(traveler: Traveler): FontCache.Font {
-        return if (isNameEmpty(traveler)) FontCache.Font.ROBOTO_REGULAR else FontCache.Font.ROBOTO_MEDIUM
+    private fun getFont(traveler: Traveler): Font {
+        return if (isNameEmpty(traveler)) Font.ROBOTO_REGULAR else Font.ROBOTO_MEDIUM
     }
 
     private fun isNameEmpty(traveler: Traveler): Boolean {
@@ -88,7 +88,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         return traveler.primaryPhoneNumber?.number.isNullOrEmpty()
     }
 
-    private fun setTravelerSummaryInfo(title: String, subTitle: String?, completenessStatus: ContactDetailsCompletenessStatus, font: FontCache.Font) {
+    private fun setTravelerSummaryInfo(title: String, subTitle: String?, completenessStatus: ContactDetailsCompletenessStatus, font: Font) {
         titleObservable.onNext(title)
         subtitleObservable.onNext(subTitle ?: "")
         iconStatusObservable.onNext(completenessStatus)

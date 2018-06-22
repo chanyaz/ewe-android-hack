@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +34,7 @@ class CostSummaryBreakDownViewTest {
                 .title("Hotel + Flights")
                 .cost("$230")
                 .color(ContextCompat.getColor(getContext(), R.color.packages_primary_color))
-                .typeface(FontCache.Font.ROBOTO_BOLD)
+                .typeface(Font.ROBOTO_BOLD)
                 .build())
         costSummaryBreakDownView.viewmodel.addRows.onNext(list)
 
@@ -49,8 +49,8 @@ class CostSummaryBreakDownViewTest {
         assertEquals(ContextCompat.getColor(getContext(), R.color.packages_primary_color), priceDescription.currentTextColor)
         assertEquals(ContextCompat.getColor(getContext(), R.color.packages_primary_color), priceValue.currentTextColor)
 
-        assertEquals(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD), priceDescription.typeface)
-        assertEquals(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD), priceValue.typeface)
+        assertEquals(Font.ROBOTO_BOLD.typeface, priceDescription.typeface)
+        assertEquals(Font.ROBOTO_BOLD.typeface, priceValue.typeface)
     }
 
     @Test

@@ -16,7 +16,7 @@ import com.expedia.bookings.data.insurance.InsuranceTripParams
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DeprecatedProgressDialog
 import com.squareup.phrase.Phrase
@@ -182,13 +182,13 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
 
         // use a lightweight base font, and convert any bold spans to medium
         val spannedTitleBuilder = SpannableStringBuilder(HtmlCompat.fromHtml(title.toString()))
-        spannedTitleBuilder.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), 0, spannedTitleBuilder.length, 0)
+        spannedTitleBuilder.setSpan(Font.ROBOTO_LIGHT.getTypefaceSpan(), 0, spannedTitleBuilder.length, 0)
         spannedTitleBuilder.getSpans(0, spannedTitleBuilder.length, StyleSpan::class.java).forEach { span ->
             if (span.style == Typeface.BOLD) {
                 val start = spannedTitleBuilder.getSpanStart(span)
                 val end = spannedTitleBuilder.getSpanEnd(span)
                 spannedTitleBuilder.removeSpan(span)
-                spannedTitleBuilder.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM), start, end, 0)
+                spannedTitleBuilder.setSpan(Font.ROBOTO_MEDIUM.getTypefaceSpan(), start, end, 0)
             }
         }
 

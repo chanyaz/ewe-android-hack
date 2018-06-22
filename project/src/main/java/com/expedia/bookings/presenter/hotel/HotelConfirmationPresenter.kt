@@ -11,16 +11,17 @@ import android.view.View
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -104,6 +105,6 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         val drawable = ContextCompat.getDrawable(context, drawableResId)!!
         drawable.setColorFilter(ContextCompat.getColor(context, R.color.confirmation_screen_action_icon_color), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-        FontCache.setTypeface(textView, FontCache.Font.ROBOTO_REGULAR)
+        textView.setTypeface(Font.ROBOTO_REGULAR)
     }
 }

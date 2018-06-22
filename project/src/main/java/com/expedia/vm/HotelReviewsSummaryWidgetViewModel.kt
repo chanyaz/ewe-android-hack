@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.ReviewSummary
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TypefaceSpan
 import com.expedia.util.endlessObserver
@@ -36,7 +36,8 @@ class HotelReviewsSummaryWidgetViewModel(val context: Context) {
                 .format()
                 .toString()
         val builder = SpannableStringBuilder(ratingString)
-        builder.setSpan(TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)), 0, displayRating.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        builder.setSpan(TypefaceSpan(
+                Font.ROBOTO_MEDIUM.typeface), 0, displayRating.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         return builder
     }
 

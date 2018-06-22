@@ -31,7 +31,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidLXNotifications = new ABTest(24888);
 	public static final ABTest EBAndroidAppSavedCoupons = new ABTest(16365, true);
 	public static final ABTest EBAndroidAppFlightsFiltersPriceAndLogo = new ABTest(25526, true);
-	public static final ABTest DownloadableFonts = new ABTest(25071, true);
 	public static final ABTest EBAndroidAppSeatsLeftUrgencyMessaging = new ABTest(25037, true);
 	public static final ABTest EBAndroidAppLxWebCheckoutView = new ABTest(25622, true);
 
@@ -217,7 +216,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppPackagesFFPremiumClass.getKey());
 		testIDs.add(EBAndroidAppBottomNavTabs.getKey());
 		testIDs.add(EBAndroidAppTripsUserReviews.getKey());
-		testIDs.add(DownloadableFonts.getKey());
 		testIDs.add(HotelSatelliteSearch.getKey());
 		testIDs.add(EBAndroidAppSeatsLeftUrgencyMessaging.getKey());
 		testIDs.add(EBAndroidAppPackagesWebviewFHC.getKey());

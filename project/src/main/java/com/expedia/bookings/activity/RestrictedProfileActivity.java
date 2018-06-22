@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.Font;
 import com.mobiata.android.util.Ui;
 import com.squareup.phrase.Phrase;
 
@@ -37,7 +36,7 @@ public class RestrictedProfileActivity extends FragmentActivity {
 				.put("brand", BuildConfig.brand)
 				.format());
 
-		FontCache.setTypeface(messageTv, Font.ROBOTO_LIGHT);
+		Font.ROBOTO_LIGHT.setTypefaceOnTextView(messageTv);
 	}
 
 	@Override

@@ -4,9 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.vm.launch.CustomerFirstLaunchHolderViewModel
 
@@ -29,6 +30,6 @@ class CustomerFirstLaunchViewHolder(val view: View) : RecyclerView.ViewHolder(vi
     }
 
     private fun setTextViewFont() {
-        FontCache.setTypeface(customerFirstText, FontCache.Font.ROBOTO_MEDIUM)
+        customerFirstText.setTypeface(Font.ROBOTO_MEDIUM)
     }
 }

@@ -12,7 +12,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
@@ -34,9 +34,9 @@ class TravelerSelectItemViewModelTest {
 
     var expectedEmptySubTitle = ""
     var expectedSubTitleErrorMessage: String by Delegates.notNull()
-    var expectedEmptyFont = FontCache.Font.ROBOTO_REGULAR
+    var expectedEmptyFont = Font.ROBOTO_REGULAR
     var expectedDefaultColor: Int by Delegates.notNull()
-    var expectedDefaultFont = FontCache.Font.ROBOTO_MEDIUM
+    var expectedDefaultFont = Font.ROBOTO_MEDIUM
     var expectedErrorColor: Int by Delegates.notNull()
 
     val testIndex = 0

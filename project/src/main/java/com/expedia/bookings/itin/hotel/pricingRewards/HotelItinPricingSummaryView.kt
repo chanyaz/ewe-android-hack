@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.extensions.subscribeOnClick
-import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -85,13 +85,13 @@ class HotelItinPricingSummaryView(context: Context, attrs: AttributeSet?) : Card
             text = item.labelString
             setTextColor(color)
             textSize = item.textSize
-            FontCache.setTypeface(this, item.font)
+            this.setTypeface(item.font)
         }
         with(view.priceTextView) {
             text = item.priceString
             setTextColor(color)
             textSize = item.textSize
-            FontCache.setTypeface(this, item.font)
+            this.setTypeface(item.font)
         }
     }
 }

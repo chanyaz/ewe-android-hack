@@ -14,7 +14,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.LXDataUtils;
 
 import java.util.ArrayList;
@@ -145,8 +145,8 @@ public class LXOffersListAdapter extends BaseAdapter {
 			this.position = position;
 			this.activityDiscountType = activityDiscountType;
 
-			FontCache.setTypeface(selectTickets, FontCache.Font.ROBOTO_REGULAR);
-			FontCache.setTypeface(bookNow, FontCache.Font.ROBOTO_REGULAR);
+			Font.ROBOTO_REGULAR.setTypefaceOnTextView(selectTickets);
+			Font.ROBOTO_REGULAR.setTypefaceOnTextView(bookNow);
 			ticketSelectionWidget.bind(offer);
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 				LXDataUtils.addPriceSummaryRow(itemView.getContext(), priceSummaryContainer, ticket);

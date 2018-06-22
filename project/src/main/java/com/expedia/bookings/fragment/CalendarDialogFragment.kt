@@ -17,7 +17,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
 import com.expedia.bookings.utils.toListOfDates
 import com.expedia.bookings.utils.toMapOfDatesToNames
@@ -120,7 +120,7 @@ open class CalendarDialogFragment() : DialogFragment() {
                 calendar.setInstructionText(it)
             })
 
-            calendarPickerView.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+            calendarPickerView.setMonthHeaderTypeface(Font.ROBOTO_REGULAR.typeface)
         }
         calendarPickerView
     }

@@ -9,8 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.Font;
 import com.mobiata.android.util.Ui;
 
 public class FlightInfoSection extends LinearLayout {
@@ -29,7 +28,7 @@ public class FlightInfoSection extends LinearLayout {
 		mIconImageView = Ui.findView(this, R.id.icon_image_view);
 
 		mInfoTextView = Ui.findView(this, R.id.info_text_view);
-		mInfoTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
+		mInfoTextView.setTypeface(Font.ROBOTO_LIGHT.getTypeface());
 	}
 
 	public void bind(int iconResId, CharSequence text) {

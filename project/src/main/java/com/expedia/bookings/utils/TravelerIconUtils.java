@@ -44,7 +44,7 @@ public class TravelerIconUtils {
 		// Fetch appropriate background color to paint in the icon.
 		iconBgPaint.setColor(backgroundColor);
 		txtPaint.setColor(0xFFFFFFFF);
-		txtPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		txtPaint.setTypeface(Font.ROBOTO_LIGHT.getTypeface());
 		txtPaint.setTextSize(30 * density);
 
 		float textHeight = txtPaint.descent() - txtPaint.ascent();

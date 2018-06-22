@@ -8,7 +8,7 @@ import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.widget.shared.CalendarStyleUtil
 import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
@@ -25,7 +25,7 @@ class HotelChangeDateCalendarPicker(context: Context, attrs: AttributeSet?) : Ca
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+        setMonthHeaderTypeface(Font.ROBOTO_REGULAR.typeface)
     }
 
     fun bind(rules: CalendarRules, directions: HotelCalendarDirections) {

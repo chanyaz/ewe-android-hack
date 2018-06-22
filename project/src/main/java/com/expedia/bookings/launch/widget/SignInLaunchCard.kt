@@ -4,8 +4,9 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.TextView
@@ -33,8 +34,8 @@ class BrandSignInLaunchCard(itemView: View, val context: Context) : RecyclerView
     }
 
     private fun setupFonts() {
-        FontCache.setTypeface(firstLineTextView, FontCache.Font.ROBOTO_MEDIUM)
-        FontCache.setTypeface(secondLineTextView, FontCache.Font.ROBOTO_REGULAR)
-        FontCache.setTypeface(button_one, FontCache.Font.ROBOTO_MEDIUM)
+        firstLineTextView.setTypeface(Font.ROBOTO_MEDIUM)
+        secondLineTextView.setTypeface(Font.ROBOTO_REGULAR)
+        button_one.setTypeface(Font.ROBOTO_MEDIUM)
     }
 }

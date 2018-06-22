@@ -28,7 +28,7 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.marketing.carnival.CarnivalUtils;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -206,8 +206,8 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 				toolbar.setPadding(0, statusBarHeight, 0, 0);
 				textContainer.setPadding(0, statusBarHeight, 0, 0);
 
-				FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
-				FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
+				Font.ROBOTO_LIGHT.setTypefaceOnTextView(confirmationText);
+				Font.ROBOTO_LIGHT.setTypefaceOnTextView(emailText);
 				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 			}
 

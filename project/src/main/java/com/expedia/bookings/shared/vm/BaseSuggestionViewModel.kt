@@ -7,7 +7,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp.isAutomation
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -20,7 +20,7 @@ abstract class BaseSuggestionViewModel(val context: Context) {
     val iconObservable = BehaviorSubject.create<Int>()
     val suggestionLabelTitleObservable = PublishSubject.create<String>()
     val iconContentDescriptionObservable = PublishSubject.create<String>()
-    val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
+    val titleFontObservable = BehaviorSubject.create<Font>()
 
     protected lateinit var suggestion: SuggestionV4
     protected var searchInfo: SearchInfo? = null
@@ -35,7 +35,7 @@ abstract class BaseSuggestionViewModel(val context: Context) {
 
         titleObservable.onNext(getTitle())
         subtitleObservable.onNext(getSubTitle())
-        titleFontObservable.onNext(if (getSubTitle().isEmpty()) FontCache.Font.ROBOTO_REGULAR else FontCache.Font.ROBOTO_MEDIUM)
+        titleFontObservable.onNext(if (getSubTitle().isEmpty()) Font.ROBOTO_REGULAR else Font.ROBOTO_MEDIUM)
         isChildObservable.onNext(isChild(suggestion) && !suggestion.isHistoryItem)
         iconObservable.onNext(getIcon())
         if (isIconContentDescriptionRequired()) {

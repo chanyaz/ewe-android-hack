@@ -24,6 +24,7 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.extensions.subscribeImageDrawable
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
@@ -41,7 +42,7 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
@@ -278,8 +279,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackPaymentEnterNewCard()
         }
 
-        FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
-        FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
+        cardInfoExpiration.setTypeface(Font.ROBOTO_REGULAR)
+        cardInfoName.setTypeface(Font.ROBOTO_MEDIUM)
         Db.sharedInstance.setTemporarilySavedCard(null)
 
         AccessibilityUtil.appendRoleContDesc(paymentOptionCreditDebitCard, R.string.accessibility_cont_desc_role_button)

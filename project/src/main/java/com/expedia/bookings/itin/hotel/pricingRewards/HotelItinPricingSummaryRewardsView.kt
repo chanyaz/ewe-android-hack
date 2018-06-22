@@ -8,9 +8,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -69,6 +70,6 @@ class BonusPointsView(context: Context, attrs: AttributeSet?) : TextView(context
     init {
         this.textSize = 14.0f
         this.setTextColor(ContextCompat.getColor(context, R.color.itin_price_summary_label_gray_light))
-        FontCache.setTypeface(this, FontCache.Font.ROBOTO_REGULAR)
+        this.setTypeface(Font.ROBOTO_REGULAR)
     }
 }

@@ -23,15 +23,18 @@ import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Font
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricRunner::class)
 class HotelItinPricingSummaryViewModelTest {
     private val INR = "\u20b9"
     private val mockItinSingleRoom = ItinMocker.hotelDetailsHappy
@@ -263,7 +266,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals((R.string.itin_hotel_price_summary_total_amount_due_label).toString(), totalPriceItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
         assertEquals(16.0f, totalPriceItem[0].textSize)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
+        assertEquals(Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
     }
 
     @Test
@@ -279,7 +282,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
         assertEquals(16.0f, totalPriceItem[0].textSize)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
+        assertEquals(Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
     }
 
     @Test
@@ -295,7 +298,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
         assertEquals(16.0f, totalPriceItem[0].textSize)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
+        assertEquals(Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
     }
 
     @Test
@@ -311,7 +314,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
         assertEquals(16.0f, totalPriceItem[0].textSize)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
+        assertEquals(Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
     }
 
     @Test
@@ -327,7 +330,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem.labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem.colorRes)
         assertEquals(16.0f, totalPriceItem.textSize)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem.font)
+        assertEquals(Font.ROBOTO_MEDIUM, totalPriceItem.font)
     }
 
     @Test
@@ -343,7 +346,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem.labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem.colorRes)
         assertEquals(16.0f, totalPriceItem.textSize)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem.font)
+        assertEquals(Font.ROBOTO_MEDIUM, totalPriceItem.font)
     }
 
     @Test
@@ -360,7 +363,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals("$122.55", subtotalItem.priceString)
         assertEquals((R.string.itin_hotel_details_price_summary_subtotal_label).toString(), subtotalItem.labelString)
         assertEquals(14.0f, subtotalItem.textSize)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, subtotalItem.font)
+        assertEquals(Font.ROBOTO_REGULAR, subtotalItem.font)
     }
 
     @Test
@@ -377,7 +380,7 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals("$138.31", subtotalItem.priceString)
         assertEquals((R.string.itin_hotel_details_price_summary_subtotal_label).toString(), subtotalItem.labelString)
         assertEquals(14.0f, subtotalItem.textSize)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, subtotalItem.font)
+        assertEquals(Font.ROBOTO_REGULAR, subtotalItem.font)
     }
 
     @Test

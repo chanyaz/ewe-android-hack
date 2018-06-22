@@ -17,7 +17,7 @@ import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.FontCache.Font
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.widget.TextView
 import com.mobiata.mocke3.mockObject
 import io.reactivex.Observable

@@ -20,6 +20,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -39,7 +40,7 @@ import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
@@ -238,7 +239,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         val iconColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
-        FontCache.setTypeface(searchThisArea, FontCache.Font.ROBOTO_MEDIUM)
+        searchThisArea.setTypeface(Font.ROBOTO_MEDIUM)
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
         if (shouldUsePill()) {
             searchThisArea.compoundDrawables[0]?.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)

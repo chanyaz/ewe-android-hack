@@ -2,7 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.annotation.ColorInt
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -13,7 +13,7 @@ abstract class BaseCostSummaryBreakdownViewModel(val context: Context) {
 
     abstract fun trackBreakDownClicked()
 
-    class CostSummaryBreakdownRow(val title: String?, val cost: String?, @ColorInt val titleColor: Int?, @ColorInt val costColor: Int?, @ColorInt val separatorColor: Int?, var titleTypeface: FontCache.Font?, var costTypeface: FontCache.Font?, val separator: Boolean, val strikeThrough: Boolean, val titleTextSize: Float?, val costTextSize: Float?) {
+    class CostSummaryBreakdownRow(val title: String?, val cost: String?, @ColorInt val titleColor: Int?, @ColorInt val costColor: Int?, @ColorInt val separatorColor: Int?, var titleTypeface: Font?, var costTypeface: Font?, val separator: Boolean, val strikeThrough: Boolean, val titleTextSize: Float?, val costTextSize: Float?) {
         class Builder {
             var title: String? = null
             var cost: String? = null
@@ -23,8 +23,8 @@ abstract class BaseCostSummaryBreakdownViewModel(val context: Context) {
             var costColor: Int? = null
             @ColorInt
             var separatorColor: Int? = null
-            var titleTypeface: FontCache.Font? = null
-            var costTypeface: FontCache.Font? = null
+            var titleTypeface: Font? = null
+            var costTypeface: Font? = null
             var separator = false
             var strikeThrough = false
             var titleTextSize: Float? = null
@@ -87,18 +87,18 @@ abstract class BaseCostSummaryBreakdownViewModel(val context: Context) {
                 return this
             }
 
-            fun typeface(typeface: FontCache.Font?): Builder {
+            fun typeface(typeface: Font?): Builder {
                 titleTypeface(typeface)
                 costTypeface(typeface)
                 return this
             }
 
-            fun titleTypeface(titleTypeface: FontCache.Font?): Builder {
+            fun titleTypeface(titleTypeface: Font?): Builder {
                 this.titleTypeface = titleTypeface
                 return this
             }
 
-            fun costTypeface(costTypeface: FontCache.Font?): Builder {
+            fun costTypeface(costTypeface: Font?): Builder {
                 this.costTypeface = costTypeface
                 return this
             }

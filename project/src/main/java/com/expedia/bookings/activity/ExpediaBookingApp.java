@@ -65,7 +65,6 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TuneUtils;
@@ -245,9 +244,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		initializeFeatureConfig();
-
-		FontCache.initialize(this);
-		startupTimer.addSplit("FontCache Init");
 
 		ItineraryManager.getInstance().init(this);
 		// Load data from Disk

@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.utils.Ui
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observer
@@ -92,6 +93,12 @@ fun TextView.subscribeTextChange(observer: Observer<String>): Disposable {
     return RxTextView.afterTextChangeEvents(this).map({
         it.view().text.toString()
     }).distinctUntilChanged().subscribeObserver(observer)
+}
+
+fun TextView?.setTypeface(font: Font) {
+    if (this?.isInEditMode == false) {
+        this.typeface = font.typeface
+    }
 }
 
 class TextViewExtensions {

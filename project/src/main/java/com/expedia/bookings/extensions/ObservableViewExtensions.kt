@@ -7,14 +7,14 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.bookings.widget.StarRatingBar
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
-fun Observable<FontCache.Font>.subscribeFont(textview: TextView?) {
+fun Observable<Font>.subscribeFont(textview: TextView) {
     this.subscribe { font ->
-        FontCache.setTypeface(textview, font)
+        textview.setTypeface(font)
     }
 }
 

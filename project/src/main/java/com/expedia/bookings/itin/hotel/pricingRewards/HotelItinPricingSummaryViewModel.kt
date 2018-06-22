@@ -18,7 +18,7 @@ import com.expedia.bookings.itin.tripstore.extensions.isPackage
 import com.expedia.bookings.itin.tripstore.extensions.isPointOfSaleDifferentFromPointOfSupply
 import com.expedia.bookings.itin.tripstore.extensions.packagePrice
 import com.expedia.bookings.itin.utils.AnimationDirection
-import com.expedia.bookings.utils.FontCache.Font
+import com.expedia.bookings.utils.Font
 import io.reactivex.subjects.PublishSubject
 
 class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo, S : HasActivityLauncher {

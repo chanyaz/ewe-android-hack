@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
@@ -49,11 +48,11 @@ class CostSummaryBreakDownView(context: Context, attrs: AttributeSet?) : ScrollV
         breakdownRow.costColor?.let { color ->
             priceValue.setTextColor(color)
         }
-        breakdownRow.titleTypeface?.let { typeface ->
-            priceDescription.typeface = FontCache.getTypeface(typeface)
+        breakdownRow.titleTypeface?.let { font ->
+            priceDescription.typeface = font.typeface
         }
-        breakdownRow.costTypeface?.let { typeface ->
-            priceValue.typeface = FontCache.getTypeface(typeface)
+        breakdownRow.costTypeface?.let { font ->
+            priceValue.typeface = font.typeface
         }
         if (breakdownRow.strikeThrough) {
             priceValue.setPaintFlags(priceValue.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)

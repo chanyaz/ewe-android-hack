@@ -8,7 +8,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.Font
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,24 +49,24 @@ class PackageCostSummaryBreakdownViewModelTest {
 
         assertEquals("Hotel", rows[1].title)
         assertEquals("$200.00", rows[1].cost)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[1].titleTypeface)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, rows[1].costTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[1].titleTypeface)
+        assertEquals(Font.ROBOTO_REGULAR, rows[1].costTypeface)
         assertEquals(false, rows[1].separator)
         assertEquals(textSize, rows[1].titleTextSize)
         assertEquals(textSize, rows[1].costTextSize)
 
         assertEquals("Roundtrip flights", rows[2].title)
         assertEquals("$100.00", rows[2].cost)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[2].titleTypeface)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, rows[2].costTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[2].titleTypeface)
+        assertEquals(Font.ROBOTO_REGULAR, rows[2].costTypeface)
         assertEquals(false, rows[2].separator)
         assertEquals(textSize, rows[2].titleTextSize)
         assertEquals(textSize, rows[2].costTextSize)
 
         assertEquals("Total", rows[3].title)
         assertEquals("$300.00", rows[3].cost)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[3].titleTypeface)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[3].costTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[3].titleTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[3].costTypeface)
         assertEquals(false, rows[3].separator)
         assertEquals(textSize, rows[3].titleTextSize)
         assertEquals(textSize, rows[3].costTextSize)
@@ -75,8 +75,8 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals("-$120.00", rows[4].cost)
         assertEquals(ContextCompat.getColor(getContext(), R.color.cost_summary_breakdown_savings_cost_color), rows[4].titleColor)
         assertEquals(ContextCompat.getColor(getContext(), R.color.cost_summary_breakdown_savings_cost_color), rows[4].costColor)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[4].titleTypeface)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[4].costTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[4].titleTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[4].costTypeface)
         assertEquals(false, rows[4].separator)
         assertEquals(textSize, rows[4].titleTextSize)
         assertEquals(textSize, rows[4].costTextSize)
@@ -90,8 +90,8 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals("$300.00", rows[6].cost)
         assertEquals(ContextCompat.getColor(getContext(), R.color.background_holo_dark), rows[6].titleColor)
         assertEquals(ContextCompat.getColor(getContext(), R.color.text_dark), rows[6].costColor)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[6].titleTypeface)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, rows[6].costTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[6].titleTypeface)
+        assertEquals(Font.ROBOTO_REGULAR, rows[6].costTypeface)
         assertEquals(false, rows[6].separator)
         assertEquals(true, rows[6].strikeThrough)
 
@@ -99,8 +99,8 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals("$180.00", rows[7].cost)
         assertEquals(null, rows[7].titleColor)
         assertEquals(ContextCompat.getColor(getContext(), R.color.background_holo_dark), rows[7].costColor)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, rows[7].titleTypeface)
-        assertEquals(FontCache.Font.ROBOTO_MEDIUM, rows[7].costTypeface)
+        assertEquals(Font.ROBOTO_REGULAR, rows[7].titleTypeface)
+        assertEquals(Font.ROBOTO_MEDIUM, rows[7].costTypeface)
         assertEquals(false, rows[7].separator)
         assertEquals(false, rows[7].strikeThrough)
         assertEquals(textSize, rows[7].titleTextSize)
