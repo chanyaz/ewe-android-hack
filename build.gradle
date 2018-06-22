@@ -60,7 +60,7 @@ apply plugin: 'com.github.ben-manes.versions'
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
-ext.supportLibVersion = "26.1.0"
+ext.supportLibVersion = "27.1.1"
 
 ext.compileSdkVersion = 26
 ext.buildToolsVersion = "27.0.3"

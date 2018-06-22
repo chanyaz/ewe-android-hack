@@ -16,11 +16,13 @@ class SoftPromptDialogFragment : DialogFragment() {
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertDialogBuilder = AlertDialog.Builder(activity)
-        val view = activity.layoutInflater.inflate(R.layout.fragment_dialog_soft_prompt, null)
+        val view = activity!!.layoutInflater.inflate(R.layout.fragment_dialog_soft_prompt, null)
         val enableButton = view.findViewById<Button>(R.id.soft_prompt_enable_button)
 
         enableButton.setOnClickListener {
-            requestLocationPermission(activity)
+            activity?.let {
+                requestLocationPermission(it)
+            }
             OmnitureTracking.trackLocationSoftPrompt(true)
             dismiss()
         }

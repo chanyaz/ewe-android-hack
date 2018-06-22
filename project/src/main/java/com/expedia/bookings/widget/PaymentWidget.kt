@@ -312,7 +312,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     protected fun getCreditCardIcon(drawableResourceId: Int): Drawable {
-        val icon = ContextCompat.getDrawable(context, drawableResourceId).mutate()
+        val icon = ContextCompat.getDrawable(context, drawableResourceId)!!.mutate()
         icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
         return icon
     }

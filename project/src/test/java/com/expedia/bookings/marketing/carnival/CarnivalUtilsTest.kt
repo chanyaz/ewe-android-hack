@@ -413,9 +413,9 @@ class CarnivalUtilsTest : CarnivalUtils() {
         builder.addExtras(bundle)
 
         val configuredBuilder = carnivalNotificationExtender.extend(builder)
-
-        assertEquals("some carnival title", configuredBuilder.mContentTitle)
-        assertEquals("some carnival alert", configuredBuilder.mContentText)
+        val notification = configuredBuilder.build()
+        assertEquals("some carnival title", notification.extras.getString(CarnivalNotificationConstants.KEY_PAYLOAD_TITLE))
+        assertEquals("some carnival alert", notification.extras.getString(CarnivalNotificationConstants.KEY_PAYLOAD_ALERT))
     }
 
     @Test

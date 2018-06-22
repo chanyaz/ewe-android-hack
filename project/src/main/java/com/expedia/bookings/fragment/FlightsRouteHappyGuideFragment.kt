@@ -22,7 +22,7 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FlightV2Utils
 
-class FilghtsRouteHappyGuideFragment : DialogFragment() {
+class FlightsRouteHappyGuideFragment : DialogFragment() {
 
     private val abacusVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRichContent)
     @VisibleForTesting
@@ -64,9 +64,9 @@ class FilghtsRouteHappyGuideFragment : DialogFragment() {
         return routeHappyDialog
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sharedPref = FlightV2Utils.getRichContentSharedPref(context)
+        val sharedPref = FlightV2Utils.getRichContentSharedPref(requireContext())
         val counter = sharedPref.getInt("counter", 1) - 1
         dismissButton.setOnClickListener {
             dismiss()
@@ -93,19 +93,19 @@ class FilghtsRouteHappyGuideFragment : DialogFragment() {
         val amenitiesFadeInAnimator = amenitiesFadeInAnimator()
 
         if (abacusVariant == AbacusVariant.ONE.value) {
-            titleLabel.text = context.resources.getString(R.string.flight_route_happy_guide_title_v1)
+            titleLabel.text = resources.getString(R.string.flight_route_happy_guide_title_v1)
             infoLabel.visibility = View.VISIBLE
             amenitiesLottieView.visibility = View.VISIBLE
             amenitiesLottieView.playAnimation()
             amenitiesFadeInAnimator.start()
         } else if (abacusVariant == AbacusVariant.TWO.value) {
-            titleLabel.text = context.resources.getString(R.string.flight_route_happy_guide_title_v2)
+            titleLabel.text = resources.getString(R.string.flight_route_happy_guide_title_v2)
             moreInfoLabel.visibility = View.VISIBLE
             ratingsLottieView.visibility = View.VISIBLE
             ratingsLottieView.playAnimation()
             fadeInAnimator.start()
         } else {
-            titleLabel.text = context.resources.getString(R.string.flight_route_happy_guide_title_v3)
+            titleLabel.text = resources.getString(R.string.flight_route_happy_guide_title_v3)
             infoLabel.visibility = View.VISIBLE
             moreInfoLabel.visibility = View.VISIBLE
             ratingsLottieView.visibility = View.VISIBLE

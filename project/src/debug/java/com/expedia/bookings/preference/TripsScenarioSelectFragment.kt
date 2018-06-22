@@ -25,7 +25,7 @@ class TripsScenarioSelectFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        activity.title = "Select mock trip scenario"
+        activity?.title = "Select mock trip scenario"
         TripMockScenarios.Scenarios.values().forEach {
             scenarios.add(it)
         }
@@ -35,12 +35,12 @@ class TripsScenarioSelectFragment : Fragment() {
         return inflater.inflate(R.layout.debug_trip_scenarios_select, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.closeFragmentSubject.subscribe {
             viewModel.restartAppSubject.onNext(Unit)
-            activity.onBackPressed()
+            activity?.onBackPressed()
         }
         recyclerView.apply {
             setHasFixedSize(true)

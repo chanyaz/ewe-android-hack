@@ -150,18 +150,18 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
     }
 
     inner class SignInPagerAdapter : PagerAdapter() {
-        override fun isViewFromObject(view: View?, targetObject: Any?): Boolean {
+        override fun isViewFromObject(view: View, targetObject: Any): Boolean {
             return targetObject == view
         }
 
-        override fun instantiateItem(container: ViewGroup?, position: Int): FrameLayout {
+        override fun instantiateItem(container: ViewGroup, position: Int): FrameLayout {
             when (getAccountTabForPosition(position)) {
                 AccountTab.SIGN_IN -> {
-                    container?.addView(signInLayout)
+                    container.addView(signInLayout)
                     return signInLayout
                 }
                 AccountTab.CREATE_ACCOUNT -> {
-                    container?.addView(createAccountLayout)
+                    container.addView(createAccountLayout)
                     return createAccountLayout
                 }
             }

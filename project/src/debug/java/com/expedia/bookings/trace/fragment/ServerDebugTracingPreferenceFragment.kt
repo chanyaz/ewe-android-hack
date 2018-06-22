@@ -7,11 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.ClipboardUtils
-import com.expedia.bookings.trace.data.DebugTracePreference
 import com.expedia.bookings.preference.BasePreferenceFragment
 import com.expedia.bookings.trace.data.DebugTraceData
+import com.expedia.bookings.trace.data.DebugTracePreference
 import com.expedia.bookings.trace.util.ServerDebugTraceUtil
+import com.expedia.bookings.utils.ClipboardUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.Disposable
@@ -27,7 +27,7 @@ class ServerDebugTracingPreferenceFragment : BasePreferenceFragment() {
 
     override fun onStart() {
         super.onStart()
-        activity.title = context.getString(R.string.server_debug_trace)
+        activity?.title = context?.getString(R.string.server_debug_trace)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,21 +36,21 @@ class ServerDebugTracingPreferenceFragment : BasePreferenceFragment() {
         setHasOptionsMenu(true)
 
         observableToDispose.add(ServerDebugTraceUtil.fetchingSubject.subscribe {
-            togglePreference?.summary = context.getString(R.string.requesting_token)
+            togglePreference?.summary = context?.getString(R.string.requesting_token)
         })
 
         observableToDispose.add(ServerDebugTraceUtil.successSubject.subscribe {
-            togglePreference?.summary = context.getString(R.string.enabled_click_to_disable)
+            togglePreference?.summary = context?.getString(R.string.enabled_click_to_disable)
         })
 
         observableToDispose.add(ServerDebugTraceUtil.errorSubject.subscribe { error ->
             togglePreference?.summary = Phrase.from(context, R.string.error_template)
-                    .put("error", error.message ?: context.getString(R.string.unknown_error))
+                    .put("error", error.message ?: context?.getString(R.string.unknown_error))
                     .format().toString()
         })
 
         observableToDispose.add(ServerDebugTraceUtil.disabledSubject.subscribe {
-            togglePreference?.summary = context.getString(R.string.disabled_click_to_enable)
+            togglePreference?.summary = context?.getString(R.string.disabled_click_to_enable)
         })
 
         setupInitialView()
@@ -70,30 +70,30 @@ class ServerDebugTracingPreferenceFragment : BasePreferenceFragment() {
         super.onPrepareOptionsMenu(menu)
         menu?.clear()
         if (selectedPreferences.isEmpty()) {
-            menu?.add(context.getString(R.string.clear_all))
+            menu?.add(context?.getString(R.string.clear_all))
         } else {
-            menu?.add(context.getString(R.string.copy))
-            menu?.add(context.getString(R.string.email))
-            menu?.add(context.getString(R.string.delete))
+            menu?.add(context?.getString(R.string.copy))
+            menu?.add(context?.getString(R.string.email))
+            menu?.add(context?.getString(R.string.delete))
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.title) {
-            context.getString(R.string.clear_all) -> {
+            context?.getString(R.string.clear_all) -> {
                 clearAllPreferences()
                 return true
             }
-            context.getString(R.string.copy) -> {
+            context?.getString(R.string.copy) -> {
                 copyClipboardSelectedPreferences()
-                Toast.makeText(context, context.getString(R.string.selected_data_copied), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.selected_data_copied), Toast.LENGTH_SHORT).show()
                 return true
             }
-            context.getString(R.string.email) -> {
+            context?.getString(R.string.email) -> {
                 emailSelectedPreferences()
                 return true
             }
-            context.getString(R.string.delete) -> {
+            context?.getString(R.string.delete) -> {
                 deleteSelectedPreferences()
                 return true
             }
@@ -105,7 +105,7 @@ class ServerDebugTracingPreferenceFragment : BasePreferenceFragment() {
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when {
-            (preference.key == context.getString(R.string.preference_toggle_server_debug_tracing)) -> {
+            (preference.key == context?.getString(R.string.preference_toggle_server_debug_tracing)) -> {
                 ServerDebugTraceUtil.toggleDebugTrace()
                 return true
             }
@@ -127,23 +127,23 @@ class ServerDebugTracingPreferenceFragment : BasePreferenceFragment() {
 
     private fun setupInitialView() {
         addPreferencesFromResource(R.xml.preferences_server_debug_tracing)
-        val toggle = findPreference(context.getString(R.string.preference_toggle_server_debug_tracing))
+        val toggle = findPreference(context?.getString(R.string.preference_toggle_server_debug_tracing))
 
         if (toggle == null) {
-            Toast.makeText(context, context.getString(R.string.cant_find_debug_trace_toggle), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context?.getString(R.string.cant_find_debug_trace_toggle), Toast.LENGTH_LONG).show()
         } else {
             togglePreference = toggle
 
             if (ServerDebugTraceUtil.isDebugTracingAvailable()) {
-                toggle.summary = context.getString(R.string.enabled_click_to_disable)
+                toggle.summary = context?.getString(R.string.enabled_click_to_disable)
             } else {
-                toggle.summary = context.getString(R.string.disabled_click_to_enable)
+                toggle.summary = context?.getString(R.string.disabled_click_to_enable)
             }
         }
 
         if (ServerDebugTraceUtil.debugTraceData.isNotEmpty()) {
             preferenceCategory = PreferenceCategory(context)
-            preferenceCategory?.title = context.getString(R.string.debug_trace_ids)
+            preferenceCategory?.title = context?.getString(R.string.debug_trace_ids)
             preferenceCategory?.layoutResource = R.layout.preference_category_title
             preferenceScreen.addPreference(preferenceCategory)
 
@@ -161,7 +161,7 @@ class ServerDebugTracingPreferenceFragment : BasePreferenceFragment() {
         for (preference in selectedPreferences) {
             sb.append(preference.debugTraceData.url)
             sb.append(System.lineSeparator())
-            sb.append(context.getString(R.string.trace_id))
+            sb.append(context?.getString(R.string.trace_id))
             sb.append(preference.debugTraceData.traceId)
             sb.append(System.lineSeparator())
         }
@@ -183,10 +183,10 @@ class ServerDebugTracingPreferenceFragment : BasePreferenceFragment() {
     private fun emailSelectedPreferences() {
         val preferenceString = selectedPreferenceToString()
         try {
-            SocialUtils.email(context, context.getString(R.string.server_debug_trace), preferenceString)
+            SocialUtils.email(context, context?.getString(R.string.server_debug_trace), preferenceString)
         } catch (e: Exception) {
             Toast.makeText(context, Phrase.from(context, R.string.error_template)
-                    .put("error", e.message ?: context.getString(R.string.unknown_error))
+                    .put("error", e.message ?: context?.getString(R.string.unknown_error))
                     .format().toString(), Toast.LENGTH_SHORT).show()
         }
     }

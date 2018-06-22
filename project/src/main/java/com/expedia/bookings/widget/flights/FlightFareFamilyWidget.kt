@@ -17,6 +17,10 @@ import android.widget.RadioGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
+import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.flights.vm.FareFamilyItemViewModel
+import com.expedia.bookings.flights.vm.FareFamilyTotalPriceViewModel
+import com.expedia.bookings.flights.vm.FlightFareFamilyViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -25,11 +29,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ScrollView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.notNullAndObservable
-import com.expedia.bookings.flights.vm.FareFamilyItemViewModel
-import com.expedia.bookings.flights.vm.FareFamilyTotalPriceViewModel
-import com.expedia.bookings.flights.vm.FlightFareFamilyViewModel
 import com.squareup.phrase.Phrase
 import java.util.Locale
 
@@ -51,7 +51,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         button.setTextColor(ContextCompat.getColor(context, R.color.flight_cabin_class_text))
         button.setText(R.string.done)
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp)!!.mutate()
         icon.setColorFilter(ContextCompat.getColor(context, R.color.flight_cabin_class_text), PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         button.setOnClickListener {

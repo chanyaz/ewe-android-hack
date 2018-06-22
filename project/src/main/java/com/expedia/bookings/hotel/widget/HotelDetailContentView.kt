@@ -176,7 +176,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     init {
         View.inflate(context, R.layout.hotel_detail_content_view, this)
 
-        val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
+        val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone)!!.mutate()
         phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
 
@@ -774,7 +774,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             amenityTextView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
             val amenityStr = context.getString(amenityList[index].propertyDescriptionId)
             amenityTextView.text = amenityStr
-            val topDrawable = ContextCompat.getDrawable(context, amenityList[index].drawableRes)
+            val topDrawable = ContextCompat.getDrawable(context, amenityList[index].drawableRes)!!
             topDrawable.setBounds(0, 0, topDrawable.minimumWidth, topDrawable.minimumHeight)
             amenityTextView.setCompoundDrawables(null, topDrawable, null, null)
             amenityContainer.addView(amenityTextView)

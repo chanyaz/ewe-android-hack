@@ -27,7 +27,10 @@ import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.HotelFilterViewModel
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
+import com.expedia.bookings.hotel.vm.UrgencyViewModel
 import com.expedia.bookings.hotel.widget.adapter.HotelListAdapter
 import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.model.HotelStayDates
@@ -48,9 +51,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.ShopWithPointsViewModel
-import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
-import com.expedia.bookings.hotel.vm.HotelFilterViewModel
-import com.expedia.bookings.hotel.vm.UrgencyViewModel
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -243,7 +243,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         if (shouldUsePill()) {
             searchThisArea.compoundDrawables[0]?.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         } else {
-            val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin)!!.mutate()
             icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
             icon.bounds = Rect(icon.bounds.left, icon.bounds.top, (icon.bounds.right * 1.1).toInt(), (icon.bounds.bottom * 1.1).toInt())
             searchThisArea.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)

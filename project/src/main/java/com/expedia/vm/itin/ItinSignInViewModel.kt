@@ -139,7 +139,7 @@ open class ItinSignInViewModel(val context: Context) {
 
     private fun buttonAttributes(imageResId: Int) {
         if (imageResId != 0) {
-            statusImageSubject.onNext(ContextCompat.getDrawable(context, imageResId))
+            statusImageSubject.onNext(ContextCompat.getDrawable(context, imageResId)!!)
             updateButtonTextColorSubject.onNext(ContextCompat.getColor(context, R.color.white))
             updateButtonImageVisibilitySubject.onNext(false)
             updateButtonColorSubject.onNext(ContextCompat.getColor(context, R.color.itin_refresh_warning_button_background_color))

@@ -41,7 +41,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.shouldShowCustomerFirstGuarantee
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -50,6 +49,7 @@ import com.expedia.bookings.utils.isAccountEditWebViewEnabled
 import com.expedia.bookings.utils.isBottomNavigationBarEnabled
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
+import com.expedia.bookings.utils.shouldShowCustomerFirstGuarantee
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -108,7 +108,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     private val scrollContainer: ScrollView by bindView(R.id.scroll_container)
     val openSourceCredits: TextView by bindView(R.id.open_source_credits_textview)
     val logo: ImageView by lazy {
-        activity.findViewById<ImageView>(com.mobiata.android.R.id.logo)
+        activity!!.findViewById<ImageView>(com.mobiata.android.R.id.logo)
     }
 
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
@@ -148,11 +148,11 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         @Inject set
 
     val debugMenu: DebugMenu by lazy {
-        DebugMenuFactory.newInstance(activity)
+        DebugMenuFactory.newInstance(activity!!)
     }
 
     val debugAlertDialog: AlertDialog by lazy {
-        val alertDialog = AlertDialog.Builder(context)
+        val alertDialog = AlertDialog.Builder(context!!)
         val convertView = getAlertDialogWithListView()
         alertDialog.setView(convertView)
         alertDialog.setIcon(R.drawable.ic_launcher)
@@ -171,7 +171,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
 
     @SuppressLint("InflateParams")
     private fun getAlertDialogWithListView(): View {
-        return activity.layoutInflater.inflate(R.layout.alert_dialog_with_list, null)
+        return activity!!.layoutInflater.inflate(R.layout.alert_dialog_with_list, null)
     }
 
     override fun onAttach(context: Context?) {
@@ -195,7 +195,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         userAccountRefresher.setUserAccountRefreshListener(null)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         var builder: AboutSectionFragment.Builder
@@ -204,8 +204,11 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
         setCountryChangeListeners()
 
-        handleBrandColorBackground()
-        handleAccountHeaderVisibility()
+        val context = this.context ?: return
+        val activity = this.activity ?: return
+
+        handleBrandColorBackground(context)
+        handleAccountHeaderVisibility(context)
 
         // Account
         accountFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_ACCOUNT)
@@ -368,14 +371,14 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         }
     }
 
-    private fun handleBrandColorBackground() {
+    private fun handleBrandColorBackground(context: Context) {
         if (isBrandColorEnabled(context)) {
             loyaltySection.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
             accountHeader.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
         }
     }
 
-    private fun handleAccountHeaderVisibility() {
+    private fun handleAccountHeaderVisibility(context: Context) {
         accountHeader.visibility = if (isBottomNavigationBarEnabled(context)) View.VISIBLE else View.GONE
     }
 
@@ -408,7 +411,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     }
 
     fun showDialogFragment(dialog: DialogFragment) {
-        dialog.show(activity.supportFragmentManager, "dialog_from_about_utils")
+        dialog.show(activity?.supportFragmentManager, "dialog_from_about_utils")
     }
 
     @Subscribe
@@ -429,7 +432,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         PointOfSale.onPointOfSaleChanged(context)
         AdTracker.updatePOS()
 
-        activity.setResult(Constants.RESULT_CHANGED_PREFS)
+        activity?.setResult(Constants.RESULT_CHANGED_PREFS)
         Events.post(Events.PhoneLaunchOnPOSChange())
 
         Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
@@ -453,7 +456,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         if (PointOfSale.getAllPointsOfSale(context).size > 1) {
             OmnitureTracking.trackClickCountrySetting()
             val selectCountryDialog = aboutUtils.createCountrySelectDialog()
-            selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+            selectCountryDialog.show(activity?.supportFragmentManager, "selectCountryDialog")
         }
     }
 
@@ -500,17 +503,23 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
                     when (userLoyaltyInfo?.loyaltyMembershipTier) {
                         LoyaltyMembershipTier.BASE -> {
                             memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
-                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_base_tier_text_color))
+                            context?.let {
+                                memberTierView.setTextColor(ContextCompat.getColor(it, R.color.reward_base_tier_text_color))
+                            }
                             memberTierView.setText(R.string.reward_base_tier_name_short)
                         }
                         LoyaltyMembershipTier.MIDDLE -> {
                             memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
-                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_middle_tier_text_color))
+                            context?.let {
+                                memberTierView.setTextColor(ContextCompat.getColor(it, R.color.reward_middle_tier_text_color))
+                            }
                             memberTierView.setText(R.string.reward_middle_tier_name_short)
                         }
                         LoyaltyMembershipTier.TOP -> {
                             memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
-                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_top_tier_text_color))
+                            context?.let {
+                                memberTierView.setTextColor(ContextCompat.getColor(it, R.color.reward_top_tier_text_color))
+                            }
                             memberTierView.setText(R.string.reward_top_tier_name_short)
                         }
                         else -> {
@@ -579,6 +588,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     }
 
     private fun showHideAccountEditWebView(isUserAuthenticated: Boolean) {
+        val context = this.context ?: return
         if (isAccountEditWebViewEnabled(context)) {
             if (isUserAuthenticated) {
                 childFragmentManager.beginTransaction().show(accountFragment).commitAllowingStateLoss()
@@ -614,13 +624,13 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
                 return true
             }
             ROW_BOOKING_SUPPORT -> {
-                if (shouldShowCustomerFirstGuarantee(context)) {
+                if (context != null && shouldShowCustomerFirstGuarantee(context!!)) {
                     OmnitureTracking.trackCustomerFirstAccountLinkClick()
                     NavUtils.goToCustomerFirstSupportActivity(context)
                 } else {
                     OmnitureTracking.trackClickSupportBooking()
                     val contactExpediaDialog = aboutUtils.createContactExpediaDialog()
-                    contactExpediaDialog.show(activity.supportFragmentManager, "contactExpediaDialog")
+                    contactExpediaDialog.show(activity?.supportFragmentManager, "contactExpediaDialog")
                 }
                 return true
             }
@@ -676,17 +686,18 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
             ROW_CLEAR_PRIVATE_DATA -> {
                 OmnitureTracking.trackClickClearPrivateData()
                 val dialog = ClearPrivateDataDialog()
-                dialog.show(activity.supportFragmentManager, "clearPrivateDataDialog")
+                dialog.show(activity?.supportFragmentManager, "clearPrivateDataDialog")
                 return true
             }
 
             ROW_SETTINGS -> {
-                activity.startActivityForResult(debugMenu.settingActivityIntent, Constants.REQUEST_SETTINGS)
+                activity?.startActivityForResult(debugMenu.settingActivityIntent, Constants.REQUEST_SETTINGS)
                 return true
             }
 
             ROW_TEST_SCREEN -> {
-                if (BuildConfig.DEBUG) {
+                val context = this.context
+                if (BuildConfig.DEBUG && context != null) {
                     debugAlertDialog.show()
                     debugAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(ContextCompat.getColor(context, R.color.launch_alert_dialog_button_color))
                 }
@@ -733,7 +744,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
 
         override fun onClick(view: View) {
             val fm = fragmentManager
-            var mDialog: TextViewDialog? = fm.findFragmentByTag(GOOGLE_SIGN_IN_SUPPORT) as? TextViewDialog
+            var mDialog: TextViewDialog? = fm?.findFragmentByTag(GOOGLE_SIGN_IN_SUPPORT) as? TextViewDialog
             if (mDialog == null) {
                 //Create the dialog
                 mDialog = TextViewDialog()

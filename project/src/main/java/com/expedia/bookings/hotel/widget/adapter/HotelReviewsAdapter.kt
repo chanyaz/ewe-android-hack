@@ -64,7 +64,7 @@ class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm
         }
     }
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any? {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val hotelReviewsView = HotelReviewsPageView(context, null)
         hotelReviewsView.viewModel = HotelReviewsPageViewModel()
         hotelReviewsView.recyclerAdapter.loadMoreObservable.subscribe {

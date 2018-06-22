@@ -13,14 +13,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
-import com.expedia.bookings.utils.toMapOfDatesToNames
 import com.expedia.bookings.utils.toListOfDates
+import com.expedia.bookings.utils.toMapOfDatesToNames
 import com.expedia.bookings.widget.shared.CalendarStyleUtil
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
@@ -81,7 +81,9 @@ open class CalendarDialogFragment() : DialogFragment() {
             val dayOfWeek = calendarPickerView.findViewById<DaysOfWeekView>(R.id.days_of_week)
             dayOfWeek.setDayOfWeekRenderer(CalendarShortDateRenderer())
 
-            CalendarStyleUtil.style(context, calendarPickerView, monthView, dayOfWeek)
+            context?.let {
+                CalendarStyleUtil.style(it, calendarPickerView, monthView, dayOfWeek)
+            }
 
             calendarPickerView.setDateChangedListener { start, end ->
                 if (calendar.visibility == CardView.VISIBLE) {
@@ -157,6 +159,7 @@ open class CalendarDialogFragment() : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val context = this.context ?: throw RuntimeException("Context should not be null")
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         if (savedInstanceState != null) {
             val a = builder.create()

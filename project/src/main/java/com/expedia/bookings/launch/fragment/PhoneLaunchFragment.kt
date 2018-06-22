@@ -62,21 +62,17 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         return inflater.inflate(R.layout.widget_phone_launch, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
         phoneLaunchWidget.refreshState()
         Events.post(Events.PhoneLaunchOnResume())
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        activity.registerReceiver(broadcastReceiver, filter)
+        activity?.registerReceiver(broadcastReceiver, filter)
     }
 
     private fun onReactToUserActive() {
-        val permissionCheck = ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionCheck = if (context != null) ContextCompat.checkSelfPermission(context!!,
+                Manifest.permission.ACCESS_FINE_LOCATION) else null
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             // show collection data to users as user denied location
@@ -105,7 +101,7 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     override fun onPause() {
         super.onPause()
         locSubscription?.dispose()
-        activity.unregisterReceiver(broadcastReceiver)
+        activity?.unregisterReceiver(broadcastReceiver)
     }
 
     private val broadcastReceiver = object : BroadcastReceiver() {
@@ -153,7 +149,9 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         params.checkOutDate = now.plusDays(2)
         params.numAdults = 2
         params.children = null
-        HotelNavUtils.goToHotels(activity, params, event.animOptions, 0)
+        activity?.let {
+            HotelNavUtils.goToHotels(it, params, event.animOptions, 0)
+        }
     }
 
     @Subscribe

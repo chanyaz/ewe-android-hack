@@ -49,8 +49,8 @@ class ItinModifyReservationDialog : DialogFragment() {
         val contentText = view.findViewById<TextView>(R.id.dialog_text_content)
         val customerSupportButton = view.findViewById<TextView>(R.id.dialog_customer_support)
         val goBackButton = view.findViewById<TextView>(R.id.dialog_go_back)
-        contentText.text = arguments.getString(CONTENT_KEY)
-        val supportNumber = arguments.getString(SUPPORT_NUMBER)
+        contentText.text = arguments?.getString(CONTENT_KEY)
+        val supportNumber = arguments?.getString(SUPPORT_NUMBER)
 
         customerSupportButton.visibility = if (Strings.isEmpty(supportNumber)) View.GONE else View.VISIBLE
         AccessibilityUtil.appendRoleContDesc(customerSupportButton, customerSupportButton.text.toString(), R.string.accessibility_cont_desc_role_button)
@@ -61,21 +61,20 @@ class ItinModifyReservationDialog : DialogFragment() {
 
     @SuppressLint("InflateParams")
     private fun getViewForDialog(): View {
-        val layoutInflater = activity.layoutInflater
-        return layoutInflater.inflate(R.layout.fragment_dialog_flight_modify_reservation, null)
+        return activity!!.layoutInflater.inflate(R.layout.fragment_dialog_flight_modify_reservation, null)
     }
 
-    private fun onCustomerSupportCallButtonClick(supportNumber: String) {
+    private fun onCustomerSupportCallButtonClick(supportNumber: String?) {
         if (Strings.isNotEmpty(supportNumber)) {
-            val pm = context.packageManager
-            if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+            val pm = context?.packageManager
+            if (pm?.hasSystemFeature(PackageManager.FEATURE_TELEPHONY) == true) {
                 SocialUtils.call(context, supportNumber)
             } else {
                 ClipboardUtils.setText(context, supportNumber)
                 Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
         }
-        val itinType = arguments.getString(ITIN_TYPE)
+        val itinType = arguments?.getString(ITIN_TYPE)
 
         when (itinType) {
             FLIGHT_ITIN -> OmnitureTracking.trackItinFlightCallSupport()
@@ -83,7 +82,7 @@ class ItinModifyReservationDialog : DialogFragment() {
         }
     }
 
-    private fun setListenerForCustomerSupportView(view: TextView, number: String) {
+    private fun setListenerForCustomerSupportView(view: TextView, number: String?) {
         view.setOnClickListener {
             onCustomerSupportCallButtonClick(number)
         }

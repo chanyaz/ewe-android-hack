@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.flights.widget.PackageBannerWidget
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.flights.widget.PackageBannerWidget
 import com.expedia.vm.AbstractFlightViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -92,7 +92,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         return flights.size + adjustPosition()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is FlightViewHolder -> {
                 if (!newResultsConsumed) {
@@ -117,7 +117,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_pricing_structure_header_cell, parent, false)

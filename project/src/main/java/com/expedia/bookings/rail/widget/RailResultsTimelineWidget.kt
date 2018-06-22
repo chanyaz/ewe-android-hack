@@ -8,8 +8,8 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.rail.data.RailTravelMediumDrawableProvider
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.rail.data.RailTravelMediumDrawableProvider
 import kotlin.properties.Delegates
 
 class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(context, attrs) {
@@ -23,7 +23,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
     private var leg by Delegates.notNull<RailLegOption>()
 
     init {
-        separatorDrawable = ContextCompat.getDrawable(context, R.drawable.caret)
+        separatorDrawable = ContextCompat.getDrawable(context, R.drawable.caret)!!
         horizontalSpacing = resources.getDimension(R.dimen.rail_timeline_spacing).toInt()
         iconRect = Rect(0, 0, 0, 0)
     }
@@ -52,7 +52,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
                 separatorDrawable.draw(canvas)
                 iconRect.left = iconRect.right + horizontalSpacing
             }
-            val relevantDrawable = ContextCompat.getDrawable(context, RailTravelMediumDrawableProvider.findMappedDrawable(segment.travelMedium.travelMediumCode))
+            val relevantDrawable = ContextCompat.getDrawable(context, RailTravelMediumDrawableProvider.findMappedDrawable(segment.travelMedium.travelMediumCode))!!
             iconRect.top = 0
             iconRect.bottom = measuredHeight
             iconRect.right = iconRect.left + ((relevantDrawable.intrinsicWidth.toFloat() / relevantDrawable.intrinsicHeight.toFloat()) * drawableHeight.toFloat()).toInt()

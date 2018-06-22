@@ -15,11 +15,11 @@ class PendingPointsDialogFragment : DialogFragment() {
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val title = arguments.getString("title")
+        val title = arguments?.getString("title")
         val alertDialogBuilder = AlertDialog.Builder(activity)
         alertDialogBuilder.setTitle(title)
 
-        val inflater = activity.layoutInflater
+        val inflater = activity!!.layoutInflater
         val view = inflater.inflate(R.layout.fragment_dialog_pending_points, null)
         alertDialogBuilder.setView(view)
 
@@ -31,7 +31,7 @@ class PendingPointsDialogFragment : DialogFragment() {
         val bundleDaysText = view.findViewById<TextView>(R.id.packages_days)
         val bundleRow = view.findViewById<TableRow>(R.id.bundles_points_row)
         val packageTitleText = view.findViewById<TextView>(R.id.packages_pp)
-        packageTitleText.text = resources.getString(PackageUtil.packageTitle(activity))
+        packageTitleText.text = if (context != null) resources.getString(PackageUtil.packageTitle(context!!)) else null
         bundleRow.contentDescription = createAccessibilityText(R.string.pending_points_bundles_accessibility_TEMPLATE, BUNDLE_DAYS)
         bundleDaysText.text = createDaysText(BUNDLE_DAYS)
 

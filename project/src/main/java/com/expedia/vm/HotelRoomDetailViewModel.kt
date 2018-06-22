@@ -17,8 +17,8 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.extensions.isShowAirAttached
 import com.expedia.bookings.features.Features
-import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.ApiDateUtils
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
@@ -57,9 +57,9 @@ class HotelRoomDetailViewModel(val context: Context,
 
     val discountPercentageBackground: Drawable
         get() = if (showMemberOnlyDealTag || showGenericAttachImage) {
-            ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)
+            ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)!!
         } else {
-            ContextCompat.getDrawable(context, R.drawable.discount_percentage_background)
+            ContextCompat.getDrawable(context, R.drawable.discount_percentage_background)!!
         }
 
     val discountPercentageTextColor: Int

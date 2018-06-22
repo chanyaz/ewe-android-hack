@@ -34,7 +34,7 @@ class ChangeDatesDialogFragmentTest {
 
     @Test
     fun testNoPresetDates() {
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
 
@@ -53,7 +53,7 @@ class ChangeDatesDialogFragmentTest {
         val expectedEnd = LocalDate.now().plusDays(3)
         testFragment.presetDates(HotelStayDates(expectedStart, expectedEnd))
 
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
 
@@ -70,7 +70,7 @@ class ChangeDatesDialogFragmentTest {
         val expectedStart = LocalDate.now()
         val expectedEnd = LocalDate.now().plusDays(3)
 
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
 

@@ -6,13 +6,14 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.text.SpannableString
-import android.text.method.LinkMovementMethod
-import com.expedia.bookings.R
-import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.widget.TextView
 import android.text.TextPaint
+import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.view.View
+import com.expedia.bookings.R
+import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.widget.TextView
 
 class ScrollableContentDialogFragment : DialogFragment() {
     companion object {
@@ -39,17 +40,16 @@ class ScrollableContentDialogFragment : DialogFragment() {
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertDialogBuilder = AlertDialog.Builder(activity)
-        val layoutInflater = activity.layoutInflater
-        val view = layoutInflater.inflate(R.layout.fragment_dialog_scrollable_content, null)
+        val view = activity!!.layoutInflater.inflate(R.layout.fragment_dialog_scrollable_content, null)
         val contentText = view.findViewById<TextView>(R.id.fragment_dialog_scrollable_text_content)
-        alertDialogBuilder.setTitle(arguments.getString(TITLE_KEY) ?: "")
+        alertDialogBuilder.setTitle(arguments?.getString(TITLE_KEY) ?: "")
         alertDialogBuilder.setView(view)
-        val content = arguments.getString(CONTENT_KEY) ?: ""
+        val content = arguments?.getString(CONTENT_KEY) ?: ""
         contentText.text = if (getSpannableString(content) == null) content else removeUnderline(getSpannableString(content), contentText)
         val secondaryTitleText = view.findViewById<TextView>(R.id.fragment_dialog_second_heading)
         val secondaryContentText = view.findViewById<TextView>(R.id.fragment_dialog_scrollable_second_text_content)
         setSecondaryContent(secondaryTitleText, secondaryContentText)
-        alertDialogBuilder.setNegativeButton(context.resources.getString(R.string.done), { dialog, _ ->
+        alertDialogBuilder.setNegativeButton(resources.getString(R.string.done), { dialog, _ ->
             dialog.dismiss()
         })
 
@@ -57,9 +57,9 @@ class ScrollableContentDialogFragment : DialogFragment() {
     }
 
     private fun setSecondaryContent(secondaryTitleText: TextView, secondaryContentText: TextView) {
-        val secondaryTitle = arguments.getString(SECONDARY_TITLE, "")
-        val secondaryContent = arguments.getString(SECONDARY_CONTENT, "")
-        if (secondaryTitle.isNotEmpty() && secondaryContent.isNotEmpty()) {
+        val secondaryTitle = arguments?.getString(SECONDARY_TITLE, "") ?: ""
+        val secondaryContent = arguments?.getString(SECONDARY_CONTENT, "") ?: ""
+        if (Strings.isNotEmpty(secondaryTitle) && Strings.isNotEmpty(secondaryContent)) {
             secondaryTitleText.visibility = View.VISIBLE
             secondaryContentText.visibility = View.VISIBLE
             secondaryTitleText.text = secondaryTitle

@@ -74,7 +74,7 @@ class LaunchLobAdapter(private val launchLobViewModel: LaunchLobViewModel) : Rec
             }
 
             AccessibilityUtil.appendRoleContDesc(lobText, context.getString(info.labelRes), R.string.accessibility_cont_desc_role_button)
-            val lobDrawable = ContextCompat.getDrawable(context, lobInfo.iconRes).mutate()
+            val lobDrawable = ContextCompat.getDrawable(context, lobInfo.iconRes)!!.mutate()
             if (isLobEnabled) {
                 if (isBrandColorEnabled(context)) {
                     lobDrawable.setColorFilter(ContextCompat.getColor(context, R.color.brand_primary), PorterDuff.Mode.SRC_IN)

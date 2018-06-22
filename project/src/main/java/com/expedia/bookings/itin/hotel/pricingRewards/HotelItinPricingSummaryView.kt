@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : CardView(context, attrs) {
+class HotelItinPricingSummaryView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
     val priceBreakdownContainerView by bindView<LinearLayout>(R.id.hotel_itin_pricing_summary_price_breakdown_container)
     val multipleGuestView by bindView<PriceSummaryItemView>(R.id.hotel_itin_pricing_summary_multiple_guest_view)
     val taxesAndFeesView by bindView<PriceSummaryItemView>(R.id.hotel_itin_pricing_summary_taxes_fees_view)
@@ -47,22 +47,18 @@ class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : Car
 
         it.couponsItemSubject.subscribe { item ->
             setupPriceLineItem(couponsView, item)
-            if (context != null) {
-                val contDesc = StringBuilder()
-                contDesc.append(context.getString(R.string.itin_minus_price_cont_desc))
-                        .append(item.priceString.removePrefix("-")).toString()
-                couponsView.priceTextView.contentDescription = contDesc
-            }
+            val contDesc = StringBuilder()
+            contDesc.append(context.getString(R.string.itin_minus_price_cont_desc))
+                    .append(item.priceString.removePrefix("-")).toString()
+            couponsView.priceTextView.contentDescription = contDesc
         }
 
         it.pointsItemSubject.subscribe { item ->
             setupPriceLineItem(pointsView, item)
-            if (context != null) {
-                val contDesc = StringBuilder()
-                contDesc.append(context.getString(R.string.itin_minus_price_cont_desc))
-                        .append(item.priceString.removePrefix("-")).toString()
-                pointsView.priceTextView.contentDescription = contDesc
-            }
+            val contDesc = StringBuilder()
+            contDesc.append(context.getString(R.string.itin_minus_price_cont_desc))
+                    .append(item.priceString.removePrefix("-")).toString()
+            pointsView.priceTextView.contentDescription = contDesc
         }
 
         it.currencyDisclaimerSubject.subscribe { text ->

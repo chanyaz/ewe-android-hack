@@ -26,20 +26,9 @@ class TripListAdapterTest {
 
     @Test
     fun testIsViewFromObject() {
-        var view: View? = View(context)
-        var obj: Any? = ""
+        var view = View(context)
+        var obj: Any = ""
         assertFalse(adapter.isViewFromObject(view, obj))
-
-        obj = null
-        assertFalse(adapter.isViewFromObject(view, obj))
-
-        view = null
-        obj = ""
-        assertFalse(adapter.isViewFromObject(view, obj))
-
-        view = null
-        obj = null
-        assertTrue(adapter.isViewFromObject(view, obj))
 
         view = View(context)
         obj = view

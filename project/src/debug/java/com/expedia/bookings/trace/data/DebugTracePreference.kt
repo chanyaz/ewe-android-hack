@@ -6,14 +6,14 @@ import android.support.v7.preference.PreferenceViewHolder
 import android.widget.CheckBox
 import com.expedia.bookings.R
 
-class DebugTracePreference(context: Context, val debugTraceData: DebugTraceData) : Preference(context) {
+class DebugTracePreference(context: Context?, val debugTraceData: DebugTraceData) : Preference(context) {
 
     private var debugTraceCheckBox: CheckBox? = null
 
     init {
         layoutResource = R.layout.debug_trace_preference
         title = debugTraceData.url
-        summary = context.getString(R.string.trace_id) + debugTraceData.traceId
+        summary = context?.getString(R.string.trace_id) + debugTraceData.traceId
     }
 
     fun updateSelected(selected: Boolean) {

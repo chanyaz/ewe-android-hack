@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseIntArray;
@@ -66,23 +67,23 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		}
 	}
 
+	@NonNull
 	@Override
-	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		RecyclerView.ViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
-		if (itemViewHolder == null) {
-			if (viewType == getACTIVITY_COUNT_HEADER_VIEW()) {
-				itemViewHolder = new HeaderViewHolder(LayoutInflater.from(parent.getContext())
-					.inflate(R.layout.lx_activity_count_header_cell, parent, false));
-			}
-			else if (viewType == getDATA_VIEW()) {
-				itemViewHolder = new ViewHolder(LayoutInflater.from(parent.getContext())
-					.inflate(R.layout.section_lx_search_row, parent, false));
-			}
-			else {
-				throw new UnsupportedOperationException("Did not recognise the viewType");
-			}
+	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		if (viewType == getLOADING_VIEW()) {
+			return createLoadingViewHolder(parent);
 		}
-		return itemViewHolder;
+		else if (viewType == getACTIVITY_COUNT_HEADER_VIEW()) {
+			return new HeaderViewHolder(LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.lx_activity_count_header_cell, parent, false));
+		}
+		else if (viewType == getDATA_VIEW()) {
+			return new ViewHolder(LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.section_lx_search_row, parent, false));
+		}
+		else {
+			throw new UnsupportedOperationException("Did not recognise the viewType");
+		}
 	}
 
 	@Override

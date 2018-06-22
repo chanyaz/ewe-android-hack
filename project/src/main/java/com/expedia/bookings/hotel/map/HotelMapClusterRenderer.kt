@@ -99,7 +99,7 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         return BitmapDescriptorFactory.fromBitmap(factory.makeIcon())
     }
 
-    private fun getClusterBackground(isSoldOutCluster: Boolean): Drawable {
+    private fun getClusterBackground(isSoldOutCluster: Boolean): Drawable? {
         if (isSoldOutCluster) {
             if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelMapSmallSoldOutPins)) {
                 return ContextCompat.getDrawable(context, R.drawable.cluster_red_pin)

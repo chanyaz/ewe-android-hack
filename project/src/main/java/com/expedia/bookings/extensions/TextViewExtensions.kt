@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable
 fun TextView.addErrorExclamation() {
     val context = this.context
     val themeErrorIcon = ContextCompat.getDrawable(context, Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
-    val fallbackErrorIcon = ContextCompat.getDrawable(context, R.drawable.invalid)
+    val fallbackErrorIcon = ContextCompat.getDrawable(context, R.drawable.invalid)!!
     val errorIcon = themeErrorIcon ?: fallbackErrorIcon
     errorIcon.bounds = Rect(0, 0, errorIcon.intrinsicWidth, errorIcon.intrinsicHeight)
     val compounds = this.compoundDrawables

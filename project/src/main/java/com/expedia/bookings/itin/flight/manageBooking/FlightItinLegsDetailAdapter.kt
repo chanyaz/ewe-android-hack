@@ -2,9 +2,9 @@ package com.expedia.bookings.itin.flight.manageBooking
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.LayoutInflater
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
@@ -14,29 +14,29 @@ import com.squareup.phrase.Phrase
 
 class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: ArrayList<FlightItinLegsDetailData>) : RecyclerView.Adapter<FlightItinLegsDetailAdapter.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        PicassoHelper.Builder(holder?.image).build().load(legsDetailList.get(position).imagePath)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        PicassoHelper.Builder(holder.image).build().load(legsDetailList.get(position).imagePath)
 
         val titleText = getTitle(position)
         if (titleText.isNotEmpty()) {
-            holder?.title?.visibility = View.VISIBLE
-            holder?.title?.text = titleText
+            holder.title.visibility = View.VISIBLE
+            holder.title.text = titleText
         }
         val subtitleText = getSubTitle(position)
         if (subtitleText.isNotEmpty()) {
-            holder?.subtitle?.visibility = View.VISIBLE
-            holder?.subtitle?.text = subtitleText
-            holder?.subtitle?.contentDescription = getContentDescriptionForSubTitle(subtitleText)
+            holder.subtitle.visibility = View.VISIBLE
+            holder.subtitle.text = subtitleText
+            holder.subtitle.contentDescription = getContentDescriptionForSubTitle(subtitleText)
         }
         if (position == legsDetailList.size - 1)
-            holder?.divider?.visibility = View.GONE
+            holder.divider.visibility = View.GONE
     }
 
     override fun getItemCount(): Int {
         return legsDetailList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(context)
                 .inflate(R.layout.flight_itin_leg_view, parent, false)
         return ViewHolder(itemView)

@@ -20,14 +20,14 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.packages.vm.BundleOverviewViewModel
-import com.expedia.bookings.services.PackageProductSearchType
-import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
 import com.expedia.bookings.widget.TotalPriceWidget
 import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
@@ -233,7 +233,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
         bundlePriceWidget.closeIcon.visibility = View.GONE
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
+        val icon = ContextCompat.getDrawable(context, R.drawable.read_more)!!.mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {

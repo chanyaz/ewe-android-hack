@@ -71,7 +71,7 @@ class MesoHotelAdViewModel(val context: Context) {
 
     private fun getMesoHotelBackgroundImage(): Drawable {
         return mesoHotelAdResponse?.background?.drawable
-                ?: ContextCompat.getDrawable(context, R.color.launch_screen_placeholder_color)
+                ?: ContextCompat.getDrawable(context, R.color.launch_screen_placeholder_color)!!
     }
 
     private fun getPercentageOffString(): CharSequence {

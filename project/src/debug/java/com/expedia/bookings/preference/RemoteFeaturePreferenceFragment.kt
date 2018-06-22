@@ -14,16 +14,16 @@ import com.expedia.bookings.preference.extensions.features
 
 class RemoteFeaturePreferenceFragment : Fragment() {
 
-    private lateinit var name: String
+    private var name: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        name = arguments.getString("name")
+        name = arguments?.getString("name")
     }
 
     override fun onStart() {
         super.onStart()
-        activity.title = name
+        activity?.title = name
     }
 
     override fun onResume() {
@@ -31,18 +31,14 @@ class RemoteFeaturePreferenceFragment : Fragment() {
         (view as? RecyclerView)?.adapter?.notifyDataSetChanged()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (inflater == null) {
-            return null
-        }
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.debug_recyclerview, container, false)
 
         if (view is RecyclerView) {
             view.layoutManager = LinearLayoutManager(context)
             val feature = findFeature()
-            if (feature != null) {
-                view.adapter = RemoteFeaturePreferenceAdapter(context, feature)
+            if (feature != null && context != null) {
+                view.adapter = RemoteFeaturePreferenceAdapter(context!!, feature)
             }
         }
         return view

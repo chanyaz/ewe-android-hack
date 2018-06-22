@@ -20,7 +20,7 @@ class CustomerFirstSupportAdapter(private val customerFirstSupportViewModel: Cus
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomerFirstSupportViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerFirstSupportViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.customer_first_support_row, parent, false)
         return CustomerFirstSupportViewHolder(view, customerFirstSupportViewModel)
     }

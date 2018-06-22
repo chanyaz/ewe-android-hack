@@ -30,11 +30,11 @@ class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.flight_itin_terminal_map_bottom_sheet, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.flight_itin_terminal_map_bottom_sheet, container, false)
 
-        val departureAirportCode = arguments.getString(DEPARTURE_AIRPORT_CODE, null)
-        val arrivalAirportCode = arguments.getString(ARRIVAL_AIRPORT_CODE, null)
+        val departureAirportCode = arguments?.getString(DEPARTURE_AIRPORT_CODE, null)
+        val arrivalAirportCode = arguments?.getString(ARRIVAL_AIRPORT_CODE, null)
 
         val departureAirportText = view?.findViewById<TextView>(R.id.terminal_map_departure_airport)
         if (!departureAirportCode.isNullOrEmpty() && checkIfMapIsAvailable(departureAirportCode)) {
@@ -58,13 +58,15 @@ class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
     fun terminalMapClickListener(airportCode: String?): View.OnClickListener {
         return View.OnClickListener {
             val terminalMapIntent = TerminalMapActivity.createIntent(context, airportCode)
-            NavUtils.startActivitySafe(context, terminalMapIntent, ActivityOptionsCompat
-                    .makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete)
-                    .toBundle())
+            context?.let {
+                NavUtils.startActivitySafe(it, terminalMapIntent, ActivityOptionsCompat
+                        .makeCustomAnimation(it, R.anim.slide_in_right, R.anim.slide_out_left_complete)
+                        .toBundle())
+            }
         }
     }
 
-    fun checkIfMapIsAvailable(airportCode: String): Boolean {
+    fun checkIfMapIsAvailable(airportCode: String?): Boolean {
         val airport = FlightStatsDbUtils.getAirport(airportCode)
         if (airport != null) {
             return airport.hasAirportMaps()

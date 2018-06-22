@@ -13,7 +13,7 @@ import com.expedia.bookings.features.Feature
 class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatureClickedListener {
     override fun onStart() {
         super.onStart()
-        activity.title = "Remote Feature Toggles"
+        activity?.title = "Remote Feature Toggles"
     }
 
     override fun onResume() {
@@ -21,11 +21,7 @@ class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatu
         (view as? RecyclerView)?.adapter?.notifyDataSetChanged()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (inflater == null) {
-            return null
-        }
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.debug_recyclerview, container, false)
 
         if (view is RecyclerView) {
@@ -41,9 +37,9 @@ class RemoteFeaturesListFragment : Fragment(), RemoteFeaturesListAdapter.OnFeatu
         args.putString("name", feature.name)
         remoteFeaturePreferenceFragment.arguments = args
         fragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, remoteFeaturePreferenceFragment)
-                .addToBackStack(RemoteFeaturePreferenceFragment::class.java.name)
-                .commit()
+                ?.beginTransaction()
+                ?.replace(R.id.fragment_container, remoteFeaturePreferenceFragment)
+                ?.addToBackStack(RemoteFeaturePreferenceFragment::class.java.name)
+                ?.commit()
     }
 }

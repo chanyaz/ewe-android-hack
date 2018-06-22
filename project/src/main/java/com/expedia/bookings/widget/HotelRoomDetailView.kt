@@ -15,8 +15,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.HotelValueAdd
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setTextAndVisibility
-import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.HotelRoomDetailViewModel
@@ -51,13 +51,13 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
 
         hotelRoomRowButton.showBookButton()
 
-        val infoIcon = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
+        val infoIcon = ContextCompat.getDrawable(context, R.drawable.details_info)!!.mutate()
         infoIcon.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         depositTermsTextView.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
 
         strikeThroughTextView.paintFlags = strikeThroughTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
-        val urgencyIconDrawable = ContextCompat.getDrawable(context, R.drawable.urgency).mutate()
+        val urgencyIconDrawable = ContextCompat.getDrawable(context, R.drawable.urgency)!!.mutate()
         urgencyIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_icon_color), PorterDuff.Mode.SRC_IN)
         urgencyIcon.setImageDrawable(urgencyIconDrawable)
 
@@ -120,7 +120,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         val valueAddIconView = valueAddLayout.findViewById<ImageView>(R.id.value_add_icon)
 
         val icon = ContextCompat.getDrawable(context, valueAdd.iconId)
-        icon.colorFilter = filter
+        icon?.colorFilter = filter
 
         valueAddTextView.text = valueAdd.apiDescription
         valueAddIconView.setImageDrawable(icon)

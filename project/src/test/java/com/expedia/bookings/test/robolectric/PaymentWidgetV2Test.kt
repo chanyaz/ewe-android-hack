@@ -15,7 +15,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.ValidFormOfPayment
@@ -24,9 +23,14 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.bookings.extensions.getParentTextInputLayout
+import com.expedia.bookings.extensions.getPaymentType
 import com.expedia.bookings.hotel.animation.AlphaCalculator
+import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -39,13 +43,10 @@ import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isCreditCardMessagingForPayLaterEnabled
 import com.expedia.bookings.utils.isShowSavedCoupons
+import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.PaymentWidget
-import com.expedia.bookings.extensions.getParentTextInputLayout
-import com.expedia.bookings.extensions.getPaymentType
-import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel
@@ -61,7 +62,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.Locale
 import java.util.concurrent.CountDownLatch
@@ -171,7 +171,7 @@ class PaymentWidgetV2Test {
         sut.validateAndBind()
         //For Paying With Points Only
         paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
-        testPaymentTileInfo("Paying with Points", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon), View.GONE)
+        testPaymentTileInfo("Paying with Points", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon)!!, View.GONE)
 
         //When user chooses to pay through card and reward points
         val latch = CountDownLatch(1)
@@ -179,11 +179,11 @@ class PaymentWidgetV2Test {
         paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
         setUserWithStoredCards()
-        testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), View.VISIBLE)
+        testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful)!!, View.VISIBLE)
         //WithoutPayingWithPoints
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
         setUserWithStoredCards()
-        testPaymentTileInfo("Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), View.GONE)
+        testPaymentTileInfo("Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful)!!, View.GONE)
     }
 
     @Test
@@ -192,7 +192,7 @@ class PaymentWidgetV2Test {
         paymentModel.createTripSubject.onNext(getPayLaterResponse())
         sut.viewmodel.shouldShowPayLaterMessaging.onNext(true)
 
-        testPaymentTileInfo("Enter payment details", "Only needed to confirm your booking", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
+        testPaymentTileInfo("Enter payment details", "Only needed to confirm your booking", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard)!!, View.GONE)
     }
 
     @Test
@@ -200,7 +200,7 @@ class PaymentWidgetV2Test {
         sut.validateAndBind()
         paymentModel.createTripSubject.onNext(getPayLaterResponse())
 
-        testPaymentTileInfo("Enter payment details", "", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
+        testPaymentTileInfo("Enter payment details", "", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard)!!, View.GONE)
     }
 
     @Test
@@ -213,7 +213,7 @@ class PaymentWidgetV2Test {
 
         val listView = sut.storedCreditCardList.findViewById<View>(R.id.stored_card_list) as ListView
         assertNull(Db.getBillingInfo().storedCard)
-        testPaymentTileInfo("Enter payment details", "", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
+        testPaymentTileInfo("Enter payment details", "", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard)!!, View.GONE)
         assertEquals(1, listView.adapter.count)
         val tv = listView.adapter.getView(0, null, sut).findViewById<View>(R.id.text1) as TextView
         assertCardImageEquals(R.drawable.unsupported_card, tv)

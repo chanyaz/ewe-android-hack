@@ -13,7 +13,7 @@ class RailPriceChangeViewModel(context: Context) : PriceChangeViewModel(context)
     init {
         priceChangedObserver.subscribe {
             priceChangeText.onNext(context.getString(R.string.price_changed_text))
-            priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.warning_triangle_icon))
+            priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.warning_triangle_icon)!!)
             priceChangeVisibility.onNext(true)
         }
     }

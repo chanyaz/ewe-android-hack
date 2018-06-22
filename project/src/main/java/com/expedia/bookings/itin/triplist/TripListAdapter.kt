@@ -11,7 +11,7 @@ class TripListAdapter(val context: Context) : PagerAdapter() {
     val pastTripListView = PastTripListView(context, null)
     val cancelledTripListView = CancelledTripListView(context, null)
 
-    override fun isViewFromObject(view: View?, obj: Any?): Boolean {
+    override fun isViewFromObject(view: View, obj: Any): Boolean {
         return view == obj
     }
 

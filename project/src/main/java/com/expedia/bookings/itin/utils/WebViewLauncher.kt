@@ -3,7 +3,6 @@ package com.expedia.bookings.itin.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
@@ -15,7 +14,7 @@ import com.expedia.bookings.utils.Constants
 class WebViewLauncher(val context: Context) : IWebViewLauncher {
 
     override fun launchWebViewSharableActivity(title: String, url: String, anchor: String?, tripId: String?, isGuest: Boolean) {
-        val animation: Bundle = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, R.anim.slide_down_partially).toBundle()
+        val animation = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, R.anim.slide_down_partially).toBundle()
         val webViewIntent = buildSharableWebViewIntent(title, url, anchor, tripId, isGuest)
         (context as AppCompatActivity).startActivityForResult(webViewIntent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, animation)
     }
@@ -37,7 +36,7 @@ class WebViewLauncher(val context: Context) : IWebViewLauncher {
     }
 
     override fun launchWebViewActivity(title: Int, url: String, anchor: String?, tripId: String, scrapeTitle: Boolean, isGuest: Boolean) {
-        val animation: Bundle = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, R.anim.slide_down_partially).toBundle()
+        val animation = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, R.anim.slide_down_partially).toBundle()
         val webViewIntent = buildWebViewIntent(title, url, anchor, tripId, scrapeTitle, isGuest)
         (context as AppCompatActivity).startActivityForResult(webViewIntent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, animation)
     }

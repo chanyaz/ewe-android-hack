@@ -54,8 +54,8 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
         orange = ContextCompat.getColor(view.context, R.color.launch_air_attach)
         purple = ContextCompat.getColor(view.context, R.color.launch_mobile_exclusive)
         blue = ContextCompat.getColor(view.context, R.color.launch_tonight_only)
-        mobileOnly = ContextCompat.getDrawable(view.context, R.drawable.ic_mobile_only)
-        tonightOnly = ContextCompat.getDrawable(view.context, R.drawable.ic_tonight_only)
+        mobileOnly = ContextCompat.getDrawable(view.context, R.drawable.ic_mobile_only)!!
+        tonightOnly = ContextCompat.getDrawable(view.context, R.drawable.ic_tonight_only)!!
         itemView.setOnClickListener(this)
     }
 

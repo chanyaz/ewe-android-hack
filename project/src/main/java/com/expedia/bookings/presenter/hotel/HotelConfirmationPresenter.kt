@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.hotel
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -16,10 +17,10 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -87,7 +88,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
+        val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp)!!.mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.setNavigationContentDescription(R.string.hotel_confirmation_toolbar_close_cont_desc)
@@ -99,8 +100,8 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         toolbar.setPadding(0, paddingTop, 0, 0)
     }
 
-    private fun dressAction(textView: TextView, drawableResId: Int) {
-        val drawable = ContextCompat.getDrawable(context, drawableResId)
+    private fun dressAction(textView: TextView, @DrawableRes drawableResId: Int) {
+        val drawable = ContextCompat.getDrawable(context, drawableResId)!!
         drawable.setColorFilter(ContextCompat.getColor(context, R.color.confirmation_screen_action_icon_color), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         FontCache.setTypeface(textView, FontCache.Font.ROBOTO_REGULAR)

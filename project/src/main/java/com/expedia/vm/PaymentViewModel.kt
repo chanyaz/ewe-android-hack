@@ -5,7 +5,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -19,6 +18,7 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.utils.TravelerUtils
@@ -161,7 +161,7 @@ open class PaymentViewModel(val context: Context) {
         }).subscribe()
 
         storedCardRemoved.subscribe { card ->
-            val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card)!!.mutate()
             icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
             billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
             emptyBillingInfo.onNext(Unit)
@@ -283,9 +283,9 @@ open class PaymentViewModel(val context: Context) {
 
     private fun getCardIcon(type: PaymentType?): Drawable {
         if (type == null) {
-            return ContextCompat.getDrawable(context, R.drawable.ic_checkout_default_creditcard)
+            return ContextCompat.getDrawable(context, R.drawable.ic_checkout_default_creditcard)!!
         } else {
-            return ContextCompat.getDrawable(context, BookingInfoUtils.getColorfulCardIcon(type))
+            return ContextCompat.getDrawable(context, BookingInfoUtils.getColorfulCardIcon(type))!!
         }
     }
 

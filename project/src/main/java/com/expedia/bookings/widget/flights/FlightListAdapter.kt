@@ -76,7 +76,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
         return if (refundableFilterAppliedSearchSubject.value != null) refundableFilterAppliedSearchSubject.value else false
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is FlightViewHolder && shouldTrackScrollDepth()) {
             val scrolledPosition = position - adjustPosition()

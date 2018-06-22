@@ -59,9 +59,11 @@ class ChangeDatesDialogFragment : DialogFragment() {
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pickerView.bind(rules, HotelCalendarDirections(context))
+        context?.let {
+            pickerView.bind(rules, HotelCalendarDirections(it))
+        }
 
         dateSubscription = pickerView.datesUpdatedSubject.subscribe { dates ->
             setButtonEnabled(true)
@@ -112,10 +114,12 @@ class ChangeDatesDialogFragment : DialogFragment() {
         doneButton.isEnabled = enabled
         if (enabled) {
             val typedValue = TypedValue()
-            context.theme.resolveAttribute(R.attr.primary_color, typedValue, true)
+            context?.theme?.resolveAttribute(R.attr.primary_color, typedValue, true)
             doneButton.setTextColor(typedValue.data)
         } else {
-            doneButton.setTextColor(ContextCompat.getColor(context, R.color.disabled_text_color))
+            context?.let {
+                doneButton.setTextColor(ContextCompat.getColor(it, R.color.disabled_text_color))
+            }
         }
     }
 }

@@ -16,21 +16,21 @@ import com.squareup.picasso.Picasso
 
 class OnboardingPagerAdapter(val context: Context) : PagerAdapter() {
 
-    override fun isViewFromObject(view: View?, `object`: Any?): Boolean {
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return `object` == view
     }
 
-    override fun instantiateItem(container: ViewGroup?, position: Int): Any {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val pagerEnum = OnboardingPagerState.values()[position]
         val background = LayoutInflater.from(context).inflate(R.layout.page_onboarding, container, false) as ImageView
         Picasso.with(context).load(getResizeImageUrl(pagerEnum.backgroundUrl)).placeholder(pagerEnum.placeholderResId).into(background)
         background.setColorFilter(ContextCompat.getColor(context, R.color.onboarding_page_background_gradient), PorterDuff.Mode.SRC_ATOP)
-        container?.addView(background)
+        container.addView(background)
         return background
     }
 
-    override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
-        container?.removeView(`object` as View)
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(`object` as View)
     }
 
     override fun getCount(): Int {

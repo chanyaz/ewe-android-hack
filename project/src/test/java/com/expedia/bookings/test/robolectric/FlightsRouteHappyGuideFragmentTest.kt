@@ -8,7 +8,7 @@ import android.view.View
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.fragment.FilghtsRouteHappyGuideFragment
+import com.expedia.bookings.fragment.FlightsRouteHappyGuideFragment
 import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Before
 import org.junit.Test
@@ -18,10 +18,10 @@ import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class FilghtsRouteHappyGuideFragmentTest {
+class FlightsRouteHappyGuideFragmentTest {
 
     private val context = RuntimeEnvironment.application
-    lateinit var testFragment: FilghtsRouteHappyGuideFragment
+    lateinit var testFragment: FlightsRouteHappyGuideFragment
     private lateinit var fragmentManager: FragmentManager
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
@@ -36,9 +36,9 @@ class FilghtsRouteHappyGuideFragmentTest {
     fun testOnlyAmenities() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRichContent, 1)
-        testFragment = FilghtsRouteHappyGuideFragment()
+        testFragment = FlightsRouteHappyGuideFragment()
         testFragment.show(fragmentManager, "dummy_tag")
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
         val wifiLabel = testFragment.wifiLabel
@@ -60,9 +60,9 @@ class FilghtsRouteHappyGuideFragmentTest {
     fun testOnlyFlightScore() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRichContent, 2)
-        testFragment = FilghtsRouteHappyGuideFragment()
+        testFragment = FlightsRouteHappyGuideFragment()
         testFragment.show(fragmentManager, "dummy_tag")
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
         val ratingLabel = testFragment.ratingLabel
@@ -86,9 +86,9 @@ class FilghtsRouteHappyGuideFragmentTest {
     fun testAmenitiesFlightScore() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRichContent, 3)
-        testFragment = FilghtsRouteHappyGuideFragment()
+        testFragment = FlightsRouteHappyGuideFragment()
         testFragment.show(fragmentManager, "dummy_tag")
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
         val titleLabel = testFragment.titleLabel
@@ -119,9 +119,9 @@ class FilghtsRouteHappyGuideFragmentTest {
         val editor = sharedPref.edit()
         editor.putInt("counter", 2)
         editor.apply()
-        testFragment = FilghtsRouteHappyGuideFragment()
+        testFragment = FlightsRouteHappyGuideFragment()
         testFragment.show(fragmentManager, "dummy_tag")
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
         testFragment.dismissButton.performClick()
@@ -136,9 +136,9 @@ class FilghtsRouteHappyGuideFragmentTest {
         val editor = sharedPref.edit()
         editor.putInt("counter", 2)
         editor.apply()
-        testFragment = FilghtsRouteHappyGuideFragment()
+        testFragment = FlightsRouteHappyGuideFragment()
         testFragment.show(fragmentManager, "dummy_tag")
-        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)
+        val view = testFragment.onCreateView(LayoutInflater.from(context), null, null)!!
         testFragment.onViewCreated(view, null)
         testFragment.onCreateDialog(null)
         OmnitureTestUtils.assertLinkTracked("App.Flight.FSR.AmenitiesPopupshown.1",

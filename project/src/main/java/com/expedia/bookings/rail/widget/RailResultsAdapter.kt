@@ -84,7 +84,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             ViewTypes.RESULTS_HEADER_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.trip_header, parent, false)

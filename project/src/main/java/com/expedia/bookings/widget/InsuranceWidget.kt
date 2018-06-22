@@ -16,8 +16,8 @@ import com.expedia.bookings.extensions.subscribeTextColor
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.InsuranceViewModel
 
@@ -55,7 +55,7 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
     init {
         View.inflate(context, R.layout.insurance_widget, this)
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info).mutate()
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info)!!.mutate()
         descriptionTextView.compoundDrawablePadding = (5 * resources.displayMetrics.density + 0.5f).toInt()
         descriptionTextView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         descriptionTextView.setOnClickListener {

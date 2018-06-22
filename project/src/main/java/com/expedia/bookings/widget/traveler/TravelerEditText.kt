@@ -11,28 +11,28 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.autofill.AutofillManager
+import android.view.autofill.AutofillValue
 import android.widget.EditText
 import com.expedia.bookings.R
-import com.expedia.bookings.section.InvalidCharacterHelper
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.extensions.getParentTextInputLayout
 import com.expedia.bookings.extensions.subscribeEditText
 import com.expedia.bookings.extensions.subscribeTextChange
+import com.expedia.bookings.section.InvalidCharacterHelper
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.traveler.BaseTravelerValidatorViewModel
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
-import android.view.autofill.AutofillManager
-import android.view.autofill.AutofillValue
 
 open class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs), View.OnFocusChangeListener {
     var valid = true
     var preErrorDrawable: Drawable? = null
 
-    val errorIcon: Drawable
+    val errorIcon: Drawable?
     var errorContDesc = ""
     val defaultErrorString = context.resources.getString(R.string.accessibility_cont_desc_role_error)
 
@@ -100,7 +100,9 @@ open class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(c
 
     private fun setError() {
         if (valid) {
-            errorIcon.bounds = Rect(0, 0, errorIcon.intrinsicWidth, errorIcon.intrinsicHeight)
+            errorIcon?.let {
+                it.bounds = Rect(0, 0, it.intrinsicWidth, it.intrinsicHeight)
+            }
             val compounds = compoundDrawables
             if (compounds != null) {
                 preErrorDrawable = compounds[2]

@@ -34,12 +34,14 @@ class TripListFragment : Fragment(), TabLayout.OnTabSelectedListener {
         return inflater.inflate(R.layout.fragment_trip_folders_list, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewPager.offscreenPageLimit = Integer.MAX_VALUE
         viewPager.setPageSwipingEnabled(false)
-        viewPager.adapter = TripListAdapter(context)
+        context?.let {
+            viewPager.adapter = TripListAdapter(it)
+        }
         tripTabLayout.setupWithViewPager(viewPager)
         tripTabLayout.addOnTabSelectedListener(this)
     }

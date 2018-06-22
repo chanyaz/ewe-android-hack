@@ -19,6 +19,8 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.data.HotelAdapterItem
+import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
+import com.expedia.bookings.hotel.widget.viewholder.AddOnAttachViewHolder
 import com.expedia.bookings.hotel.widget.viewholder.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.viewholder.HotelUrgencyViewHolder
 import com.expedia.bookings.text.HtmlCompat
@@ -30,8 +32,6 @@ import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 import com.expedia.util.endlessObserver
-import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
-import com.expedia.bookings.hotel.widget.viewholder.AddOnAttachViewHolder
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
@@ -202,7 +202,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == HotelAdapterItem.TRANSPARENT_MAPVIEW) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

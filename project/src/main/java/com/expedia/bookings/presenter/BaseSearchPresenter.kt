@@ -51,9 +51,9 @@ import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
-import org.joda.time.LocalDate
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
+import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -271,7 +271,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             imgViewSearchView?.setImageResource(0)
 
             val close = searchLocationEditText?.findViewById<ImageView?>(android.support.v7.appcompat.R.id.search_close_btn)
-            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp)!!.mutate()
             drawable.setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN)
             close?.setImageDrawable(drawable)
         }

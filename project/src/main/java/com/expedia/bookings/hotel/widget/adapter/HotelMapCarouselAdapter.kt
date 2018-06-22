@@ -62,7 +62,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val isPackage: Boolean) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val holder: RecyclerView.ViewHolder
         if (isBucketedToShowResultsCellOnMap(parent.context)) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.horizontal_hotel_cell, parent, false) as ViewGroup

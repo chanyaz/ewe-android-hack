@@ -52,19 +52,19 @@ class SinglePageTOSLayout(context: Context, attrs: AttributeSet) : TOSLayout(con
         else if (v.isChecked && !v.isEnabled)
             ContextCompat.getColor(context, R.color.acct__single_page_checkbox_checked_disable_color)
         else if (!v.isChecked && v.isEnabled) {
-            ContextCompat.getColorStateList(context, R.color.acct__single_page_tos_text_color).getColorForState(intArrayOf(android.R.attr.state_enabled), -1)
+            ContextCompat.getColorStateList(context, R.color.acct__single_page_tos_text_color)!!.getColorForState(intArrayOf(android.R.attr.state_enabled), -1)
         } else {
-            ContextCompat.getColorStateList(context, R.color.acct__single_page_tos_text_color).defaultColor
+            ContextCompat.getColorStateList(context, R.color.acct__single_page_tos_text_color)!!.defaultColor
         }
 
-        val drawable = ContextCompat.getDrawable(context, R.drawable.acct__btn_check)
+        val drawable = ContextCompat.getDrawable(context, R.drawable.acct__btn_check)!!
         drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         v.buttonDrawable = drawable
     }
 
     fun forceCheckTermOfUseCheckbox() {
         if (!vTermsOfUseCheckBox.isChecked) {
-            val drawable = ContextCompat.getDrawable(context, R.drawable.acct__btn_check)
+            val drawable = ContextCompat.getDrawable(context, R.drawable.acct__btn_check)!!
             drawable.setColorFilter(ContextCompat.getColor(context, R.color.acct__single_page_error_color), PorterDuff.Mode.SRC_IN)
             vTermsOfUseCheckBox.buttonDrawable = drawable
         }
