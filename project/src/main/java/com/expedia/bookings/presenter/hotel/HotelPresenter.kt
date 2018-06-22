@@ -399,7 +399,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
-            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelsWebCheckout1) ||
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelsWebCheckout2)
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {

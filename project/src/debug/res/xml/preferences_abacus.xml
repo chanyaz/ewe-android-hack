@@ -427,7 +427,15 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="25618"
             android:summary="%s"
-            android:title="Hotels Web Checkout AB text - 25618" />
+            android:title="Hotels Web Checkout AB test - 25618" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="26633"
+            android:summary="%s"
+            android:title="Hotel Web Checkout second bucket - 26633" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

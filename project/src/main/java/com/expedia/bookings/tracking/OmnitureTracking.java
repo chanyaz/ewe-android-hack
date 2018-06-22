@@ -1003,7 +1003,8 @@ public class OmnitureTracking {
 			s.setEvar(52, "Pay Now");
 		}
 		if (!PointOfSale.getPointOfSale().shouldShowWebCheckout()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsWebCheckout);
+			trackAbacusTest(s, AbacusUtils.HotelsWebCheckout1);
+			trackAbacusTest(s, AbacusUtils.HotelsWebCheckout2);
 		}
 		s.trackLink("Hotel Infosite");
 	}

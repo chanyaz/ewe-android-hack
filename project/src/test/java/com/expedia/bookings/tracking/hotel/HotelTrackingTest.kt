@@ -2,8 +2,8 @@ package com.expedia.bookings.tracking.hotel
 
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -62,27 +62,41 @@ class HotelTrackingTest {
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testTrackingInRoomBookClickForNonIndiaPOSWithABTestBucketed() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppHotelsWebCheckout)
-        setPOS(PointOfSaleId.UNITED_STATES.id.toString())
-        performHotelRoomClickTracking()
-
-        val evar = mapOf(61 to "1", 52 to "Non Etp")
-        val prop = mapOf(7 to "1", 34 to "25618.0.1")
-
-        OmnitureTestUtils.assertLinkTracked("Hotel Infosite", "App.Hotels.IS.BookNow",
-                Matchers.allOf(OmnitureMatchers.withEvars(evar), OmnitureMatchers.withProps(prop)),
-                mockAnalyticsProvider)
+        assertTrackingRoomBookClickForNonIndiaPOS(AbacusUtils.HotelsWebCheckout1, true)
     }
 
     @Test
     @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testTrackingInRoomBookClickForNonIndiaPOSWithABTestInControl() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppHotelsWebCheckout, AbacusVariant.CONTROL.value)
+        assertTrackingRoomBookClickForNonIndiaPOS(AbacusUtils.HotelsWebCheckout1, false)
+    }
+
+    @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
+    fun testTrackingInRoomBookClickForNonIndiaPOSWithSecondABTestBucketed() {
+        assertTrackingRoomBookClickForNonIndiaPOS(AbacusUtils.HotelsWebCheckout2, true)
+    }
+
+    @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
+    fun testTrackingInRoomBookClickForNonIndiaPOSWithSecondABTestInControl() {
+        assertTrackingRoomBookClickForNonIndiaPOS(AbacusUtils.HotelsWebCheckout2, false)
+    }
+
+    private fun assertTrackingRoomBookClickForNonIndiaPOS(test: ABTest, bucket: Boolean) {
+        val propString: String
+        if (bucket) {
+            AbacusTestUtils.bucketTests(test)
+            propString = "${test.key}.0.1"
+        } else {
+            AbacusTestUtils.unbucketTests(test)
+            propString = "${test.key}.0.0"
+        }
         setPOS(PointOfSaleId.UNITED_STATES.id.toString())
         performHotelRoomClickTracking()
 
         val evar = mapOf(61 to "1", 52 to "Non Etp")
-        val prop = mapOf(7 to "1", 34 to "25618.0.0")
+        val prop = mapOf(7 to "1", 34 to propString)
 
         OmnitureTestUtils.assertLinkTracked("Hotel Infosite", "App.Hotels.IS.BookNow",
                 Matchers.allOf(OmnitureMatchers.withEvars(evar), OmnitureMatchers.withProps(prop)),

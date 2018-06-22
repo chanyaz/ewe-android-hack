@@ -106,11 +106,22 @@ class HotelWebCheckoutViewTest {
         webCheckoutViewObservable.assertValueCount(1)
     }
 
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun webCheckoutUsedWhenSecondABTestBucketed() {
+        bucketWebCheckoutABTest(false)
+        RoboTestHelper.bucketTests(AbacusUtils.HotelsWebCheckout2)
+        setPOSWithWebCheckoutABTestEnabled(false)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(1)
+    }
+
     private fun bucketWebCheckoutABTest(enable: Boolean) {
         if (enable) {
-            RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppHotelsWebCheckout)
+            RoboTestHelper.bucketTests(AbacusUtils.HotelsWebCheckout1)
         } else {
-            RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppHotelsWebCheckout)
+            RoboTestHelper.controlTests(AbacusUtils.HotelsWebCheckout1)
         }
     }
 
