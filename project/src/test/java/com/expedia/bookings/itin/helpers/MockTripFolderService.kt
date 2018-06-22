@@ -10,7 +10,7 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
 class MockTripFolderService : TripFolderServiceInterface {
-    override fun getTripFoldersObservable(observer: Observer<List<TripFolder>>): Disposable {
+    override fun getTripFolders(observer: Observer<List<TripFolder>>): Disposable {
         val stringFromMock = getJsonStringFromMock("api/trips/tripfolders/tripfolders_happy_path_m1_hotel.json", null)
         val tripFolders = Gson().fromJson(stringFromMock, Array<TripFolder>::class.java).toList()
         return Observable.just(tripFolders).subscribeObserver(observer)

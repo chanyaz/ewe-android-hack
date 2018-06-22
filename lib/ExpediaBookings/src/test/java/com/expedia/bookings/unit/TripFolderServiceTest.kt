@@ -46,7 +46,7 @@ class TripFolderServiceTest {
         server.setDispatcher(ExpediaDispatcher(fileOpener, mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to testFilename)))
 
         testObserver.assertNoValues()
-        service.getTripFoldersObservable(testObserver)
+        service.getTripFolders(testObserver)
         testObserver.assertValueCount(1)
 
         val actualValue = testObserver.values()[0]

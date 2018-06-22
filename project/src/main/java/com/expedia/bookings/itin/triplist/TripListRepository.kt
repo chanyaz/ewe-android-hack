@@ -17,7 +17,7 @@ class TripListRepository @Inject constructor(
     override val foldersSubject: BehaviorSubject<List<TripFolder>> = BehaviorSubject.create()
 
     override fun refreshTripFolders() {
-        tripFolderService.getTripFoldersObservable(object : DisposableObserver<List<TripFolder>>() {
+        tripFolderService.getTripFolders(object : DisposableObserver<List<TripFolder>>() {
             override fun onNext(folders: List<TripFolder>) {
                 folders.forEach { folder ->
                     tripFolderJsonFileUtils.writeToFile(folder.tripFolderId, Gson().toJson(folder))

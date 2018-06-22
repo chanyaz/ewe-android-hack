@@ -28,7 +28,7 @@ class TripFolderService(endpoint: String, okHttpClient: OkHttpClient, intercepto
         adapter.create(TripFolderApi::class.java)
     }
 
-    override fun getTripFoldersObservable(observer: Observer<List<TripFolder>>): Disposable {
+    override fun getTripFolders(observer: Observer<List<TripFolder>>): Disposable {
         return tripFolderApi.getTripFolders()
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
@@ -38,7 +38,7 @@ class TripFolderService(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
 interface TripFolderServiceInterface {
 
-    fun getTripFoldersObservable(observer: Observer<List<TripFolder>>): Disposable
+    fun getTripFolders(observer: Observer<List<TripFolder>>): Disposable
 }
 
 interface TripFolderApi {
