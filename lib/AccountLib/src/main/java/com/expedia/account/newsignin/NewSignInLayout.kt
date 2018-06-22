@@ -60,6 +60,7 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
         passwordInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 passwordInput.doneCheck()
+                signInButton.callOnClick()
             }
             false
         }
