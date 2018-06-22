@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">즐길거리 검색</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">범주 선택</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">교통편 검색</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">세그웨이 1대당</string>
     <string name="per_ticket_type_vehicle">차량 1대당</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">최고 평점의 즐길거리</string>
-    <string name="top_rated_activities_description">다른 분들이 강력 추천하신 즐길거리</string>
-
-    <string name="adventure_around">신나는 어드벤처</string>
-    <string name="adventure_around_description">여행지 주변으로 당일 여행 및 인기 있는 투어를 떠나세요.</string>
-
-    <string name="see_the_sights">유명 관광지 구경하기</string>
-    <string name="see_the_sights_description">걷거나 자전거로 아니면 버스를 타고 유명 관광지를 빠짐 없이 돌아보세요.</string>
-
-    <string name="tour_the_area">구석구석 살피기</string>
-    <string name="tour_the_area_description">시티 투어를 통해 이곳의 과거와 현재에 대해 자세히 알아보세요.</string>
-
-    <string name="fun_for_the_family">행복한 가족 여행</string>
-    <string name="fun_for_the_family_description">모든 가족 구성원을 만족시키는 즐길거리를 함께 하세요.</string>
-
-    <string name="pure_entertainment">진정한 엔터테인먼트</string>
-    <string name="pure_entertainment_description">스포츠, 놀이공원, 쇼, 공연 등을 즐기세요.</string>
-
-    <string name="eat_play_enjoy">먹고 놀고 즐기기</string>
-    <string name="eat_play_enjoy_description">먹고 마시고 나이트라이프를 즐기고 몸과 마음에 휴식을 선물하세요.</string>
-
-    <string name="all_things_to_do_description">선택하신 날짜에 이용 가능한 모든 즐길거리 목록입니다.</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">연락처 정보 입력</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">승객 %1$s명</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">이 날짜는 지났습니다. 새로운 날짜를 선택해 주세요.</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">모든 즐길거리</string>
 
     <string name="lx_recommendation_no_superlative">/ 5</string>
     <string name="lx_recommendation_superlativeGood">/ 5 - 좋음!</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} ~ {enddate}</string>
     <string name="itin_pick_up">인수:</string>
     <string name="itin_drop_off">반납:</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">{vendor} 문의 전화번호 {phonenumber}. 버튼</string>
+    <string name="itin_car_more_info_heading">추가 지원</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">주소. {address}. 클립보드에 복사하려면 클릭하세요. 버튼</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">차량 인수 위치:</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">차량 반납 위치:</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">일정 공유</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">혜택이 오늘 만료됩니다!</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">{location} 호텔 최대 55% 할인</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">{location} 호텔 최대 55% 할인</string>
+    <string name="hotel_attach_string1_TEMPLATE">{location} 호텔 최대 55% 할인</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">항공을 예약하신 고객님께 드리는 혜택</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">항공을 예약하신 고객님께는 호텔을 할인해 드립니다.</string>
+    <string name="hotel_attach_string">항공을 예약하신 고객님께 드리는 혜택</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. 버튼</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">도착 공항</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">출발 공항</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">익스피디아에서 예약하신 고객님께 드리는 최대 43% 호텔 할인이에요.</string>
+    <string name="add_on_content_desc">Add On 어드밴티지</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">세부 정보 보기</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">지도</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">정렬</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">모바일 전용</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">이용 후기 검색</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">찾으시는 검색 기준에 맞는 이용 후기가 없습니다.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">항공+호텔 총액</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">항공+호텔 보기</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">내 여행 보기</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">1단계: 호텔 선택</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,10 +4671,16 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">패키지 총 금액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">함께 예약 시 총 금액은 {total_price}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다.</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">패키지 총 금액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}. 요금 내역 대화상자. 버튼.</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">총 금액은 {reference_total_price}입니다. 함께 예약 시 총 금액은 {total_price}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 지금 바로 예약하세요! 함께 예약 시 할인 금액은 {savings}입니다. 요금 요약 대화 상자입니다. 버튼입니다.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 총 금액은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 패키지 상품을 보려면 버튼을 탭하세요.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">요금 요약 대화 상자입니다. 함께 예약 시 요금 요약입니다. 호텔은 {hotel_price}입니다. 왕복 항공편은 {flights_price}입니다. 총 금액은 {reference_price}입니다. 함께 예약 시 할인 금액은 {savings}입니다. 함께 예약 시 총 금액은 {total_price}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name} 여행. {startdate}부터 {enddate}까지, 여행객 {guests}명</string>
     <!-- Package filter checkbox.
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">항공편 편의 시설/서비스</string>
     <string name="flight_route_happy_guide_title_v2">항공편 점수</string>
     <string name="flight_route_happy_guide_title_v3">항공편 편의 시설 및 점수</string>
-    <string name="flight_route_happy_guide_info">기내 WiFi, 엔터테인먼트, 전원 연결 등이 있는지 확인하실 수 있습니다.</string>
-    <string name="flight_route_happy_guide_more_info">항공편 점수는 비행 소요 시간, 항공기 종류, 기내에서 제공되는 편의 시설 수준 등을 고려하여 최고의 항공편을 선택하는 데 도움이 됩니다.</string>
+    <string name="flight_route_happy_guide_info">이제 기내 WiFi 연결, 기내 충전, 볼 수 있는 영화 등의 편의 시설/서비스를 기준으로 항공편을 선택하실 수 있습니다.</string>
+    <string name="flight_route_happy_guide_more_info">비행 시간, 항공기 종류, 기내 특전 등 여러 요소를 평가하는 항공편 점수가 추가되었습니다.</string>
 </resources>

@@ -32,7 +32,7 @@ import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
 import io.reactivex.subjects.PublishSubject
 
-abstract class AbstractHotelCellViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
+abstract class AbstractHotelCellViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root) {
 
     val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
@@ -66,13 +66,11 @@ abstract class AbstractHotelCellViewHolder(root: ViewGroup) : RecyclerView.ViewH
     val cardView: CardView by bindView(R.id.card_view)
 
     init {
-        itemView.setOnClickListener(this)
+        itemView.setOnClickListener {
+            hotelClickedSubject.onNext(adapterPosition)
+        }
 
         LayoutUtils.setSVG(airAttachSVG, R.raw.air_attach_curve)
-    }
-
-    override fun onClick(view: View) {
-        hotelClickedSubject.onNext(adapterPosition)
     }
 
     fun markPinned(pin: Boolean) {

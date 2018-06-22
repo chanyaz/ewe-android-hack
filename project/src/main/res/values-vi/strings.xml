@@ -195,8 +195,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Tìm hoạt động giải trí</string>
-    <!--LX Search widget header text -->
-    <string name="lx_select_a_category_title">Chọn hạng mục</string>
     <!--GT Search widget header text -->
     <string name="gt_search_title">Tìm phương tiện đưa đón</string>
     <!-- Button to show calendar and selected dates -->
@@ -548,30 +546,6 @@
     <string name="per_ticket_type_segway">/ 1 segway</string>
     <string name="per_ticket_type_vehicle">/ 1 phương tiện</string>
 
-    <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">Hoạt động được đánh giá cao nhất</string>
-    <string name="top_rated_activities_description">Được những khách hàng khác đề xuất nhiều nhất</string>
-
-    <string name="adventure_around">Khám phá vòng quanh</string>
-    <string name="adventure_around_description">Tour một ngày, khám phá những thắng cảnh quanh điểm đến của quý vị</string>
-
-    <string name="see_the_sights">Ngắm cảnh</string>
-    <string name="see_the_sights_description">Đi bộ, đạp xe, đi xe buýt, tham quan mọi thắng cảnh nổi tiếng trong vùng</string>
-
-    <string name="tour_the_area">Tham quan</string>
-    <string name="tour_the_area_description">Tham quan thành phố, tìm hiểu về lịch sử và những sự kiện mới nhất</string>
-
-    <string name="fun_for_the_family">Giải trí cho gia đình</string>
-    <string name="fun_for_the_family_description">Hoạt động giải trí cho cả gia đình</string>
-
-    <string name="pure_entertainment">Giải trí</string>
-    <string name="pure_entertainment_description">Thể thao, công viên giải trí, show, chương trình biểu diễn</string>
-
-    <string name="eat_play_enjoy">Ăn uống, vui chơi</string>
-    <string name="eat_play_enjoy_description">Ăn uống, cuộc sống về đêm và thư giãn</string>
-
-    <string name="all_things_to_do_description">Danh sách mọi hoạt động giải trí vào thời gian quý vị chọn.</string>
-
     <!-- LX Strings -->
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Nhập chi tiết liên hệ</string>
@@ -660,9 +634,6 @@
     <string name="lx_ground_transport_passengers_text">%1$s khách</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Ngày trong quá khứ, vui lòng chọn ngày mới.</string>
-
-    <!-- Category Title "All Things To Do" -->
-    <string name="lx_category_all_things_to_do">Mọi hoạt động giải trí</string>
 
     <string name="lx_recommendation_no_superlative">/ 5</string>
     <string name="lx_recommendation_superlativeGood">/ 5 - Tốt!</string>
@@ -1585,10 +1556,15 @@
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
     <string name="itin_pick_up">Nhận xe</string>
     <string name="itin_drop_off">Trả xe</string>
-    <!-- Call activity at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
+    <!-- Call vendor at {phonenumber}. Button (eg., Call Hertz at +18055437700. Button)-->
     <string name="itin_car_call_button_content_description_TEMPLATE">Gọi {vendor} qua {phonenumber}. Nút</string>
+    <string name="itin_car_more_info_heading">Trợ giúp thêm</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_car_address_copy_content_description_TEMPLATE">Địa chỉ: {address}. Bấm để chép vào bộ nhớ đệm. Nút</string>
+    <!--Itin car pick location heading-->
+    <string name="itin_car_location_type_heading_pick_up">Địa điểm nhận xe:</string>
+    <!--Itin car drop off location heading-->
+    <string name="itin_car_location_type_heading_drop_off">Địa điểm trả xe:</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Chia sẻ hành trình</string>
@@ -2540,19 +2516,19 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Ưu đãi hết hạn hôm nay</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
-    <string name="air_attach_variant1_string1_TEMPLATE">Tiết kiệm đến 55% giá phòng khách sạn tại {location}</string>
-    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
-    <string name="air_attach_variant2_string1_TEMPLATE">Giảm đến 55% giá phòng khách sạn tại {location}</string>
+    <string name="hotel_attach_string1_TEMPLATE">Tiết kiệm đến 55% giá phòng khách sạn tại {location}</string>
     <!-- Air attach messaging variant1 string1 -->
-    <string name="air_attach_variant1_string">Vì quý vị đã đặt chuyến bay</string>
-    <!-- Air attach messaging variant2 string2 -->
-    <string name="air_attach_variant2_string2">Ưu đãi giá phòng khách sạn vì quý vị đã đặt chuyến bay</string>
+    <string name="hotel_attach_string">Vì quý vị đã đặt chuyến bay</string>
     <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
     <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Nút</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Đến</string>
     <!-- Accessibility label for departing icon on itin  -->
     <string name="itin_departing_cont_desc">Khởi hành</string>
+
+    <!-- Hotel MIP Attach -->
+    <string name="hotmip_savings_message">Quý vị nhận giảm giá đến 43% giá khách sạn vì đã đặt trên Expedia</string>
+    <string name="add_on_content_desc">Add-On Advantage</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2730,8 +2706,6 @@
     <string name="view_details">Xem chi tiết</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Bản đồ</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Sắp xếp</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Chỉ dành cho thiết bị di động</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -3023,6 +2997,8 @@
 
     <!-- Hint in search bar for user reviews -->
     <string name="user_review_search_hint">Tìm nhận xét</string>
+    <!-- Message displayed on review search page when no results are returned for the query -->
+    <string name="user_review_search_no_results">Không tìm được nhận xét phù hợp tiêu chí tìm kiếm của quý vị.</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -4002,8 +3978,6 @@
     <string name="bundle_total_text">Tổng gói</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Xem gói của quý vị</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">Xem chuyến đi của quý vị</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Bước 1: Chọn Khách sạn</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
@@ -4697,10 +4671,16 @@
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Tổng giá gói là {totalprice}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. {savings}</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings false. Example: Bundle total for booking together is $1500.00. This price includes taxes, fees for both flights and hotel.-->
+    <string name="bundle_overview_price_widget_cont_desc_TEMPLATE">Tổng giá nhóm khi đặt cùng lúc là {total_price}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn.</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Tổng giá gói là {totalprice}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. {savings}. Hộp thoại chi tiết phí. Nút.</string>
+    <!--Content description for Bundle total widget in case of better savings enabled and show savings true. Example: Total price is $1500.00. Bundle total for booking together is $1000.00. This price includes taxes, fees for both flights and hotel. Book now! Savings for booking together is $500.00. Price Summary dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">Tổng giá là {reference_total_price}. Tổng giá nhóm khi đặt cùng lúc là {total_price}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. Đặt ngay! Tiết kiệm {savings} khi đặt cùng lúc. Hộp thoại tóm tắt giá. Nút.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Giá gói là {price_per_person} mỗi người. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. Nút để xem gói.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">Hộp thoại tóm tắt giá. Tóm tắt giá khi đặt gói. Giá khách sạn: {hotel_price}. Giá chuyến bay khứ hồi: {flights_price}. Tổng cộng: {reference_price}. Tiết kiệm {savings} khi đặt cùng lúc. Tổng giá nhóm khi đặt cùng lúc là {total_price}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Chuyến đi đến {city_name}. {startdate} đến {enddate}, {guests}</string>
     <!-- Package filter checkbox.
@@ -5149,6 +5129,6 @@
     <string name="flight_route_happy_guide_title_v1">Tiện nghi, dịch vụ chuyến bay</string>
     <string name="flight_route_happy_guide_title_v2">Điểm chuyến bay</string>
     <string name="flight_route_happy_guide_title_v3">Tiện nghi, dịch vụ &amp; Điểm chuyến bay</string>
-    <string name="flight_route_happy_guide_info">Quý vị có thể kiểm tra chuyến bay của mình có Wifi, phương tiện giải trí hay ổ cắm điện hay không.</string>
-    <string name="flight_route_happy_guide_more_info">Điểm chuyến bay giúp quý vị chọn chuyến bay tốt nhất với các yếu tố thời gian chuyến bay, loại máy bay và chất lượng, dịch vụ chuyến bay cung cấp.</string>
+    <string name="flight_route_happy_guide_info">Giờ đây, quý vị đã có thể chọn chuyến bay theo tiện nghi, dịch vụ như Wifi trên máy bay, ổ cắm điện, giải trí hoặc nhiều tùy chọn khác.</string>
+    <string name="flight_route_happy_guide_more_info">Chúng tôi đã thêm điểm chuyến bay, được đánh giá dựa trên thời gian bay, loại máy bay, tiện nghi dịch vụ trên máy bay và nhiều yếu tố khác.</string>
 </resources>

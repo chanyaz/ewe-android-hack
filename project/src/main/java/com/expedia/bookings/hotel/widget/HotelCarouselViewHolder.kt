@@ -20,7 +20,7 @@ import com.expedia.bookings.widget.TextView
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class HotelCarouselViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
+class HotelCarouselViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root) {
 
     val hotelClickedSubject = PublishSubject.create<Int>()
 
@@ -45,12 +45,12 @@ class HotelCarouselViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), 
     var hotelPreviewRating: StarRatingBar by Delegates.notNull()
 
     init {
+        itemView.setOnClickListener {
+            hotelClickedSubject.onNext(adapterPosition)
+        }
+
         hotelPreviewRating = root.findViewById(if (shouldShowCircleForRatings()) R.id.hotel_preview_circle_rating else R.id.hotel_preview_star_rating)
         hotelPreviewRating.visibility = View.VISIBLE
-    }
-
-    override fun onClick(view: View) {
-        hotelClickedSubject.onNext(adapterPosition)
     }
 
     fun bindHotelData(hotel: Hotel, shopWithPoints: Boolean = false) {
