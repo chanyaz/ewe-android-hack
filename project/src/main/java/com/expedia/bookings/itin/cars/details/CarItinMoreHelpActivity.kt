@@ -13,6 +13,7 @@ import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.scopes.CarItinMoreHelpMasterScope
+import com.expedia.bookings.itin.scopes.CarsMasterScope
 import com.expedia.bookings.itin.scopes.ItinCustomerSupportWidgetViewModelScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.IToaster
@@ -60,6 +61,12 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
         }
     }
 
+    var viewModel: CarItinMoreHelpViewModel<CarsMasterScope> by notNullAndObservable { vm ->
+        vm.invalidSubject.subscribe {
+            finish()
+        }
+    }
+
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     var tripsTracking: ITripsTracking = TripsTracking
 
@@ -73,7 +80,7 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
         val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
         carRepo = ItinCarRepo(intent.getStringExtra(CAR_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
         repo = ItinRepo(intent.getStringExtra(CAR_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
-        val scope = CarItinMoreHelpMasterScope(stringProvider, this, carRepo, tripsTracking)
+        val scope = CarItinMoreHelpMasterScope(stringProvider, this, carRepo, tripsTracking, repo)
 
         toolbarViewModel = CarItinMoreHelpToolbarViewModel(scope)
         toolbar.viewModel = toolbarViewModel
@@ -88,7 +95,9 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
+        viewModel.finishSubject.onNext(Unit)
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
+        repo.dispose()
         carRepo.dispose()
     }
 }

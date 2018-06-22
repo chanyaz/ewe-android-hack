@@ -327,6 +327,12 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         trackItinPageLoad(s, trip)
     }
 
+    override fun trackItinCarMoreHelpPageLoad(trip: HashMap<String, String?>) {
+        Log.d(TAG, "Tracking \"$ITIN_CAR_MORE_HELP\" pageLoad")
+        val s = createTrackPageLoadEventBase(ITIN_CAR_MORE_HELP)
+        trackItinPageLoad(s, trip)
+    }
+
     //LX Tracking
     private const val ITIN_ACTIVITY = "App.Itinerary.Activity"
     private const val ITIN_ACTIVITY_DETAILS_MAP = "App.Itinerary.Activity.Map"
