@@ -453,14 +453,12 @@ Feature: Flights Search
   @Flights @FlightSearchSet3 @Prod
   Scenario Outline: Verify if preferred class search works for round trip
     Given I launch the App
-    And I set bucketing rules for A/B tests as
-    | EBAndroidAppFlightsMoreInfoOnOverview | BUCKETED                 |
     And I launch "Flights" LOB
     When I enter source and destination for flights
-      | source              | LAS - McCarran Intl.                     |
-      | destination         | San Francisco, CA                        |
-      | source_suggest      | LAS - McCarran Intl.                     |
-      | destination_suggest | San Francisco, CA                        |
+      | source              | SEA                            |
+      | destination         | LAS                            |
+      | source_suggest      | SEA - Seattle - Tacoma Intl.   |
+      | destination_suggest | Las Vegas, NV                  |
     And I pick dates for flights
       | start_date | 30 |
       | end_date   | 39 |
