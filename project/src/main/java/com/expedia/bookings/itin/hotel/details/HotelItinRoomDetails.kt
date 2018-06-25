@@ -46,8 +46,10 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     fun doOnClick() {
         if (expandedRoomDetails.visibility == View.GONE) {
             expandRoomDetailsView()
+            AccessibilityUtil.makeExpandedCollapsedAnnouncement(collapsedRoomDetails, isExpanded = true)
         } else {
             collapseRoomDetailsView()
+            AccessibilityUtil.makeExpandedCollapsedAnnouncement(collapsedRoomDetails, isExpanded = false)
         }
     }
 
@@ -60,7 +62,6 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             expandedRoomDetails.visibility = View.VISIBLE
             AnimUtils.rotate(roomDetailsChevron)
         }
-        AccessibilityUtil.makeExpandedCollapsedAnnouncement(collapsedRoomDetails, isExpanded = true)
     }
 
     fun collapseRoomDetailsView() {
@@ -68,7 +69,6 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             expandedRoomDetails.visibility = View.GONE
             AnimUtils.reverseRotate(roomDetailsChevron)
         }
-        AccessibilityUtil.makeExpandedCollapsedAnnouncement(collapsedRoomDetails, isExpanded = false)
     }
 
     fun setUpRoomAndOccupantInfo(room: TripHotelRoom) {
