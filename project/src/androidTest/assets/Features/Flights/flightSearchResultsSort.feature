@@ -69,7 +69,7 @@ Feature: Sorting of Flight results
       | source              | LHR                                      |
       | destination         | Spain                                    |
       | source_suggest      | London, England, UK (LHR - Heathrow)     |
-      | destination_suggest | BCN - Barcelona Intl.                    |
+      | destination_suggest | Barcelona, Spain                         |
       | start_date          | 5                                        |
       | end_date            | 10                                       |
       | adults              | 1                                        |
