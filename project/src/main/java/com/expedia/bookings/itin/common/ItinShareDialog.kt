@@ -80,7 +80,7 @@ class ItinShareDialog(val context: Context) {
             val appIntents = intents.toArray(arrayOfNulls<LabeledIntent>(intents.size))
 
             val receiver = Intent(context, NewItinShareTargetBroadcastReceiver::class.java)
-            receiver.putExtra(Intent.EXTRA_KEY_EVENT, itinShareTextGenerator.getType())
+            receiver.putExtra(Intent.EXTRA_KEY_EVENT, itinShareTextGenerator.getLOBTypeString())
             val pendingIntent = PendingIntent.getBroadcast(context, 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT)
             val chooserIntent = Intent.createChooser(Intent(), context.resources.getString(R.string.itin_share_dialog_title), pendingIntent.intentSender)
             chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -87,7 +87,7 @@ class LxItinToolbarViewModelTest {
         sut.itinLxObserver.onChanged(lx)
 
         val textGenerator = shareTextGeneratorTestObserver.values().first()
-        assertEquals("Activity", textGenerator.getType())
+        assertEquals("Activity", textGenerator.getLOBTypeString())
         assertEquals((R.string.itin_lx_share_email_subject_TEMPLATE).toString().plus(mapOf("trip" to "California Academy of Sciences General Admission: General Admission ")), textGenerator.getEmailSubject())
         assertEquals((R.string.itin_lx_share_email_body_TEMPLATE).toString().plus(mapOf("trip" to "California Academy of Sciences General Admission: General Admission ", "startdate" to "Wed, Oct 24", "enddate" to "Wed, Oct 24", "travelers" to "Nina Ricci", "brand" to "Expedia", "link" to "app.info.url")), textGenerator.getEmailBody())
         assertEquals((R.string.itin_lx_share_sms_body_TEMPLATE).toString().plus(mapOf("trip" to "California Academy of Sciences General Admission: General Admission ", "startdate" to "Wed, Oct 24", "enddate" to "Wed, Oct 24", "travelers" to "Nina Ricci")), textGenerator.getSmsBody())

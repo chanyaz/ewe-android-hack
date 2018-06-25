@@ -4,5 +4,5 @@ interface ItinShareTextGenerator {
     fun getEmailSubject(): String
     fun getEmailBody(): String
     fun getSmsBody(): String
-    fun getType(): String
+    fun getLOBTypeString(): String
 }

@@ -15,7 +15,7 @@ class LxItinShareTextGenerator(val trip: String,
                                private val stringSource: StringSource,
                                private val posInfoProvider: IPOSInfoProvider) : ItinShareTextGenerator {
 
-    override fun getType(): String {
+    override fun getLOBTypeString(): String {
         return TripProducts.ACTIVITY.name.toLowerCase().capitalize()
     }
 

@@ -23,6 +23,7 @@ import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
+import com.expedia.bookings.itin.utils.POSInfoProvider
 import com.expedia.bookings.itin.utils.PhoneHandler
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.itin.utils.WebViewLauncher
@@ -97,7 +98,7 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
 
         val itinRepo = ItinRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
-        val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking, itinRepo)
+        val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking, itinRepo, POSInfoProvider())
 
         viewModel = CarItinDetailsViewModel(scope)
         imageWidget.viewModel = CarItinImageViewModel(scope)

@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.utils.IActivityLauncher
+import com.expedia.bookings.itin.utils.IPOSInfoProvider
 import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -19,7 +20,9 @@ data class CarsMasterScope(
         override val toaster: IToaster,
         override val phoneHandler: IPhoneHandler,
         override val tripsTracking: ITripsTracking,
-        override val itinRepo: ItinRepoInterface) : HasCarRepo, HasLifecycleOwner, HasStringProvider, HasActivityLauncher, HasWebViewLauncher, HasToaster, HasPhoneHandler, HasTripsTracking, HasItinRepo
+        override val itinRepo: ItinRepoInterface,
+        override val posInfoProvider: IPOSInfoProvider
+) : HasCarRepo, HasLifecycleOwner, HasStringProvider, HasActivityLauncher, HasWebViewLauncher, HasToaster, HasPhoneHandler, HasTripsTracking, HasItinRepo, HasPOSProvider
 
 data class CarItinMoreHelpMasterScope(
         override val strings: StringSource,
