@@ -56,6 +56,7 @@ class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinLx>
                 phoneNumberContDescriptionSubject.onNext(contDesc)
                 phoneNumberClickSubject.subscribe {
                     scope.phoneHandler.handle(number)
+                    scope.tripsTracking.trackItinLxDetailsCallClicked()
                 }
             }
         }
