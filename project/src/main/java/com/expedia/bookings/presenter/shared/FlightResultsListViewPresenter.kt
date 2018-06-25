@@ -21,6 +21,7 @@ import com.expedia.bookings.flights.vm.SelectedOutboundFlightViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHighlightSortFilterOnPackagesEnabled
+import com.expedia.bookings.utils.isRichContentEnabled
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.FlightLoadingWidget
@@ -92,6 +93,13 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     override fun back(): Boolean {
         trackScrollDepthSubscription?.dispose()
+        if (isRichContentEnabled(context)) {
+            if (isShowingOutboundResults) {
+                resultsViewModel.abortRichContentOutboundObservable.onNext(Unit)
+            } else {
+                resultsViewModel.abortRichContentInboundObservable.onNext(Unit)
+            }
+        }
         return super.back()
     }
 
