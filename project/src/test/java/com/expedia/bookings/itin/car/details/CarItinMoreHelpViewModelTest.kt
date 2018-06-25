@@ -68,7 +68,6 @@ class CarItinMoreHelpViewModelTest {
     @Test
     fun testMoreHelpHappyPath() {
         vm.itinObserver.onChanged(ItinMocker.carDetailsHappy)
-        vm.itinCarObserver.onChanged(ItinMocker.carDetailsHappy.cars?.first())
 
         phoneNumberTestObserver.assertValue("02 9221 2231")
 
@@ -91,7 +90,6 @@ class CarItinMoreHelpViewModelTest {
     @Test
     fun testNoPhoneNumberMoreHelp() {
         vm.itinObserver.onChanged(noPhoneNumberJson)
-        vm.itinCarObserver.onChanged(noPhoneNumberJson.cars?.first())
 
         phoneNumberTestObserver.assertEmpty()
         callButtonContentDescriptionTestObserver.assertEmpty()

@@ -3,17 +3,14 @@ package com.expedia.bookings.itin.car.details
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.cars.details.CarItinMoreHelpToolbarViewModel
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
-import com.expedia.bookings.itin.helpers.MockCarRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
-import com.expedia.bookings.itin.scopes.HasCarRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.extensions.firstCar
 import com.expedia.bookings.itin.utils.StringSource
@@ -52,7 +49,7 @@ class CarItinMoreHelpToolbarViewModelTest {
         toolbarSubTitleTestObserver.assertNoValues()
         assertFalse(vm.scope.mockStrings.fetchWithPhraseCalled)
 
-        vm.itinCarObserver.onChanged(ItinMocker.carDetailsHappy.cars?.first())
+        vm.itinCarObserver.onChanged(ItinMocker.carDetailsHappy)
 
         toolbarTitleTestObserver.assertValue(R.string.itin_car_more_info_heading.toString())
 
@@ -71,11 +68,10 @@ class CarItinMoreHelpToolbarViewModelTest {
         vm.shareIconClickedSubject.subscribe(shareIconClickedTestObserver)
     }
 
-    private class MockCarItinToolbarScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasCarRepo {
-        override val itinCarRepo: ItinCarRepoInterface = MockCarRepo()
+    private class MockCarItinToolbarScope : HasStringProvider, HasItinRepo, HasLifecycleOwner {
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         val mockStrings = MockStringProvider()
         override val strings: StringSource = mockStrings
-        override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     }
 }

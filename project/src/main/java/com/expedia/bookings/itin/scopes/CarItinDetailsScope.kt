@@ -24,7 +24,6 @@ data class CarsMasterScope(
 data class CarItinMoreHelpMasterScope(
         override val strings: StringSource,
         override val lifecycleOwner: LifecycleOwner,
-        override val itinCarRepo: ItinCarRepoInterface,
         override val tripsTracking: ITripsTracking,
         override val itinRepo: ItinRepoInterface
-) : HasStringProvider, HasCarRepo, HasTripsTracking, HasLifecycleOwner, HasItinRepo
+) : HasStringProvider, HasTripsTracking, HasLifecycleOwner, HasItinRepo

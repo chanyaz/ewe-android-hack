@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.itin.cars.ItinCarRepo
 import com.expedia.bookings.itin.common.ItinCustomerSupportViewModel
 import com.expedia.bookings.itin.common.ItinCustomerSupportWidget
 import com.expedia.bookings.itin.common.ItinRepo
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.scopes.CarItinMoreHelpMasterScope
-import com.expedia.bookings.itin.scopes.CarsMasterScope
 import com.expedia.bookings.itin.scopes.ItinCustomerSupportWidgetViewModelScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.IToaster
@@ -50,9 +49,7 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
     val toolbar: ItinToolbar by bindView(R.id.widget_car_more_help_toolbar)
     val carItinMoreHelpWidget: CarItinMoreHelpWidget by bindView(R.id.widget_car_itin_more_help)
 
-    lateinit var carRepo: ItinCarRepo
-    lateinit var repo: ItinRepo
-    lateinit var moreHelpViewModel: CarItinMoreHelpViewModel<CarItinMoreHelpMasterScope>
+    lateinit var repo: ItinRepoInterface
     val itinCustomerSupportWidget: ItinCustomerSupportWidget by bindView(R.id.widget_car_itin_customer_support)
 
     var toolbarViewModel: CarItinMoreHelpToolbarViewModel<CarItinMoreHelpMasterScope> by notNullAndObservable { vm ->
@@ -61,7 +58,7 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
         }
     }
 
-    var viewModel: CarItinMoreHelpViewModel<CarsMasterScope> by notNullAndObservable { vm ->
+    var moreHelpViewModel: CarItinMoreHelpViewModel<CarItinMoreHelpMasterScope> by notNullAndObservable { vm ->
         vm.invalidSubject.subscribe {
             finish()
         }
@@ -78,9 +75,8 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
         stringProvider = Ui.getApplication(this).appComponent().stringProvider()
         val tripsTracking = TripsTracking
         val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
-        carRepo = ItinCarRepo(intent.getStringExtra(CAR_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
         repo = ItinRepo(intent.getStringExtra(CAR_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
-        val scope = CarItinMoreHelpMasterScope(stringProvider, this, carRepo, tripsTracking, repo)
+        val scope = CarItinMoreHelpMasterScope(stringProvider, this, tripsTracking, repo)
 
         toolbarViewModel = CarItinMoreHelpToolbarViewModel(scope)
         toolbar.viewModel = toolbarViewModel
@@ -95,9 +91,7 @@ class CarItinMoreHelpActivity : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-        viewModel.finishSubject.onNext(Unit)
+        moreHelpViewModel.finishSubject.onNext(Unit)
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
-        repo.dispose()
-        carRepo.dispose()
     }
 }
