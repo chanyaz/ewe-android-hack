@@ -128,7 +128,7 @@ Feature: Package Overview
       | end_date          | 10                    |
       | totalTravelers    | 4 travelers           |
     And validate hotel selection step label
-      | info_text         | Hotel in Kathmandu - 1 room, 3 nights |
+      | info_text         | Step 1: Select hotel  |
      And validate "varHotelName" is same as user selected on package overview screen
      Then validate hotel widget data on hotel overview widget
        | info_text | May 7 - May 10, 4 guests |
@@ -144,7 +144,7 @@ Feature: Package Overview
        | sale_status         |                       |
      And I click on hotel widget details icon
      And validate outbound flight selection label
-       | info_text           | Flights - happy to KTM, round trip|
+       | info_text           | Step 2: Select outbound flight     |
      And validate package outbound flight data on package outbound flight widget
        | flight_to               | Flight to (KTM) Kathmandu      |
        | info_text               | May 5 at 2:15 pm, 4 travelers  |

@@ -38,10 +38,7 @@ Feature: Search Suggestions for packages
     And I click on source search button
     When I type "del" in the packages source search box
     And I select "DEL - Indira Gandhi Intl." from suggestions
-    And I press back
-    And I launch "Bundle Deals" LOB
     And I click on source search button
-    And I type "de" in the packages source search box
     Then "DEL - Indira Gandhi Intl." is listed at the top of suggestion list as recent search
 
   @Packages @PackagesTypeahead @Prod

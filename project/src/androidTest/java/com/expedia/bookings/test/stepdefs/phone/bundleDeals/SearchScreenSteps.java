@@ -449,6 +449,7 @@ public class SearchScreenSteps {
 	public void validateResultCount() {
 		String resultString = getResultCount();
 		String resultCountString = resultString.replace(" Results", "").trim();
+		resultCountString = resultCountString.replace("Total price roundtrip, per person. includes hotel and flights • ", "").trim();
 		int resultCount = Integer.parseInt(resultCountString);
 		PackageScreen.listView().check(matches(withRecyclerViewSize(resultCount + 3)));
 	}
@@ -465,6 +466,6 @@ public class SearchScreenSteps {
 
 	@Then("^Validate content description of hotel results description header$")
 	public void validateContentDescriptionOfHSRHeader() {
-		HotelResultsScreen.hotelResultsDescHeader().check(matches(withContentDescription("50 Results   Button")));
+		HotelResultsScreen.hotelResultsDescHeader().check(matches(withContentDescription("Total price roundtrip, per person. includes hotel and flights • 50 Results   Button")));
 	}
 }

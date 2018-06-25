@@ -90,7 +90,7 @@ Feature: Package End To End
       | source              | SEA                           |
       | destination         | LAS                           |
       | source_suggest      | SEA - Seattle  -  Tacoma Intl.|
-      | destination_suggest | Las Vegas, NV                 |
+      | destination_suggest | Las Vegas Strip, NV           |
       | start_date          | 5                             |
       | end_date            | 8                             |
       | adults              | 1                             |
@@ -114,7 +114,7 @@ Feature: Package End To End
     And I change travellers count and press done
     Then I can trigger packages search
     Then on Package Overview Screen validate the toolbar
-      | destination    | Las Vegas, NV              |
+      | destination    | Las Vegas Strip, NV        |
       | start_date     |  5                         |
       | end_date       | 10                         |
       | totalTravelers | 5 travelers                |
