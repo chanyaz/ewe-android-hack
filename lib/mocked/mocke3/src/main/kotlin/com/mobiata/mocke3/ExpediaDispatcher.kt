@@ -18,7 +18,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings
     private val hotelRequestDispatcher = HotelRequestDispatcher(fileOpener)
     private val flightApiRequestDispatcher = FlightApiRequestDispatcher(fileOpener)
     private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
-    private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
     private val multiItemApiRequestDispatcher = MultiItemApiRequestDispatcher(fileOpener)
     private val railApiRequestDispatcher = RailApiRequestDispatcher(fileOpener)
     private val satelliteServiceRequestDispatcher = SatelliteApiRequestDispatcher(fileOpener)
@@ -64,11 +63,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings
         // Hotel Shortlist API
         if (HotelShortlistApiRequestMatcher.isHotelShortlistRequest(request.path)) {
             return hotelShortlistRequestDispatcher.dispatch(request)
-        }
-
-        // Packages API
-        if (request.path.startsWith("/getpackages/v1") || request.path.startsWith("/api/packages")) {
-            return packagesApiRequestDispatcher.dispatch(request)
         }
 
         // MID API

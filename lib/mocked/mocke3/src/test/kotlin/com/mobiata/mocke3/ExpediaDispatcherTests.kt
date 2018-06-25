@@ -44,16 +44,6 @@ class ExpediaDispatcherTests {
     }
 
     @Test
-    fun testRequestWithPackagesV1PathReturnsMatchingMockResponse() {
-        assertPathReturnsMockBodyWithString("getpackages/v1", mapOf(Pair("ftla", "")), "getpackages/v1/happy.json")
-    }
-
-    @Test
-    fun testRequestWithPackagesV2PathReturnsMatchingMockResponse() {
-        assertPathReturnsMockBodyWithString("api/packages/createTrip", mapOf(Pair("productKey", "create_trip")), "api/packages/createtrip/create_trip.json")
-    }
-
-    @Test
     fun testRequestWithMultiItemPathReturnsMatchingMockResponse() {
         assertPathReturnsMockBodyWithString("api/multiitem/v1/hotels", mapOf(Pair("origin", "happy")), "api/multiitem/v1/happy.json")
     }
