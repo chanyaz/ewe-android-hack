@@ -4,6 +4,7 @@ import com.expedia.bookings.itin.common.ItinAdditionalInfoCardViewModel
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
 import com.expedia.bookings.itin.common.ItinManageBookingWidgetViewModel
 import com.expedia.bookings.itin.common.ItinPriceSummaryCardViewModel
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -19,7 +20,7 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) : ItinManageBookingWidgetV
     override val additionalInfoViewModel: ItinBookingInfoCardViewModel
 
     init {
-        val stringsWebViewScope = WebViewCardScope(scope.strings, scope.webViewLauncher, scope.itinLxRepo.liveDataItin.value!!)
+        val stringsWebViewScope = WebViewCardScope(scope.strings, scope.webViewLauncher, scope.itinLxRepo.liveDataItin.value!!, TripProducts.ACTIVITY.name, scope.tripsTracking)
         val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher, scope.itinLxRepo, scope.tripsTracking)
         moreHelpViewModel = LxItinMoreHelpCardViewModel(stringsActivityScope)
         priceSummaryViewModel = ItinPriceSummaryCardViewModel(stringsWebViewScope)
