@@ -42,7 +42,6 @@
     <color name="lx_primary_color">@color/app_primary</color>
     <color name="lx_ripple_color">#8b1a10</color>
     <color name="lx_secondary_color_disabled">@color/app_primary</color>
-    <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">@color/app_primary</color>

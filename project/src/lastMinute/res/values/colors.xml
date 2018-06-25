@@ -49,7 +49,6 @@
     <color name="lx_primary_color">#E40088</color>
     <color name="lx_ripple_color">#A1266C</color>
     <color name="lx_secondary_color_disabled">#fd20a4</color>
-    <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
 
     <!-- Launch screen colors -->
     <color name="old_launch_toolbar_background_color">@color/action_bar_bg_color</color>

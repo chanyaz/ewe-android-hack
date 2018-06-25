@@ -55,7 +55,6 @@
     <color name="lx_primary_color">#004D7C</color>
     <color name="lx_ripple_color">#0065B8</color>
     <color name="lx_secondary_color_disabled">#00B1FF</color>
-    <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#C4204B</color>

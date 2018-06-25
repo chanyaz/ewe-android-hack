@@ -57,7 +57,6 @@
     <color name="lx_primary_color">@color/lob_btn_color</color>
     <color name="lx_ripple_color">#054A75</color>
     <color name="lx_secondary_color_disabled">#0E7DC4</color>
-    <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">@color/error_color</color>

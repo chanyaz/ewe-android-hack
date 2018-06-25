@@ -69,7 +69,6 @@
     <color name="lx_primary_color">#0099CC</color>
     <color name="lx_ripple_color">#6AC4E9</color>
     <color name="lx_secondary_color_disabled">#003366</color>
-    <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">@color/error_color</color>
