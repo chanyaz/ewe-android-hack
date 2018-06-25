@@ -291,6 +291,8 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_CAR_CALL_EXPEDIA = "App.Itinerary.Car.Manage.Call.Expedia"
     private const val ITIN_CAR_CUSTOMER_SUPPORT = "App.Itinerary.Car.Manage.CSP"
     private const val ITIN_CAR_SHARE_CLICKED = "App.Itinerary.Car.Share.Start"
+    private const val ITIN_CAR_PRICE_SUMMARY = "App.Itinerary.Car.PriceSummary"
+    private const val ITIN_CAR_ADDITIONAL_INFO = "App.Itinerary.Car.Info.Additional"
 
     override fun trackItinCarDetailsMap() {
         val s = createTrackLinkEvent(ITIN_CAR_DETAILS_MAP)
@@ -339,6 +341,16 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Sharing")
     }
 
+    override fun trackItinCarPriceSummary() {
+        val s = createTrackLinkEvent(ITIN_CAR_PRICE_SUMMARY)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinCarAdditionalInfo() {
+        val s = createTrackLinkEvent(ITIN_CAR_ADDITIONAL_INFO)
+        s.trackLink("Itinerary Action")
+    }
+
     //LX Tracking
     private const val ITIN_ACTIVITY = "App.Itinerary.Activity"
     private const val ITIN_ACTIVITY_DETAILS_MAP = "App.Itinerary.Activity.Map"
@@ -349,6 +361,8 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_ACTIVITY_CALL_EXPEDIA = "App.Itinerary.Activity.Manage.Call.Expedia"
     private const val ITIN_ACTIVITY_CUSTOMER_SUPPORT = "App.Itinerary.Activity.Manage.CSP"
     private const val ITIN_ACTIVITY_SHARE_CLICKED = "App.Itinerary.Activity.Share.Start"
+    private const val ITIN_ACTIVITY_PRICE_SUMMARY = "App.Itinerary.Activity.PriceSummary"
+    private const val ITIN_ACTIVITY_ADDITIONAL_INFO = "App.Itinerary.Activity.Info.Additional"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
@@ -400,6 +414,16 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     override fun trackItinLxShareIconClicked() {
         val s = createTrackLinkEvent(ITIN_ACTIVITY_SHARE_CLICKED)
         s.trackLink("Itinerary Sharing")
+    }
+
+    override fun trackItinActivityPriceSummary() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_PRICE_SUMMARY)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinActivityAdditionalInfo() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_ADDITIONAL_INFO)
+        s.trackLink("Itinerary Action")
     }
 
     fun trackShareItinFromApp(tripType: String, appPackageName: String) {

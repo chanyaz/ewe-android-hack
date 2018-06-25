@@ -378,10 +378,38 @@ class TripsTrackingTest {
     }
 
     @Test
+<<<<<<< HEAD
     fun testTrackItinCarShareIconClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinCarShareIconClicked()
         OmnitureTestUtils.assertLinkTracked("Itinerary Sharing", "App.Itinerary.Car.Share.Start", mockAnalyticsProvider)
+=======
+    fun testTrackItinCarPriceSummaryClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCarPriceSummary()
+        assertItinLinkTracked("App.Itinerary.Car.PriceSummary")
+    }
+
+    @Test
+    fun testTrackItinCarAdditionalInfoClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCarAdditionalInfo()
+        assertItinLinkTracked("App.Itinerary.Car.Info.Additional")
+    }
+
+    @Test
+    fun testTrackItinActivityPriceSummaryClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinActivityPriceSummary()
+        assertItinLinkTracked("App.Itinerary.Activity.PriceSummary")
+    }
+
+    @Test
+    fun testTrackItinActivityAdditionalInfoClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinActivityAdditionalInfo()
+        assertItinLinkTracked("App.Itinerary.Activity.Info.Additional")
+>>>>>>> T14290 added tracking and tests
     }
 
     fun assertItinLinkTracked(rfrrId: String) {

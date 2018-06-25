@@ -38,6 +38,10 @@ class MockTripsTracking : ITripsTracking {
     var trackItinCarDetailsPageLoad = false
     var trackItinCarMoreHelpPageLoad = false
     var trackItinCarShareIconClicked = false
+    var trackItinCarPriceSummaryClicked = false
+    var trackItinCarAdditionalInfoClicked = false
+    var trackItinActivityPriceSummaryClicked = false
+    var trackItinActivityAdditionalInfoClicked = false
 
     override fun trackItinLxDetailsMap() {
         mapClicked = true
@@ -165,5 +169,21 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackItinCarMoreHelpPageLoad(trip: HashMap<String, String?>) {
         trackItinCarMoreHelpPageLoad = true
+    }
+
+    override fun trackItinCarPriceSummary() {
+        trackItinCarPriceSummaryClicked = true
+    }
+
+    override fun trackItinCarAdditionalInfo() {
+        trackItinCarAdditionalInfoClicked = true
+    }
+
+    override fun trackItinActivityPriceSummary() {
+        trackItinActivityPriceSummaryClicked = true
+    }
+
+    override fun trackItinActivityAdditionalInfo() {
+        trackItinActivityAdditionalInfoClicked = true
     }
 }
