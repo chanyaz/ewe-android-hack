@@ -17,17 +17,6 @@ class ItinPriceSummaryCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel 
             if (!itin.webDetailsURL.isNullOrEmpty() && !itin.tripId.isNullOrEmpty()) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, itin.webDetailsURL!!, "price", itin.tripId!!, isGuest = isGuest)
             }
-            priceSummaryTrackingPerLob(scope)
+        scope.tripsTracking.trackItinLobPriceSummaryButtonClick(scope.type)
         }
-
-    fun priceSummaryTrackingPerLob(scope: S) {
-        when (scope.type) {
-            TripProducts.ACTIVITY.name -> {
-                scope.tripsTracking.trackItinActivityPriceSummary()
-            }
-            TripProducts.CAR.name -> {
-                scope.tripsTracking.trackItinCarPriceSummary()
-            }
-        }
-    }
 }

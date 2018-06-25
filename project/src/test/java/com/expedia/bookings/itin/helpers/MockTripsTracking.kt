@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.helpers
 
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.tracking.ITripsTracking
 
 class MockTripsTracking : ITripsTracking {
@@ -171,19 +172,25 @@ class MockTripsTracking : ITripsTracking {
         trackItinCarMoreHelpPageLoad = true
     }
 
-    override fun trackItinCarPriceSummary() {
-        trackItinCarPriceSummaryClicked = true
+    override fun trackItinLobPriceSummaryButtonClick(lob: String) {
+        when (lob) {
+            TripProducts.ACTIVITY.name -> {
+                trackItinActivityPriceSummaryClicked = true
+            }
+            TripProducts.CAR.name -> {
+                trackItinCarPriceSummaryClicked = true
+            }
+        }
     }
 
-    override fun trackItinCarAdditionalInfo() {
-        trackItinCarAdditionalInfoClicked = true
-    }
-
-    override fun trackItinActivityPriceSummary() {
-        trackItinActivityPriceSummaryClicked = true
-    }
-
-    override fun trackItinActivityAdditionalInfo() {
-        trackItinActivityAdditionalInfoClicked = true
+    override fun trackItinLobAdditionalInfoButtonClick(lob: String) {
+        when (lob) {
+            TripProducts.ACTIVITY.name -> {
+                trackItinActivityAdditionalInfoClicked = true
+            }
+            TripProducts.CAR.name -> {
+                trackItinCarAdditionalInfoClicked = true
+            }
+        }
     }
 }
