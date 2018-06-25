@@ -949,6 +949,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private fun showInboundPresenter(city: SuggestionV4) {
         show(inboundPresenter)
+        flightOfferViewModel.currentLeg = 1
+
         announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
                 .put("city", StrUtils.formatCity(city))
                 .format().toString())

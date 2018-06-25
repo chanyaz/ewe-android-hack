@@ -35,7 +35,7 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
         flightOfferViewModel.outboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
         detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
             val params = Db.getFlightSearchParams()
-            params.latestSelectedOfferInfo.selectedLegList[flightOfferViewModel.currentLeg] = it
+            params.latestSelectedOfferInfo.selectedLegList.add(flightOfferViewModel.currentLeg, it)
             flightOfferViewModel.confirmedLegSelection.onNext(flightOfferViewModel.currentLeg)
         }
         detailsPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.outboundSelected)
