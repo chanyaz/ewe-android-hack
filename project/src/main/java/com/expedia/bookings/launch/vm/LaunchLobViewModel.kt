@@ -49,7 +49,8 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
             lobs.add(LobInfo.CARS)
         }
 
-        if (pos.supports(LineOfBusiness.LX)) {
+        val forceEnableLXLOB = SettingUtils.get(context, R.string.preference_force_enable_lx_lob, false)
+        if (pos.supports(LineOfBusiness.LX) || forceEnableLXLOB) {
             lobs.add(LobInfo.ACTIVITIES)
         }
 

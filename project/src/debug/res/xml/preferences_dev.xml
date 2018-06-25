@@ -159,6 +159,12 @@
             android:summary="Do LX bookings, but suppress any actual booking from going through"
             android:title="Suppress LX Bookings" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_force_enable_lx_lob"
+            android:summary="Enable LX LOB on home screen irrespective of configuration"
+            android:title="Force Enable LX LOB" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
