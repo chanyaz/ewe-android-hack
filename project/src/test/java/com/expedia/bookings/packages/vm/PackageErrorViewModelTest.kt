@@ -43,6 +43,21 @@ class PackageErrorViewModelTest {
         observableEmissionsOnSearchError(PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight)
         observableEmissionsOnSearchError(PackageApiError.Code.mid_no_offers_post_filtering)
         observableEmissionsOnSearchError(PackageApiError.Code.no_internet)
+        assertButtonTextOnError(PackageApiError.Code.pkg_piid_expired)
+        assertButtonTextOnError(PackageApiError.Code.pkg_pss_downstream_service_timeout)
+        assertButtonTextOnError(PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight)
+        assertButtonTextOnError(PackageApiError.Code.pkg_destination_resolution_failed)
+        assertButtonTextOnError(PackageApiError.Code.pkg_origin_resolution_failed)
+        assertButtonTextOnError(PackageApiError.Code.pkg_unknown_error)
+        assertButtonTextOnError(PackageApiError.Code.search_response_null)
+        assertButtonTextOnError(PackageApiError.Code.pkg_flight_no_longer_available)
+        assertButtonTextOnError(PackageApiError.Code.pkg_too_many_children_in_lap)
+        assertButtonTextOnError(PackageApiError.Code.pkg_no_flights_available)
+        assertButtonTextOnError(PackageApiError.Code.pkg_hotel_no_longer_available)
+        assertButtonTextOnError(PackageApiError.Code.pkg_search_from_date_too_near)
+        assertButtonTextOnError(PackageApiError.Code.mid_could_not_find_results)
+        assertButtonTextOnError(PackageApiError.Code.pkg_invalid_checkin_checkout_dates)
+        assertButtonTextOnError(PackageApiError.Code.mid_no_offers_post_filtering)
     }
 
     private fun getSearchAPIErrorDetails(errorCode: PackageApiError.Code): Pair<PackageApiError.Code, ApiCallFailing> {
@@ -73,6 +88,40 @@ class PackageErrorViewModelTest {
         }
 
         errorMessageObservableTestSubscriber.assertValues(expectedErrorMessage)
+    }
+
+    fun assertButtonTextOnError(apiError: PackageApiError.Code) {
+        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
+
+        val searchApiObservableTestSubscriber = TestObserver.create<Pair<PackageApiError.Code, ApiCallFailing>>()
+        subjectUnderTest.packageSearchApiErrorObserver.subscribe(searchApiObservableTestSubscriber)
+
+        val buttonTextObservableTestSubscriber = TestObserver.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(buttonTextObservableTestSubscriber)
+
+        subjectUnderTest.paramsSubject.onNext(getPackageSearchParams())
+
+        subjectUnderTest.packageSearchApiErrorObserver.onNext(getSearchAPIErrorDetails(apiError))
+
+        val expectedButtonText = when (apiError) {
+            PackageApiError.Code.pkg_piid_expired -> RuntimeEnvironment.application.getString(R.string.search_again)
+            PackageApiError.Code.pkg_pss_downstream_service_timeout -> RuntimeEnvironment.application.getString(R.string.search_again)
+            PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight -> RuntimeEnvironment.application.getString(R.string.retry)
+            PackageApiError.Code.pkg_destination_resolution_failed -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_origin_resolution_failed -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_unknown_error -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.search_response_null -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_flight_no_longer_available -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_too_many_children_in_lap -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_no_flights_available -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_hotel_no_longer_available -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_search_from_date_too_near -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.mid_could_not_find_results -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.pkg_invalid_checkin_checkout_dates -> RuntimeEnvironment.application.getString(R.string.edit_search)
+            PackageApiError.Code.mid_no_offers_post_filtering -> RuntimeEnvironment.application.getString(R.string.clear_filters)
+            else -> RuntimeEnvironment.application.getString(R.string.retry)
+        }
+        buttonTextObservableTestSubscriber.assertValues(expectedButtonText)
     }
 
     private fun getPackageSearchParams(): PackageSearchParams {

@@ -121,7 +121,7 @@ class PackageErrorViewModel(context: Context) : LobErrorViewModel(context) {
                     error = ApiError(ApiError.Code.PACKAGE_HOTEL_NO_RESULTS_POST_FILTER)
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_filter_result_message))
-                    buttonOneTextObservable.onNext(context.getString(R.string.reset_filter))
+                    buttonOneTextObservable.onNext(context.getString(R.string.clear_filters))
                 }
                 else -> {
                     couldNotConnectToServerError()
