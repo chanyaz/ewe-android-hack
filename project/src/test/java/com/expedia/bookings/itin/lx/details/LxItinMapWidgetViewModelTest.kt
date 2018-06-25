@@ -25,7 +25,6 @@ import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.StringSource
-import com.expedia.bookings.tracking.ITripsTracking
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.observers.TestObserver
 import org.junit.Before
@@ -86,6 +85,7 @@ class LxItinMapWidgetViewModelTest {
         phoneNumberTextTestObserver.assertNoValues()
         phoneNumberContDescTestObserver.assertNoValues()
         assertFalse(mockScope.mockPhoneHandler.handleCalled)
+        assertFalse(mockScope.tripsTracking.trackItinLxDetailsCallClicked)
 
         sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.firstLx())
 
@@ -98,6 +98,7 @@ class LxItinMapWidgetViewModelTest {
         sut.phoneNumberClickSubject.onNext(Unit)
 
         assertTrue(mockScope.mockPhoneHandler.handleCalled)
+        assertTrue(mockScope.tripsTracking.trackItinLxDetailsCallClicked)
     }
 
     @Test
@@ -168,7 +169,7 @@ class LxItinMapWidgetViewModelTest {
         val mockToaster = MockToaster()
         override val toaster: IToaster = mockToaster
         val mockTracking = MockTripsTracking()
-        override val tripsTracking: ITripsTracking = mockTracking
+        override val tripsTracking = mockTracking
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         val mockRepo = MockLxRepo(false)
         override val itinLxRepo: ItinLxRepoInterface = mockRepo

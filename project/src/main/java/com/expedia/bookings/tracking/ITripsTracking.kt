@@ -19,6 +19,7 @@ interface ITripsTracking {
     fun trackItinLxCallSupplierClicked()
     fun trackItinLxMoreHelpClicked()
     fun trackItinLxMoreHelpPageLoad(trip: HashMap<String, String?>)
+    fun trackItinLxDetailsCallClicked()
     fun trackItinExpandedMapZoomIn()
     fun trackItinExpandedMapZoomOut()
     fun trackItinExpandedMapZoomPan()
