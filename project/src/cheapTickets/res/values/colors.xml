@@ -22,7 +22,6 @@
     <color name="actionbar_tab_text_unselected">#CACDCF</color>
     <color name="action_bar_text_blue">#D00000</color>
     <color name="itin_flight_line_color">#268ac8</color>
-    <color name="coupon_success_message_color">#7baed4</color>
     <color name="action_bar_flight_text_color">@color/actionbar_text_color</color>
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="preferences_text">#495863</color>

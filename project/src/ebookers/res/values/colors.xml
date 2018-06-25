@@ -35,7 +35,6 @@
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
-    <color name="flight_free_cancellation_text_color">#0099CC</color>
     <color name="traveler_drop_down_checked_color">@color/app_primary</color>
 
     <color name="hotels_primary_color">#0099CC</color>

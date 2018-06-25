@@ -28,7 +28,6 @@
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
-    <color name="flight_free_cancellation_text_color">@color/hotels_primary_color</color>
 
     <color name="flight_trip">#D6682D</color>
     <color name="splash_screen_bg">#26344F</color>

@@ -103,7 +103,6 @@
     <color name="roboto_light">@color/gray100</color>
     <color name="spinner_airport">@color/white</color>
     <color name="spinner_airport_details">@color/gray600</color>
-    <color name="flight_free_cancellation_text_color">#FFE980</color>
 
     <!-- Flights V2 colors -->
     <color name="flight_warning_bar_color">@color/exp_lob_dark_blue</color>
@@ -188,8 +187,6 @@
     <color name="hotel_details_separator">@color/gray400</color>
     <color name="legal_info_blue">#235285</color>
     <color name="action_bar_flight_text_color">@color/gray100</color>
-    <color name="confirmation_header_divider_flight">#7D7ab6f5</color>
-    <color name="confirmation_header_divider_hotel">@color/gray400</color>
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
@@ -201,7 +198,6 @@
     <!-- From ABS, Sherlock Light DialogWindowTitle -->
     <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
-    <color name="coupon_success_message_color">#FFE115</color>
     <!-- Ripped out of ABS -->
     <color name="abs__background_holo_dark">@color/black</color>
     <color name="abs__background_holo_light">@color/gray100</color>
@@ -277,8 +273,6 @@
     <!-- LX colors -->
     <color name="lx_primary_color">@color/app_primary</color>
     <color name="lx_ripple_color">@color/app_primary_dark</color>
-    <color name="lx_button_ripple">@color/app_primary_light</color>
-    <color name="lx_button_color">@color/app_primary</color>
 
     <color name="lx_actionbar_text_color">@color/gray800</color>
 

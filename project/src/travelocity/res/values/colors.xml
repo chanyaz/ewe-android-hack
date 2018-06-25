@@ -10,7 +10,6 @@
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
     <color name="actionbar_tab_text_unselected">#FFFFFF</color>
     <color name="itin_flight_line_color">#276498</color>
-    <color name="coupon_success_message_color">#7baed4</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>

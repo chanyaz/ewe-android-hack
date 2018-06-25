@@ -2185,8 +2185,6 @@
     <string name="payment_through_card_and_pwp_points">You are using {points} ({amount}) Expedia Rewards points\nYour card will be charged {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finish Booking</string>
-    <!-- Our price gaurentee string -->
-    <string name="price_guarantee">Price Guarantee</string>
     <!-- Sign out -->
     <string name="sign_out">Sign out</string>
     <!-- You'll earn points for this trip -->
@@ -2254,8 +2252,6 @@
     <!-- Flight -->
     <string name="flight">Flight</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Add Traveler</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Main Traveler</string>
     <!-- Heading for selecting travelers on flights and packages -->
@@ -2267,8 +2263,6 @@
     <string name="select_traveler">Select Contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Add New Traveler</string>
-    <!-- Add Guest for hotels -->
-    <string name="guest_details">Guest details</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">Traveler names must match government-issued photo ID exactly.</string>
     <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
