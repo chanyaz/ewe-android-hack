@@ -67,7 +67,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class])
 class HotelDetailViewModelTest {
 
     // TODO: Improve HotelDetailViewModel test coverage
@@ -561,35 +561,38 @@ class HotelDetailViewModelTest {
         val roomResponse = createRoomResponseList()
         val sorted = vm.groupAndSortRoomList(roomResponse)
         assertEquals(3, sorted.count())
-        assertEquals(sorted["1"]!![0].roomTypeCode, "1")
-        assertEquals(sorted["1"]!![1].roomTypeCode, "1")
-        assertEquals(sorted["1"]!![2].roomTypeCode, "1")
-        assertEquals(sorted["3"]!![0].roomTypeCode, "3")
-        assertEquals(sorted["2"]!![0].roomTypeCode, "2")
-        assertEquals(sorted["2"]!![1].roomTypeCode, "2")
+        assertEquals(3, sorted["1"]!!.count())
+        assertEquals(2, sorted["2"]!!.count())
+        assertEquals(1, sorted["3"]!!.count())
+        assertEquals("1", sorted["1"]!![0].roomTypeCode)
+        assertEquals("1", sorted["1"]!![1].roomTypeCode)
+        assertEquals("1", sorted["1"]!![2].roomTypeCode)
+        assertEquals("3", sorted["3"]!![0].roomTypeCode)
+        assertEquals("2", sorted["2"]!![0].roomTypeCode)
+        assertEquals("2", sorted["2"]!![1].roomTypeCode)
 
-        assertEquals(sorted["1"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted["1"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 10f)
         assertEquals(sorted["1"]!![0].hasFreeCancellation, false)
-        assertEquals(sorted["1"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted["1"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 10f)
         assertEquals(sorted["1"]!![1].hasFreeCancellation, true)
-        assertEquals(sorted["1"]!![2].rateInfo.chargeableRateInfo.priceToShowUsers, 1000.toFloat())
-        assertEquals(sorted["3"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 15.toFloat())
-        assertEquals(sorted["2"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
-        assertEquals(sorted["2"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
+        assertEquals(sorted["1"]!![2].rateInfo.chargeableRateInfo.priceToShowUsers, 1000f)
+        assertEquals(sorted["3"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 15f)
+        assertEquals(sorted["2"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 20f)
+        assertEquals(sorted["2"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 100f)
     }
 
     @Test
     fun testGroupAndSortNoRoomTypeCode() {
-        var roomTypeCode1 = createRoomResponse("typeCode", 20.toFloat())
-        var roomTypeCode2 = createRoomResponse("typeCode", 10.toFloat())
+        var roomTypeCode1 = createRoomResponse("typeCode", 20f)
+        var roomTypeCode2 = createRoomResponse("typeCode", 10f)
 
-        val productKey1 = createRoomResponse(null, 40.toFloat())
-        val productKey2 = createRoomResponse(null, 30.toFloat())
+        val productKey1 = createRoomResponse(null, 40f)
+        val productKey2 = createRoomResponse(null, 30f)
         productKey1.productKey = "productKey"
         productKey2.productKey = "productKey"
 
-        val productKey3 = createRoomResponse(null, 60.toFloat())
-        val productKey4 = createRoomResponse(null, 50.toFloat())
+        val productKey3 = createRoomResponse(null, 60f)
+        val productKey4 = createRoomResponse(null, 50f)
         productKey3.productKey = "productKey2"
         productKey4.productKey = "productKey2"
 
@@ -600,14 +603,60 @@ class HotelDetailViewModelTest {
         val sorted = vm.groupAndSortRoomList(roomResponse)
 
         assertEquals(3, sorted.count())
-        assertEquals(sorted["typeCode"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
-        assertEquals(sorted["typeCode"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
+        assertEquals(2, sorted["typeCode"]!!.count())
+        assertEquals(10f, sorted["typeCode"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(20f, sorted["typeCode"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(2, sorted["productKey"]!!.count())
+        assertEquals(30f, sorted["productKey"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(40f, sorted["productKey"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(2, sorted["productKey2"]!!.count())
+        assertEquals(50f, sorted["productKey2"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(60f, sorted["productKey2"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers)
+    }
 
-        assertEquals(sorted["productKey"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 30.toFloat())
-        assertEquals(sorted["productKey"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 40.toFloat())
+    @Test
+    fun testGroupAndSortRoomUseRateTypeCode() {
+        val rateTypeCode1 = createRoomResponse(null, 1f)
+        rateTypeCode1.rateInfo.chargeableRateInfo.roomTypeCode = "rateTypeCode"
+        val rateTypeCode2 = createRoomResponse(null, 2f)
+        rateTypeCode2.rateInfo.chargeableRateInfo.roomTypeCode = "rateTypeCode"
+        val roomResponse = listOf(rateTypeCode1, rateTypeCode2)
 
-        assertEquals(sorted["productKey2"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 50.toFloat())
-        assertEquals(sorted["productKey2"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 60.toFloat())
+        val sorted = vm.groupAndSortRoomList(roomResponse)
+
+        assertEquals(1, sorted.count())
+        assertEquals(2, sorted["rateTypeCode"]!!.count())
+        assertEquals(1f, sorted["rateTypeCode"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(2f, sorted["rateTypeCode"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers)
+    }
+
+    @Test
+    fun testGroupAndSortRoomSameTypeCodeOnDifferentField() {
+        val room1 = createRoomResponse(null, 1000f)
+        room1.rateInfo.chargeableRateInfo.roomTypeCode = "typeCode"
+        val room2 = createRoomResponse("typeCode", 2000f)
+        val room3 = createRoomResponse(null, 3000f)
+        room3.productKey = "typeCode"
+        val roomResponse = listOf(room1, room3, room2)
+
+        val sorted = vm.groupAndSortRoomList(roomResponse)
+
+        assertEquals(1, sorted.count())
+        assertEquals(3, sorted["typeCode"]!!.count())
+        assertEquals(1000f, sorted["typeCode"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(2000f, sorted["typeCode"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers)
+        assertEquals(3000f, sorted["typeCode"]!![2].rateInfo.chargeableRateInfo.priceToShowUsers)
+    }
+
+    @Test
+    fun testGroupAndSortRoomNullGroupingKey() {
+        val nullGroupingKey = createRoomResponse(null, 100f)
+        nullGroupingKey.productKey = null
+        val roomResponse = listOf(nullGroupingKey)
+
+        val sorted = vm.groupAndSortRoomList(roomResponse)
+
+        assertTrue(sorted.isEmpty())
     }
 
     @Test
@@ -854,13 +903,13 @@ class HotelDetailViewModelTest {
     private fun createRoomResponseList(): List<HotelOffersResponse.HotelRoomResponse> {
         val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
-        rooms.add(createRoomResponse("2", 20.toFloat()))
-        rooms.add(createRoomResponse("1", 10.toFloat()))
+        rooms.add(createRoomResponse("2", 20f))
+        rooms.add(createRoomResponse("1", 10f))
         rooms.last().hasFreeCancellation = true
-        rooms.add(createRoomResponse("3", 15.toFloat()))
-        rooms.add(createRoomResponse("1", 1000.toFloat()))
-        rooms.add(createRoomResponse("2", 100.toFloat()))
-        rooms.add(createRoomResponse("1", 10.toFloat()))
+        rooms.add(createRoomResponse("3", 15f))
+        rooms.add(createRoomResponse("1", 1000f))
+        rooms.add(createRoomResponse("2", 100f))
+        rooms.add(createRoomResponse("1", 10f))
         rooms.last().hasFreeCancellation = false
 
         return rooms

@@ -156,6 +156,10 @@ public class HotelOffersResponse extends BaseApiResponse {
 			if (roomTypeCode != null) {
 				return roomTypeCode;
 			}
+			else if (rateInfo != null && rateInfo.chargeableRateInfo != null
+				&& rateInfo.chargeableRateInfo.roomTypeCode != null) {
+				return rateInfo.chargeableRateInfo.roomTypeCode;
+			}
 			return productKey;
 		}
 	}

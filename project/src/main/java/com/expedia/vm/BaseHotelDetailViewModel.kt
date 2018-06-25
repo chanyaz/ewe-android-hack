@@ -274,11 +274,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         sortedRoomList.forEach { room ->
             val groupingKey = room.roomGroupingKey()
 
-            if (roomOrderedMap[groupingKey] == null) {
-                roomOrderedMap[groupingKey] = ArrayList()
-            }
+            if (groupingKey != null) {
+                if (roomOrderedMap[groupingKey] == null) {
+                    roomOrderedMap[groupingKey] = ArrayList()
+                }
 
-            roomOrderedMap[groupingKey]?.add(room)
+                roomOrderedMap[groupingKey]?.add(room)
+            }
         }
 
         return roomOrderedMap
