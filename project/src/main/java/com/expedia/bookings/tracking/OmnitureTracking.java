@@ -817,7 +817,7 @@ public class OmnitureTracking {
 		s.trackLink("Search Results Sort");
 	}
 
-	public static void trackHotelV2SearchMap(boolean swpEnabled) {
+	public static void trackHotelV2MapLoad(boolean swpEnabled) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP + "\" pageLoad...");
 
 		AppAnalytics s = getFreshTrackingObject();
@@ -830,10 +830,11 @@ public class OmnitureTracking {
 		s.setProp(2, HOTELV2_LOB);
 
 		if (swpEnabled) {
-			s.setEvents("event118");
+			s.appendEvents("event118");
 		}
 
 		trackAbacusTest(s, AbacusUtils.HotelMapSmallSoldOutPins);
+		trackAbacusTest(s, AbacusUtils.HotelResultsCellOnMapCarousel);
 		// Send the tracking data
 		s.track();
 	}

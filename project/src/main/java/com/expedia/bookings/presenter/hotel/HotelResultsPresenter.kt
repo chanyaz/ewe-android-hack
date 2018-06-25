@@ -340,8 +340,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
     }
 
-    override fun trackSearchMap() {
-        HotelTracking.trackHotelSearchMap(swpEnabled)
+    override fun trackMapLoad() {
+        HotelTracking.trackHotelMapLoad(swpEnabled)
     }
 
     override fun trackMapToList() {

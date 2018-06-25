@@ -252,8 +252,8 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2Filter()
         }
 
-        fun trackHotelSearchMap(swpEnabled: Boolean) {
-            OmnitureTracking.trackHotelV2SearchMap(swpEnabled)
+        fun trackHotelMapLoad(swpEnabled: Boolean) {
+            OmnitureTracking.trackHotelV2MapLoad(swpEnabled)
         }
 
         fun trackHotelMapToList(swpEnabled: Boolean) {

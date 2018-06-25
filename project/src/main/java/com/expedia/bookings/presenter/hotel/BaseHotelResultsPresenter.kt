@@ -1115,7 +1115,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     fun showWithTracking(newState: Any) {
         if (!transitionRunning) {
             when (newState) {
-                is ResultsMap -> trackSearchMap()
+                is ResultsMap -> trackMapLoad()
                 is ResultsFilter -> trackFilterShown()
             }
             show(newState)
@@ -1187,7 +1187,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView
     abstract fun hideSearchThisArea()
     abstract fun createFilterViewModel(): BaseHotelFilterViewModel
-    abstract fun trackSearchMap()
+    abstract fun trackMapLoad()
     abstract fun trackMapToList()
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()

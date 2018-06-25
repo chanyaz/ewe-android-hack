@@ -143,7 +143,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         return !isPackagesHSRPriceDisplayEnabled(context)
     }
 
-    override fun trackSearchMap() {
+    override fun trackMapLoad() {
         PackagesTracking().trackHotelMapLoad()
     }
 
