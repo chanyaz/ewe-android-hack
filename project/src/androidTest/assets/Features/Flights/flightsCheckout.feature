@@ -352,6 +352,7 @@ Feature: Flights Checkout
       Then I verify that field to enter credit card is present on the payment details form
       Then I enter the card number
         | card_number              | 343434343434343                    |
+      And Close price change Alert dialog if it is visible
       Then Validate the error message displayed
         | error_message            | Airline does not accept American Express    |
       And Also verify the credit card image when card is not accepted for payment
