@@ -21,7 +21,7 @@ class LXDetailsPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY,
-            MultiBrand.AIRASIAGO, MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.AIRASIAGO, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testSetToolbarTitles() {
         Ui.getApplication(RuntimeEnvironment.application).defaultLXComponents()
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()

@@ -178,7 +178,7 @@ public class LXDataUtilsTest {
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
+		MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void getToolbarSearchDateTextTest() {
 		LocalDate startDate = new LocalDate(2016, 4, 23);
 		LocalDate endDate = new LocalDate(2016, 4, 23).plusDays(2);
@@ -358,7 +358,7 @@ public class LXDataUtilsTest {
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.VOYAGES})
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY})
 	public void testAddPriceSummaryRow() {
 		LinearLayout viewGroup = new LinearLayout(getContext());
 		Gson gson = new GsonBuilder().create();

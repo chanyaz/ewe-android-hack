@@ -105,7 +105,7 @@ class FlightResultsListViewPresenterTest {
         testFlightAdapter = FlightTestUtil.Companion.TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
     }
 
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.VOYAGES, MultiBrand.TRAVELOCITY, MultiBrand.CHEAPTICKETS))
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.TRAVELOCITY, MultiBrand.CHEAPTICKETS))
     fun testDockedOutboundFlightV2() {
         inflateAndSetViewModel()
         val flightLeg = createFakeFlightLeg()

@@ -254,7 +254,7 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
+		MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testWaypointFormatting() {
 		Waypoint waypoint = new Waypoint(Waypoint.ACTION_ARRIVAL);
 		waypoint.mAirportCode = "YVR";
@@ -271,7 +271,7 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
+		MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testAirportFormatting() {
 		Airport airport = new Airport();
 		airport.mCountryCode = "GB";
@@ -307,7 +307,7 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
+		MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testRoundOff() {
 		float testNumber = 4.0481f;
 		assertEquals("4", StrUtils.roundOff(testNumber, 0));

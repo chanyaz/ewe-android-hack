@@ -53,7 +53,6 @@ import com.expedia.bookings.utils.shouldShowCustomerFirstGuarantee
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
-import com.mobiata.android.util.AndroidUtils
 import com.mobiata.android.util.HtmlUtils
 import com.mobiata.android.util.SettingUtils
 import com.squareup.otto.Subscribe
@@ -81,9 +80,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     private val ROW_TERMS_AND_CONDITIONS = 5
     private val ROW_ATOL_INFO = 6
     private val ROW_OPEN_SOURCE_LICENSES = 7
-
-    val ROW_VSC_VOYAGES = 8
-    private val PKG_VSC_VOYAGES = "com.vsct.vsc.mobile.horaireetresa.android"
 
     private val ROW_CLEAR_PRIVATE_DATA = 9
     private val ROW_RATE_APP = 10
@@ -676,11 +672,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
             }
             ROW_OPEN_SOURCE_LICENSES -> {
                 aboutUtils.openOpenSourceLicenses()
-                return true
-            }
-
-            ROW_VSC_VOYAGES -> {
-                SocialUtils.openSite(context, AndroidUtils.getMarketAppLink(context, PKG_VSC_VOYAGES))
                 return true
             }
             ROW_CLEAR_PRIVATE_DATA -> {

@@ -7,7 +7,7 @@ from StringValidationClause import *
 
 class StringShouldNotHaveBrandSpecificTerm(StringValidationClause):
 	def violatingPatterns(self):
-		return [r'Expedia[^+]', r'Travelocity', r'Wotif', r'AirAsiaGo', r'VSC', r'LM AU & NZ']
+		return [r'Expedia[^+]', r'Travelocity', r'Wotif', r'AirAsiaGo', r'LM AU & NZ']
 
 	def probableIssuesOnLineInFile(self, file, line, index):
 		issueList = []

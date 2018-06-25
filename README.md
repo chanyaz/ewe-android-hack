@@ -4,7 +4,6 @@ Welcome
 This is the code base that builds:
 
  * [Expedia Hotels & Flights Android](https://play.google.com/store/apps/details?id=com.expedia.bookings)
- * [Hôtel Voyages-sncf](https://play.google.com/store/apps/details?id=com.expedia.bookings.vsc)
  * [Travelocity Hotels & Flights](https://play.google.com/store/apps/details?id=com.travelocity.android)
  * [AirAsiaGo](https://play.google.com/store/apps/details?id=com.airasiago.android)
  * [Wotif](https://play.google.com/store/apps/details?id=com.wotif.android)

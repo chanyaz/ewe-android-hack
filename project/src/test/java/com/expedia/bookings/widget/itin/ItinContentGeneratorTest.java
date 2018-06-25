@@ -120,7 +120,7 @@ public class ItinContentGeneratorTest {
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
+		MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testHotelHeaderTextFuture4d() {
 		DateTime ci = mTodayAtNoon.plusDays(4);
 		DateTime co = mTodayAtNoon.plusDays(10);

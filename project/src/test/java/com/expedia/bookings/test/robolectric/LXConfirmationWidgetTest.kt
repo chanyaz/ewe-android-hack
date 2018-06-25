@@ -82,7 +82,7 @@ class LXConfirmationWidgetTest {
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO, MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS])
+    @RunForBrands(brands = [MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS])
     fun testConfirmationWidgetViews() {
         mockConfirmationLXState(doCheckout = true)
 

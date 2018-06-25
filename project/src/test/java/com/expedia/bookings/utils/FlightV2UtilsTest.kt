@@ -43,7 +43,7 @@ class FlightV2UtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testDepartArrivalNegativeElapsedDays() {
         testFlightLeg.elapsedDays = -1
         val expectedWithElapsedDaysAccesibleString = "12:30 pm - 4:40 pm -1d"
@@ -54,7 +54,7 @@ class FlightV2UtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testDepartArrivalMultipleElapsedDays() {
         testFlightLeg.elapsedDays = 2
         val expectedWithElapsedDaysAccesibleString = "12:30 pm - 4:40 pm +2d"
@@ -65,7 +65,7 @@ class FlightV2UtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testDepartArrivalNoElapsedDays() {
         testFlightLeg.elapsedDays = 0
         val expectedWithElapsedDaysAccesibleString = "12:30 pm - 4:40 pm"
@@ -76,7 +76,7 @@ class FlightV2UtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testAccessibleDepartArrivalNegativeElapsedDays() {
         testFlightLeg.elapsedDays = -1
         val expectedWithElapsedDaysAccesibleString = "12:30 pm to 4:40 pm minus 1d"
@@ -87,7 +87,7 @@ class FlightV2UtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testAccessibleDepartArrivalNoElapsedDays() {
         testFlightLeg.elapsedDays = 0
         val expectedNoElapsedDaysAccesibleString = "12:30 pm to 4:40 pm"
@@ -98,7 +98,7 @@ class FlightV2UtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testAccessibleDepartArrivalWithElapsedDays() {
         testFlightLeg.elapsedDays = 2
         val expectedWithElapsedDaysAccesibleString = "12:30 pm to 4:40 pm plus 2d"

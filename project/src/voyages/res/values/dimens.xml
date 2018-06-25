@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Amount due today text size-->
-    <item name="launch_sign_in_placeholder_alpha" type="dimen" format="float">0.1</item>
-</resources>

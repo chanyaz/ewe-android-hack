@@ -51,7 +51,7 @@ public class GCMIdDialogPreferenceFragment extends PreferenceDialogFragmentCompa
 		builder.setTitle("GCM Info");
 
 		if (TextUtils.isEmpty(gcmId)) {
-			builder.setMessage("GCM ID NOT CURRENTLY AVAILABLE! Please wait a little a while (and ensure this isn't a VSC build).");
+			builder.setMessage("GCM ID NOT CURRENTLY AVAILABLE! Please wait a little a while.");
 
 		}
 		else {

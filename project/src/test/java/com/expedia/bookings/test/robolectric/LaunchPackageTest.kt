@@ -38,7 +38,7 @@ class LaunchPackageTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.MRJET, MultiBrand.VOYAGES))
+    @RunForBrands(brands = arrayOf(MultiBrand.MRJET))
     fun testPackageLaunchIntentWhenPackageIsNotEnabled() {
         val data = Bundle()
         data.putBoolean(Constants.INTENT_PERFORM_HOTEL_SEARCH, true)

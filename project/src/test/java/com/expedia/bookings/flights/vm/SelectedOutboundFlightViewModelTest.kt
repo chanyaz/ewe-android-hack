@@ -51,7 +51,7 @@ class SelectedOutboundFlightViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun arrivalDepartureTimeAndDuration() {
         val testSubscriber = TestObserver.create<String>()
         sut.arrivalDepartureTimeObservable.subscribe(testSubscriber)

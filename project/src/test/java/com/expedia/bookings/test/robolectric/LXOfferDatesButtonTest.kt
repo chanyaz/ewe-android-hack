@@ -29,7 +29,7 @@ class LXOfferDatesButtonTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testLXDatesWidget() {
         datesButton.bind(LocalDate(1989, 1, 14), false)
         assertEquals("Saturday\n14\n", datesButton.contentDescription.toString())

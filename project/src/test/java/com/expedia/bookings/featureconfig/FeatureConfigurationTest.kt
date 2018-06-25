@@ -39,7 +39,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
             "orbitz" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
             "travelocity" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
-            "voyages" -> assertFalse(featureConfig.isAppCrossSellInActivityShareContentEnabled)
             "wotif" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
         }
     }
@@ -55,7 +54,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
             "orbitz" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
             "travelocity" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
-            "voyages" -> assertFalse(featureConfig.isAppCrossSellInCarShareContentEnabled)
             "wotif" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
         }
     }
@@ -71,7 +69,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.shouldDisplayInsuranceDetailsIfAvailableOnItinCard())
             "orbitz" -> assertTrue(featureConfig.shouldDisplayInsuranceDetailsIfAvailableOnItinCard())
             "travelocity" -> assertTrue(featureConfig.shouldDisplayInsuranceDetailsIfAvailableOnItinCard())
-            "voyages" -> assertTrue(featureConfig.shouldDisplayInsuranceDetailsIfAvailableOnItinCard())
             "wotif" -> assertTrue(featureConfig.shouldDisplayInsuranceDetailsIfAvailableOnItinCard())
         }
     }
@@ -87,7 +84,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.wantsCustomHandlingForLocaleConfiguration())
             "orbitz" -> assertTrue(featureConfig.wantsCustomHandlingForLocaleConfiguration())
             "travelocity" -> assertTrue(featureConfig.wantsCustomHandlingForLocaleConfiguration())
-            "voyages" -> assertTrue(featureConfig.wantsCustomHandlingForLocaleConfiguration())
             "wotif" -> assertTrue(featureConfig.wantsCustomHandlingForLocaleConfiguration())
         }
     }
@@ -129,10 +125,6 @@ class FeatureConfigurationTest {
                 assertFalse(featureConfig.shouldUseDotlessDomain(endpoint))
                 assertTrue(featureConfig.shouldUseDotlessDomain(integrationEndpoint))
             }
-            "voyages" -> {
-                assertFalse(featureConfig.shouldUseDotlessDomain(endpoint))
-                assertTrue(featureConfig.shouldUseDotlessDomain(integrationEndpoint))
-            }
             "wotif" -> {
                 assertFalse(featureConfig.shouldUseDotlessDomain(endpoint))
                 assertTrue(featureConfig.shouldUseDotlessDomain(integrationEndpoint))
@@ -156,7 +148,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(e3EndPoint, featureConfig.touchupE3EndpointUrlIfRequired(e3EndPoint))
             "orbitz" -> assertEquals(e3EndPoint, featureConfig.touchupE3EndpointUrlIfRequired(e3EndPoint))
             "travelocity" -> assertEquals(e3EndPoint, featureConfig.touchupE3EndpointUrlIfRequired(e3EndPoint))
-            "voyages" -> assertEquals(e3EndPoint, featureConfig.touchupE3EndpointUrlIfRequired(e3EndPoint))
             "wotif" -> assertEquals(e3EndPoint, featureConfig.touchupE3EndpointUrlIfRequired(e3EndPoint))
         }
     }
@@ -172,7 +163,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isTuneEnabled)
             "orbitz" -> assertTrue(featureConfig.isTuneEnabled)
             "travelocity" -> assertTrue(featureConfig.isTuneEnabled)
-            "voyages" -> assertFalse(featureConfig.isTuneEnabled)
             "wotif" -> assertTrue(featureConfig.isTuneEnabled)
         }
     }
@@ -188,7 +178,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
             "orbitz" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
             "travelocity" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
-            "voyages" -> assertFalse(featureConfig.isFacebookLoginIntegrationEnabled)
             "wotif" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
         }
     }
@@ -204,7 +193,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
             "orbitz" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
             "travelocity" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
-            "voyages" -> assertFalse(featureConfig.isFacebookShareIntegrationEnabled)
             "wotif" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
         }
     }
@@ -220,7 +208,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.isAppIntroEnabled)
             "orbitz" -> assertFalse(featureConfig.isAppIntroEnabled)
             "travelocity" -> assertFalse(featureConfig.isAppIntroEnabled)
-            "voyages" -> assertFalse(featureConfig.isAppIntroEnabled)
             "wotif" -> assertFalse(featureConfig.isAppIntroEnabled)
         }
     }
@@ -236,7 +223,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(0, featureConfig.launchScreenActionLogo)
             "orbitz" -> assertEquals(0, featureConfig.launchScreenActionLogo)
             "travelocity" -> assertEquals(0, featureConfig.launchScreenActionLogo)
-            "voyages" -> assertNotEquals(0, featureConfig.launchScreenActionLogo)
             "wotif" -> assertNotEquals(0, featureConfig.launchScreenActionLogo)
         }
     }
@@ -253,7 +239,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(brandName, featureConfig.getPOSSpecificBrandName(context))
             "orbitz" -> assertEquals(brandName, featureConfig.getPOSSpecificBrandName(context))
             "travelocity" -> assertEquals(brandName, featureConfig.getPOSSpecificBrandName(context))
-            "voyages" -> assertEquals(brandName, featureConfig.getPOSSpecificBrandName(context))
             "wotif" -> assertEquals(brandName, featureConfig.getPOSSpecificBrandName(context))
         }
     }
@@ -269,7 +254,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
             "orbitz" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
             "travelocity" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
-            "voyages" -> assertFalse(featureConfig.isFacebookTrackingEnabled)
             "wotif" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
         }
     }
@@ -285,7 +269,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isAbacusTestEnabled)
             "orbitz" -> assertTrue(featureConfig.isAbacusTestEnabled)
             "travelocity" -> assertTrue(featureConfig.isAbacusTestEnabled)
-            "voyages" -> assertTrue(featureConfig.isAbacusTestEnabled)
             "wotif" -> assertTrue(featureConfig.isAbacusTestEnabled)
         }
     }
@@ -301,7 +284,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.rewardsLayoutId)
             "orbitz" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.rewardsLayoutId)
             "travelocity" -> assertEquals(0, featureConfig.rewardsLayoutId)
-            "voyages" -> assertEquals(0, featureConfig.rewardsLayoutId)
             "wotif" -> assertEquals(0, featureConfig.rewardsLayoutId)
         }
     }
@@ -317,7 +299,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.isRewardProgramPointsType)
             "orbitz" -> assertFalse(featureConfig.isRewardProgramPointsType)
             "travelocity" -> assertFalse(featureConfig.isRewardProgramPointsType)
-            "voyages" -> assertFalse(featureConfig.isRewardProgramPointsType)
             "wotif" -> assertFalse(featureConfig.isRewardProgramPointsType)
         }
     }
@@ -335,7 +316,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.rewardTierAPINames)
             "orbitz" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.rewardTierAPINames)
             "travelocity" -> assertNull(featureConfig.rewardTierAPINames)
-            "voyages" -> assertNull(featureConfig.rewardTierAPINames)
             "wotif" -> assertNull(featureConfig.rewardTierAPINames)
         }
     }
@@ -353,7 +333,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.rewardTierSupportNumberConfigNames)
             "orbitz" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.rewardTierSupportNumberConfigNames)
             "travelocity" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
-            "voyages" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
             "wotif" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
         }
     }
@@ -370,7 +349,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
             "orbitz" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
             "travelocity" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
-            "voyages" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
             "wotif" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
         }
     }
@@ -386,7 +364,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
             "orbitz" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
             "travelocity" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
-            "voyages" -> assertFalse(featureConfig.isCommunicateSectionEnabled)
             "wotif" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
         }
     }
@@ -402,7 +379,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(null, featureConfig.usPointOfSaleId)
             "orbitz" -> assertEquals(PointOfSaleId.ORBITZ, featureConfig.usPointOfSaleId)
             "travelocity" -> assertEquals(PointOfSaleId.TRAVELOCITY, featureConfig.usPointOfSaleId)
-            "voyages" -> assertEquals(null, featureConfig.usPointOfSaleId)
             "wotif" -> assertEquals(null, featureConfig.usPointOfSaleId)
         }
     }
@@ -418,7 +394,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled)
             "orbitz" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled)
             "travelocity" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
-            "voyages" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
             "wotif" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
         }
     }
@@ -435,7 +410,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals("mrjet", featureConfig.getOmnitureEventValue(rewardNameKey))
             "orbitz" -> assertEquals("orbitz", featureConfig.getOmnitureEventValue(rewardNameKey))
             "travelocity" -> assertEquals(null, featureConfig.getOmnitureEventValue(rewardNameKey))
-            "voyages" -> assertEquals(null, featureConfig.getOmnitureEventValue(rewardNameKey))
             "wotif" -> assertEquals(null, featureConfig.getOmnitureEventValue(rewardNameKey))
         }
     }
@@ -451,7 +425,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.shouldShowMemberTier())
             "orbitz" -> assertTrue(featureConfig.shouldShowMemberTier())
             "travelocity" -> assertTrue(featureConfig.shouldShowMemberTier())
-            "voyages" -> assertTrue(featureConfig.shouldShowMemberTier())
             "wotif" -> assertTrue(featureConfig.shouldShowMemberTier())
         }
     }
@@ -467,7 +440,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertNull(featureConfig.sharableFallbackImageURL)
             "orbitz" -> assertNull(featureConfig.sharableFallbackImageURL)
             "travelocity" -> assertNull(featureConfig.sharableFallbackImageURL)
-            "voyages" -> assertNull(featureConfig.sharableFallbackImageURL)
             "wotif" -> assertNull(featureConfig.sharableFallbackImageURL)
         }
     }
@@ -483,7 +455,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.shouldDisplayItinTrackAppLink())
             "orbitz" -> assertTrue(featureConfig.shouldDisplayItinTrackAppLink())
             "travelocity" -> assertTrue(featureConfig.shouldDisplayItinTrackAppLink())
-            "voyages" -> assertTrue(featureConfig.shouldDisplayItinTrackAppLink())
             "wotif" -> assertTrue(featureConfig.shouldDisplayItinTrackAppLink())
         }
     }
@@ -499,7 +470,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.shouldSetExistingUserForTune())
             "orbitz" -> assertTrue(featureConfig.shouldSetExistingUserForTune())
             "travelocity" -> assertFalse(featureConfig.shouldSetExistingUserForTune())
-            "voyages" -> assertFalse(featureConfig.shouldSetExistingUserForTune())
             "wotif" -> assertFalse(featureConfig.shouldSetExistingUserForTune())
         }
     }
@@ -515,7 +485,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.shouldShowItinShare())
             "orbitz" -> assertTrue(featureConfig.shouldShowItinShare())
             "travelocity" -> assertTrue(featureConfig.shouldShowItinShare())
-            "voyages" -> assertTrue(featureConfig.shouldShowItinShare())
             "wotif" -> assertTrue(featureConfig.shouldShowItinShare())
         }
     }
@@ -531,7 +500,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isRateOurAppEnabled)
             "orbitz" -> assertTrue(featureConfig.isRateOurAppEnabled)
             "travelocity" -> assertTrue(featureConfig.isRateOurAppEnabled)
-            "voyages" -> assertFalse(featureConfig.isRateOurAppEnabled)
             "wotif" -> assertTrue(featureConfig.isRateOurAppEnabled)
         }
     }
@@ -547,7 +515,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.isRewardsCardEnabled)
             "orbitz" -> assertTrue(featureConfig.isRewardsCardEnabled)
             "travelocity" -> assertFalse(featureConfig.isRewardsCardEnabled)
-            "voyages" -> assertFalse(featureConfig.isRewardsCardEnabled)
             "wotif" -> assertFalse(featureConfig.isRewardsCardEnabled)
         }
     }
@@ -563,7 +530,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.showUserRewardsEnrollmentCheck())
             "orbitz" -> assertTrue(featureConfig.showUserRewardsEnrollmentCheck())
             "travelocity" -> assertFalse(featureConfig.showUserRewardsEnrollmentCheck())
-            "voyages" -> assertFalse(featureConfig.showUserRewardsEnrollmentCheck())
             "wotif" -> assertFalse(featureConfig.showUserRewardsEnrollmentCheck())
         }
     }
@@ -587,7 +553,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.sendEapidToTuneTracking())
             "orbitz" -> assertFalse(featureConfig.sendEapidToTuneTracking())
             "travelocity" -> assertFalse(featureConfig.sendEapidToTuneTracking())
-            "voyages" -> assertFalse(featureConfig.sendEapidToTuneTracking())
             "wotif" -> assertFalse(featureConfig.sendEapidToTuneTracking())
         }
     }
@@ -603,7 +568,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.shouldShowPackageIncludesView())
             "orbitz" -> assertTrue(featureConfig.shouldShowPackageIncludesView())
             "travelocity" -> assertTrue(featureConfig.shouldShowPackageIncludesView())
-            "voyages" -> assertTrue(featureConfig.shouldShowPackageIncludesView())
             "wotif" -> assertTrue(featureConfig.shouldShowPackageIncludesView())
         }
     }
@@ -619,7 +583,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.showHotelLoyaltyEarnMessage())
             "orbitz" -> assertTrue(featureConfig.showHotelLoyaltyEarnMessage())
             "travelocity" -> assertFalse(featureConfig.showHotelLoyaltyEarnMessage())
-            "voyages" -> assertFalse(featureConfig.showHotelLoyaltyEarnMessage())
             "wotif" -> assertFalse(featureConfig.showHotelLoyaltyEarnMessage())
         }
     }
@@ -635,7 +598,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.shouldShowUserReview())
             "orbitz" -> assertTrue(featureConfig.shouldShowUserReview())
             "travelocity" -> assertTrue(featureConfig.shouldShowUserReview())
-            "voyages" -> assertFalse(featureConfig.shouldShowUserReview())
             "wotif" -> assertTrue(featureConfig.shouldShowUserReview())
         }
     }
@@ -651,7 +613,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.shouldShowVIPLoyaltyMessage())
             "orbitz" -> assertFalse(featureConfig.shouldShowVIPLoyaltyMessage())
             "travelocity" -> assertFalse(featureConfig.shouldShowVIPLoyaltyMessage())
-            "voyages" -> assertFalse(featureConfig.shouldShowVIPLoyaltyMessage())
             "wotif" -> assertFalse(featureConfig.shouldShowVIPLoyaltyMessage())
         }
     }
@@ -667,7 +628,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.isFirebaseEnabled)
             "orbitz" -> assertFalse(featureConfig.isFirebaseEnabled)
             "travelocity" -> assertFalse(featureConfig.isFirebaseEnabled)
-            "voyages" -> assertFalse(featureConfig.isFirebaseEnabled)
             "wotif" -> assertFalse(featureConfig.isFirebaseEnabled)
         }
     }
@@ -683,7 +643,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertTrue(featureConfig.isCarnivalEnabled)
             "orbitz" -> assertTrue(featureConfig.isCarnivalEnabled)
             "travelocity" -> assertTrue(featureConfig.isCarnivalEnabled)
-            "voyages" -> assertFalse(featureConfig.isCarnivalEnabled)
             "wotif" -> assertTrue(featureConfig.isCarnivalEnabled)
         }
     }
@@ -699,7 +658,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.isRecaptchaEnabled)
             "orbitz" -> assertFalse(featureConfig.isRecaptchaEnabled)
             "travelocity" -> assertFalse(featureConfig.isRecaptchaEnabled)
-            "voyages" -> assertFalse(featureConfig.isRecaptchaEnabled)
             "wotif" -> assertFalse(featureConfig.isRecaptchaEnabled)
         }
     }
@@ -718,7 +676,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(PointOfSale.getPointOfSale().bookingSupportUrl, data.toString())
             "orbitz" -> assertEquals(PointOfSale.getPointOfSale().bookingSupportUrl, data.toString())
             "travelocity" -> assertEquals(PointOfSale.getPointOfSale().bookingSupportUrl, data.toString())
-            "voyages" -> assertTrue(intent.extras.getString("ARG_URL").contains("http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html"))
             "wotif" -> assertEquals(PointOfSale.getPointOfSale().bookingSupportUrl, data.toString())
         }
     }
@@ -736,7 +693,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(appCopyrightURL, featureConfig.getCopyrightLogoUrl(context))
             "orbitz" -> assertEquals(appCopyrightURL, featureConfig.getCopyrightLogoUrl(context))
             "travelocity" -> assertEquals(appCopyrightURL, featureConfig.getCopyrightLogoUrl(context))
-            "voyages" -> assertEquals(appCopyrightURLVariant, featureConfig.getCopyrightLogoUrl(context))
             "wotif" -> assertEquals(appCopyrightURL, featureConfig.getCopyrightLogoUrl(context))
         }
     }
@@ -755,7 +711,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
             "orbitz" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
             "travelocity" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
-            "voyages" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
             "wotif" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
         }
     }
@@ -763,7 +718,6 @@ class FeatureConfigurationTest {
     @Test
     fun testGetPosURLToShow() {
         val expectedURL = "www.sampleURL.com"
-        val expectedURLVoyages = "agence" + expectedURL
         when (brand) {
             "airAsiaGo" -> assertEquals(expectedURL, featureConfig.getPosURLToShow(expectedURL))
             "cheapTickets" -> assertEquals(expectedURL, featureConfig.getPosURLToShow(expectedURL))
@@ -773,7 +727,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(expectedURL, featureConfig.getPosURLToShow(expectedURL))
             "orbitz" -> assertEquals(expectedURL, featureConfig.getPosURLToShow(expectedURL))
             "travelocity" -> assertEquals(expectedURL, featureConfig.getPosURLToShow(expectedURL))
-            "voyages" -> assertEquals(expectedURLVoyages, featureConfig.getPosURLToShow(expectedURL))
             "wotif" -> assertEquals(expectedURL, featureConfig.getPosURLToShow(expectedURL))
         }
     }
@@ -787,7 +740,6 @@ class FeatureConfigurationTest {
             "cheapTickets" -> assertNull(featureConfig.getRewardsCardUrl(context))
             "lastMinute" -> assertNull(featureConfig.getRewardsCardUrl(context))
             "mrJet" -> assertNull(featureConfig.getRewardsCardUrl(context))
-            "voyages" -> assertNull(featureConfig.getRewardsCardUrl(context))
             "travelocity" -> assertNull(featureConfig.getRewardsCardUrl(context))
             "orbitz" -> assertEquals("http://www.orbitz.com/rewards/visacard", featureConfig.getRewardsCardUrl(context))
         }
@@ -804,7 +756,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals("MrJetBookings", featureConfig.appNameForMobiataPushNameHeader)
             "orbitz" -> assertEquals("OrbitzBookings", featureConfig.appNameForMobiataPushNameHeader)
             "travelocity" -> assertEquals("TvlyBookings", featureConfig.appNameForMobiataPushNameHeader)
-            "voyages" -> assertEquals("VSCBookings", featureConfig.appNameForMobiataPushNameHeader)
             "wotif" -> assertEquals("WotifBookings", featureConfig.appNameForMobiataPushNameHeader)
         }
     }
@@ -820,7 +771,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals(PointOfSaleId.MRJET_SWEDEN, featureConfig.defaultPOS)
             "orbitz" -> assertEquals(PointOfSaleId.ORBITZ, featureConfig.defaultPOS)
             "travelocity" -> assertEquals(PointOfSaleId.TRAVELOCITY, featureConfig.defaultPOS)
-            "voyages" -> assertEquals(PointOfSaleId.VSC, featureConfig.defaultPOS)
             "wotif" -> assertEquals(PointOfSaleId.WOTIF, featureConfig.defaultPOS)
         }
     }
@@ -839,7 +789,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertEquals("2018-02-21", formattedDateTime)
             "orbitz" -> assertEquals("2/21/2018", formattedDateTime)
             "travelocity" -> assertEquals("2/21", formattedDateTime)
-            "voyages" -> assertEquals("21/02/2018", formattedDateTime)
             "wotif" -> assertEquals("21/02", formattedDateTime)
         }
     }
@@ -855,7 +804,6 @@ class FeatureConfigurationTest {
             "mrJet" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
             "orbitz" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
             "travelocity" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
-            "voyages" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
             "wotif" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
         }
     }

@@ -34,7 +34,6 @@ public enum PointOfSaleId {
 	UNITED_KINGDOM(28),
 	UNITED_STATES(29),
 	VIETNAM(30),
-	VSC(31),
 	SWITZERLAND(32),
 	FINLAND(33),
 

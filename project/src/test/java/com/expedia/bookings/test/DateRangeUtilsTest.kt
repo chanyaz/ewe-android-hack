@@ -1,17 +1,14 @@
 package com.expedia.bookings.test
 
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
-
 import android.content.Context
-
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.utils.DateRangeUtils
-
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -38,7 +35,7 @@ class DateRangeUtilsTest {
             .withDayOfMonth(26)
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO, MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testyyyyMMddHHToDayDateFormat() {
         val checkInDate = "2018-10-11"
         val checkOutDate = "2018-10-15"
@@ -98,7 +95,7 @@ class DateRangeUtilsTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
-            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+            MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     @Config(shadows = arrayOf(ShadowDateFormat::class))
     fun formatIntervalTest() {
         var actualFormatInterval = DateRangeUtils.formatTimeInterval(context, DateTime(2017, 11, 28, 12, 13), DateTime(2017, 11, 28, 23, 14))

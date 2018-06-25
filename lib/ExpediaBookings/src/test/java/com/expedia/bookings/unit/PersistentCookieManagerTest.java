@@ -1,14 +1,5 @@
 package com.expedia.bookings.unit;
 
-import com.expedia.bookings.services.PersistentCookieManager;
-import com.expedia.bookings.utils.Strings;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -19,6 +10,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.Strings;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
@@ -252,16 +252,6 @@ public class PersistentCookieManagerTest {
 		manager.setMC1Cookie("GUID=1111", host);
 		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get(host);
 		expectMC1CookieValues(expediaCookies, "expedia.com");
-		Assert.assertEquals(1, manager.getCookieStore().size());
-	}
-
-	@Test
-	public void setVoyagesMC1CookieEmptyCookieStore() {
-		HttpUrl voyages = new HttpUrl.Builder().scheme("https").host("agence.voyages-sncf.com").build();
-		String host = voyages.host();
-		manager.setMC1Cookie("GUID=1111", host);
-		HashMap<String, Cookie> voyagesCookies = manager.getCookieStore().get(host);
-		expectMC1CookieValues(voyagesCookies, "agence.voyages-sncf.com");
 		Assert.assertEquals(1, manager.getCookieStore().size());
 	}
 

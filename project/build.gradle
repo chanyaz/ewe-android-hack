@@ -296,16 +296,6 @@ android {
             resConfigs "de", "en_GB", "fi", "fr"
         }
 
-        voyages {
-            buildConfigField "String", "brand", "\"Agence Voyages-SNCF.com\""
-            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
-            buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
-            buildConfigField "String", "USER_AGENT", "\"VSC\""
-            applicationId "com.expedia.bookings.vsc"
-
-            resConfigs "fr"
-        }
-
         travelocity {
             buildConfigField "String", "brand", "\"Travelocity\""
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
@@ -575,7 +565,6 @@ public class GradleUtil {
 
 def releaseAccountTokens = [
     'com.expedia.bookings' : 'expedia.tuid',
-    'com.expedia.bookings.vsc' : 'vsc.tuid',
     'com.travelocity.android' : 'travelocity.tuid',
 ]
 
@@ -618,10 +607,6 @@ def sharedDataFilesToRemove(variant) {
             if (flavor.name == 'travelocity') {
                 filesToRemove.add('ExpediaSharedData/TravelocityPointOfSaleConfig.json')
                 filesToRemove.add('ExpediaSharedData/TVLYServerURLs.json')
-            }
-            else if (flavor.name == 'voyages') {
-                filesToRemove.add('ExpediaSharedData/VSCPointOfSaleConfig.json')
-                filesToRemove.add('ExpediaSharedData/VSCServerURLs.json')
             }
             else {
                 filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('PointOfSaleConfig.json'))
