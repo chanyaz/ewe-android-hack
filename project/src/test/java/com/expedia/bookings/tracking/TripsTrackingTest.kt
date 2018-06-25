@@ -328,33 +328,38 @@ class TripsTrackingTest {
         ), mockAnalyticsProvider)
     }
 
+    @Test
     fun testTrackItinLxCallCustomerSupportClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinLxCallCustomerSupportClicked()
         assertItinLinkTracked("App.Itinerary.Activity.Manage.Call.Expedia")
     }
 
+    @Test
     fun testTrackItinCarMoreHelpClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinCarMoreHelpClicked()
         assertItinLinkTracked("App.Itinerary.Car.MoreHelp")
     }
 
+    @Test
     fun testTrackItinCarCallSupportClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinCarCallSupportClicked()
         assertItinLinkTracked("App.Itinerary.Car.Manage.Call.Car")
     }
 
+    @Test
     fun testTrackItinCarCallCustomerSupportClicked() {
         assertNoTrackingHasOccurred()
-        TripsTracking.trackItinCarCallSupportClicked()
+        TripsTracking.trackItinCarCallCustomerSupportClicked()
         assertItinLinkTracked("App.Itinerary.Car.Manage.Call.Expedia")
     }
 
+    @Test
     fun testTrackItinCarCustomerServiceLinkClicked() {
         assertNoTrackingHasOccurred()
-        TripsTracking.trackItinCarCallSupportClicked()
+        TripsTracking.trackItinCarCustomerServiceLinkClicked()
         assertItinLinkTracked("App.Itinerary.Car.Manage.CSP")
     }
 
