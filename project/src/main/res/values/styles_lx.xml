@@ -33,9 +33,7 @@
         
         
         <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle</item>
-        <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector</item>
-        <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
-        
+
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
 
@@ -44,7 +42,6 @@
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
-        <item name="skin_rippleDrawable">@drawable/lx_button_ripple</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
         <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/traveler_text_color</item>

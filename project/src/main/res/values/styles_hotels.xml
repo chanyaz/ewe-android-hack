@@ -26,8 +26,6 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
         <item name="traveler_details_text">@string/checkout_hotelsv2_enter_guest_details_line1</item>
-
-        <item name="skin_rippleDrawable">@drawable/hotel_ripple_button</item>
     </style>
 
     <style name="Base.Hotels.Default">

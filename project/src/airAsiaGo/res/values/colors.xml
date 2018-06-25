@@ -4,16 +4,12 @@
     <color name="app_primary_dark">#DC170A</color>
     <color name="brand_primary">#E31F0E</color>
     <color name="aag_secondary_color">#F18700</color>
-    <color name="hotel_price_text_color_airasiago">#333</color>
-    <color name="hotel_price_sale_text_color_airasiago">@color/app_primary</color>
     <color name="action_bar_bg_color">#E21E25</color>
     <color name="flight_trip_color_aag">#F8A424</color>
     <color name="itin_flight_line_color">#e93b2c</color>
     <color name="flight_trip">@color/flight_trip_color_aag</color>
-    <color name="flight_trip_price_aag">#E21E25</color>
     <color name="action_bar_selected_tab_underline_color">#E21E25</color>
     <color name="hotelsv2_coupon_applied_color">@color/app_primary</color>
-    <color name="flight_trip_price">@color/app_primary</color>
     <color name="splash_screen_bg">@color/app_primary</color>
 
     <color name="launch_actionbar_bg_color">#2B2D32</color>

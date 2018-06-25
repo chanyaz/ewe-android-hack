@@ -30,7 +30,6 @@
 
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
-        <item name="skin_rippleDrawable">@drawable/exp_blue_button_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
         <item name="traveler_presenter">@layout/flight_travelers_presenter_view_stub</item>

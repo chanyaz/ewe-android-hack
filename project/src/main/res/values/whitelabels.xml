@@ -1,100 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- MB/EB attributes used for style switching in themes -->
-    <!-- Hotel Search price styles -->
-    <attr name="skin_hotelPriceStandardColor" format="reference|color" />
-    <attr name="skin_hotelPriceSaleColor" format="reference|color" />
-    <attr name="skin_hotelPriceAirAttachColor" format="reference|color" />
-
-    <!-- PhoneSearchActivity's actionbar padding required in MB due to rainbow bar -->
-    <attr name="skin_hotelSearchActionBarPadding" format="reference|dimension" />
-
-    <!-- ActionBar icon/logo in HotelRulesActivities -->
-    <attr name="skin_hotelWebViewActionBarLogo" format="reference" />
-
-    <attr name="skin_actionBarSpinnerBackground" format="reference" />
-
-    <attr name="skin_actionBarBackgroundDrawable" format="reference" />
-
-    <!-- Ratingbar style in UserReviewsListActivity -->
-    <attr name="skin_ratingBarUserReviewStyle" format="reference" />
-
-    <!-- Hotel calendar related styling -->
-    <attr name="skin_calendarDatePickerCellDrawable" format="reference" />
-    <attr name="skin_calendarDatePickerPopupDrawable" format="reference" />
-    <attr name="skin_calendarDatePickerDateFormat" format="reference|string" />
-    <attr name="skin_calendarDatePickerTextColor" format="reference" />
-
-    <!--Flight Calendar related styling -->
-    <attr name="skin_flightCalendarDatePickerCellDrawable" format="reference" />
-    <attr name="skin_flightCalendarDatePickerPopupDrawable" format="reference" />
-
-    <!-- Hotel promo pricing related styling -->
-    <attr name="skin_hotelListingSaleDrawable" format="reference" />
-    <attr name="skin_hotelDetailSaleRibbonDrawable" format="reference" />
-    <attr name="skin_roomsRatesSaleRibbonDrawable" format="reference" />
-    <attr name="skin_hotelDetailAirAttachRibbonDrawable" format="reference"/>
-    <attr name="skin_roomsRatesAirAttachRibbonDrawable" format="reference"/>
-
-    <!-- Hotel listing user review rating style -->
-    <attr name="skin_hotelListingUserRatingStyle" format="reference" />
-
-    <!-- Hotel listing Sort by price icon -->
-    <attr name="skin_hotelListingSortPriceDrawable" format="reference" />
-
-    <!-- Hotel filters Background -->
-    <attr name="skin_hotelFilterBackground" format="reference|color" />
-
-    <!-- Hotel filters button style for VIP Toggle Button -->
-    <attr name="skin_hotelListingFilterToggleButtonStyle" format="reference" />
-
-    <!-- Hotel listing Filter price strings -->
-    <attr name="skin_hotelListingFilterPriceCheapString" format="reference|string" />
-    <attr name="skin_hotelListingFilterPriceModerateString" format="reference|string" />
-    <attr name="skin_hotelListingFilterPriceExpensiveString" format="reference|string" />
-
-    <!-- Hotel Listing row thumbnail placeholder -->
-    <attr name="skin_HotelRowThumbPlaceHolderDrawable" format="reference" />
-
-    <!-- Cost Summary Breakdown Dialog Stripe -->
-    <attr name="skin_costSummaryDialogStripeDrawable" format="reference" />
-    <attr name="skin_flightsCostSummaryDialogStripeDrawable" format="reference" />
-
-    <!-- Log in with Expedia/MB screen -->
-    <!-- This drawable is used in hotel detail for Book Now button as well -->
-    <attr name="skin_loginBookNowButtonDrawable" format="reference" />
-
-    <!-- Hotel Confirmation, Customer support option drawable -->
-    <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
-
     <!-- HotelCheckout CVV, Book button -->
     <attr name="skin_cvvBookButtonTextColor" format="reference"/>
-
-    <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
-    <attr name="skin_hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
-    <attr name="skin_hotelListMapMarkerDrawable" format="reference" />
-    <attr name="skin_hotelListMapMarkerAirAttachDrawable" format="reference" />
-
-    <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
-    <attr name="skin_hotelImagePlaceHolderDrawable" format="reference" />
-
-    <!-- Title displayed on the CVV entry screen (defined separately for MB).
-    The first parameter, if defined, is the user-defined name of the card. -->
-    <attr name="skin_cvvEntryTitleText" format="reference|string" />
-
-    <!-- for hotels and flights travel type -->
-    <attr name="skin_travelerLabelOnCheckout" format="reference|string" />
-
-
-    <!-- for hotels best price guarantee type -->
-    <attr name="skin_bestPriceGuaranteeString" format="reference|string" />
-    <!-- for hotels etp info book button -->
-    <attr name="skin_etpHotelSelectRoomString" format="reference|string" />
-
-    <!-- for traveller_info_page logo-->
-    <attr name="skin_travellerInfoPageLogo" format="reference"/>
-    <attr name="skin_travellerInfoPageLogoDisabled" format="reference"/>
 
     <!-- Itin placeholder drawables -->
     <attr name="skin_itinActivityPlaceholderDrawable" format="reference" />
@@ -103,59 +11,25 @@
     <attr name="skin_itinFlightPlaceholderDrawable" format="reference" />
     <attr name="skin_itinCruisePlaceholderDrawable" format="reference" />
     <attr name="skin_itinDefaultPlaceholderDrawable" format="reference" />
-    <attr name="skin_itinCardTitleBackground" format="reference" />
 
     <!-- trips tab related -->
-    <attr name="skin_itinCardBackground" format="reference"/>
     <attr name="skin_itinFlightsTripLineColor" format="reference"/>
-
-    <attr name="skin_itinHotelAttachButtonDrawable" format="reference"/>
-    <attr name="skin_itinAirAttachButtonDrawable" format="reference"/>
     <attr name="skin_itinDismissListSelectorDrawable" format="reference"/>
-
-    <attr name="skin_hotelConfirmationPlaceholderDrawable" format="reference" />
-    <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
-
 
     <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
     <attr name="skin_itinCardTitleTextColor" format="reference|color"/>
-    <attr name="skin_itinActionOverflowDrawable" format="reference"/>
 
-    <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
     <attr name="skin_actionbarTextColor" format="reference|color" />
 
-    <!--Change the color of flight circles and lines -->
-    <attr name="skin_flightLineColor" format="reference" />
-
-    <attr name="skin_flightPriceTextColor" format="reference|color" />
-    <attr name="skin_icSuitCaseBaggage" format="reference" />
-
-      <!--Action menu done button text -->
+    <!--Action menu done button text -->
     <attr name="skin_actionMenuDoneButtonText" format="reference|string" />
-
-    <!-- Hotel Checkout Credit Card Edit Text, Postal Code Section & Coupon Edit Text Style -->
-    <attr name="skin_HotelCheckout_CreditCardEditTextStyle" format="reference" />
-    <attr name="skin_HotelCheckout_PostalCodeSectionStyle" format="reference" />
-    <attr name="skin_HotelCheckout_couponEditTextStyle" format="reference" />
 
     <!-- Rules Activity action bar logo -->
     <attr name="skin_hotelRulesActionBarLogo" format="reference" />
-    <attr name="skin_flightRulesActionBarLogo" format="reference" />
-
 
     <!-- Login Activity action bar Icon -->
 
     <attr name="skin_terminalChooserTextColor" format="reference|color" />
-    <attr name="skin_flightFreeCancellationTextColor" format="reference|color" />
-
-    <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
-
-    <attr name="skin_launchCirclePlaceholderDrawable" format="reference" />
-
-    <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
-    <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
-    <attr name="skin_checkmarkFlightDrawable" format="reference" />
-    <attr name="skin_bookNowButtonDrawable" format="reference" />
 
     <!-- Cars -->
     <attr name="skin_costSummaryAlertDrawable" format="reference" />
@@ -166,14 +40,10 @@
     <attr name="skin_lxOfferDateSelectorDrawable" format="reference" />
     <attr name="skin_lxSelectTicketButtonSelectorDrawable" format="reference" />
     <attr name="skin_lxShowMoreBackgroundDrawable" format="reference" />
-    <attr name="skin_lxTextSelectorDrawable" format="reference" />
-    <attr name="skin_lxUncheckedToggleTextColor" format="reference|color" />
-    <attr name="skin_lxErrorDefaultDrawable" format="reference" />
     <attr name="skin_filterNumberBgDrawable" format="reference" />
     <attr name="skin_errorIndicationExclaimationDrawable" format="reference" />
 
     <attr name="skin_tripsTabText" format="reference|string" />
-    <attr name="skin_hotelPriceTextStyle" format="reference" />
 
     <attr name="skin_ticketSelectorDisabledColor" format="reference" />
     <attr name="skin_lxResultsBottomPadding" format="reference" />
@@ -183,7 +53,6 @@
 
     <attr name="skin_errorWidgetEditButtonStyle" format="reference" />
 
-    <attr name="skin_rippleDrawable" format="reference" />
     <attr name="skin_material_checkout_account_logo" format="reference" />
     <!-- AccountView -->
     <attr name="skin_acctSignInButtonTextColor" format="reference|color" />

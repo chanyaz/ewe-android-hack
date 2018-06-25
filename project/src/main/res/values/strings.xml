@@ -2768,10 +2768,6 @@
 
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
-    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate">$$</string>
-    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive">$$$</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -3182,8 +3178,6 @@
     <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
-    <!-- Label for coupon code hint -->
-    <string name="optional">Optional</string>
     <!-- Label applying a coupon -->
     <string name="apply">Apply</string>
     <!-- Google Account Change -->

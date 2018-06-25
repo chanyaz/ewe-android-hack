@@ -21,8 +21,6 @@
     <color name="itin_flight_line_color">#8fcc51</color>
     <color name="coupon_success_message_color">#7baed4</color>
 
-    <color name="hotel_price_text_color">#1972B2</color>
-    <color name="hotel_price_sale_text_color">#599027</color>
     <color name="actionbar_text">@color/gray800</color>
     <color name="actionbar_suggestion_text_color">#DDDFE1</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
@@ -46,7 +44,6 @@
     <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
     <color name="flight_trip">#1972B2</color>
-    <color name="flight_trip_price">#1972B2</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_text_color</color>
 
     <color name="action_bar_flight_text_color">@color/actionbar_text</color>

@@ -94,7 +94,6 @@
 
     <!-- Old Flights colors -->
     <color name="flight_trip">#0D6599</color>
-    <color name="flight_trip_price">#22599C</color>
     <color name="airport_text">#607480</color>
     <color name="divider_gray">@color/gray300</color>
     <color name="data_entry_heading">#1D5380</color>
@@ -177,8 +176,6 @@
     <color name="calendar_instruction_text_color">@color/gray600</color>
 
     <color name="hotel_cell_primary_color">#3D4552</color>
-    <color name="hotel_price_text_color">#064192</color>
-    <color name="hotel_price_sale_text_color">@color/success_green</color>
     <color name="bg_row_state_pressed">@color/gray100</color>
     <color name="text_dark">@color/gray700</color>
     <color name="text_black">@color/gray900</color>
