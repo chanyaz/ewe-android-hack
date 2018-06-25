@@ -11,8 +11,9 @@ data class ItinCar(
         val price: CarPrice?,
         val paymentModel: CarPaymentModel?,
         val carCategory: CarCategory?,
-        val carType: CarType?
-
+        val carType: CarType?,
+        val carTypeLocalized: String?,
+        val carTypeAttributes: CarTypeAttributes?
 ) : ItinLOB
 
 data class CarVendor(
@@ -23,6 +24,7 @@ data class CarVendor(
 )
 
 data class CarLocation(
+        val locationDescription: String?,
         val cityName: String?,
         val provinceStateName: String?,
         val addressLine1: String?,
@@ -35,6 +37,10 @@ data class CarLocation(
 
 data class CarPrice(
         val total: String?
+)
+
+data class CarTypeAttributes(
+        val vehicleTypeLocalized: String?
 )
 
 enum class CarPaymentModel {

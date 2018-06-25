@@ -290,6 +290,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_CAR_CALL_SUPPORT = "App.Itinerary.Car.Manage.Call.Car"
     private const val ITIN_CAR_CALL_EXPEDIA = "App.Itinerary.Car.Manage.Call.Expedia"
     private const val ITIN_CAR_CUSTOMER_SUPPORT = "App.Itinerary.Car.Manage.CSP"
+    private const val ITIN_CAR_SHARE_CLICKED = "App.Itinerary.Car.Share.Start"
 
     override fun trackItinCarDetailsMap() {
         val s = createTrackLinkEvent(ITIN_CAR_DETAILS_MAP)
@@ -331,6 +332,11 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         Log.d(TAG, "Tracking \"$ITIN_CAR_MORE_HELP\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_CAR_MORE_HELP)
         trackItinPageLoad(s, trip)
+    }
+
+    override fun trackItinCarShareIconClicked() {
+        val s = createTrackLinkEvent(ITIN_CAR_SHARE_CLICKED)
+        s.trackLink("Itinerary Sharing")
     }
 
     //LX Tracking

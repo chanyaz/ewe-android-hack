@@ -134,7 +134,7 @@ class ItinShareDialogTest {
     }
 
     class MockItinShareTextGenerator : ItinShareTextGenerator {
-        override fun getType(): String {
+        override fun getLOBTypeString(): String {
             return "Trip"
         }
 

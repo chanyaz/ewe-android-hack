@@ -51,7 +51,7 @@ class LxItinToolbarTest {
 
         val textGenerator = testObserver.values()[0]
         val stringProvider = MockStringProvider()
-        assertEquals("Activity", textGenerator.getType())
+        assertEquals("Activity", textGenerator.getLOBTypeString())
         assertEquals(stringProvider.fetchWithPhrase(R.string.itin_lx_share_email_subject_TEMPLATE,
                 mapOf("trip" to "Trip title")), textGenerator.getEmailSubject())
         assertEquals(stringProvider.fetchWithPhrase(R.string.itin_lx_share_email_body_TEMPLATE,
