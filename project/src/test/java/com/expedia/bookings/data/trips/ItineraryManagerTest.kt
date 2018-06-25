@@ -47,6 +47,7 @@ class ItineraryManagerTest {
     }
 
     private val mockTripServices: TripsServicesInterface = MockTripsServices()
+    private val mockAccountService = Mockito.mock(AccountService::class.java)
 
     class MockTripsServices : TripsServicesInterface {
         override fun getTripDetails(tripId: String, useCache: Boolean): JSONObject? {
@@ -356,21 +357,34 @@ class ItineraryManagerTest {
     }
 
     @Test
-    fun facebookReauth_mustBeSynchronous() {
+    fun testFacebookReauthenticationMustBeSynchronous() {
         var observeTime = Long.MAX_VALUE
         val observable = Observable.just(FacebookLinkResponse())
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
-        val mockAccountService = Mockito.mock(AccountService::class.java)
-        Mockito.`when`(mockAccountService.facebookReauth(Mockito.any()))
-                .thenReturn(observable)
-        observable.subscribe({ observeTime = System.nanoTime() }, {}, {})
-
+                .doOnNext({ observeTime = System.nanoTime() })
+        Mockito.`when`(mockAccountService.facebookReauth(Mockito.any())).thenReturn(observable)
         val syncTask = itinManager.SyncTask(null, null, mockAccountService)
+
         syncTask.reAuthenticateFacebookUser()
         val completeTime = System.nanoTime()
 
-        assertTrue(observeTime < completeTime, "facebook reauth is asynchronous, but must be synchronous in this context")
+        assertTrue(
+                observeTime < completeTime,
+                "facebook reauth is asynchronous, must be synchronous in this context"
+        )
+    }
+
+    @Test
+    fun testFacebookReauthenticationOnError() {
+        val expectedMessage = "Something went wrong"
+        val observable = Observable.error<FacebookLinkResponse>(Exception(expectedMessage))
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+        Mockito.`when`(mockAccountService.facebookReauth(Mockito.any())).thenReturn(observable)
+        val syncTask = itinManager.SyncTask(null, null, mockAccountService)
+
+        syncTask.reAuthenticateFacebookUser()
     }
 
     private class TimeSourceOne : TimeSource {

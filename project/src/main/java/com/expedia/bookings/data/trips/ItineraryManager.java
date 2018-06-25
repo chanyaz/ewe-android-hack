@@ -1389,22 +1389,19 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 		void reAuthenticateFacebookUser() {
 			accountService.facebookReauth(mContext)
-					.subscribe(new DisposableObserver<FacebookLinkResponse>() {
+					.blockingSubscribe(new DisposableObserver<FacebookLinkResponse>() {
 						@Override
 						public void onComplete() {
 						}
 
 						@Override
 						public void onError(Throwable e) {
-							Log.w("FB: Auto-Login failed, " + e.getMessage());
+							Log.w("FB: Auto-Login failed with an error, " + e.getMessage());
 						}
 
 						@Override
 						public void onNext(FacebookLinkResponse response) {
-							if (response == null) {
-								Log.w("FB: Auto-Login failed, null response");
-							}
-							else if (response.isSuccess()) {
+							if (response.isSuccess()) {
 								Log.i("FB: Auto-Login succeeded");
 							}
 							else {
