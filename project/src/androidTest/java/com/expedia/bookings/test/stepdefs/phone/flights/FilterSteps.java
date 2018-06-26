@@ -74,7 +74,7 @@ public class FilterSteps {
 	@Then("^Validate that after filter applied the number of result changes$")
 	public void validateResultsAfterFilter() throws Throwable {
 		onView(withId(R.id.dynamic_feedback_counter)).check(getDynamicResultCountOnSortAndFilterScreen());
-		onView(allOf(withId(R.id.list_view), isDescendantOfA(withId(R.id.widget_flight_inbound)))).check(TestUtil.assertFlightsResultsListSizeEquals(Integer.parseInt(filterResult)));
+		onView(allOf(withId(R.id.list_view), isDescendantOfA(withId(R.id.widget_flight_outbound)))).check(TestUtil.assertFlightsResultsListSizeEquals(Integer.parseInt(filterResult)));
 
 	}
 

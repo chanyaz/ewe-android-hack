@@ -39,18 +39,18 @@ Feature: Testing sort and filter button of flight search screen
     And I move the scrubber by an hour
     Then Validate scrubber moves by an hour
 
-  @Flights @FlightFilters
+  @Prod @Flights @FlightFilters
   Scenario: Verify number of results after filter applied
 
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
-      | destination         | DEL                                      |
+      | destination         | LHR                                      |
       | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 10                                       |
+      | destination_suggest | London, England, UK (LHR - Heathrow)     |
+      | start_date          | 25                                       |
+      | end_date            | 35                                       |
       | adults              | 2                                        |
       | child               | 2                                        |
     And I wait for results to load
