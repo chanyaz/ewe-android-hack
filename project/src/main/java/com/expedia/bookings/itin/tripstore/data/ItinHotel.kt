@@ -53,7 +53,9 @@ data class HotelPropertyInfo(
         val address: Address,
         var localizationLanguage: String?,
         val fees: List<String>?,
-        val mandatoryFees: List<String>?
+        val mandatoryFees: List<String>?,
+        val latitude: Double?,
+        val longitude: Double?
 )
 
 data class HotelRoomPriceDetails(val amountFormatted: String?, val localizedDay: LocalizedDay?) {
@@ -69,6 +71,11 @@ data class Rules(
 )
 
 data class Address(
+        val city: String?,
+        val addressLine1: String?,
+        val postalCode: String?,
+        val countryCode: String?,
+        val countrySubdivisionCode: String?,
         val fullAddress: String?
 )
 

@@ -8,6 +8,7 @@ import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.extensions.firstCar
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.tripstore.extensions.getLatLng
 import com.expedia.bookings.itin.tripstore.extensions.getNameLocationPair
@@ -69,6 +70,11 @@ class ItinExpandedMapViewModel<S>(val scope: S) where S : HasItinRepo, S : HasAc
                     return pair
                 }
             }
+            TripProducts.HOTEL.name -> {
+                itin.firstHotel()?.getNameLocationPair()?.let { pair ->
+                    return pair
+                }
+            }
         }
         return Pair("", "")
     }
@@ -77,6 +83,14 @@ class ItinExpandedMapViewModel<S>(val scope: S) where S : HasItinRepo, S : HasAc
         when (scope.type) {
             TripProducts.ACTIVITY.name -> {
                 itin.firstLx()?.getLatLng()?.let { latLng ->
+                    latLngSubject.onNext(latLng)
+                    name?.let { title ->
+                        directionsReadySubject.onNext(MapUri(latLng, title))
+                    }
+                }
+            }
+            TripProducts.HOTEL.name -> {
+                itin.firstHotel()?.getLatLng()?.let { latLng ->
                     latLngSubject.onNext(latLng)
                     name?.let { title ->
                         directionsReadySubject.onNext(MapUri(latLng, title))
