@@ -100,6 +100,46 @@ class FeatureUtilTest {
     }
 
     @Test
+    fun testRichContentForPackagesDisabled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesRichContent)
+        assertFalse(isRichContentForPackagesEnabled(context))
+    }
+
+    @Test
+    fun testRichContentForPackagesEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesRichContent)
+        assertTrue(isRichContentForPackagesEnabled(context))
+    }
+
+    @Test
+    fun testRichContentShowAmenityForPackagesDisabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesRichContent, 2)
+        assertFalse(isRichContentShowAmenityForPackagesEnabled())
+    }
+
+    @Test
+    fun testRichContentShowAmenityForPackagesEnabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesRichContent, 1)
+        assertTrue(isRichContentShowAmenityForPackagesEnabled())
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesRichContent, 3)
+        assertTrue(isRichContentShowAmenityForPackagesEnabled())
+    }
+
+    @Test
+    fun testRichContentShowRouteScoreForPackagesDisabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesRichContent, 1)
+        assertFalse(isRichContentShowRouteScoreForPackagesEnabled())
+    }
+
+    @Test
+    fun testRichContentShowRouteScoreForPackagesEnabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesRichContent, 2)
+        assertTrue(isRichContentShowRouteScoreForPackagesEnabled())
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesRichContent, 3)
+        assertTrue(isRichContentShowRouteScoreForPackagesEnabled())
+    }
+
+    @Test
     fun testLXMultipleDatesSearchEnabled() {
         FeatureTestUtils.enableFeature(context, Features.all.lxMultipleDatesSearch)
         assertTrue(isLXMultipleDatesSearchEnabled())

@@ -178,6 +178,20 @@ fun isHighlightSortFilterOnPackagesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
 }
 
+fun isRichContentForPackagesEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppPackagesRichContent)
+}
+
+fun isRichContentShowAmenityForPackagesEnabled(): Boolean {
+    val richContentVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppPackagesRichContent)
+    return (richContentVariant == AbacusVariant.ONE.value || richContentVariant == AbacusVariant.THREE.value)
+}
+
+fun isRichContentShowRouteScoreForPackagesEnabled(): Boolean {
+    val richContentVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppPackagesRichContent)
+    return (richContentVariant == AbacusVariant.TWO.value || richContentVariant == AbacusVariant.THREE.value)
+}
+
 fun isHotMipRedesignEnabled(): Boolean {
     return Features.all.hotMipRedesign.enabled()
 }

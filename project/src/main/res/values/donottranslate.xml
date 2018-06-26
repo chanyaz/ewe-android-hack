@@ -156,6 +156,9 @@
     <string name="preference_toggle_server_debug_tracing">preference_toggle_server_debug_tracing</string>
     <string name="preference_server_side_filtering_packages">Server Side Filtering</string>
     <string name="preference_server_side_filtering_packages_infinite_loading">Server Side Filtering with infinite loading</string>
+    <string name="preference_packages_rich_content_show_amenities">Show Amenities Only</string>
+    <string name="preference_packages_rich_content_show_route_score">Show Route Score Only</string>
+    <string name="preference_packages_rich_content_show_both">Show Amenities And Route Score</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_remote_feature_toggle_settings">preference_open_remote_feature_toggle_settings</string>
