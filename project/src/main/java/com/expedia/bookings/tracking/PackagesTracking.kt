@@ -5,9 +5,7 @@ import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.packages.tracking.PackagesOmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.TuneUtils
@@ -92,12 +90,6 @@ class PackagesTracking {
 
     fun trackCheckoutPaymentSelectStoredCard() {
         PackagesOmnitureTracking.trackPackagesPaymentStoredCCSelect()
-    }
-
-    fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
-        PackagesOmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
-        CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
-        TuneUtils.trackPackageConfirmation(response, packageParams)
     }
 
     fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams, pageUsableData: PageUsableData) {

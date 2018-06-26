@@ -233,23 +233,6 @@ object PackagesOmnitureTracking : OmnitureTracking() {
         s.track()
     }
 
-    fun trackPackagesConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String,
-                                  pageUsableData: PageUsableData) {
-        Log.d(TAG, "Tracking \"$PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION\" pageLoad")
-        val s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION, null)
-        setPackageProducts(s, response.totalChargesPrice!!.amount.toDouble(), true, true,
-                hotelSupplierType)
-        s.setCurrencyCode(response.totalChargesPrice!!.currencyCode)
-        s.appendEvents("purchase")
-        s.setPurchaseID("onum" + response.orderId!!)
-        if (response.newTrip!!.travelRecordLocator != null) {
-            s.setProp(71, response.newTrip!!.travelRecordLocator)
-        }
-        s.setProp(72, response.orderId)
-        addPageLoadTimeTrackingEvents(s, pageUsableData)
-        s.track()
-    }
-
     fun trackMIDConfirmation(response: MIDItinDetailsResponse, hotelSupplierType: String,
                              pageUsableData: PageUsableData) {
         Log.d(TAG, "Tracking \"$PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION\" pageLoad")

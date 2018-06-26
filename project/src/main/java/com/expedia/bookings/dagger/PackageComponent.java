@@ -10,8 +10,6 @@ import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.expedia.bookings.packages.presenter.PackageCheckoutPresenter;
-import com.expedia.bookings.packages.vm.PackageCheckoutViewModel;
 
 import dagger.Component;
 import okhttp3.Interceptor;
@@ -21,8 +19,6 @@ import okhttp3.Interceptor;
 public interface PackageComponent {
 	void inject(PackagePresenter presenter);
 	void inject(PackageHotelPresenter presenter);
-	void inject(PackageCheckoutPresenter presenter);
-	void inject(PackageCheckoutViewModel model);
 	void inject(PackageOverviewPresenter packageWebCheckoutViewViewModel);
 
 	@Named("PackageReviewsInterceptor")
