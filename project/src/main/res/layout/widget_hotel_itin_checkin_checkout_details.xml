@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/itin_hotel_details_checkin_text"
-                    android:textColor="@color/gray600"
+                    android:textColor="@color/itin_text_sub_color"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="Check-in" />
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp"
-                    android:textColor="@color/gray900"
+                    android:textColor="@color/itin_text_common_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="Fri, Aug 17" />
@@ -54,7 +54,7 @@
                     android:id="@+id/hotel_itin_checkin_time_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray600"
+                    android:textColor="@color/itin_text_sub_color"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="3:00pm" />
@@ -66,7 +66,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/itin_hotel_details_checkout_to_arrow_cont_desc"
                 android:focusable="true"
-                android:tint="@color/gray900"
+                android:tint="@color/itin_text_common_color"
                 app:srcCompat="@drawable/itin_arrow_icon" />
 
             <LinearLayout
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/itin_hotel_details_checkout_text"
-                    android:textColor="@color/gray600"
+                    android:textColor="@color/itin_text_sub_color"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="Check-out" />
@@ -93,7 +93,7 @@
                     android:gravity="right"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp"
-                    android:textColor="@color/gray900"
+                    android:textColor="@color/itin_text_common_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="Mon, Aug 20" />
@@ -102,7 +102,7 @@
                     android:id="@+id/hotel_itin_checkout_time_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray600"
+                    android:textColor="@color/itin_text_sub_color"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="12:00pm" />
