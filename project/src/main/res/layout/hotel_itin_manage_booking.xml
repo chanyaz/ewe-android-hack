@@ -24,7 +24,7 @@
             android:background="@color/app_primary"
             android:minHeight="?attr/actionBarSize"
             android:visibility="gone"
-            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorColor="@color/itin_text_white_color"
             app:tabPadding="10dp"
             app:tabSelectedTextColor="@color/itin_text_white_color"
             app:tabTextAppearance="@style/HotelItinManageRoomsTabWidget"

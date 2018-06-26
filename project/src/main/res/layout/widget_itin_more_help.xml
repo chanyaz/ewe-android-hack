@@ -9,7 +9,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:text="@string/itin_more_help_heading"
-        android:textColor="@color/gray900"
+        android:textColor="@color/itin_text_common_color"
         android:textSize="18sp"
         app:textStyle="medium" />
 
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textColor="@color/gray900"
+                android:textColor="@color/itin_text_common_color"
                 android:textSize="14sp"
                 tools:text="For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver" />
 
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
                     android:text="@string/itin_more_help_confirmation_text"
-                    android:textColor="@color/gray900"
+                    android:textColor="@color/itin_text_common_color"
                     android:textSize="12sp"
                     app:textStyle="bold"
                     tools:text="Confirmation #" />
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:textColor="@color/gray900"
+                    android:textColor="@color/itin_text_common_color"
                     android:textIsSelectable="true"
                     android:textSize="12sp"
                     app:textStyle="bold"
