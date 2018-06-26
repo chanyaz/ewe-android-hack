@@ -58,6 +58,7 @@ abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewMod
                         phoneNumberContDescriptionSubject.onNext(contDesc)
                         phoneNumberClickSubject.subscribe {
                             scope.phoneHandler.handle(number)
+                            scope.tripsTracking.trackItinCarDetailsCallClicked()
                         }
                     }
                 }

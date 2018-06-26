@@ -92,10 +92,12 @@ class CarItinMapWidgetViewModelTest {
         contentDescLocationTestObserver.assertValue(expectedCopyDescString)
         latLongTestObserver.assertValue(LatLng(-33.871565, 151.214855))
         assertFalse(mockScope.mockPhoneHandler.handleCalled)
+        assertFalse(mockScope.mockTracking.trackItinCarDetailsCallClicked)
 
         sut.phoneNumberClickSubject.onNext(Unit)
 
         assertTrue(mockScope.mockPhoneHandler.handleCalled)
+        assertTrue(mockScope.mockTracking.trackItinCarDetailsCallClicked)
 
         sut.mapClickSubject.onNext(Unit)
         sut.directionButtonClickSubject.onNext(Unit)

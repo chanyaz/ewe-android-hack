@@ -21,7 +21,7 @@ class TripsTrackingTest {
 
     @Before
     fun setup() {
-        mockAnalyticsProvider = OmnitureTestUtils.setLoggingAnalyticsProvider()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -384,6 +384,12 @@ class TripsTrackingTest {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinLxDetailsCallClicked()
         assertItinLinkTracked("App.Itinerary.Activity.Call")
+    }
+
+    fun testTrackItinCarDetailsCallClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCarDetailsCallClicked()
+        assertItinLinkTracked("App.Itinerary.Car.Call")
     }
 
     fun assertItinLinkTracked(rfrrId: String) {

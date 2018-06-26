@@ -31,6 +31,7 @@ interface ITripsTracking {
     fun trackItinCarCallCustomerSupportClicked()
     fun trackItinCarCustomerServiceLinkClicked()
     fun trackItinCarShareIconClicked()
+    fun trackItinCarDetailsCallClicked()
     fun trackItinLxShareIconClicked()
     fun trackItinCarDetailsPageLoad(trip: HashMap<String, String?>)
     fun trackItinCarMoreHelpPageLoad(trip: HashMap<String, String?>)
