@@ -101,12 +101,18 @@
         <item quantity="other">{number} resultat</item>
     </plurals>
 
+    <!-- Title message displayed on the user's favorites hotels list page to show to the non-logged in user -->
+    <string name="hotel_favorites_sign_in_title">Logga in för att spara dina favoriter</string>
     <!-- Title message displayed when there are no items in the user's favorite hotels list -->
     <string name="hotel_favorites_page_empty_title">Spara dina favoriter</string>
     <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
     <string name="hotel_favorites_page_empty_subtitle">Klicka på hjärtat för att spara något du gillar i dina favoriter.</string>
     <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
     <string name="hotel_favorites_page_toolbar_title">Sparade hotell</string>
+    <!-- Message on undo snackbar (popup) after a favorite item is removed -->
+    <string name="hotel_favorites_page_undo_message">Borttaget från favoriter</string>
+    <!-- Undo button text on undo snackbar (popup) after a favorite item is removed -->
+    <string name="hotel_favorites_page_undo_button_text">Ångra</string>
 
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
@@ -195,8 +201,6 @@
     <!-- LX -->
     <!--LX Search widget header text -->
     <string name="lx_search_title">Sök aktiviteter</string>
-    <!--GT Search widget header text -->
-    <string name="gt_search_title">Sök transport</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Välj datum</string>
     <!-- Activity details highlights heading -->
@@ -554,9 +558,6 @@
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">Vi kunde inte avgöra din nuvarande plats för att hitta aktiviteter nära dig.</string>
 
-    <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">Vi kunde inte avgöra din nuvarande plats för att hitta transport nära dig.</string>
-
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Det uppstod ett fel</string>
     <!-- Text for error toolbar-->
@@ -625,8 +626,6 @@
     <string name="lx_error_current_location_toolbar_text">Försök igen</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">Vi kunde inte hitta några aktiviteter nära dig. Prova att söka igen med andra kriterier.</string>
-    <!-- LX No Activities for Current location -->
-    <string name="gt_error_current_location_no_results">Vi kunde inte hitta någon transport nära dig. Prova att söka igen med andra kriterier.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s väskor</string>
@@ -834,8 +833,6 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">Hotell</string>
-    <!-- Ground Transport -->
-    <string name="nav_transport">Transport</string>
     <!-- Packages -->
     <string name="nav_packages">Paket</string>
     <string name="nav_hotel_plus_flight_deals">Erbjudanden på flyg + hotell</string>
@@ -1549,6 +1546,12 @@
     <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">Ring leverantören på {phonenumber}. Knapp. Klicka för att ringa. Dubbelklicka och håll för att markera.</string>
     <string name="itin_active">Kan inlösas</string>
     <string name="itin_expires">Sista inlösen</string>
+    <!--LX itin share email subject. {trip} (eg., Guided Fisherman's Wharf to Golden Gate Bridge Walking Tour: 10:00 AM)-->
+    <string name="itin_lx_share_email_subject_TEMPLATE">{trip}</string>
+    <!--LX itin share email body. Hi,\n\nHere are the details for: {trip}.\n\nValid: {startdate}\n\nExpires: {enddate}\n\nGuests: {travelers}\n\nBook hotels, flights and view &amp; share your itineraries.\n\nDownload the free {brand} app today.\n{link} (e.g. Hi\n\n, Here are the details for: San Francisco Tour.\n\nValid: Monday, May 5\n\nExpires: Tuesday, May 6\n\nGuests: Bob, John\n\nBook hotels, flights and view & share your itineraries.\n\nDownload the free Expedia app today.\nhttps://www.expedia.com/app)-->
+    <string name="itin_lx_share_email_body_TEMPLATE">Hej!\n\nHär är alla uppgifter för aktiviteten: {trip}.\n\nGiltig: {startdate}\n\nSista giltighetsdag: {enddate}\n\nResenärer: {travelers}\n\n Se och dela dina resplaner och boka hotell och flyg.\n\nHämta {brand}s gratisapp idag.\n{link}</string>
+    <!--LX itin share sms body. Details for: {trip}.\nValid: {startdate}\nExpires: {enddate}\nGuests: {travelers} (e.g. Details for: San Francisco Tour.\nValid: Monday, May 5\nExpires: Tuesday, May 6\nGuests: Bob, John-->
+    <string name="itin_lx_share_sms_body_TEMPLATE">Uppgifter om: {trip}.\nGiltig: {startdate}\nSista giltighetsdag: {enddate}\nResenärer: {travelers}</string>
 
     <!--Car itin redesign-->
     <!--Car toolbar title template. (e.g. Car rental in San Francisco)-->
@@ -2527,8 +2530,11 @@
     <string name="itin_departing_cont_desc">Avgång</string>
 
     <!-- Hotel MIP Attach -->
-    <string name="hotmip_savings_message">Du har fått tillgång till hotellrabatter på upp till 43% eftersom du bokade på Expedia</string>
-    <string name="add_on_content_desc">Add On-bonus</string>
+    <!-- Add on title message. e.g "You unlocked up to 43% off hotels becaues you booked on Expedia -->
+    <string name="hotmip_savings_message_TEMPLATE">Du har fått tillgång till hotellrabatter på upp till {percentage}% eftersom du bokade på Expedia</string>
+    <string name="add_on_title_content_desc">Add On-bonus</string>
+    <!-- Add On HotMIP card content description; describes the entire content on the hotMIP card; e.g. Add-On Advantage. You unlocked up to 43% off hotels because you booked on Expedia. Button -->
+    <string name="hotmip_card_cont_desc_TEMPLATE">{logo}. {title}. Knapp</string>
 
     <!-- Hotel confirmation page -->
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
@@ -2696,8 +2702,6 @@
     <string name="refundable_flight_filter_label">Endast återbetalningsbara flyg</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">Hotellnamn</string>
-    <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-    <string name="ChooseLocation">Menade du…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">KLAR</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
@@ -3992,10 +3996,6 @@
     <string name="free_flight_deal">Boka detta och spara 100% på ditt flyg.</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
     <string name="hotel_deal_TEMPLATE">Boka detta och spara {price} ({savings}%)</string>
-    <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
-    <string name="packages_invalid_user_title_label">Dags att uppdatera!</string>
-    <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
-    <string name="packages_invalid_user_text_label">Bokning av paketerbjudanden är tyvärr inte tillgänglig i denna version av appen.\nUppdatera nu för att få paketerbjudanden.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">{night} natt på köpet när du bokar flyg samtidigt.</item>
@@ -4048,7 +4048,6 @@
     <string name="error_package_origin_resolution_message_TEMPLATE">Vi kunde inte hitta den angivna avreseorten {origin}. Försök igen.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">Vi kunde inte hitta den angivna destinationen {destination}. Försök igen.</string>
-    <string name="error_package_date_mismatch_error">Dessvärre ankommer det här flyget långt innan incheckningstiden på hotellet. Välj ett annat hotell eller flyg.</string>
     <!-- string for package error when we simple can't connect to E3 servers-->
     <string name="package_error_server">Vi har stött på tekniska problem. Försök igen senare.</string>
 
@@ -4152,25 +4151,12 @@
     <string name="in_lap">I knät</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">Egen sittplats</string>
-    <!-- Label for flights on checkout overview of Packages -->
-    <string name="flight_checkout_overview_TEMPLATE">Flyg - {origin} till {destination}, tur-och-retur</string>
-    <!-- Label for hotel on checkout overview of Packages -->
-    <plurals name="hotel_checkout_overview_TEMPLATE">
-        <item quantity="one">Hotell i {city} - 1 rum, {number} natt</item>
-        <item quantity="other">Hotell i {city} - 1 rum, {number} nätter</item>
-    </plurals>
     <!-- Label for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_title">Hotell + Flyg</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">Spara genom att boka flyg och hotell tillsammans</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
     <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
-
-    <!-- Accessibility Label for hotel on checkout overview of Packages -->
-    <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
-        <item quantity="one">Hotell i {city}, 1 rum, {number} natt</item>
-        <item quantity="other">Hotell i {city}, 1 rum, {number} nätter</item>
-    </plurals>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">Svep för att köpa</string>
@@ -4523,6 +4509,10 @@
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med betyget {starrating} av 5. {guestrating} av 5 i gästbetyg. Pris {price}. Inkluderar hotell och flyg .\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123. Includes hotel and flights.-->
     <string name="packages_hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} med betyget {starrating} av 5. Inga gästbetyg än. Pris {price}. Inkluderar hotell och flyg .\u0020</string>
+    <!-- Hotel card view variant in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123/person. This price includes taxes, fees for both flights and hotel.-->
+    <string name="packages_hotel_card_details_cont_desc_TEMPLATE">{hotel} med {starrating} av 5. {guestrating} av 5 i gästbetyg. Pris {price} per person. I priset ingår skatter och avgifter för både flyg och hotell.\u0020</string>
+    <!-- Hotel card view variant in packages - content description for accessibility. Example. Blue Star - Las Vegas House by Strip with 4 stars of 5 rating. Not rated for guest rating. Price $123/person. This price includes taxes, fees for both flights and hotel.-->
+    <string name="packages_hotel_card_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} med {starrating} av 5. Inga gästbetyg än. Pris {price} per person. I priset ingår skatter och avgifter för både flyg och hotell.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med betyget {starrating} av 5. {guestrating} av 5 i gästbetyg.  \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
@@ -4679,8 +4669,8 @@
     <string name="bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE">Totalpriset är {reference_total_price}. Paketpris för att boka samtidigt är {total_price}. I priset ingår skatter samt avgifter för både flyg och hotell. Boka nu! Besparingarna för att boka samtidigt är {savings}. Fönster med prisöversikt. Knapp.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Paketpriset är {price_per_person} per person. I priset ingår skatter samt avgifter för både flyg och hotell. Knapp för att se paket.</string>
-    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotels is $1000.00. Roundtrip flights is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both flights and hotels.-->
-    <string name="bundle_overview_price_summary_widget_TEMPLATE">Fönster med prisöversikt. Detta är en prisöversikt för din paketresa. Priset för hotell är {hotel_price}. Priset för tur-och-returflyg {flights_price}. Totalpriset är {reference_price}. Besparingarna för att boka samtidigt är {savings}. Paketpris för att boka samtidigt är {total_price}. I priset ingår skatter samt avgifter för både flyg och hotell.</string>
+    <!--Content description for Bundle price summary widget in case if better savings. Example: Price Summary Dialog. Here is the price summary for your bundle. Hotel price is $1000.00. Roundtrip flight price is $500.00. Total is $1500.00. Savings for booking together is $300.00. Bundle total for booking together is $1200.00. This price includes taxes, fees for both roundtrip flight and hotel.-->
+    <string name="bundle_overview_price_summary_widget_TEMPLATE">Fönster med prisöversikt. Detta är en prisöversikt för din paketresa. Hotellpriset är {hotel_price}. Priset för flyg tur och retur är {flights_price}. Totalpriset är {reference_price}. Besparingarna för att boka samtidigt är {savings}. Paketpris för att boka samtidigt är {total_price}. I priset ingår skatter och avgifter för både returflyg och hotell.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Resa till {city_name}. {startdate} till {enddate}, {guests}</string>
     <!-- Package filter checkbox.
@@ -5131,4 +5121,9 @@
     <string name="flight_route_happy_guide_title_v3">Flygbekvämligheter och betyg</string>
     <string name="flight_route_happy_guide_info">Du kan du välja flyg efter bekvämlighet, som wi-fi på flyget, laddningsstationer, urval av filmer och ännu mer.</string>
     <string name="flight_route_happy_guide_more_info">Nu har vi lagt till flygbetyg, som bedömer flyg efter restid, flygplanstyp, förmåner och andra faktorer.</string>
+
+    <!-- Accessibility announcement for when widget is expanded -->
+    <string name="widget_expanded_announcement">Expanderad</string>
+    <!-- Accessibility announcement for when widget is collapsed -->
+    <string name="widget_collapsed_announcement">Förminskad</string>
 </resources>
