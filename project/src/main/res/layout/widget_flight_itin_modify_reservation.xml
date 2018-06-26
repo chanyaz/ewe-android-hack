@@ -18,7 +18,7 @@
         android:paddingTop="12dp"
         android:text="@string/itin_flight_modify_widget_change_reservation_text"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/itin_text_white_color"
         android:textSize="14sp" />
 
     <com.expedia.bookings.widget.TextView
@@ -47,7 +47,7 @@
         android:paddingTop="12dp"
         android:text="@string/itin_flight_modify_widget_cancel_reservation_text"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/itin_text_white_color"
         android:textSize="14sp" />
 
     <com.expedia.bookings.widget.TextView
