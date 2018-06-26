@@ -19,7 +19,7 @@ import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class ItinPriceSummaryCardViewModelTest {
+class ItinAdditionalInfoCardViewModelTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
@@ -27,27 +27,27 @@ class ItinPriceSummaryCardViewModelTest {
     lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Test
-    fun testItinCarPriceSummaryClicked() {
+    fun testItinCarAdditionalInfoClicked() {
         val scope = MockScope(ItinMocker.carDetailsHappy, TripProducts.CAR.name)
-        val sut = ItinPriceSummaryCardViewModel(scope)
+        val sut = ItinAdditionalInfoCardViewModel(scope)
 
-        assertFalse(scope.mockTracking.trackItinCarPriceSummaryClicked)
+        assertFalse(scope.mockTracking.trackItinCarAdditionalInfoClicked)
 
         sut.cardClickListener.invoke()
 
-        assertTrue(scope.mockTracking.trackItinCarPriceSummaryClicked)
+        assertTrue(scope.mockTracking.trackItinCarAdditionalInfoClicked)
     }
 
     @Test
-    fun testItinActivityPriceSummaryClicked() {
+    fun testItinActivityAdditionalInfoClicked() {
         val scope = MockScope(ItinMocker.lxDetailsHappy, TripProducts.ACTIVITY.name)
-        val sut = ItinPriceSummaryCardViewModel(scope)
+        val sut = ItinAdditionalInfoCardViewModel(scope)
 
-        assertFalse(scope.mockTracking.trackItinActivityPriceSummaryClicked)
+        assertFalse(scope.mockTracking.trackItinActivityAdditionalInfoClicked)
 
         sut.cardClickListener.invoke()
 
-        assertTrue(scope.mockTracking.trackItinActivityPriceSummaryClicked)
+        assertTrue(scope.mockTracking.trackItinActivityAdditionalInfoClicked)
     }
 
     class MockScope(override val itin: Itin, lobType: String) : HasStringProvider, HasWebViewLauncher, HasItin, HasItinType, HasTripsTracking {
