@@ -6,9 +6,9 @@ Feature: Bundle Overview with packages details
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source              | SFO                            |
-      | destination         | LAS                            |
+      | destination         | CHICAGO                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, NV            |
+      | destination_suggest | Chicago, IL, United States (ORD-O'Hare Intl.)            |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
@@ -17,12 +17,12 @@ Feature: Bundle Overview with packages details
     And I tap on bundle overview sliding widget bar at the bottom
     Then following information on the bundle overview screen isDisplayed: true
       | Step 1 Text                       | Step 1: Select hotel            |
-      | Hotel Bar - Hotel text            | Select hotel in Las Vegas Strip |
+      | Hotel Bar - Hotel text            | Select hotel in Chicago |
       | Hotel Bar - Date                  | 5 - 10                          |
       | Hotel Bar - travelers             | 4 guests                        |
       | Step 2 Text                       | Step 2: Select outbound flight  |
       | Hotel Image                       | Hotel icon Drawable             |
-      | Outbound Flight Bar - Flight Text | Flight to Las Vegas             |
+      | Outbound Flight Bar - Flight Text | Flight to Chicago             |
       | Outbound Flight Bar - date        | 5                               |
       | Outbound Flight Bar - traveler    | 4 travelers                     |
       | Flight Outbound Image             | Flight Outbound drawable        |
