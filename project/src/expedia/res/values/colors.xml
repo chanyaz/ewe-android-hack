@@ -71,9 +71,11 @@
     <color name="itin_flight_leg_detail_widget_rules_restriction_color">@color/accent1</color>
     <color name="itin_text_sub_color">@color/neutral700</color>
     <color name="itin_text_common_color">@color/neutral900</color>
+    <color name="itin_text_white_color">@color/neutralWhite</color>
     <color name="itin_selected_tab_color">@color/neutralWhite</color>
     <color name="itin_taxi_background_color">@color/neutral800</color>
     <color name="itin_link_off_card_chevron">@color/neutral600</color>
+    <color name="itin_action_vertical_divider_color">@color/neutral200</color>
 
     <!-- Old Flights colors -->
     <!-- TODO: Delete all of this? -->

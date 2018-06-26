@@ -61,7 +61,7 @@
             android:id="@+id/flight_status_indicator_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/itin_text_white_color"
             android:textSize="12sp"
             android:textStyle="bold"
             tools:text="Delayed by 2d 23h 45m" />

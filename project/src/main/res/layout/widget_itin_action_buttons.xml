@@ -38,7 +38,7 @@
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
-        android:background="@color/gray200"
+        android:background="@color/itin_action_vertical_divider_color"
         android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@+id/itin_action_button_left"
         app:layout_constraintRight_toLeftOf="@+id/itin_action_button_right"
