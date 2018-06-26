@@ -21,7 +21,7 @@
         android:drawablePadding="8dp"
         android:layout_gravity="center_horizontal"
         android:padding="16dp"
-        android:textColor="@color/gray900"
+        android:textColor="@color/itin_text_common_color"
         android:textSize="14sp"
         app:textStyle="medium"
         tools:text="Baggage information" />

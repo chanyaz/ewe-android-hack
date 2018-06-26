@@ -90,9 +90,11 @@
     <color name="itin_standard_text_color">@color/gray900</color>
     <color name="itin_text_sub_color">@color/gray600</color>
     <color name="itin_text_common_color">@color/gray900</color>
+    <color name="itin_text_white_color">@color/white</color>
     <color name="itin_selected_tab_color">@color/white</color>
     <color name="itin_taxi_background_color">@color/gray800</color>
     <color name="itin_link_off_card_chevron">@color/gray600</color>
+    <color name="itin_action_vertical_divider_color">@color/gray200</color>
 
     <!-- Old Flights colors -->
     <color name="flight_trip">#0D6599</color>

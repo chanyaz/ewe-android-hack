@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:text="@string/itin_flight_summary_new_departure_title"
-                android:textColor="@color/gray600"
+                android:textColor="@color/itin_text_sub_color"
                 android:textSize="12sp" />
 
             <android.support.constraint.ConstraintLayout
@@ -70,7 +70,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:tint="@color/gray900"
+                    android:tint="@color/itin_text_common_color"
                     app:srcCompat="@drawable/itin_arrow_icon" />
             </android.support.constraint.ConstraintLayout>
 
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:text="@string/itin_flight_summary_scheduled_title"
-                android:textColor="@color/gray600"
+                android:textColor="@color/itin_text_sub_color"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="6dp"
-            android:textColor="@color/gray600"
+            android:textColor="@color/itin_text_sub_color"
             android:textSize="12sp"
             android:visibility="gone"
             tools:text="Fri, Oct 2"
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
-                android:textColor="@color/gray900"
+                android:textColor="@color/itin_text_common_color"
                 android:textSize="20sp"
                 app:textStyle="medium"
                 tools:text="6:45am" />
@@ -118,7 +118,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:tint="@color/gray900"
+                android:tint="@color/itin_text_common_color"
                 app:srcCompat="@drawable/itin_arrow_icon" />
         </android.support.constraint.ConstraintLayout>
 
@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="6dp"
-            android:textColor="@color/gray600"
+            android:textColor="@color/itin_text_sub_color"
             android:textSize="12sp"
             android:textStyle="normal"
             tools:text="Seattle (SEA)" />
@@ -136,7 +136,7 @@
             android:id="@+id/flight_itin_departure_terminal_gate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray600"
+            android:textColor="@color/itin_text_sub_color"
             android:textSize="12sp"
             android:textStyle="normal"
             android:visibility="gone"
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:text="@string/itin_flight_summary_new_arrival_title"
-                android:textColor="@color/gray600"
+                android:textColor="@color/itin_text_sub_color"
                 android:textSize="12sp" />
 
             <com.expedia.bookings.widget.TextView
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:text="@string/itin_flight_summary_scheduled_title"
-                android:textColor="@color/gray600"
+                android:textColor="@color/itin_text_sub_color"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -217,7 +217,7 @@
                 android:id="@+id/flight_itin_arrival_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray900"
+                android:textColor="@color/itin_text_common_color"
                 android:textSize="20sp"
                 app:textStyle="medium"
                 tools:text="8:45am" />
@@ -240,7 +240,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="6dp"
-            android:textColor="@color/gray600"
+            android:textColor="@color/itin_text_sub_color"
             android:textSize="12sp"
             android:textStyle="normal"
             tools:text="San Francisco (SFO)" />
@@ -249,7 +249,7 @@
             android:id="@+id/flight_itin_arrival_terminal_gate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray600"
+            android:textColor="@color/itin_text_sub_color"
             android:textSize="12sp"
             android:textStyle="normal"
             android:visibility="gone"
