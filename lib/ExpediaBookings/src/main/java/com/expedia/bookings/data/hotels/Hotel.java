@@ -3,12 +3,11 @@ package com.expedia.bookings.data.hotels;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
+
 import com.expedia.bookings.data.multiitem.HotelOffer;
 import com.expedia.bookings.data.multiitem.MultiItemOffer;
-import com.expedia.bookings.data.packages.PackageHotel;
 import com.expedia.bookings.data.packages.PackageOfferModel;
 import com.expedia.bookings.utils.NumberUtils;
-import com.expedia.bookings.utils.Strings;
 
 public class Hotel {
 	public int sortIndex;
@@ -64,30 +63,6 @@ public class Hotel {
 		public String id;
 		public String description;
 	}
-
-	public static Hotel convertPackageHotel(PackageHotel packageHotel) {
-		Hotel hotel = new Hotel();
-		hotel.hotelPid = packageHotel.hotelPid;
-		hotel.hotelId = packageHotel.hotelId;
-		hotel.localizedName = Strings.isEmpty(packageHotel.localizedHotelName) ? packageHotel.hotelName : packageHotel.localizedHotelName;
-		hotel.address = packageHotel.hotelAddress.firstAddressLine;
-		hotel.city = packageHotel.hotelAddress.city;
-		hotel.stateProvinceCode = packageHotel.hotelAddress.province;
-		hotel.countryCode = packageHotel.hotelAddress.countryAlpha3Code;
-		hotel.postalCode = packageHotel.hotelAddress.postalCode;
-		hotel.hotelStarRating = Float.valueOf(packageHotel.hotelStarRating);
-		hotel.hotelGuestRating = packageHotel.overallReview;
-		hotel.locationDescription = packageHotel.hotelDescription;
-		hotel.latitude = packageHotel.latitude;
-		hotel.longitude = packageHotel.longitude;
-		hotel.largeThumbnailUrl = packageHotel.thumbnailURL;
-		hotel.thumbnailUrl = packageHotel.thumbnailURL;
-		hotel.isVipAccess = packageHotel.vip;
-		hotel.packageOfferModel = packageHotel.packageOfferModel;
-		hotel.isPackage = true;
-		return hotel;
-	}
-
 
 	public static Hotel convertMultiItemHotel(HotelOffer multiItemHotel, MultiItemOffer offer, int sortIndex) {
 		Hotel hotel = new Hotel();

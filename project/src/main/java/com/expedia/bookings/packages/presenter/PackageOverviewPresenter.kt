@@ -465,7 +465,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presente
         bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
     }
 
-
     private fun toggleBottomContainerViews(state: TwoScreenOverviewState) {
         bottomCheckoutContainer.toggleCheckoutButton(state)
     }
