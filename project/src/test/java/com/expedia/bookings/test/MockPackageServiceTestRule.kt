@@ -46,9 +46,9 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         return observer.values()[0]
     }
 
-    fun getMIDHotelResponse(): BundleSearchResponse {
+    fun getMIDHotelResponse(pageIndex: Int? = null): BundleSearchResponse {
         val observer = TestObserver<BundleSearchResponse>()
-        val params = getPackageParams("happy")
+        val params = getPackageParams("happy", pageIndex)
         Db.setPackageParams(params)
 
         services?.packageSearch(params, PackageProductSearchType.MultiItemHotels)?.subscribe(observer)
@@ -84,8 +84,10 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         return observer.values()[0]
     }
 
-    fun getPackageParams(originAirportCode: String = ""): PackageSearchParams {
-        val packageParams = PackageSearchParams.Builder(26, 329)
+    fun getPackageParams(originAirportCode: String = "", pageIndex: Int? = null): PackageSearchParams {
+        val paramsBuilder = PackageSearchParams.Builder(26, 329)
+        if (pageIndex != null) paramsBuilder.paging(pageIndex)
+        val packageParams = paramsBuilder
                 .flightCabinClass("coach")
                 .infantSeatingInLap(true)
                 .children(listOf(16, 10, 1))

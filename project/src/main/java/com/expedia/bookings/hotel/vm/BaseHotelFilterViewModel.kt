@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.vm
 
 import android.content.Context
 import com.expedia.bookings.data.BaseHotelFilterOptions
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.UserFilterChoices
@@ -66,6 +67,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         if (!isClientSideFiltering()) {
             doneButtonEnableObservable.onNext(true)
             doneObservable.subscribe {
+                Db.sharedInstance.packageParams?.resetPageIndex()
                 filterCountObservable.onNext(userFilterChoices.filterCount())
                 if (defaultFilterOptions() && !presetFilterOptions) {
                     originalResponse?.let {

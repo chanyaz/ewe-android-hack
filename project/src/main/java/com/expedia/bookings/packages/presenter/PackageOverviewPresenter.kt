@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
+import com.expedia.bookings.utils.isSSFInfiniteScrollingEnabledForPackages
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.PackageUtil
@@ -219,6 +220,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val params = Db.sharedInstance.packageParams
         params.pageType = Constants.PACKAGE_CHANGE_HOTEL
         params.filterOptions = PackageHotelFilterOptions()
+        if (isSSFInfiniteScrollingEnabledForPackages(context)) {
+            params.resetPageIndex()
+        }
 
         bundleWidget.viewModel.hotelParamsObservable.onNext(params)
         bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")

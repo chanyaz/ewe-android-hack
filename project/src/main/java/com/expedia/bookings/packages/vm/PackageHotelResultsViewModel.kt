@@ -27,6 +27,10 @@ class PackageHotelResultsViewModel(context: Context, private val packageServices
     val filterSearchSuccessResponseHandler = PublishSubject.create<Pair<PackageProductSearchType, BundleSearchResponse>>()
     val filterSearchErrorResponseHandler = PublishSubject.create<Triple<PackageProductSearchType, PackageApiError.Code, ApiCallFailing>>()
     val filterSearchErrorDetailsObservable = PublishSubject.create<Pair<PackageApiError.Code, ApiCallFailing>>()
+    val nextPageObservable = PublishSubject.create<Unit>()
+    val nextPageSearchSuccessResponseHandler = PublishSubject.create<Pair<PackageProductSearchType, BundleSearchResponse>>()
+    val nextPageSearchErrorResponseHandler = PublishSubject.create<Triple<PackageProductSearchType, PackageApiError.Code, ApiCallFailing>>()
+
     var isFilteredResponse = false
     private val rules = PackageCalendarRules(context)
 
@@ -52,6 +56,16 @@ class PackageHotelResultsViewModel(context: Context, private val packageServices
         filterSearchSuccessResponseHandler.subscribe { (_, response) ->
             isFilteredResponse = true
             filterResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(response, true))
+        }
+
+        nextPageSearchSuccessResponseHandler.subscribe { (_, response) ->
+            hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(response, false))
+        }
+
+        nextPageObservable.subscribe {
+            var packageSearchParams = Db.sharedInstance.packageParams
+            packageSearchParams.updatePageIndex()
+            packageServicesManager?.doPackageSearch(packageSearchParams, PackageProductSearchType.MultiItemHotels, nextPageSearchSuccessResponseHandler, nextPageSearchErrorResponseHandler)
         }
     }
 

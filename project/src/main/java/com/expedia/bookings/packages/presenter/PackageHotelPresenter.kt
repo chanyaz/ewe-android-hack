@@ -117,7 +117,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelSelectedSubject.subscribe { hotel ->
             val params = Db.sharedInstance.packageParams
             params.latestSelectedOfferInfo.hotelId = hotel.hotelId
-            params.latestSelectedOfferInfo.flightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel.hotelPid)
+            params.latestSelectedOfferInfo.flightPIID = Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotel)
             params.latestSelectedOfferInfo.productOfferPrice = hotel.packageOfferModel.price
 
             val indexClicked = presenter.adapter.resultsSubject.value.hotelList.indexOf(hotel)

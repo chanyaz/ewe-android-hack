@@ -22,6 +22,8 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
     var flightLegList: List<FlightLeg>? = null
     var filterOptions: PackageHotelFilterOptions? = null
+    var pageIndex: Int? = null
+    var pageSize: Int? = null
 
     //MID variables
     var latestSelectedOfferInfo: PackageSelectedOfferInfo = PackageSelectedOfferInfo()
@@ -83,14 +85,25 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         return multiRoomAdults.isNotEmpty()
     }
 
+    fun updatePageIndex() {
+        pageIndex = pageIndex?.plus(1)
+    }
+
+    fun resetPageIndex() {
+        pageIndex = 0
+    }
+
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
+        private val MAX_RESULTS = 200
         private var flightCabinClass: String? = null
 
         private var hotelName: String? = null
         private var starRatings: List<Int> = emptyList()
         private var vipOnly: Boolean = false
         private var userSort: BaseHotelFilterOptions.SortType? = null
+        private var pageIndex: Int? = null
+        private var pageSize: Int? = null
 
         var multiRoomAdults: Map<Int, Int> = emptyMap()
         var multiRoomChildren: Map<Int, List<Int>> = emptyMap()
@@ -103,6 +116,8 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
             val params = PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, flightCabinClass, multiRoomAdults, multiRoomChildren)
             params.filterOptions = buildFilterOptions()
+            params.pageIndex = pageIndex
+            params.pageSize = pageSize
             return params
         }
 
@@ -159,6 +174,12 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
         fun userSort(userSort: BaseHotelFilterOptions.SortType): Builder {
             this.userSort = userSort
+            return this
+        }
+
+        fun paging(pageIndex: Int): Builder {
+            this.pageIndex = pageIndex
+            this.pageSize = MAX_RESULTS
             return this
         }
 

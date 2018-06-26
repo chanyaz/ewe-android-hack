@@ -58,6 +58,7 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isSSFInfiniteScrollingEnabledForPackages
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.mobiata.android.Log
 import io.reactivex.Observer
@@ -304,7 +305,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     private fun performHotelSearch() {
         val flightSearchParams = Db.getFlightSearchParams()
-        val packageParams = searchPresenter.searchViewModel.getParamsBuilder()
+        val packageSearchParamsBuilder = searchPresenter.searchViewModel.getParamsBuilder()
+        if (isSSFInfiniteScrollingEnabledForPackages(context)) {
+            packageSearchParamsBuilder.paging(0)
+        }
+        val packageParams = packageSearchParamsBuilder
                 .infantSeatingInLap(flightSearchParams.infantSeatingInLap)
                 .origin(flightSearchParams.origin)
                 .destination(flightSearchParams.destination)

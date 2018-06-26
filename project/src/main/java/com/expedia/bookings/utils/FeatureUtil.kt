@@ -154,6 +154,10 @@ fun isServerSideFilteringEnabledForPackages(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
 }
 
+fun isSSFInfiniteScrollingEnabledForPackages(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForVariant(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO)
+}
+
 fun isHolidayCalendarEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsHolidayCalendar)
 }

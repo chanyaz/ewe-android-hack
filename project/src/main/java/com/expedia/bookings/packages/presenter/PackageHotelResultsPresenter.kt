@@ -29,6 +29,8 @@ import com.expedia.bookings.utils.isServerSideFilteringEnabledForPackages
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelClientFilterView
+import com.expedia.bookings.packages.misc.EndlessRecyclerViewScrollListener
+import com.expedia.bookings.utils.isSSFInfiniteScrollingEnabledForPackages
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.squareup.phrase.Phrase
@@ -97,6 +99,9 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             }
         }
         vm.filterSearchErrorResponseHandler.subscribe { resetUserFilters() }
+        vm.nextPageSearchErrorResponseHandler.subscribe {
+            adapter.removeInfiniteLoader()
+        }
     }
 
     fun resetUserFilters() {
@@ -118,6 +123,16 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
     }
 
+    val endlessScrollListener = object : EndlessRecyclerViewScrollListener(recyclerView.layoutManager) {
+
+        override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+            if (!adapter.isLoading()) {
+                adapter.addInfiniteLoader()
+                viewModel.nextPageObservable.onNext(Unit)
+            }
+        }
+    }
+
     override fun inflate() {
         View.inflate(context, R.layout.widget_package_hotel_results, this)
     }
@@ -133,11 +148,15 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         filterViewModel.filterCountObservable.subscribe(filterCountObserver)
         filterViewModel.doneObservable.subscribe {
             trackScrollDepthAndResetScrollTracking()
+            endlessScrollListener.resetState()
         }
         pricingHeaderSelectedSubject.subscribe {
             trackScrollDepth()
         }
         recyclerView.addOnScrollListener(hotelScrollListener)
+        if (isSSFInfiniteScrollingEnabledForPackages(context)) {
+            recyclerView.addOnScrollListener(endlessScrollListener)
+        }
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
@@ -219,11 +238,13 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     fun trackScrollDepth(clickDepth: Int = -1) {
-        PackagesTracking().trackPackagesScrollDepth(
-                hotelScrollListener.hasUserScrolled(),
-                (adapter.resultsSubject.value.hotelList.size - 1) / 10 + 1,
-                hotelScrollListener.getMaxDepth(),
-                clickDepth)
+        if (adapter.resultsSubject.value != null) {
+            PackagesTracking().trackPackagesScrollDepth(
+                    hotelScrollListener.hasUserScrolled(),
+                    (adapter.resultsSubject.value.hotelList.size - 1) / 10 + 1,
+                    hotelScrollListener.getMaxDepth(),
+                    clickDepth)
+        }
     }
 
     override fun back(): Boolean {

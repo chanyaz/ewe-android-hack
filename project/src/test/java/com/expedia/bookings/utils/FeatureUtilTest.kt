@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
@@ -67,12 +68,19 @@ class FeatureUtilTest {
     fun testPackagesServerSideFilteringDisabled() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
         assertFalse(isServerSideFilteringEnabledForPackages(context))
+        assertFalse(isSSFInfiniteScrollingEnabledForPackages(context))
     }
 
     @Test
     fun testPackagesServerSideFilteringEnabled() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
         assertTrue(isServerSideFilteringEnabledForPackages(context))
+    }
+
+    @Test
+    fun testPackagesSSFInfiniteScrollingEnabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO.value)
+        assertTrue(isSSFInfiniteScrollingEnabledForPackages(context))
     }
 
     @Test

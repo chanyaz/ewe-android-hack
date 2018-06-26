@@ -41,6 +41,8 @@ interface PackageApi {
             @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
             @Query("currencyCode") currencyCode: String? = null,
             @Query("cabinClass") cabinClass: String? = null,
+            @Query("page") pageIndex: Int? = null,
+            @Query("pageSize") pageSize: Int? = null,
             @QueryMap(encoded = true) filterParams: Map<String, String>?): Observable<MultiItemApiSearchResponse>
 
     @GET("/api/multiitem/v1/createTrip")

@@ -5,16 +5,17 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
+import java.util.ArrayList
 
 interface BundleSearchResponse {
     fun getHotelCheckInDate(): String
     fun getHotelCheckOutDate(): String
     fun getHotelResultsCount(): Int
-    fun getHotels(): List<Hotel>
+    fun getHotels(): ArrayList<Hotel>
     fun getFlightLegs(): List<FlightLeg>
     fun hasSponsoredHotelListing(): Boolean
     fun getCurrencyCode(): String?
-    fun getFlightPIIDFromSelectedHotel(hotelKey: String?): String?
+    fun getFlightPIIDFromSelectedHotel(hotel: Hotel?): String?
     fun getSelectedFlightPIID(outboundLegId: String?, inboundLegId: String?): String?
     fun getFirstFlightPIID(): String?
     fun isSplitTicketFlights(outboundLegId: String?, inboundLegId: String?): Boolean

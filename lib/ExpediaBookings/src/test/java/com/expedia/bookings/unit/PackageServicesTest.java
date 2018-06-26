@@ -448,8 +448,7 @@ public class PackageServicesTest {
 		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(
 			"v5-714439a54a9f7dd58e1b4298a5025d0e-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NjAYsnEggmgom7GLATC1uYsBOFZAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKO-9iwEwisCLAThLQABYAQpjCh8IzaoBEgM3NTgY6mQgijMoueSLATDl5YsBOFNAAFgBCh8IzaoBEgM3NDcYijMgrzUowuqLATCK7IsBOEJAAVgBCh8IzaoBEgM1ODkYrzUgsnEojO2LATC-8osBOFNAAVgBEgoIARABGAEqAkNaGAEiBAgBEAEoAigDKAQwAg",
-			response.getFlightPIIDFromSelectedHotel(response.getHotels().get(0).hotelPid));
-		Assert.assertNull(response.getFlightPIIDFromSelectedHotel("hotel-ZERO"));
+			response.getFlightPIIDFromSelectedHotel(response.getHotels().get(0)));
 		Assert.assertNull(response.getFlightPIIDFromSelectedHotel(null));
 	}
 

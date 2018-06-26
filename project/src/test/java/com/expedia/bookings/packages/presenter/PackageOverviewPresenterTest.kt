@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
@@ -335,11 +336,33 @@ class PackageOverviewPresenterTest {
 
     @Test
     fun testFilterResetAfterChangeHotel() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO.value)
         Db.setPackageParams(getPackageParamsWithFilters())
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.onChangeHotelClicked()
         assertTrue(Db.sharedInstance.packageParams.filterOptions!!.isEmpty())
+        assertEquals(0, Db.sharedInstance.packageParams.pageIndex)
+    }
+
+    @Test
+    fun testPageIndexZeroOnChangeHotelWhenSSFVariant2Test() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO.value)
+        setupOverviewPresenter()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+        overviewPresenter.onChangeHotelClicked()
+        assertEquals(0, Db.sharedInstance.packageParams.pageIndex)
+    }
+
+    @Test
+    fun testPageIndexNullOnChangeHotelWhenSSFVariant2Control() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        setupOverviewPresenter()
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+        overviewPresenter.onChangeHotelClicked()
+        assertNull(Db.sharedInstance.packageParams.pageIndex)
     }
 
     @Test
@@ -524,6 +547,7 @@ class PackageOverviewPresenterTest {
 
         val baseMidResponse = PackageTestUtil.getMockMIDResponse(offers = emptyList(),
                 hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()))
+        baseMidResponse.setup()
         baseMidResponse.setCurrentOfferPrice(setPackagePrice())
         Db.setPackageResponse(baseMidResponse)
     }

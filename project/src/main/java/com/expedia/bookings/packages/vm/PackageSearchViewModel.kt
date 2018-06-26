@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.utils.WebViewIntentBuilderUtil
+import com.expedia.bookings.utils.isSSFInfiniteScrollingEnabledForPackages
 import com.expedia.ui.LOBWebViewActivity
 import com.expedia.util.PackageCalendarRules
 import com.expedia.util.endlessObserver
@@ -141,7 +142,7 @@ open class PackageSearchViewModel(context: Context) : BaseSearchViewModel(contex
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, rules.getMaxSearchDurationDays()))
             } else {
-                performSearchObserver.onNext(params)
+                performSearchObserver.onNext(if (isSSFInfiniteScrollingEnabledForPackages(context)) getParamsBuilder().paging(0).build() else params)
             }
         } else {
             if (!getParamsBuilder().hasOriginLocation()) {

@@ -45,7 +45,7 @@ class PackageHotelResultsViewModelTest {
 
     @Test
     fun testPackageSearchResponse() {
-        Db.setPackageParams(setUpParams())
+        setUpParams()
 
         val titleSubscriber = TestObserver<String>()
         val subtitleSubscriber = TestObserver<CharSequence>()
@@ -59,7 +59,7 @@ class PackageHotelResultsViewModelTest {
 
     @Test
     fun testPackageHotelFilterResponse() {
-        Db.setPackageParams(setUpParams())
+        setUpParams()
         val unfilteredResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(unfilteredResponse)
         val testPackageResponseSubscriber = TestObserver<Pair<PackageProductSearchType, BundleSearchResponse>>()
@@ -73,15 +73,29 @@ class PackageHotelResultsViewModelTest {
         assertNotNull(testPackageResponseSubscriber.values()[0].second)
     }
 
-    private fun setUpParams(): PackageSearchParams {
+    @Test
+    fun testNextPageObservable() {
+        Db.setPackageResponse(mockPackageServiceRule.getMIDHotelResponse(0))
+
+        val testNextPageResponseSubscriber = TestObserver<Pair<PackageProductSearchType, BundleSearchResponse>>()
+        sut.nextPageSearchSuccessResponseHandler.subscribe(testNextPageResponseSubscriber)
+
+        sut.nextPageObservable.onNext(Unit)
+        testNextPageResponseSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
+
+        assertEquals(1, testNextPageResponseSubscriber.valueCount())
+        assertEquals(1, Db.sharedInstance.packageParams.pageIndex)
+    }
+
+    private fun setUpParams() {
         val packageParams = PackageSearchParams.Builder(26, 329)
+                .paging(0)
                 .origin(getDummySuggestion())
                 .destination(getDummySuggestion())
                 .startDate(LocalDate.parse("2025-08-18"))
                 .endDate(LocalDate.parse("2025-08-19"))
                 .build() as PackageSearchParams
         Db.setPackageParams(packageParams)
-        return packageParams
     }
 
     private fun buildUserFilterChoices(): UserFilterChoices {

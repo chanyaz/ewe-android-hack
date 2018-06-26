@@ -11,14 +11,20 @@ import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.packages.PackageApiError
+import com.expedia.bookings.hotel.data.HotelAdapterItem
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.packages.widget.PackageHotelServerFilterView
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
+import com.expedia.bookings.services.PackageProductSearchType
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Before
 import org.junit.Rule
@@ -250,6 +256,68 @@ class PackageHotelResultsPresenterTest {
 
         packageHotelResultsPresenter.hotelScrollListener.onScrollStateChanged(packageHotelResultsPresenter.recyclerView, RecyclerView.SCROLL_STATE_DRAGGING)
         assertTrue(packageHotelResultsPresenter.hotelScrollListener.hasUserScrolled())
+    }
+
+    @Test
+    fun testInfiniteScrollListener() {
+
+        val testObserver = TestObserver.create<Unit>()
+
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO.value)
+        inflate()
+        packageHotelResultsPresenter.viewModel = PackageHotelResultsViewModel(activity, PackageServicesManager(context, mockPackageServiceRule.services!!))
+        packageHotelResultsPresenter.viewModel.nextPageObservable.subscribe(testObserver)
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+
+        assertEquals(53, packageHotelResultsPresenter.adapter.itemCount)
+        assertEquals(HotelAdapterItem.SPACER, packageHotelResultsPresenter.adapter.getItemViewType(52))
+
+        packageHotelResultsPresenter.endlessScrollListener.onLoadMore(1, packageHotelResultsPresenter.adapter.itemCount, packageHotelResultsPresenter.recyclerView)
+
+        assertEquals(1, testObserver.valueCount())
+    }
+
+    @Test
+    fun testScrolling() {
+        val testObserver = TestObserver.create<Unit>()
+
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO.value)
+        inflate()
+        packageHotelResultsPresenter.viewModel = PackageHotelResultsViewModel(activity, PackageServicesManager(context, mockPackageServiceRule.services!!))
+        packageHotelResultsPresenter.viewModel.nextPageObservable.subscribe(testObserver)
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+
+        packageHotelResultsPresenter.endlessScrollListener.resetState()
+        assertFalse(packageHotelResultsPresenter.endlessScrollListener.isLoading())
+    }
+
+    @Test
+    fun TestNextPageSearchErrorResponseHandler() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO.value)
+        inflate()
+        packageHotelResultsPresenter.viewModel = PackageHotelResultsViewModel(activity, PackageServicesManager(context, mockPackageServiceRule.services!!))
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+
+        packageHotelResultsPresenter.adapter.addInfiniteLoader()
+        assertEquals(HotelAdapterItem.LOADING, packageHotelResultsPresenter.adapter.getItemViewType(52))
+
+        packageHotelResultsPresenter.viewModel.nextPageSearchErrorResponseHandler.onNext(Triple(PackageProductSearchType.MultiItemHotels, PackageApiError.Code.mid_could_not_find_results, ApiCallFailing.PackageHotelSearch(PackageApiError.Code.mid_could_not_find_results.name)))
+        assertEquals(HotelAdapterItem.SPACER, packageHotelResultsPresenter.adapter.getItemViewType(52))
+    }
+
+    @Test
+    fun testLastVisibleItemPositionInEndlessScrollListener() {
+        inflate()
+        packageHotelResultsPresenter.viewModel = PackageHotelResultsViewModel(activity, PackageServicesManager(context, mockPackageServiceRule.services!!))
+        packageHotelResultsPresenter.adapter.resultsSubject.onNext(getHotelSearchResponse())
+
+        var lastVisibleItem = packageHotelResultsPresenter.endlessScrollListener.getLastVisibleItem(intArrayOf(0, 1, 2))
+
+        assertEquals(2, lastVisibleItem)
+
+        lastVisibleItem = packageHotelResultsPresenter.endlessScrollListener.getLastVisibleItem(intArrayOf(0))
+
+        assertEquals(0, lastVisibleItem)
     }
 
     private fun inflate() {

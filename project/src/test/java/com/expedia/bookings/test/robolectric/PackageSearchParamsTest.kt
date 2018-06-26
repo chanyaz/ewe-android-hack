@@ -312,6 +312,31 @@ class PackageSearchParamsTest {
     }
 
     @Test
+    fun testPagingMethod() {
+        val builder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .paging(0)
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .startDate(LocalDate.now().plusDays(329))
+                .endDate(LocalDate.now().plusDays(330))
+
+        val params = builder.build() as PackageSearchParams
+        assertEquals(0, params.pageIndex)
+        assertEquals(200, params.pageSize)
+
+        params.updatePageIndex()
+
+        assertEquals(1, params.pageIndex)
+        assertEquals(200, params.pageSize)
+
+        params.resetPageIndex()
+
+        assertEquals(0, params.pageIndex)
+        assertEquals(200, params.pageSize)
+    }
+
+    @Test
     fun testFilterOptions() {
         val name = "Hyatt"
         val builder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),

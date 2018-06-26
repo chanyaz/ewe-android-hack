@@ -112,6 +112,28 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         }
     }
 
+    fun addInfiniteLoader() {
+        val pos = data.size - 1
+        val item = data.get(pos)
+        if (item.key == HotelAdapterItem.SPACER) {
+            data.removeAt(pos)
+            notifyItemRemoved(pos)
+            data.add(HotelAdapterItem.Loading())
+            notifyItemInserted(data.size)
+        }
+    }
+
+    fun removeInfiniteLoader() {
+        val pos = data.size - 1
+        val item = data.get(pos)
+        if (item.key == HotelAdapterItem.LOADING) {
+            data.removeAt(pos)
+            notifyItemRemoved(pos)
+            data.add(HotelAdapterItem.Spacer())
+            notifyItemInserted(data.size)
+        }
+    }
+
     fun addUrgency(compressionMessage: String) {
         clearUrgency()
         this.compressionMessage = compressionMessage

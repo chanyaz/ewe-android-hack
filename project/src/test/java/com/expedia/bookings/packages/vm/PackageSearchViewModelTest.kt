@@ -3,6 +3,8 @@ package com.expedia.bookings.packages.vm
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
@@ -11,6 +13,7 @@ import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
@@ -85,7 +88,67 @@ class PackageSearchViewModelTest {
         assertFalse(sut.isSearchDateExpired)
         assertNotNull(sut.startDate())
         assertNotNull(sut.endDate())
+        assertNull(sut.packageParamsBuilder.build().pageIndex)
         assertEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
+    }
+
+    @Test
+    fun testPageIndexValueWhenInControl() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+
+        val testObservable = TestObserver.create<PackageSearchParams>()
+
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.searchParamsObservable.subscribe(testObservable)
+
+        val origin = getDummySuggestion()
+        origin.hierarchyInfo?.airport?.multicity = "notHappy"
+        val params = sut.getParamsBuilder()
+                .origin(origin)
+                .destination(getDummySuggestion())
+                .startDate(LocalDate.now())
+                .adults(1)
+                .children(listOf(1, 2, 3))
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+        sut.previousSearchParamsObservable.onNext(params)
+        sut.searchObserver.onNext(Unit)
+
+        testObservable.awaitTerminalEvent(2, TimeUnit.SECONDS)
+
+        assertEquals(1, testObservable.valueCount())
+        assertNull(testObservable.values()[0].pageIndex)
+    }
+
+    @Test
+    fun testPageIndexValueWhenInTest() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.TWO.value)
+
+        val testObservable = TestObserver.create<PackageSearchParams>()
+
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.searchParamsObservable.subscribe(testObservable)
+
+        val origin = getDummySuggestion()
+        origin.hierarchyInfo?.airport?.multicity = "notHappy"
+        val params = sut.getParamsBuilder()
+                .paging(0)
+                .origin(origin)
+                .destination(getDummySuggestion())
+                .startDate(LocalDate.now())
+                .adults(1)
+                .children(listOf(1, 2, 3))
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+        sut.previousSearchParamsObservable.onNext(params)
+        sut.searchObserver.onNext(Unit)
+
+        testObservable.awaitTerminalEvent(2, TimeUnit.SECONDS)
+
+        assertEquals(1, testObservable.valueCount())
+        assertEquals(0, testObservable.values()[0].pageIndex)
     }
 
     @Test
@@ -244,7 +307,7 @@ class PackageSearchViewModelTest {
         sut = PackageSearchViewModel(context)
     }
 
-    private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int): PackageSearchParams {
+    private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int, pageIndex: Int? = null): PackageSearchParams {
         val origin = getDummySuggestion()
         val destination = getDummySuggestion()
         val startDate = LocalDate.now().plusDays(startDateOffset)
@@ -258,6 +321,8 @@ class PackageSearchViewModelTest {
                 .adults(1)
                 .children(listOf(1, 2, 3))
                 .endDate(endDate) as PackageSearchParams.Builder
+
+        if (pageIndex != null) paramsBuilder.paging(pageIndex)
 
         return paramsBuilder.build()
     }

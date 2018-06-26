@@ -147,7 +147,7 @@ class PackageHotelPresenterTest {
         widget.resultsPresenter.hotelSelectedSubject.onNext(hotelResponse.getHotels()[0])
 
         assertEquals(hotelResponse.getHotels()[0].hotelId, Db.sharedInstance.packageParams.latestSelectedOfferInfo.hotelId)
-        assertEquals(Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotelResponse.getHotels()[0].hotelPid), Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID)
+        assertEquals(Db.getPackageResponse().getFlightPIIDFromSelectedHotel(hotelResponse.getHotels()[0]), Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID)
         assertEquals(hotelResponse.getHotels()[0].packageOfferModel.price, Db.sharedInstance.packageParams.latestSelectedOfferInfo.productOfferPrice)
 
         assertEquals(View.VISIBLE, widget.loadingOverlay.visibility)

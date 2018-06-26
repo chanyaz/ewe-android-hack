@@ -18,7 +18,7 @@ data class MultiItemApiSearchResponse(
         val errors: List<MultiItemError>?
 ) : BundleSearchResponse {
 
-    private lateinit var sortedHotels: List<Hotel>
+    private lateinit var sortedHotels: ArrayList<Hotel>
     private lateinit var sortedFlights: List<FlightLeg>
     private lateinit var hotelRooms: List<HotelOffersResponse.HotelRoomResponse>
     private var currentSelectedOfferPrice: PackageOfferModel.PackagePrice? = null
@@ -57,8 +57,15 @@ data class MultiItemApiSearchResponse(
                     ProductType.Hotel -> {
                         offer.price?.let {
                             val hotel = convertedHotels[productKey] ?: Hotel.convertMultiItemHotel(hotels[productKey], offer, index)
+
+                            val flightOfferReference = offer.packagedOffers.firstOrNull {
+                                it.productType == ProductType.Air
+                            }
+                            if (flightOfferReference != null) {
+                                hotel.packageOfferModel.flight = flights[flightOfferReference.productKey]?.piid
+                            }
                             convertedHotels[productKey] = hotel
-                            sortedHotels += hotel
+                            sortedHotels.add(hotel)
                         }
                     }
                     else -> {
@@ -89,7 +96,7 @@ data class MultiItemApiSearchResponse(
         return getHotels().size
     }
 
-    override fun getHotels(): List<Hotel> {
+    override fun getHotels(): ArrayList<Hotel> {
         return sortedHotels
     }
 
@@ -217,20 +224,11 @@ data class MultiItemApiSearchResponse(
         }?.splitTicket ?: false
     }
 
-    override fun getFlightPIIDFromSelectedHotel(hotelKey: String?): String? {
-        if (hotelKey == null) {
+    override fun getFlightPIIDFromSelectedHotel(hotel: Hotel?): String? {
+        if (hotel == null) {
             return null
         }
-        val offer = offers.firstOrNull { offer ->
-            offer.searchedOffer.productKey == hotelKey
-        }
-        val flightOfferReference = offer?.packagedOffers?.firstOrNull {
-            it.productType == ProductType.Air
-        }
-        if (flightOfferReference != null) {
-            return flights[flightOfferReference.productKey]?.piid
-        }
-        return null
+        return hotel.packageOfferModel.flight
     }
 
     override fun getSelectedFlightReferenceTotalPriceFromPIID(piid: String?): Money? {
@@ -243,11 +241,11 @@ data class MultiItemApiSearchResponse(
     }
 
     override fun getSelectedHotelReferenceTotalPriceFromID(hotelId: String?): Money? {
-        val hotel = hotels.values.firstOrNull { offer ->
-            offer.id == hotelId
+        val hotel = sortedHotels.firstOrNull { hotel ->
+            hotel.hotelId == hotelId
         }
         return hotel?.let { it ->
-            return it.hotelOfferReferenceTotalPrice()
+            return it.packageOfferModel.price.packageReferenceTotalPrice
         }
     }
 }

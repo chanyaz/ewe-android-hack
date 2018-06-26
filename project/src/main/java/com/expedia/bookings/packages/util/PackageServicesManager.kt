@@ -44,20 +44,25 @@ class PackageServicesManager(private val context: Context, private val packageSe
                             val errorCode = PackageApiError.Code.search_response_null
                             errorHandler.onNext(getApiCallFailingDetails(type, isChangeSearch, PackageErrorDetails.PackageAPIErrorDetails(errorCode.name, errorCode)))
                         } else {
-                            Db.setPackageResponse(response)
+                            var finalResponse = response
+                            if (params.pageIndex != null && params.pageIndex as Int > 0 && type == PackageProductSearchType.MultiItemHotels) {
+                                finalResponse = Db.getPackageResponse()
+                                finalResponse.getHotels().addAll(response.getHotels())
+                            }
+                            Db.setPackageResponse(finalResponse)
                             if (type == PackageProductSearchType.MultiItemHotels) {
-                                val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
+                                val currentFlights = arrayOf(finalResponse.getFlightLegs()[0].legId, finalResponse.getFlightLegs()[1].legId)
                                 Db.sharedInstance.packageParams.currentFlights = currentFlights
                                 Db.sharedInstance.packageParams.defaultFlights = currentFlights.copyOf()
-                                PackageResponseUtils.recentPackageHotelsResponse = response
+                                PackageResponseUtils.recentPackageHotelsResponse = finalResponse
                             } else {
                                 if (type == PackageProductSearchType.MultiItemOutboundFlights) {
-                                    PackageResponseUtils.recentPackageOutboundFlightsResponse = response
+                                    PackageResponseUtils.recentPackageOutboundFlightsResponse = finalResponse
                                 } else {
-                                    PackageResponseUtils.recentPackageInboundFlightsResponse = response
+                                    PackageResponseUtils.recentPackageInboundFlightsResponse = finalResponse
                                 }
                             }
-                            successHandler.onNext(Pair(type, response))
+                            successHandler.onNext(Pair(type, finalResponse))
                         }
                     }
 
