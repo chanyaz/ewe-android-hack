@@ -10,7 +10,7 @@ import org.joda.time.LocalDate
 class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int,
                          children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String?, val legNo: Int?, val selectedOutboundLegId: String?,
                          val showRefundableFlight: Boolean?, val nonStopFlight: Boolean?, val featureOverride: String?, val maxOfferCount: Int?,
-                         val trips: List<FlightMultiDestinationSearchParam>?, val tripType: TripType) :
+                         val trips: List<FlightMultiDestinationSearchParam>?, val tripType: TripType?) :
         AbstractFlightSearchParams(departureAirport, arrivalAirport, adults, children, departureDate, returnDate, infantSeatingInLap) {
 
     enum class TripType {
@@ -166,7 +166,11 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
     }
 
     fun isRoundTrip(): Boolean {
-        return returnDate != null
+        return tripType == TripType.RETURN
+    }
+
+    fun isOneWay(): Boolean {
+        return tripType == TripType.ONE_WAY
     }
 
     fun toQueryMapForKong(): Map<String, Any?> {
@@ -189,7 +193,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         params.put("lccAndMerchantFareCheckoutAllowed", true)
         params.put("maxOfferCount", maxOfferCount)
         params.put("trips", createTripsMap())
-        params.put("tripType", tripType.name)
+        params.put("tripType", tripType?.name)
 
         return params
     }
