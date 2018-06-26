@@ -25,11 +25,11 @@
             android:layout_height="wrap_content"
             android:background="@color/app_primary"
             android:visibility="gone"
-            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorColor="@color/itin_text_white_color"
             app:tabMode="scrollable"
             app:tabPaddingEnd="10dp"
             app:tabPaddingStart="10dp"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="@color/itin_text_white_color"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             app:tabTextColor="@color/gray100" />
     </android.support.design.widget.AppBarLayout>

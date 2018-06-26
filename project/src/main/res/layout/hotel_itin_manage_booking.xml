@@ -26,7 +26,7 @@
             android:visibility="gone"
             app:tabIndicatorColor="@color/white"
             app:tabPadding="10dp"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="@color/itin_text_white_color"
             app:tabTextAppearance="@style/HotelItinManageRoomsTabWidget"
             app:tabTextColor="@color/white_70" />
     </android.support.design.widget.AppBarLayout>
