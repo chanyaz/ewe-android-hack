@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.support.annotation.VisibleForTesting
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
@@ -13,7 +14,6 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
@@ -21,19 +21,22 @@ import com.expedia.bookings.data.packages.PackageHotelFilterOptions
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.extensions.safeSubscribeOptional
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.packages.activity.PackageHotelActivity
-import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.bookings.packages.vm.MultiItemBottomCheckoutContainerViewModel
 import com.expedia.bookings.packages.vm.OverviewHeaderData
 import com.expedia.bookings.packages.vm.PackageCheckoutOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageCostSummaryBreakdownViewModel
+import com.expedia.bookings.packages.vm.PackageCreateTripViewModel
+import com.expedia.bookings.packages.vm.PackageOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
 import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.packages.widget.BundleWidget
+import com.expedia.bookings.packages.widget.MultiItemBottomCheckoutContainer
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
@@ -41,31 +44,44 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
+import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.PackageUtil
+import com.expedia.vm.WebViewViewModel
 import com.squareup.phrase.Phrase
-import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
-class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
+class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+    private val ANIMATION_DURATION = 400
 
+    val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
+    val bottomCheckoutContainer: MultiItemBottomCheckoutContainer by bindView(R.id.bottom_checkout_container)
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
     val changeFlight by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_flight) }
 
-    val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
-    val toolbarNavIconContDescSubject = PublishSubject.create<String>()
-    val performMIDCreateTripSubject = PublishSubject.create<Unit>()
+    val viewModel: PackageOverviewViewModel by lazy {
+        PackageOverviewViewModel(context)
+    }
+
+    val totalPriceWidget by lazy {
+        bottomCheckoutContainer.totalPriceWidget
+    }
+
+    val createTripViewModel: PackageCreateTripViewModel by lazy {
+        PackageCreateTripViewModel(Ui.getApplication(context).packageComponent().packageServices(), context)
+    }
 
     lateinit var webCheckoutViewModel: PackageWebCheckoutViewViewModel
         @Inject set
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.package_web_checkout_stub)
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
-        webCheckoutViewModel.packageCreateTripViewModel = getCheckoutPresenter().getCreateTripViewModel()
+        webCheckoutViewModel.packageCreateTripViewModel = createTripViewModel
         webCheckoutViewModel.packageCreateTripViewModel.midCreateTripErrorObservable.subscribe { error ->
             PackagesTracking().trackMidCreateTripError(error)
             if (webCheckoutView.visibility == View.VISIBLE) {
@@ -77,9 +93,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         webCheckoutView.viewModel = webCheckoutViewModel
 
         webCheckoutViewModel.closeView.subscribe {
-            if (checkoutPresenter.visibility == View.GONE) {
-                super.back()
-            }
+            super.back()
         }
 
         webCheckoutViewModel.backObservable.subscribe {
@@ -98,11 +112,44 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         webCheckoutView
     }
 
-    override fun inflate() {
-        View.inflate(context, R.layout.package_overview, this)
+    val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
+        val viewStub = findViewById<ViewStub>(R.id.payment_fee_info_webview_stub)
+        val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
+        airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        airlineFeeWebview.viewModel = WebViewViewModel()
+        viewModel.obFeeDetailsUrlSubject.subscribe(airlineFeeWebview.viewModel.webViewURLObservable)
+        airlineFeeWebview
     }
 
-    override fun injectComponents() {}
+    private val overviewToPaymentFeeWebView = object : Transition(BaseTwoScreenOverviewPresenter.BundleDefault::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
+            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+        }
+    }
+
+    private val defaultTransition = object : DefaultTransition(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
+            bundleOverviewHeader.toggleCollapsingToolBar(!forward)
+            bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
+            bundleOverviewHeader.nestedScrollView.foreground?.alpha = 0
+        }
+    }
+
+    init {
+        View.inflate(context, R.layout.package_overview, this)
+
+        addTransition(overviewToPaymentFeeWebView)
+        addDefaultTransition(defaultTransition)
+
+        setupCheckoutViewModelSubscriptions()
+        setupClickListeners()
+        setupBundleOverviewHeader()
+        setupViewModels()
+    }
 
     private val midCreateTripErrorDialog: Dialog by lazy {
         val dialog = Dialog(context)
@@ -126,33 +173,23 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         Ui.getApplication(context).packageComponent().inject(this)
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
-        toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
-        toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
-        scrollSpaceView = bundleWidget.scrollSpaceView
+        viewModel.toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
+        viewModel.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+//        scrollSpaceView = bundleWidget.scrollSpaceView
         if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
-            totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
+            bottomCheckoutContainer.totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
         }
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-        getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { _ ->
-            bundleWidgetSetup()
-            var totalPrice = ""
-            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext(totalPrice)
 
-            setCheckoutHeaderOverviewDates()
-        }
-
-        getCheckoutPresenter().getCreateTripViewModel().bundleDatesObservable
-                .subscribe(bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable)
+        createTripViewModel.bundleDatesObservable.subscribe(bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable)
 
         bundleOverviewHeader.nestedScrollView.addView(bundleWidget)
         bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
         bundleWidget.toggleMenuObservable.subscribe(bundleOverviewHeader.toolbar.toggleMenuObserver)
-
-        getCheckoutPresenter().getCheckoutViewModel().slideToBookA11yActivateObservable.subscribe(checkoutSliderSlidObserver)
 
         bundleOverviewHeader.toolbar.viewModel.overflowClicked.subscribe {
             PackagesTracking().trackBundleEditClick()
@@ -180,7 +217,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
         addTransition(overviewToWebCheckoutView)
 
-        performMIDCreateTripSubject.subscribe {
+        viewModel.performMIDCreateTripSubject.subscribe {
             webCheckoutView.clearHistory()
             webCheckoutView.webView.clearHistory()
             webCheckoutView.viewModel.webViewURLObservable.onNext(context.getString(R.string.clear_webview_url))
@@ -221,15 +258,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         params.filterOptions = PackageHotelFilterOptions()
 
         bundleWidget.viewModel.hotelParamsObservable.onNext(params)
-        bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
         PackagesTracking().trackBundleEditItemClick("Hotel")
     }
 
     private fun resetBundleOverview() {
-        resetAndShowTotalPriceWidget()
-        checkoutPresenter.clearPaymentInfo()
-        checkoutPresenter.updateDbTravelers()
-        totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+        bottomCheckoutContainer.totalPriceWidget.resetPriceWidget()
+        bottomCheckoutContainer.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         resetBundleTotalTax()
         bundleWidget.collapseBundleWidgets()
         bundleWidget.viewModel.showSplitTicketMessagingObservable.onNext(false)
@@ -253,7 +287,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     private fun resetBundleTotalTax() {
         if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
-            totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
+            bottomCheckoutContainer.totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
         }
     }
 
@@ -292,57 +326,20 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         builder.setNegativeButton(context.getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
         builder.setPositiveButton(context.getString(R.string.start_over)) { _, _ ->
             cancelMIDCreateTripCall()
-            checkoutPresenter.clearPaymentInfo()
-            checkoutPresenter.resetTravelers()
-            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
             bundleWidget.viewModel.showSearchObservable.onNext(Unit)
         }
         val dialog = builder.create()
         dialog.show()
     }
 
-    fun getCheckoutPresenter(): PackageCheckoutPresenter {
-        return checkoutPresenter as PackageCheckoutPresenter
-    }
-
-    override fun trackCheckoutPageLoad() {
-        // TODO: needs to be implemented for WebView uCKO
-    }
-
-    override fun trackPaymentCIDLoad() {
-        PackagesTracking().trackCheckoutPaymentCID()
-    }
-
-    override fun setToolbarMenu(forward: Boolean) {
-        bundleWidget.toggleMenuObservable.onNext(!forward)
-    }
-
-    override fun setToolbarNavIcon(forward: Boolean) {
+    fun setToolbarNavIcon(forward: Boolean) {
         if (forward) {
-            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+            viewModel.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
+            viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
         } else {
-            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+            viewModel.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
+            viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
-    }
-
-    override fun setBundleWidgetAndToolbar(forward: Boolean) {
-        setToolbarNavIcon(forward)
-        bundleWidget.toggleMenuObservable.onNext(!forward)
-    }
-
-    override fun getCostSummaryBreakdownViewModel(): PackageCostSummaryBreakdownViewModel {
-        return PackageCostSummaryBreakdownViewModel(context)
-    }
-
-    override fun onTripResponse(tripResponse: TripResponse?) {
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-    }
-
-    override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
-        // TODO implement with new CT response where we don't get price
     }
 
     private fun fireCheckoutOverviewTracking(amount: Double?) {
@@ -350,22 +347,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         PackagesTracking().trackBundleOverviewPageLoad(amount, PackagesPageUsableData.RATE_DETAILS.pageUsableData)
     }
 
-    override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {
-        return PackageTotalPriceViewModel(context)
-    }
-
     private val overviewToWebCheckoutView = object : Transition(BaseTwoScreenOverviewPresenter.BundleDefault::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            checkoutPresenter.setInverseVisibility(forward)
             bundleOverviewHeader.setInverseVisibility(forward)
             webCheckoutView.setVisibility(forward)
             webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
         }
-    }
-
-    override fun showCheckout() {
-        show(webCheckoutView)
     }
 
     private fun bundleWidgetSetup() {
@@ -373,7 +361,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
         bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
 
-        if (currentState == BundleDefault::class.java.name) {
+        if (currentState == BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name) {
             bundleWidget.toggleMenuObservable.onNext(true)
             setToolbarNavIcon(false)
         }
@@ -381,6 +369,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.bundleHotelWidget.collapseSelectedHotel()
         bundleWidget.outboundFlightWidget.collapseFlightDetails()
         bundleWidget.inboundFlightWidget.collapseFlightDetails()
+    }
+
+    private fun resetCheckoutState() {
+        if (currentState == BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name) {
+            bundleOverviewHeader.toggleOverviewHeader(true)
+            viewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
+        }
     }
 
     private fun setupOverviewPresenterForMID() {
@@ -404,23 +399,23 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         searchResponse.getCurrentOfferPrice()?.let {
             val tripSavings = it.tripSavings
             val shouldShowTripSavings = it.showTripSavings
-            totalPriceWidget.viewModel.savings.onNext(tripSavings)
-            totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
+            bottomCheckoutContainer.totalPriceWidget.viewModel.savings.onNext(tripSavings)
+            bottomCheckoutContainer.totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
             if (isBetterSavingsOnRDScreenEnabledForPackages(context)) {
                 val packageReferenceTotalPrice = it.packageReferenceTotalPrice
                 val totalPrice = it.packageTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
-                totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
+                bottomCheckoutContainer.totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
                 var totalPriceContainerContDesc: String
                 if (shouldShowTripSavings) {
-                    totalPriceWidget.viewModel.betterSavingsObservable.onNext(true)
-                    totalPriceWidget.bundleSavings.visibility = View.GONE
+                    bottomCheckoutContainer.totalPriceWidget.viewModel.betterSavingsObservable.onNext(true)
+                    bottomCheckoutContainer.totalPriceWidget.bundleSavings.visibility = View.GONE
                     val flightPIID = Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID
                     val standaloneHotelPrice = searchResponse.getSelectedHotelReferenceTotalPriceFromID(hotel.hotelId)?.formattedMoneyFromAmountAndCurrencyCode
                     val standaloneFlightPrice = searchResponse.getSelectedFlightReferenceTotalPriceFromPIID(flightPIID)?.formattedMoneyFromAmountAndCurrencyCode
                     val referenceTotalPrice = packageReferenceTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
                     val savings = tripSavings?.formattedMoneyFromAmountAndCurrencyCode
                     val costSummaryBreakdown = PackageCostSummaryBreakdownModel(standaloneHotelPrice, standaloneFlightPrice, referenceTotalPrice, savings, totalPrice)
-                    val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
+                    val costSummaryViewModel = (bottomCheckoutContainer.totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
                     costSummaryViewModel.packageCostSummaryObservable.onNext(costSummaryBreakdown)
                     totalPriceContainerContDesc = Phrase.from(context, R.string.bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE)
                             .put("total_price", totalPrice)
@@ -432,8 +427,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                             .put("total_price", totalPrice)
                             .format().toString()
                 }
-                totalPriceWidget.viewModel.totalPriceContainerDescription.onNext(totalPriceContainerContDesc)
-                totalPriceWidget.toggleBundleTotalCompoundDrawable(shouldShowTripSavings)
+                bottomCheckoutContainer.totalPriceWidget.viewModel.totalPriceContainerDescription.onNext(totalPriceContainerContDesc)
+                bottomCheckoutContainer.totalPriceWidget.toggleBundleTotalCompoundDrawable(shouldShowTripSavings)
             }
         }
     }
@@ -442,28 +437,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     private fun setMandatoryFee(packageResponse: BundleSearchResponse) {
         val packageTotal = packageResponse.getCurrentOfferPrice()?.packageTotalPrice ?: return
-/*        val rateInfo = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
-        var mandatoryFee: Float = 0F
-
-        //rateInfo.totalMandatoryFees has either daily or total mandatory fees based upon the display type (See convertMidHotelRoomResponse() in HotelOfferResponse for reference)
-        if (rateInfo.mandatoryDisplayCurrency == MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
-            if (rateInfo.mandatoryDisplayType == MandatoryFees.DisplayType.DAILY) {
-                mandatoryFee = rateInfo.totalMandatoryFees * getNumberOfDaysInHotel(packageResponse)
-            } else {
-                mandatoryFee = rateInfo.totalMandatoryFees
-            }
-        }
-        val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))*/
-        totalPriceWidget.viewModel.setBundleTotalPrice(packageTotal)
+        bottomCheckoutContainer.totalPriceWidget.viewModel.setBundleTotalPrice(packageTotal)
     }
-
-/*    private fun getNumberOfDaysInHotel(packageResponse: BundleSearchResponse): Int {
-        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
-
-        val checkInDate = dtf.parseLocalDate(packageResponse.getHotelCheckInDate())
-        val checkoutDate = dtf.parseLocalDate(packageResponse.getHotelCheckOutDate())
-        return Days.daysBetween(checkInDate, checkoutDate).days
-    }*/
 
     private fun setHotelBundleWidgetGuestsAndDatesText(packageResponse: BundleSearchResponse) {
         bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable.onNext(
@@ -478,15 +453,49 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
 
         val rate = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
-        totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+        bottomCheckoutContainer.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
     }
 
     fun resetToLoadedHotels() {
         Db.sharedInstance.packageParams.currentFlights = Db.sharedInstance.packageParams.defaultFlights
 
         //revert bundle view to be the state loaded hotels
-        totalPriceWidget.resetPriceWidget()
+        bottomCheckoutContainer.totalPriceWidget.resetPriceWidget()
         bundleWidget.revertBundleViewToSelectHotel()
         bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
+    }
+
+
+    private fun toggleBottomContainerViews(state: TwoScreenOverviewState) {
+        bottomCheckoutContainer.toggleCheckoutButton(state)
+    }
+
+    private fun setupCheckoutViewModelSubscriptions() {
+        viewModel.bottomCheckoutContainerStateObservable.subscribe { currentState ->
+            toggleBottomContainerViews(currentState)
+        }
+    }
+
+    private fun setupClickListeners() {
+        bottomCheckoutContainer.checkoutButton.setOnClickListener {
+            if (currentState == BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name) {
+                show(webCheckoutView)
+            }
+        }
+    }
+
+    private fun setupBundleOverviewHeader() {
+        bundleOverviewHeader.setUpCollapsingToolbar()
+        bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
+    }
+
+    private fun setupViewModels() {
+        bottomCheckoutContainer.viewModel = MultiItemBottomCheckoutContainerViewModel()
+        bottomCheckoutContainer.totalPriceViewModel = PackageTotalPriceViewModel(context)
+        bottomCheckoutContainer.baseCostSummaryBreakdownViewModel = PackageCostSummaryBreakdownViewModel(context)
+    }
+
+    fun resetAndShowTotalPriceWidget() {
+        bottomCheckoutContainer.viewModel.resetPriceWidgetObservable.onNext(Unit)
     }
 }

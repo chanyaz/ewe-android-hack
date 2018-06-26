@@ -6,7 +6,6 @@ import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.CardFeeResponse
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.safeSubscribeOptional
@@ -21,7 +20,6 @@ import io.reactivex.observers.DisposableObserver
 
 class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : AbstractCardFeeEnabledCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
-    val e3Endpoint = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
 
     override fun injectComponents() {
         Ui.getApplication(context).packageComponent().inject(this)
@@ -64,20 +62,6 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     override fun resetCardFees() {
-    }
-
-    fun updateMayChargeFees(selectedFlight: FlightLeg) {
-        if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
-            val hasAirlineFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
-            if (hasAirlineFeeLink) {
-                obFeeDetailsUrlSubject.onNext(e3Endpoint + selectedFlight.airlineMessageModel.airlineFeeLink)
-            }
-            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
-            selectedFlightChargesFees.onNext(paymentFeeText)
-        } else {
-            obFeeDetailsUrlSubject.onNext("")
-            selectedFlightChargesFees.onNext("")
-        }
     }
 
     private fun getPackagesBookingStatement(color: Int): CharSequence {

@@ -12,26 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.expedia.bookings.packages.presenter.PackageCheckoutPresenter
-        android:id="@+id/checkout_presenter"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:fitsSystemWindows="true" />
-
-    <com.expedia.bookings.presenter.BottomCheckoutContainer
+    <com.expedia.bookings.packages.widget.MultiItemBottomCheckoutContainer
         android:id="@+id/bottom_checkout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom" />
-
-    <com.expedia.bookings.widget.CVVEntryWidget
-        android:id="@+id/cvv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#3A424C"
-        android:visibility="gone" />
 
     <ViewStub
         android:id="@+id/payment_fee_info_webview_stub"

@@ -19,17 +19,14 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageApiError
-import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
-import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.packages.activity.PackageActivity
 import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.bookings.packages.activity.PackageHotelActivity
@@ -53,7 +50,6 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.bookings.utils.Ui
@@ -64,7 +60,6 @@ import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
-import java.util.Date
 import javax.inject.Inject
 
 class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(context, attrs) {
@@ -94,10 +89,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     val bundlePresenter: PackageOverviewPresenter by lazy {
         val presenter = bundlePresenterViewStub.inflate() as PackageOverviewPresenter
-        val checkoutPresenter = presenter.getCheckoutPresenter()
         presenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServicesManager)
         presenter.bundleWidget.viewModel.searchParamsChangeObservable.subscribe {
-            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
+            presenter.viewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
         }
         presenter.bundleWidget.viewModel.showSearchObservable.subscribe {
             if (isCrossSellPackageOnFSREnabled) {
@@ -106,9 +100,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 show(searchPresenter, FLAG_CLEAR_BACKSTACK)
                 searchPresenter.showDefault()
             }
-        }
-        checkoutPresenter.getCheckoutViewModel().checkoutRequestStartTimeObservable.subscribe { startTime ->
-            pageUsableData.markPageLoadStarted(startTime)
         }
         presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { it }.subscribe {
             val packagePrice = Db.getPackageResponse().getCurrentOfferPrice()
@@ -123,28 +114,15 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 presenter.totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowPackageSavings)
             }
         }
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
-            expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-        }
-        checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
-            val response = pair.first as PackageCheckoutResponse
-            show(confirmationPresenter)
-            pageUsableData.markAllViewsLoaded(Date().time)
-            confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
-            expediaRewards?.let {
-                confirmationPresenter.viewModel.setRewardsPoints.onNext(it)
-            }
-            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.sharedInstance.packageSelectedRoom.supplierType), pageUsableData, Db.sharedInstance.packageParams)
-        }
-        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe {
+        presenter.createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        presenter.viewModel.checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        presenter.createTripViewModel.createTripErrorObservable.subscribe {
             if (bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
                 bundlePresenter.back()
             }
             show(errorPresenter)
         }
-        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe { show(errorPresenter) }
+        presenter.viewModel.checkoutErrorObservable.subscribe { show(errorPresenter) }
         presenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(presenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         presenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.cityTitle)
         presenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.datesTitle)
@@ -189,10 +167,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             resetFilterSearchShowUnfilteredResults()
         }
-        presenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
-            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
-            bundlePresenter.showCheckout()
-        }
 
         presenter.viewmodel.createTripUnknownErrorObservable.subscribe {
             if (isCrossSellPackageOnFSREnabled) {
@@ -201,18 +175,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 show(searchPresenter, FLAG_CLEAR_BACKSTACK)
                 searchPresenter.showDefault()
             }
-        }
-
-        presenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
-            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
-            bundlePresenter.showCheckout()
-            bundlePresenter.getCheckoutPresenter().openTravelerPresenter()
-        }
-
-        presenter.viewmodel.checkoutCardErrorObservable.subscribe {
-            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
-            bundlePresenter.showCheckout()
-            bundlePresenter.getCheckoutPresenter().paymentWidget.showPaymentForm(fromPaymentError = true)
         }
         presenter
     }
@@ -327,8 +289,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
             bundlePresenter.resetAndShowTotalPriceWidget()
             bundlePresenter.setToolbarNavIcon(true)
-            bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
-            bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
+            bundlePresenter.viewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
         }
 
         override fun endTransition(forward: Boolean) {
@@ -377,11 +338,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 bundlePresenter.resetAndShowTotalPriceWidget()
                 bundlePresenter.setToolbarNavIcon(true)
-                bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             } else {
-                bundlePresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             }
-            bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
+            bundlePresenter.viewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -403,7 +362,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             if (!forward) {
                 trackSearchPageLoad()
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(searchPresenter.toolbar)
-                bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().reset()
+                bundlePresenter.createTripViewModel.reset()
             } else {
                 trackViewBundlePageLoad(true)
             }
@@ -473,7 +432,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 if (AccessibilityUtil.isTalkBackEnabled(context)) {
                     searchPresenter.searchButton.isEnabled = false
                 }
-                bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().reset()
+                bundlePresenter.createTripViewModel.reset()
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(searchPresenter.toolbar)
             }
         }
@@ -508,7 +467,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     fun showBundleOverView() {
         show(bundlePresenter)
         bundlePresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
-        bundlePresenter.trackShowBundleOverview()
     }
 
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
@@ -596,7 +554,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
         changedOutboundFlight = Db.sharedInstance.packageParams.isChangePackageSearch()
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
-        bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.sharedInstance.packageSelectedOutboundFlight)
+        bundlePresenter.viewModel.updateMayChargeFees(Db.sharedInstance.packageSelectedOutboundFlight)
     }
 
     fun flightInboundSelectedSuccessfully() {
@@ -612,7 +570,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             //If change flight, remove changed outbound flight intent
             backStack.pop()
         }
-        bundlePresenter.getCheckoutPresenter().toolbarDropShadow.visibility = View.GONE
 
         bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
         bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
@@ -621,7 +578,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         showBundleOverView()
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(false)
         bundlePresenter.setToolbarNavIcon(false)
-        bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
+        bundlePresenter.viewModel.updateMayChargeFees(Db.getPackageFlightBundle().second)
     }
 
     fun handleActivityCanceled() {
@@ -652,7 +609,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     private fun packageCreateTrip() {
         Db.sharedInstance.packageParams.pageType = null
         changedOutboundFlight = false
-        bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
+        bundlePresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
     }
 
     override fun back(): Boolean {
