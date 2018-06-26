@@ -32,6 +32,7 @@ import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
@@ -149,7 +150,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
-            getParamsBuilder().roundTrip(isRoundTripSearch)
+            if (isRoundTripSearch) getParamsBuilder().tripType(TripType.RETURN) else getParamsBuilder().tripType(TripType.ONE_WAY)
             getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
             if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)) {
                 getParamsBuilder().legNo(if (isRoundTripSearch) 0 else null)
