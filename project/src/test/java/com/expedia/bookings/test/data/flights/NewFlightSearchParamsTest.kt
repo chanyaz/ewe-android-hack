@@ -276,7 +276,7 @@ class NewFlightSearchParamsTest {
 
         var mapRoundTripParams = flightSearchParams.toQueryMapForKong()
         assertEquals(2, mapRoundTripParams["numberOfAdultTravelers"])
-        assertEquals(FlightSearchParams.SearchType.RETURN.name, mapRoundTripParams["tripType"])
+        assertEquals(FlightSearchParams.TripType.RETURN.name, mapRoundTripParams["tripType"])
         assertNotNull(mapRoundTripParams["trips"])
         assertEquals(true, mapRoundTripParams["lccAndMerchantFareCheckoutAllowed"])
     }
@@ -293,11 +293,12 @@ class NewFlightSearchParamsTest {
         builder.nonStopFlight(false)
         builder.children(children)
         builder.flightCabinClass("COACH")
+        builder.tripType(FlightSearchParams.TripType.ONE_WAY)
         val flightSearchParams = builder.build()
 
-        var mapOneWayParams = flightSearchParams.toQueryMapForKong()
+        val mapOneWayParams = flightSearchParams.toQueryMapForKong()
         assertEquals(2, mapOneWayParams["numberOfAdultTravelers"])
-        assertEquals(FlightSearchParams.SearchType.ONE_WAY.name, mapOneWayParams["tripType"])
+        assertEquals(FlightSearchParams.TripType.ONE_WAY.name, mapOneWayParams["tripType"])
         assertNotNull(mapOneWayParams["trips"])
         assertEquals(true, mapOneWayParams["lccAndMerchantFareCheckoutAllowed"])
     }
