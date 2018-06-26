@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
-source ./emulator_startup.sh
-source ./emulator_shutdown.sh
 
-getRunningDevices
-shutdownRunningEmulators
-sleep 5
+if [[ $(basename `pwd`) != "jenkins" ]]; then
+    baseDir="jenkins/"
+fi
 
-currDir=`pwd`
-cd `dirname $(which emulator)`
-getAvailableEmulators
-startAllAvailableBuilderEmulators
-cd $currDir
-sleep 10
-
-waitForAllDevicesBootCompleted
-getRunningDevices
-
+source $baseDir""emulator_shutdown.sh
+source $baseDir""emulator_startup.sh
+echo `pwd`
