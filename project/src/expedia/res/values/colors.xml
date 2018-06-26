@@ -119,12 +119,13 @@
     <color name="member_pricing_flag_bg_color">@color/brand1</color>
     <color name="member_only_tag_bg_color">@color/brand2</color>
     <color name="hotel_coupon_code_error_message_color">@color/accent5</color>
-    <color name="member_pricing_bg_color">@color/brand2</color>
+    <color name="member_pricing_bg_color">@color/brand1</color>
     <color name="hotel_earn_message_text_color">@color/neutral600</color>
     <color name="hotel_detail_earn_message_text_color">@color/neutral600</color>
     <color name="hotel_search_info_selectable_color">@color/hotels_primary_color</color>
     <color name="hotel_search_info_color">@color/neutral900</color>
     <color name="saved_coupon_header_text_color">@color/neutral900</color>
+    <color name="hotel_info_icon_color">@color/accent2</color>
     <color name="hotel_sold_out_overlay_color">@color/gray900_75</color>  <!-- TODO: color__neutral__900_75: #BF001959 -->
 
     <!-- Hotel reviews colors -->
@@ -161,6 +162,7 @@
     <color name="bg_row_state_pressed">@color/neutral100</color>
     <color name="text_dark">@color/neutral800</color>
     <color name="text_black">@color/neutral900</color>
+    <color name="sort_filter_color">@color/accent2</color>
     <color name="actionbar_bg">@color/neutral900</color>
 
     <!-- TODO: REVISIT THESE WITH TRANSPARANCY WORK -->

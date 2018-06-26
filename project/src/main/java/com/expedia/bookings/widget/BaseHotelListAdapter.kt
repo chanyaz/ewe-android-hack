@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
@@ -27,6 +28,7 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
@@ -36,6 +38,7 @@ import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.hotel_review_row.view.*
 import java.util.ArrayList
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
@@ -294,7 +297,11 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 val resultDescriptionSpannable = SpannableStringBuilder(HtmlCompat.fromHtml(resultsDescription))
                 if (faqUrl.isNotEmpty() && !resultDescriptionSpannable.toString().equals(root.context.resources.getString(R.string.progress_searching_hotels_hundreds))) {
                     resultDescriptionSpannable.append("  ")
-                    resultDescriptionSpannable.setSpan(ImageSpan(root.context, R.drawable.details_info), resultDescriptionSpannable.length - 1, resultDescriptionSpannable.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                    val infoIcon = ContextCompat.getDrawable(root.context, R.drawable.details_info)!!.mutate()
+                    infoIcon.setBounds(0, 0, infoIcon.intrinsicWidth,
+                            infoIcon.intrinsicHeight)
+                    infoIcon.setColorFilter(ContextCompat.getColor(root.context, R.color.hotel_info_icon_color), PorterDuff.Mode.SRC_IN)
+                    resultDescriptionSpannable.setSpan(ImageSpan(infoIcon), resultDescriptionSpannable.length - 1, resultDescriptionSpannable.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                     resultsDescriptionHeader.contentDescription = Phrase.from(root.context, R.string.accessibility_cont_desc_role_button_TEMPLATE)
                             .put("button_label", resultDescriptionSpannable.toString())
                             .format().toString()
