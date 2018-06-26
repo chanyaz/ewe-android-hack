@@ -410,28 +410,26 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     //LOB Generic Tracking
 
     override fun trackItinLobPriceSummaryButtonClick(lob: String) {
+        var linkEventString = ""
         when (lob) {
-            TripProducts.ACTIVITY.name -> {
-                val s = createTrackLinkEvent(ITIN_ACTIVITY_PRICE_SUMMARY)
-                s.trackLink("Itinerary Action")
-            }
-            TripProducts.CAR.name -> {
-                val s = createTrackLinkEvent(ITIN_CAR_PRICE_SUMMARY)
-                s.trackLink("Itinerary Action")
-            }
+            TripProducts.ACTIVITY.name -> linkEventString = ITIN_ACTIVITY_PRICE_SUMMARY
+            TripProducts.CAR.name -> linkEventString = ITIN_CAR_PRICE_SUMMARY
+        }
+        if (linkEventString.isNotEmpty()) {
+            val s = createTrackLinkEvent(linkEventString)
+            s.trackLink("Itinerary Action")
         }
     }
 
     override fun trackItinLobAdditionalInfoButtonClick(lob: String) {
+        var linkEventString = ""
         when (lob) {
-            TripProducts.ACTIVITY.name -> {
-                val s = createTrackLinkEvent(ITIN_ACTIVITY_ADDITIONAL_INFO)
-                s.trackLink("Itinerary Action")
-            }
-            TripProducts.CAR.name -> {
-                val s = createTrackLinkEvent(ITIN_CAR_ADDITIONAL_INFO)
-                s.trackLink("Itinerary Action")
-            }
+            TripProducts.ACTIVITY.name -> linkEventString = ITIN_ACTIVITY_ADDITIONAL_INFO
+            TripProducts.CAR.name -> linkEventString = ITIN_CAR_ADDITIONAL_INFO
+        }
+        if (linkEventString.isNotEmpty()) {
+            val s = createTrackLinkEvent(linkEventString)
+            s.trackLink("Itinerary Action")
         }
     }
 

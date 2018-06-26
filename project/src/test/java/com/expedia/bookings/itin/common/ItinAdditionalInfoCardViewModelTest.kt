@@ -50,7 +50,7 @@ class ItinAdditionalInfoCardViewModelTest {
         assertTrue(scope.mockTracking.trackItinActivityAdditionalInfoClicked)
     }
 
-    class MockScope(override val itin: Itin, lobType: String) : HasStringProvider, HasWebViewLauncher, HasItin, HasItinType, HasTripsTracking {
+    private class MockScope(override val itin: Itin, lobType: String) : HasStringProvider, HasWebViewLauncher, HasItin, HasItinType, HasTripsTracking {
         val mockTracking = MockTripsTracking()
         override val strings: StringSource = MockStringProvider()
         override val tripsTracking: ITripsTracking = mockTracking

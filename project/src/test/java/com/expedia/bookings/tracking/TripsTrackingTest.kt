@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.test.OmnitureMatchers
@@ -383,6 +384,34 @@ class TripsTrackingTest {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinCarShareIconClicked()
         OmnitureTestUtils.assertLinkTracked("Itinerary Sharing", "App.Itinerary.Car.Share.Start", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackItinCarPriceSummaryClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobPriceSummaryButtonClick(TripProducts.CAR.name)
+        assertItinLinkTracked("App.Itinerary.Car.PriceSummary")
+    }
+
+    @Test
+    fun testTrackItinCarAdditionalInfoClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobAdditionalInfoButtonClick(TripProducts.CAR.name)
+        assertItinLinkTracked("App.Itinerary.Car.Info.Additional")
+    }
+
+    @Test
+    fun testTrackItinActivityPriceSummaryClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobPriceSummaryButtonClick(TripProducts.ACTIVITY.name)
+        assertItinLinkTracked("App.Itinerary.Activity.PriceSummary")
+    }
+
+    @Test
+    fun testTrackItinActivityAdditionalInfoClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobAdditionalInfoButtonClick(TripProducts.ACTIVITY.name)
+        assertItinLinkTracked("App.Itinerary.Activity.Info.Additional")
     }
 
     fun assertItinLinkTracked(rfrrId: String) {
