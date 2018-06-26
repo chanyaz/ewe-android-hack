@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.annotation.VisibleForTesting
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -32,6 +33,7 @@ import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
@@ -410,14 +412,17 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.HotelUrgencyV2)
     }
 
-    private fun hotelFavoriteAdded(hotelId: String) {
+    @VisibleForTesting
+    fun hotelFavoriteAdded(hotelId: String) {
         if (viewModel.cachedParams != null) {
             hotelFavoritesManager.saveFavorite(context, hotelId, viewModel.cachedParams!!)
+            OmnitureTracking.trackHotelFavoritesAction(hotelId, true, true)
         }
     }
 
-    private fun hotelFavoriteDeleted(hotelId: String) {
+    fun hotelFavoriteDeleted(hotelId: String) {
         hotelFavoritesManager.removeFavorite(context, hotelId)
+        OmnitureTracking.trackHotelFavoritesAction(hotelId, false, true)
     }
 
     private inner class HotelResultsScrollListener : BaseHotelResultsScrollListener() {

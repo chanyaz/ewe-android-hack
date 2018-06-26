@@ -690,6 +690,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.HotelUrgencyV2);
 		trackAbacusTest(s, AbacusUtils.HotelSoldOutOnHSRTreatment);
+		trackAbacusTest(s, AbacusUtils.HotelShortlist);
 		// Send the tracking data
 		s.track();
 	}
@@ -1111,6 +1112,37 @@ public class OmnitureTracking {
 
 	public static void trackHotelFavoriteAdded(int indexInFavoritesList, HotelShortlistItem shortListItem) {
 		trackHotelFavoritesPageAction(indexInFavoritesList, shortListItem, true);
+	}
+
+	public static void trackHotelFavoritesAction(String hotelId, boolean addedToFavorites, boolean isTrackingOnHSR) {
+		AppAnalytics s;
+		StringBuilder referrerId;
+		String events;
+
+		if (addedToFavorites) {
+			events = "event148";
+			referrerId = new StringBuilder("Shortlist.Save.HOT");
+		}
+		else {
+			events = "event149";
+			referrerId = new StringBuilder("Shortlist.Unsave.HOT");
+		}
+
+		if (isTrackingOnHSR) {
+			s = createTrackPageLoadEventBase(HOTELSV2_RESULT);
+			referrerId = referrerId.append(".SR");
+		}
+		else {
+			s = createTrackPageLoadEventBase(HOTELSV2_DETAILS_PAGE);
+			referrerId = referrerId.append(".IS");
+		}
+
+		s.appendEvents(events);
+		s.setEvar(28, referrerId.toString());
+		s.setProp(16, referrerId.toString());
+		s.setProducts(new StringBuffer(";Hotel:").append(hotelId).append(";;").toString());
+
+		s.track();
 	}
 
 	public static void trackHotelV2Reviews() {

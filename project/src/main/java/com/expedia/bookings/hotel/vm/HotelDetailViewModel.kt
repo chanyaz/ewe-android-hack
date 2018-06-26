@@ -23,6 +23,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.extensions.trackingString
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
@@ -111,8 +112,10 @@ class HotelDetailViewModel(context: Context, private val hotelInfoManager: Hotel
     fun toggleFavoriteHotel(favorite: Boolean) {
         if (favorite) {
             hotelFavoritesManager.saveFavorite(context, hotelOffersResponse.hotelId, paramsSubject.value)
+            OmnitureTracking.trackHotelFavoritesAction(hotelOffersResponse.hotelId, true, false)
         } else {
             hotelFavoritesManager.removeFavorite(context, hotelOffersResponse.hotelId)
+            OmnitureTracking.trackHotelFavoritesAction(hotelOffersResponse.hotelId, false, false)
         }
     }
 

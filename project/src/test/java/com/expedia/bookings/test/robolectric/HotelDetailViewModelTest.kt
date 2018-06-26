@@ -896,6 +896,44 @@ class HotelDetailViewModelTest {
         assertTrue(vm.showHotelFavoriteIcon())
     }
 
+    @Test
+    fun testTrackingAddFavorite() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        vm.hotelFavoritesManager = HotelFavoritesManager(shortlistServicesRule.services!!)
+        vm.paramsSubject.onNext(createSearchParams())
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.toggleFavoriteHotel(true)
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite",
+                Matchers.allOf(
+                        OmnitureMatchers.withEventsString("event148"),
+                        OmnitureMatchers.withProductsString(";Hotel:" + offer1.hotelId + ";;"),
+                        OmnitureMatchers.withProps(mapOf(16 to "Shortlist.Save.HOT.IS")),
+                        OmnitureMatchers.withEvars(mapOf(28 to "Shortlist.Save.HOT.IS"))
+                ),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackingRemoveFavorite() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelShortlist)
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        vm.hotelFavoritesManager = HotelFavoritesManager(shortlistServicesRule.services!!)
+        vm.paramsSubject.onNext(createSearchParams())
+        vm.hotelOffersSubject.onNext(offer1)
+        vm.toggleFavoriteHotel(false)
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Infosite",
+                Matchers.allOf(
+                        OmnitureMatchers.withEventsString("event149"),
+                        OmnitureMatchers.withProductsString(";Hotel:" + offer1.hotelId + ";;"),
+                        OmnitureMatchers.withProps(mapOf(16 to "Shortlist.Unsave.HOT.IS")),
+                        OmnitureMatchers.withEvars(mapOf(28 to "Shortlist.Unsave.HOT.IS"))
+                ),
+                mockAnalyticsProvider)
+    }
+
     private fun loadOfferInfo(resourcePath: String): HotelOffersResponse {
         return JSONResourceReader(resourcePath).constructUsingGson(HotelOffersResponse::class.java)
     }

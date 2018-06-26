@@ -371,5 +371,9 @@ open class HotelTracking {
         fun trackChangeDateClick(isMap: Boolean) {
             OmnitureTracking.trackChangeDateClick(isMap)
         }
+
+        fun trackHotelFavoritesAction(hotelId: String, addedToFavorites: Boolean, isTrackingOnHSR: Boolean) {
+            OmnitureTracking.trackHotelFavoritesAction(hotelId, addedToFavorites , isTrackingOnHSR)
+        }
     }
 }
