@@ -3,6 +3,8 @@ package com.expedia.bookings.packages.vm
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
@@ -14,15 +16,22 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RoboTestHelper.setPOS
+import org.junit.Before
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class PackageCostSummaryBreakdownViewModelTest {
 
-    private fun getContext(): Context {
-        return RuntimeEnvironment.application
+    private lateinit var context: Context
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
+
+    @Before
+    fun before() {
+        context = RuntimeEnvironment.application
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -36,8 +45,16 @@ class PackageCostSummaryBreakdownViewModelTest {
         validateCostSummaryBreakdownRows(true)
     }
 
+    @Test
+    fun testTrackBreakDownClicked() {
+        val viewModel = PackageCostSummaryBreakdownViewModel(context)
+        viewModel.trackBreakDownClicked()
+        val controlEvar = mapOf(18 to "App.Package.RD.PriceSummary")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
     private fun validateCostSummaryBreakdownRows(isJP: Boolean) {
-        val textSize = getContext().getResources().getDimension(R.dimen.type_200_text_size)
+        val textSize = context.getResources().getDimension(R.dimen.type_200_text_size)
         val rowsAndContDesc = getCostSummaryBreakdownRowsAndContDesc()
         val rows = rowsAndContDesc.first
         val contDesc = rowsAndContDesc.second
@@ -73,8 +90,8 @@ class PackageCostSummaryBreakdownViewModelTest {
 
         assertEquals("Savings for booking together", rows[4].title)
         assertEquals("-$120.00", rows[4].cost)
-        assertEquals(ContextCompat.getColor(getContext(), R.color.cost_summary_breakdown_savings_cost_color), rows[4].titleColor)
-        assertEquals(ContextCompat.getColor(getContext(), R.color.cost_summary_breakdown_savings_cost_color), rows[4].costColor)
+        assertEquals(ContextCompat.getColor(context, R.color.cost_summary_breakdown_savings_cost_color), rows[4].titleColor)
+        assertEquals(ContextCompat.getColor(context, R.color.cost_summary_breakdown_savings_cost_color), rows[4].costColor)
         assertEquals(Font.ROBOTO_MEDIUM, rows[4].titleTypeface)
         assertEquals(Font.ROBOTO_MEDIUM, rows[4].costTypeface)
         assertEquals(false, rows[4].separator)
@@ -88,8 +105,8 @@ class PackageCostSummaryBreakdownViewModelTest {
         val titleText = if (isJP) "Trip total (with taxes & fee)" else "Bundle total"
         assertEquals(titleText, rows[6].title)
         assertEquals("$300.00", rows[6].cost)
-        assertEquals(ContextCompat.getColor(getContext(), R.color.background_holo_dark), rows[6].titleColor)
-        assertEquals(ContextCompat.getColor(getContext(), R.color.text_dark), rows[6].costColor)
+        assertEquals(ContextCompat.getColor(context, R.color.background_holo_dark), rows[6].titleColor)
+        assertEquals(ContextCompat.getColor(context, R.color.text_dark), rows[6].costColor)
         assertEquals(Font.ROBOTO_MEDIUM, rows[6].titleTypeface)
         assertEquals(Font.ROBOTO_REGULAR, rows[6].costTypeface)
         assertEquals(false, rows[6].separator)
@@ -98,7 +115,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals("includes hotel and flights", rows[7].title)
         assertEquals("$180.00", rows[7].cost)
         assertEquals(null, rows[7].titleColor)
-        assertEquals(ContextCompat.getColor(getContext(), R.color.background_holo_dark), rows[7].costColor)
+        assertEquals(ContextCompat.getColor(context, R.color.background_holo_dark), rows[7].costColor)
         assertEquals(Font.ROBOTO_REGULAR, rows[7].titleTypeface)
         assertEquals(Font.ROBOTO_MEDIUM, rows[7].costTypeface)
         assertEquals(false, rows[7].separator)
@@ -109,7 +126,7 @@ class PackageCostSummaryBreakdownViewModelTest {
     }
 
     private fun getCostSummaryBreakdownRowsAndContDesc(): Pair<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>, String> {
-        val viewModel = PackageCostSummaryBreakdownViewModel(getContext())
+        val viewModel = PackageCostSummaryBreakdownViewModel(context)
         val rowsObserver = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         val priceSummaryContDescObserver = TestObserver<String>()
         viewModel.addRows.subscribe(rowsObserver)

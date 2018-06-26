@@ -768,6 +768,13 @@ class PackagesTrackingTest {
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundleWidget.SSSF", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testTrackBundleOverviewCostBreakdownLoad() {
+        sut.trackBundleOverviewCostBreakdownLoad()
+        val controlEvar = mapOf(18 to "App.Package.RD.PriceSummary")
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
     private fun assertMIDConfirmationTracking(appState: String, expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProductNoDateFirstHalf: String, expectedProductSecondHalf: String, expectedEvents: String) {
         OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)

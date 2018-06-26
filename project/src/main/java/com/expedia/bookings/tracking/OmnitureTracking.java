@@ -4478,6 +4478,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_BUNDLE_VIEW_TAP = "App.Package.BundleWidget.Tap";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.Details.";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_LOAD = "App.Package.RD.PriceSummary";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_STRIP_CLICK = "App.Package.RD.SavingsStrip";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_BUTTON_CLICK = "App.Package.RD.SavingsButton";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_INFO_ICON_CLICK = "App.Package.RD.InfoIcon";
@@ -4986,6 +4987,10 @@ public class OmnitureTracking {
 		link.append(lobClicked);
 		link.append(isExpanding ? ".Expand" : ".Collapse");
 		createAndTrackLinkEvent(link.toString(), "Rate Details");
+	}
+
+	public static void trackPackagesBundleOverviewCostBreakdownLoad() {
+		trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_LOAD, null);
 	}
 
 	public static void trackPackagesBundleCostBreakdownSavingsStripClick() {

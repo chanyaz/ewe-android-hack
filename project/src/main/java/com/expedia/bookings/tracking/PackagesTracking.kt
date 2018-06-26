@@ -317,4 +317,8 @@ class PackagesTracking {
             BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(shouldShowSavings)
         }
     }
+
+    fun trackBundleOverviewCostBreakdownLoad() {
+        OmnitureTracking.trackPackagesBundleOverviewCostBreakdownLoad()
+    }
 }
