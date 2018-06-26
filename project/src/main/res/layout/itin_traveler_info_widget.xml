@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/itin_text_white_color"
         android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
@@ -24,7 +24,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
-                android:textColor="@color/gray900"
+                android:textColor="@color/itin_text_common_color"
                 android:textSize="16sp"
                 app:textStyle="medium"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -48,7 +48,6 @@
                 style="@style/FlightItinTravelerInfoSubtext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -95,6 +94,7 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/traveler_email"
+                    style="@style/FlightItinTravelerInfoSubtext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -126,6 +126,7 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/traveler_phone"
+                    style="@style/FlightItinTravelerInfoSubtext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
