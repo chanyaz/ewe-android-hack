@@ -764,6 +764,14 @@
             android:key="26393"
             android:summary="%s"
             android:title="Packages Highlight Sort n Filter - 26393" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_packages_rich_content_variant_choices"
+            android:entryValues="@array/abacus_packages_rich_content_variant_choice_values"
+            android:key="26689"
+            android:summary="%s"
+            android:title="Packages Rich Content - 26689" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -802,6 +802,14 @@
         <item>@string/nav_hotel_plus_flight_deals</item>
     </string-array>
 
+    <string-array name="abacus_packages_rich_content_variant_choices">
+        <item>@string/preference_abacus_setting_server</item>
+        <item>@string/preference_abacus_setting_control</item>
+        <item>@string/preference_packages_rich_content_show_amenities</item>
+        <item>@string/preference_packages_rich_content_show_route_score</item>
+        <item>@string/preference_packages_rich_content_show_both</item>
+    </string-array>
+
     <string-array name="abacus_package_title_change_choice_values">
         <item>-1</item>
         <item>0</item>
@@ -858,6 +866,14 @@
     </string-array>
 
     <string-array name="abacus_flights_rich_content_variant_choice_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="abacus_packages_rich_content_variant_choice_values">
         <item>-1</item>
         <item>0</item>
         <item>1</item>
