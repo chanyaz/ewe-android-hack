@@ -10,43 +10,43 @@
     </style>
 
     <style name="ItinLinkOffTextHeading">
-        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textColor">@color/itin_text_common_color</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="ItinLinkOffTextSubHeading">
-        <item name="android:textColor">@color/gray600</item>
+        <item name="android:textColor">@color/itin_text_sub_color</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="FlightItinAirlineName">
-        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textColor">@color/itin_text_common_color</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="FlightItinOperatedBy">
-        <item name="android:textColor">@color/gray700</item>
+        <item name="android:textColor">@color/itin_text_sub_color</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="FlightItinMock">
-        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textColor">@color/itin_text_common_color</item>
         <item name="android:textSize">13sp</item>
     </style>
 
     <style name="FlightItinSeating">
-        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textColor">@color/itin_text_common_color</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="FlightItinTravelerInfoSubtext">
-        <item name="android:textColor">@color/gray600</item>
+        <item name="android:textColor">@color/itin_text_sub_color</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="FlightItinTravelerInfoMainText">
-        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textColor">@color/itin_text_common_color</item>
         <item name="android:textSize">14sp</item>
         <item name="textStyle">medium</item>
     </style>
@@ -57,7 +57,7 @@
         <item name="android:layout_marginRight">12dp</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textColor">@color/itin_text_common_color</item>
         <item name="textStyle">medium</item>
     </style>
 
@@ -73,7 +73,7 @@
     </style>
 
     <style name="TripTaxiCard" parent="ItinTheme">
-        <item name="android:statusBarColor">@color/gray800</item>
-        <item name="android:windowBackground">@color/gray800</item>
+        <item name="android:statusBarColor">@color/itin_taxi_background_color</item>
+        <item name="android:windowBackground">@color/itin_taxi_background_color</item>
     </style>
 </resources>

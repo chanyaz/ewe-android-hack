@@ -49,7 +49,7 @@
                     android:id="@+id/widget_hotel_itin_address_line_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray900"
+                    android:textColor="@color/itin_text_common_color"
                     android:textSize="14sp"
                     android:textStyle="normal" />
 
@@ -57,7 +57,7 @@
                     android:id="@+id/widget_hotel_itin_address_line_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray900"
+                    android:textColor="@color/itin_text_common_color"
                     android:textSize="14sp"
                     android:textStyle="normal" />
 
