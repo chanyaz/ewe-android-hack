@@ -2,6 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:parentTag="RelativeLayout">
@@ -511,12 +512,23 @@
 
     </FrameLayout>
 
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/lite_details_map"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@id/map_click_container"
+        android:layout_gravity="center"
+        android:importantForAccessibility="no"
+        map:liteMode="true"
+        android:layout_marginTop="50dp"
+        map:mapType="none" />
+
     <com.expedia.bookings.hotel.widget.PayNowPayLaterTabs
         android:id="@+id/pay_now_pay_later_tabs"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/map_click_container"
+        android:layout_below="@id/lite_details_map"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"

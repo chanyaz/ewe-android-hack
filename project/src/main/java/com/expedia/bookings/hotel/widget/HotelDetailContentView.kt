@@ -29,6 +29,7 @@ import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
@@ -55,6 +56,7 @@ import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.expedia.bookings.hotel.vm.HotelReviewsSummaryBoxRatingViewModel
 import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.model.HotelStayDates
@@ -79,12 +81,21 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
-import com.expedia.bookings.hotel.vm.HotelDetailViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
-class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
+class HotelDetailContentView(context: Context, attrs: AttributeSet?) :
+        RelativeLayout(context, attrs),
+        OnMapReadyCallback {
 
     val requestFocusOnRoomsSubject = PublishSubject.create<Unit>()
 
@@ -137,6 +148,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
     private val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
 
+    //TODO move all this to a component
+    val liteMapView: MapView by bindView(R.id.lite_details_map)
+    private lateinit var googleMap: GoogleMap
+    private var queuedLatLng: LatLng? = null
+
     private val roomRateHeader: LinearLayout by bindView(R.id.room_rate_header)
     private val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
     private val roomRateRegularLoyaltyAppliedView: LinearLayout by bindView(R.id.room_rate_regular_loyalty_applied_container)
@@ -175,6 +191,12 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     init {
         View.inflate(context, R.layout.hotel_detail_content_view, this)
+
+        //TODO move to a component
+        with(liteMapView) {
+            onCreate(null)
+            getMapAsync(this@HotelDetailContentView)
+        }
 
         val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone)!!.mutate()
         phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
@@ -277,6 +299,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         vm.hotelLatLngObservable.subscribe { values ->
             miniMapView.setLocation(LatLong(values[0], values[1]))
+
+            setMiniMapLocation(LatLng(values[0], values[1]))
         }
 
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
@@ -351,6 +375,34 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }
     }
 
+    override fun onMapReady(map: GoogleMap?) {
+        MapsInitializer.initialize(context.applicationContext)
+        googleMap = map ?: return
+
+        googleMap.uiSettings?.isMapToolbarEnabled = false
+        queuedLatLng?.let { latLng -> placeMarker(latLng) }
+        queuedLatLng = null
+    }
+
+    private fun setMiniMapLocation(latLong: LatLng) {
+        if (!::googleMap.isInitialized) {
+            queuedLatLng = latLong
+            return
+        }
+        placeMarker(latLong)
+    }
+
+    private fun placeMarker(latLong: LatLng) {
+        with(googleMap) {
+            moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 12f))
+            addMarker(MarkerOptions().position(latLong))
+            mapType = GoogleMap.MAP_TYPE_NORMAL
+            setOnMapClickListener {
+                Toast.makeText(context, R.string.itin_hotel_details_map_view_content_description, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     fun resetViews() {
         priceViewAlpha(1f)
         urgencyViewAlpha(1f)
@@ -374,11 +426,17 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         roomContainer.removeAllViews()
         recycleRoomImageViews()
+
+        with (googleMap) {
+            clear()
+            mapType = GoogleMap.MAP_TYPE_NONE
+        }
     }
 
     fun handleScrollWithOffset(scrollOffset: Int, toolbarOffset: Float) {
         miniMapView.translationY = scrollOffset * 0.15f
         transparentViewOverMiniMap.translationY = miniMapView.translationY
+        //liteMapView.translationY =  scrollOffset * 0.15f
 
         priceContainer.getLocationOnScreen(priceContainerLocation)
         val priceAlpha = AlphaCalculator.fadeOutAlpha(startPoint = toolbarOffset, endPoint = (toolbarOffset / 2),
