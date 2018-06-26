@@ -6,6 +6,7 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 
@@ -36,6 +37,7 @@ public class FlightDetailsScreenSteps {
 
 	@Then("^on flight details screen the destination is \"([^\"]*)\"$")
 	public void destinationIs(String destination) throws Throwable {
+		Common.delay(1);
 		onView(
 			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Flight to"))))
 			.check(matches(withText(containsString(destination))));
@@ -115,8 +117,8 @@ public class FlightDetailsScreenSteps {
 
 	@And("^flight class info is \"([^\"]*)\"$")
 	public void verifyFlightClassInfo(String classInfo) throws Throwable {
-		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
-			withId(R.id.flight_seat_class_booking_code), withText(classInfo)))
+		onView(allOf(
+			withId(R.id.flight_seat_class_booking_code), withText(classInfo),isDescendantOfA(withId(R.id.breakdown_container))))
 			.check(matches(isDisplayed()));
 
 
