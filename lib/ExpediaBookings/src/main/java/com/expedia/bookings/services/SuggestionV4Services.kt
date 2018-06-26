@@ -119,7 +119,6 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
 
         airportSuggestionSubscription?.dispose()
 
-        airportSuggestionSubscription?.dispose()
         val suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
                 SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
 
