@@ -5,14 +5,14 @@ Feature: Sorting of Flight results
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | LHR                                      |
-      | destination         | Spain                                    |
-      | source_suggest      | London, England, UK (LHR - Heathrow)     |
-      | destination_suggest | BCN - Barcelona Intl.                    |
-      | start_date          | 15                                       |
-      | end_date            | 20                                       |
-      | adults              | 3                                        |
-      | child               | 2                                        |
+      | source              | LHR                                                      |
+      | destination         | LAX                                                      |
+      | source_suggest      | London, England, UK (LHR - Heathrow)                     |
+      | destination_suggest | Los Angeles, CA, United States (LAX - Los Angeles Intl.) |
+      | start_date          | 15                                                       |
+      | end_date            | 20                                                       |
+      | adults              | 3                                                        |
+      | child               | 2                                                        |
     And I wait for results to load
     Then flight results are sorted by "price"
     When I click on sort and filter icon and isOutBound : true
