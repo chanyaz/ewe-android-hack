@@ -1,14 +1,29 @@
 package com.expedia.bookings.itin.triplist
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.expedia.bookings.itin.helpers.MockTripListRepository
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.services.TestObserver
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class TripListFragmentViewModelTest {
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
+
     private val mockTripsTracking = MockTripsTracking()
-    private val viewModel = TripListFragmentViewModel(mockTripsTracking)
+    private val mockTripListRepo = MockTripListRepository()
+    private lateinit var viewModel: ITripListFragmentViewModel
+
+    @Before
+    fun setup() {
+        viewModel = TripListFragmentViewModel(mockTripsTracking, mockTripListRepo)
+    }
 
     @Test
     fun testTripListVisitUpcomingTabTracking() {
@@ -58,5 +73,17 @@ class TripListFragmentViewModelTest {
         viewModel.tabSelectedSubject.onNext(2)
         testObserver.assertValueCount(1)
         testObserver.assertValue(2)
+    }
+
+    @Test
+    fun testFoldersLiveDataHasFoldersOnInit() {
+        assertEquals(mockTripListRepo.tripFolders, viewModel.upcomingFoldersLiveData.value)
+    }
+
+    @Test
+    fun testFoldersLiveDataUpdatedOnRepoRefresh() {
+        assertEquals(mockTripListRepo.tripFolders, viewModel.upcomingFoldersLiveData.value)
+        viewModel.refreshTripFolders()
+        assertEquals(mockTripListRepo.tripFoldersForRefresh, viewModel.upcomingFoldersLiveData.value)
     }
 }

@@ -47,8 +47,6 @@ import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.TNSServices;
-import com.expedia.bookings.services.TripFolderService;
-import com.expedia.bookings.services.TripFolderServiceInterface;
 import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.trace.util.ServerDebugTraceUtil;
@@ -408,14 +406,6 @@ public class AppModule {
 		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
 		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
 			satelliteInterceptor,
-			AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@Singleton
-	TripFolderServiceInterface provideTripFolderService(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
-		return new TripFolderService(endpointProvider.getSatelliteEndpointUrl(), client, interceptor, satelliteInterceptor,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 

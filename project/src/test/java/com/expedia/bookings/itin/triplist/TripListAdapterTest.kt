@@ -4,7 +4,11 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.expedia.bookings.data.trips.TripFolder
+import com.expedia.bookings.itin.helpers.MockTripListRepository
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,11 +21,13 @@ import kotlin.test.assertTrue
 class TripListAdapterTest {
     private lateinit var context: Context
     private lateinit var adapter: TripListAdapter
+    private lateinit var viewModel: ITripListAdapterViewModel
 
     @Before
     fun setup() {
         context = RuntimeEnvironment.application
-        adapter = TripListAdapter(context)
+        viewModel = MockViewModel()
+        adapter = TripListAdapter(context, viewModel)
     }
 
     @Test
@@ -95,11 +101,29 @@ class TripListAdapterTest {
         assertEquals(0, viewGroup.childCount)
     }
 
+    @Test
+    fun testUpcomingFoldersPassedOntoUpcomingTripListView() {
+        val testObserver = TestObserver<List<TripFolder>>()
+        adapter.upcomingTripListView.viewModel.foldersSubject.subscribe(testObserver)
+        testObserver.assertNoValues()
+
+        val repo = MockTripListRepository()
+        val folders = repo.tripFolders
+        adapter.viewModel.upcomingTripFoldersSubject.onNext(folders)
+        testObserver.assertValueCount(1)
+        testObserver.assertValue(folders)
+        testObserver.dispose()
+    }
+
     private fun getChildren(viewGroup: ViewGroup): List<View> {
         val children = mutableListOf<View>()
         for (i in 0 until viewGroup.childCount) {
             children.add(viewGroup.getChildAt(i))
         }
         return children
+    }
+
+    private class MockViewModel : ITripListAdapterViewModel {
+        override val upcomingTripFoldersSubject: PublishSubject<List<TripFolder>> = PublishSubject.create()
     }
 }

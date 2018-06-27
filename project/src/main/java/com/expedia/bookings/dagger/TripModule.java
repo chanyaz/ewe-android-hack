@@ -8,6 +8,8 @@ import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.itin.common.ItinPageUsableTracking;
+import com.expedia.bookings.itin.triplist.ITripListRepository;
+import com.expedia.bookings.itin.triplist.TripListRepository;
 import com.expedia.bookings.itin.tripstore.utils.IJsonToFoldersUtil;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.JsonToFoldersUtil;
@@ -17,6 +19,8 @@ import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.HotelNotificationGenerator;
 import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.TripFolderService;
+import com.expedia.bookings.services.TripFolderServiceInterface;
 import com.expedia.bookings.services.TripShareUrlShortenService;
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface;
 import com.expedia.bookings.services.TripsServices;
@@ -78,5 +82,21 @@ public final class TripModule {
 	@TripScope
 	IJsonToFoldersUtil provideJsonToFoldersUtil(@Named("TripFoldersFileUtil") ITripsJsonFileUtils jsonFileUtils) {
 		return new JsonToFoldersUtil(jsonFileUtils);
+	}
+
+	@Provides
+	@TripScope
+	TripFolderServiceInterface provideTripFolderService(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
+		return new TripFolderService(endpointProvider.getSatelliteEndpointUrl(), client, interceptor, satelliteInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@TripScope
+	ITripListRepository provideTripListRepository(IJsonToFoldersUtil jsonToFoldersUtil,
+		TripFolderServiceInterface tripFolderService,
+		@Named("TripFoldersFileUtil") ITripsJsonFileUtils folderFileUtils) {
+		return new TripListRepository(jsonToFoldersUtil, tripFolderService, folderFileUtils);
 	}
 }

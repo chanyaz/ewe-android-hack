@@ -11,6 +11,7 @@ import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingAdditionalInfoActivity;
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity;
 import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity;
+import com.expedia.bookings.itin.triplist.TripListFragment;
 import com.expedia.bookings.itin.tripstore.utils.IJsonToFoldersUtil;
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
@@ -38,6 +39,8 @@ public interface TripComponent {
 	void inject(HotelItinPricingRewardsActivity hotelItinPricingRewardsActivity);
 	void inject(HotelItinPricingAdditionalInfoActivity hotelItinPricingAdditionalInfoActivity);
 	void inject(ItinExpandedMapActivity itinExpandedMapActivity);
+
+	void inject(TripListFragment tripListFragment);
 
 	ItinPageUsableTracking itinPageUsableTracking();
 	TripsServicesInterface tripServices();

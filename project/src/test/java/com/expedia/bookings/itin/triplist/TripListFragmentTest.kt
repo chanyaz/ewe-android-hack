@@ -1,5 +1,7 @@
 package com.expedia.bookings.itin.triplist
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.MutableLiveData
 import android.graphics.drawable.ColorDrawable
 import android.support.design.widget.TabLayout
 import android.support.v4.app.FragmentManager
@@ -8,25 +10,30 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.helpers.MockTripsTracking
+import com.expedia.bookings.data.trips.TripFolder
+import com.expedia.bookings.itin.helpers.MockTripListRepository
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import io.reactivex.subjects.PublishSubject
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class TripListFragmentTest {
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
     private lateinit var activity: AppCompatActivity
     private lateinit var fragmentManager: FragmentManager
     private val testFragment = TripListFragment()
+    private val mockRepository = MockTripListRepository()
 
     @Before
     fun setup() {
@@ -72,18 +79,20 @@ class TripListFragmentTest {
 
     @Test
     fun testTrackTripListVisit() {
-        val mockTripsTracking = MockTripsTracking()
-        testFragment.tripsTracking = mockTripsTracking
         loadTripListFragment()
-        assertFalse(mockTripsTracking.trackTripListUpcomingTabSelected)
+        val testObserver = TestObserver<Int>()
+        testFragment.viewModel.tripListVisitTrackingSubject.subscribe(testObserver)
+        testObserver.assertNoValues()
         testFragment.trackTripListVisit()
-        assertTrue(mockTripsTracking.trackTripListUpcomingTabSelected)
+        testObserver.assertValueCount(1)
+        testObserver.assertValuesAndClear(0)
 
         val tabLayout = testFragment.view!!.findViewById<TabLayout>(R.id.trip_list_tabs)
-        assertFalse(mockTripsTracking.trackTripListCancelledTabSelected)
+        testObserver.assertNoValues()
         tabLayout.getTabAt(2)?.select()
         testFragment.trackTripListVisit()
-        assertTrue(mockTripsTracking.trackTripListCancelledTabSelected)
+        testObserver.assertValueCount(1)
+        testObserver.assertValuesAndClear(2)
     }
 
     @Test
@@ -99,7 +108,38 @@ class TripListFragmentTest {
         testObserver.assertValue(2)
     }
 
+    @Test
+    fun testFolderLivedataObserver() {
+        val testObserver = TestObserver<List<TripFolder>>()
+        testFragment.tripListAdapterViewModel.upcomingTripFoldersSubject.subscribe(testObserver)
+
+        testObserver.assertNoValues()
+        loadTripListFragment()
+        testFragment.setupLiveDataObservers()
+        testObserver.assertValueCount(1)
+        testObserver.assertValuesAndClear(mockRepository.tripFolders)
+
+        testFragment.viewModel.refreshTripFolders()
+        testObserver.assertValueCount(1)
+        testObserver.assertValuesAndClear(mockRepository.tripFoldersForRefresh)
+    }
+
     private fun loadTripListFragment() {
         fragmentManager.beginTransaction().add(testFragment, "TRIP_LIST_FRAGMENT").commitNow()
+        testFragment.viewModel = MockViewModel(mockRepository)
+    }
+
+    private class MockViewModel(val mockRepository: MockTripListRepository) : ITripListFragmentViewModel {
+        override val upcomingFoldersLiveData: MutableLiveData<List<TripFolder>> = MutableLiveData()
+        override val tripListVisitTrackingSubject: PublishSubject<Int> = PublishSubject.create()
+        override val tabSelectedSubject: PublishSubject<Int> = PublishSubject.create()
+
+        override fun refreshTripFolders() {
+            upcomingFoldersLiveData.postValue(mockRepository.tripFoldersForRefresh)
+        }
+
+        init {
+            upcomingFoldersLiveData.postValue(mockRepository.tripFolders)
+        }
     }
 }
