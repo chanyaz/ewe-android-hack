@@ -16,28 +16,29 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_LIST_UPCOMING_TAB = "App.Trips.Upcoming"
     private const val ITIN_LIST_PAST_TAB = "App.Trips.Past"
     private const val ITIN_LIST_CANCELLED_TAB = "App.Trips.Cancelled"
+    private const val EVENT_SIXTY_THREE = "event63"
 
     override fun trackTripFolderAbTest() {
         val s = createTrackLinkEvent(ITIN_LIST)
         trackAbacusTest(s, AbacusUtils.TripFoldersFragment)
-        s.trackLink("Itinerary Action")
+        s.trackLink(Itinerary_Action)
     }
 
     override fun trackTripListUpcomingTabVisit() {
-        val s = createTrackPageLoadEventBase(ITIN_LIST_UPCOMING_TAB)
-        s.appendEvents("event63")
-        s.track()
+        trackTabVisit(ITIN_LIST_UPCOMING_TAB)
     }
 
     override fun trackTripListPastTabVisit() {
-        val s = createTrackPageLoadEventBase(ITIN_LIST_PAST_TAB)
-        s.appendEvents("event63")
-        s.track()
+        trackTabVisit(ITIN_LIST_PAST_TAB)
     }
 
     override fun trackTripListCancelledTabVisit() {
-        val s = createTrackPageLoadEventBase(ITIN_LIST_CANCELLED_TAB)
-        s.appendEvents("event63")
+        trackTabVisit(ITIN_LIST_CANCELLED_TAB)
+    }
+
+    private fun trackTabVisit(eventBase: String) {
+        val s = createTrackPageLoadEventBase(eventBase)
+        s.appendEvents(EVENT_SIXTY_THREE)
         s.track()
     }
 
@@ -98,25 +99,23 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     fun trackItinChangePOS() {
-        val s = createTrackLinkEvent(ITIN_CHANGE_POSA)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CHANGE_POSA)
     }
 
     fun trackItinSignIn() {
-        val s = createTrackLinkEvent(ITIN_NEW_SIGN_IN)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_NEW_SIGN_IN)
     }
 
     fun trackItinRefresh() {
-        val s = createTrackLinkEvent(ITIN_USER_REFRESH)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_USER_REFRESH)
     }
 
     @JvmStatic
     fun trackItinGuestAdd() {
-        val s = createTrackLinkEvent(ITIN_ADD_GUEST)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ADD_GUEST)
     }
+
+    private const val Itinerary_Action = "Itinerary Action"
 
     //Hotel Tracking
     private const val ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia"
@@ -142,126 +141,107 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_HOTEL = "App.Itinerary.Hotel"
 
     fun trackItinHotelCallSupport() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CALL_EXPEDIA)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CALL_EXPEDIA)
     }
 
     fun trackItinHotelOpenSupportWebsite() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_OPEN_SUPPORT_WEBSITE)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_OPEN_SUPPORT_WEBSITE)
     }
 
     fun trackItinHotelCallHotel() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CALL_HOTEL)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CALL_HOTEL)
     }
 
-    fun trackItinHotelMessage(isManageBooking: Boolean?) {
-        val s: AppAnalytics
-        if (isManageBooking!!) {
-            s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING_MESSAGE)
+    fun trackItinHotelMessage(isManageBooking: Boolean) {
+        if (isManageBooking) {
+            trackAction(ITIN_HOTEL_MANAGE_BOOKING_MESSAGE)
         } else {
-            s = createTrackLinkEvent(ITIN_HOTEL_MESSAGE)
+            trackAction(ITIN_HOTEL_MESSAGE)
         }
-        s.trackLink("Itinerary Action")
     }
 
     fun trackHotelItinAdditionalInfoClick() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_INFO)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_INFO)
     }
 
     override fun trackHotelItinPricingRewardsPageLoad(trip: HashMap<String, String?>) {
-        Log.d(TAG, "Tracking \"$ITIN_HOTEL_PRICING_REWARDS\" pageLoad")
-        val s = createTrackPageLoadEventBase(ITIN_HOTEL_PRICING_REWARDS)
-        trackItinPageLoad(s, trip)
+        trackPageLoadWithEventBase(ITIN_HOTEL_PRICING_REWARDS, trip)
     }
 
     override fun trackHotelItinPricingRewardsClick() {
         val s = createTrackLinkEvent(ITIN_HOTEL_PRICING_REWARDS)
         trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelPricing)
-        s.trackLink("Itinerary Action")
+        s.trackLink(Itinerary_Action)
     }
 
     fun trackHotelItinManageBookingClick() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_MANAGE_BOOKING)
     }
 
     fun trackHotelItinCheckInPoliciesDialogClick() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CHECK_IN_POLICIES)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CHECK_IN_POLICIES)
     }
 
     override fun trackHotelTaxiCardClick() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_TAXI_CARD)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_TAXI_CARD)
     }
 
     fun trackHotelItinChangeHotel() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CHANGE_HOTEL)
     }
 
     fun trackHotelItinCancelHotel() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CANCEL_HOTEL)
     }
 
     fun trackHotelItinChangeAndCancelRulesDialogClick() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_CANCEL_RULES)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CHANGE_CANCEL_RULES)
     }
 
     fun trackItinHotelCancelLearnMore() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE)
     }
 
     fun trackItinHotelChangeLearnMore() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE)
     }
 
     @JvmStatic
     fun trackItinHotelCall() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_CALL)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_CALL)
     }
 
     fun trackItinHotelExpandMap() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_MAP_OPEN)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_MAP_OPEN)
     }
 
     @JvmStatic
     fun trackItinHotelDirections() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_DIRECTIONS)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_DIRECTIONS)
     }
 
     override fun trackItinHotelViewReceipt() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_VIEW_RECEIPT)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_VIEW_RECEIPT)
     }
 
     override fun trackItinMapDirectionsButton() {
-        val s = createTrackLinkEvent(ITIN_MAP_DIRECTIONS)
-        s.trackLink("Map Action")
+        trackMapAction(ITIN_MAP_DIRECTIONS)
     }
 
     override fun trackItinExpandedMapZoomIn() {
-        val s = createTrackLinkEvent(ITIN_MAP_ZOOM_IN)
-        s.trackLink("Map Action")
+        trackMapAction(ITIN_MAP_ZOOM_IN)
     }
 
     override fun trackItinExpandedMapZoomOut() {
-        val s = createTrackLinkEvent(ITIN_MAP_ZOOM_OUT)
-        s.trackLink("Map Action")
+        trackMapAction(ITIN_MAP_ZOOM_OUT)
     }
 
     override fun trackItinExpandedMapZoomPan() {
-        val s = createTrackLinkEvent(ITIN_MAP_PAN)
+        trackMapAction(ITIN_MAP_PAN)
+    }
+
+    private fun trackMapAction(linkEvent: String) {
+        val s = createTrackLinkEvent(linkEvent)
         s.trackLink("Map Action")
     }
 
@@ -279,8 +259,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     override fun trackItinHotelViewRewards() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_VIEW_REWARDS)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_HOTEL_VIEW_REWARDS)
     }
 
     //CAR Tracking
@@ -297,45 +276,35 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_CAR_ADDITIONAL_INFO = "App.Itinerary.Car.Info.Additional"
 
     override fun trackItinCarDetailsMap() {
-        val s = createTrackLinkEvent(ITIN_CAR_DETAILS_MAP)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CAR_DETAILS_MAP)
     }
 
     override fun trackItinCarDetailsDirections() {
-        val s = createTrackLinkEvent(ITIN_CAR_DETAILS_DIRECTION)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CAR_DETAILS_DIRECTION)
     }
 
     override fun trackItinCarMoreHelpClicked() {
-        val s = createTrackLinkEvent(ITIN_CAR_MORE_HELP)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CAR_MORE_HELP)
     }
 
     override fun trackItinCarCallSupportClicked() {
-        val s = createTrackLinkEvent(ITIN_CAR_CALL_SUPPORT)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CAR_CALL_SUPPORT)
     }
 
     override fun trackItinCarCallCustomerSupportClicked() {
-        val s = createTrackLinkEvent(ITIN_CAR_CALL_EXPEDIA)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CAR_CALL_EXPEDIA)
     }
 
     override fun trackItinCarCustomerServiceLinkClicked() {
-        val s = createTrackLinkEvent(ITIN_CAR_CUSTOMER_SUPPORT)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CAR_CUSTOMER_SUPPORT)
     }
 
     override fun trackItinCarDetailsPageLoad(trip: HashMap<String, String?>) {
-        Log.d(TAG, "Tracking \"$ITIN_CAR\" pageLoad")
-        val s = createTrackPageLoadEventBase(ITIN_CAR)
-        trackItinPageLoad(s, trip)
+        trackPageLoadWithEventBase(ITIN_CAR, trip)
     }
 
     override fun trackItinCarMoreHelpPageLoad(trip: HashMap<String, String?>) {
-        Log.d(TAG, "Tracking \"$ITIN_CAR_MORE_HELP\" pageLoad")
-        val s = createTrackPageLoadEventBase(ITIN_CAR_MORE_HELP)
-        trackItinPageLoad(s, trip)
+        trackPageLoadWithEventBase(ITIN_CAR_MORE_HELP, trip)
     }
 
     override fun trackItinCarShareIconClicked() {
@@ -344,8 +313,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     override fun trackItinCarDetailsCallClicked() {
-        val s = createTrackLinkEvent(ITIN_CAR_DETAILS_CALL_CLICKED)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_CAR_DETAILS_CALL_CLICKED)
     }
 
     //LX Tracking
@@ -363,50 +331,45 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_ACTIVITY_ADDITIONAL_INFO = "App.Itinerary.Activity.Info.Additional"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
-        Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
-        val s = createTrackPageLoadEventBase(ITIN_ACTIVITY)
-        trackItinPageLoad(s, trip)
+        trackPageLoadWithEventBase(ITIN_ACTIVITY, trip)
     }
 
     override fun trackItinLxDetailsMap() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_DETAILS_MAP)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_DETAILS_MAP)
     }
 
     override fun trackItinLxDetailsDirections() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_DETAILS_DIRECTIONS)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_DETAILS_DIRECTIONS)
     }
 
     override fun trackItinLxRedeemVoucher() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_REDEEM_VOUCHER)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_REDEEM_VOUCHER)
     }
 
     override fun trackItinLxCallSupplierClicked() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_CALL_SUPPLIER)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_CALL_SUPPLIER)
     }
 
     override fun trackItinLxMoreHelpClicked() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_MORE_HELP)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_MORE_HELP)
     }
 
     override fun trackItinLxMoreHelpPageLoad(trip: HashMap<String, String?>) {
-        Log.d(TAG, "Tracking \"$ITIN_ACTIVITY_MORE_HELP\" pageLoad")
-        val s = createTrackPageLoadEventBase(ITIN_ACTIVITY_MORE_HELP)
+        trackPageLoadWithEventBase(ITIN_ACTIVITY_MORE_HELP, trip)
+    }
+
+    private fun trackPageLoadWithEventBase(eventBase: String, trip: HashMap<String, String?>) {
+        Log.d(TAG, "Tracking \"$eventBase\" pageLoad")
+        val s = createTrackPageLoadEventBase(eventBase)
         trackItinPageLoad(s, trip)
     }
 
     override fun trackItinLxCallCustomerSupportClicked() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_CALL_EXPEDIA)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_CALL_EXPEDIA)
     }
 
     override fun trackItinLxCustomerServiceLinkClicked() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_CUSTOMER_SUPPORT)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_CUSTOMER_SUPPORT)
     }
 
     override fun trackItinLxShareIconClicked() {
@@ -415,8 +378,12 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     override fun trackItinLxDetailsCallClicked() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_DETAILS_CALL)
-        s.trackLink("Itinerary Action")
+        trackAction(ITIN_ACTIVITY_DETAILS_CALL)
+    }
+
+    private fun trackAction(linkEvent: String) {
+        val s = createTrackLinkEvent(linkEvent)
+        s.trackLink(Itinerary_Action)
     }
 
     //Cruise Tracking
@@ -430,26 +397,16 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     //LOB Generic Tracking
 
     override fun trackItinLobPriceSummaryButtonClick(lob: String) {
-        var linkEventString = ""
         when (lob) {
-            TripProducts.ACTIVITY.name -> linkEventString = ITIN_ACTIVITY_PRICE_SUMMARY
-            TripProducts.CAR.name -> linkEventString = ITIN_CAR_PRICE_SUMMARY
-        }
-        if (linkEventString.isNotEmpty()) {
-            val s = createTrackLinkEvent(linkEventString)
-            s.trackLink("Itinerary Action")
+            TripProducts.ACTIVITY.name -> trackAction(ITIN_ACTIVITY_PRICE_SUMMARY)
+            TripProducts.CAR.name -> trackAction(ITIN_CAR_PRICE_SUMMARY)
         }
     }
 
     override fun trackItinLobAdditionalInfoButtonClick(lob: String) {
-        var linkEventString = ""
         when (lob) {
-            TripProducts.ACTIVITY.name -> linkEventString = ITIN_ACTIVITY_ADDITIONAL_INFO
-            TripProducts.CAR.name -> linkEventString = ITIN_CAR_ADDITIONAL_INFO
-        }
-        if (linkEventString.isNotEmpty()) {
-            val s = createTrackLinkEvent(linkEventString)
-            s.trackLink("Itinerary Action")
+            TripProducts.ACTIVITY.name -> trackAction(ITIN_ACTIVITY_ADDITIONAL_INFO)
+            TripProducts.CAR.name -> trackAction(ITIN_CAR_ADDITIONAL_INFO)
         }
     }
 
@@ -475,7 +432,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.setProp(5, trip.get("tripStartDate").toString())
         s.setProp(6, trip.get("tripEndDate").toString())
         s.setEvar(5, trip.get("daysUntilTrip").toString())
-        s.appendEvents("event63")
+        s.appendEvents(EVENT_SIXTY_THREE)
         s.track()
     }
 }
