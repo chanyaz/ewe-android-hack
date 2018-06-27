@@ -419,6 +419,14 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Action")
     }
 
+    //Cruise Tracking
+    private const val ITIN_CRUISE_SHARE_CLICKED = "App.Itinerary.Cruise.Share.Start"
+
+    override fun trackItinCruiseShareIconClicked() {
+        val s = createTrackLinkEvent(ITIN_CRUISE_SHARE_CLICKED)
+        s.trackLink("Itinerary Sharing")
+    }
+
     //LOB Generic Tracking
 
     override fun trackItinLobPriceSummaryButtonClick(lob: String) {

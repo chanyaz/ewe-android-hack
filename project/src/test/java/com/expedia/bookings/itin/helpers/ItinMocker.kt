@@ -36,5 +36,6 @@ object ItinMocker {
     val flightDetailsHappy = mockObject(ItinDetailsResponse::class.java, "api/trips/flight_trip_details.json")?.itin!!
     val flightDetailsHappySplitTicket = mockObject(ItinDetailsResponse::class.java, "api/trips/flight_trip_details_split_ticket.json")?.itin!!
     val flightDetailsHappyMultiSegment = mockObject(ItinDetailsResponse::class.java, "api/trips/flight_trip_details_multi_segment.json")?.itin!!
+    val cruiseDetailsHappy = mockObject(ItinDetailsResponse::class.java, "api/trips/cruise_trip_details.json")?.itin!!
     val emptyTrip = mockObject(ItinDetailsResponse::class.java, "api/trips/empty_trip_details.json")?.itin!!
 }

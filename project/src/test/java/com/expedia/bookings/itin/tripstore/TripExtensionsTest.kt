@@ -160,7 +160,8 @@ class TripExtensionsTest {
                 "May 5",
                 "May 5",
                 "May 5",
-                "2017-05-05T20:0:00.000-0000"
+                "2017-05-05T20:0:00.000-0000",
+                null
         )
         assertNotNull(time.getDateTime())
         assertEquals(DateTime().withZone(DateTimeZone.forOffsetHours(0)).withMonthOfYear(5).withDayOfMonth(5).withYear(2017).withHourOfDay(20)
@@ -173,6 +174,7 @@ class TripExtensionsTest {
                 "May 5",
                 "May 5",
                 "May 5",
+                null,
                 null
         )
         assertNull(time.getDateTime())

@@ -23,6 +23,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.itin.cars.details.CarsItinDetailsActivity;
 import com.expedia.bookings.itin.common.LegacyItinCardDataActivity;
 import com.expedia.bookings.features.Features;
+import com.expedia.bookings.itin.cruise.details.CruiseItinDetailsActivity;
 import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
@@ -372,6 +373,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 
 		Boolean isLxItinRedesignedBucketed = Features.Companion.getAll().getLxRedesign().enabled();
 		Boolean isCarItinRedesignBucketed = Features.Companion.getAll().getCarRedesign().enabled();
+		Boolean isCruiseItinRedesignBucketed = Features.Companion.getAll().getCruiseRedesign().enabled();
 
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
@@ -383,8 +385,16 @@ public class ItinListView extends ListView implements OnItemClickListener {
 			else if (data instanceof ItinCardDataRails) {
 				openItinInWebView(data.getDetailsUrl());
 			}
-			else if (data != null && data.getTripComponentType() == TripComponent.Type.CRUISE) {
-				openItinInWebView(data.getDetailsUrl());
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.CRUISE) {
+				if (isCruiseItinRedesignBucketed) {
+					getContext().startActivity(CruiseItinDetailsActivity.createIntent(getContext(), data.getTripId()),
+						ActivityOptionsCompat
+							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+							.toBundle());
+				}
+				else {
+					openItinInWebView(data.getDetailsUrl());
+				}
 			}
 			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.HOTEL) {
 				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()),

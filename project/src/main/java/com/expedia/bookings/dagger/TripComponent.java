@@ -7,6 +7,7 @@ import com.expedia.bookings.itin.cars.details.CarsItinDetailsActivity;
 import com.expedia.bookings.itin.common.ItinExpandedMapActivity;
 import com.expedia.bookings.itin.common.ItinPageUsableTracking;
 import com.expedia.bookings.itin.common.NewAddGuestItinActivity;
+import com.expedia.bookings.itin.cruise.details.CruiseItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingAdditionalInfoActivity;
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity;
@@ -34,6 +35,7 @@ public interface TripComponent {
 	void inject(AddGuestItinWidget addGuestItinWidget);
 	void inject(LxItinDetailsActivity lxItinDetailsActivity);
 	void inject(CarsItinDetailsActivity carsItinDetailsActivity);
+	void inject(CruiseItinDetailsActivity cruiseItinDetailsActivity);
 
 	void inject(HotelItinDetailsActivity hotelItinDetailsActivity);
 	void inject(HotelItinPricingRewardsActivity hotelItinPricingRewardsActivity);

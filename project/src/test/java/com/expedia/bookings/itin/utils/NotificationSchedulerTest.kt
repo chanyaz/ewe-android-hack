@@ -130,44 +130,44 @@ class NotificationSchedulerTest {
     fun testIsFlightDataAvailable() {
         val happyFlight = Flight(FlightLocation("OTO"),
                 FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
-                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
-                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700", null), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700", null))
         assertTrue(sut.isFlightDataAvailable(happyFlight))
 
         val testNullAirlineCode = Flight(FlightLocation("OTO"),
                 FlightLocation("SFO"), null, "A445", ItinTime("May 5",
-                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
-                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700", null), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700", null))
         assertFalse(sut.isFlightDataAvailable(testNullAirlineCode))
 
         val testNullFlightNumber = Flight(FlightLocation("OTO"),
                 FlightLocation("SFO"), "AA123", null, ItinTime("May 5",
-                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
-                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700", null), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700", null))
         assertFalse(sut.isFlightDataAvailable(testNullFlightNumber))
 
         val testArrivalTimeRawNull = Flight(FlightLocation("OTO"),
                 FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
-                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
-                "May 6", "May 6", null))
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700", null), ItinTime("May 6",
+                "May 6", "May 6", null, null))
         assertFalse(sut.isFlightDataAvailable(testArrivalTimeRawNull))
 
         val testDepartureTimeRawNull = Flight(FlightLocation("OTO"),
                 FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
-                "May 5", "May 5", null), ItinTime("May 6",
-                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+                "May 5", "May 5", null, null), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700", null))
         assertFalse(sut.isFlightDataAvailable(testDepartureTimeRawNull))
 
         val testArrivalLocationAirportCodeNull = Flight(FlightLocation("OTO"),
                 FlightLocation(null), "AA123", "A445", ItinTime("May 5",
-                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
-                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700", null), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700", null))
         assertFalse(sut.isFlightDataAvailable(testArrivalLocationAirportCodeNull))
 
         val testDepartureLocationAirportCodeNull = Flight(FlightLocation(null),
                 FlightLocation("SFO"), "AA123", "A445", ItinTime("May 5",
-                "May 5", "May 5", "2017-04-05T21:33:00.000-0700"), ItinTime("May 6",
-                "May 6", "May 6", "2017-04-06T21:33:00.000-0700"))
+                "May 5", "May 5", "2017-04-05T21:33:00.000-0700", null), ItinTime("May 6",
+                "May 6", "May 6", "2017-04-06T21:33:00.000-0700", null))
         assertFalse(sut.isFlightDataAvailable(testDepartureLocationAirportCodeNull))
     }
 

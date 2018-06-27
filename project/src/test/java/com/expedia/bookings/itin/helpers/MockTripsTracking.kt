@@ -46,6 +46,8 @@ class MockTripsTracking : ITripsTracking {
     var trackItinActivityPriceSummaryClicked = false
     var trackItinActivityAdditionalInfoClicked = false
 
+    var trackItinCruiseShareIconClicked = false
+
     override fun trackItinLxDetailsMap() {
         mapClicked = true
     }
@@ -202,5 +204,9 @@ class MockTripsTracking : ITripsTracking {
                 trackItinCarAdditionalInfoClicked = true
             }
         }
+    }
+
+    override fun trackItinCruiseShareIconClicked() {
+        trackItinCruiseShareIconClicked = true
     }
 }
