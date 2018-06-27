@@ -21,7 +21,7 @@ class CustomerFirstSupportAdapter(private val customerFirstSupportViewModel: Cus
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerFirstSupportViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.customer_first_support_row, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.customer_first_support_row, parent, false)
         return CustomerFirstSupportViewHolder(view, customerFirstSupportViewModel)
     }
 
@@ -29,8 +29,8 @@ class CustomerFirstSupportAdapter(private val customerFirstSupportViewModel: Cus
         return customerFirstSupportModel.size
     }
 
-    override fun onBindViewHolder(holder: CustomerFirstSupportViewHolder?, position: Int) {
-        holder?.bind(customerFirstSupportModel[position])
+    override fun onBindViewHolder(holder: CustomerFirstSupportViewHolder, position: Int) {
+        holder.bind(customerFirstSupportModel[position])
     }
 
     class CustomerFirstSupportViewHolder(itemView: View, val viewModel: CustomerFirstSupportViewModel) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

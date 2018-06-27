@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripUtils
+import com.expedia.bookings.itin.common.TripProducts
 import com.mobiata.android.Log
 
 object TripsTracking : OmnitureTracking(), ITripsTracking {
@@ -292,6 +293,8 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_CAR_CUSTOMER_SUPPORT = "App.Itinerary.Car.Manage.CSP"
     private const val ITIN_CAR_SHARE_CLICKED = "App.Itinerary.Car.Share.Start"
     private const val ITIN_CAR_DETAILS_CALL_CLICKED = "App.Itinerary.Car.Call"
+    private const val ITIN_CAR_PRICE_SUMMARY = "App.Itinerary.Car.PriceSummary"
+    private const val ITIN_CAR_ADDITIONAL_INFO = "App.Itinerary.Car.Info.Additional"
 
     override fun trackItinCarDetailsMap() {
         val s = createTrackLinkEvent(ITIN_CAR_DETAILS_MAP)
@@ -356,6 +359,8 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_ACTIVITY_CUSTOMER_SUPPORT = "App.Itinerary.Activity.Manage.CSP"
     private const val ITIN_ACTIVITY_SHARE_CLICKED = "App.Itinerary.Activity.Share.Start"
     private const val ITIN_ACTIVITY_DETAILS_CALL = "App.Itinerary.Activity.Call"
+    private const val ITIN_ACTIVITY_PRICE_SUMMARY = "App.Itinerary.Activity.PriceSummary"
+    private const val ITIN_ACTIVITY_ADDITIONAL_INFO = "App.Itinerary.Activity.Info.Additional"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
@@ -412,6 +417,32 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     override fun trackItinLxDetailsCallClicked() {
         val s = createTrackLinkEvent(ITIN_ACTIVITY_DETAILS_CALL)
         s.trackLink("Itinerary Action")
+    }
+
+    //LOB Generic Tracking
+
+    override fun trackItinLobPriceSummaryButtonClick(lob: String) {
+        var linkEventString = ""
+        when (lob) {
+            TripProducts.ACTIVITY.name -> linkEventString = ITIN_ACTIVITY_PRICE_SUMMARY
+            TripProducts.CAR.name -> linkEventString = ITIN_CAR_PRICE_SUMMARY
+        }
+        if (linkEventString.isNotEmpty()) {
+            val s = createTrackLinkEvent(linkEventString)
+            s.trackLink("Itinerary Action")
+        }
+    }
+
+    override fun trackItinLobAdditionalInfoButtonClick(lob: String) {
+        var linkEventString = ""
+        when (lob) {
+            TripProducts.ACTIVITY.name -> linkEventString = ITIN_ACTIVITY_ADDITIONAL_INFO
+            TripProducts.CAR.name -> linkEventString = ITIN_CAR_ADDITIONAL_INFO
+        }
+        if (linkEventString.isNotEmpty()) {
+            val s = createTrackLinkEvent(linkEventString)
+            s.trackLink("Itinerary Action")
+        }
     }
 
     fun trackShareItinFromApp(tripType: String, appPackageName: String) {

@@ -56,9 +56,11 @@ class LXResultsPresenterTest {
     fun testToolbar() {
         val searchParams = buildSearchParams()
         val expectedToolbarDateRange = searchParams.startDate.toString("MMM d") + " - " + searchParams.endDate!!.toString("MMM d")
+        val toolbarSearchButton = lxResultsPresenter.toolbar.findViewById<View>(R.id.menu_open_search)
 
         assertEquals(searchParams.location, lxResultsPresenter.toolBarDetailText.text)
         assertEquals(expectedToolbarDateRange, lxResultsPresenter.toolBarSubtitleText.text)
+        assertEquals(View.GONE, toolbarSearchButton.visibility)
     }
 
     @Test
@@ -92,12 +94,14 @@ class LXResultsPresenterTest {
         Events.register(lxResultsPresenter.searchResultsWidget)
 
         val errorWidget = lxResultsPresenter.findViewById<LXErrorWidget>(R.id.lx_search_error_widget)
+        val toolbarSearchButton = lxResultsPresenter.toolbar.findViewById<View>(R.id.menu_open_search)
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
         searResultObserver.widget = lxResultsPresenter.searchResultsWidget
         searResultObserver.searchType = SearchType.EXPLICIT_SEARCH
         searResultObserver.onError(ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS))
         assertEquals(View.VISIBLE, errorWidget.visibility)
         assertEquals("Your search returned no results. Please retry your search with different criteria.", (errorWidget.findViewById<TextView>(R.id.error_text))?.text)
+        assertEquals(View.VISIBLE, toolbarSearchButton.visibility)
     }
 
     @Test
@@ -105,6 +109,7 @@ class LXResultsPresenterTest {
 
         val searchResultObserver = lxResultsPresenter.SearchResultObserver()
         val lxSearchResultWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
+        val toolbarSearchButton = lxResultsPresenter.toolbar.findViewById<View>(R.id.menu_open_search)
 
         searchResultObserver.widget = lxResultsPresenter.searchResultsWidget
         searchResultObserver.searchType = SearchType.EXPLICIT_SEARCH
@@ -119,6 +124,7 @@ class LXResultsPresenterTest {
         assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", errorMessage.text)
         assertEquals("Cancel", cancelButton.text )
         assertEquals("Retry", retryButton.text )
+        assertEquals(View.VISIBLE, toolbarSearchButton.visibility)
 
         //Tap on cancel button
         cancelButton.performClick()
@@ -142,6 +148,7 @@ class LXResultsPresenterTest {
         val recyclerView = searchResultsWidget.findViewById<RecyclerView>(R.id.lx_search_results_list)
         val errorScreen = searchResultsWidget.findViewById<LXErrorWidget>(R.id.lx_search_error_widget)
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 1) as LXResultsListAdapter.ViewHolder
+        val toolbarSearchButton = lxResultsPresenter.toolbar.findViewById<View>(R.id.menu_open_search)
 
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
         assertNotNull(searchResultsWidget)
@@ -154,6 +161,7 @@ class LXResultsPresenterTest {
         assertEquals(View.VISIBLE, filterIcon.visibility)
         searResultObserver.onComplete()
         assertEquals(true, lxResultsPresenter.searchSubscription.isDisposed)
+        assertEquals(View.VISIBLE, toolbarSearchButton.visibility)
     }
 
     @Test

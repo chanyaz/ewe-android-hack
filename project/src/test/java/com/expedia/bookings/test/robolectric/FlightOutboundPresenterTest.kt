@@ -13,15 +13,14 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.flights.utils.FlightServicesManager
+import com.expedia.bookings.flights.vm.FlightOffersViewModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.flight.FlightOutboundPresenter
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
-import com.expedia.bookings.flights.vm.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers
@@ -92,15 +91,6 @@ class FlightOutboundPresenterTest {
     fun testPaymentFeeMayApplyVisibility() {
         invokeSetupComplete()
         assertEquals(View.GONE, flightOutboundPresenter.detailsPresenter.paymentFeesMayApplyTextView.visibility)
-    }
-
-    @Test
-    fun testAbortRichContentOnBack() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
-        invokeSetupComplete()
-        val testSubscriber = TestObserver<Unit>()
-        flightOutboundPresenter.resultsPresenter.resultsViewModel.abortRichContentOutboundObservable.subscribe(testSubscriber)
-        flightOutboundPresenter.back()
     }
 
     @Test
