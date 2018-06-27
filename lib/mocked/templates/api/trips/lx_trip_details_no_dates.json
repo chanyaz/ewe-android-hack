@@ -220,56 +220,6 @@
         "vendorAccountingId": 0,
         "vendorCustomerServiceEmail": "info@calacademy.org",
         "vendorCustomerServiceOffices": [
-          {
-            "name": "California Academy of Sciences Customer Service",
-            "emailAddress": "info@calacademy.org",
-            "phoneCountryCode": "1",
-            "phoneNumber": "+1 (415) 379 8000",
-            "phoneNumbers": [
-              {
-                "formatted": "+1 (415) 379 8000",
-                "useText": "Business Hours"
-              }
-            ],
-            "hoursOfOperationText": "Daily: 8:00 AM - 5:00 PM",
-            "hoursOfOperation": [
-              {
-                "day": "monday",
-                "startTime": "08:00:00",
-                "endTime": "17:00:00"
-              },
-              {
-                "day": "tuesday",
-                "startTime": "08:00:00",
-                "endTime": "17:00:00"
-              },
-              {
-                "day": "wednesday",
-                "startTime": "08:00:00",
-                "endTime": "17:00:00"
-              },
-              {
-                "day": "thursday",
-                "startTime": "08:00:00",
-                "endTime": "17:00:00"
-              },
-              {
-                "day": "friday",
-                "startTime": "08:00:00",
-                "endTime": "17:00:00"
-              },
-              {
-                "day": "saturday",
-                "startTime": "08:00:00",
-                "endTime": "17:00:00"
-              },
-              {
-                "day": "sunday",
-                "startTime": "08:00:00",
-                "endTime": "17:00:00"
-              }
-            ]
-          }
         ],
         "termsAndConditions": {
           "instructions": "<b>How to Redeem Your Voucher:</b><br/>Upon arrival at the redemption location, please present your printed voucher(s) and photo ID in exchange for your activity.<br/><br/><b>Know Before You Go:</b><ul><li>Hours of operation vary; please check before you go.</li></ul>",

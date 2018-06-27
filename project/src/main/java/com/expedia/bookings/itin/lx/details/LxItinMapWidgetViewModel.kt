@@ -49,7 +49,7 @@ class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinLx>
                 scope.toaster.toastAndCopy(itinLx.buildFullAddress())
             }
             addressContainerContentDescription.onNext(scope.strings.fetchWithPhrase(R.string.itin_lx_details_address_copy_content_description_TEMPLATE, mapOf("address" to itinLx.buildFullAddress())))
-            val phoneNumber = itinLx.vendorCustomerServiceOffices?.first()?.phoneNumber
+            val phoneNumber = itinLx.vendorCustomerServiceOffices?.firstOrNull()?.phoneNumber
             phoneNumber?.let { number ->
                 phoneNumberTextSubject.onNext(number)
                 val contDesc = scope.strings.fetchWithPhrase(R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE, mapOf("phonenumber" to number))
