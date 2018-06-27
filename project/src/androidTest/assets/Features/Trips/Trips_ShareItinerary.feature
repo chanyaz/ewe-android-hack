@@ -1,4 +1,4 @@
-Feature: Verify Share works on Trip Details page
+Feature: Trips_ShareItinerary
 
   @Prod @RC_Trips_ShareItinerary
   Scenario Outline: Verify Share functionality works on the trip details page

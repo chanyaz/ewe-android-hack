@@ -1,4 +1,4 @@
-Feature: View Elements on Trip Details page
+Feature: Trips_TripDetails
 
   @Prod @RC_TripDetails
   Scenario Outline: Verify UI elements on the trip details page of a hotel booking

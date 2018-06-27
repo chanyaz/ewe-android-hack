@@ -42,7 +42,6 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
-import org.hamcrest.Matchers.isEmptyString
 import org.hamcrest.Matchers.not
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
@@ -330,8 +329,10 @@ object HotelInfoSiteScreen {
 
     @JvmStatic
     fun verifyVIPAccessLabelIsPresent() {
-        onView(plusVIPLabel).check(matches(isDisplayed()))
-        onView(plusVIPLabel).check(matches(not(withText(isEmptyString()))))
+        onView(plusVIPLabel)
+                .perform(waitForViewToDisplay())
+                .check(matches(isDisplayed()))
+                .check(matches(withText(containsString("VIP"))))
     }
 
     @JvmStatic

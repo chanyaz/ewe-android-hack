@@ -1,4 +1,4 @@
-Feature: Bookings on a Trips tab
+Feature: Trips
 
   @Prod @RC_Trips
   Scenario: Validate that after I click on the Trips tab, I see a hotel booking on the Trips screen

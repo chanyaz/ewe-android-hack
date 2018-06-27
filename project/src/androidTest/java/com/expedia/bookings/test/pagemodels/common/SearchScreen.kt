@@ -2,6 +2,7 @@ package com.expedia.bookings.test.pagemodels.common
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.action.ViewActions.replaceText
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -24,6 +25,9 @@ object SearchScreen {
     }
     @JvmStatic fun waitForSearchEditText(): ViewInteraction {
         return onView(withId(R.id.search_src_text)).perform(ViewActions.waitForViewToDisplay())
+    }
+    @JvmStatic fun searchEditTypeAhead(text: String) {
+        onView(withId(R.id.search_src_text)).perform(replaceText(text))
     }
 
     @JvmStatic fun origin(): ViewInteraction {
