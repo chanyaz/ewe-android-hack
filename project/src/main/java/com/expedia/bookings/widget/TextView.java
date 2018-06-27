@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.extensions.TextViewExtensionsKt;
 import com.expedia.bookings.utils.Font;
 
 public class TextView extends android.widget.TextView {
@@ -62,7 +63,7 @@ public class TextView extends android.widget.TextView {
 		a.recycle();
 
 		if (textStyle > 0) {
-			setTypefaceByStyle(this, textStyle);
+			setTypefaceByStyle(textStyle);
 		}
 		if (color != 0 && getCompoundDrawables()[0] != null) {
 			setTintedDrawable(getCompoundDrawables()[0], color);
@@ -72,66 +73,22 @@ public class TextView extends android.widget.TextView {
 		}
 	}
 
-	public void setTypefaceByStyle(TextView view, int style) {
+	public void setTypefaceByStyle(int style) {
 		switch (style) {
-		//		case BLACK | ITALIC: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_BLACK_ITALIC);
-		//			break;
-		//		}
-		//		case BLACK: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_BLACK);
-		//			break;
-		//		}
-		//		case BOLD | CONDENSED | ITALIC: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_BOLD_CONDENSED_ITALIC);
-		//			break;
-		//		}
-		//		case BOLD | CONDENSED: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_BOLD_CONDENSED);
-		//			break;
-		//		}
 		case BOLD: {
-			Font.ROBOTO_BOLD.setTypefaceOnTextView(view);
+			TextViewExtensionsKt.setTypeface(this, Font.ROBOTO_BOLD);
 			break;
 		}
-		//		case CONDENSED | ITALIC: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_CONDENSED_ITALIC);
-		//			break;
-		//		}
-		//		case CONDENSED: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_CONDENSED);
-		//			break;
-		//		}
-		//		case LIGHT | ITALIC: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_LIGHT_ITALIC);
-		//			break;
-		//		}
 		case LIGHT: {
-			Font.ROBOTO_LIGHT.setTypefaceOnTextView(view);
+			TextViewExtensionsKt.setTypeface(this, Font.ROBOTO_LIGHT);
 			break;
 		}
-		//		case THIN | ITALIC: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_THIN_ITALIC);
-		//			break;
-		//		}
-		//		case THIN: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_THIN);
-		//			break;
-		//		}
-		//		case MEDIUM | ITALIC: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_MEDIUM_ITALIC);
-		//			break;
-		//		}
 		case MEDIUM: {
-			Font.ROBOTO_MEDIUM.setTypefaceOnTextView(view);
+			TextViewExtensionsKt.setTypeface(this, Font.ROBOTO_MEDIUM);
 			break;
 		}
-		//		case ITALIC: {
-		//			Font.setTypefaceOnTextView(view, Font.ROBOTO_ITALIC);
-		//			break;
-		//		}
 		case NORMAL: {
-			Font.ROBOTO_REGULAR.setTypefaceOnTextView(view);
+			TextViewExtensionsKt.setTypeface(this, Font.ROBOTO_REGULAR);
 			break;
 		}
 		}

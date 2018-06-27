@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.graphics.Typeface
 import android.widget.TextView
+import com.expedia.bookings.extensions.setTypeface
 
 enum class Font(val typeface: Typeface) {
     ROBOTO_LIGHT(Typeface.create("sans-serif-light", Typeface.NORMAL)),
@@ -14,8 +15,6 @@ enum class Font(val typeface: Typeface) {
     }
 
     fun setTypefaceOnTextView(textView: TextView) {
-        if (!textView.isInEditMode) {
-            textView.typeface = typeface
-        }
+        textView.setTypeface(this)
     }
 }

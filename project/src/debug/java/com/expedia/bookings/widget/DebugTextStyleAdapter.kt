@@ -27,7 +27,7 @@ class DebugTextStyleAdapter(private val context: Context) : RecyclerView.Adapter
         val textView = (holder as TextStyleViewHolder).textView
         textView.setTextColor(textColor)
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
-        textView.setTypefaceByStyle(textView, textStyle)
+        textView.setTypefaceByStyle(textStyle)
         textView.text = styleName
     }
 
