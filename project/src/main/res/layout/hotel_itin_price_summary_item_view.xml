@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:textColor="@color/itin_text_sub_color"
         android:layout_centerVertical="true"
         tools:text="Price label" />
 
@@ -21,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:textColor="@color/itin_text_sub_color"
         android:layout_centerVertical="true"
         tools:text="$500.90" />
 
