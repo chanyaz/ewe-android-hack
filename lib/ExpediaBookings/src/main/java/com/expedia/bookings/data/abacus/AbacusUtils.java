@@ -75,7 +75,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelCheckinCheckoutDatesInline = new ABTest(15344);
 	public static final ABTest EBAndroidAppHotelPayLaterCreditCardMessaging = new ABTest(15925, true);
 	public static final ABTest HotelAmenityFilter = new ABTest(24541, true);
-	public static final ABTest HotelNewFilterCtaText = new ABTest(24583, true);
 	public static final ABTest HotelDatelessInfosite = new ABTest(24648, true);
 	public static final ABTest HotelUrgencyV2 = new ABTest(24741, true);
 	public static final ABTest HotelHideMiniMapOnResult = new ABTest(16255, true);
@@ -201,7 +200,6 @@ public class AbacusUtils {
 		testIDs.add(HotelAmenityFilter.getKey());
 		testIDs.add(EBAndroidAppTripsHotelPricing.getKey());
 		testIDs.add(EBAndroidAppHotelTripTaxiCard.getKey());
-		testIDs.add(HotelNewFilterCtaText.getKey());
 		testIDs.add(HotelDatelessInfosite.getKey());
 		testIDs.add(HotelUrgencyV2.getKey());
 		testIDs.add(EBAndroidAppFLightLoadingStateV1.getKey());

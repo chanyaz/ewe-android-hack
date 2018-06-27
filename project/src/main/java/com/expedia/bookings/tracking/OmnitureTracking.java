@@ -729,7 +729,6 @@ public class OmnitureTracking {
 
 	public static void trackHotelNarrowSearchPrompt() {
 		AppAnalytics s = createTrackLinkEvent(HOTELS_FILTER_PROMPT_TRIGGER);
-		trackAbacusTest(s, AbacusUtils.HotelNewFilterCtaText);
 		s.trackLink("Filter Prompt Triggered");
 	}
 
