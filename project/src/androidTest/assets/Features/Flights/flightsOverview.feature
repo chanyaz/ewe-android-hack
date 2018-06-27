@@ -91,7 +91,7 @@ Feature: Flights Overview
     And I click on sort and filter icon and isOutBound : false
     And I select "Nonstop" checkbox and isOutBound : false
     And I click on sort and filter screen done button
-    And I choose the flight with airline name "Delta" and isOutBound : false
+    And I choose the flight with airline name "Alaska Airlines" and isOutBound : false
     And Close price change Alert dialog if it is visible
     And Wait for checkout button to display
     Then validate free cancellation message "Free cancellation within 24 hours" is displayed
@@ -447,9 +447,9 @@ Feature: Flights Overview
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
-      | source              | SFO                                      |
+      | source              | SEA                                      |
       | destination         | LAS                                      |
-      | source_suggest      | San Francisco, CA                        |
+      | source_suggest      | SEA - Seattle - Tacoma Intl.             |
       | destination_suggest | LAS - McCarran Intl.                     |
       | start_date          | 30                                       |
       | end_date            | 35                                       |
@@ -459,12 +459,12 @@ Feature: Flights Overview
     And I click on sort and filter icon and isOutBound : true
     And I select "Nonstop" checkbox and isOutBound : true
     And I click on sort and filter screen done button
-    And I choose the flight with airline name "United" and isOutBound : true
+    And I choose the flight with airline name "Delta" and isOutBound : true
     Then Select outbound flight from Overview
     And I click on sort and filter icon and isOutBound : false
     And I select "Nonstop" checkbox and isOutBound : false
     And I click on sort and filter screen done button
-    And I choose the flight with airline name "United" and isOutBound : false
+    And I choose the flight with airline name "Delta" and isOutBound : false
     And Wait for checkout button to display
     Then Validate that fare family widget card is displayed
     Then Validate fare family widget card info
@@ -475,8 +475,8 @@ Feature: Flights Overview
     Then I click on fare family widget card
     Then Validate fare family details header info
       | title                 | Select your fare             |
-      | location              | SFO - LAS - SFO              |
-      | airline               | United                       |
+      | location              | SEA - LAS - SEA              |
+      | airline               | Delta                       |
     Then I select flight upgrade at position 2
     And I store the data in "varBundleTotal"
     Then I click on show more amenities at position 2
