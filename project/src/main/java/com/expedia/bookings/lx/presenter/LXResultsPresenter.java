@@ -8,9 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -41,9 +41,9 @@ import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FilterButtonWithCountWidget;
 import com.expedia.bookings.lx.widget.LXSearchResultsWidget;
 import com.expedia.bookings.lx.widget.LXSortFilterWidget;
+import com.expedia.bookings.widget.LXFilterButtonWithCountWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
@@ -74,7 +74,7 @@ public class LXResultsPresenter extends Presenter {
 	LXSortFilterWidget sortFilterWidget;
 
 	@InjectView(R.id.sort_filter_button_container)
-	FilterButtonWithCountWidget sortFilterButton;
+	LXFilterButtonWithCountWidget sortFilterButton;
 
 	// This is here just for an animation
 	@InjectView(R.id.toolbar_background)
@@ -126,6 +126,7 @@ public class LXResultsPresenter extends Presenter {
 
 	private boolean lxFilterTextSearchEnabled;
 	private boolean isMipEnabled;
+	private boolean doNotOverrideFilterButton = false;  // Will move this code to ViewModel once Refactoring of code is done.
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
@@ -189,10 +190,15 @@ public class LXResultsPresenter extends Presenter {
 		isMipEnabled = AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXMIP);
 
 		setupToolbar();
-		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 		sortFilterWidget.doneButtonClicked.subscribe(unit -> onLXFilterDoneClicked());
 		sortFilterWidget.lxFilterChanged.subscribe(lxSortFilterMetaData -> onLXFilterChanged(lxSortFilterMetaData));
+		TypedValue outValue = new TypedValue();
+		getContext().getTheme().resolveAttribute(R.attr.hotel_select_room_ripple_drawable, outValue, true);
+		if (!doNotOverrideFilterButton) {
+			sortFilterButton.setBackground(outValue.resourceId);
+			sortFilterButton.setTextAndFilterIconColor(R.color.white);
+		}
 	}
 
 	@Override
@@ -457,39 +463,6 @@ public class LXResultsPresenter extends Presenter {
 		toolBarSubtitleText.setTranslationY(0);
 		navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.BACK.getType());
 	}
-
-	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
-		private int scrolledDistance = 0;
-		private int heightOfButton = (int) getResources().getDimension(R.dimen.lx_sort_filter_container_height);
-
-		@Override
-		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-			super.onScrollStateChanged(recyclerView, newState);
-			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-				if (scrolledDistance > heightOfButton / 2) {
-					sortFilterButton.animate().translationY(heightOfButton)
-						.setInterpolator(new DecelerateInterpolator()).start();
-				}
-				else {
-					sortFilterButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
-				}
-			}
-		}
-
-		@Override
-		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			super.onScrolled(recyclerView, dx, dy);
-
-			if (scrolledDistance > 0) {
-				scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
-				sortFilterButton.setTranslationY(Math.min(heightOfButton, scrolledDistance));
-			}
-			else {
-				scrolledDistance = Math.max(0, scrolledDistance + dy);
-				sortFilterButton.setTranslationY(Math.min(scrolledDistance, 0));
-			}
-		}
-	};
 
 	@Override
 	public boolean back() {

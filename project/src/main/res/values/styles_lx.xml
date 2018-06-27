@@ -48,6 +48,7 @@
 
         <item name="accept_terms_text_color">@color/app_primary</item>
         <item name="accept_terms_background_color">@color/white</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_ripple_button</item>
 
     </style>
 
