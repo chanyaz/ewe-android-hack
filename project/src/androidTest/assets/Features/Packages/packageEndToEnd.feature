@@ -89,10 +89,11 @@ Feature: Package End To End
       | "Prod" |
 
 
-  @Packages @PackageEtoE @Prod
-  Scenario: Validate bundle traveler info on all screens after modifying search
-    Given I launch the App
-    And I launch "Bundle Deals" LOB
+  @Packages @PackageEtoE @Prod @PackageHappyPathProd
+  Scenario Outline: Validate bundle traveler info on all screens after modifying search
+    Given I set the POS to "<point_of_sale>"
+    And I launch the App
+    And I launch Package LOB with "<point_of_sale>" POS
     When I make a packages search with following parameters
       | source              | SEA                           |
       | destination         | LAS                           |
@@ -151,3 +152,10 @@ Feature: Package End To End
       | start_date        |  5                |
       | end_date          | 10                |
       | totalTravelers    | 5 travelers       |
+
+    Examples:
+      | point_of_sale  |
+      | United States  |
+      | United Kingdom |
+      | Japan          |
+      | Hong Kong      |
