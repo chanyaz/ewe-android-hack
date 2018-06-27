@@ -14,7 +14,7 @@
         android:paddingBottom="12dp"
         android:paddingTop="12dp"
         android:text="@string/itin_view_receipt_text"
-        android:textColor="@color/white"
+        android:textColor="@color/itin_text_white_color"
         android:textSize="14sp"
         android:visibility="gone"
         tools:text="View Receipt"

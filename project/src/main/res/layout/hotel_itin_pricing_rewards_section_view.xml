@@ -10,7 +10,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:text="@string/itin_hotel_details_price_summary_rewards_title"
-        android:textColor="@color/gray750"
+        android:textColor="@color/itin_text_sub_color"
         android:textSize="18sp"
         app:textStyle="medium" />
 
@@ -22,7 +22,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="12dp"
-        android:background="@color/white"
+        android:background="@color/itin_text_white_color"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -85,7 +85,7 @@
         android:padding="12dp"
         android:text="@string/itin_hotel_details_price_summary_rewards_button"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/itin_text_white_color"
         android:textSize="14sp"
         app:textStyle="medium" />
 </merge>

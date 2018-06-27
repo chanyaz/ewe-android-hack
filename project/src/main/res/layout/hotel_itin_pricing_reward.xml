@@ -36,7 +36,7 @@
                 android:paddingBottom="12dp"
                 android:paddingTop="20dp"
                 android:text="@string/itin_hotel_details_price_summary_heading"
-                android:textColor="@color/gray750"
+                android:textColor="@color/itin_text_sub_color"
                 android:textSize="18sp"
                 app:textStyle="medium" />
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/white"
+                android:background="@color/itin_text_white_color"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
