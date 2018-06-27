@@ -119,6 +119,23 @@ class LxItinMapWidgetViewModelTest {
     }
 
     @Test
+    fun vendorCustomerServiceOfficesEmpty() {
+        phoneNumberTextTestObserver.assertNoValues()
+        phoneNumberContDescTestObserver.assertNoValues()
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
+
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsNoDates.firstLx())
+
+        phoneNumberTextTestObserver.assertNoValues()
+        phoneNumberContDescTestObserver.assertNoValues()
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
+
+        sut.phoneNumberClickSubject.onNext(Unit)
+
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
+    }
+
+    @Test
     fun faultyLxItinLongNullTest() {
         latLongTestObserver.assertNoValues()
         sut.scope.mockRepo.liveDataLx.value = ItinMocker.lxDetailsNoLat.firstLx()

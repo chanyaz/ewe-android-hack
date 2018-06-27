@@ -51,7 +51,9 @@ data class LxLifeCycleObserverScope<T : ItinLOB>(override val strings: StringSou
 
 class WebViewCardScope(override val strings: StringSource,
                        override val webViewLauncher: IWebViewLauncher,
-                       override val itin: Itin) : HasStringProvider, HasWebViewLauncher, HasItin
+                       override val itin: Itin,
+                       override val type: String,
+                       override val tripsTracking: ITripsTracking) : HasStringProvider, HasWebViewLauncher, HasItin, HasItinType, HasTripsTracking
 
 class StringsActivityScope(override val strings: StringSource,
                            override val activityLauncher: IActivityLauncher,

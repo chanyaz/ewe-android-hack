@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.test.OmnitureMatchers
@@ -21,6 +22,7 @@ class TripsTrackingTest {
 
     @Before
     fun setup() {
+        //only use setLoggingAnalyticsProvider() when running locally for logging output
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
@@ -328,33 +330,38 @@ class TripsTrackingTest {
         ), mockAnalyticsProvider)
     }
 
+    @Test
     fun testTrackItinLxCallCustomerSupportClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinLxCallCustomerSupportClicked()
         assertItinLinkTracked("App.Itinerary.Activity.Manage.Call.Expedia")
     }
 
+    @Test
     fun testTrackItinCarMoreHelpClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinCarMoreHelpClicked()
         assertItinLinkTracked("App.Itinerary.Car.MoreHelp")
     }
 
+    @Test
     fun testTrackItinCarCallSupportClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinCarCallSupportClicked()
         assertItinLinkTracked("App.Itinerary.Car.Manage.Call.Car")
     }
 
+    @Test
     fun testTrackItinCarCallCustomerSupportClicked() {
         assertNoTrackingHasOccurred()
-        TripsTracking.trackItinCarCallSupportClicked()
+        TripsTracking.trackItinCarCallCustomerSupportClicked()
         assertItinLinkTracked("App.Itinerary.Car.Manage.Call.Expedia")
     }
 
+    @Test
     fun testTrackItinCarCustomerServiceLinkClicked() {
         assertNoTrackingHasOccurred()
-        TripsTracking.trackItinCarCallSupportClicked()
+        TripsTracking.trackItinCarCustomerServiceLinkClicked()
         assertItinLinkTracked("App.Itinerary.Car.Manage.CSP")
     }
 
@@ -386,10 +393,38 @@ class TripsTrackingTest {
         assertItinLinkTracked("App.Itinerary.Activity.Call")
     }
 
+    @Test
     fun testTrackItinCarDetailsCallClicked() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinCarDetailsCallClicked()
         assertItinLinkTracked("App.Itinerary.Car.Call")
+    }
+
+    @Test
+    fun testTrackItinCarPriceSummaryClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobPriceSummaryButtonClick(TripProducts.CAR.name)
+        assertItinLinkTracked("App.Itinerary.Car.PriceSummary")
+    }
+
+    @Test
+    fun testTrackItinCarAdditionalInfoClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobAdditionalInfoButtonClick(TripProducts.CAR.name)
+        assertItinLinkTracked("App.Itinerary.Car.Info.Additional")
+    }
+
+    @Test
+    fun testTrackItinActivityPriceSummaryClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobPriceSummaryButtonClick(TripProducts.ACTIVITY.name)
+        assertItinLinkTracked("App.Itinerary.Activity.PriceSummary")
+    }
+
+    @Test
+    fun testTrackItinActivityAdditionalInfoClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLobAdditionalInfoButtonClick(TripProducts.ACTIVITY.name)
     }
 
     fun assertItinLinkTracked(rfrrId: String) {

@@ -13,6 +13,7 @@ import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.flights.vm.FlightResultsViewModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.packages.vm.PackageResultsViewModel
 import com.expedia.bookings.services.FlightRichContentService
@@ -27,7 +28,6 @@ import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
-import com.expedia.bookings.flights.vm.FlightResultsViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers
@@ -226,6 +226,38 @@ class FlightResultsListViewPresenterTest {
         sut.floatingPill.performClick()
 
         assertEquals(1, filterTestObserver.valueCount())
+    }
+
+    @Test
+    fun testAbortRichContentOnOutbound() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
+        inflateAndSetViewModel()
+        var testSubscriber = TestObserver<Unit>()
+        sut.isShowingOutboundResults = true
+        sut.resultsViewModel.abortRichContentOutboundObservable.subscribe(testSubscriber)
+        sut.back()
+        assertEquals(1, testSubscriber.valueCount())
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsRichContent)
+        testSubscriber = TestObserver()
+        sut.resultsViewModel.abortRichContentInboundObservable.subscribe(testSubscriber)
+        sut.back()
+        assertEquals(0, testSubscriber.valueCount())
+    }
+
+    @Test
+    fun testAbortRichContentOnInbound() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
+        inflateAndSetViewModel()
+        var testSubscriber = TestObserver<Unit>()
+        sut.isShowingOutboundResults = false
+        sut.resultsViewModel.abortRichContentInboundObservable.subscribe(testSubscriber)
+        sut.back()
+        assertEquals(1, testSubscriber.valueCount())
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsRichContent)
+        testSubscriber = TestObserver()
+        sut.resultsViewModel.abortRichContentInboundObservable.subscribe(testSubscriber)
+        sut.back()
+        assertEquals(0, testSubscriber.valueCount())
     }
 
     private fun addFlightSearchParams() {

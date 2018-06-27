@@ -3918,7 +3918,7 @@ public class OmnitureTracking {
 	 * library uses a static object for tracking, clearVars() must be called in order to remove potentially set
 	 * variables from being erroneously sent along with the tracking call.
 	 */
-	private static AppAnalytics getFreshTrackingObject() {
+	protected static AppAnalytics getFreshTrackingObject() {
 		AppAnalytics s = new AppAnalytics();
 		addStandardFields(s);
 		return s;
