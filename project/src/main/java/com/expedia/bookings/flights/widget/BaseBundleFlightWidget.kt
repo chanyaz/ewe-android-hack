@@ -27,7 +27,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isRichContentEnabled
-import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -149,7 +148,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             }
         }
 
-        if (isRichContentShowRouteScoreEnabled()) {
+        if (vm.shouldShowRouteScore()) {
             vm.flightMessageContainerStream.subscribeVisibility(flightMessageContainer)
             vm.routeScoreStream.subscribeTextAndVisibility(routeScoreText)
         }

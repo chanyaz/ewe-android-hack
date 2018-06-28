@@ -93,9 +93,11 @@ public class FlightLeg {
 		flightLeg.packageOfferModel.urgencyMessage = urgencyMessage;
 
 		flightLeg.flightSegments = new ArrayList<>();
+		flightLeg.segments = new ArrayList<>();
 		for (MultiItemFlightSegment multiItemFlightSegment : multiItemFlightLeg.getSegments()) {
 			FlightSegment flightSegment = FlightSegment.convertMultiItemFlightSegment(multiItemFlightSegment);
 			flightLeg.flightSegments.add(flightSegment);
+			flightLeg.segments.add(flightSegment);
 			flightLeg.airlines.add(new Airline(flightSegment.carrier, flightSegment.airlineLogoURL));
 		}
 
@@ -121,6 +123,7 @@ public class FlightLeg {
 		if (multiItemFlightLeg.getBasicEconomyRules() != null) {
 			flightLeg.basicEconomyRules = multiItemFlightLeg.getBasicEconomyRules();
 		}
+		flightLeg.naturalKey = flightOffer.getNaturalKey();
 		return flightLeg;
 	}
 
@@ -210,6 +213,7 @@ public class FlightLeg {
 				flightSegment.layoverDurationMinutes = layoverDuration.getMinutes();
 			}
 			flightSegment.elapsedDays = multiItemFlightSegment.getElapsedDays();
+			flightSegment.departureTimeRaw = multiItemFlightSegment.getDepartureDateTime();
 
 			return flightSegment;
 		}

@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
@@ -27,6 +28,9 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     var richContentPowerViewVisibility = false
     var routeScoreViewVisibility = false
     var routeScoreText = ""
+    var isRichContentEnabled = false
+    var isRichContentShowAmenityEnabled = false
+    var isRichContentShowRouteScoreEnabled = false
 
     abstract fun price(): String
     abstract fun getUrgencyMessageVisibility(seatsLeft: String): Boolean
@@ -88,5 +92,26 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
 
     open fun appendAccessibilityContentDescription(): String {
         return context.getString(R.string.accessibility_cont_desc_role_button)
+    }
+
+    protected fun setRichContentVisibility() {
+        val legRichContent = flightLeg.richContent
+        if (legRichContent != null) {
+            if (isRichContentShowAmenityEnabled) {
+                val legAmenities = legRichContent.legAmenities
+                if (legAmenities != null) {
+                    richContentWifiViewVisibility = legAmenities.wifi
+                    richContentEntertainmentViewVisibility = legAmenities.entertainment
+                    richContentPowerViewVisibility = legAmenities.power
+                    richContentDividerViewVisibility = (richContentWifiViewVisibility || richContentEntertainmentViewVisibility || richContentPowerViewVisibility)
+                }
+            }
+            if (isRichContentShowRouteScoreEnabled) {
+                routeScoreText = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(legRichContent.scoreExpression).stringResId)
+                        .put("route_score", legRichContent.score.toString())
+                        .format().toString()
+                routeScoreViewVisibility = true
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightsUrgencyMeassagingEnabled
 import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
+import com.expedia.bookings.utils.isRichContentShowRouteScoreForPackagesEnabled
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -141,7 +142,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             }
             flightMessageContainerStream.onNext(false)
             urgencyMessageObservable.mergeWith(routeScoreStream).filter { it.isNotEmpty() }.map { true }.subscribe(flightMessageContainerStream)
-            if (isRichContentShowRouteScoreEnabled() && flight.richContent != null) {
+            if (shouldShowRouteScore() && flight.richContent != null) {
                 val routeScore = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(flight.richContent.scoreExpression).stringResId)
                         .put("route_score", flight.richContent.score.toString())
                         .format().toString()
@@ -162,5 +163,10 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
         } else {
             baggageInfoUrlSubject.onNext(e3EndpointUrl + baggageUrl)
         }
+    }
+
+    fun shouldShowRouteScore(): Boolean {
+        return (isRichContentShowRouteScoreForPackagesEnabled() && lob == LineOfBusiness.PACKAGES) ||
+                (isRichContentShowRouteScoreEnabled() && lob == LineOfBusiness.FLIGHTS_V2)
     }
 }

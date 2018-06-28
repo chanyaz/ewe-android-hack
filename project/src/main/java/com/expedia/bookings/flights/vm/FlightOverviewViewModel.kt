@@ -3,19 +3,15 @@ package com.expedia.bookings.flights.vm
 import android.content.Context
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.FlightV2Utils
-import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isFlightsUrgencyMeassagingEnabled
 import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
 import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.expedia.vm.AbstractFlightOverviewViewModel
-import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 
 class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewModel(context) {
@@ -48,6 +44,14 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
         return selectedFlight.basicEconomyTooltipInfo
     }
 
+    override fun shouldShowRichContentAmenity(): Boolean {
+        return isRichContentShowAmenityEnabled()
+    }
+
+    override fun shouldShowRichContentRouteScore(): Boolean {
+        return isRichContentShowRouteScoreEnabled()
+    }
+
     private fun getBundleLabelText(selectedFlight: FlightLeg): String {
         return selectedFlight.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, true) ?: ""
     }
@@ -60,20 +64,6 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
             )
             if (shouldShowUrgencyMessaging()) {
                 bottomUrgencyMessageSubject.onNext(FlightV2Utils.getSeatsLeftUrgencyMessage(context, selectedFlight))
-            }
-            if (isRichContentShowAmenityEnabled()) {
-                val segmentAmenities: List<RichContent.RichContentAmenity>? = selectedFlight.richContent?.segmentAmenitiesList
-                if (CollectionUtils.isNotEmpty(segmentAmenities)) {
-                    for ((index, segment) in selectedFlight.flightSegments.withIndex()) {
-                        segment.flightAmenities = segmentAmenities!![index]
-                    }
-                }
-            }
-            if (isRichContentShowRouteScoreEnabled() && selectedFlight.richContent != null) {
-                val routeScore = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(selectedFlight.richContent.scoreExpression).stringResId)
-                        .put("route_score", selectedFlight.richContent.score.toString())
-                        .format().toString()
-                routeScoreStream.onNext(routeScore)
             }
         }
     }

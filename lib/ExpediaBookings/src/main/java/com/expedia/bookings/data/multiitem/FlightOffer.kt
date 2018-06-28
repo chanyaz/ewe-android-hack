@@ -11,7 +11,8 @@ data class FlightOffer(
         val referenceTotalPrice: Price,
         val splitTicket: Boolean,
         val seatsLeft: Int,
-        val bookingSeatCount: Int
+        val bookingSeatCount: Int,
+        val naturalKey: String
 ) {
     fun flightOfferReferenceTotalPrice(): Money {
         return referenceTotalPrice.toMoney()

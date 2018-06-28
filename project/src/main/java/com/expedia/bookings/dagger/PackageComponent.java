@@ -6,6 +6,7 @@ import com.expedia.bookings.dagger.tags.PackageScope;
 import com.expedia.bookings.packages.presenter.PackageHotelPresenter;
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter;
 import com.expedia.bookings.packages.presenter.PackagePresenter;
+import com.expedia.bookings.packages.vm.PackageResultsViewModel;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
@@ -24,6 +25,7 @@ public interface PackageComponent {
 	void inject(PackageCheckoutPresenter presenter);
 	void inject(PackageCheckoutViewModel model);
 	void inject(PackageOverviewPresenter packageWebCheckoutViewViewModel);
+	void inject(PackageResultsViewModel packageResultsViewModel);
 
 	@Named("PackageReviewsInterceptor")
 	Interceptor packageReviewsInterceptor();

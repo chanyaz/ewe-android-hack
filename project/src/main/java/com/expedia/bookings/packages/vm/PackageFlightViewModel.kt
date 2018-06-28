@@ -5,9 +5,26 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.isRichContentForPackagesEnabled
+import com.expedia.bookings.utils.isRichContentShowAmenityForPackagesEnabled
+import com.expedia.bookings.utils.isRichContentShowRouteScoreForPackagesEnabled
 import com.expedia.vm.AbstractFlightViewModel
 
 class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
+
+    init {
+        if (isRichContentShowAmenityForPackagesEnabled()) {
+            isRichContentShowAmenityEnabled = true
+        }
+        if (isRichContentShowRouteScoreForPackagesEnabled()) {
+            isRichContentShowRouteScoreEnabled = true
+        }
+        if (isRichContentForPackagesEnabled(context)) {
+            isRichContentEnabled = true
+            setRichContentVisibility()
+        }
+    }
+
     override fun price(): String {
         if (flightLeg.packageOfferModel.price.deltaPositive) {
             return ("+" + flightLeg.packageOfferModel.price.differentialPriceFormatted)

@@ -22,6 +22,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHighlightSortFilterOnPackagesEnabled
 import com.expedia.bookings.utils.isRichContentEnabled
+import com.expedia.bookings.utils.isRichContentForPackagesEnabled
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.FlightLoadingWidget
@@ -93,7 +94,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     override fun back(): Boolean {
         trackScrollDepthSubscription?.dispose()
-        if (isRichContentEnabled(context)) {
+        val lob = resultsViewModel.getLineOfBusiness()
+        val isRichContentEnabled = (isRichContentEnabled(context) && lob == LineOfBusiness.FLIGHTS_V2) ||
+                (isRichContentForPackagesEnabled(context) && lob == LineOfBusiness.PACKAGES)
+        if (isRichContentEnabled) {
             if (isShowingOutboundResults) {
                 resultsViewModel.abortRichContentOutboundObservable.onNext(Unit)
             } else {
@@ -171,7 +175,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (isShowingOutboundResults) {
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
-                if (resultsViewModel.showRichContent) {
+                if (isRichContentEnabled(context)) {
                     progressBarAnimation(1000, flightProgressBar.progress.toFloat(), 540f, true, false)
                 } else {
                     progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true, true)

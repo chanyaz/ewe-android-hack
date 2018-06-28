@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setRightDrawable
 import com.expedia.bookings.extensions.subscribeContentDescription
@@ -29,6 +30,9 @@ import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.bookings.flights.vm.FlightSegmentBreakdownViewModel
 import com.expedia.bookings.flights.vm.BasicEconomyTooltipViewModel
+import com.expedia.bookings.utils.CollectionUtils
+import com.expedia.bookings.utils.RichContentUtils
+import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 
 class FlightDetailsPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
@@ -110,6 +114,20 @@ class FlightDetailsPresenter(context: Context, attrs: AttributeSet?) : Presenter
         vm.totalDurationSubject.subscribeText(totalDurationText)
         vm.totalDurationContDescSubject.subscribeContentDescription(totalDurationText)
         vm.selectedFlightLegSubject.subscribe { selectedFlight ->
+            if (vm.shouldShowRichContentAmenity()) {
+                val segmentAmenities: List<RichContent.RichContentAmenity>? = selectedFlight.richContent?.segmentAmenitiesList
+                if (CollectionUtils.isNotEmpty(segmentAmenities)) {
+                    for ((index, segment) in selectedFlight.flightSegments.withIndex()) {
+                        segment.flightAmenities = segmentAmenities!![index]
+                    }
+                }
+            }
+            if (vm.shouldShowRichContentRouteScore() && selectedFlight.richContent != null) {
+                val routeScore = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(selectedFlight.richContent.scoreExpression).stringResId)
+                        .put("route_score", selectedFlight.richContent.score.toString())
+                        .format().toString()
+                vm.routeScoreStream.onNext(routeScore)
+            }
             val segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
             val segmentSeatClassAndBookingCode = selectedFlight.seatClassAndBookingCodeList
             for ((index, segment) in selectedFlight.flightSegments.withIndex()) {

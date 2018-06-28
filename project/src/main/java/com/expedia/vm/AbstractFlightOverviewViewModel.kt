@@ -42,6 +42,8 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     abstract fun shouldShowDeltaPositive(): Boolean
     abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
     abstract fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean
+    abstract fun shouldShowRichContentAmenity(): Boolean
+    abstract fun shouldShowRichContentRouteScore(): Boolean
 
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->

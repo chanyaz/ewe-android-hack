@@ -13,7 +13,6 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.bookings.flights.vm.FlightSegmentBreakdownViewModel
@@ -79,7 +78,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
         }
 
         val flightAmenities = breakdown.segment.flightAmenities
-        if (isRichContentShowAmenityEnabled() && flightAmenities != null) {
+        if (flightAmenities != null) {
             val richContentWifiView = row.findViewById<ImageView>(R.id.rich_content_wifi)
             richContentWifiView.setVisibility(flightAmenities.wifi)
             val richContentEntertainmentView = row.findViewById<ImageView>(R.id.rich_content_entertainment)

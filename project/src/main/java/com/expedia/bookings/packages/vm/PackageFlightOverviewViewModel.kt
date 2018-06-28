@@ -4,6 +4,8 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.isRichContentShowAmenityForPackagesEnabled
+import com.expedia.bookings.utils.isRichContentShowRouteScoreForPackagesEnabled
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import io.reactivex.subjects.BehaviorSubject
 import com.squareup.phrase.Phrase
@@ -51,6 +53,14 @@ class PackageFlightOverviewViewModel(context: Context) : AbstractFlightOverviewV
         }
         selectedFlight.basicEconomyTooltipInfo = asList(tooltipInfo)
         return selectedFlight.basicEconomyTooltipInfo
+    }
+
+    override fun shouldShowRichContentAmenity(): Boolean {
+        return isRichContentShowAmenityForPackagesEnabled()
+    }
+
+    override fun shouldShowRichContentRouteScore(): Boolean {
+        return isRichContentShowRouteScoreForPackagesEnabled()
     }
 
     private fun getTooltipHeader(flightShortName: String): String {
