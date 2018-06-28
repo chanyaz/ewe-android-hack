@@ -3,6 +3,7 @@ package com.expedia.bookings.flights.vm
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
@@ -61,7 +62,7 @@ class FlightSearchViewModelTest {
         assertEquals(null, sut.cachedEndDateObservable.value)
         assertEquals("$expectedStartDate  -  $expectedEndDate", sut.dateTextObservable.value)
 
-        sut.isRoundTripSearchObservable.onNext(false)
+        sut.tripTypeSearchObservable.onNext(TripType.ONE_WAY)
         assertEquals(endDate, sut.cachedEndDateObservable.value.value)
         assertEquals("$expectedStartDate (One Way)", sut.dateTextObservable.value)
 
@@ -69,14 +70,14 @@ class FlightSearchViewModelTest {
         val expectedNewStartDate = "Sun, Aug 6"
 
         sut.datesUpdated(newStartDate, null)
-        sut.isRoundTripSearchObservable.onNext(true)
+        sut.tripTypeSearchObservable.onNext(TripType.RETURN)
         assertEquals(null, sut.cachedEndDateObservable.value.value)
         assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
         sut.datesUpdated(null, null)
         assertEquals("Select dates", sut.dateTextObservable.value)
 
-        sut.isRoundTripSearchObservable.onNext(false)
+        sut.tripTypeSearchObservable.onNext(TripType.ONE_WAY)
         assertEquals("Select departure date", sut.dateTextObservable.value)
 
         // For KR and JP, show date first.
@@ -215,7 +216,7 @@ class FlightSearchViewModelTest {
         createSystemUnderTest()
 
         makeSearchParams()
-        sut.isRoundTripSearchObservable.onNext(false)
+        sut.tripTypeSearchObservable.onNext(TripType.ONE_WAY)
         sut.getParamsBuilder()
                 .startDate(LocalDate.now())
                 .adults(1)
@@ -223,7 +224,7 @@ class FlightSearchViewModelTest {
 
         assertEquals(true, sut.getParamsBuilder().areRequiredParamsFilled())
 
-        sut.isRoundTripSearchObservable.onNext(true)
+        sut.tripTypeSearchObservable.onNext(TripType.RETURN)
         assertEquals(false, sut.getParamsBuilder().areRequiredParamsFilled())
 
         sut.getParamsBuilder().endDate(LocalDate.now().plusDays(4))
@@ -243,7 +244,7 @@ class FlightSearchViewModelTest {
 
         val testSubscriber = TestObserver<Unit>()
         sut.errorNoDatesObservable.subscribe(testSubscriber)
-        sut.isRoundTripSearchObservable.onNext(true)
+        sut.tripTypeSearchObservable.onNext(TripType.RETURN)
         sut.searchParamsObservable.onNext(makeSearchParams())
         sut.performSearchObserver.onNext(Unit)
         testSubscriber.assertValueCount(1)
@@ -369,14 +370,33 @@ class FlightSearchViewModelTest {
         givenParamsHaveDestination()
         givenParamsHaveOrigin()
         givenValidStartAndEndDates()
-        sut.isRoundTripSearchObservable.onNext(true)
+        sut.tripTypeSearchObservable.onNext(TripType.RETURN)
         sut.performSearchObserver.onNext(Unit)
         assertNull(sut.searchParamsObservable.value.legNo)
 
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightByotSearch)
-        sut.isRoundTripSearchObservable.onNext(true)
+        sut.tripTypeSearchObservable.onNext(TripType.RETURN)
         sut.performSearchObserver.onNext(Unit)
         assertEquals(sut.searchParamsObservable.value.legNo, 0)
+    }
+
+    @Test
+    fun testByotAbacusTestForOneWay() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightByotSearch)
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        sut.tripTypeSearchObservable.onNext(TripType.ONE_WAY)
+        sut.performSearchObserver.onNext(Unit)
+        assertNull(sut.searchParamsObservable.value.legNo)
+
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightByotSearch)
+        sut.tripTypeSearchObservable.onNext(TripType.ONE_WAY)
+        sut.performSearchObserver.onNext(Unit)
+        assertNull(sut.searchParamsObservable.value.legNo)
     }
 
     @Test
@@ -413,7 +433,7 @@ class FlightSearchViewModelTest {
 
         sut.greedySearchParamsObservable.subscribe(greedySearchTestSubscriber)
         greedySearchTestSubscriber.assertValueCount(0)
-        sut.isRoundTripSearchObservable.onNext(false)
+        sut.tripTypeSearchObservable.onNext(TripType.ONE_WAY)
         greedySearchTestSubscriber.assertValueCount(1)
     }
 
@@ -448,6 +468,28 @@ class FlightSearchViewModelTest {
         //If User opens applies advance search too
         sut.advanceSearchObserver.onNext(AdvanceSearchFilter.NonStop)
         cancelGreedyCallTestSubscriber.assertValueCount(2)
+    }
+
+    @Test
+    fun testTripTypeForRecentSearchForOneWay() {
+        val tripTypeTestSubscriber = TestObserver<TripType>()
+        createSystemUnderTest()
+        sut.tripTypeSearchObservable.subscribe(tripTypeTestSubscriber)
+        val params = makeSearchParams()
+
+        sut.setupViewModelFromPastSearch(params)
+        tripTypeTestSubscriber.assertValues(TripType.RETURN, TripType.ONE_WAY)
+    }
+
+    @Test
+    fun testTripTypeForRecentSearchForRoundtrip() {
+        val tripTypeTestSubscriber = TestObserver<TripType>()
+        createSystemUnderTest()
+        sut.tripTypeSearchObservable.subscribe(tripTypeTestSubscriber)
+        makeSearchParams()
+        val params = sut.getParamsBuilder().endDate(LocalDate()).build() as FlightSearchParams
+        sut.setupViewModelFromPastSearch(params)
+        tripTypeTestSubscriber.assertValues(TripType.RETURN, TripType.RETURN)
     }
 
     private fun givenByotOutboundSearch() {

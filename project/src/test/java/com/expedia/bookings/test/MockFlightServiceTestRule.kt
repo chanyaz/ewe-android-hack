@@ -28,6 +28,23 @@ class MockFlightServiceTestRule : ServicesRule<FlightServices>(FlightServices::c
         return paramsBuilder.build()
     }
 
+    fun flightSearchParamsBuilder(roundTrip: Boolean, airportCode: String = "happy"): FlightSearchParams.Builder {
+        val origin = getDummySuggestion(airportCode)
+        val destination = getDummySuggestion(airportCode)
+        val startDate = LocalDate.now()
+        val endDate = startDate.plusDays(2)
+        val paramsBuilder = FlightSearchParams.Builder(26, 500)
+                .origin(origin)
+                .destination(destination)
+                .startDate(startDate)
+                .adults(1) as FlightSearchParams.Builder
+
+        if (roundTrip) {
+            paramsBuilder.endDate(endDate)
+        }
+        return paramsBuilder
+    }
+
     fun addRichContentToFlightLeg(flightLeg: FlightLeg) {
         flightLeg.richContent = getRichContent()
     }
