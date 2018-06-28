@@ -276,7 +276,7 @@ class NewFlightSearchParamsTest {
 
         var mapRoundTripParams = flightSearchParams.toQueryMapForKong()
         assertEquals(2, mapRoundTripParams["numberOfAdultTravelers"])
-        assertEquals(FlightSearchParams.SearchType.RETURN.name, mapRoundTripParams["tripType"])
+        assertEquals(FlightSearchParams.TripType.RETURN.name, mapRoundTripParams["tripType"])
         assertNotNull(mapRoundTripParams["trips"])
         assertEquals(true, mapRoundTripParams["lccAndMerchantFareCheckoutAllowed"])
     }
@@ -293,13 +293,74 @@ class NewFlightSearchParamsTest {
         builder.nonStopFlight(false)
         builder.children(children)
         builder.flightCabinClass("COACH")
+        builder.tripType(FlightSearchParams.TripType.ONE_WAY)
         val flightSearchParams = builder.build()
 
-        var mapOneWayParams = flightSearchParams.toQueryMapForKong()
+        val mapOneWayParams = flightSearchParams.toQueryMapForKong()
         assertEquals(2, mapOneWayParams["numberOfAdultTravelers"])
-        assertEquals(FlightSearchParams.SearchType.ONE_WAY.name, mapOneWayParams["tripType"])
+        assertEquals(FlightSearchParams.TripType.ONE_WAY.name, mapOneWayParams["tripType"])
         assertNotNull(mapOneWayParams["trips"])
         assertEquals(true, mapOneWayParams["lccAndMerchantFareCheckoutAllowed"])
+    }
+
+    @Test
+    fun testHasValidDatesForRoundTrip() {
+        giveSearchParams()
+        assertTrue(builder.hasValidDates())
+
+        builder.endDate(null).build()
+        assertFalse(builder.hasValidDates())
+    }
+
+    @Test
+    fun testHasValidDatesForOneWay() {
+        giveSearchParams()
+        builder.tripType(FlightSearchParams.TripType.ONE_WAY).build()
+        assertTrue(builder.hasValidDates())
+    }
+
+    @Test
+    fun testTripTypeForRoundTrip() {
+        giveSearchParams()
+        val params = builder.tripType(FlightSearchParams.TripType.ONE_WAY).build()
+        assertEquals(params.tripType, FlightSearchParams.TripType.ONE_WAY)
+    }
+
+    @Test
+    fun testTripTypeForOneWay() {
+        giveSearchParams()
+        val params = builder.tripType(FlightSearchParams.TripType.RETURN).build()
+        assertEquals(params.tripType, FlightSearchParams.TripType.RETURN)
+    }
+
+    @Test
+    fun testTripTypeForInboundSearch() {
+        val inboundSearchParams = giveSearchParams(Constants.FEATURE_SUBPUB).buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
+        assertEquals(inboundSearchParams.tripType, FlightSearchParams.TripType.RETURN)
+        assertEquals(inboundSearchParams.adults, inboundSearchParams.adults)
+        assertEquals(inboundSearchParams.children.size, inboundSearchParams.children.size)
+        assertEquals(inboundSearchParams.departureDate, inboundSearchParams.departureDate)
+        assertEquals(inboundSearchParams.returnDate, inboundSearchParams.returnDate)
+        assertEquals(inboundSearchParams.departureAirport, inboundSearchParams.departureAirport)
+        assertEquals(inboundSearchParams.arrivalAirport, inboundSearchParams.arrivalAirport)
+        assertEquals(1, inboundSearchParams.legNo)
+        assertNull(inboundSearchParams.flightCabinClass)
+        assertEquals("outboundleg", inboundSearchParams.selectedOutboundLegId)
+        assertEquals(6400, inboundSearchParams.maxOfferCount)
+    }
+
+    @Test
+    fun testBuildParamsForTripType() {
+        builder.adults(expectedNumAdults)
+        builder.startDate(tomorrow)
+        builder.endDate(expectedReturnDate)
+        builder.origin(expectedOrigin)
+        builder.destination(expectedDestination)
+        var params = builder.build()
+        assertEquals(params.tripType, FlightSearchParams.TripType.RETURN)
+
+        params = builder.tripType(FlightSearchParams.TripType.ONE_WAY).build()
+        assertEquals(params.tripType, FlightSearchParams.TripType.ONE_WAY)
     }
 
     private fun giveSearchParams(vararg overrides: String): FlightSearchParams {
