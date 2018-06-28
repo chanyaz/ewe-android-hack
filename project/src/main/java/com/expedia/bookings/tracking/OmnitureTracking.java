@@ -68,6 +68,7 @@ import com.expedia.bookings.data.flights.KrazyglueResponse;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
@@ -308,6 +309,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_SAVED_COUPON_FAIL = "App.CKO.Coupon.Fail.Saved";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 	private static final String HOTELSV2_CHECKOUT_COUPON_REMOVE_FAILURE = "App.CKO.Coupon.Remove.Error";
+	private static final String HOTELS_FAVORITES_LIST_PAGE = "App.Lists.Saved.Hotel";
 
 	private static final String REWARDS_POINTS_UPDATE = "App.Hotels.CKO.Points.Update";
 	private static final String PAY_WITH_POINTS_DISABLED = "App.Hotels.CKO.Points.None";
@@ -1094,6 +1096,26 @@ public class OmnitureTracking {
 		s.trackLink("Infosite Map");
 	}
 
+	public static void trackHotelFavoritesPageListSize(int listSize) {
+		AppAnalytics appAnalytics = getFreshTrackingObject();
+		appAnalytics.setAppState(HOTELS_FAVORITES_LIST_PAGE);
+		if (listSize == 0) {
+			appAnalytics.appendEvents("event346");
+		}
+		else {
+			appAnalytics.appendEvents("event347=" + listSize);
+		}
+		appAnalytics.track();
+	}
+
+	public static void trackHotelFavoriteRemoved(int indexInFavoritesList, HotelShortlistItem shortListItem) {
+		trackHotelFavoritesPageAction(indexInFavoritesList, shortListItem, false);
+	}
+
+	public static void trackHotelFavoriteAdded(int indexInFavoritesList, HotelShortlistItem shortListItem) {
+		trackHotelFavoritesPageAction(indexInFavoritesList, shortListItem, true);
+	}
+
 	public static void trackHotelV2Reviews() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_REVIEWS + "\" pageLoad...");
 
@@ -1669,6 +1691,25 @@ public class OmnitureTracking {
 			sb.append(s.getEvents());
 		}
 		pageLoadTimeEvents(s, pageLoadTimeData, sb);
+	}
+
+	private static void trackHotelFavoritesPageAction(int indexInFavoritesList, HotelShortlistItem shortListItem, boolean addedToFavorites) {
+		StringBuilder referrerIdBuilder = new StringBuilder("SP.Shortlist.").append(indexInFavoritesList);
+		String events;
+		if (addedToFavorites) {
+			events = "event148";
+			referrerIdBuilder.append(".HOTEL.FAV");
+		}
+		else {
+			events = "event149";
+			referrerIdBuilder.append(".HOTEL.UNFAV");
+		}
+		AppAnalytics appAnalytics = createTrackPageLoadEventBase(HOTELS_FAVORITES_LIST_PAGE);
+		appAnalytics.appendEvents(events);
+		appAnalytics.setEvar(28, referrerIdBuilder.toString());
+		appAnalytics.setProp(16, referrerIdBuilder.toString());
+		appAnalytics.setProducts(";Hotel:" + shortListItem.getHotelId() + ";;");
+		appAnalytics.track();
 	}
 
 	private static void pageLoadTimeEvents(AppAnalytics s, PageUsableData pageLoadTimeData, StringBuilder sb) {

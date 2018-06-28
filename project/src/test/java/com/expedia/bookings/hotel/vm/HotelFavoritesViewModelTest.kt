@@ -1,6 +1,8 @@
 package com.expedia.bookings.hotel.vm
 
 import android.content.Intent
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -16,6 +18,7 @@ import com.expedia.bookings.hotel.util.HotelFavoritesCache
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.services.HotelShortlistServices
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil.Companion.setupUserAndMockLogin
@@ -24,7 +27,9 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.HotelsV2DataUtil
+import com.expedia.bookings.utils.Ui
 import com.expedia.ui.HotelActivity
+import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -44,9 +49,10 @@ class HotelFavoritesViewModelTest {
 
     var shortlistServicesRule = ServicesRule(HotelShortlistServices::class.java)
         @Rule get
+    lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     private val context = RuntimeEnvironment.application
-    private val userStateManager = UserLoginTestUtil.getUserStateManager()
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     private lateinit var viewModel: HotelFavoritesViewModel
     private lateinit var favoritesManager: HotelFavoritesManager
@@ -81,6 +87,7 @@ class HotelFavoritesViewModelTest {
         hotelShortlistItem = createHotelShortlistItem()
 
         HotelFavoritesCache.clearFavorites(context)
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -98,12 +105,30 @@ class HotelFavoritesViewModelTest {
     }
 
     @Test
+    fun testPageLoadedAnalyticsLoggedIn() {
+        signInUserWithLoyalty()
+        HotelFavoritesViewModel(context, userStateManager, favoritesManager)
+        OmnitureTestUtils.assertStateTracked("App.Lists.Saved.Hotel",
+                OmnitureMatchers.withEventsString("event347=4"),
+                mockAnalyticsProvider)
+    }
+
+    @Test
     fun testLoggedOut() {
         userStateManager.signOut()
         val t = TestObserver<Unit>()
         viewModel.receivedResponseSubject.subscribe(t)
         t.assertValueCount(0)
         assertFalse(viewModel.shouldShowList())
+    }
+
+    @Test
+    fun testPageLoadedAnalyticsLoggedOut() {
+        userStateManager.signOut()
+        viewModel = HotelFavoritesViewModel(context, userStateManager, favoritesManager)
+        OmnitureTestUtils.assertStateTracked("App.Lists.Saved.Hotel",
+                OmnitureMatchers.withEventsString("event346"),
+                mockAnalyticsProvider)
     }
 
     @Test
@@ -363,6 +388,35 @@ class HotelFavoritesViewModelTest {
 
         assertTrue(viewModel.favoritesList.isEmpty())
         testObserver.assertValueCount(1)
+    }
+
+    @Test
+    fun testRemoveAnalytics() {
+        viewModel.favoritesList.add(hotelShortlistItem)
+        viewModel.removeFavoriteHotelAtIndex(0)
+        OmnitureTestUtils.assertStateTracked("App.Lists.Saved.Hotel",
+                Matchers.allOf(
+                        OmnitureMatchers.withEventsString("event149"),
+                        OmnitureMatchers.withProductsString(";Hotel:hotelId;;"),
+                        OmnitureMatchers.withProps(mapOf(16 to "SP.Shortlist.0.HOTEL.UNFAV")),
+                        OmnitureMatchers.withEvars(mapOf(28 to "SP.Shortlist.0.HOTEL.UNFAV"))
+                ),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testUndoAnalytics() {
+        viewModel.favoritesList.add(hotelShortlistItem)
+        viewModel.removeFavoriteHotelAtIndex(0)
+        viewModel.undoLastRemove()
+        OmnitureTestUtils.assertStateTracked("App.Lists.Saved.Hotel",
+                Matchers.allOf(
+                        OmnitureMatchers.withEventsString("event148"),
+                        OmnitureMatchers.withProductsString(";Hotel:hotelId;;"),
+                        OmnitureMatchers.withProps(mapOf(16 to "SP.Shortlist.0.HOTEL.FAV")),
+                        OmnitureMatchers.withEvars(mapOf(28 to "SP.Shortlist.0.HOTEL.FAV"))
+                ),
+                mockAnalyticsProvider)
     }
 
     private fun createHotelShortlistItem(hotelId: String? = "hotelId", itemId: String? = "itemId"): HotelShortlistItem {

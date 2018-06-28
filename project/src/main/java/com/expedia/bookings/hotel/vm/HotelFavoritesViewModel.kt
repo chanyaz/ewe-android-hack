@@ -12,6 +12,7 @@ import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
 import com.expedia.bookings.hotel.util.HotelFavoritesCache
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
+import com.expedia.bookings.tracking.OmnitureTracking
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -49,8 +50,11 @@ class HotelFavoritesViewModel(private val context: Context,
             compositeDisposable.add(hotelFavoritesManager.fetchSuccessSubject.subscribe { fetchResponse ->
                 response = fetchResponse
                 receivedResponseSubject.onNext(Unit)
+                OmnitureTracking.trackHotelFavoritesPageListSize(favoritesList.size)
             })
             hotelFavoritesManager.fetchFavorites(context)
+        } else {
+            OmnitureTracking.trackHotelFavoritesPageListSize(0)
         }
 
         HotelFavoritesCache.cacheChangedSubject.subscribe { favorites ->
@@ -98,6 +102,7 @@ class HotelFavoritesViewModel(private val context: Context,
         if (hotelId.isNullOrBlank()) {
             return
         }
+        OmnitureTracking.trackHotelFavoriteRemoved(favoriteHotelIndex, favoriteHotel)
         lastRemovedShortlistItem = favoriteHotel
         lastRemovedIndex = favoriteHotelIndex
         hotelFavoritesManager.removeFavorite(context, hotelId!!)
@@ -110,6 +115,7 @@ class HotelFavoritesViewModel(private val context: Context,
 
     fun undoLastRemove() {
         if (lastRemovedIndex >= 0 && lastRemovedIndex <= favoritesList.size && lastRemovedShortlistItem != null) {
+            OmnitureTracking.trackHotelFavoriteAdded(lastRemovedIndex, lastRemovedShortlistItem!!)
             hotelFavoritesManager.saveFavorite(context, lastRemovedShortlistItem!!)
             favoritesList.add(lastRemovedIndex, lastRemovedShortlistItem!!)
             favoriteAddedAtIndexSubject.onNext(lastRemovedIndex)
