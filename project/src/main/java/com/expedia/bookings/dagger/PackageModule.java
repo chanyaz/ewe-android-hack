@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Named;
 
 import android.content.Context;
@@ -8,6 +10,7 @@ import com.expedia.bookings.dagger.tags.PackageScope;
 import com.expedia.bookings.http.HotelReviewsRequestInterceptor;
 import com.expedia.bookings.packages.util.PackageServicesManager;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.FlightRichContentService;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
@@ -63,6 +66,16 @@ public final class PackageModule {
 	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@PackageScope
+	FlightRichContentService provideRichContentService(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
+		List<Interceptor> interceptorList = new ArrayList<>();
+		interceptorList.add(interceptor);
+		return new FlightRichContentService(endpointProvider.getKongEndpointUrl(), client, interceptorList,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }
 

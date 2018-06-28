@@ -355,6 +355,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun getResultsViewModel(context: Context): PackageResultsViewModel {
-        return PackageResultsViewModel()
+        return PackageResultsViewModel(context)
     }
 }

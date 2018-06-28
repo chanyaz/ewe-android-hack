@@ -171,7 +171,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (isShowingOutboundResults) {
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
-                if (resultsViewModel.showRichContent) {
+                if (isRichContentEnabled(context)) {
                     progressBarAnimation(1000, flightProgressBar.progress.toFloat(), 540f, true, false)
                 } else {
                     progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true, true)

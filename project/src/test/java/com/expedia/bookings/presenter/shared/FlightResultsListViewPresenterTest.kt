@@ -94,7 +94,7 @@ class FlightResultsListViewPresenterTest {
 
     fun inflateAndSetPackagesViewModel() {
         sut = LayoutInflater.from(activity).inflate(R.layout.package_flight_results_presenter_stub, null) as FlightResultsListViewPresenter
-        val flightResultsViewModel = PackageResultsViewModel()
+        val flightResultsViewModel = PackageResultsViewModel(context)
         sut.resultsViewModel = flightResultsViewModel
         createTestFlightListAdapter()
         sut.setAdapter(testFlightAdapter)
