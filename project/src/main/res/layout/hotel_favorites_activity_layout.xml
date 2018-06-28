@@ -10,8 +10,8 @@
         android:id="@+id/hotel_favorites_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/app_primary"
+        android:layout_gravity="top"
+        android:background="?attr/primary_color"
         android:minHeight="?attr/actionBarSize"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
@@ -23,6 +23,8 @@
         android:id="@+id/hotel_favorites_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/hotel_favorites_toolbar" />
+        android:layout_below="@id/hotel_favorites_toolbar"/>
+
+    <include layout="@layout/hotel_favorites_loading_overlay" />
 
 </RelativeLayout>

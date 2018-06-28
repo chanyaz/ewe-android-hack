@@ -899,7 +899,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         hotelDetailViewModel.fetchInProgressSubject.subscribe {
             loadingOverlay.visibility = View.VISIBLE
-            loadingOverlay.animate(true)
         }
 
         hotelDetailViewModel.fetchCancelledSubject.subscribe {
@@ -908,7 +907,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         hotelDetailViewModel.infositeApiErrorSubject.subscribe { error ->
-            loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
             errorPresenter.viewmodel.infositeApiErrorObserver.onNext(error)
             errorPresenter.visibility = View.VISIBLE
@@ -916,7 +914,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         hotelDetailViewModel.hotelOffersSubject.subscribe { response ->
-            loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
             if (currentState != detailPresenter::class.java.name) {
                 show(detailPresenter)

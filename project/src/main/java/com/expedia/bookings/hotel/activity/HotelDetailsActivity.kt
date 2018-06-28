@@ -105,7 +105,6 @@ class HotelDetailsActivity : AppCompatActivity() {
 
         hotelDetailViewModel.fetchInProgressSubject.subscribe {
             loadingOverlay.visibility = View.VISIBLE
-            loadingOverlay.animate(true)
         }
 
         hotelDetailViewModel.fetchCancelledSubject.subscribe {
@@ -114,14 +113,12 @@ class HotelDetailsActivity : AppCompatActivity() {
         }
 
         hotelDetailViewModel.infositeApiErrorSubject.subscribe {
-            loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
 
             //todo https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/9180
         }
 
         hotelDetailViewModel.hotelOffersSubject.subscribe { response ->
-            loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
 
             presenter.animationFinalize(true)

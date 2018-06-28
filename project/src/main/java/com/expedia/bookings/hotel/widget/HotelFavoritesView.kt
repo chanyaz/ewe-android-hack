@@ -46,6 +46,7 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
     init {
         View.inflate(getContext(), R.layout.hotel_favorites_layout, this)
         initRecyclerView()
+        emptyContainer.setInverseVisibility(isUserLoggedIn)
         hotelFavoritesPageEmptyTitle.setVisibility(isUserLoggedIn)
         hotelFavoritesSignInTitle.setInverseVisibility(isUserLoggedIn)
         initViewModelSubscriptions()
@@ -95,7 +96,9 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
     }
 
     private fun initViewModelSubscriptions() {
-        viewModel.receivedResponseSubject.subscribe { updateViews() }
+        viewModel.receivedResponseSubject.subscribe {
+            updateViews()
+        }
         viewModel.favoriteRemovedAtIndexSubject.subscribe { index ->
             adapter.notifyItemRemoved(index)
             undoSnackbar.show()
