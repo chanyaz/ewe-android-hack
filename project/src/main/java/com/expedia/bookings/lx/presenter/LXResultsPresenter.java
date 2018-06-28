@@ -192,6 +192,7 @@ public class LXResultsPresenter extends Presenter {
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 		sortFilterWidget.doneButtonClicked.subscribe(unit -> onLXFilterDoneClicked());
+		sortFilterWidget.lxFilterChanged.subscribe(lxSortFilterMetaData -> onLXFilterChanged(lxSortFilterMetaData));
 	}
 
 	@Override
@@ -373,10 +374,9 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	@Subscribe
-	public void onLXFilterChanged(Events.LXFilterChanged event) {
+	public void onLXFilterChanged(LXSortFilterMetadata lxSortFilterMetadata) {
 		searchSubscription = lxServices
-			.lxSearchSortFilter(null, event.lxSortFilterMetadata, searchResultFilterObserver,
+			.lxSearchSortFilter(null, lxSortFilterMetadata, searchResultFilterObserver,
 				lxFilterTextSearchEnabled);
 	}
 
