@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
+import com.clarisite.mobile.ClarisiteAgent;
+import com.clarisite.mobile.exceptions.EyeViewException;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper;
@@ -59,6 +61,8 @@ import butterknife.InjectView;
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.expedia.bookings.utils.FeatureUtilKt.isGlassboxEnabled;
 
 public class RouterActivity extends AppCompatActivity implements UserAccountRefresher.IUserAccountRefreshListener {
 
@@ -146,6 +150,10 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 		startupTimer.addSplit("Ensuring sanity of users");
 		startupTimer.dumpToLog();
+
+		if (isGlassboxEnabled()) {
+			glassBoxStart();
+		}
 	}
 
 	protected void setIfSplashLoadingAnimationShouldRun() {
@@ -176,6 +184,15 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 		setupLottieSplashLoadingAnimations();
 		startAnimationView.playAnimation();
+	}
+
+	private void glassBoxStart() {
+		try {
+			ClarisiteAgent.start();
+		}
+		catch (EyeViewException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void setupLottieSplashLoadingAnimations() {

@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import com.carnival.sdk.Carnival;
 import com.carnival.sdk.Message;
+import com.clarisite.mobile.ClarisiteAgent;
+import com.clarisite.mobile.exceptions.EyeViewException;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -76,6 +78,7 @@ import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.HttpUrl;
 import static com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_NOTIFICATION_PROVIDER_VALUE;
+import static com.expedia.bookings.utils.FeatureUtilKt.isGlassboxEnabled;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -122,11 +125,23 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TrackingUtils.initializeTracking(this.getApplication());
+		if (isGlassboxEnabled()) {
+			glassBoxStart();
+		}
 
 		deepLinkParser = new DeepLinkParser(this.getAssets());
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		startProcessing();
+	}
+
+	private void glassBoxStart() {
+		try {
+			ClarisiteAgent.start();
+		}
+		catch (EyeViewException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@VisibleForTesting

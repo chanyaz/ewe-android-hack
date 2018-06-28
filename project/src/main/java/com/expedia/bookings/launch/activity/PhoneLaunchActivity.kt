@@ -20,8 +20,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.clarisite.mobile.ClarisiteAgent
-import com.clarisite.mobile.exceptions.EyeViewException
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper
@@ -73,7 +71,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.checkIfTripFoldersEnabled
 import com.expedia.bookings.utils.isBrandColorEnabled
-import com.expedia.bookings.utils.isGlassboxEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.DisableableViewPager
@@ -252,10 +249,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             }
         }
 
-        if (isGlassboxEnabled()) {
-            glassBoxStart()
-        }
-
         startupTimer.addSplit("Check trigger location prompt")
         val lastLocation = LocationServices.getLastBestLocation(this, 0)
 
@@ -380,13 +373,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         toolbar.visibility = View.GONE
 
         setupBottomTabIcons()
-    }
-
-    private fun glassBoxStart() {
-        try {
-            ClarisiteAgent.start()
-        } catch (e: EyeViewException) {
-        }
     }
 
     private fun setupBottomTabIcons() {
