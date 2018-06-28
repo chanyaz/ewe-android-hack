@@ -33,4 +33,5 @@ class Features {
     val lxEssRegionTypeCall: Feature by RemoteFeatureDelegate()
     val strikethroughPricingExcludesBurnAmount: Feature by RemoteFeatureDelegate()
     val packagesGlassbox: Feature by RemoteFeatureDelegate()
+    val glassBox: Feature by RemoteFeatureDelegate()
 }

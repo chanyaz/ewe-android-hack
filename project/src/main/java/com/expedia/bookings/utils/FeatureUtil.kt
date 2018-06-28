@@ -200,6 +200,10 @@ fun isGlassboxForPackagesEnabled(): Boolean {
     return Features.all.packagesGlassbox.enabled()
 }
 
+fun isGlassboxEnabled(): Boolean {
+    return Features.all.glassBox.enabled()
+}
+
 fun islXEssRegionTypeCallEnabled(): Boolean {
     return Features.all.lxEssRegionTypeCall.enabled()
 }
