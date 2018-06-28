@@ -3,8 +3,6 @@ package com.expedia.bookings.packages.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.clarisite.mobile.ClarisiteAgent
-import com.clarisite.mobile.exceptions.EyeViewException
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackagesPageUsableData
@@ -14,7 +12,6 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isGlassboxForPackagesEnabled
 import com.expedia.ui.AbstractAppCompatActivity
 
 class PackageActivity : AbstractAppCompatActivity() {
@@ -36,9 +33,6 @@ class PackageActivity : AbstractAppCompatActivity() {
             Ui.getApplication(this).defaultTravelerComponent()
             setContentView(R.layout.package_activity)
             Ui.showTransparentStatusBar(this)
-            if (isGlassboxForPackagesEnabled()) {
-                glassBoxStart()
-            }
         }
     }
 
@@ -92,13 +86,6 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Db.getTripBucket().clearPackages()
-    }
-
-    private fun glassBoxStart() {
-        try {
-            ClarisiteAgent.start()
-        } catch (e: EyeViewException) {
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
