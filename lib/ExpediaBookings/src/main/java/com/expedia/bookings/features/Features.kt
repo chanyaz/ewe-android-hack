@@ -27,10 +27,9 @@ class Features {
     val tripsApiCallMade: Feature by RemoteFeatureDelegate()
     val tripsApiCallSuccess: Feature by RemoteFeatureDelegate()
     val hotelReviewsTrueRecency: Feature by RemoteFeatureDelegate()
-    val tripsGlassbox: Feature by RemoteFeatureDelegate()
     val lxActivityResultsHeader: Feature by RemoteFeatureDelegate()
     val hotMipRedesign: Feature by RemoteFeatureDelegate()
     val lxEssRegionTypeCall: Feature by RemoteFeatureDelegate()
     val strikethroughPricingExcludesBurnAmount: Feature by RemoteFeatureDelegate()
-    val packagesGlassbox: Feature by RemoteFeatureDelegate()
+    val glassBox: Feature by RemoteFeatureDelegate()
 }

@@ -1,15 +1,11 @@
 package com.expedia.bookings.itin.hotel.details
 
-import com.clarisite.mobile.ClarisiteAgent
-import com.clarisite.mobile.exceptions.EyeViewException
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity
 import com.expedia.bookings.itin.scopes.HasAbacusProvider
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
-import com.expedia.bookings.itin.scopes.HasFeatureProvider
 import com.expedia.bookings.itin.scopes.HasHotel
 import com.expedia.bookings.itin.scopes.HasItin
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -18,7 +14,7 @@ import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.tripstore.extensions.packagePrice
 
-class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher, S : HasTripsTracking, S : HasActivityLauncher, S : HasAbacusProvider, S: HasFeatureProvider {
+class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher, S : HasTripsTracking, S : HasActivityLauncher, S : HasAbacusProvider {
 
     override val iconImage = R.drawable.ic_itin_credit_card_icon
     override val headingText: String
@@ -53,22 +49,12 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         val isGuest: Boolean = scope.itin.isGuest
         val tripId = scope.itin.tripId
         cardClickListener = {
-            if (scope.features.isFeatureEnabled(Features.all.tripsGlassbox)) {
-                glassBoxStart()
-            }
             if (scope.abacus.isBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelPricing) && tripId != null) {
                 scope.activityLauncher.launchActivity(HotelItinPricingRewardsActivity, tripId)
             } else if (detailsUrl != null && tripNumber != null) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber, isGuest = isGuest)
             }
             scope.tripsTracking.trackHotelItinPricingRewardsClick()
-        }
-    }
-
-    private fun glassBoxStart() {
-        try {
-            ClarisiteAgent.start()
-        } catch (e: EyeViewException) {
         }
     }
 }
