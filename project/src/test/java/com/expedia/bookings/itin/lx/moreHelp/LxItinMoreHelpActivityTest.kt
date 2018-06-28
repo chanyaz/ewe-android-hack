@@ -2,9 +2,9 @@ package com.expedia.bookings.itin.lx.moreHelp
 
 import android.content.Intent
 import com.expedia.bookings.data.trips.ItinCardData
+import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockTripsTracking
-import com.expedia.bookings.itin.lx.ItinLxRepo
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
@@ -36,14 +36,14 @@ class LxItinMoreHelpActivityTest {
     fun testInvalidDataFinishesActivity() {
         val shadow = Shadows.shadowOf(activity)
         assertFalse(shadow.isFinishing)
-        activity.lxRepo.invalidDataSubject.onNext(Unit)
+        activity.repo.invalidDataSubject.onNext(Unit)
         assertTrue(shadow.isFinishing)
     }
 
     @Test
     fun testMoreHelpPageLoadTracked() {
         activity.tripsTracking = MockTripsTracking()
-        activity.lxRepo = ItinLxRepo("LX_ITIN_ID", MockJsonUtil(), PublishSubject.create<MutableList<ItinCardData>>())
+        activity.repo = ItinRepo("LX_ITIN_ID", MockJsonUtil(), PublishSubject.create<MutableList<ItinCardData>>())
         activity.setRepoObservers()
 
         val mockTripsTracking = activity.tripsTracking as MockTripsTracking
@@ -51,7 +51,7 @@ class LxItinMoreHelpActivityTest {
 
         // asserting that page load tracking will only be called once when itin live data gets updated again
         mockTripsTracking.trackItinlxMoreHelpPageLoaded = false
-        activity.lxRepo.liveDataItin.postValue(ItinMocker.lxDetailsHappy)
+        activity.repo.liveDataItin.postValue(ItinMocker.lxDetailsHappy)
         assertFalse(mockTripsTracking.trackItinlxMoreHelpPageLoaded)
     }
 

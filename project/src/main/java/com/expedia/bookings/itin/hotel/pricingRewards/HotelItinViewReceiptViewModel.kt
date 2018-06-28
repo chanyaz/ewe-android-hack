@@ -6,7 +6,7 @@ import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinViewReceiptViewModel
 import com.expedia.bookings.itin.scopes.HasFeatureProvider
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
@@ -19,33 +19,31 @@ import com.expedia.bookings.itin.tripstore.extensions.isMultiItemCheckout
 import com.expedia.bookings.itin.tripstore.extensions.isPackage
 import io.reactivex.subjects.PublishSubject
 
-class HotelItinViewReceiptViewModel<out S>(val scope: S) : ItinViewReceiptViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo, S : HasTripsTracking, S : HasWebViewLauncher, S : HasFeatureProvider {
+class HotelItinViewReceiptViewModel<out S>(val scope: S) : ItinViewReceiptViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasItinRepo, S : HasTripsTracking, S : HasWebViewLauncher, S : HasFeatureProvider {
     override val viewReceiptClickSubject: PublishSubject<Unit> = PublishSubject.create()
     override val webViewIntentSubject: PublishSubject<Intent> = PublishSubject.create()
     override var showReceiptSubject: PublishSubject<Unit> = PublishSubject.create()
-    var itinObserver: LiveDataObserver<Itin>
-
-    init {
-        itinObserver = LiveDataObserver { itin ->
-            val hotel = itin?.firstHotel()
-            if (!shouldShowViewReceipt(itin, hotel)) {
-                return@LiveDataObserver
-            }
-
-            val receiptUrl = itin?.itineraryReceiptURL
-            val hotelName = hotel?.hotelPropertyInfo?.name
-
-            if (!receiptUrl.isNullOrBlank() && !hotelName.isNullOrBlank()) {
-                viewReceiptClickSubject.subscribe {
-                    val title = scope.strings.fetchWithPhrase(R.string.itin_hotel_view_receipt_title_TEMPLATE, mapOf("hotelname" to hotelName!!))
-                    scope.webViewLauncher.launchWebViewSharableActivity(title, receiptUrl!!, null, itin.tripId, itin.isGuest)
-                    scope.tripsTracking.trackItinHotelViewReceipt()
-                }
-                showReceiptSubject.onNext(Unit)
-            }
+    val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
+        val hotel = itin?.firstHotel()
+        if (!shouldShowViewReceipt(itin, hotel)) {
+            return@LiveDataObserver
         }
 
-        scope.itinHotelRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
+        val receiptUrl = itin?.itineraryReceiptURL
+        val hotelName = hotel?.hotelPropertyInfo?.name
+
+        if (!receiptUrl.isNullOrBlank() && !hotelName.isNullOrBlank()) {
+            viewReceiptClickSubject.subscribe {
+                val title = scope.strings.fetchWithPhrase(R.string.itin_hotel_view_receipt_title_TEMPLATE, mapOf("hotelname" to hotelName!!))
+                scope.webViewLauncher.launchWebViewSharableActivity(title, receiptUrl!!, null, itin.tripId, itin.isGuest)
+                scope.tripsTracking.trackItinHotelViewReceipt()
+            }
+            showReceiptSubject.onNext(Unit)
+        }
+    }
+
+    init {
+        scope.itinRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }
 
     fun shouldShowViewReceipt(itin: Itin?, hotel: ItinHotel?): Boolean {

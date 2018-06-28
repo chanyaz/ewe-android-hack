@@ -7,10 +7,9 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.common.ItinRepo
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.scopes.HotelItinTaxiViewModelScope
 import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.utils.Ui
@@ -38,9 +37,9 @@ open class HotelItinTaxiActivity : AppCompatActivity() {
     val localizedAddressTextView by bindView<TextView>(R.id.localized_location_address)
     val nonLocalizedAddressTextView by bindView<TextView>(R.id.non_localized_location_address)
 
-    open val repo: ItinHotelRepoInterface by lazy {
+    open val repo: ItinRepoInterface by lazy {
         val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
-        ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
+        ItinRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
     }
 
     var viewModel: HotelItinTaxiViewModel<HotelItinTaxiViewModelScope> by notNullAndObservable { vm ->
@@ -55,9 +54,9 @@ open class HotelItinTaxiActivity : AppCompatActivity() {
         setContentView(R.layout.activity_itin_taxi)
         val scope = HotelItinTaxiViewModelScope(repo, this)
         viewModel = HotelItinTaxiViewModel(scope)
-        repo.liveDataInvalidItin.observe(this, LiveDataObserver {
+        repo.invalidDataSubject.subscribe {
             finish()
-        })
+        }
         navigationButton.setOnClickListener {
             finish()
         }

@@ -41,7 +41,7 @@ class HotelItinPricingAdditionalInfoActivityTest {
     fun testHotelRepoInvalidItin() {
         val shadow = Shadows.shadowOf(sut)
         assertFalse(shadow.isFinishing)
-        sut.invalidDataObserver.onChanged(Unit)
+        sut.repo.invalidDataSubject.onNext(Unit)
         assertTrue(shadow.isFinishing)
     }
 }

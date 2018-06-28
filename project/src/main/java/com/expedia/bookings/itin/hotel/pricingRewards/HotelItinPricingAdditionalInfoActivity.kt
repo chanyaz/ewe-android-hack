@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinPricingAdditionalInfoView
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
+import com.expedia.bookings.itin.common.ItinRepo
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.scopes.HotelItinPricingAdditionalInfoScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.Intentable
@@ -35,11 +35,8 @@ class HotelItinPricingAdditionalInfoActivity : AppCompatActivity() {
         @Inject set
 
     val additionalInfoView by bindView<ItinPricingAdditionalInfoView>(R.id.itin_addtional_info_view)
-    lateinit var hotelRepo: ItinHotelRepo
+    lateinit var repo: ItinRepoInterface
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
-    val invalidDataObserver = LiveDataObserver<Unit> {
-        finish()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,20 +44,22 @@ class HotelItinPricingAdditionalInfoActivity : AppCompatActivity() {
         Ui.getApplication(this).defaultTripComponents()
         Ui.getApplication(this).tripComponent().inject(this)
 
-        hotelRepo = ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, itineraryManager.syncFinishObservable)
+        repo = ItinRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, itineraryManager.syncFinishObservable)
 
-        val pricingAdditionalInfoScope = HotelItinPricingAdditionalInfoScope(hotelRepo, stringProvider, this)
+        val pricingAdditionalInfoScope = HotelItinPricingAdditionalInfoScope(repo, stringProvider, this)
         val pricingAdditionInfoViewModel = HotelItinPricingAdditionalInfoViewModel(pricingAdditionalInfoScope)
         additionalInfoView.viewModel = pricingAdditionInfoViewModel
 
         additionalInfoView.toolbarViewModel.navigationBackPressedSubject.subscribe {
             finish()
         }
-        hotelRepo.liveDataInvalidItin.observe(this, invalidDataObserver)
+        repo.invalidDataSubject.subscribe {
+            finish()
+        }
     }
 
     override fun finish() {
         super.finish()
-        hotelRepo.dispose()
+        repo.dispose()
     }
 }

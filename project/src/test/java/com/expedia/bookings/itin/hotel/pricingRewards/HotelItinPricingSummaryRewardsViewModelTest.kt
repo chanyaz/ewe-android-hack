@@ -2,15 +2,15 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
-import com.expedia.bookings.itin.helpers.MockHotelRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.scopes.HasE3Endpoint
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
@@ -130,14 +130,14 @@ class HotelItinPricingSummaryRewardsViewModelTest {
         testObserver.dispose()
     }
 
-    class MockItinRewardsScope : HasStringProvider, HasHotelRepo, HasWebViewLauncher, HasTripsTracking, HasE3Endpoint, HasLifecycleOwner {
+    class MockItinRewardsScope : HasStringProvider, HasItinRepo, HasWebViewLauncher, HasTripsTracking, HasE3Endpoint, HasLifecycleOwner {
         val mockWebViewLauncher = MockWebViewLauncher()
         val mockTripsTracking = MockTripsTracking()
         override val strings: StringSource = MockStringProvider()
         override val webViewLauncher: IWebViewLauncher = mockWebViewLauncher
         override val tripsTracking: ITripsTracking = mockTripsTracking
         override val e3Endpoint: String = "https://expedia.com/"
-        override val itinHotelRepo: ItinHotelRepoInterface = MockHotelRepo()
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     }
 }

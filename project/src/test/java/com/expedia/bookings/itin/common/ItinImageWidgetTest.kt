@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.itin.tripstore.data.ItinLOB
+import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -16,13 +16,13 @@ import kotlin.test.assertNotEquals
 @RunWith(RobolectricRunner::class)
 class ItinImageWidgetTest {
     private lateinit var mockVM: MockViewModel
-    lateinit var sut: ItinImageWidget<ItinLOB>
+    lateinit var sut: ItinImageWidget
 
     @Before
     @Suppress("UNCHECKED_CAST")
     fun setup() {
         val context = RuntimeEnvironment.application
-        sut = LayoutInflater.from(context).inflate(R.layout.test_itin_image_widget, null) as ItinImageWidget<ItinLOB>
+        sut = LayoutInflater.from(context).inflate(R.layout.test_itin_image_widget, null) as ItinImageWidget
         mockVM = MockViewModel()
         sut.setupViewModel(mockVM)
     }
@@ -54,7 +54,7 @@ class ItinImageWidgetTest {
         assertEquals("how you doing?", sut.itinName.text)
     }
 
-    private class MockViewModel : ItinImageViewModel<ItinLOB>() {
-        override val itinLOBObserver: LiveDataObserver<ItinLOB> = LiveDataObserver { }
+    private class MockViewModel : ItinImageViewModel() {
+        override val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { }
     }
 }

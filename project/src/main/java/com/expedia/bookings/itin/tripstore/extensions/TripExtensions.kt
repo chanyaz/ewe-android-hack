@@ -35,6 +35,12 @@ fun Itin.firstLx(): ItinLx? {
     return packageLx.plus(standAloneLx).firstOrNull()
 }
 
+fun Itin.firstCruise(): ItinCruise? {
+    val packageCruises = packages?.firstOrNull()?.cruises ?: emptyList()
+    val standAloneCruises = cruises.orEmpty()
+    return packageCruises.plus(standAloneCruises).firstOrNull()
+}
+
 fun Itin.isMultiItemCheckout(): Boolean {
     val totalNumberOfItems = hotels.orEmpty().size +
             flights.orEmpty().size +

@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
+import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
@@ -82,11 +82,11 @@ class HotelItinPricingSummaryViewTest {
         roomContainerItemObserver.assertEmpty()
         roomContainerClearObserver.assertEmpty()
         assertEquals(0, getAllLineItemViews().size)
-        viewModel.itinObserver.onChanged(viewModel.scope.itinHotelRepo.liveDataItin.value)
+        viewModel.itinObserver.onChanged(viewModel.scope.itinRepo.liveDataItin.value)
 
         assertEquals(12, getAllLineItemViews().size)
 
-        viewModel.itinObserver.onChanged(getScope(true).itinHotelRepo.liveDataItin.value)
+        viewModel.itinObserver.onChanged(getScope(true).itinRepo.liveDataItin.value)
 
         assertEquals(5, getAllLineItemViews().size)
     }
@@ -268,7 +268,7 @@ class HotelItinPricingSummaryViewTest {
 
     private fun getScope(forSingleRoom: Boolean = false): HotelItinPricingSummaryScope {
         val itinId = if (forSingleRoom) "single" else ""
-        val repo = ItinHotelRepo(itinId, MockReadJsonUtil, TestObservable)
+        val repo = ItinRepo(itinId, MockReadJsonUtil, TestObservable)
 
         return HotelItinPricingSummaryScope(repo, MockStringProvider, MockActivityLauncher(), MockLifecycleOwner())
     }

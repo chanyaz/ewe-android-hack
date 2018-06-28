@@ -2,21 +2,21 @@ package com.expedia.bookings.itin.car.details
 
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.cars.details.CarItinDropOffMapWidgetViewModel
 import com.expedia.bookings.itin.cars.details.CarItinMapWidgetViewModel
 import com.expedia.bookings.itin.cars.details.CarItinMapWidgetViewModelScope
 import com.expedia.bookings.itin.cars.details.CarItinPickupMapWidgetViewModel
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
-import com.expedia.bookings.itin.helpers.MockCarRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockPhoneHandler
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockToaster
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
-import com.expedia.bookings.itin.scopes.HasCarRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasPhoneHandler
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -41,16 +41,16 @@ import kotlin.test.assertTrue
 class CarItinMapWidgetViewModelTest {
     private lateinit var sut: CarItinMapWidgetViewModel<*>
     private var car: ItinCar? = null
-    val locationTypeHeaderTestObserver = TestObserver<String>()
-    val addressLineFirstTestObserver = TestObserver<String>()
-    val addressLineSecondTestObserver = TestObserver<String>()
-    val latLongTestObserver = TestObserver<LatLng>()
-    val contentDescLocationTestObserver = TestObserver<String>()
-    val phoneNumberTextTestObserver = TestObserver<String>()
-    val phoneNumberContDescTestObserver = TestObserver<String>()
+    private val locationTypeHeaderTestObserver = TestObserver<String>()
+    private val addressLineFirstTestObserver = TestObserver<String>()
+    private val addressLineSecondTestObserver = TestObserver<String>()
+    private val latLongTestObserver = TestObserver<LatLng>()
+    private val contentDescLocationTestObserver = TestObserver<String>()
+    private val phoneNumberTextTestObserver = TestObserver<String>()
+    private val phoneNumberContDescTestObserver = TestObserver<String>()
 
-    private class MockScope : HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasCarRepo, HasActivityLauncher {
-        override val itinCarRepo: ItinCarRepoInterface = MockCarRepo()
+    private class MockScope : HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasItinRepo, HasActivityLauncher {
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         val mockStrings = MockStringProvider()
         override val strings: StringSource = mockStrings
         val mockTracking = MockTripsTracking()
@@ -82,7 +82,6 @@ class CarItinMapWidgetViewModelTest {
         val expectedNumber = "02 9221 2231"
         val expectedCopyDescString = R.string.itin_car_address_copy_content_description_TEMPLATE.toString().plus(mapOf("address" to car?.pickupLocation?.buildFullAddress()))
 
-        sut.itinLOBObserver.onChanged(car)
         sut.itinObserver.onChanged(ItinMocker.carDetailsHappy)
 
         addressLineFirstTestObserver.assertValue("Sir John Young Crescent Domain Car Park")
@@ -119,8 +118,8 @@ class CarItinMapWidgetViewModelTest {
         latLongTestObserver.assertNoValues()
         contentDescLocationTestObserver.assertNoValues()
 
-        val car = ItinMocker.carDetailsHappy.firstCar()
-        sut.itinLOBObserver.onChanged(car)
+        val car = ItinMocker.carDetailsHappy
+        sut.itinObserver.onChanged(car)
 
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
@@ -132,16 +131,16 @@ class CarItinMapWidgetViewModelTest {
 
     @Test
     fun getLocationPickupTest() {
-        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
+        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockItinRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinPickupMapWidgetViewModel(scope)
-        val car = ItinMocker.carDetailsHappy.firstCar()
+        val car = ItinMocker.carDetailsHappy
         val pickUpHeading = (R.string.itin_car_location_type_heading_pick_up).toString()
         setupObservers()
 
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
 
-        sut.itinLOBObserver.onChanged(car)
+        sut.itinObserver.onChanged(car)
 
         locationTypeHeaderTestObserver.assertValueCount(1)
         assertEquals(pickUpHeading, locationTypeHeaderTestObserver.values()[0].toString())
@@ -151,9 +150,9 @@ class CarItinMapWidgetViewModelTest {
 
     @Test
     fun getLocationDropOffDifferentTest() {
-        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
+        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockItinRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinDropOffMapWidgetViewModel(scope)
-        val car = ItinMocker.carDetailsHappy.firstCar()
+        val car = ItinMocker.carDetailsHappy
         val dropOffHeading = (R.string.itin_car_location_type_heading_drop_off).toString()
         setupObservers()
 
@@ -161,7 +160,7 @@ class CarItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
 
-        sut.itinLOBObserver.onChanged(car)
+        sut.itinObserver.onChanged(car)
 
         locationTypeHeaderTestObserver.assertValueCount(1)
         assertEquals(dropOffHeading, locationTypeHeaderTestObserver.values()[0].toString())
@@ -178,7 +177,7 @@ class CarItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         car = ItinMocker.carDetailsBadLocations.firstCar()
 
-        sut.itinLOBObserver.onChanged(car)
+        sut.itinObserver.onChanged(ItinMocker.carDetailsBadLocations)
 
         addressLineFirstTestObserver.assertNoValues()
     }
@@ -189,21 +188,21 @@ class CarItinMapWidgetViewModelTest {
         sut = MockCarItinMapWidgetViewModel(mockScope)
         setupObservers()
         latLongTestObserver.assertNoValues()
-        val noLatCar = ItinMocker.carDetailsBadLocations.firstCar()
-        val noLongCar = ItinMocker.carDetailsBadNameAndImage.firstCar()
+        val noLatCar = ItinMocker.carDetailsBadLocations
+        val noLongCar = ItinMocker.carDetailsBadNameAndImage
 
-        sut.itinLOBObserver.onChanged(noLatCar)
+        sut.itinObserver.onChanged(noLatCar)
         latLongTestObserver.assertNoValues()
 
-        sut.itinLOBObserver.onChanged(noLongCar)
+        sut.itinObserver.onChanged(noLongCar)
         latLongTestObserver.assertNoValues()
     }
 
     @Test
     fun getLocationDropOffSameTest() {
-        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockCarRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
+        val scope = CarItinMapWidgetViewModelScope(MockStringProvider(), MockTripsTracking(), MockLifecycleOwner(), MockItinRepo(), MockToaster(), MockPhoneHandler(), MockActivityLauncher())
         sut = CarItinDropOffMapWidgetViewModel(scope)
-        val car = ItinMocker.carDetailsHappyPickupDropOffSame.firstCar()
+        val car = ItinMocker.carDetailsHappyPickupDropOffSame
 
         setupObservers()
 
@@ -211,7 +210,7 @@ class CarItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
 
-        sut.itinLOBObserver.onChanged(car)
+        sut.itinObserver.onChanged(car)
 
         locationTypeHeaderTestObserver.assertNoValues()
         addressLineFirstTestObserver.assertNoValues()

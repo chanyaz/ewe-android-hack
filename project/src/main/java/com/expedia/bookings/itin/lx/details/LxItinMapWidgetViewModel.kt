@@ -6,22 +6,22 @@ import com.expedia.bookings.itin.common.ItinExpandedMapActivity
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasPhoneHandler
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToaster
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.tripstore.data.Itin
-import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
 import com.expedia.bookings.itin.tripstore.extensions.buildSecondaryAddress
+import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.utils.AnimationDirection
 import com.google.android.gms.maps.model.LatLng
 
-class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinLx>() where S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler, S : HasActivityLauncher {
+class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel() where S : HasItinRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler, S : HasActivityLauncher {
 
-    val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
+    override val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
         itin?.tripId?.let { id ->
             directionButtonClickSubject.subscribe {
                 scope.tripsTracking.trackItinLxDetailsDirections()
@@ -32,10 +32,7 @@ class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinLx>
                 scope.activityLauncher.launchActivity(ItinExpandedMapActivity, id, AnimationDirection.SLIDE_UP, TripProducts.ACTIVITY.name)
             }
         }
-    }
-
-    override val itinLOBObserver: LiveDataObserver<ItinLx> = LiveDataObserver { itinLx ->
-        if (itinLx != null) {
+        itin?.firstLx()?.let { itinLx ->
             val location = itinLx.activityLocation
             if (location?.addressLine1 != null) {
                 addressLineFirstSubject.onNext(location.addressLine1)
@@ -63,7 +60,6 @@ class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinLx>
     }
 
     init {
-        scope.itinLxRepo.liveDataLx.observe(scope.lifecycleOwner, itinLOBObserver)
-        scope.itinLxRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
+        scope.itinRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }
 }

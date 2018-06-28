@@ -1,8 +1,7 @@
 package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.utils.AbacusSource
@@ -26,48 +25,48 @@ data class HotelItinDetailsScope(
 
 data class HotelItinToolbarScope(
         override val strings: StringSource,
-        override val itinHotelRepo: ItinHotelRepo,
+        override val itinRepo: ItinRepoInterface,
         override val lifecycleOwner: LifecycleOwner
-) : HasStringProvider, HasHotelRepo, HasLifecycleOwner
+) : HasStringProvider, HasItinRepo, HasLifecycleOwner
 
 data class HotelItinPricingSummaryScope(
-        override val itinHotelRepo: ItinHotelRepo,
+        override val itinRepo: ItinRepoInterface,
         override val strings: StringSource,
         override val activityLauncher: IActivityLauncher,
         override val lifecycleOwner: LifecycleOwner
-) : HasLifecycleOwner, HasStringProvider, HasHotelRepo, HasActivityLauncher
+) : HasLifecycleOwner, HasStringProvider, HasItinRepo, HasActivityLauncher
 
 data class HotelItinPricingBundleScope(
-        override val itinHotelRepo: ItinHotelRepo,
+        override val itinRepo: ItinRepoInterface,
         override val strings: StringSource,
         override val lifecycleOwner: LifecycleOwner
-) : HasStringProvider, HasHotelRepo, HasLifecycleOwner
+) : HasStringProvider, HasItinRepo, HasLifecycleOwner
 
 data class HotelItinViewReceiptScope(
         override val strings: StringSource,
-        override val itinHotelRepo: ItinHotelRepo,
+        override val itinRepo: ItinRepoInterface,
         override val lifecycleOwner: LifecycleOwner,
         override val tripsTracking: ITripsTracking,
         override val webViewLauncher: IWebViewLauncher,
         override val features: FeatureSource
-) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeatureProvider
+) : HasStringProvider, HasItinRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeatureProvider
 
 data class HotelItinTaxiViewModelScope(
-        override val itinHotelRepo: ItinHotelRepoInterface,
+        override val itinRepo: ItinRepoInterface,
         override val lifecycleOwner: LifecycleOwner
-) : HasHotelRepo, HasLifecycleOwner
+) : HasItinRepo, HasLifecycleOwner
 
 data class HotelItinPricingAdditionalInfoScope(
-        override val itinHotelRepo: ItinHotelRepoInterface,
+        override val itinRepo: ItinRepoInterface,
         override val strings: StringSource,
         override val lifecycleOwner: LifecycleOwner
-) : HasHotelRepo, HasStringProvider, HasLifecycleOwner
+) : HasItinRepo, HasStringProvider, HasLifecycleOwner
 
 data class HotelItinRewardsScope(
         override val strings: StringSource,
-        override val itinHotelRepo: ItinHotelRepo,
+        override val itinRepo: ItinRepoInterface,
         override val lifecycleOwner: LifecycleOwner,
         override val tripsTracking: ITripsTracking,
         override val webViewLauncher: IWebViewLauncher,
         override val e3Endpoint: String
-) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasE3Endpoint
+) : HasStringProvider, HasItinRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasE3Endpoint

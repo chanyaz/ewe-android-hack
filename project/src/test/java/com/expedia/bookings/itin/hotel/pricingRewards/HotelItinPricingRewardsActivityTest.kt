@@ -47,11 +47,11 @@ class HotelItinPricingRewardsActivityTest {
         activity.tripsTracking = mockTripsTracking
         activity.setUpOmnitureValues()
 
-        activity.hotelRepo.liveDataItin.postValue(ItinMocker.hotelDetailsHappy)
+        activity.repo.liveDataItin.postValue(ItinMocker.hotelDetailsHappy)
         assertTrue(mockTripsTracking.trackHotelItinPricingRewardsPageload)
 
         mockTripsTracking.trackHotelItinPricingRewardsPageload = false
-        activity.hotelRepo.liveDataItin.postValue(ItinMocker.hotelDetailsHappy)
+        activity.repo.liveDataItin.postValue(ItinMocker.hotelDetailsHappy)
         assertFalse(mockTripsTracking.trackHotelItinPricingRewardsPageload)
     }
 }

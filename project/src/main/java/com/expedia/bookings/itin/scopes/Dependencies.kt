@@ -1,10 +1,7 @@
 package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
-import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.common.ItinRepoInterface
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
@@ -18,7 +15,6 @@ import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.tracking.ITripsTracking
-import com.expedia.bookings.utils.StrUtils
 
 interface HasItin {
     val itin: Itin
@@ -48,10 +44,6 @@ interface HasE3Endpoint {
     val e3Endpoint: String
 }
 
-interface HasHotelRepo {
-    val itinHotelRepo: ItinHotelRepoInterface
-}
-
 interface HasLifecycleOwner {
     val lifecycleOwner: LifecycleOwner
 }
@@ -66,18 +58,6 @@ interface HasActivityLauncher {
 
 interface HasAbacusProvider {
     val abacus: AbacusSource
-}
-
-interface HasStringUtil {
-    val stringUtils: StrUtils
-}
-
-interface HasLxRepo {
-    val itinLxRepo: ItinLxRepoInterface
-}
-
-interface HasCarRepo {
-    val itinCarRepo: ItinCarRepoInterface
 }
 
 interface HasLx {

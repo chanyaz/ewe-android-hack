@@ -2,14 +2,15 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinRepoInterface
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
-import com.expedia.bookings.itin.helpers.MockHotelRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.data.ItinCar
@@ -19,7 +20,6 @@ import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.data.ItinRail
 import com.expedia.bookings.itin.tripstore.extensions.HasProducts
-import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
@@ -414,10 +414,10 @@ class HotelItinPricingSummaryViewModelTest {
         return viewModel
     }
 
-    class MockHotelItinPricingSummaryScope : HasHotelRepo, HasStringProvider, HasActivityLauncher, HasLifecycleOwner {
+    class MockHotelItinPricingSummaryScope : HasItinRepo, HasStringProvider, HasActivityLauncher, HasLifecycleOwner {
         val mockActivityLauncher = MockActivityLauncher()
         override val strings: StringSource = MockStringProvider()
-        override val itinHotelRepo: ItinHotelRepoInterface = MockHotelRepo()
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val activityLauncher: IActivityLauncher = mockActivityLauncher
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     }
@@ -429,7 +429,7 @@ class HotelItinPricingSummaryViewModelTest {
             override val cars: List<ItinCar>?,
             override val cruises: List<ItinCruise>?,
             override val rails: List<ItinRail>?) : HasProducts {
-        var mockList = listOf<TripProducts>()
+        private var mockList = listOf<TripProducts>()
         override fun listOfTripProducts(): List<TripProducts> {
             return mockList
         }

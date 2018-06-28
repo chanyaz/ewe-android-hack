@@ -3,14 +3,14 @@ package com.expedia.bookings.itin.lx.moreHelp
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.utils.StringSource
@@ -31,7 +31,7 @@ class LxItinMoreHelpViewModelTest {
     private lateinit var callButtonContentDescriptionTestObserver: TestObserver<String>
     private lateinit var helpTextTestObserver: TestObserver<String>
     private lateinit var confirmationNumberTestObserver: TestObserver<String>
-    private lateinit var confirmationNumberTextVisiblityTestObserver: TestObserver<Boolean>
+    private lateinit var confirmationNumberTextVisibilityTestObserver: TestObserver<Boolean>
     private lateinit var confirmationNumberContentDescriptionTestObserver: TestObserver<String>
 
     private lateinit var vm: LxItinMoreHelpViewModel<MockLxItinMoreHelpScope>
@@ -42,7 +42,7 @@ class LxItinMoreHelpViewModelTest {
         callButtonContentDescriptionTestObserver = TestObserver()
         helpTextTestObserver = TestObserver()
         confirmationNumberTestObserver = TestObserver()
-        confirmationNumberTextVisiblityTestObserver = TestObserver()
+        confirmationNumberTextVisibilityTestObserver = TestObserver()
         confirmationNumberContentDescriptionTestObserver = TestObserver()
         setupViewModel()
     }
@@ -50,7 +50,6 @@ class LxItinMoreHelpViewModelTest {
     @Test
     fun testFullMoreHelpData() {
         vm.itinObserver.onChanged(ItinMocker.lxDetailsAlsoHappy)
-        vm.itinLxObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.activities?.first())
 
         phoneNumberTestObserver.assertValue("+1 (415) 379 8000")
 
@@ -63,7 +62,7 @@ class LxItinMoreHelpViewModelTest {
         helpTextTestObserver.assertValue(helpText)
 
         confirmationNumberTestObserver.assertValue("8160334389745")
-        confirmationNumberTextVisiblityTestObserver.assertValue(true)
+        confirmationNumberTextVisibilityTestObserver.assertValue(true)
 
         val confirmationNumberContDesc = (R.string.itin_more_help_confirmation_number_content_description_TEMPLATE)
                 .toString().plus(mapOf("number" to "8160334389745"))
@@ -73,7 +72,6 @@ class LxItinMoreHelpViewModelTest {
     @Test
     fun testPartialMoreHelpData() {
         vm.itinObserver.onChanged(ItinMocker.lxDetailsHappy)
-        vm.itinLxObserver.onChanged(ItinMocker.lxDetailsHappy.activities?.first())
 
         phoneNumberTestObserver.assertEmpty()
         callButtonContentDescriptionTestObserver.assertEmpty()
@@ -81,7 +79,7 @@ class LxItinMoreHelpViewModelTest {
         helpTextTestObserver.assertEmpty()
 
         confirmationNumberTestObserver.assertValue("8104062917948")
-        confirmationNumberTextVisiblityTestObserver.assertValue(true)
+        confirmationNumberTextVisibilityTestObserver.assertValue(true)
 
         val confirmationNumberContDesc = (R.string.itin_more_help_confirmation_number_content_description_TEMPLATE)
                 .toString().plus(mapOf("number" to "8104062917948"))
@@ -93,7 +91,7 @@ class LxItinMoreHelpViewModelTest {
         vm.itinObserver.onChanged(ItinMocker.lxDetailsNoOrderNumber)
 
         confirmationNumberTestObserver.assertEmpty()
-        confirmationNumberTextVisiblityTestObserver.assertValue(false)
+        confirmationNumberTextVisibilityTestObserver.assertValue(false)
     }
 
     @Test
@@ -119,13 +117,13 @@ class LxItinMoreHelpViewModelTest {
         vm.callButtonContentDescriptionSubject.subscribe(callButtonContentDescriptionTestObserver)
         vm.helpTextSubject.subscribe(helpTextTestObserver)
         vm.confirmationNumberSubject.subscribe(confirmationNumberTestObserver)
-        vm.confirmationTitleVisibilitySubject.subscribe(confirmationNumberTextVisiblityTestObserver)
+        vm.confirmationTitleVisibilitySubject.subscribe(confirmationNumberTextVisibilityTestObserver)
         vm.confirmationNumberContentDescriptionSubject.subscribe(confirmationNumberContentDescriptionTestObserver)
     }
 
-    private class MockLxItinMoreHelpScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking {
+    private class MockLxItinMoreHelpScope : HasStringProvider, HasItinRepo, HasLifecycleOwner, HasTripsTracking {
         override val strings: StringSource = MockStringProvider()
-        override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         override val tripsTracking = MockTripsTracking()
     }

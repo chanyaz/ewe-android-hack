@@ -3,7 +3,7 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.TripProducts
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.data.FlightType
@@ -14,39 +14,38 @@ import com.expedia.bookings.itin.tripstore.extensions.isMultiItemCheckout
 import com.expedia.bookings.itin.tripstore.extensions.isPackage
 import io.reactivex.subjects.PublishSubject
 
-class HotelItinPricingBundleDescriptionViewModel<out S>(val scope: S) : IHotelItinPricingBundleDescriptionViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo {
-    var itinObserver: LiveDataObserver<Itin>
-
+class HotelItinPricingBundleDescriptionViewModel<out S>(val scope: S) : IHotelItinPricingBundleDescriptionViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasItinRepo {
     override val bundleContainerResetSubject: PublishSubject<Unit> = PublishSubject.create()
     override val bundleProductDescriptionSubject: PublishSubject<String> = PublishSubject.create()
     override val bundleContainerViewVisibilitySubject: PublishSubject<Boolean> = PublishSubject.create()
 
-    init {
-        itinObserver = LiveDataObserver { itin ->
-            itin ?: return@LiveDataObserver
+    val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
+        itin ?: return@LiveDataObserver
 
-            when {
-                itin.isPackage() -> {
-                    bundleContainerViewVisibilitySubject.onNext(true)
-                    bundleContainerResetSubject.onNext(Unit)
-                    itin.packages?.firstOrNull()?.let {
-                        //bundle title
-                        setBundleContentsLabel(getProductsDescriptionString(it))
-                    }
-                }
-                itin.isMultiItemCheckout() -> {
+        when {
+            itin.isPackage() -> {
+                bundleContainerViewVisibilitySubject.onNext(true)
+                bundleContainerResetSubject.onNext(Unit)
+                itin.packages?.firstOrNull()?.let {
                     //bundle title
-                    bundleContainerViewVisibilitySubject.onNext(true)
-                    bundleContainerResetSubject.onNext(Unit)
-                    setBundleContentsLabel(getProductsDescriptionString(itin))
-                }
-                else -> {
-                    //standalone hotel
-                    bundleContainerViewVisibilitySubject.onNext(false)
+                    setBundleContentsLabel(getProductsDescriptionString(it))
                 }
             }
+            itin.isMultiItemCheckout() -> {
+                //bundle title
+                bundleContainerViewVisibilitySubject.onNext(true)
+                bundleContainerResetSubject.onNext(Unit)
+                setBundleContentsLabel(getProductsDescriptionString(itin))
+            }
+            else -> {
+                //standalone hotel
+                bundleContainerViewVisibilitySubject.onNext(false)
+            }
         }
-        scope.itinHotelRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
+    }
+
+    init {
+        scope.itinRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }
 
     private fun setBundleContentsLabel(bundleProductList: MutableList<String>) {

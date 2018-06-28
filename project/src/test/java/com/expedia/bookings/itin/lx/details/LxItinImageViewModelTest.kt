@@ -2,13 +2,12 @@ package com.expedia.bookings.itin.lx.details
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
-import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Rule
@@ -20,8 +19,8 @@ class LxItinImageViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var sut: LxItinImageViewModel<MockScope>
-    val nameTestObserver = TestObserver<String>()
-    val urlTestObserver = TestObserver<String>()
+    private val nameTestObserver = TestObserver<String>()
+    private val urlTestObserver = TestObserver<String>()
 
     @Before
     fun setup() {
@@ -35,7 +34,7 @@ class LxItinImageViewModelTest {
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
 
-        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsHappy)
 
         nameTestObserver.assertValue("Day Trip to New York by Train with Hop-on Hop-Off Pass: Full-Day Excursion")
         urlTestObserver.assertValue("https://s3.amazonaws.com/mediavault.le/media/d845b674a00c4ec7dc685942d31f955b2e354f73.jpeg")
@@ -46,14 +45,14 @@ class LxItinImageViewModelTest {
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
 
-        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsNoLat.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsNoLat)
 
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
     }
 
-    private class MockScope : HasLxRepo, HasLifecycleOwner {
+    private class MockScope : HasItinRepo, HasLifecycleOwner {
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
-        override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
     }
 }

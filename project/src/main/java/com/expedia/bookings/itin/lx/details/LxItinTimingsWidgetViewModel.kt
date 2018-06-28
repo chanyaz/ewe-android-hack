@@ -3,32 +3,33 @@ package com.expedia.bookings.itin.lx.details
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinTimingsWidgetViewModel
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
-import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.extensions.firstLx
 
-class LxItinTimingsWidgetViewModel<S>(scope: S) : ItinTimingsWidgetViewModel<ItinLx>() where S : HasLxRepo, S : HasLifecycleOwner, S : HasStringProvider {
-    override val itinObserver = LiveDataObserver<ItinLx> {
-        it?.let { itin ->
+class LxItinTimingsWidgetViewModel<S>(scope: S) : ItinTimingsWidgetViewModel() where S : HasItinRepo, S : HasLifecycleOwner, S : HasStringProvider {
+    override val itinObserver = LiveDataObserver<Itin> {
+        it?.firstLx()?.let { itinLx ->
             startTitleSubject.onNext(scope.strings.fetch(R.string.itin_active))
-            itin.startTime?.localizedFullDate?.let { startDate ->
+            itinLx.startTime?.localizedFullDate?.let { startDate ->
                 startDateSubject.onNext(startDate)
             }
-            itin.startTime?.localizedShortTime?.let { startTime ->
+            itinLx.startTime?.localizedShortTime?.let { startTime ->
                 startTimeSubject.onNext(startTime)
             }
             endTitleSubject.onNext(scope.strings.fetch(R.string.itin_expires))
-            itin.endTime?.localizedFullDate?.let { endDate ->
+            itinLx.endTime?.localizedFullDate?.let { endDate ->
                 endDateSubject.onNext(endDate)
             }
-            itin.endTime?.localizedShortTime?.let { endTime ->
+            itinLx.endTime?.localizedShortTime?.let { endTime ->
                 endTimeSubject.onNext(endTime)
             }
         }
     }
 
     init {
-        scope.itinLxRepo.liveDataLx.observe(scope.lifecycleOwner, itinObserver)
+        scope.itinRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }
 }

@@ -2,12 +2,12 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
-import com.expedia.bookings.itin.helpers.MockHotelRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.utils.StringSource
@@ -171,9 +171,9 @@ class HotelitinPricingBundleDescriptionViewModelTest {
         assertEquals(multiDestinationTripFlight, bundleProductDescriptionObserver.values()[2])
     }
 
-    class MockHotelItinPricingBundleScope : HasHotelRepo, HasStringProvider, HasLifecycleOwner {
+    class MockHotelItinPricingBundleScope : HasItinRepo, HasStringProvider, HasLifecycleOwner {
         override val strings: StringSource = MockStringProvider()
-        override val itinHotelRepo: ItinHotelRepoInterface = MockHotelRepo()
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     }
 }

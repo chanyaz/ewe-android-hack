@@ -1,11 +1,11 @@
 package com.expedia.bookings.itin.common
 
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.itin.tripstore.data.ItinLOB
+import com.expedia.bookings.itin.tripstore.data.Itin
 import io.reactivex.subjects.PublishSubject
 
-abstract class ItinImageViewModel<T : ItinLOB> {
+abstract class ItinImageViewModel {
     val imageUrlSubject: PublishSubject<String> = PublishSubject.create()
     val nameSubject: PublishSubject<String> = PublishSubject.create()
-    abstract val itinLOBObserver: LiveDataObserver<T>
+    abstract val itinObserver: LiveDataObserver<Itin>
 }

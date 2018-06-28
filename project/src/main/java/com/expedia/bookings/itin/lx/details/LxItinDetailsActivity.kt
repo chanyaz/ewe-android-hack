@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.common.ItinImageWidget
+import com.expedia.bookings.itin.common.ItinManageBookingWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinTimingsWidget
 import com.expedia.bookings.itin.common.ItinToolbar
-import com.expedia.bookings.itin.common.ItinManageBookingWidget
 import com.expedia.bookings.itin.scopes.LxLifeCycleObserverScope
-import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -41,12 +40,12 @@ class LxItinDetailsActivity : AppCompatActivity() {
 
     val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
     val manageBookingWidget: ItinManageBookingWidget by bindView(R.id.widget_manage_booking)
-    val mapWidget: ItinMapWidget<ItinLx> by bindView(R.id.map_widget)
+    val mapWidget: ItinMapWidget by bindView(R.id.map_widget)
     val redeemVoucherWidget: LxItinRedeemVoucherWidget by bindView(R.id.widget_lx_itin_redeem_voucher)
-    val imageWidget: ItinImageWidget<ItinLx> by bindView(R.id.itin_image_widget)
-    val timingsWidget: ItinTimingsWidget<ItinLx> by bindView(R.id.itin_timings_widget)
+    val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
+    val timingsWidget: ItinTimingsWidget by bindView(R.id.itin_timings_widget)
 
-    val lifecycleObserver: LxItinDetailsActivityLifecycleObserver<LxLifeCycleObserverScope<ItinLx>> by lazy {
+    val lifecycleObserver: LxItinDetailsActivityLifecycleObserver<LxLifeCycleObserverScope> by lazy {
         val stringProvider = Ui.getApplication(this).appComponent().stringProvider()
         val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
         val webViewLauncher: IWebViewLauncher = WebViewLauncher(this)

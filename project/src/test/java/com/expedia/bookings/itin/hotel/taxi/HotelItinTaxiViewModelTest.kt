@@ -2,13 +2,12 @@ package com.expedia.bookings.itin.hotel.taxi
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
-import com.expedia.bookings.itin.helpers.MockHotelRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.services.TestObserver
 import org.junit.Before
 import org.junit.Rule
@@ -19,12 +18,12 @@ class HotelItinTaxiViewModelTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    val localizedAddressTestObserver = TestObserver<String>()
-    val nonLocalizedAddressTestObserver = TestObserver<String>()
-    val localizedLocationNameTestObserver = TestObserver<String>()
-    val nonLocalizedLocationNameTestObserver = TestObserver<String>()
-    val happyHotel = ItinMocker.hotelDetailsHappy.firstHotel()
-    val badHotel = ItinMocker.hotelDetailsNoPriceDetails.firstHotel()
+    private val localizedAddressTestObserver = TestObserver<String>()
+    private val nonLocalizedAddressTestObserver = TestObserver<String>()
+    private val localizedLocationNameTestObserver = TestObserver<String>()
+    private val nonLocalizedLocationNameTestObserver = TestObserver<String>()
+    private val happyHotel = ItinMocker.hotelDetailsHappy
+    private val badHotel = ItinMocker.hotelDetailsNoPriceDetails
 
     private lateinit var sut: HotelItinTaxiViewModel<TestScope>
 
@@ -67,10 +66,10 @@ class HotelItinTaxiViewModelTest {
         nonLocalizedLocationNameTestObserver.assertNoValues()
     }
 
-    private class TestScope : HasHotelRepo, HasLifecycleOwner {
-        val repo = MockHotelRepo()
+    private class TestScope : HasItinRepo, HasLifecycleOwner {
+        val repo = MockItinRepo()
         val owner = MockLifecycleOwner()
-        override val itinHotelRepo: ItinHotelRepoInterface = repo
+        override val itinRepo: ItinRepoInterface = repo
         override val lifecycleOwner: LifecycleOwner = owner
     }
 }
