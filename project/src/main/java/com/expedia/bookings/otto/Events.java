@@ -21,7 +21,6 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
-import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
@@ -202,14 +201,6 @@ public class Events {
 		public LXFilterCategoryCheckedChanged(LXCategoryMetadata lxCategoryMetadata, String categoryKey) {
 			this.lxCategoryMetadata = lxCategoryMetadata;
 			this.categoryKey = categoryKey;
-		}
-	}
-
-	public static class LXFilterChanged {
-		public LXSortFilterMetadata lxSortFilterMetadata;
-
-		public LXFilterChanged(LXSortFilterMetadata lxSortFilterMetadata) {
-			this.lxSortFilterMetadata = lxSortFilterMetadata;
 		}
 	}
 

@@ -60,6 +60,7 @@ public class LXSortFilterWidget extends LinearLayout {
 	private boolean skippedFirstFilter = false;
 	private boolean filterSelected = false;
 	public PublishSubject<Unit> doneButtonClicked = PublishSubject.create();
+	public PublishSubject<LXSortFilterMetadata> lxFilterChanged = PublishSubject.create();
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -255,7 +256,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(selectedFilterCategories,
 			priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY,
 			activityNameFilterEditText.getText().toString());
-		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
+		lxFilterChanged.onNext(lxSortFilterMetadata);
 	}
 
 	@Subscribe
@@ -291,7 +292,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		filterSelected = false;
 		OmnitureTracking.trackLinkLXSortAndFilterCleared();
 		LXSortFilterMetadata lxSortFilterMetadata = defaultFilterMetadata();
-		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
+		lxFilterChanged.onNext(lxSortFilterMetadata);
 	}
 
 	@NotNull
