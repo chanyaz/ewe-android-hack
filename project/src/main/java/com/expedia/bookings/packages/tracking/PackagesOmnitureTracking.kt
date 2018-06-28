@@ -11,7 +11,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.OmnitureTracking

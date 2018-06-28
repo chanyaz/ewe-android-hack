@@ -312,7 +312,7 @@ class PackagePresenterTest {
         val showBundleTotalObserver = TestObserver<Boolean>()
         val flightParamsObserver = TestObserver<PackageSearchParams>()
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.subscribe(flightParamsObserver)
-        packagePresenter.bundlePresenter.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
+        packagePresenter.bundlePresenter.viewModel.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.subscribe(selectedHotelObserver)
         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe(showBundleTotalObserver)
 
@@ -349,7 +349,7 @@ class PackagePresenterTest {
         val performMIDCreateTripObserver = TestObserver<Unit>()
         val selectedHotelObserver = TestObserver<Unit>()
         val showBundleTotalObserver = TestObserver<Boolean>()
-        packagePresenter.bundlePresenter.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
+        packagePresenter.bundlePresenter.viewModel.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.subscribe(selectedHotelObserver)
         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe(showBundleTotalObserver)
 
@@ -382,7 +382,7 @@ class PackagePresenterTest {
         val flightParamsObserver = TestObserver<PackageSearchParams>()
         val flightObserver = TestObserver<FlightLeg>()
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.subscribe(flightParamsObserver)
-        packagePresenter.bundlePresenter.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
+        packagePresenter.bundlePresenter.viewModel.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.subscribe(selectedFlightObservable)
         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe(showBundleTotalObserver)
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.subscribe(flightObserver)
@@ -423,7 +423,7 @@ class PackagePresenterTest {
         val showBundleTotalObserver = TestObserver<Boolean>()
         val flightObserver = TestObserver<FlightLeg>()
 
-        packagePresenter.bundlePresenter.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
+        packagePresenter.bundlePresenter.viewModel.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.subscribe(selectedFlightObservable)
         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe(showBundleTotalObserver)
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.subscribe(flightObserver)
@@ -466,7 +466,7 @@ class PackagePresenterTest {
         val showBundleTotalObserver = TestObserver<Boolean>()
         val flightObserver = TestObserver<FlightLeg>()
 
-        packagePresenter.bundlePresenter.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
+        packagePresenter.bundlePresenter.viewModel.performMIDCreateTripSubject.subscribe(performMIDCreateTripObserver)
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.subscribe(selectedFlightObservable)
         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe(showBundleTotalObserver)
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.subscribe(flightObserver)
@@ -562,7 +562,7 @@ class PackagePresenterTest {
         val selectedInboundFlightTestObserver = TestObserver<PackageProductSearchType>()
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.subscribe(flightTestObserver)
         packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.subscribe(cancelSearchTestObserver)
-        packagePresenter.bundlePresenter.performMIDCreateTripSubject.subscribe(performMIDCreateTripTestObserver)
+        packagePresenter.bundlePresenter.viewModel.performMIDCreateTripSubject.subscribe(performMIDCreateTripTestObserver)
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.subscribe(selectedHotelTestObserver)
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.subscribe(selectedOutboundFlightTestObserver)
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.subscribe(selectedInboundFlightTestObserver)

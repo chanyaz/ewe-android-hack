@@ -109,14 +109,14 @@ class PackagesCreateTripTest {
     @Test
     fun testMultiItemCreateTripFiredWhenMIDAPION() {
         val createTripSubscriber = TestObserver<MultiItemApiCreateTripResponse>()
-        activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.subscribe(createTripSubscriber)
+        activity.packagePresenter.bundlePresenter.createTripViewModel.multiItemResponseSubject.subscribe(createTripSubscriber)
         setUpPackageDb()
         val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
         val params = getDummySearchParams()
         Db.setPackageParams(params)
 
-        activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+        activity.packagePresenter.bundlePresenter.createTripViewModel.packageServices = packageServiceRule.services!!
         val baseMidResponse = PackageTestUtil.getMockMIDResponse(offers = emptyList(),
                 hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()))
         baseMidResponse.setCurrentOfferPrice(setPackagePrice())
@@ -124,7 +124,7 @@ class PackagesCreateTripTest {
         PackageTestUtil.setDbPackageSelectedHotel()
         Db.sharedInstance.packageParams.pageType = null
         activity.packagePresenter.changedOutboundFlight = false
-        activity.packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
+        activity.packagePresenter.bundlePresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
         createTripSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         createTripSubscriber.assertValueCount(1)
@@ -135,8 +135,7 @@ class PackagesCreateTripTest {
     fun testMidCreateTripErrorTracking() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        activity.packagePresenter.bundlePresenter.showCheckout()
-        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.createTripViewModel
         createTripViewModel.midCreateTripErrorObservable.onNext("MID_CREATETRIP_INVALID_REQUEST")
 
         val linkName = "App.Package.Checkout.Error"
@@ -150,7 +149,7 @@ class PackagesCreateTripTest {
     @Test
     fun testMultiItemCreateTripErrorHandled() {
         val showErrorAlertObserver = TestObserver<String>()
-        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.createTripViewModel
         createTripViewModel.midCreateTripErrorObservable.subscribe(showErrorAlertObserver)
         createTripViewModel.packageServices = packageServiceRule.services!!
 
@@ -164,8 +163,7 @@ class PackagesCreateTripTest {
 
     @Test
     fun testShowMIDCreateTripErrorDialogDisplayed() {
-        activity.packagePresenter.bundlePresenter.showCheckout()
-        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.createTripViewModel
         val testCreateTripObserver = TestObserver<Unit>()
 
         createTripViewModel.midCreateTripErrorObservable.onNext("error")
@@ -186,7 +184,7 @@ class PackagesCreateTripTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDCreateTripShowErrorPresenter() {
         val showErrorPresenterTestSubscriber = TestObserver<ApiError>()
-        val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+        val createTripViewModel = activity.packagePresenter.bundlePresenter.createTripViewModel
         createTripViewModel.createTripErrorObservable.subscribe(showErrorPresenterTestSubscriber)
         createTripViewModel.packageServices = packageServiceRule.services!!
 

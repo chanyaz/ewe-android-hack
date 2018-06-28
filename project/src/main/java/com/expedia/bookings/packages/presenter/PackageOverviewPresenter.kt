@@ -175,9 +175,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presente
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         viewModel.toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
         viewModel.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
-//        scrollSpaceView = bundleWidget.scrollSpaceView
         if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
-            bottomCheckoutContainer.totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
+            totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
         }
     }
 
@@ -262,8 +261,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presente
     }
 
     private fun resetBundleOverview() {
-        bottomCheckoutContainer.totalPriceWidget.resetPriceWidget()
-        bottomCheckoutContainer.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+        totalPriceWidget.resetPriceWidget()
+        totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         resetBundleTotalTax()
         bundleWidget.collapseBundleWidgets()
         bundleWidget.viewModel.showSplitTicketMessagingObservable.onNext(false)
@@ -287,7 +286,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presente
 
     private fun resetBundleTotalTax() {
         if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
-            bottomCheckoutContainer.totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
+            totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
         }
     }
 
@@ -399,23 +398,23 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presente
         searchResponse.getCurrentOfferPrice()?.let {
             val tripSavings = it.tripSavings
             val shouldShowTripSavings = it.showTripSavings
-            bottomCheckoutContainer.totalPriceWidget.viewModel.savings.onNext(tripSavings)
-            bottomCheckoutContainer.totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
+            totalPriceWidget.viewModel.savings.onNext(tripSavings)
+            totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
             if (isBetterSavingsOnRDScreenEnabledForPackages(context)) {
                 val packageReferenceTotalPrice = it.packageReferenceTotalPrice
                 val totalPrice = it.packageTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
-                bottomCheckoutContainer.totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
+                totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
                 var totalPriceContainerContDesc: String
                 if (shouldShowTripSavings) {
-                    bottomCheckoutContainer.totalPriceWidget.viewModel.betterSavingsObservable.onNext(true)
-                    bottomCheckoutContainer.totalPriceWidget.bundleSavings.visibility = View.GONE
+                    totalPriceWidget.viewModel.betterSavingsObservable.onNext(true)
+                    totalPriceWidget.bundleSavings.visibility = View.GONE
                     val flightPIID = Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID
                     val standaloneHotelPrice = searchResponse.getSelectedHotelReferenceTotalPriceFromID(hotel.hotelId)?.formattedMoneyFromAmountAndCurrencyCode
                     val standaloneFlightPrice = searchResponse.getSelectedFlightReferenceTotalPriceFromPIID(flightPIID)?.formattedMoneyFromAmountAndCurrencyCode
                     val referenceTotalPrice = packageReferenceTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
                     val savings = tripSavings?.formattedMoneyFromAmountAndCurrencyCode
                     val costSummaryBreakdown = PackageCostSummaryBreakdownModel(standaloneHotelPrice, standaloneFlightPrice, referenceTotalPrice, savings, totalPrice)
-                    val costSummaryViewModel = (bottomCheckoutContainer.totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
+                    val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
                     costSummaryViewModel.packageCostSummaryObservable.onNext(costSummaryBreakdown)
                     totalPriceContainerContDesc = Phrase.from(context, R.string.bundle_total_price_widget_cost_breakdown_variant_cont_desc_TEMPLATE)
                             .put("total_price", totalPrice)
@@ -427,17 +426,15 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presente
                             .put("total_price", totalPrice)
                             .format().toString()
                 }
-                bottomCheckoutContainer.totalPriceWidget.viewModel.totalPriceContainerDescription.onNext(totalPriceContainerContDesc)
-                bottomCheckoutContainer.totalPriceWidget.toggleBundleTotalCompoundDrawable(shouldShowTripSavings)
+                totalPriceWidget.viewModel.totalPriceContainerDescription.onNext(totalPriceContainerContDesc)
+                totalPriceWidget.toggleBundleTotalCompoundDrawable(shouldShowTripSavings)
             }
         }
     }
 
-    //We have decided to not add mandatory fees in the bundle total for now. This will be worked on again.
-
     private fun setMandatoryFee(packageResponse: BundleSearchResponse) {
         val packageTotal = packageResponse.getCurrentOfferPrice()?.packageTotalPrice ?: return
-        bottomCheckoutContainer.totalPriceWidget.viewModel.setBundleTotalPrice(packageTotal)
+        totalPriceWidget.viewModel.setBundleTotalPrice(packageTotal)
     }
 
     private fun setHotelBundleWidgetGuestsAndDatesText(packageResponse: BundleSearchResponse) {
@@ -453,14 +450,14 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : Presente
         bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
 
         val rate = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
-        bottomCheckoutContainer.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+        totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
     }
 
     fun resetToLoadedHotels() {
         Db.sharedInstance.packageParams.currentFlights = Db.sharedInstance.packageParams.defaultFlights
 
         //revert bundle view to be the state loaded hotels
-        bottomCheckoutContainer.totalPriceWidget.resetPriceWidget()
+        totalPriceWidget.resetPriceWidget()
         bundleWidget.revertBundleViewToSelectHotel()
         bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
     }

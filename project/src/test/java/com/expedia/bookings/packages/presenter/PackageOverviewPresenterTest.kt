@@ -8,7 +8,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
@@ -16,11 +15,9 @@ import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageCostSummaryBreakdownViewModel
-import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
@@ -104,28 +101,16 @@ class PackageOverviewPresenterTest {
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.show(overviewPresenter.webCheckoutView)
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
-        overviewPresenter.checkoutButton.performClick()
+        overviewPresenter.bottomCheckoutContainer.checkoutButton.performClick()
 
         assertEquals(View.VISIBLE, overviewPresenter.webCheckoutView.visibility)
-        assertEquals(View.GONE, overviewPresenter.getCheckoutPresenter().visibility)
-    }
-
-    @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
-    fun testPackageCheckoutViewOpenedWithMIDCheckoutDisabled() {
-        setupOverviewPresenter()
-        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
-        overviewPresenter.checkoutButton.performClick()
-
-        assertEquals(View.VISIBLE, overviewPresenter.getCheckoutPresenter().visibility)
-        assertEquals(View.GONE, overviewPresenter.webCheckoutView.visibility)
     }
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testPackageBundleWidgetTitleTextFromMultiItemResponse() {
         setupOverviewPresenter()
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
 
         assertEquals("Step 1: Select hotel", overviewPresenter.bundleWidget.stepOneText.text)
         assertEquals("Step 2: Select outbound flight", overviewPresenter.bundleWidget.stepTwoText.text)
@@ -137,7 +122,7 @@ class PackageOverviewPresenterTest {
     fun testBundleHotelWidgetDatesAndGuestTextForMID() {
         setupOverviewPresenter()
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
         assertEquals(overviewPresenter.bundleWidget.bundleHotelWidget.hotelsDatesGuestInfoText.text, "Sep 7 - Sep 10, 2 guests")
     }
 
@@ -150,7 +135,7 @@ class PackageOverviewPresenterTest {
 
         val totalPriceWidget = overviewPresenter.totalPriceWidget
         totalPriceWidget.viewModel.totalPriceContainerDescription.subscribe(testObserver)
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
         assertEquals(View.VISIBLE, totalPriceWidget.betterSavingContainer.visibility)
         assertEquals("$100.23", totalPriceWidget.betterSavingView.text)
         assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
@@ -171,7 +156,7 @@ class PackageOverviewPresenterTest {
 
         val totalPriceWidget = overviewPresenter.totalPriceWidget
         totalPriceWidget.viewModel.totalPriceContainerDescription.subscribe(testObserver)
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
         assertEquals(View.GONE, totalPriceWidget.betterSavingContainer.visibility)
         assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
         assertEquals(View.GONE, totalPriceWidget.bundleReferenceTotalPrice.visibility)
@@ -185,7 +170,7 @@ class PackageOverviewPresenterTest {
     fun testWithoutBundleBetterSavingsBottomBar() {
         setupOverviewPresenter()
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
         val totalPriceWidget = overviewPresenter.totalPriceWidget
         assertEquals(View.GONE, totalPriceWidget.betterSavingContainer.visibility)
         assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
@@ -221,9 +206,9 @@ class PackageOverviewPresenterTest {
         val testSubscriber = TestObserver.create<String>()
         setupOverviewPresenter()
         overviewPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+        overviewPresenter.createTripViewModel.packageServices = packageServiceRule.services!!
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
         overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.onNext(true)
 
         val currentURLIndex = testSubscriber.valueCount() - 1
@@ -234,7 +219,7 @@ class PackageOverviewPresenterTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testPackageOverviewHeaderFromMultiItemResponse() {
         setupOverviewPresenter()
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
 
         assertTrue(overviewPresenter.bundleOverviewHeader.isExpandable)
         assertEquals("Thu Dec 07, 2017 - Fri Dec 08, 2017", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.checkInOutDates.text)
@@ -251,7 +236,7 @@ class PackageOverviewPresenterTest {
         val vm = overviewPresenter.totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel
         vm.packageCostSummaryObservable.subscribe(testSubscriber)
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
 
         assertEquals(PackageCostSummaryBreakdownModel(null, null, "$300.23", "$100.23", "$200"), testSubscriber.values()[0])
     }
@@ -260,7 +245,7 @@ class PackageOverviewPresenterTest {
                                                 displayCurrency: MandatoryFees.DisplayCurrency,
                                                 expectedTotalPrice: String) {
         setupOverviewPresenter(displayType, displayCurrency)
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
 
         assertEquals(expectedTotalPrice, overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleTotalPrice.text)
         assertEquals("$100.23 Saved", overviewPresenter.bottomCheckoutContainer.totalPriceWidget.bundleSavings.text)
@@ -314,24 +299,24 @@ class PackageOverviewPresenterTest {
                 "$200")
     }
 
-    @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
-    fun testCacheResponseUsedOnChangeHotelRoomBack() {
-        setupOverviewPresenter()
-        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
-
-        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
-
-        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
-
-        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
-
-        assertNull(Db.getCachedPackageResponse())
-
-        overviewPresenter.onChangeHotelRoomClicked()
-
-        assertNotNull(Db.getCachedPackageResponse())
-    }
+//    @Test
+//    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+//    fun testCacheResponseUsedOnChangeHotelRoomBack() {
+//        setupOverviewPresenter()
+//        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+//
+//        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+//
+//        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+//
+//        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+//
+//        assertNull(Db.getCachedPackageResponse())
+//
+//        overviewPresenter.onChangeHotelRoomClicked()
+//
+//        assertNotNull(Db.getCachedPackageResponse())
+//    }
 
     @Test
     fun testFilterResetAfterChangeHotel() {
@@ -342,55 +327,55 @@ class PackageOverviewPresenterTest {
         assertTrue(Db.sharedInstance.packageParams.filterOptions!!.isEmpty())
     }
 
-    @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
-    fun testCacheResponseUsedOnChangeHotelBack() {
-        setupOverviewPresenter()
-        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
-
-        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
-
-        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
-
-        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
-
-        assertNull(Db.getCachedPackageResponse())
-
-        overviewPresenter.onChangeHotelClicked()
-
-        val actualCachedResponse = Db.getCachedPackageResponse()
-        assertNotNull(actualCachedResponse)
-
-        Db.setPackageResponse(null)
-
-        val newIntent = Shadows.shadowOf(activity).peekNextStartedActivity()
-        val packageHotelActivity = Robolectric.buildActivity(PackageHotelActivity::class.java, newIntent).create().get()
-
-        val hoteSearchResponse = HotelSearchResponse()
-        hoteSearchResponse.hotelList = mockPackageServiceRule.getMIDHotelResponse().getHotels()
-        packageHotelActivity.hotelsPresenter.resultsPresenter.adapter.resultsSubject.onNext(hoteSearchResponse)
-
-        packageHotelActivity.onBackPressed()
-
-        assertNotNull(Db.getPackageResponse())
-        assertNull(Db.getCachedPackageResponse())
-    }
+//    @Test
+//    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+//    fun testCacheResponseUsedOnChangeHotelBack() {
+//        setupOverviewPresenter()
+//        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+//
+//        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+//
+//        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+//
+//        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+//
+//        assertNull(Db.getCachedPackageResponse())
+//
+//        overviewPresenter.onChangeHotelClicked()
+//
+//        val actualCachedResponse = Db.getCachedPackageResponse()
+//        assertNotNull(actualCachedResponse)
+//
+//        Db.setPackageResponse(null)
+//
+//        val newIntent = Shadows.shadowOf(activity).peekNextStartedActivity()
+//        val packageHotelActivity = Robolectric.buildActivity(PackageHotelActivity::class.java, newIntent).create().get()
+//
+//        val hoteSearchResponse = HotelSearchResponse()
+//        hoteSearchResponse.hotelList = mockPackageServiceRule.getMIDHotelResponse().getHotels()
+//        packageHotelActivity.hotelsPresenter.resultsPresenter.adapter.resultsSubject.onNext(hoteSearchResponse)
+//
+//        packageHotelActivity.onBackPressed()
+//
+//        assertNotNull(Db.getPackageResponse())
+//        assertNull(Db.getCachedPackageResponse())
+//    }
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMidCheckoutViewShowsAfterGoingBackFromOverviewScreenToCheckout() {
         setupOverviewPresenter()
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+        overviewPresenter.createTripViewModel.packageServices = packageServiceRule.services!!
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
 
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.show(overviewPresenter.webCheckoutView)
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
 
-        overviewPresenter.checkoutButton.performClick()
+        overviewPresenter.bottomCheckoutContainer.checkoutButton.performClick()
         overviewPresenter.webCheckoutView.viewModel.backObservable.onNext(Unit)
-        overviewPresenter.checkoutButton.performClick()
+        overviewPresenter.bottomCheckoutContainer.checkoutButton.performClick()
 
         assert((Shadows.shadowOf(overviewPresenter.webCheckoutView.webView).lastLoadedUrl).contains("https://www.${PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid="))
     }
@@ -401,14 +386,14 @@ class PackageOverviewPresenterTest {
         setupOverviewPresenter()
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
         overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+        overviewPresenter.createTripViewModel.packageServices = packageServiceRule.services!!
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
 
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.show(overviewPresenter.webCheckoutView)
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
-        overviewPresenter.checkoutButton.performClick()
+        overviewPresenter.bottomCheckoutContainer.checkoutButton.performClick()
 
         maskWebCheckoutActivityObservable.assertValue(true)
     }
@@ -419,14 +404,14 @@ class PackageOverviewPresenterTest {
         setupOverviewPresenter()
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
         overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+        overviewPresenter.createTripViewModel.packageServices = packageServiceRule.services!!
 
-        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.viewModel.performMIDCreateTripSubject.onNext(Unit)
 
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.show(overviewPresenter.webCheckoutView)
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
-        overviewPresenter.checkoutButton.performClick()
+        overviewPresenter.bottomCheckoutContainer.checkoutButton.performClick()
 
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
         overviewPresenter.webCheckoutView.viewModel.backObservable.onNext(Unit)
@@ -435,18 +420,18 @@ class PackageOverviewPresenterTest {
         maskWebCheckoutActivityObservable.assertValues(true, false)
     }
 
-    @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
-    fun testMIDCloseWebViewOnOverviewScreenDoesNothing() {
-        setupOverviewPresenter()
-        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
-
-        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
-
-        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
-
-        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
-    }
+//    @Test
+//    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+//    fun testMIDCloseWebViewOnOverviewScreenDoesNothing() {
+//        setupOverviewPresenter()
+//        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+//
+//        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+//
+//        (overviewPresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).closeView.onNext(Unit)
+//
+//        assertTrue(overviewPresenter.getCheckoutPresenter().visibility == View.VISIBLE)
+//    }
 
     @Test
     fun testResetToLoadedOutboundFlights() {
