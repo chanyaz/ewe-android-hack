@@ -373,7 +373,7 @@ public class Money {
 		// TODO: Remove this once Number Format Library starts giving us correct Currency Format for IT
 		if (currencyCode.equals("EUR") && Locale.getDefault().equals(Locale.ITALY)) {
 			String currencySymbol = nf.getCurrency().getSymbol();
-//			currency is reversed, eg 34,00 €
+			// currency is reversed, eg 34,00 €
 			if (formattedAmount.endsWith(currencySymbol)) {
 				String[] amountAndCurrencySymbol = formattedAmount.split("\\s+");
 				if (amountAndCurrencySymbol.length > 1 && amountAndCurrencySymbol[1].matches(currencySymbol)) {
@@ -387,7 +387,7 @@ public class Money {
 					}
 				}
 			}
-//			formatted but without a space, eg -€34,00
+			// formatted but without a space, eg -€34,00
 			else if (formattedAmount.startsWith(nf.getNegativePrefix()) && !formattedAmount.startsWith(nf.getNegativePrefix() + " ")) {
 				formattedAmount = formattedAmount.replace(nf.getNegativePrefix(), nf.getNegativePrefix() + " ");
 			}
