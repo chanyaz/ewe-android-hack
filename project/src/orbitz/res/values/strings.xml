@@ -112,6 +112,32 @@
     <string name="reward_launch_card_text_content_description">Orbitz rewards. Book on app get 5% back just like that. Double tap to learn how</string>
 
     <!--Join Now launch card-->
-    <string name="join_now_launch_card_text">Book on app and get 5% back – just like that! Redeem instantly on hotels and travel perks.</string>
+    <string name="join_now_launch_card_text">Book on app, get 5% back – just like that!\nSave on hotels and earn free travel perks.</string>
     <string name="join_rewards_button_text">Join Rewards</string>
+
+    <!-- Join Now Modal -->
+    <string name="join_rewards_member_title">It’s free to join\nOrbitz Rewards</string>
+    <!--Terms message displayed before user joins rewards program.-->
+    <string name="agree_to_terms_text_TEMPLATE">By joining I accept the &lt;a href="{terms_url}">Terms&lt;/a>.</string>
+    <!--Detail message displayed before user joins rewards program.-->
+    <string name="first_reason_to_join">Earn Orbucks when you book</string>
+    <!--Detail message displayed before user joins rewards program.-->
+    <string name="second_reason_to_join">Cash in to save on hotels</string>
+    <!--Detail message displayed before user joins rewards program.-->
+    <string name="third_reason_to_join">Unlock free travel perks</string>
+    <!--CTA message displayed before user joins rewards program.-->
+    <string name="join_now">Join Now</string>
+    <!--CTA message displayed before user joins rewards program.-->
+    <string name="maybe_later">Maybe Later</string>
+    <!--Success message displayed after user joins rewards program.-->
+    <string name="your_in_title">You\'re in!\nStart earning today.</string>
+    <!--CTA button displayed after user successfully joins rewards program.-->
+    <string name="book_travel">Book Travel</string>
+    <!--Error message displayed after user attempts to join rewards program.-->
+    <string name="error_with_request">Something\nwent wrong.</string>
+    <!--Retry button after users attempts to join rewards program and api call fails-->
+    <string name="try_again">Try Again</string>
+    <!--Loading message displayed during loading screen after user attempts to join rewards program.-->
+    <string name="loading_message">You\'ll be earning rewards in no time</string>
+
 </resources>

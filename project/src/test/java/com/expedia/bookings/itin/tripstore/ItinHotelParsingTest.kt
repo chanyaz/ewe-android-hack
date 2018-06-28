@@ -5,11 +5,16 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.test.ExcludeForBrands
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.mocke3.mockObject
 import org.junit.Test
+import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+@RunWith(RobolectricRunner::class)
 class ItinHotelParsingTest {
     @Test
     fun testItinParsing() {
@@ -51,6 +56,7 @@ class ItinHotelParsingTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testHotelRoomTotalPriceDetailsParsing() {
         val room = getMockHotelRooms()?.first()
 
@@ -67,6 +73,7 @@ class ItinHotelParsingTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testPriceDetailsPerDayParsing() {
         val priceDetail = getMockHotelRooms()?.firstOrNull()?.totalPriceDetails?.priceDetailsPerDay?.firstOrNull()
 

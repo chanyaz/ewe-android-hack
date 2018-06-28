@@ -32,7 +32,7 @@
 
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
-    <string name="open_source_names">ActiveAndroid, ButterKnife, Dagger, FlowLayout, Gson, JodaTime, joda-time-android, OkHttp, Okio, Otto, Phrase, Picasso, Retrofit, RxAndroid, RxJava, ShareEverywhere, svg-android</string>
+    <string name="open_source_names">ActiveAndroid, ButterKnife, Dagger, FlowLayout, Gson, JodaTime, joda-time-android, Konfetti, OkHttp, Okio, Otto, Phrase, Picasso, Retrofit, RxAndroid, RxJava, ShareEverywhere, svg-android</string>
 
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">159126</string>
@@ -480,13 +480,9 @@
     <string name="amenity_key_family_unknown">unknown</string>
 
     <!--Reward launch card (Orbitz Only)-->
-    <string name="reward_launch_card_background_url"></string>
-    <string name="reward_webview_url"></string>
-    <string name="reward_launch_card_text_content_description"></string>
-
-    <!--Join Now launch card (Orbitz Only)-->
-    <string name="join_now_launch_card_text"></string>
-    <string name="join_rewards_button_text"></string>
+    <string name="reward_launch_card_background_url"/>
+    <string name="reward_webview_url"/>
+    <string name="reward_launch_card_text_content_description"/>
 
     <!--Carnival OLACID Template-->
     <string name="carnival_default_olacid_TEMPLATE">OLA.{brand}-{pos}.PUSH-EVENT-TRIG.CARNIVAL.UNSPECIFIED.GENERIC</string>

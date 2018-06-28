@@ -27,11 +27,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
@@ -43,6 +45,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.itin.triplist.TripListFragment
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
+import com.expedia.bookings.launch.interfaces.UserHasSuccessfullyJoinedRewards
 import com.expedia.bookings.launch.widget.LaunchListLogic
 import com.expedia.bookings.launch.widget.LaunchTabView
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
@@ -92,7 +95,7 @@ import javax.inject.Inject
 
 class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, TripListFragment.TripListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
-        , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
+        , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener, UserHasSuccessfullyJoinedRewards {
     private var pagerSelectedPosition = PAGER_POS_LAUNCH
 
     lateinit var appStartupTimeLogger: AppStartupTimeLogger
@@ -825,6 +828,15 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
 
         return events
+    }
+
+    override fun onJoinRewardsSuccess() {
+        if (Ui.isAdded(phoneLaunchFragment)) {
+            val loyalty = UserLoyaltyMembershipInformation()
+            loyalty.loyaltyMembershipTier = LoyaltyMembershipTier.BASE
+            userStateManager.userSource.user?.loyaltyMembershipInformation = loyalty
+            phoneLaunchFragment?.userVisibleHint = true
+        }
     }
 
     companion object {

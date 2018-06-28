@@ -10,6 +10,8 @@ import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.tripstore.data.Traveler
 import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -43,6 +45,7 @@ class LxItinToolbarTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testCorrectTextGenerated() {
         val testObserver = TestObserver<ItinShareTextGenerator>()
         sut.viewModel.itinShareTextGeneratorSubject.subscribe(testObserver)

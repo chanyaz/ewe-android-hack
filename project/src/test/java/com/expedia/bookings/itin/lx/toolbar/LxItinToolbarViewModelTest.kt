@@ -18,11 +18,16 @@ import com.expedia.bookings.itin.utils.IPOSInfoProvider
 import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
+@RunWith(RobolectricRunner::class)
 class LxItinToolbarViewModelTest {
     @Rule
     @JvmField
@@ -79,6 +84,7 @@ class LxItinToolbarViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testItinLxShareText() {
         val lx = ItinMocker.lxDetailsAlsoHappy.firstLx()
         val shareTextGeneratorTestObserver = TestObserver<ItinShareTextGenerator>()

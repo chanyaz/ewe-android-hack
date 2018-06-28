@@ -3,12 +3,17 @@ package com.expedia.bookings.featureconfig;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -102,6 +107,11 @@ public abstract class BaseFeatureConfiguration {
 
 	public int getRewardsLayoutId() {
 		return 0;
+	}
+
+	public RecyclerView.ViewHolder getJoinRewardsViewHolder(@Nonnull AppCompatActivity appCompatActivity, @Nonnull ViewGroup parent) {
+		return new RecyclerView.ViewHolder(new View(appCompatActivity)) {
+		};
 	}
 
 	/**

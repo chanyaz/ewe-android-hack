@@ -19,13 +19,18 @@ import com.expedia.bookings.itin.utils.IPOSInfoProvider
 import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricRunner::class)
 class CarItinToolbarViewModelTest {
     private lateinit var sut: CarItinToolbarViewModel<MockScope>
     private lateinit var mockScope: MockScope
@@ -75,6 +80,7 @@ class CarItinToolbarViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShareMessages() {
         shareTextGeneratorTestObserver.assertNoValues()
         sut.itinObserver.onChanged(ItinMocker.carDetailsHappy)
@@ -103,6 +109,7 @@ class CarItinToolbarViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShareMessagesForEmptyTrip() {
         shareTextGeneratorTestObserver.assertNoValues()
         sut.itinObserver.onChanged(ItinMocker.emptyTrip)

@@ -10,6 +10,8 @@ import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.ExcludeForBrands
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.launch.LaunchScreenHotelAttachViewModel
@@ -89,6 +91,7 @@ class LaunchScreenHotelAttachViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun addOnContentDescriptionIsFormattedCorrectly() {
         val expiryDateTime = LocalDateTime.now()
         val contentDesc = "Add-On Advantage. You unlocked up to 43% off hotels because you booked on Expedia. Button"

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
@@ -46,8 +48,8 @@ import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LaunchNavBucketCache;
-import com.expedia.bookings.widget.HotelAttachCardViewHolder;
 import com.expedia.bookings.widget.CollectionViewHolder;
+import com.expedia.bookings.widget.HotelAttachCardViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenHotelAttachCard;
 import com.expedia.bookings.widget.LaunchScreenAddOnHotMIPCard;
@@ -241,8 +243,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		if (viewType == LaunchDataItem.JOIN_REWARDS_CARD_VIEW) {
-			View view = LayoutInflater.from(context).inflate(R.layout.join_rewards_launch_card,parent, false);
-			return new JoinRewardsLaunchViewHolder(view);
+			return ProductFlavorFeatureConfiguration.getInstance().getJoinRewardsViewHolder((AppCompatActivity) context, parent);
 		}
 
 		if (viewType == LaunchDataItem.CUSTOMER_FIRST_GUARANTEE) {

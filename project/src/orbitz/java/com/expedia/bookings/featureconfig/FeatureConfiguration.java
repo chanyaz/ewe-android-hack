@@ -1,13 +1,21 @@
 package com.expedia.bookings.featureconfig;
 
 
+import javax.annotation.Nonnull;
+
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.launch.viewholder.JoinRewardsLaunchViewHolder;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 
@@ -60,6 +68,12 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 	@Override
 	public int getRewardsLayoutId() {
 		return R.layout.bucks_widget_stub;
+	}
+
+	@Override
+	public RecyclerView.ViewHolder getJoinRewardsViewHolder(@Nonnull AppCompatActivity appCompatActivity, @Nonnull ViewGroup parent) {
+		View view = LayoutInflater.from(appCompatActivity).inflate(R.layout.join_rewards_launch_card, parent, false);
+		return new JoinRewardsLaunchViewHolder(view, appCompatActivity);
 	}
 
 	private static final String[] rewardTierAPINames = new String[] { "SILVER", "GOLD", "PLATINUM" };

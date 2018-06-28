@@ -45,7 +45,7 @@ public interface ExpediaAccountApi {
 		@FieldMap Map<String, String> extraParams
 	);
 
-	@POST("api/user/rewards/join")
+	@POST("m/api/user/rewards/join")
 	Observable<JoinRewardsResponse> joinRewards();
 
 	///////////////////////////////////////////////////////////////////////////

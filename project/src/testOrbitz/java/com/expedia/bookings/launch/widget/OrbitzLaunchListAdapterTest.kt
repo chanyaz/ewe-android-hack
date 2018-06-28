@@ -1,4 +1,4 @@
-package com.expedia.bookings.launch.orbitz
+package com.expedia.bookings.launch.widget
 
 import android.app.Activity
 import android.content.Context
@@ -15,11 +15,6 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
-import com.expedia.bookings.launch.widget.LaunchCollectionDataItem
-import com.expedia.bookings.launch.widget.LaunchDataItem
-import com.expedia.bookings.launch.widget.LaunchHotelDataItem
-import com.expedia.bookings.launch.widget.LaunchListAdapterTest
-import com.expedia.bookings.launch.widget.LaunchListLogic
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -78,7 +73,9 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(5))
     }
 
     @Test
@@ -89,8 +86,10 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(6))
     }
 
     @Test
@@ -104,7 +103,9 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.JOIN_REWARDS_CARD_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(2))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(6))
     }
 
     @Test
@@ -117,7 +118,9 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(5))
     }
 
     @Test
@@ -146,9 +149,11 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(7))
     }
 
     @Test
@@ -161,9 +166,11 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(2))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(5))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(7))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(8))
     }
 
     @Test
@@ -176,9 +183,11 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(2))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(5))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(7))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(8))
     }
 
     @Test
@@ -191,9 +200,11 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.ITIN_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(2))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(5))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(7))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(8))
     }
 
     @Test
@@ -206,16 +217,20 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(7))
 
         givenCustomerSignedOut()
         givenWeHaveCurrentLocationAndHotels()
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, adapterUnderTest.getItemViewType(1))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(2))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(5))
     }
 
     @Test
@@ -227,9 +242,11 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, adapterUnderTest.getItemViewType(7))
     }
 
     @Test
@@ -241,9 +258,11 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, adapterUnderTest.getItemViewType(7))
     }
 
     @Test
@@ -255,9 +274,11 @@ class OrbitzLaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.HOTEL_MIP_ATTACH_VIEW, adapterUnderTest.getItemViewType(1))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(4))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(6))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(7))
     }
 
     @Test
@@ -267,7 +288,7 @@ class OrbitzLaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels)
 
-        val fixedItemCount = 5 // lob view, header view, member deals, rewards card, hot mip
+        val fixedItemCount = 7 // lob view, header view, member deals, rewards card, hot mip
         val expectedCount = fixedItemCount + numberOfHotels
         val actualCount = adapterUnderTest.itemCount
         assertEquals(expectedCount, actualCount)
@@ -280,7 +301,7 @@ class OrbitzLaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveStaffPicks(numberOfStaffPicks)
 
-        val fixedItemCount = 5 // lob view, header view, member deals, rewards card, hot mip
+        val fixedItemCount = 7 // lob view, header view, member deals, rewards card, hot mip
         val expectedCount = fixedItemCount + numberOfStaffPicks
         assertEquals(expectedCount, adapterUnderTest.itemCount)
     }
@@ -293,9 +314,11 @@ class OrbitzLaunchListAdapterTest {
 
         assertEquals(LaunchDataItem.LOB_VIEW, adapterUnderTest.getItemViewType(0))
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, adapterUnderTest.getItemViewType(1))
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(2))
-        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(3))
-        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW, adapterUnderTest.getItemViewType(2))
+        assertEquals(LaunchDataItem.LAST_MINUTE_DEALS, adapterUnderTest.getItemViewType(3))
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, adapterUnderTest.getItemViewType(4))
+        assertEquals(LaunchDataItem.HEADER_VIEW, adapterUnderTest.getItemViewType(5))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, adapterUnderTest.getItemViewType(6))
     }
 
     private fun givenWeHaveStaffPicks(numberOfStaffPicks: Int = 5) {

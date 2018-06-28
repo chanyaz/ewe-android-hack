@@ -37,7 +37,7 @@
             android:textAlignment="center"
             android:fontFamily="sans-serif"
             android:textStyle="normal"
-            android:textColor="@color/launch_mobile_exclusive"
+            android:textColor="@color/join_rewards_main_text_color"
             android:lineSpacingExtra="3sp"
             android:gravity="center_horizontal"
             android:text="@string/join_now_launch_card_text"/>

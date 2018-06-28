@@ -13,6 +13,8 @@ import com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.test.ExcludeForBrands
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
@@ -76,6 +78,7 @@ class HotelItinBookingDetailsTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testPriceSummaryButtonHappy() {
         bookingDetailsWidget.readJsonUtil = MockReadJsonUtil
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)

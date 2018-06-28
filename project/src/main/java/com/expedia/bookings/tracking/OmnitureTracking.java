@@ -2496,6 +2496,41 @@ public class OmnitureTracking {
 	}
 
 	////////////////////////////
+	// Join Rewards - Orbitz
+	private static final String JOIN_REWARDS_JOIN_NOW = "App.Rewards.Orbitz.JoinNow";
+	private static final String JOIN_REWARDS_MAYBE_LATER = "App.Rewards.Orbitz.Later";
+	private static final String JOIN_REWARDS_SUCCESS = "App.Rewards.Orbitz.Success";
+	private static final String JOIN_REWARDS_ERROR = "App.Rewards.Orbitz.Error";
+	private static final String JOIN_REWARDS_BOOK_TRAVEL = "App.Rewards.Orbitz.BookTravel";
+
+	public static void trackTapJoinRewardsJoinNowModal() {
+		AppAnalytics s = createTrackLinkEvent(JOIN_REWARDS_JOIN_NOW);
+		s.trackLink("Rewards Registration");
+	}
+
+	public static void trackTapJoinRewardsMaybeLaterModal() {
+		AppAnalytics s = createTrackLinkEvent(JOIN_REWARDS_MAYBE_LATER);
+		s.trackLink("Rewards Registration");
+	}
+
+	public static void trackJoinRewardsSuccess() {
+		AppAnalytics s = createTrackLinkEvent(JOIN_REWARDS_SUCCESS);
+		s.appendEvents("event61");
+		s.trackLink("Rewards Registration");
+	}
+
+	public static void trackJoinRewardsError(String errorInfo) {
+		AppAnalytics s = createTrackLinkEvent(JOIN_REWARDS_ERROR);
+		s.setProp(36,"App:OrbitzRewards: " + errorInfo);
+		s.trackLink("Rewards Registration");
+	}
+
+	public static void trackJoinRewardsBookTravel() {
+		AppAnalytics s = createTrackLinkEvent(JOIN_REWARDS_BOOK_TRAVEL);
+		s.trackLink("Rewards Registration");
+	}
+
+	////////////////////////////
 	// Air Attach
 
 	private static final String AIR_ATTACH_ELIGIBLE = "App.Flight.CKO.AttachEligible";
