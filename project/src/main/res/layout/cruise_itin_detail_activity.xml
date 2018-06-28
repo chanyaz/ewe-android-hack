@@ -17,4 +17,31 @@
             android:minHeight="?attr/actionBarSize" />
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/itin_background"
+        android:fadingEdge="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="19dp"
+            android:paddingTop="19dp">
+
+            <com.expedia.bookings.itin.common.ItinImageWidget
+                android:id="@+id/itin_image_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.expedia.bookings.itin.common.ItinTimingsWidget
+                android:id="@+id/itin_timings_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </LinearLayout>
