@@ -3,6 +3,9 @@ package com.expedia.bookings.itin.common
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -14,7 +17,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CustomCap
 import com.google.android.gms.maps.model.Dash
@@ -32,6 +34,7 @@ class GoogleMapsLiteMapView(context: Context, attributeSet: AttributeSet) : Fram
     private val DEFAULT_ZOOM = 14f
     private val DEFAULT_ICON = R.drawable.map_marker_blue
     private val AIRPORT_ICON = R.drawable.flight_itin_map_airport_icon
+    private val PIN_COLOR = R.color.itin_map_pin_color
     private lateinit var viewModel: GoogleMapsLiteViewModel
 
     init {
@@ -77,25 +80,27 @@ class GoogleMapsLiteMapView(context: Context, attributeSet: AttributeSet) : Fram
                         .pattern(listOf<PatternItem>(Dash(30f), Gap(20f)))
                         .jointType(JointType.ROUND)
                         .geodesic(true)
-                        .startCap(CustomCap(bitmapDescriptorFromVector(context, AIRPORT_ICON), 6f))
-                        .endCap(CustomCap(bitmapDescriptorFromVector(context, AIRPORT_ICON), 6f))
+                        .startCap(CustomCap(BitmapDescriptorFactory.fromBitmap(bitmapFromVector(context, AIRPORT_ICON)), 6f))
+                        .endCap(CustomCap(BitmapDescriptorFactory.fromBitmap(bitmapFromVector(context, AIRPORT_ICON)), 6f))
                 map?.addPolyline(options)
             }
         }
     }
 
-    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor {
-        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
+    fun bitmapFromVector(context: Context, @DrawableRes vectorResId: Int, @ColorRes colorResId: Int = 0, vectorDrawable: Drawable = ContextCompat.getDrawable(context, vectorResId)!!.mutate()): Bitmap {
         vectorDrawable.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
+        if (colorResId != 0) {
+            vectorDrawable.setTint(ContextCompat.getColor(context, colorResId))
+        }
         val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         vectorDrawable.draw(Canvas(bitmap))
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
+        return bitmap
     }
 
     private fun addMarker(map: GoogleMap?, latLng: LatLng) {
         val markerOptions = MarkerOptions()
         markerOptions.position(latLng)
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(DEFAULT_ICON))
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmapFromVector(context, DEFAULT_ICON, PIN_COLOR)))
         map?.addMarker(markerOptions)
     }
 

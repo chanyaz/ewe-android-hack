@@ -95,6 +95,9 @@
     <color name="itin_taxi_background_color">@color/gray800</color>
     <color name="itin_link_off_card_chevron">@color/gray600</color>
     <color name="itin_action_vertical_divider_color">@color/gray200</color>
+    <color name="itin_map_pin_color">@color/app_primary</color>
+    <color name="itin_booking_info_color">@color/gray900</color>
+    <color name="itin_message_hotel_icon_color">@color/blue2</color>
 
     <!-- Old Flights colors -->
     <color name="flight_trip">#0D6599</color>

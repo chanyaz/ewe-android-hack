@@ -54,7 +54,7 @@
     <color name="itin_summary_divider_color">@color/neutral600</color>
     <color name="itin_unable_to_find_error_color">@color/accent5</color>
     <color name="itin_no_button">@color/neutral400</color>
-    <color name="itin_sign_in_toolbar_color">@color/accent1</color>
+    <color name="itin_sign_in_toolbar_color">@color/accent2</color>
     <color name="itin_sign_in_button_background_color">@color/brand1</color>
     <color name="itin_sign_in_button_text_color">@color/neutral900</color>
     <color name="itin_refresh_warning_button_background_color">@color/accent2</color>
@@ -63,7 +63,7 @@
     <color name="itin_find_toolbar_color">@color/accent2</color>
     <color name="itin_summary_button_text_color">@color/accent2</color>
     <color name="itin_card_action_item_text_color">@color/accent2</color>
-    <color name="itin_add_guest_text_button_color">@color/accent1</color>
+    <color name="itin_add_guest_text_button_color">@color/accent2</color>
     <color name="itin_status_indicator_success">@color/accent4</color>
     <color name="itin_status_indicator_error">@color/accent5</color>
     <color name="itin_flight_manage_booking_header_color">@color/neutral900</color>
@@ -76,6 +76,9 @@
     <color name="itin_taxi_background_color">@color/neutral800</color>
     <color name="itin_link_off_card_chevron">@color/neutral600</color>
     <color name="itin_action_vertical_divider_color">@color/neutral200</color>
+    <color name="itin_map_pin_color">@color/accent2</color>
+    <color name="itin_message_hotel_icon_color">@color/accent2</color>
+    <color name="itin_booking_info_color">@color/neutral700</color>
 
     <!-- Old Flights colors -->
     <!-- TODO: Delete all of this? -->
