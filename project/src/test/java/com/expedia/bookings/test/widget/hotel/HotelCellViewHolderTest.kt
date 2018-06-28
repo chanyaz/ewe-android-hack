@@ -240,6 +240,26 @@ class HotelCellViewHolderTest {
         testObserver.assertValue(-1)
     }
 
+    @Test
+    fun testHandleHotelInFavoriteSubject() {
+        val hotel = makeHotel()
+        hotelViewHolder.bindHotelData(hotel)
+        hotelViewHolder.favoriteIcon.setImageDrawable(getContext().getDrawable(R.drawable.favorites_empty_heart))
+
+        hotelViewHolder.viewModel.hotelInFavoriteSubject.onNext(Unit)
+        assertEquals(getContext().getDrawable(R.drawable.ic_favorite_active), hotelViewHolder.favoriteIcon.drawable)
+    }
+
+    @Test
+    fun testHandleHotelNotInFavoriteSubject() {
+        val hotel = makeHotel()
+        hotelViewHolder.bindHotelData(hotel)
+        hotelViewHolder.favoriteIcon.setImageDrawable(getContext().getDrawable(R.drawable.favorites_empty_heart))
+
+        hotelViewHolder.viewModel.hotelNotInFavoriteSubject.onNext(Unit)
+        assertEquals(getContext().getDrawable(R.drawable.ic_favorite_inactive), hotelViewHolder.favoriteIcon.drawable)
+    }
+
     private fun loginUser() {
         val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
         val user = User()

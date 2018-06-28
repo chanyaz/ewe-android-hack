@@ -104,5 +104,7 @@ class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(c
             updateRecyclerForUndo(index)
         }
         viewModel.favoritesEmptySubject.subscribe { updateViews() }
+
+        viewModel.favoriteRemovedFromCacheSubject.subscribe { updateViews() }
     }
 }

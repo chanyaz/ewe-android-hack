@@ -18,9 +18,19 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
 
     abstract fun createHotelViewModel(context: Context): HotelViewModel
 
+    private val favoriteActiveDrawable = ContextCompat.getDrawable(root.context, R.drawable.ic_favorite_active)
+    private val favoriteInactiveDrawable = ContextCompat.getDrawable(root.context, R.drawable.ic_favorite_inactive)
+
     var hotelId: String by Delegates.notNull()
     val viewModel: HotelViewModel by lazy {
-        createHotelViewModel(itemView.context)
+        val vm = createHotelViewModel(itemView.context)
+        vm.hotelInFavoriteSubject.subscribe {
+            favoriteIcon.setImageDrawable(favoriteActiveDrawable)
+        }
+        vm.hotelNotInFavoriteSubject.subscribe {
+            favoriteIcon.setImageDrawable(favoriteInactiveDrawable)
+        }
+        vm
     }
 
     @CallSuper
@@ -104,11 +114,11 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
 
     private fun toggleFavoriteHotel() {
         if (viewModel.isFavoriteHotel()) {
-            favoriteIcon.setImageDrawable(ContextCompat.getDrawable(root.context, R.drawable.ic_favorite_inactive))
             favoriteRemovedSubject.onNext(hotelId)
+            favoriteIcon.setImageDrawable(favoriteInactiveDrawable)
         } else {
-            favoriteIcon.setImageDrawable(ContextCompat.getDrawable(root.context, R.drawable.ic_favorite_active))
             favoriteAddedSubject.onNext(hotelId)
+            favoriteIcon.setImageDrawable(favoriteActiveDrawable)
         }
     }
 }

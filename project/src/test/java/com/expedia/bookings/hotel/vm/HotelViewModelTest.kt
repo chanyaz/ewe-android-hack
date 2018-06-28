@@ -18,6 +18,8 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
@@ -63,6 +65,7 @@ class HotelViewModelTest {
     @Before
     fun before() {
         hotel = Hotel().apply {
+            hotelId = "hotelId"
             lowRateInfo = HotelRate()
             lowRateInfo.currencyCode = "USD"
             val pointEarnInfo = PointsEarnInfo(320, 0, 320)
@@ -81,6 +84,43 @@ class HotelViewModelTest {
             loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
             loyaltyMembershipInformation = loyaltyInfo
         }
+    }
+
+    @Test
+    fun testHotelInFavoriteSubject() {
+        assertHotelFavoriteSubject(setOf("hotelId"), true)
+    }
+
+    @Test
+    fun testHotelInFavoriteSubjectMultipleFavorites() {
+        assertHotelFavoriteSubject(setOf("hotelId3", "hotelId", "hotelId1", "hotelId2"), true)
+    }
+
+    @Test
+    fun testHotelNotInFavoriteSubject() {
+        assertHotelFavoriteSubject(setOf("hotelId1"), false)
+    }
+
+    @Test
+    fun tesHotelNotInFavoriteSubjectEmptyCache() {
+        assertHotelFavoriteSubject(emptySet(), false)
+    }
+
+    @Test
+    fun testHotelNotInFavoriteSubjectMultipleFavorites() {
+        assertHotelFavoriteSubject(setOf("hotelId3", "hotelId2", "hotelId1", "hotelId0"), false)
+    }
+
+    @Test
+    fun testCacheChangedSubjectHotelNotInitialized() {
+        vm = HotelViewModel(context)
+        val inFavoriteTestObserver = TestObserver<Unit>()
+        val notInFavoriteTestObserver = TestObserver<Unit>()
+        vm.hotelInFavoriteSubject.subscribe(inFavoriteTestObserver)
+        vm.hotelNotInFavoriteSubject.subscribe(notInFavoriteTestObserver)
+        HotelFavoritesCache.cacheChangedSubject.onNext(setOf("hotelId"))
+        inFavoriteTestObserver.assertValueCount(0)
+        notInFavoriteTestObserver.assertValueCount(0)
     }
 
     @Test
@@ -731,5 +771,21 @@ class HotelViewModelTest {
         assertEquals(backgroundColorId, msg.backgroundColorId)
         assertEquals(message, msg.message)
         assertEquals(messageTextColorId, msg.messageTextColorId)
+    }
+
+    private fun assertHotelFavoriteSubject(favorites: Set<String>, isInFavorite: Boolean) {
+        setupHotelViewModel()
+        val inFavoriteTestObserver = TestObserver<Unit>()
+        val notInFavoriteTestObserver = TestObserver<Unit>()
+        vm.hotelInFavoriteSubject.subscribe(inFavoriteTestObserver)
+        vm.hotelNotInFavoriteSubject.subscribe(notInFavoriteTestObserver)
+        HotelFavoritesCache.cacheChangedSubject.onNext(favorites)
+        if (isInFavorite) {
+            inFavoriteTestObserver.assertValueCount(1)
+            notInFavoriteTestObserver.assertValueCount(0)
+        } else {
+            inFavoriteTestObserver.assertValueCount(0)
+            notInFavoriteTestObserver.assertValueCount(1)
+        }
     }
 }

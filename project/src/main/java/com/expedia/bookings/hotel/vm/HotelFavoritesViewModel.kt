@@ -10,9 +10,11 @@ import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.ReplaySubject
 
 class HotelFavoritesViewModel(private val context: Context,
@@ -22,6 +24,7 @@ class HotelFavoritesViewModel(private val context: Context,
     var favoriteRemovedAtIndexSubject = BehaviorSubject.create<Int>()
     var favoriteAddedAtIndexSubject = BehaviorSubject.create<Int>()
     var favoritesEmptySubject = BehaviorSubject.create<Unit>()
+    var favoriteRemovedFromCacheSubject = PublishSubject.create<Unit>()
 
     var response: HotelShortlistResponse<HotelShortlistItem>? = null
         @VisibleForTesting set(value) {
@@ -48,6 +51,21 @@ class HotelFavoritesViewModel(private val context: Context,
                 receivedResponseSubject.onNext(Unit)
             })
             hotelFavoritesManager.fetchFavorites(context)
+        }
+
+        HotelFavoritesCache.cacheChangedSubject.subscribe { favorites ->
+            val favoritesToBeRemoved = ArrayList<HotelShortlistItem>()
+            for (favorite in favoritesList) {
+                val hotelId = favorite.getHotelId()
+                if (hotelId != null && !favorites.contains(hotelId)) {
+                    favoritesToBeRemoved.add(favorite)
+                }
+            }
+
+            if (favoritesToBeRemoved.isNotEmpty()) {
+                favoritesList.removeAll(favoritesToBeRemoved)
+                favoriteRemovedFromCacheSubject.onNext(Unit)
+            }
         }
     }
 

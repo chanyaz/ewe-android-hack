@@ -192,11 +192,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.guestStringSubject.subscribe(hotelResultChangeDateView.guestStringSubject)
     }
 
-    fun onResume() {
-        // favorites list might have been changed, refresh HSR list so favorite hotels are updated
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-
     private fun showSortAndFilter() {
         val anim = ValueAnimator.ofFloat(0f, 1f).setDuration(500)
         anim.interpolator = DecelerateInterpolator(2f)

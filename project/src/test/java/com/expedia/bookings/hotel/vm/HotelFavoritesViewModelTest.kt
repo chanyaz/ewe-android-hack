@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.shortlist.ShortlistItemMetadata
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.util.HotelCalendarRules
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.services.HotelShortlistServices
 import com.expedia.bookings.services.TestObserver
@@ -38,7 +39,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class])
 class HotelFavoritesViewModelTest {
 
     var shortlistServicesRule = ServicesRule(HotelShortlistServices::class.java)
@@ -78,6 +79,8 @@ class HotelFavoritesViewModelTest {
         favoritesManager = HotelFavoritesManager(shortlistServicesRule.services!!)
         viewModel = HotelFavoritesViewModel(context, userStateManager, favoritesManager)
         hotelShortlistItem = createHotelShortlistItem()
+
+        HotelFavoritesCache.clearFavorites(context)
     }
 
     @Test
@@ -187,8 +190,9 @@ class HotelFavoritesViewModelTest {
 
     @Test
     fun testRemoveHotel() {
-        viewModel.favoritesList.add(hotelShortlistItem)
-        viewModel.favoritesList.add(hotelShortlistItem)
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel1"))
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel2"))
+        HotelFavoritesCache.saveFavorites(context, setOf("hotel1", "hotel2"))
         val testRemoveObserver = TestObserver<Int>()
         val testEmptyObserver = TestObserver<Unit>()
         viewModel.favoriteRemovedAtIndexSubject.subscribe(testRemoveObserver)
@@ -263,13 +267,111 @@ class HotelFavoritesViewModelTest {
         testAddObserver.assertValueCount(0)
     }
 
-    private fun createHotelShortlistItem(): HotelShortlistItem {
+    @Test
+    fun testFavoriteRemovedFromCacheSubject() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.favoriteRemovedFromCacheSubject.subscribe(testObserver)
+
+        viewModel.favoritesList.add(createHotelShortlistItem())
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(emptySet())
+
+        assertTrue(viewModel.favoritesList.isEmpty())
+        testObserver.assertValueCount(1)
+    }
+
+    @Test
+    fun testFavoriteRemovedFromCacheSubjectEmptyList() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.favoriteRemovedFromCacheSubject.subscribe(testObserver)
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(emptySet())
+
+        assertTrue(viewModel.favoritesList.isEmpty())
+        testObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testFavoriteRemovedFromCacheSubjectFavoriteAdded() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.favoriteRemovedFromCacheSubject.subscribe(testObserver)
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(setOf("hot"))
+
+        assertTrue(viewModel.favoritesList.isEmpty())
+        testObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testFavoriteRemovedFromCacheSubjectNothingRemoved() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.favoriteRemovedFromCacheSubject.subscribe(testObserver)
+
+        val hotelShortlistItem = createHotelShortlistItem()
+        viewModel.favoritesList.add(hotelShortlistItem)
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(setOf(hotelShortlistItem.getHotelId()!!))
+
+        assertEquals(1, viewModel.favoritesList.count())
+        assertEquals("hotelId", viewModel.favoritesList[0].getHotelId())
+        testObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testFavoriteRemovedFromCacheSubjectMultipleFavorites() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.favoriteRemovedFromCacheSubject.subscribe(testObserver)
+
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel1"))
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel2"))
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel3"))
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(setOf("hotel2"))
+
+        assertEquals(1, viewModel.favoritesList.count())
+        assertEquals("hotel2", viewModel.favoritesList[0].getHotelId())
+        testObserver.assertValueCount(1)
+    }
+
+    @Test
+    fun testFavoriteRemovedFromCacheSubjectNullHotelId() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.favoriteRemovedFromCacheSubject.subscribe(testObserver)
+
+        viewModel.favoritesList.add(createHotelShortlistItem(null, null))
+        viewModel.favoritesList.add(createHotelShortlistItem(null, "hotel"))
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel", null))
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(setOf("hotel"))
+
+        assertEquals(3, viewModel.favoritesList.count())
+        assertNull(viewModel.favoritesList[0].getHotelId())
+        assertEquals("hotel", viewModel.favoritesList[1].getHotelId())
+        assertEquals("hotel", viewModel.favoritesList[2].getHotelId())
+        testObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testFavoriteRemovedFromCacheSubjectNoIdMatch() {
+        val testObserver = TestObserver<Unit>()
+        viewModel.favoriteRemovedFromCacheSubject.subscribe(testObserver)
+
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel5"))
+        viewModel.favoritesList.add(createHotelShortlistItem("hotel4"))
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(setOf("hotelId3", "hotelId2", "hotelId1", "hotelId0"))
+
+        assertTrue(viewModel.favoritesList.isEmpty())
+        testObserver.assertValueCount(1)
+    }
+
+    private fun createHotelShortlistItem(hotelId: String? = "hotelId", itemId: String? = "itemId"): HotelShortlistItem {
         return HotelShortlistItem().apply {
             regionId = "regionId"
             shortlistItem = ShortlistItem().apply {
-                itemId = "itemId"
+                this.itemId = itemId
                 metaData = ShortlistItemMetadata().apply {
-                    hotelId = "hotelId"
+                    this.hotelId = hotelId
                     chkIn = tomorrow.toString("yyyyMMdd")
                     chkOut = twoDaysAhead.toString("yyyyMMdd")
                     roomConfiguration = "1|3-3-7"

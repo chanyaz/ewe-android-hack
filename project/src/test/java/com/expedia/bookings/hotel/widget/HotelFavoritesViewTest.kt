@@ -72,6 +72,20 @@ class HotelFavoritesViewTest {
         assertEquals(favoriteViewHolder.favoriteTouchTarget.visibility, View.VISIBLE)
     }
 
+    @Test
+    fun testHandleFavoritesEmptySubject() {
+        view.emptyContainer.visibility = View.GONE
+        view.viewModel.favoritesEmptySubject.onNext(Unit)
+        assertEquals(View.VISIBLE, view.emptyContainer.visibility)
+    }
+
+    @Test
+    fun testHandleFavoriteRemovedFromCacheSubject() {
+        view.emptyContainer.visibility = View.GONE
+        view.viewModel.favoriteRemovedFromCacheSubject.onNext(Unit)
+        assertEquals(View.VISIBLE, view.emptyContainer.visibility)
+    }
+
     private fun createHotelShortlistItem(): HotelShortlistItem {
         return HotelShortlistItem().apply {
             shortlistItem = ShortlistItem().apply {

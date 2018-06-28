@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class HotelViewModel(private val context: Context,
                           private val isAddOnAttachEnabled: Boolean = Features.all.genericAttach.enabled(),
@@ -39,6 +40,9 @@ open class HotelViewModel(private val context: Context,
     private val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
 
     val soldOut = BehaviorSubject.create<Boolean>()
+
+    val hotelInFavoriteSubject = PublishSubject.create<Unit>()
+    val hotelNotInFavoriteSubject = PublishSubject.create<Unit>()
 
     val hotelId: String get() = hotel.hotelId
     val hotelName: String get() = hotel.localizedName
@@ -70,13 +74,24 @@ open class HotelViewModel(private val context: Context,
     val neighborhoodName: String get() = hotel.neighborhoodName ?: ""
     val showSoldOutOverlay: Boolean get() = isHotelSoldOut && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
 
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
     init {
         soldOut.subscribe { soldOut ->
             isHotelSoldOut = soldOut
         }
-    }
 
-    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+        HotelFavoritesCache.cacheChangedSubject.subscribe { favorites ->
+            if (!::hotel.isInitialized) {
+                return@subscribe
+            }
+            if (favorites.contains(hotelId)) {
+                hotelInFavoriteSubject.onNext(Unit)
+            } else {
+                hotelNotInFavoriteSubject.onNext(Unit)
+            }
+        }
+    }
 
     @CallSuper
     open fun bindHotelData(hotel: Hotel) {

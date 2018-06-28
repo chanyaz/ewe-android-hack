@@ -1,20 +1,24 @@
 package com.expedia.bookings.hotel.util
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
+import io.reactivex.subjects.PublishSubject
 
 class HotelFavoritesCache {
     companion object {
         const val FAVORITES_FILE_NAME = "hotel_favorites_prefs"
-        private val FAVORITE_HOTEL_IDS = "hotel_favorites_ids"
+        private const val FAVORITE_HOTEL_IDS = "hotel_favorites_ids"
+
+        val cacheChangedSubject = PublishSubject.create<Set<String>>()
 
         fun saveFavoriteId(context: Context, hotelId: String) {
-            val favorites = getFavorites(context)
+            val favorites = getFavorites(context).toMutableSet()
             favorites.add(hotelId)
             saveFavorites(context, favorites)
         }
 
         fun removeFavoriteId(context: Context, hotelId: String) {
-            val favorites = getFavorites(context)
+            val favorites = getFavorites(context).toMutableSet()
             favorites.remove(hotelId)
             saveFavorites(context, favorites)
         }
@@ -29,6 +33,7 @@ class HotelFavoritesCache {
             val editor = prefs.edit()
             editor.putStringSet(FAVORITE_HOTEL_IDS, favorites)
             editor.apply()
+            cacheChangedSubject.onNext(favorites)
         }
 
         fun clearFavorites(context: Context) {
@@ -36,11 +41,13 @@ class HotelFavoritesCache {
             val editor = prefs.edit()
             editor.clear()
             editor.apply()
+            cacheChangedSubject.onNext(emptySet())
         }
 
-        private fun getFavorites(context: Context): MutableSet<String> {
+        @VisibleForTesting
+        fun getFavorites(context: Context): Set<String> {
             val prefs = context.getSharedPreferences(FAVORITES_FILE_NAME, Context.MODE_PRIVATE)
-            return (prefs.getStringSet(FAVORITE_HOTEL_IDS, HashSet<String>())).toMutableSet()
+            return prefs.getStringSet(FAVORITE_HOTEL_IDS, HashSet<String>())
         }
     }
 }
