@@ -13,6 +13,7 @@ import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.packages.tracking.PackagesOmnitureTracking
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withCurrency
@@ -473,37 +474,37 @@ class OmnitureTrackingTest {
 
     @Test
     fun testTrackPackageCKOSavingStripClick() {
-        OmnitureTracking.trackPackagesBundleCostBreakdownSavingsStripClick()
+        PackagesOmnitureTracking.trackPackagesBundleCostBreakdownSavingsStripClick()
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.SavingsStrip", mockAnalyticsProvider)
     }
 
     @Test
     fun testTrackPackageCKOSavingButtonClick() {
-        OmnitureTracking.trackPackagesBundleCostBreakdownSavingsButtonClick()
+        PackagesOmnitureTracking.trackPackagesBundleCostBreakdownSavingsButtonClick()
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.SavingsButton", mockAnalyticsProvider)
     }
 
     @Test
     fun testTrackPackageCKOInfoIconClick() {
-        OmnitureTracking.trackPackagesBundleCostBreakdownInfoIconClick()
+        PackagesOmnitureTracking.trackPackagesBundleCostBreakdownInfoIconClick()
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.InfoIcon", mockAnalyticsProvider)
     }
 
     @Test
     fun testTrackPackageCKOBundlePriceClick() {
-        OmnitureTracking.trackPackagesBundleCostBreakdownBundlePriceClick()
+        PackagesOmnitureTracking.trackPackagesBundleCostBreakdownBundlePriceClick()
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundlePrice", mockAnalyticsProvider)
     }
 
     @Test
     fun testTrackPackageCKOBundleWidgetClickWhenSSST() {
-        OmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(true)
+        PackagesOmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(true)
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundleWidget.SSST", mockAnalyticsProvider)
     }
 
     @Test
     fun testTrackPackageCKOBundleWidgetClickWhenSSSF() {
-        OmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(false)
+        PackagesOmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(false)
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundleWidget.SSSF", mockAnalyticsProvider)
     }
 

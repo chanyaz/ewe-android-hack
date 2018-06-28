@@ -8,6 +8,7 @@ import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.marketing.carnival.CarnivalUtils
+import com.expedia.bookings.packages.tracking.PackagesOmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
@@ -16,127 +17,127 @@ import com.expedia.vm.BaseTotalPriceWidgetViewModel
 class PackagesTracking {
 
     fun trackDestinationSearchInit(pageUsableData: PageUsableData) {
-        OmnitureTracking.trackPackagesDestinationSearchInit(pageUsableData)
+        PackagesOmnitureTracking.trackPackagesDestinationSearchInit(pageUsableData)
     }
 
     fun trackHotelSearchResultLoad(response: BundleSearchResponse, pageUsableData: PageUsableData) {
-        OmnitureTracking.trackPackagesHSRLoad(response, pageUsableData)
+        PackagesOmnitureTracking.trackPackagesHSRLoad(response, pageUsableData)
         TuneUtils.trackPackageHotelSearchResults(response)
     }
 
     fun trackHotelFilterSearchLoad(response: BundleSearchResponse, pageUsableData: PageUsableData) {
-        OmnitureTracking.trackPackageFilteredHSRLoad(response, pageUsableData)
+        PackagesOmnitureTracking.trackPackageFilteredHSRLoad(response, pageUsableData)
     }
 
     fun trackHotelMapLoad() {
-        OmnitureTracking.trackPackagesHSRMapInit()
+        PackagesOmnitureTracking.trackPackagesHSRMapInit()
     }
 
     fun trackHotelMapToList() {
-        OmnitureTracking.trackPackagesHotelMapToList()
+        PackagesOmnitureTracking.trackPackagesHotelMapToList()
     }
 
     fun trackHotelMapPinTap() {
-        OmnitureTracking.trackPackagesHotelMapPinTap()
+        PackagesOmnitureTracking.trackPackagesHotelMapPinTap()
     }
 
     fun trackHotelMapCarouselPropertyClick() {
-        OmnitureTracking.trackPackagesHotelMapCarouselPropertyClick()
+        PackagesOmnitureTracking.trackPackagesHotelMapCarouselPropertyClick()
     }
 
     fun trackHotelMapSearchThisAreaClick() {
-        OmnitureTracking.trackPackagesHotelMapSearchThisAreaClick()
+        PackagesOmnitureTracking.trackPackagesHotelMapSearchThisAreaClick()
     }
 
     fun trackHotelFilterLoad() {
-        OmnitureTracking.trackPackagesHotelFilterPageLoad()
+        PackagesOmnitureTracking.trackPackagesHotelFilterPageLoad()
     }
 
     fun trackHotelSortBy(type: String) {
-        OmnitureTracking.trackPackagesHotelSortBy(type)
+        PackagesOmnitureTracking.trackPackagesHotelSortBy(type)
     }
 
     fun trackHotelFilterPriceSlider() {
-        OmnitureTracking.trackPackagesHotelFilterPriceSlider()
+        PackagesOmnitureTracking.trackPackagesHotelFilterPriceSlider()
     }
 
     fun trackHotelFilterVIP(isChecked: Boolean) {
         val state = if (isChecked) "On" else "Off"
-        OmnitureTracking.trackPackagesHotelFilterVIP(state)
+        PackagesOmnitureTracking.trackPackagesHotelFilterVIP(state)
     }
 
     fun trackHotelFilterNeighbourhood() {
-        OmnitureTracking.trackPackagesHotelFilterNeighborhood()
+        PackagesOmnitureTracking.trackPackagesHotelFilterNeighborhood()
     }
 
     fun trackHotelFilterByName() {
-        OmnitureTracking.trackPackagesHotelFilterByName()
+        PackagesOmnitureTracking.trackPackagesHotelFilterByName()
     }
 
     fun trackHotelClearFilter() {
-        OmnitureTracking.trackPackagesHotelClearFilter()
+        PackagesOmnitureTracking.trackPackagesHotelClearFilter()
     }
 
     fun trackHotelFilterApplied() {
-        OmnitureTracking.trackPackagesHotelFilterApplied()
+        PackagesOmnitureTracking.trackPackagesHotelFilterApplied()
     }
 
     fun trackHotelRefineRating(rating: String) {
-        OmnitureTracking.trackPackagesHotelFilterRating(rating + "Star")
+        PackagesOmnitureTracking.trackPackagesHotelFilterRating(rating + "Star")
     }
 
     fun trackCheckoutSelectPaymentClick() {
-        OmnitureTracking.trackPackagesPaymentSelect()
+        PackagesOmnitureTracking.trackPackagesPaymentSelect()
     }
 
     fun trackCheckoutPaymentSelectStoredCard() {
-        OmnitureTracking.trackPackagesPaymentStoredCCSelect()
+        PackagesOmnitureTracking.trackPackagesPaymentStoredCCSelect()
     }
 
     fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
-        OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
+        PackagesOmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
         CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
         TuneUtils.trackPackageConfirmation(response, packageParams)
     }
 
     fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams, pageUsableData: PageUsableData) {
         if (isOutBound) {
-            OmnitureTracking.trackPackagesFlightRoundTripOutLoad(pageUsableData)
+            PackagesOmnitureTracking.trackPackagesFlightRoundTripOutLoad(pageUsableData)
             TuneUtils.trackPackageOutBoundResults(packageParams)
         } else {
-            OmnitureTracking.trackPackagesFlightRoundTripInLoad(pageUsableData)
+            PackagesOmnitureTracking.trackPackagesFlightRoundTripInLoad(pageUsableData)
             TuneUtils.trackPackageInBoundResults(packageParams)
         }
     }
 
     fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean, pageUsableData: PageUsableData, flight: FlightLeg) {
         if (isOutBound)
-            OmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad(pageUsableData, flight)
-        else OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad(pageUsableData, flight)
+            PackagesOmnitureTracking.trackPackagesFlightRoundTripOutDetailsLoad(pageUsableData, flight)
+        else PackagesOmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad(pageUsableData, flight)
     }
 
     fun trackHotelDetailLoad(hotelId: String, pageUsableData: PageUsableData) {
-        OmnitureTracking.trackPackagesHotelInfoLoad(hotelId, pageUsableData)
+        PackagesOmnitureTracking.trackPackagesHotelInfoLoad(hotelId, pageUsableData)
     }
 
     fun trackHotelDetailBookPhoneClick() {
-        OmnitureTracking.trackPackagesHotelInfoActionBookPhone()
+        PackagesOmnitureTracking.trackPackagesHotelInfoActionBookPhone()
     }
 
     fun trackHotelDetailSelectRoomClick(stickyButton: Boolean) {
-        OmnitureTracking.trackPackagesHotelInfoActionSelectRoom(stickyButton)
+        PackagesOmnitureTracking.trackPackagesHotelInfoActionSelectRoom(stickyButton)
     }
 
     fun trackHotelDetailGalleryClick() {
-        OmnitureTracking.trackPackageHotelDetailGalleryClick()
+        PackagesOmnitureTracking.trackPackageHotelDetailGalleryClick()
     }
 
     fun trackHotelDetailRoomGalleryClick() {
-        OmnitureTracking.trackPackageHotelDetailRoomGalleryClick()
+        PackagesOmnitureTracking.trackPackageHotelDetailRoomGalleryClick()
     }
 
     fun trackHotelReviewPageLoad() {
-        OmnitureTracking.trackPackagesHotelReviewPageLoad()
+        PackagesOmnitureTracking.trackPackagesHotelReviewPageLoad()
     }
 
     fun trackHotelReviewCategoryChange(tabSelected: Int) {
@@ -146,47 +147,47 @@ class PackagesTracking {
             2 -> "Critical"
             else -> "N/A"
         })
-        OmnitureTracking.trackPackagesHotelReviewCategoryChange(category)
+        PackagesOmnitureTracking.trackPackagesHotelReviewCategoryChange(category)
     }
 
     fun trackHotelResortFeeInfoClick() {
-        OmnitureTracking.trackPackagesHotelResortFeeInfo()
+        PackagesOmnitureTracking.trackPackagesHotelResortFeeInfo()
     }
 
     fun trackHotelRenovationInfoClick() {
-        OmnitureTracking.trackPackagesHotelRenovationInfo()
+        PackagesOmnitureTracking.trackPackagesHotelRenovationInfo()
     }
 
     fun trackViewBundlePageLoad(isFirstBundleLaunch: Boolean = false) {
-        OmnitureTracking.trackPackagesViewBundleLoad(isFirstBundleLaunch)
+        PackagesOmnitureTracking.trackPackagesViewBundleLoad(isFirstBundleLaunch)
     }
 
     fun trackBundleWidgetTap() {
-        OmnitureTracking.trackPackagesBundleWidgetTap()
+        PackagesOmnitureTracking.trackPackagesBundleWidgetTap()
     }
 
     fun trackBundleOverviewPageLoad(packageTotal: Double?, pageUsableData: PageUsableData) {
-        OmnitureTracking.trackPackagesBundlePageLoad(packageTotal, pageUsableData)
+        PackagesOmnitureTracking.trackPackagesBundlePageLoad(packageTotal, pageUsableData)
     }
 
     fun trackBundleOverviewHotelExpandClick(isExpanding: Boolean) {
-        OmnitureTracking.trackPackagesBundleProductExpandClick("Hotel", isExpanding)
+        PackagesOmnitureTracking.trackPackagesBundleProductExpandClick("Hotel", isExpanding)
     }
 
     fun trackBundleOverviewFlightExpandClick(isExpanding: Boolean) {
-        OmnitureTracking.trackPackagesBundleProductExpandClick("Flight", isExpanding)
+        PackagesOmnitureTracking.trackPackagesBundleProductExpandClick("Flight", isExpanding)
     }
 
     fun trackSearchTravelerPickerChooserClick(text: String) {
-        OmnitureTracking.trackPackagesSearchTravelerPickerChooser(text)
+        PackagesOmnitureTracking.trackPackagesSearchTravelerPickerChooser(text)
     }
 
     fun trackFlightBaggageFeeClick() {
-        OmnitureTracking.trackPackagesFlightBaggageFeeClick()
+        PackagesOmnitureTracking.trackPackagesFlightBaggageFeeClick()
     }
 
     fun trackFlightSortFilterLoad() {
-        OmnitureTracking.trackPackagesFlightSortFilterLoad()
+        PackagesOmnitureTracking.trackPackagesFlightSortFilterLoad()
     }
 
     fun trackFlightSortBy(sortBy: FlightFilter.Sort) {
@@ -196,7 +197,7 @@ class PackagesTracking {
             FlightFilter.Sort.DEPARTURE -> "Departure"
             FlightFilter.Sort.DURATION -> "Duration"
         })
-        OmnitureTracking.trackPackagesFlightSortBy(sortedBy)
+        PackagesOmnitureTracking.trackPackagesFlightSortBy(sortedBy)
     }
 
     fun trackFlightFilterStops(stops: BaseFlightFilterViewModel.Stops) {
@@ -205,92 +206,92 @@ class PackagesTracking {
             BaseFlightFilterViewModel.Stops.ONE_STOP -> "1 Stop"
             BaseFlightFilterViewModel.Stops.TWO_PLUS_STOPS -> "2 Stops"
         })
-        OmnitureTracking.trackPackagesFlightFilterStops(processedStops)
+        PackagesOmnitureTracking.trackPackagesFlightFilterStops(processedStops)
     }
 
     fun trackFlightFilterAirlines(selectedAirlineTag: String) {
-        OmnitureTracking.trackPackagesFlightFilterAirlines(selectedAirlineTag)
+        PackagesOmnitureTracking.trackPackagesFlightFilterAirlines(selectedAirlineTag)
     }
 
     fun trackFlightFilterArrivalDeparture(isDeparture: Boolean) {
-        OmnitureTracking.trackPackagesFlightFilterArrivalDeparture(isDeparture)
+        PackagesOmnitureTracking.trackPackagesFlightFilterArrivalDeparture(isDeparture)
     }
 
     fun trackFlightFilterDuration() {
-        OmnitureTracking.trackPackagesFlightFilterDuration()
+        PackagesOmnitureTracking.trackPackagesFlightFilterDuration()
     }
 
     fun trackHotelRoomBookClick() {
-        OmnitureTracking.trackPackagesHotelRoomBookClick()
+        PackagesOmnitureTracking.trackPackagesHotelRoomBookClick()
     }
 
     fun trackHotelViewBookClick() {
-        OmnitureTracking.trackPackagesHotelViewBookClick()
+        PackagesOmnitureTracking.trackPackagesHotelViewBookClick()
     }
 
     fun trackHotelRoomMoreInfoClick() {
-        OmnitureTracking.trackPackagesHotelRoomInfoClick()
+        PackagesOmnitureTracking.trackPackagesHotelRoomInfoClick()
     }
 
     fun trackHotelDetailMapViewClick() {
-        OmnitureTracking.trackPackagesHotelMapViewClick()
+        PackagesOmnitureTracking.trackPackagesHotelMapViewClick()
     }
 
     fun trackHotelMapViewSelectRoomClick() {
-        OmnitureTracking.trackPackagesHotelMapSelectRoomClick()
+        PackagesOmnitureTracking.trackPackagesHotelMapSelectRoomClick()
     }
 
     fun trackShoppingError(apiCallFailing: ApiCallFailing) {
-        OmnitureTracking.trackPackagesShoppingError(apiCallFailing.getErrorStringForTracking())
+        PackagesOmnitureTracking.trackPackagesShoppingError(apiCallFailing.getErrorStringForTracking())
     }
 
     fun trackCheckoutError(error: ApiError) {
-        OmnitureTracking.trackPackagesCheckoutError(createCheckoutError(error))
+        PackagesOmnitureTracking.trackPackagesCheckoutError(createCheckoutError(error))
     }
 
     fun trackCheckoutErrorRetry() {
-        OmnitureTracking.trackPackagesCheckoutErrorRetry()
+        PackagesOmnitureTracking.trackPackagesCheckoutErrorRetry()
     }
 
     fun trackSearchValidationError(errorTag: String) {
-        OmnitureTracking.trackPackagesSearchValidationError(errorTag)
+        PackagesOmnitureTracking.trackPackagesSearchValidationError(errorTag)
     }
 
     fun trackCheckoutPriceChange(priceDiff: Int) {
-        OmnitureTracking.trackPackagesCheckoutPriceChange(priceDiff)
+        PackagesOmnitureTracking.trackPackagesCheckoutPriceChange(priceDiff)
     }
 
     fun trackCreateTripPriceChange(priceDiff: Int) {
-        OmnitureTracking.trackPackagesCreateTripPriceChange(priceDiff)
+        PackagesOmnitureTracking.trackPackagesCreateTripPriceChange(priceDiff)
     }
 
     fun trackCheckoutSelectTraveler() {
-        OmnitureTracking.trackPackagesCheckoutSelectTraveler()
+        PackagesOmnitureTracking.trackPackagesCheckoutSelectTraveler()
     }
 
     fun trackCheckoutEditTraveler() {
-        OmnitureTracking.trackPackagesCheckoutEditTraveler()
+        PackagesOmnitureTracking.trackPackagesCheckoutEditTraveler()
     }
 
     fun trackCheckoutSlideToPurchase(paymentType: PaymentType, flexStatus: String) {
         val cardType = paymentType.omnitureTrackingCode
-        OmnitureTracking.trackPackagesCheckoutShowSlideToPurchase(flexStatus, cardType)
+        PackagesOmnitureTracking.trackPackagesCheckoutShowSlideToPurchase(flexStatus, cardType)
     }
 
     fun trackMidCreateTripError(error: String) {
-        OmnitureTracking.trackPackagesMIDCreateTripError(error)
+        PackagesOmnitureTracking.trackPackagesMIDCreateTripError(error)
     }
 
     fun trackCheckoutPaymentCID() {
-        OmnitureTracking.trackPackagesCheckoutPaymentCID()
+        PackagesOmnitureTracking.trackPackagesCheckoutPaymentCID()
     }
 
     fun trackBundleEditClick() {
-        OmnitureTracking.trackPackagesBundleEditClick()
+        PackagesOmnitureTracking.trackPackagesBundleEditClick()
     }
 
     fun trackBundleEditItemClick(itemType: String) {
-        OmnitureTracking.trackPackagesBundleEditItemClick(itemType)
+        PackagesOmnitureTracking.trackPackagesBundleEditItemClick(itemType)
     }
 
     fun createCheckoutError(error: ApiError): String {
@@ -301,24 +302,24 @@ class PackagesTracking {
     }
 
     fun trackFHCTabClick() {
-        OmnitureTracking.trackPackagesFHCTabClick()
+        PackagesOmnitureTracking.trackPackagesFHCTabClick()
     }
 
     fun trackDormantUserHomeRedirect() {
-        OmnitureTracking.trackPackagesDormantUserHomeRedirect()
+        PackagesOmnitureTracking.trackPackagesDormantUserHomeRedirect()
     }
 
     fun trackBundleOverviewTotalPriceWidgetClick(priceWidgetEvent: BaseTotalPriceWidgetViewModel.PriceWidgetEvent, shouldShowSavings: Boolean) {
         when (priceWidgetEvent) {
-            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_STRIP_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownSavingsStripClick()
-            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_BUTTON_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownSavingsButtonClick()
-            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.INFO_ICON_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownInfoIconClick()
-            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_PRICE_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownBundlePriceClick()
-            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(shouldShowSavings)
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_STRIP_CLICK -> PackagesOmnitureTracking.trackPackagesBundleCostBreakdownSavingsStripClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_BUTTON_CLICK -> PackagesOmnitureTracking.trackPackagesBundleCostBreakdownSavingsButtonClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.INFO_ICON_CLICK -> PackagesOmnitureTracking.trackPackagesBundleCostBreakdownInfoIconClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_PRICE_CLICK -> PackagesOmnitureTracking.trackPackagesBundleCostBreakdownBundlePriceClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK -> PackagesOmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(shouldShowSavings)
         }
     }
 
     fun trackBundleOverviewCostBreakdownLoad() {
-        OmnitureTracking.trackPackagesBundleOverviewCostBreakdownLoad()
+        PackagesOmnitureTracking.trackPackagesBundleOverviewCostBreakdownLoad()
     }
 }

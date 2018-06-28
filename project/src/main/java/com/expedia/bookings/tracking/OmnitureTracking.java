@@ -51,7 +51,6 @@ import com.expedia.bookings.data.FlightItinDetailsResponse;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
-import com.expedia.bookings.data.MIDItinDetailsResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.abacus.ABTest;
@@ -78,9 +77,6 @@ import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.data.multiitem.BundleSearchResponse;
-import com.expedia.bookings.data.packages.PackageCheckoutResponse;
-import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.rail.requests.RailSearchRequest;
@@ -1664,7 +1660,7 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	private static void addPageLoadTimeTrackingEvents(AppAnalytics s, PageUsableData pageLoadTimeData) {
+	protected static void addPageLoadTimeTrackingEvents(AppAnalytics s, PageUsableData pageLoadTimeData) {
 		if (pageLoadTimeData == null) {
 			return;
 		}
@@ -2419,7 +2415,7 @@ public class OmnitureTracking {
 	}
 
 	@VisibleForTesting
-	static void trackAbacusTest(AppAnalytics s, ABTest abTest) {
+	protected static void trackAbacusTest(AppAnalytics s, ABTest abTest) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
 		}
@@ -2471,7 +2467,7 @@ public class OmnitureTracking {
 	private static final String PROP_DATE_FORMAT = "yyyy-MM-dd";
 	private static final String LX_CONFIRMATION_PROP_DATE_FORMAT = "yyyyMMdd";
 
-	private static void setDateValues(AppAnalytics s, LocalDate startDate, LocalDate endDate) {
+	protected static void setDateValues(AppAnalytics s, LocalDate startDate, LocalDate endDate) {
 		String checkInString = startDate.toString(PROP_DATE_FORMAT);
 		s.setProp(5, checkInString);
 
@@ -4079,7 +4075,7 @@ public class OmnitureTracking {
 		s.trackLink(s.getEvar(28));
 	}
 
-	static AppAnalytics createTrackLinkEvent(String link) {
+	protected static AppAnalytics createTrackLinkEvent(String link) {
 		AppAnalytics s = getFreshTrackingObject();
 
 		// link
@@ -4099,7 +4095,7 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	private static AppAnalytics createTrackCheckoutErrorPageLoadEventBase(String pageName, String lobPageName) {
+	protected static AppAnalytics createTrackCheckoutErrorPageLoadEventBase(String pageName, String lobPageName) {
 		AppAnalytics s = getFreshTrackingObject();
 
 		// set the pageName
@@ -4419,138 +4415,28 @@ public class OmnitureTracking {
 
 	private static final String PACKAGES_LOB = "package:FH";
 	private static final String CHECKOUT_ERROR_PAGE_NAME = "App.Checkout.Error";
-	private static final String PACKAGES_CHECKOUT_INFO = "App.Package.Checkout.Info";
-	private static final String PACKAGES_DESTINATION_SEARCH = "App.Package.Dest-Search";
-	private static final String PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Package.Traveler.";
 	private static final String PACKAGES_SEATING_CLASS_SELECT = "App.Package.DS.SeatingClass";
-	private static final String PACKAGES_HOTEL_SEARCH_RESULT_LOAD = "App.Package.Hotels.Search";
-	private static final String PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD = "App.Package.Hotels.Search.Filtered";
-	private static final String PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD = "App.Package.Hotels-Search.NoResults";
-	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT = "App.Package.Hotels.Search.Sponsored.YES";
-	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_NOT_PRESENT = "App.Package.Hotels.Search.Sponsored.NO";
-	private static final String PACKAGES_HOTEL_SEARCH_MAP_LOAD = "App.Package.Hotels.Search.Map";
-	private static final String PACKAGES_HOTEL_MAP_TO_LIST_VIEW = "App.Package.Hotels.Search.Expand.List";
-	private static final String PACKAGES_HOTEL_MAP_PIN_TAP = "App.Package.Hotels.Search.TapPin";
-	private static final String PACKAGES_HOTEL_CAROUSEL_TAP = "App.Package.Hotels.Search.Expand.Package";
-	private static final String PACKAGES_HOTEL_MAP_SEARCH_AREA = "App.Package.Hotels.Search.AreaSearch";
-	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT = "App.Package.Checkout.Payment.Select";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_EDIT = "App.Package.Checkout.Payment.Edit.Card";
-	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC = "App.Package.CKO.Payment.StoredCard";
-	private static final String PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION = "App.Package.Checkout.Confirmation";
 	private static final String MID_BOOKING_CONFIRMATION_DIALOG = "App.Package.Checkout.Confirmation.Slim";
 
 	private static final String PACKAGES_ENTER_CARD = "App.Package.CKO.Payment.EnterManually";
-
-	private static final String PACKAGES_HOTEL_RT_OUT_RESULTS = "App.Package.Flight.Search.Roundtrip.Out";
-	private static final String PACKAGES_HOTEL_RT_IN_RESULTS = "App.Package.Flight.Search.Roundtrip.In";
-	private static final String PACKAGES_HOTEL_RT_OUT_DETAILS = "App.Package.Flight.Search.Roundtrip.Out.Details";
-	private static final String PACKAGES_HOTEL_RT_IN_DETAILS = "App.Package.Flight.Search.Roundtrip.In.Details";
-
-	private static final String PACKAGES_DORMANT_REDIRECT = "APP.PACKAGE.DORMANT.HOMEREDIRECT";
-	private static final String PACKAGES_FHC_TAB = "App.Package.DS.FHC.TabClicked";
-	private static final String PACKAGES_HOTEL_DETAILS_LOAD = "App.Package.Hotels.Infosite";
-	private static final String PACKAGES_HOTEL_DETAILS_REVIEWS = "App.Package.Reviews";
-	private static final String PACKAGES_HOTEL_DETAILS_REVIEWS_CATEGORY_TEMPLATE = "App.Package.Reviews.";
-	private static final String PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO = "App.Package.ResortFeeInfo";
-	private static final String PACKAGES_HOTEL_DETAILS_RENOVATION_INFO = "App.Package.RenovationInfo";
-	private static final String PACKAGES_HOTEL_DETAILS_SELECT_ROOM_TEMPLATE = "App.Package.Infosite.SelectRoom.";
-	private static final String PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE = "App.Package.Infosite.BookPhone";
-	private static final String PACKAGES_HOTEL_DETAILS_VIEW_ROOM = "App.Package.Hotels.IS.ViewRoom";
-	private static final String PACKAGES_HOTEL_DETAILS_BOOK_ROOM = "App.Package.Hotels.IS.BookRoom";
-	private static final String PACKAGES_HOTEL_DETAILS_ROOM_INFO = "App.Package.Hotels.IS.MoreRoomInfo";
-	private static final String PACKAGES_HOTEL_DETAILS_MAP = "App.Package.Infosite.Map";
-	private static final String PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM = "App.Package.IS.Map.SelectRoom";
-	private static final String PACKAGES_HOTELS_DETAIL_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Hotel";
-	private static final String PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Room";
 	private static final String PACKAGES_GALLERY_GRID_VIEW = "App.Package.Hotels.Infosite.Gallery";
 	private static final String PACKAGES_GALLERY_GRID_CLICK = "App.Package.Hotels.IS.Gallery.OpenImage";
 
-	private static final String PACKAGES_HOTELS_SEARCH_REFINE = "App.Package.Hotels.Search.Filter";
-	private static final String PACKAGES_HOTELS_SORT_BY_TEMPLATE = "App.Package.Hotels.Search.Sort.";
-	private static final String PACKAGES_HOTELS_FILTER_PRICE = "App.Package.Hotels.Search.Price";
-	private static final String PACKAGES_HOTELS_FILTER_VIP_TEMPLATE = "App.Package.Hotels.Search.Filter.VIP.";
-	private static final String PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD = "App.Package.Hotels.Search.Neighborhood";
-	private static final String PACKAGES_HOTELS_FILTER_BY_NAME = "App.Package.Hotels.Search.HotelName";
-	private static final String PACKAGES_HOTELS_FILTER_CLEAR = "App.Package.Hotels.Search.ClearFilter";
-	private static final String PACKAGES_HOTELS_FILTER_APPLIED = "App.Package.Hotels.Search.Filter.Apply";
 
-	private static final String PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD = "App.Package.BundleView";
-	private static final String PACKAGES_BUNDLE_VIEW_TAP = "App.Package.BundleWidget.Tap";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.Details.";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_LOAD = "App.Package.RD.PriceSummary";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_STRIP_CLICK = "App.Package.RD.SavingsStrip";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_BUTTON_CLICK = "App.Package.RD.SavingsButton";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_INFO_ICON_CLICK = "App.Package.RD.InfoIcon";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_PRICE_CLICK = "App.Package.RD.BundlePrice";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_WIDGET_CLICK_TEMPLATE = "App.Package.RD.BundleWidget.";
-
-	private static final String PACKAGES_BUNDLE_EDIT = "App.Package.RD.Edit";
-
-	private static final String PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK = "App.Package.Flight.Search.BaggageFee";
-	private static final String PACKAGES_FLIGHT_SORT_FILTER_LOAD = "App.Package.Flight.Search.Filter";
-	private static final String PACKAGES_FLIGHT_SORTBY_TEMPLATE = "App.Package.Flight.Search.Sort.";
-	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
-	private static final String PACKAGES_FLIGHT_FILTER_TIME_TEMPLATE = "App.Package.Flight.Search.Filter.Time.";
-	private static final String PACKAGES_FLIGHT_FILTER_DURATION = "App.Package.Flight.Search.Filter.Duration";
-	private static final String PACKAGES_FLIGHT_FILTER_AIRLINES_TEMPLATE = "App.Package.Flight.Search.Filter.Airline.";
-
-	private static final String PACKAGES_SHOPPING_ERROR = "App.Package.Shopping.Error";
-	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
-	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
-	private static final String PACKAGES_MID_SERVER_ERROR = "App.Package.Checkout.Error";
-	private static final String PACKAGES_SEARCH_VALIDATION_ERROR = "App.Package.Search.Validation.Error";
-
-	private static final String PACKAGES_CHECKOUT_SELECT_TRAVELER = "App.Package.Checkout.Traveler.Select";
-	private static final String PACKAGES_CHECKOUT_EDIT_TRAVELER = "App.Package.Checkout.Traveler.Edit.Info";
-	private static final String PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE = "App.Package.Checkout.SlideToPurchase";
-	private static final String PACKAGES_CHECKOUT_PAYMENT_CID = "App.Package.Checkout.Payment.CID";
-	private static final String PACKAGES_CHECKOUT_PRICE_CHANGE = "App.Package.CKO.PriceChange";
-	private static final String PACKAGES_BUNDLE_PRICE_CHANGE = "App.Package.RD.PriceChange";
-
-
-	private static void addPackagesCommonFields(AppAnalytics s) {
-		s.setProp(2, PACKAGES_LOB);
-		s.setEvar(2, "D=c2");
-		s.setProp(3, "pkg:" + Db.sharedInstance.getPackageParams().getOrigin().hierarchyInfo.airport.airportCode);
-		s.setEvar(3, "D=c3");
-		s.setProp(4, "pkg:" + Db.sharedInstance.getPackageParams().getDestination().hierarchyInfo.airport.airportCode
-			+ ":"
-			+ Db.sharedInstance.getPackageParams().getDestination().gaiaId);
-		s.setEvar(4, "D=c4");
-		setDateValues(s, Db.sharedInstance.getPackageParams().getStartDate(),
-			Db.sharedInstance.getPackageParams().getEndDate());
+	public static void trackPackagesPaymentEdit() {
+		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_EDIT, null);
 	}
 
-	private static void setPackageProducts(AppAnalytics s, double productPrice) {
-		setPackageProducts(s, productPrice, false, false, null);
-	}
-
-	private static void setPackageProducts(AppAnalytics s, double productPrice, boolean addEvar63,
-		String hotelSupplierType) {
-		setPackageProducts(s, productPrice, addEvar63, false, hotelSupplierType);
-	}
-
-	private static void setPackageProducts(AppAnalytics s, Double productPrice, boolean addEvarInventory,
+	protected static void setPackageProducts(AppAnalytics s, Double productPrice, boolean addEvarInventory,
 		boolean isConfirmation, String hotelSupplierType) {
 		String productsString = getPackageProductsString(productPrice, addEvarInventory, isConfirmation,
 			hotelSupplierType);
 		s.setProducts(productsString);
 	}
 
-	private static void setMidProducts(AppAnalytics s, Double productPrice, boolean addEvarInventory,
-		boolean isConfirmation, String hotelSupplierType, List<AbstractItinDetailsResponse.ResponseData.Insurance> insurances) {
-		String productsString = getPackageProductsString(productPrice, addEvarInventory, isConfirmation,
-			hotelSupplierType);
-		if (insurances != null) {
-			productsString += "," + TrackingUtils.getInsuranceProductsString(insurances);
-		}
-
-		s.setProducts(productsString);
-	}
-
 	@NonNull
-	private static String getPackageProductsString(Double productPrice, boolean addEvarInventory,
+	protected static String getPackageProductsString(Double productPrice, boolean addEvarInventory,
 		boolean isConfirmation, String hotelSupplierType) {
 		StringBuilder productString = new StringBuilder();
 		/*
@@ -4630,7 +4516,7 @@ public class OmnitureTracking {
 		return productString.toString();
 	}
 
-	private static AppAnalytics createTrackPackagePageLoadEventBase(String pageName,
+	protected static AppAnalytics createTrackPackagePageLoadEventBase(String pageName,
 		PageUsableData pageUsableData) {
 		AppAnalytics s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
@@ -4642,119 +4528,18 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName, PageUsableData pageUsableData) {
+	protected static void trackPackagePageLoadEventStandard(String pageName, PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPackagePageLoadEventBase(pageName, pageUsableData).track();
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName, PageUsableData pageUsableData,
-		List<ABTest> abTests) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		AppAnalytics s = createTrackPackagePageLoadEventBase(pageName, pageUsableData);
-		for (ABTest testKey : abTests) {
-			trackAbacusTest(s, testKey);
-		}
-		s.track();
-	}
-
-	public static void trackPackagesDestinationSearchInit(PageUsableData pageUsableData) {
-		List<ABTest> abTests = new ArrayList<>();
-		abTests.add(AbacusUtils.EBAndroidAppPackagesWebviewFHC);
-		abTests.add(AbacusUtils.EBAndroidAppPackagesAATest);
-		abTests.add(AbacusUtils.EBAndroidAppPackagesFFPremiumClass);
-		abTests.add(AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom);
-		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);
-	}
-
-	public static void trackPackagesHSRMapInit() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_SEARCH_MAP_LOAD, null);
-	}
-
-	public static void trackPackageFilteredHSRLoad(BundleSearchResponse response, PageUsableData pageUsableData) {
-		AppAnalytics s = getFreshTrackingObject();
-		if (response.getHotelResultsCount() > 0) {
-			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD + "\"");
-			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD);
-			s.setEvar(18, PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD);
-			addPackagesCommonFields(s);
-			s.setProp(1, String.valueOf(response.getHotelResultsCount()));
-			addPageLoadTimeTrackingEvents(s, pageUsableData);
-		}
-		s.track();
-	}
-
-	public static void trackPackagesHSRLoad(BundleSearchResponse response, PageUsableData pageUsableData) {
-		AppAnalytics s = getFreshTrackingObject();
-
-		if (response.getHotelResultsCount() > 0) {
-			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_LOAD + "\"");
-			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
-			s.setEvar(18, PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
-			addPackagesCommonFields(s);
-			s.setEvents("event12,event53");
-			s.setProp(1, String.valueOf(response.getHotelResultsCount()));
-
-			if (response.hasSponsoredHotelListing()) {
-				s.setEvar(28, PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT);
-				s.setProp(16, PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT);
-			}
-			else {
-				s.setEvar(28, PACKAGES_HOTEL_SEARCH_SPONSORED_NOT_PRESENT);
-				s.setProp(16, PACKAGES_HOTEL_SEARCH_SPONSORED_NOT_PRESENT);
-			}
-
-			/*
-				1R = num of rooms booked, since we don't support multi-room booking on the app yet hard coding it.
-				RT = Round Trip package
-		 	*/
-			PackageSearchParams packageSearchParams = Db.sharedInstance.getPackageParams();
-			int children = getChildCount(packageSearchParams.getChildren());
-			int infantInLap = getInfantInLap(packageSearchParams.getChildren(),
-				packageSearchParams.getInfantSeatingInLap());
-			int youth = getYouthCount(packageSearchParams.getChildren());
-			int infantInseat = (packageSearchParams.getChildren().size() - (infantInLap + youth + children));
-
-			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
-			evar47String.append("A" + packageSearchParams.getAdults() + "|");
-			evar47String.append("C" + children + "|");
-			evar47String.append("YTH" + youth + "|");
-			evar47String.append("IL" + infantInLap + "|");
-			evar47String.append("IS" + infantInseat);
-
-			if (packageSearchParams.getFlightCabinClass() != null) {
-				String cabinCodeName = FlightServiceClassType
-					.getCabinCodeFromMIDParam(packageSearchParams.getFlightCabinClass()).name();
-				evar47String.append("|" + FlightServiceClassType.getCabinClassTrackCode(cabinCodeName));
-			}
-
-			s.setEvar(47, evar47String.toString());
-
-			// Freeform location
-			if (!TextUtils.isEmpty(Db.sharedInstance.getPackageParams().getDestination().regionNames.fullName)) {
-				s.setEvar(48, Db.sharedInstance.getPackageParams().getDestination().regionNames.fullName);
-			}
-			addPageLoadTimeTrackingEvents(s, pageUsableData);
-		}
-		else {
-			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD + "\"");
-			s.setAppState(PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD);
-			s.setEvar(2, PACKAGES_LOB);
-			s.setProp(2, "D=c2");
-			s.setProp(36, response.getFirstError().toString());
-		}
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesServerSideFiltering);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter);
-		s.track();
-	}
-
-	private static void createAndTrackLinkEvent(String link, String linkName) {
+	protected static void createAndTrackLinkEvent(String link, String linkName) {
 		Log.d(TAG, "Tracking \"" + link + "\" click...");
 		AppAnalytics s = createTrackLinkEvent(link);
 		s.trackLink(linkName);
 	}
 
-	private static void trackFlightFilterArrivalDepartureTime(String template, boolean isDeparture) {
+	protected static void trackFlightFilterArrivalDepartureTime(String template, boolean isDeparture) {
 		StringBuilder link = new StringBuilder(template);
 		if (isDeparture) {
 			link.append("Departure");
@@ -4765,413 +4550,13 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(link.toString(), "Search Results Filter");
 	}
 
-	private static void trackPackagesHotelMapLinkEvent(String link) {
-		createAndTrackLinkEvent(link, "Search Results Map View");
-	}
-
-	public static void trackPackagesHotelMapToList() {
-		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_TO_LIST_VIEW);
-	}
-
-	public static void trackPackagesHotelMapPinTap() {
-		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_PIN_TAP);
-	}
-
-	public static void trackPackagesHotelMapCarouselPropertyClick() {
-		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_CAROUSEL_TAP);
-	}
-
-	public static void trackPackagesHotelMapSearchThisAreaClick() {
-		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_SEARCH_AREA);
-	}
-
-	public static void trackPackagesPaymentSelect() {
-		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_SELECT, null);
-	}
-
-	public static void trackPackagesPaymentEdit() {
-		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_EDIT, null);
-	}
-
-	public static void trackPackagesPaymentStoredCCSelect() {
-		createAndTrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
-	}
-
-	public static void trackPackagesMIDCreateTripError(String errorType) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_MID_SERVER_ERROR + "\" pageLoad...");
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_MID_SERVER_ERROR);
-		s.setProp(36, errorType);
-		s.track();
-	}
-
-	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType,
-		PageUsableData pageUsableData) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
-		AppAnalytics s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION, null);
-		setPackageProducts(s, response.getTotalChargesPrice().amount.doubleValue(), true, true, hotelSupplierType);
-		s.setCurrencyCode(response.getTotalChargesPrice().currencyCode);
-		s.setEvents("purchase");
-		s.setPurchaseID("onum" + response.getOrderId());
-		if (response.getNewTrip().getTravelRecordLocator() != null) {
-			s.setProp(71, response.getNewTrip().getTravelRecordLocator());
-		}
-		s.setProp(72, response.getOrderId());
-		addPageLoadTimeTrackingEvents(s, pageUsableData);
-		s.track();
-	}
-
-	public static void trackMIDConfirmation(MIDItinDetailsResponse response, String hotelSupplierType,
-		PageUsableData pageUsableData) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
-		AppAnalytics s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION, null);
-		Money totalPaidMoney = response.getResponseData().getTotalPaidMoney();
-		if (totalPaidMoney == null) {
-			totalPaidMoney = new Money("0", "");
-			trackPackagesShoppingError(new ApiCallFailing.ConfirmationPaymentSummaryMissing().getErrorStringForTracking());
-		}
-		setMidProducts(s, totalPaidMoney.amount.doubleValue(), true, true, hotelSupplierType, response.responseData.getInsurance());
-		s.setCurrencyCode(totalPaidMoney.currencyCode);
-		s.setEvents("purchase");
-		String orderId = response.getResponseData().getHotels().get(0).orderNumber;
-		s.setPurchaseID("onum" + orderId);
-		s.setProp(72, orderId);
-		addPageLoadTimeTrackingEvents(s, pageUsableData);
-		s.track();
-	}
-
-	private static void trackPackagesPageLoadWithDPageName(String pageName, PageUsableData pageUsableData,
-		ABTest... abTests) {
-		AppAnalytics s = trackPackagesCommonDetails(pageName, pageUsableData, abTests);
-		s.track();
-	}
-
-	private static AppAnalytics trackPackagesCommonDetails(String pageName, PageUsableData pageUsableData,
-		ABTest... abTests) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		AppAnalytics s = createTrackPackagePageLoadEventBase(pageName, null);
-		s.setEvar(18, "D=pageName");
-		if (pageUsableData != null) {
-			addPageLoadTimeTrackingEvents(s, pageUsableData);
-		}
-		for (ABTest testKey : abTests) {
-			trackAbacusTest(s, testKey);
-		}
-		return s;
-	}
-
-	private static void appendEmptyFareRulesTracking(AppAnalytics s, FlightLeg flight) {
+	protected static void appendEmptyFareRulesTracking(AppAnalytics s, FlightLeg flight) {
 		if (flight.basicEconomyTooltipInfo.isEmpty() ||
 			(!flight.basicEconomyTooltipInfo.isEmpty()
 				&& flight.basicEconomyTooltipInfo.get(0).fareRules.length == 0)) {
 			s.setEvar(28, "Empty fare rules");
 			s.setProp(16, "Empty fare rules");
 		}
-	}
-
-	public static void trackPackagesFlightRoundTripOutLoad(PageUsableData pageUsableData) {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS, pageUsableData,
-			AbacusUtils.EBAndroidAppPackagesRichContent);
-	}
-
-	public static void trackPackagesFlightRoundTripOutDetailsLoad(PageUsableData pageUsableData, FlightLeg flight) {
-		trackPackagesFlightDetailsLoadWithPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, pageUsableData, flight);
-	}
-
-	public static void trackPackagesFlightRoundTripInLoad(PageUsableData pageUsableData) {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_RESULTS, pageUsableData);
-	}
-
-	public static void trackPackagesFlightRoundTripInDetailsLoad(PageUsableData pageUsableData, FlightLeg flight) {
-		trackPackagesFlightDetailsLoadWithPageName(PACKAGES_HOTEL_RT_IN_DETAILS, pageUsableData, flight);
-	}
-
-	public static void trackPackagesFlightDetailsLoadWithPageName(String pageName, PageUsableData pageUsableData,
-		FlightLeg flight, ABTest... abTests) {
-		AppAnalytics s = trackPackagesCommonDetails(pageName, pageUsableData, abTests);
-		appendEmptyFareRulesTracking(s, flight);
-		s.track();
-	}
-
-	public static void trackPackagesHotelInfoLoad(String hotelId, PageUsableData pageUsableData) {
-		AppAnalytics s = createTrackPackagePageLoadEventBase(PACKAGES_HOTEL_DETAILS_LOAD, null);
-		s.setEvents("event3");
-		addPageLoadTimeTrackingEvents(s, pageUsableData);
-		String product = ";Hotel:" + hotelId + ";;";
-		s.setProducts(product);
-		s.track();
-	}
-
-	public static void trackPackagesHotelInfoActionBookPhone() {
-		Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE + "\" click...");
-		AppAnalytics s = createTrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_BY_PHONE);
-		s.setEvents("event34");
-		s.trackLink("Package Infosite");
-	}
-
-	public static void trackPackagesHotelInfoActionSelectRoom(boolean stickyButton) {
-		StringBuilder link = new StringBuilder(PACKAGES_HOTEL_DETAILS_SELECT_ROOM_TEMPLATE);
-		if (stickyButton) {
-			link.append("Sticky");
-		}
-		else {
-			link.append("Top");
-		}
-		createAndTrackLinkEvent(link.toString(), "Package Infosite");
-	}
-
-	public static void trackPackageHotelDetailGalleryClick() {
-		Log.d(TAG, "Tracking \"" + PACKAGES_HOTELS_DETAIL_GALLERY_CLICK + "\" click...");
-
-		AppAnalytics s = createTrackLinkEvent(PACKAGES_HOTELS_DETAIL_GALLERY_CLICK);
-
-		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-
-		s.trackLink("Gallery View");
-	}
-
-	public static void trackPackageHotelDetailRoomGalleryClick() {
-		Log.d(TAG, "Tracking \"" + PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK + "\" click...");
-
-		AppAnalytics s = createTrackLinkEvent(PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK);
-
-		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-
-		s.trackLink("Gallery View");
-	}
-
-	public static void trackPackagesHotelReviewPageLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null, AbacusUtils.HotelUGCTranslations);
-	}
-
-	public static void trackPackagesHotelReviewCategoryChange(String category) {
-		String link = PACKAGES_HOTEL_DETAILS_REVIEWS_CATEGORY_TEMPLATE + category;
-		createAndTrackLinkEvent(link, "Package Reviews");
-	}
-
-	public static void trackPackagesHotelResortFeeInfo() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
-	}
-
-	public static void trackPackagesHotelRenovationInfo() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
-	}
-
-	public static void trackPackagesViewBundleLoad(boolean isFirstBundleLaunch) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD + "\" pageLoad");
-		AppAnalytics s = createTrackPackagePageLoadEventBase(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD, null);
-		if (isFirstBundleLaunch) {
-			//track AB tests here
-		}
-		s.track();
-	}
-
-	public static void trackPackagesBundleWidgetTap() {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_VIEW_TAP, "Bundle Widget Tap");
-	}
-
-	public static void trackPackagesBundlePageLoad(Double packageTotal,
-		PageUsableData pageUsableData) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_OVERVIEW_LOAD + "\"");
-
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_BUNDLE_OVERVIEW_LOAD);
-		addPackagesCommonFields(s);
-		setPackageProducts(s, packageTotal);
-		s.setEvents("event4");
-		addPageLoadTimeTrackingEvents(s, pageUsableData);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails);
-		s.track();
-	}
-
-	public static void trackPackagesBundleProductExpandClick(String lobClicked, boolean isExpanding) {
-		StringBuilder link = new StringBuilder(PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE);
-		link.append(lobClicked);
-		link.append(isExpanding ? ".Expand" : ".Collapse");
-		createAndTrackLinkEvent(link.toString(), "Rate Details");
-	}
-
-	public static void trackPackagesBundleOverviewCostBreakdownLoad() {
-		trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_LOAD, null);
-	}
-
-	public static void trackPackagesBundleCostBreakdownSavingsStripClick() {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_STRIP_CLICK, "Rate Details");
-	}
-
-	public static void trackPackagesBundleCostBreakdownSavingsButtonClick() {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_BUTTON_CLICK, "Rate Details");
-	}
-
-	public static void trackPackagesBundleCostBreakdownInfoIconClick() {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_INFO_ICON_CLICK, "Rate Details");
-	}
-
-	public static void trackPackagesBundleCostBreakdownBundlePriceClick() {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_PRICE_CLICK, "Rate Details");
-	}
-
-	public static void trackPackagesBundleCostBreakdownBundleWidgetClick(boolean shouldShowSavings) {
-		String suffix = shouldShowSavings ? "SSST" : "SSSF";
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_WIDGET_CLICK_TEMPLATE + suffix,
-			"Rate Details");
-	}
-
-	public static void trackPackagesSearchTravelerPickerChooser(String text) {
-		createAndTrackLinkEvent(PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
-	}
-
-	public static void trackPackagesFlightBaggageFeeClick() {
-		createAndTrackLinkEvent(PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK, "Flight Baggage Fee");
-	}
-
-	public static void trackPackagesFlightSortFilterLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_FLIGHT_SORT_FILTER_LOAD, null);
-	}
-
-	public static void trackPackagesFlightSortBy(String sortedBy) {
-		createAndTrackLinkEvent(PACKAGES_FLIGHT_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
-	}
-
-	public static void trackPackagesFlightFilterStops(String stops) {
-		createAndTrackLinkEvent(PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
-	}
-
-	public static void trackPackagesFlightFilterAirlines(String selectedAirlineTag) {
-		createAndTrackLinkEvent(PACKAGES_FLIGHT_FILTER_AIRLINES_TEMPLATE + selectedAirlineTag, "Search Results Filter");
-	}
-
-	public static void trackPackagesFlightFilterArrivalDeparture(boolean isDeparture) {
-		trackFlightFilterArrivalDepartureTime(PACKAGES_FLIGHT_FILTER_TIME_TEMPLATE, isDeparture);
-	}
-
-	public static void trackPackagesFlightFilterDuration() {
-		createAndTrackLinkEvent(PACKAGES_FLIGHT_FILTER_DURATION, "Search Results Filter");
-	}
-
-	public static void trackPackagesHotelRoomBookClick() {
-		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_ROOM, "Room Info");
-	}
-
-	public static void trackPackagesHotelViewBookClick() {
-		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_VIEW_ROOM, "Room Info");
-	}
-
-	public static void trackPackagesHotelRoomInfoClick() {
-		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_ROOM_INFO, "Room Info");
-	}
-
-	public static void trackPackagesHotelMapViewClick() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_MAP, null);
-	}
-
-	public static void trackPackagesHotelMapSelectRoomClick() {
-		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM, "Infosite Map");
-	}
-
-	public static void trackPackagesShoppingError(String errorInfo) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_SHOPPING_ERROR + "\" pageLoad...");
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_SHOPPING_ERROR);
-		s.setProp(36, errorInfo);
-		s.track();
-	}
-
-	public static void trackPackagesCheckoutError(String errorType) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_ERROR + "\" pageLoad...");
-		AppAnalytics s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME,
-			PACKAGES_CHECKOUT_ERROR);
-		s.setProp(36, errorType);
-		s.track();
-	}
-
-	public static void trackPackagesCheckoutErrorRetry() {
-		createAndTrackLinkEvent(PACKAGES_CHECKOUT_ERROR_RETRY, "Package Checkout");
-	}
-
-	public static void trackPackagesSearchValidationError(String errorTag) {
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_SEARCH_VALIDATION_ERROR);
-		s.setProp(36, errorTag);
-		s.track();
-	}
-
-	public static void trackPackagesCheckoutSelectTraveler() {
-		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_SELECT_TRAVELER).track();
-	}
-
-	public static void trackPackagesCheckoutEditTraveler() {
-		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_EDIT_TRAVELER).track();
-	}
-
-	public static void trackPackagesCheckoutShowSlideToPurchase(String flexStatus, String cardType) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE + "\" load...");
-		trackShowSlidetoPurchase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE, cardType, flexStatus);
-	}
-
-	public static void trackPackagesCheckoutPaymentCID() {
-		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CID).track();
-	}
-
-	public static void trackPackagesCreateTripPriceChange(int priceDiff) {
-		AppAnalytics s = getFreshTrackingObject();
-		trackPriceChange(s, priceDiff, PACKAGES_BUNDLE_PRICE_CHANGE, "PKG|", "Rate Details View");
-	}
-
-	public static void trackPackagesCheckoutPriceChange(int priceDiff) {
-		AppAnalytics s = getFreshTrackingObject();
-		trackPriceChange(s, priceDiff, PACKAGES_CHECKOUT_PRICE_CHANGE, "PKG|", "Package Checkout");
-	}
-
-	public static void trackPackagesHotelFilterPageLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTELS_SEARCH_REFINE, null);
-	}
-
-	public static void trackPackagesHotelFilterRating(String rating) {
-		String pageName = PACKAGES_HOTELS_SEARCH_REFINE + "." + rating;
-		createAndTrackLinkEvent(pageName, "Search Results Sort");
-	}
-
-	public static void trackPackagesHotelSortBy(String type) {
-		String pageName = PACKAGES_HOTELS_SORT_BY_TEMPLATE + type;
-		createAndTrackLinkEvent(pageName, "Search Results Sort");
-	}
-
-	public static void trackPackagesHotelFilterPriceSlider() {
-		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_PRICE, "Search Results Sort");
-	}
-
-	public static void trackPackagesHotelFilterVIP(String type) {
-		String pageName = PACKAGES_HOTELS_FILTER_VIP_TEMPLATE + type;
-		createAndTrackLinkEvent(pageName, "Search Results Sort");
-	}
-
-	public static void trackPackagesHotelFilterNeighborhood() {
-		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD, "Search Results Sort");
-	}
-
-	public static void trackPackagesHotelFilterByName() {
-		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_BY_NAME, "Search Results Sort");
-	}
-
-	public static void trackPackagesHotelClearFilter() {
-		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_CLEAR, "Search Results Sort");
-	}
-
-	public static void trackPackagesHotelFilterApplied() {
-		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_APPLIED, "Search Results Sort");
-	}
-
-	public static void trackPackagesBundleEditClick() {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_EDIT, "Rate Details");
-	}
-
-	public static void trackPackagesBundleEditItemClick(String itemType) {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_EDIT + "." + itemType, "Rate Details");
-	}
-
-	public static void trackPackagesFHCTabClick() {
-		createAndTrackLinkEvent(PACKAGES_FHC_TAB, "FHC tab");
-	}
-
-	public static void trackPackagesDormantUserHomeRedirect() {
-		createAndTrackLinkEvent(PACKAGES_DORMANT_REDIRECT, "Dormant Redirect");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -6156,7 +5541,7 @@ public class OmnitureTracking {
 		s.trackLink(linkName);
 	}
 
-	private static void trackPriceChange(AppAnalytics s, int priceChangePercentage, String trackingId,
+	protected static void trackPriceChange(AppAnalytics s, int priceChangePercentage, String trackingId,
 		String lobForProp9, String linkName) {
 		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		s.setEvents("event62");
@@ -6197,7 +5582,7 @@ public class OmnitureTracking {
 		trackShowSlidetoPurchase(FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE, cardType, flexStatus);
 	}
 
-	private static void trackShowSlidetoPurchase(String lobPageName, String cardType, String flexStatus) {
+	protected static void trackShowSlidetoPurchase(String lobPageName, String cardType, String flexStatus) {
 		AppAnalytics s = getFreshTrackingObject();
 		s.setAppState(lobPageName);
 		s.setEvar(18, lobPageName);
@@ -6284,7 +5669,7 @@ public class OmnitureTracking {
 		return str;
 	}
 
-	private static int getInfantInLap(List<Integer> children, boolean infantSeatingInLap) {
+	protected static int getInfantInLap(List<Integer> children, boolean infantSeatingInLap) {
 		int infantInLap = 0;
 		if (infantSeatingInLap) {
 			for (int age : children) {
@@ -6296,7 +5681,7 @@ public class OmnitureTracking {
 		return infantInLap;
 	}
 
-	private static int getYouthCount(List<Integer> children) {
+	protected static int getYouthCount(List<Integer> children) {
 		int youthCount = 0;
 		for (int age : children) {
 			if (age > 11 && age < 18) {
@@ -6306,7 +5691,7 @@ public class OmnitureTracking {
 		return youthCount;
 	}
 
-	private static int getChildCount(List<Integer> children) {
+	protected static int getChildCount(List<Integer> children) {
 		int childCount = 0;
 		for (int age : children) {
 			if (age > 1 && age < 12) {

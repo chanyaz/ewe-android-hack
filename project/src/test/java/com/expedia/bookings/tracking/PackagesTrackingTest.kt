@@ -12,6 +12,7 @@ import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.packages.tracking.PackagesOmnitureTracking
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
@@ -674,7 +675,7 @@ class PackagesTrackingTest {
         val pageUsableData = PageUsableData()
         pageUsableData.markPageLoadStarted(10000)
         pageUsableData.markAllViewsLoaded(10000)
-        OmnitureTracking.trackMIDConfirmation(response, "MERCHANT", pageUsableData)
+        PackagesOmnitureTracking.trackMIDConfirmation(response, "MERCHANT", pageUsableData)
 
         val expectedEvars = mapOf(2 to "D=c2")
         val expectedProps = mapOf(72 to "8057970781591")
@@ -700,7 +701,7 @@ class PackagesTrackingTest {
         val pageUsableData = PageUsableData()
         pageUsableData.markPageLoadStarted(10000)
         pageUsableData.markAllViewsLoaded(10000)
-        OmnitureTracking.trackMIDConfirmation(response, "MERCHANT", pageUsableData)
+        PackagesOmnitureTracking.trackMIDConfirmation(response, "MERCHANT", pageUsableData)
 
         val expectedInsuranceProductString = ",;Insurance:100004;1;26.0"
         val appState = "App.Package.Checkout.Confirmation"

@@ -33,6 +33,7 @@ import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.packages.activity.PackageActivity
 import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.bookings.packages.activity.PackageHotelActivity
+import com.expedia.bookings.packages.tracking.PackagesOmnitureTracking
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageConfirmationViewModel
@@ -524,7 +525,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                     confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(response)
                     show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
                     pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
-                    OmnitureTracking.trackMIDConfirmation(response, Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
+                    PackagesOmnitureTracking.trackMIDConfirmation(response, Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
                     TuneUtils.trackMIDPackageConfirmation(response)
                 }
             }
