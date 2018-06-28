@@ -72,7 +72,8 @@ data class ItinTime(
         val localizedFullDate: String?,
         val localizedShortTime: String?,
         val localizedMediumDate: String?,
-        val raw: String?
+        val raw: String?,
+        val localizedShortDate: String?
 )
 
 data class CustomerSupport(

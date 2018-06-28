@@ -427,6 +427,13 @@ class TripsTrackingTest {
         TripsTracking.trackItinLobAdditionalInfoButtonClick(TripProducts.ACTIVITY.name)
     }
 
+    @Test
+    fun testTrackItinCruiseShareIconClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinCruiseShareIconClicked()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Sharing", "App.Itinerary.Cruise.Share.Start", mockAnalyticsProvider)
+    }
+
     fun assertItinLinkTracked(rfrrId: String) {
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
     }
