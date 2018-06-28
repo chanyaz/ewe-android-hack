@@ -51,7 +51,8 @@
             android:layout_gravity="center"
             android:paddingRight="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/material_dropdown" />
+            android:src="@drawable/material_dropdown"
+            android:tint="@color/itin_text_white_color"/>
 
     </LinearLayout>
 </LinearLayout>
