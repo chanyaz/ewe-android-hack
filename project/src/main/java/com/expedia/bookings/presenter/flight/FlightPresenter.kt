@@ -30,7 +30,6 @@ import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
-import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.fragment.FlightsRouteHappyGuideFragment
@@ -73,6 +72,8 @@ import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
+import com.expedia.bookings.data.flights.extensions.isRoundTrip
 import java.util.Date
 import javax.inject.Inject
 
@@ -263,7 +264,18 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
-        searchViewModel.isRoundTripSearchObservable.subscribeVisibility(presenter.flightSummary.inboundFlightWidget)
+        searchViewModel.tripTypeSearchObservable.subscribe { tripType ->
+            when (tripType) {
+                TripType.RETURN -> presenter.flightSummary.inboundFlightWidget.setVisibility(true)
+
+                TripType.ONE_WAY -> presenter.flightSummary.inboundFlightWidget.setVisibility(false)
+
+                TripType.MULTI_DEST -> throw RuntimeException("needs to be implemented for multidest")
+
+                else -> { //do nothing
+                }
+            }
+        }
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.flightSummary.viewmodel.params.onNext(params)
             if (params.returnDate != null) {
@@ -299,13 +311,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.date)
         searchViewModel.searchParamsObservable.map { it.guests }
                 .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.guests)
-        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+        searchViewModel.searchParamsObservable.filter { it.isRoundTrip() }
                 .map { it.departureAirport }
                 .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.suggestion)
-        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+        searchViewModel.searchParamsObservable.filter { it.isRoundTrip() }
                 .map { it.returnDate }
                 .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.date)
-        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+        searchViewModel.searchParamsObservable.filter { it.isRoundTrip() }
                 .map { it.guests }
                 .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.guests)
 
@@ -382,7 +394,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.viewModel = FlightConfirmationViewModel(context)
 
         searchViewModel.searchParamsObservable.subscribe(presenter.hotelCrossSell.viewModel.searchParamsObservable)
-        searchViewModel.isRoundTripSearchObservable.subscribe(presenter.viewModel.inboundCardVisibility)
+        searchViewModel.tripTypeSearchObservable.map { it.isRoundTrip() }.subscribe(presenter.viewModel.inboundCardVisibility)
         searchViewModel.searchParamsObservable.subscribe(presenter.viewModel.flightSearchParamsObservable)
         presenter
     }
