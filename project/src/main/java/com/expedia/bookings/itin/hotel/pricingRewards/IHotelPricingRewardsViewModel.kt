@@ -5,6 +5,7 @@ import io.reactivex.subjects.PublishSubject
 interface IHotelPricingRewardsViewModel {
     val hideWidgetSubject: PublishSubject<Unit>
     val rewardsButtonClickSubject: PublishSubject<Unit>
+    val pendingPointsButtonClickSubject: PublishSubject<Unit>
 
     val logoSubject: PublishSubject<String>
     val earnedPointsSubject: PublishSubject<String>

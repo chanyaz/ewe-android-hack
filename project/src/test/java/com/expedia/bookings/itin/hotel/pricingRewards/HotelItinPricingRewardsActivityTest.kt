@@ -12,6 +12,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -53,5 +54,15 @@ class HotelItinPricingRewardsActivityTest {
         mockTripsTracking.trackHotelItinPricingRewardsPageload = false
         activity.repo.liveDataItin.postValue(ItinMocker.hotelDetailsHappy)
         assertFalse(mockTripsTracking.trackHotelItinPricingRewardsPageload)
+    }
+
+    @Test
+    fun pendingPointsDialogInflates() {
+        assertTrue(activity.supportFragmentManager.fragments.isEmpty())
+
+        activity.rewardsViewModel.pendingPointsButtonClickSubject.onNext(Unit)
+
+        assertEquals(activity.supportFragmentManager.fragments.size, 1)
+        assertEquals("fragment_dialog_pending_points", activity.supportFragmentManager.fragments[0].tag)
     }
 }

@@ -15,6 +15,7 @@ class HotelItinPricingSummaryRewardsViewModel<out S>(val scope: S) : IHotelPrici
 
     override val hideWidgetSubject: PublishSubject<Unit> = PublishSubject.create()
     override val rewardsButtonClickSubject: PublishSubject<Unit> = PublishSubject.create()
+    override val pendingPointsButtonClickSubject: PublishSubject<Unit> = PublishSubject.create()
 
     override val logoSubject: PublishSubject<String> = PublishSubject.create()
     override val earnedPointsSubject: PublishSubject<String> = PublishSubject.create()

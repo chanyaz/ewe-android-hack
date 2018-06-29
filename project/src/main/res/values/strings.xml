@@ -3319,8 +3319,7 @@
     <string name="number_of_days_points_TEMPLATE">{number_of_days} days</string>
     <!--example: Points from flights become available up to 30 days after travel has been completed.-->
     <string name="pending_points_flights_accessibility_TEMPLATE">Points from Flights become available up to {number_of_days} days after travel has been completed.</string>
-    <!--example: P
-    ome available up to 30 days after travel has been completed.-->
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
     <string name="pending_points_bundles_accessibility_TEMPLATE">Points from Bundle Deals become available up to {number_of_days} days after travel has been completed.</string>
     <!--example: Points from activities become available up to 30 days after travel has been completed.-->
     <string name="pending_points_activities_accessibility_TEMPLATE">Points from Activities become available up to {number_of_days} days after travel has been completed.</string>

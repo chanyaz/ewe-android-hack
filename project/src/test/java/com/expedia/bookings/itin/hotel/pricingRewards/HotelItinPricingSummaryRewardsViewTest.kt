@@ -136,6 +136,20 @@ class HotelItinPricingSummaryRewardsViewTest {
         testObserver.dispose()
     }
 
+    @Test
+    fun testPendingPointsButtonClick() {
+        val testObserver = TestObserver<Unit>()
+        val viewModel = MockPricingRewardsViewModel()
+        viewModel.pendingPointsButtonClickSubject.subscribe(testObserver)
+        testView.viewModel = viewModel
+
+        testObserver.assertEmpty()
+        testView.pendingPointsButton.performClick()
+        testObserver.assertValueCount(1)
+
+        testObserver.dispose()
+    }
+
     class MockPricingRewardsViewModel : IHotelPricingRewardsViewModel {
         override val hideWidgetSubject: PublishSubject<Unit> = PublishSubject.create()
         override val rewardsButtonClickSubject: PublishSubject<Unit> = PublishSubject.create()
@@ -143,5 +157,6 @@ class HotelItinPricingSummaryRewardsViewTest {
         override val earnedPointsSubject: PublishSubject<String> = PublishSubject.create()
         override val basePointsSubject: PublishSubject<String> = PublishSubject.create()
         override val bonusPointsSubject: PublishSubject<List<String>> = PublishSubject.create()
+        override val pendingPointsButtonClickSubject: PublishSubject<Unit> = PublishSubject.create()
     }
 }

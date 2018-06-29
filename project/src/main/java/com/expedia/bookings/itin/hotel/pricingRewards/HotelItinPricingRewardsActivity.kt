@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.fragment.PendingPointsDialogFragment
 import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.common.ItinToolbar
@@ -69,8 +70,15 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinRewardsScope> by notNullAndObservable { vm ->
+        vm.pendingPointsButtonClickSubject.subscribe {
+            val pendingPointsDialog = PendingPointsDialogFragment.newInstance(resources.getString(R.string.pending_points_dialog_title))
+            pendingPointsDialog.show(supportFragmentManager, "fragment_dialog_pending_points")
+        }
+    }
+
     lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
-    lateinit var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinRewardsScope>
     lateinit var bundleDescriptionViewModel: HotelItinPricingBundleDescriptionViewModel<HotelItinPricingBundleScope>
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()

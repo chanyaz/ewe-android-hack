@@ -25,6 +25,7 @@ class HotelItinPricingSummaryRewardsView(context: Context, attrs: AttributeSet?)
     val earnedPointsText by bindView<TextView>(R.id.hotel_itin_pricing_rewards_points_earned)
     val basePointsText by bindView<TextView>(R.id.hotel_itin_pricing_rewards_points_base)
     val bonusPointsContainer by bindView<LinearLayout>(R.id.hotel_itin_pricing_rewards_points_bonus_container)
+    val pendingPointsButton by bindView<LinearLayout>(R.id.hotel_itin_pricing_rewards_pending_points_button)
 
     val rewardsButton by bindView<TextView>(R.id.hotel_itin_pricing_rewards_view_rewards_button)
 
@@ -33,6 +34,7 @@ class HotelItinPricingSummaryRewardsView(context: Context, attrs: AttributeSet?)
             rewardsTitleText.visibility = View.GONE
             rewardsSection.visibility = View.GONE
             rewardsButton.visibility = View.GONE
+            pendingPointsButton.visibility = View.GONE
         }
 
         it.logoSubject.subscribe {
@@ -59,6 +61,7 @@ class HotelItinPricingSummaryRewardsView(context: Context, attrs: AttributeSet?)
         }
 
         rewardsButton.subscribeOnClick(it.rewardsButtonClickSubject)
+        pendingPointsButton.subscribeOnClick(it.pendingPointsButtonClickSubject)
     }
 
     init {
