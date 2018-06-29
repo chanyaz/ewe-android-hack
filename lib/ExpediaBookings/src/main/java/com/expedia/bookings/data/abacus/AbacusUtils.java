@@ -80,7 +80,6 @@ public class AbacusUtils {
 	public static final ABTest HotelHideMiniMapOnResult = new ABTest(16255, true);
 	public static final ABTest HotelSoldOutOnHSRTreatment = new ABTest(24727, true);
 	public static final ABTest HotelImageGrid = new ABTest(24841, true);
-	public static final ABTest HotelResultChangeDate = new ABTest(24743, true);
 	public static final ABTest HotelEarn2xMessaging = new ABTest(24742, true);
 	public static final ABTest HotelSatelliteSearch = new ABTest(25534, true);
 	public static final ABTest HotelGuestRatingFilter = new ABTest(25533, true);
@@ -209,7 +208,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsRichContent.getKey());
 		testIDs.add(HotelSoldOutOnHSRTreatment.getKey());
 		testIDs.add(HotelImageGrid.getKey());
-		testIDs.add(HotelResultChangeDate.getKey());
 		testIDs.add(HotelEarn2xMessaging.getKey());
 		testIDs.add(CardExpiryDateFormField.getKey());
 		testIDs.add(EBAndroidAppPackagesFFPremiumClass.getKey());

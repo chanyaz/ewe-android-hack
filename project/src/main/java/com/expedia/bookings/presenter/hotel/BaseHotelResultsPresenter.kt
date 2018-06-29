@@ -210,10 +210,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapWidget.adjustPadding(getRequiredMapPadding())
     }
 
-    protected fun isBucketedToShowChangeDate(): Boolean {
-        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultChangeDate)
-    }
-
     private fun animateFab(newTranslationY: Float) {
         getFloatingButton().animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
     }
@@ -501,7 +497,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         toolbar.viewTreeObserver.addOnGlobalLayoutListener {
             setupToolbarTransition()
-            if (isBucketedToShowChangeDate() && getLineOfBusiness() == LineOfBusiness.HOTELS) {
+            if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
                 toolbarTitleTransition?.jumpToTarget()
                 subTitleTransition?.fadeOut(1.0f)
             }
@@ -783,7 +779,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         var startingFabTranslation: Float = 0f
         var finalFabTranslation: Float = 0f
 
-        val shouldAnimateTitleSubtitle = !isBucketedToShowChangeDate() || getLineOfBusiness() != LineOfBusiness.HOTELS
+        val shouldAnimateTitleSubtitle = getLineOfBusiness() != LineOfBusiness.HOTELS
 
         override fun startTransition(forwardToList: Boolean) {
             super.startTransition(forwardToList)

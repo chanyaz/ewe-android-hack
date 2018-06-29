@@ -25,9 +25,9 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
         return null
     }
 
+    // TODO: deprecate this function when HotelHideMiniMapOnResult revert
     override fun getHeaderTopPadding(context: Context, currentPadding: Int): Int {
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultChangeDate) &&
-                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelHideMiniMapOnResult)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelHideMiniMapOnResult)) {
             return context.resources.getDimensionPixelSize(R.dimen.hotel_results_change_date_height) + currentPadding
         }
         return currentPadding

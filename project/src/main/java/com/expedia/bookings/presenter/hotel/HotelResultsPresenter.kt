@@ -98,10 +98,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             }
         }
 
-        if (isBucketedToShowChangeDate()) {
-            hotelResultChangeDateView.visibility = View.VISIBLE
-            toolbarShadow.visibility = View.GONE
-        }
+        hotelResultChangeDateView.visibility = View.VISIBLE
+        toolbarShadow.visibility = View.GONE
 
         adapter.favoriteAddedSubject.subscribe { hotelId -> hotelFavoriteAdded(hotelId) }
         adapter.favoriteRemovedSubject.subscribe { hotelId -> hotelFavoriteDeleted(hotelId) }
@@ -374,9 +372,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun showChangeDateBanner() {
-        if (isBucketedToShowChangeDate()) {
-            hotelResultChangeDateView.animateIn()
-        }
+        hotelResultChangeDateView.animateIn()
     }
 
     override fun getScrollListener(): BaseHotelResultsScrollListener {
@@ -481,12 +477,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
-            if (isBucketedToShowChangeDate()) {
-                if (dy < -changeDateSensitivity) {
-                    hotelResultChangeDateView.animateIn()
-                } else if (dy > changeDateSensitivity && !isHeaderVisible()) {
-                    hotelResultChangeDateView.animateOut()
-                }
+            if (dy < -changeDateSensitivity) {
+                hotelResultChangeDateView.animateIn()
+            } else if (dy > changeDateSensitivity && !isHeaderVisible()) {
+                hotelResultChangeDateView.animateOut()
             }
         }
     }
