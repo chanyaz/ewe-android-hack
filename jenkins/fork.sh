@@ -2,6 +2,15 @@
 
 set -x
 
+#get command line arguments, which we've passed during launch
+while echo $1 | grep -q ^-; do
+    eval $( echo $1 | sed 's/^-//' )=$2
+    shift
+    shift
+done
+
+package=${package:-"com.expedia.bookings.test"}
+
 source tools/setup_python_env.sh enum "github3.py==1.0.0.a4" slackclient objectpath python-dateutil
 
 # Prepare device and install test butler apk
@@ -20,7 +29,7 @@ prepare_frequencies_of_flaky_ui_tests() {
 ./tools/uninstall.sh com.expedia.bookings
 
 # run test
-./gradlew --no-daemon -PrunProguard=false forkExpediaDebug
+./gradlew --no-daemon -PrunProguard=false forkExpediaDebug -Ppackage=$package --parallel
 exitVal=$?
 
 prepare_frequencies_of_flaky_ui_tests

@@ -15,7 +15,7 @@
 #                                                #### tags for inclusion. Complex combos TBD
 
 
-#get command line arguments, which we re passed during launch
+#get command line arguments, which we've passed during launch
 while echo $1 | grep -q ^-; do
     eval $( echo $1 | sed 's/^-//' )=$2
     shift

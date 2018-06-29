@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.happy;
+package com.expedia.bookings.test.regression.packages;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;

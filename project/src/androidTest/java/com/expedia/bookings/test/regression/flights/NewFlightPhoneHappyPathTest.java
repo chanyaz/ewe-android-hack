@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.happy;
+package com.expedia.bookings.test.regression.flights;
 
 import android.app.Activity;
 import android.app.Instrumentation;

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.happy;
+package com.expedia.bookings.test.regression.rail;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;

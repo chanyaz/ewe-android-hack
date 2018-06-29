@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.happy;
+package com.expedia.bookings.test.regression.hotels;
 
 import org.junit.Test;
 
