@@ -87,8 +87,12 @@ public class SortSteps {
 			viewInteraction.perform(RecyclerViewActions.scrollToPosition(i + 1));
 			Matcher priceMatcherCurrentPosition = p.matcher(getPriceAtPosition(i, viewInteraction).toString());
 			Matcher priceMatcherNextPosition = p.matcher(getPriceAtPosition(i + 1, viewInteraction).toString());
-			if (priceMatcherCurrentPosition.find() && priceMatcherNextPosition.find()) {
-				assertTrue(new Integer(priceMatcherCurrentPosition.group(1)) <= new Integer(priceMatcherNextPosition.group(1)));
+
+			String currentPrice = getPriceString(priceMatcherCurrentPosition);
+			String nextPrice = getPriceString(priceMatcherNextPosition);
+
+			if (currentPrice.length() != 0 && nextPrice.length() != 0) {
+				assertTrue(new Integer(currentPrice) <= new Integer(nextPrice));
 			}
 			else {
 				assertTrue("Price mismatch", false);
@@ -149,6 +153,15 @@ public class SortSteps {
 		viewInteraction
 			.perform(ViewActions.getFlightPriceAtPosition(pos, price));
 
+		return price;
+	}
+
+	private String getPriceString(Matcher matcher) {
+		String price = "";
+		int count = 0;
+		while (matcher.find()) {
+			price = price.concat(matcher.group(count++));
+		}
 		return price;
 	}
 
