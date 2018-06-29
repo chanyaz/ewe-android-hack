@@ -56,6 +56,14 @@ gradle.buildFinished {
     println command.execute().text
 }
 
+configurations.all {
+
+    resolutionStrategy {
+        force 'android.arch.lifecycle:livedata-core:1.1.1'
+    }
+
+}
+
 apply plugin: 'com.github.ben-manes.versions'
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions

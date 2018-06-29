@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: [
+    implementation fileTree(dir: "$project.rootDir/project/libs", include: [
             'activeandroid-20131111.jar',
             'adobeMobileLibrary-4.13.5.jar',
             'climobile.aar',
@@ -374,8 +374,6 @@ android {
         debug {
             testCoverageEnabled = GradleUtil.shouldEnableTestCoverage(project)
 
-            applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
-
             minifyEnabled shouldRunProguard
             proguardFile file('proguard.cfg')
             testProguardFile file('proguard.cfg')
@@ -389,10 +387,6 @@ android {
         }
 
         release {
-            if (GradleUtil.isUsabilityBuild(project) || !GradleUtil.isJenkinsBuild()) {
-                applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
-            }
-
             minifyEnabled true
             proguardFile file('proguard.cfg')
             zipAlignEnabled true
@@ -539,36 +533,8 @@ public class GradleUtil {
     }
 }
 
-def releaseAccountTokens = [
-    'com.expedia.bookings' : 'expedia.tuid',
-    'com.expedia.bookings.vsc' : 'vsc.tuid',
-    'com.travelocity.android' : 'travelocity.tuid',
-]
-
-android.applicationVariants.all { variant ->
-    // We released apps with the following tokens so we should maintain them so people don't get logged out
-    def token = releaseAccountTokens[variant.applicationId]
-    if (!GradleUtil.isDefined(token)) {
-        token = "${variant.applicationId}.tuid"
-    }
-    variant.resValue "string", "expedia_account_token_type_tuid_identifier", "${token}"
-    variant.resValue "string", "expedia_account_type_identifier", "${variant.applicationId}"
-    variant.resValue "string", "authority_account_sync", "${variant.applicationId}.account.sync"
-
-    def launcherName = GradleUtil.getAppName(project, variant)
-    if (!GradleUtil.isDefined(launcherName)) {
-        // Must be a release build, so we default to app_name
-        launcherName = "@string/app_name"
-    }
-    variant.resValue "string", "launcher_name", "${launcherName}"
-
-    variant.mergeAssets.doLast {
-        delete(fileTree(dir: variant.mergeAssets.outputDir, includes: sharedDataFilesToRemove(variant)))
-    }
-}
-
 afterEvaluate {
-    android.applicationVariants.all { variant ->
+    android.featureVariants.all { variant ->
         if (variant.name == 'expediaDebug') {
             def lintTask = tasks["lintExpediaDebug"]
             def generateSourcesTask = tasks["compileExpediaDebugSources"]

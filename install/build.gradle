@@ -1,7 +1,18 @@
+def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
+def CHANGELOG_PATH = "changelog.txt"
+def CRASHLYTICS_BETA_GROUPS_PATH = "jenkins/crashlytics_beta_groups.txt"
+
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'com.shazam.fork'
 apply plugin: 'com.shazam.fork.reporter.jenkins'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
+    google()
+}
 
 android {
     compileSdkVersion 27
@@ -9,7 +20,7 @@ android {
     flavorDimensions "default"
 
     defaultConfig {
-        applicationId "com.abhi.personal.install"
+        applicationId "com.expedia.bookings.install"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -61,10 +72,52 @@ android {
         }
     }
 
-    buildTypes {
+    signingConfigs {
+        debug {
+            storeFile file("../common/debug.keystore")
+        }
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            /* We will provide these values using -P commandline option of gradle
+             * or using a .properties file, defaults are defined in gradle.properties
+             */
+            storeFile file(GradleUtil.getPropertyWithDefault(project, RELEASE_STORE_FILE, "."))
+            storePassword GradleUtil.getPropertyWithDefault(project, RELEASE_STORE_PASSWORD, "")
+            keyAlias GradleUtil.getPropertyWithDefault(project, RELEASE_KEY_ALIAS, "")
+            keyPassword GradleUtil.getPropertyWithDefault(project, RELEASE_KEY_PASSWORD, "")
+        }
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = GradleUtil.shouldEnableTestCoverage(project)
+
+            applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+
+            minifyEnabled shouldRunProguard
+            proguardFile file('proguard.cfg')
+            testProguardFile file('proguard.cfg')
+
+            ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
+            ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
+            ext.alwaysUpdateBuildId = GradleUtil.isJenkinsBuild()
+
+            buildConfigField "boolean", "RELEASE", "Boolean.parseBoolean(\"false\")"
+            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
+        }
+
+        release {
+            if (GradleUtil.isUsabilityBuild(project) || !GradleUtil.isJenkinsBuild()) {
+                applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+            }
+
+            minifyEnabled true
+            proguardFile file('proguard.cfg')
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+
+            buildConfigField "boolean", "RELEASE", "true"
+            buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "true" : "false"
         }
     }
 
@@ -97,15 +150,39 @@ android {
 
 }
 
+
+def releaseAccountTokens = [
+        'com.expedia.bookings' : 'expedia.tuid',
+        'com.expedia.bookings.vsc' : 'vsc.tuid',
+        'com.travelocity.android' : 'travelocity.tuid',
+]
+
+android.applicationVariants.all { variant ->
+    // We released apps with the following tokens so we should maintain them so people don't get logged out
+    def token = releaseAccountTokens[variant.applicationId]
+    if (!GradleUtil.isDefined(token)) {
+        token = "${variant.applicationId}.tuid"
+    }
+    variant.resValue "string", "expedia_account_token_type_tuid_identifier", "${token}"
+    variant.resValue "string", "expedia_account_type_identifier", "${variant.applicationId}"
+    variant.resValue "string", "authority_account_sync", "${variant.applicationId}.account.sync"
+
+    def launcherName = GradleUtil.getAppName(project, variant)
+    if (!GradleUtil.isDefined(launcherName)) {
+        // Must be a release build, so we default to app_name
+        launcherName = "@string/app_name"
+    }
+    variant.resValue "string", "launcher_name", "${launcherName}"
+
+    variant.mergeAssets.doLast {
+        delete(fileTree(dir: variant.mergeAssets.outputDir, includes: sharedDataFilesToRemove(variant)))
+    }
+}
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: "$project.rootDir/project/libs", include: ['*.jar'])
 
     implementation project(':project')
-
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
 public class GradleUtil {
