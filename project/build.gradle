@@ -190,6 +190,8 @@ if (!project.ext.has("cucumberInstrumentation")) {
 }
 
 android {
+    baseFeature true
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     useLibrary 'org.apache.http.legacy'
