@@ -66,7 +66,7 @@ public class SearchResultsScreenSteps {
 
 	@And("^I wait for results to load$")
 	public void waitForResultsToLoad() throws Throwable {
-		onView(allOf(withId(R.id.sort_filter_button), isDescendantOfA(withId(R.id.widget_flight_outbound)))).perform(waitFor(isDisplayed(), 40, TimeUnit.SECONDS));
+		onView(allOf(withId(R.id.sort_filter_button), isDescendantOfA(withId(R.id.widget_flight_outbound)))).perform(waitFor(isDisplayed(), 50, TimeUnit.SECONDS));
 	}
 
 	@And("^I wait for inbound flights results to load$")
