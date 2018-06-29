@@ -37,7 +37,7 @@ import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class TravelerButton extends LinearLayout {
@@ -70,7 +70,7 @@ public class TravelerButton extends LinearLayout {
 		void onAddNewTravelerSelected();
 	}
 
-	@InjectView(R2.id.select_traveler_button)
+	@BindView(R2.id.select_traveler_button)
 	Button selectTraveler;
 
 	@OnClick(R2.id.select_traveler_button)
@@ -85,7 +85,7 @@ public class TravelerButton extends LinearLayout {
 		setOrientation(LinearLayout.HORIZONTAL);
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(R.layout.checkout_traveler_button, this);
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), Ui.obtainThemeResID(getContext(), R.attr.traveler_checkout_circle_drawable));
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		if (dl.isDownloading(getTravelerDownloadKey())) {

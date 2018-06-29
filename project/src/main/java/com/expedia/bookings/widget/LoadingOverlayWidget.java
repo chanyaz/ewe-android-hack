@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class LoadingOverlayWidget extends LinearLayout {
 
@@ -25,19 +25,19 @@ public class LoadingOverlayWidget extends LinearLayout {
 		inflate(context, R.layout.loading_overlay, this);
 	}
 
-	@InjectView(R2.id.overlay_loading_text)
+	@BindView(R2.id.overlay_loading_text)
 	View loadingText;
 
-	@InjectView(R2.id.overlay_title_container)
+	@BindView(R2.id.overlay_title_container)
 	View overlayTitleContainer;
 
-	@InjectView(R2.id.loading_overlay)
+	@BindView(R2.id.loading_overlay)
 	View loadingOverlay;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		overlayTitleContainer.getLayoutParams().height += statusBarHeight;

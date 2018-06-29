@@ -33,7 +33,7 @@ import com.expedia.bookings.R2;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -233,15 +233,15 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	}
 
 	public static class DeepLinkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@InjectView(R2.id.button)
+		@BindView(R2.id.button)
 		Button button;
-		@InjectView(R2.id.link)
+		@BindView(R2.id.link)
 		TextView linkTextView;
 
 		public DeepLinkViewHolder(View itemView) {
 			super(itemView);
 
-			ButterKnife.inject(this, itemView);
+			ButterKnife.bind(this, itemView);
 
 			button.setOnClickListener(this);
 		}
@@ -282,7 +282,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	public static class DeepLinkWithPackageViewHolder extends DeepLinkViewHolder implements View.OnClickListener {
 
-		@InjectView(R2.id.app_package_spinner)
+		@BindView(R2.id.app_package_spinner)
 		Spinner packageSpinner;
 
 		public DeepLinkWithPackageViewHolder(View itemView) {
@@ -304,10 +304,10 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	public static class DeepLinkWithABTestsViewHolder extends DeepLinkViewHolder {
 
-		@InjectView(R2.id.app_ab_tests_spinner)
+		@BindView(R2.id.app_ab_tests_spinner)
 		Spinner abTestsSpinner;
 
-		@InjectView(R2.id.test_variant_edit_text)
+		@BindView(R2.id.test_variant_edit_text)
 		EditText testVariantEditText;
 
 		public DeepLinkWithABTestsViewHolder(View itemView) {

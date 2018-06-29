@@ -44,7 +44,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
@@ -61,37 +61,37 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	public LXConfirmationWidgetViewModel viewModel;
 
-	@InjectView(R2.id.confirmation_image_view)
+	@BindView(R2.id.confirmation_image_view)
 	ImageView confirmationImageView;
 
-	@InjectView(R2.id.confirmation_text)
+	@BindView(R2.id.confirmation_text)
 	TextView confirmationText;
 
-	@InjectView(R2.id.email_text)
+	@BindView(R2.id.email_text)
 	TextView emailText;
 
-	@InjectView(R2.id.title)
+	@BindView(R2.id.title)
 	android.widget.TextView title;
 
-	@InjectView(R2.id.location)
+	@BindView(R2.id.location)
 	android.widget.TextView location;
 
-	@InjectView(R2.id.tickets)
+	@BindView(R2.id.tickets)
 	android.widget.TextView tickets;
 
-	@InjectView(R2.id.date)
+	@BindView(R2.id.date)
 	android.widget.TextView date;
 
-	@InjectView(R2.id.toolbar)
+	@BindView(R2.id.toolbar)
 	android.support.v7.widget.Toolbar toolbar;
 
-	@InjectView(R2.id.text_container)
+	@BindView(R2.id.text_container)
 	ViewGroup textContainer;
 
-	@InjectView(R2.id.itin_number)
+	@BindView(R2.id.itin_number)
 	TextView itineraryNumber;
 
-	@InjectView(R2.id.reservation_confirmation_text)
+	@BindView(R2.id.reservation_confirmation_text)
 	TextView reservationConfirmation;
 
 	@Inject
@@ -100,7 +100,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);

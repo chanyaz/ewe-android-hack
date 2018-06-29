@@ -46,7 +46,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.squareup.otto.Subscribe;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -62,37 +62,37 @@ public class LXDetailsPresenter extends Presenter {
 
 	private ArrowXDrawable navIcon;
 
-	@InjectView(R2.id.activity_details)
+	@BindView(R2.id.activity_details)
 	LXActivityDetailsWidget details;
 
-	@InjectView(R2.id.lx_maps_view)
+	@BindView(R2.id.lx_maps_view)
 	LXMapView fullscreenMapView;
 
-	@InjectView(R2.id.toolbar)
+	@BindView(R2.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R2.id.toolbar_background)
+	@BindView(R2.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R2.id.toolbar_dropshadow)
+	@BindView(R2.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
 	@Inject
 	LXState lxState;
 
-	@InjectView(R2.id.toolbar_search_text)
+	@BindView(R2.id.toolbar_search_text)
 	android.widget.TextView toolBarSearchText;
 
-	@InjectView(R2.id.toolbar_detail_text)
+	@BindView(R2.id.toolbar_detail_text)
 	android.widget.TextView toolBarDetailText;
 
-	@InjectView(R2.id.toolbar_subtitle_text)
+	@BindView(R2.id.toolbar_subtitle_text)
 	android.widget.TextView toolBarSubtitleText;
 
-	@InjectView(R2.id.toolbar_two)
+	@BindView(R2.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	@InjectView(R2.id.lx_details_gradient_top)
+	@BindView(R2.id.lx_details_gradient_top)
 	View lxDetailsGradientTop;
 
 	private Disposable detailsSubscription;

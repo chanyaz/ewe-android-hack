@@ -61,7 +61,7 @@ import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -81,66 +81,66 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		inflate(context, R.layout.widget_checkout_base, this);
 	}
 
-	@InjectView(R2.id.checkout_scroll)
+	@BindView(R2.id.checkout_scroll)
 	public ScrollView scrollView;
 
-	@InjectView(R2.id.scroll_content)
+	@BindView(R2.id.scroll_content)
 	public LinearLayout checkoutContent;
 
-	@InjectView(R2.id.checkout_toolbar)
+	@BindView(R2.id.checkout_toolbar)
 	public CheckoutToolbar toolbar;
 
-	@InjectView(R2.id.main_contact_info_card_view)
+	@BindView(R2.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
 
-	@InjectView(R2.id.traveler_default_state_card_view)
+	@BindView(R2.id.traveler_default_state_card_view)
 	public CardView travelerSummaryCardView;
 
-	@InjectView(R2.id.traveler_default_state)
+	@BindView(R2.id.traveler_default_state)
 	public TravelerSummaryCard travelerSummaryCard;
 
 	public AbstractTravelersPresenter travelersPresenter;
 
-	@InjectView(R2.id.traveler_presenter_stub)
+	@BindView(R2.id.traveler_presenter_stub)
 	public ViewStub travelerViewStub;
 
 	public ViewStub paymentStub;
 
 	public PaymentWidget paymentInfoCardView;
 
-	@InjectView(R2.id.slide_to_purchase_layout)
+	@BindView(R2.id.slide_to_purchase_layout)
 	public ViewGroup slideToContainer;
 
-	@InjectView(R2.id.summary_container)
+	@BindView(R2.id.summary_container)
 	public FrameLayout summaryContainer;
 
-	@InjectView(R2.id.coupon_container)
+	@BindView(R2.id.coupon_container)
 	public FrameLayout couponContainer;
 
 	public View mSummaryProgressLayout;
 
-	@InjectView(R2.id.login_widget)
+	@BindView(R2.id.login_widget)
 	public AccountButton loginWidget;
 
-	@InjectView(R2.id.hint_container)
+	@BindView(R2.id.hint_container)
 	ViewGroup hintContainer;
 
-	@InjectView(R2.id.legal_information_text_view)
+	@BindView(R2.id.legal_information_text_view)
 	public TextView legalInformationText;
 
-	@InjectView(R2.id.disclaimer_text)
+	@BindView(R2.id.disclaimer_text)
 	public TextView disclaimerText;
 
-	@InjectView(R2.id.deposit_policy_text)
+	@BindView(R2.id.deposit_policy_text)
 	public TextView depositPolicyText;
 
-	@InjectView(R2.id.slide_to_purchase_widget)
+	@BindView(R2.id.slide_to_purchase_widget)
 	public SlideToWidgetLL slideWidget;
 
-	@InjectView(R2.id.purchase_total_text_view)
+	@BindView(R2.id.purchase_total_text_view)
 	public TextView sliderTotalText;
 
-	@InjectView(R2.id.spacer)
+	@BindView(R2.id.spacer)
 	public Space space;
 
 	public MenuItem menuDone;
@@ -157,7 +157,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
 		setupToolbar();
 

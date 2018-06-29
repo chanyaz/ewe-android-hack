@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.SpannableBuilder;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class DynamicFeedbackWidget extends CardView {
 
@@ -25,16 +25,16 @@ public class DynamicFeedbackWidget extends CardView {
 		inflate(context, R.layout.dynamic_feedback_widget, this);
 	}
 
-	@InjectView(R2.id.dynamic_feedback_counter)
+	@BindView(R2.id.dynamic_feedback_counter)
 	android.widget.TextView dynamicFeedbackCounter;
 
-	@InjectView(R2.id.dynamic_feedback_clear_button)
+	@BindView(R2.id.dynamic_feedback_clear_button)
 	android.widget.TextView dynamicFeedbackClearButton;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 	}
 
 	public void animateDynamicFeedbackWidget() {

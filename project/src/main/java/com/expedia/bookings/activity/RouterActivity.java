@@ -59,7 +59,7 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableObserver;
@@ -78,16 +78,16 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	@Inject
 	RouterToSignInTimeLogger routerToSignInTimeLogger;
 
-	@InjectView(R2.id.root_layout)
+	@BindView(R2.id.root_layout)
 	protected ConstraintLayout rootLayout;
 
-	@InjectView(R2.id.start_animation_view)
+	@BindView(R2.id.start_animation_view)
 	LottieAnimationView startAnimationView;
 
-	@InjectView(R2.id.loop_animation_view)
+	@BindView(R2.id.loop_animation_view)
 	LottieAnimationView loopAnimationView;
 
-	@InjectView(R2.id.end_animation_view)
+	@BindView(R2.id.end_animation_view)
 	LottieAnimationView endAnimationView;
 
 	protected SplashScreenAnimationProvider splashScreenAnimationProvider;
@@ -176,7 +176,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 	public void setupActivityForSplashLoadingAnimationAndPlayAnimation() {
 		setContentView(R.layout.activity_router_launch_animation);
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		setupLottieSplashLoadingAnimations();
 		startAnimationView.playAnimation();

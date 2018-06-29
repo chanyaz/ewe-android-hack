@@ -15,20 +15,22 @@ import com.expedia.bookings.R2;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isBrandColorEnabled;
 
 /* TODO remove old phone launch toolbar */
 public class PhoneLaunchToolbar extends Toolbar {
 
-	@InjectView(R2.id.tab_layout)
+
 	public TabLayout tabLayout;
 
 	public PhoneLaunchToolbar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		LayoutInflater.from(getContext()).inflate(R.layout.toolbar_phone_new_launch, this);
-		ButterKnife.inject(this);
+//		ButterKnife.bind(this);
+		tabLayout = findViewById(R.id.tab_layout);
+
 		updateActionBarLogo();
 		if (isBrandColorEnabled(context)) {
 			tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.brand_secondary));

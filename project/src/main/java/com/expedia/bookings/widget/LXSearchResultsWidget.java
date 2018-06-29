@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class LXSearchResultsWidget extends FrameLayout {
@@ -35,10 +35,10 @@ public class LXSearchResultsWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 12;
 	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
 
-	@InjectView(R2.id.lx_search_results_list)
+	@BindView(R2.id.lx_search_results_list)
 	RecyclerView recyclerView;
 
-	@InjectView(R2.id.lx_search_error_widget)
+	@BindView(R2.id.lx_search_error_widget)
 	LXErrorWidget errorScreen;
 
 	public LXResultsListAdapter adapter;
@@ -47,7 +47,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

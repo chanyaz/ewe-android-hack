@@ -20,7 +20,7 @@ import com.expedia.bookings.R2;
 import com.expedia.bookings.utils.AnimUtils;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 
 public class LXDetailSectionDataWidget extends LinearLayout implements View.OnClickListener {
@@ -31,20 +31,20 @@ public class LXDetailSectionDataWidget extends LinearLayout implements View.OnCl
 		super(context, attrs);
 	}
 
-	@InjectView(R2.id.section_content)
+	@BindView(R2.id.section_content)
 	TextView sectionContent;
 
-	@InjectView(R2.id.section_title)
+	@BindView(R2.id.section_title)
 	TextView sectionTitle;
 
-	@InjectView(R2.id.read_more)
+	@BindView(R2.id.read_more)
 	ImageButton readMoreView;
 
 	private int maxLineCount;
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		setOnClickListener(this);
 	}
 

@@ -42,7 +42,7 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -60,16 +60,16 @@ public class LXCheckoutPresenter extends Presenter {
 	protected UserStateManager userStateManager;
 
 	@VisibleForTesting
-	@InjectView(R2.id.checkout)
+	@BindView(R2.id.checkout)
 	LXCheckoutMainViewPresenter checkout;
 
-	@InjectView(R2.id.rules)
+	@BindView(R2.id.rules)
 	LxRulesWidget rules;
 
-	@InjectView(R2.id.cvv)
+	@BindView(R2.id.cvv)
 	CVVEntryWidget cvv;
 
-	@InjectView(R2.id.lx_checkout_error_widget)
+	@BindView(R2.id.lx_checkout_error_widget)
 	LXErrorWidget errorScreen;
 
 	private LXCheckoutParams checkoutParams;
@@ -79,7 +79,7 @@ public class LXCheckoutPresenter extends Presenter {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		addDefaultTransition(defaultCheckoutTransition);

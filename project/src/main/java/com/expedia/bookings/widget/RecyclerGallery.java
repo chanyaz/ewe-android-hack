@@ -40,7 +40,7 @@ import com.squareup.phrase.Phrase;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class RecyclerGallery extends RecyclerView {
 	/**
@@ -219,16 +219,16 @@ public class RecyclerGallery extends RecyclerView {
 		}
 
 		public class GalleryViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-			@InjectView(R2.id.gallery_item_progress_bar)
+			@BindView(R2.id.gallery_item_progress_bar)
 			public ProgressBar progressBar;
-			@InjectView(R2.id.photo_count_textview)
+			@BindView(R2.id.photo_count_textview)
 			public TextView photoCountTextView;
-			@InjectView(R2.id.gallery_item_image_view)
+			@BindView(R2.id.gallery_item_image_view)
 			public RecyclerGalleryImageView mImageView;
 
 			public GalleryViewHolder(View root) {
 				super(root);
-				ButterKnife.inject(this, itemView);
+				ButterKnife.bind(this, itemView);
 				mImageView.setLayoutParams(mLayoutParams);
 				mImageView.setTag(callback);
 				mImageView.setOnClickListener(this);

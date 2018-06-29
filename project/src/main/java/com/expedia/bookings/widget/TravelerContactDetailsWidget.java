@@ -39,7 +39,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import io.reactivex.subjects.PublishSubject;
@@ -52,43 +52,43 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		super(context, attr);
 	}
 
-	@InjectView(R2.id.travelerStatusIcon)
+	@BindView(R2.id.travelerStatusIcon)
 	ContactDetailsCompletenessStatusImageView driverCheckoutStatusRightImageView;
 
-	@InjectView(R2.id.travelerNameIcon)
+	@BindView(R2.id.travelerNameIcon)
 	ContactInitialsImageView driverCheckoutStatusLeftImageView;
 
-	@InjectView(R2.id.section_traveler_info_container)
+	@BindView(R2.id.section_traveler_info_container)
 	public SectionTravelerInfo sectionTravelerInfo;
 
-	@InjectView(R2.id.enter_details_text)
+	@BindView(R2.id.enter_details_text)
 	public TextView enterDetailsText;
 
-	@InjectView(R2.id.traveler_phone_text)
+	@BindView(R2.id.traveler_phone_text)
 	public TextView travelerPhoneText;
 
-	@InjectView(R2.id.edit_first_name)
+	@BindView(R2.id.edit_first_name)
 	public AccessibleEditText firstName;
 
-	@InjectView(R2.id.edit_last_name)
+	@BindView(R2.id.edit_last_name)
 	public AccessibleEditText lastName;
 
-	@InjectView(R2.id.edit_email_address)
+	@BindView(R2.id.edit_email_address)
 	public AccessibleEditText emailAddress;
 
-	@InjectView(R2.id.edit_phone_number_country_code_spinner)
+	@BindView(R2.id.edit_phone_number_country_code_spinner)
 	public TelephoneSpinner phoneSpinner;
 
-	@InjectView(R2.id.edit_phone_number)
+	@BindView(R2.id.edit_phone_number)
 	public AccessibleEditText phoneNumber;
 
-	@InjectView(R2.id.traveler_contact_info_container)
+	@BindView(R2.id.traveler_contact_info_container)
 	ViewGroup travelerContactInfoContainer;
 
-	@InjectView(R2.id.traveler_button)
+	@BindView(R2.id.traveler_button)
 	TravelerButton travelerButton;
 
-	@InjectView(R2.id.merchandise_guest_opt_checkbox)
+	@BindView(R2.id.merchandise_guest_opt_checkbox)
 	CheckBox merchandiseOptCheckBox;
 
 	public Boolean emailOptIn;
@@ -109,7 +109,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		else {
 			inflater.inflate(R.layout.traveler_contact_details_widget, this);
 		}
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		phoneSpinner.selectPOSCountry();
 		travelerButton.setVisibility(GONE);

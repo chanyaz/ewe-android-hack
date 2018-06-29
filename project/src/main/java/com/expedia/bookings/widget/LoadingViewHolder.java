@@ -11,17 +11,17 @@ import com.expedia.bookings.R2;
 
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class LoadingViewHolder extends RecyclerView.ViewHolder {
 	private ValueAnimator animator;
 
-	@InjectView(R2.id.background_image_view)
+	@BindView(R2.id.background_image_view)
 	public View backgroundImageView;
 
 	public LoadingViewHolder(View view) {
 		super(view);
-		ButterKnife.inject(this, itemView);
+		ButterKnife.bind(this, itemView);
 	}
 
 	public void cancelAnimation() {

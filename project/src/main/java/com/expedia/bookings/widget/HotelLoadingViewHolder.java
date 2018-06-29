@@ -7,11 +7,11 @@ import com.expedia.bookings.R2;
 
 import com.expedia.bookings.R2;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class HotelLoadingViewHolder extends LoadingViewHolder {
 
-	@InjectView(R2.id.text_layout)
+	@BindView(R2.id.text_layout)
 	protected LinearLayout textLayoutView;
 
 	public HotelLoadingViewHolder(View view) {

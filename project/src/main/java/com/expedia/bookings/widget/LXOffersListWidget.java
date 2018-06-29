@@ -30,7 +30,7 @@ import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LXOffersListWidget extends android.widget.LinearLayout {
@@ -45,13 +45,13 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	@Inject
 	LXState lxState;
 
-	@InjectView(R2.id.offer_show_more_container)
+	@BindView(R2.id.offer_show_more_container)
 	android.widget.LinearLayout showMoreContainer;
 
-	@InjectView(R2.id.offers_container)
+	@BindView(R2.id.offers_container)
 	android.widget.LinearLayout offerContainer;
 
-	@InjectView(R2.id.show_more_widget)
+	@BindView(R2.id.show_more_widget)
 	ShowMoreWithCountWidget showMoreWithCountWidget;
 
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
@@ -62,7 +62,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 		offersListInitialMaxCount = this.getResources().getInteger(R.integer.lx_offers_list_initial_size);
 		adapter.offerClickedSubject.subscribe(this::trackLXDetails);

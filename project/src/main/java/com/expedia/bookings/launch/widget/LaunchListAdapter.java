@@ -69,7 +69,6 @@ import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
-import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -127,10 +126,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			throw new IllegalArgumentException("Don't pass a null View into LaunchListAdapter");
 		}
 
-		seeAllButton = ButterKnife.findById(headerView, R.id.see_all_hotels_button);
+		seeAllButton = headerView.findViewById(R.id.see_all_hotels_button);
 		seeAllButton.setContentDescription(Phrase.from(context, R.string.a11y_button_TEMPLATE)
-				.put("description", context.getString(R.string.nearby_deals_expand)).format().toString());
-		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
+			.put("description", context.getString(R.string.nearby_deals_expand)).format().toString());
+		launchListTitle = headerView.findViewById(R.id.launch_list_header_title);
 		Font.ROBOTO_MEDIUM.setTypefaceOnTextView(launchListTitle);
 		setListData(new ArrayList<LaunchDataItem>(), "");
 	}

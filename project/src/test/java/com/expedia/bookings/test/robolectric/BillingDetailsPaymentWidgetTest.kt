@@ -79,7 +79,7 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testCreditCardSecurityCodeWidget() {
         assertNotNull(billingDetailsPaymentWidget)
-        ButterKnife.inject(activity)
+        ButterKnife.bind(activity)
         val securityCodeInput = billingDetailsPaymentWidget.findViewById<AccessibleEditText>(R.id.edit_creditcard_cvv)
         //test for accessibility content description
         securityCodeInput.getAccessibilityNodeInfo()

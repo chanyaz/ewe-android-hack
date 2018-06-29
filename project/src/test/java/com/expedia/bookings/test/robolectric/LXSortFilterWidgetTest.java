@@ -54,7 +54,7 @@ public class LXSortFilterWidgetTest {
 		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.test_lx_sort_filter_widget, null);
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 
 		widget.bind(buildCategories());
 
@@ -90,7 +90,7 @@ public class LXSortFilterWidgetTest {
 		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.test_lx_sort_filter_widget, null);
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 
 		Map<String, LXCategoryMetadata> filterCategories = buildCategories();
 		widget.bind(filterCategories);
@@ -122,7 +122,7 @@ public class LXSortFilterWidgetTest {
 		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.test_lx_sort_filter_widget, null);
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 		widget.bind(filterCategories);
 		LXCategoryMetadata attractions = filterCategories.get("Attractions");
 		attractions.checked = true;

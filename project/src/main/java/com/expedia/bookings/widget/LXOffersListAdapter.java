@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.subjects.PublishSubject;
 
@@ -101,27 +101,27 @@ public class LXOffersListAdapter extends BaseAdapter {
 
 		public ViewHolder(View itemView) {
 			this.itemView = itemView;
-			ButterKnife.inject(this, itemView);
+			ButterKnife.bind(this, itemView);
 			Events.register(this);
 			itemView.setOnClickListener(this);
 		}
 
-		@InjectView(R2.id.offer_title)
+		@BindView(R2.id.offer_title)
 		TextView offerTitle;
 
-		@InjectView(R2.id.select_tickets)
+		@BindView(R2.id.select_tickets)
 		Button selectTickets;
 
-		@InjectView(R2.id.offer_row)
+		@BindView(R2.id.offer_row)
 		View offerRow;
 
-		@InjectView(R2.id.offer_tickets_picker)
+		@BindView(R2.id.offer_tickets_picker)
 		LXTicketSelectionWidget ticketSelectionWidget;
 
-		@InjectView(R2.id.lx_book_now)
+		@BindView(R2.id.lx_book_now)
 		Button bookNow;
 
-		@InjectView(R2.id.activity_price_summary_container)
+		@BindView(R2.id.activity_price_summary_container)
 		LinearLayout priceSummaryContainer;
 
 		@OnClick(R2.id.select_tickets)

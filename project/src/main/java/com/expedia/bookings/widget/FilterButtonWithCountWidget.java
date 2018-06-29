@@ -19,7 +19,7 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class FilterButtonWithCountWidget extends LinearLayout {
 
@@ -29,22 +29,22 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 		inflate(context, R.layout.widget_filter_button_with_count, this);
 	}
 
-	@InjectView(R2.id.sort_filter_button)
+	@BindView(R2.id.sort_filter_button)
 	LinearLayout buttonContainer;
 
-	@InjectView(R2.id.filter_number_text)
+	@BindView(R2.id.filter_number_text)
 	TextView filterNumber;
 
-	@InjectView(R2.id.filter_icon)
+	@BindView(R2.id.filter_icon)
 	View filterIcon;
 
-	@InjectView(R2.id.filter_text)
+	@BindView(R2.id.filter_text)
 	TextView filterText;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		filterNumber.setVisibility(GONE);
 	}
 

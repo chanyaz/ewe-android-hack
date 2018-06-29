@@ -45,7 +45,7 @@ import com.expedia.util.RxKt;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
@@ -74,49 +74,49 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private Button doneButton;
 
-	@InjectView(R2.id.price_sort_button)
+	@BindView(R2.id.price_sort_button)
 	Button priceSortButton;
 
-	@InjectView(R2.id.popularity_sort_button)
+	@BindView(R2.id.popularity_sort_button)
 	Button popularitySortButton;
 
-	@InjectView(R2.id.filter_categories)
+	@BindView(R2.id.filter_categories)
 	LinearLayout filterCategoriesContainer;
 
-	@InjectView(R2.id.dynamic_feedback_container)
+	@BindView(R2.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
 
-	@InjectView(R2.id.dynamic_feedback_clear_button)
+	@BindView(R2.id.dynamic_feedback_clear_button)
 	com.expedia.bookings.widget.TextView dynamicFeedbackClearButton;
 
-	@InjectView(R2.id.toolbar_sort_filter)
+	@BindView(R2.id.toolbar_sort_filter)
 	Toolbar toolbar;
 
-	@InjectView(R2.id.toolbar_dropshadow)
+	@BindView(R2.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
-	@InjectView(R2.id.scroll_filter)
+	@BindView(R2.id.scroll_filter)
 	android.widget.ScrollView scrollFilter;
 
-	@InjectView(R2.id.space_below_filter_categories)
+	@BindView(R2.id.space_below_filter_categories)
 	Space spaceBelowFilterCategories;
 
-	@InjectView(R2.id.category_title)
+	@BindView(R2.id.category_title)
 	TextView categoryTitle;
 
-	public @InjectView(R2.id.filter_activity_name_edit_text)
+	public @BindView(R2.id.filter_activity_name_edit_text)
 	EditText activityNameFilterEditText;
 
-	@InjectView(R2.id.filter_by_text_container)
+	@BindView(R2.id.filter_by_text_container)
 	LinearLayout activityNameFilterContainer;
 
-	@InjectView(R2.id.filter_divider_line)
+	@BindView(R2.id.filter_divider_line)
 	View filterDivider;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		toolbar.setTitle(getResources().getString(R.string.sort_and_filter));
 		toolbar.setTitleTextAppearance(getContext(), R.style.LXToolbarTitleTextAppearance);

@@ -30,27 +30,27 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LXTicketPicker extends LinearLayout {
 
-	@InjectView(R2.id.traveler_type)
+	@BindView(R2.id.traveler_type)
 	TextView travelerTypeView;
 
-	@InjectView(R2.id.original_price)
+	@BindView(R2.id.original_price)
 	TextView originalPriceView;
 
-	@InjectView(R2.id.actual_price)
+	@BindView(R2.id.actual_price)
 	TextView actualPriceView;
 
-	@InjectView(R2.id.ticket_count)
+	@BindView(R2.id.ticket_count)
 	TextView ticketCount;
 
-	@InjectView(R2.id.ticket_add)
+	@BindView(R2.id.ticket_add)
 	ImageButton ticketAdd;
 
-	@InjectView(R2.id.ticket_remove)
+	@BindView(R2.id.ticket_remove)
 	ImageButton ticketRemove;
 
 	private Ticket ticket;
@@ -107,7 +107,7 @@ public class LXTicketPicker extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		enabledTicketSelectorColor = Ui.obtainThemeColor(getContext(), R.attr.primary_color);
 		disabledTicketSelectorColor = Ui.obtainThemeColor(getContext(), R.attr.skin_ticketSelectorDisabledColor);
 	}

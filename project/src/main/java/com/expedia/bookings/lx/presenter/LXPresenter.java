@@ -57,7 +57,7 @@ import com.google.android.gms.maps.MapView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -73,26 +73,26 @@ public class LXPresenter extends Presenter {
 		super(context, attrs);
 	}
 
-	@InjectView(R2.id.search_params_widget)
+	@BindView(R2.id.search_params_widget)
 	public LXSearchPresenter searchParamsWidget;
 
-	@InjectView(R2.id.search_list_presenter)
+	@BindView(R2.id.search_list_presenter)
 	public LXResultsPresenter resultsPresenter;
 
-	@InjectView(R2.id.details_map_view)
+	@BindView(R2.id.details_map_view)
 	MapView detailsMapView;
 
-	@InjectView(R2.id.activity_details_presenter)
+	@BindView(R2.id.activity_details_presenter)
 	public LXDetailsPresenter detailsPresenter;
 
-	@InjectView(R2.id.details_loading_overlay)
+	@BindView(R2.id.details_loading_overlay)
 	public LoadingOverlayWidget loadingOverlay;
 
-	@InjectView(R2.id.confirmation)
+	@BindView(R2.id.confirmation)
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	public LXConfirmationWidget confirmationWidget;
 
-	@InjectView(R2.id.web_checkout_view_stub)
+	@BindView(R2.id.web_checkout_view_stub)
 	ViewStub webCheckoutViewStub;
 
 	public LXCheckoutPresenter checkoutPresenter;
@@ -109,10 +109,10 @@ public class LXPresenter extends Presenter {
 		// ignore
 	}
 
-	@InjectView(R2.id.overview_presenter)
+	@BindView(R2.id.overview_presenter)
 	ViewStub overviewPresenterViewStub;
 
-	@InjectView(R2.id.lx_checkout_presenter_stub)
+	@BindView(R2.id.lx_checkout_presenter_stub)
 	ViewStub checkoutPresenterViewStub;
 
 	@Inject

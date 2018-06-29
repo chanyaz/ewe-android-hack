@@ -52,7 +52,7 @@ import com.expedia.bookings.widget.TextView;
 import com.squareup.phrase.Phrase;
 import javax.inject.Inject;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class AccountLibActivity extends AppCompatActivity implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
 	private static final String ARG_BUNDLE = "ARG_BUNDLE";
@@ -61,22 +61,22 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	private static final String ARG_INITIAL_STATE = "ARG_INITIAL_STATE";
 	private static final String ARG_INITIAL_TAB = "ARG_INITIAL_TAB";
 
-	@InjectView(R2.id.parallax_view)
+	@BindView(R2.id.parallax_view)
 	public PanningImageView background;
 
-	@InjectView(R2.id.white_background)
+	@BindView(R2.id.white_background)
 	public View whiteBackground;
 
-	@InjectView(R2.id.account_view)
+	@BindView(R2.id.account_view)
 	public AccountView accountView;
 
-	@InjectView(R2.id.new_account_view)
+	@BindView(R2.id.new_account_view)
 	public NewAccountView newAccountView;
 
-	@InjectView(R2.id.login_extension_container)
+	@BindView(R2.id.login_extension_container)
 	public LinearLayout loginExtenderContainer;
 
-	@InjectView(R2.id.extender_status)
+	@BindView(R2.id.extender_status)
 	public TextView extenderStatus;
 
 	@Inject
@@ -172,7 +172,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		}
 
 		setContentView(R.layout.account_lib_activity);
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		setupAccountViewBasedOnBucketing();
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);

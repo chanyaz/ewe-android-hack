@@ -38,7 +38,7 @@ import com.expedia.bookings.utils.Ui;
 import com.larvalabs.svgandroid.widget.SVGView;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class CVVEntryWidget extends LinearLayout implements CreditCardInputListener {
 
@@ -69,10 +69,10 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		super(context, attrs, defStyleAttr);
 	}
 
-	@InjectView(R2.id.cvv_toolbar)
+	@BindView(R2.id.cvv_toolbar)
 	public Toolbar toolbar;
 
-	@InjectView(R2.id.main_container)
+	@BindView(R2.id.main_container)
 	RelativeLayout mainContainer;
 
 	public void setCVVEntryListener(CVVEntryFragmentListener listener) {
@@ -84,7 +84,7 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		setOrientation(VERTICAL);
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		View v = inflater.inflate(R.layout.cvv_entry_widget, this);
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
 		drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);

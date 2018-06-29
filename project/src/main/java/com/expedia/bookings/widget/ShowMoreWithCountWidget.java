@@ -10,7 +10,7 @@ import com.expedia.bookings.R2;
 
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class ShowMoreWithCountWidget extends android.widget.LinearLayout {
 	public ShowMoreWithCountWidget(Context context, AttributeSet attrs) {
@@ -18,13 +18,13 @@ public class ShowMoreWithCountWidget extends android.widget.LinearLayout {
 		inflate(context, R.layout.show_more_with_count_layout, this);
 	}
 
-	@InjectView(R2.id.more_offer_count)
+	@BindView(R2.id.more_offer_count)
 	android.widget.TextView moreOfferCount;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 	}
 
 	public void setCount(String count) {

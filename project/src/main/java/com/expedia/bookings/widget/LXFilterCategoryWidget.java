@@ -19,7 +19,7 @@ import com.expedia.bookings.otto.Events;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class LXFilterCategoryWidget extends LinearLayout implements View.OnClickListener {
 	private LXCategoryMetadata category;
@@ -29,16 +29,16 @@ public class LXFilterCategoryWidget extends LinearLayout implements View.OnClick
 		super(context, attrs);
 	}
 
-	@InjectView(R2.id.category)
+	@BindView(R2.id.category)
 	TextView categoryTitle;
 
-	@InjectView(R2.id.category_check_box)
+	@BindView(R2.id.category_check_box)
 	CheckBox categoryCheckBox;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Events.register(this);
 		setOnClickListener(this);
 	}

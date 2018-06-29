@@ -31,7 +31,7 @@ import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class LXErrorWidget extends FrameLayout {
 
@@ -40,25 +40,25 @@ public class LXErrorWidget extends FrameLayout {
 		inflate(context, R.layout.lx_error_widget, this);
 	}
 
-	@InjectView(R2.id.error_main_container)
+	@BindView(R2.id.error_main_container)
 	ViewGroup root;
 
-	@InjectView(R2.id.error_image)
+	@BindView(R2.id.error_image)
 	ImageView errorImage;
 
-	@InjectView(R2.id.error_action_button)
+	@BindView(R2.id.error_action_button)
 	Button errorButton;
 
-	@InjectView(R2.id.error_text)
+	@BindView(R2.id.error_text)
 	TextView errorText;
 
-	@InjectView(R2.id.error_toolbar)
+	@BindView(R2.id.error_toolbar)
 	Toolbar toolbar;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		Drawable nav = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
 		nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);

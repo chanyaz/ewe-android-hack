@@ -1,5 +1,11 @@
 package com.expedia.bookings.widget;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -11,9 +17,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
-
-import com.expedia.bookings.R2;
-
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
@@ -33,15 +36,9 @@ import com.mobiata.android.text.StrikethroughTagHandler;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
+import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.InjectViews;
 
 public class LXTicketSelectionWidget extends LinearLayout {
 
@@ -49,43 +46,43 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R2.id.ticket_selectors_container)
+	@BindView(R2.id.ticket_selectors_container)
 	LinearLayout ticketSelectorContainer;
 
-	@InjectView(R2.id.selected_ticket_summary)
+	@BindView(R2.id.selected_ticket_summary)
 	TextView ticketSummary;
 
-	@InjectView(R2.id.lx_book_now)
+	@BindView(R2.id.lx_book_now)
 	Button bookNow;
 
-	@InjectView(R2.id.expanded_offer_title)
+	@BindView(R2.id.expanded_offer_title)
 	com.expedia.bookings.widget.TextView title;
 
-	@InjectView(R2.id.ticket_summary_container)
+	@BindView(R2.id.ticket_summary_container)
 	LinearLayout ticketSummaryContainer;
 
-	@InjectView(R2.id.offer_passengers)
+	@BindView(R2.id.offer_passengers)
 	com.expedia.bookings.widget.TextView offerPassengers;
 
-	@InjectView(R2.id.offer_bags)
+	@BindView(R2.id.offer_bags)
 	com.expedia.bookings.widget.TextView offerBags;
 
-	@InjectViews({ R2.id.offer_detail1, R2.id.offer_detail2, R2.id.offer_detail3 })
+	@BindViews({ R2.id.offer_detail1, R2.id.offer_detail2, R2.id.offer_detail3 })
 	List<com.expedia.bookings.widget.TextView> offerDetails;
 
-	@InjectView(R2.id.offer_description)
+	@BindView(R2.id.offer_description)
 	LXOfferDescription offerDescription;
 
-	@InjectView(R2.id.price_summary_container)
+	@BindView(R2.id.price_summary_container)
 	LinearLayout priceSummaryContainer;
 
-	@InjectView(R2.id.discount_percentage)
+	@BindView(R2.id.discount_percentage)
 	TextView discountPercentageView;
 
-	@InjectView(R2.id.strike_through_price)
+	@BindView(R2.id.strike_through_price)
 	TextView strikeThroughPrice;
 
-	@InjectView(R2.id.actual_price)
+	@BindView(R2.id.actual_price)
 	TextView actualPrice;
 
 	@Inject
@@ -101,7 +98,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 		Events.register(this);
 	}

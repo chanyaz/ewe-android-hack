@@ -37,7 +37,7 @@ import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LXCheckoutSummaryWidget extends LinearLayout {
@@ -48,31 +48,31 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R2.id.lx_activity_title_text)
+	@BindView(R2.id.lx_activity_title_text)
 	TextView lxActivityTitleText;
 
-	@InjectView(R2.id.lx_offer_title_text)
+	@BindView(R2.id.lx_offer_title_text)
 	TextView lxOfferTitleText;
 
-	@InjectView(R2.id.lx_group_text)
+	@BindView(R2.id.lx_group_text)
 	TextView lxGroupText;
 
-	@InjectView(R2.id.lx_offer_date)
+	@BindView(R2.id.lx_offer_date)
 	TextView lxOfferDate;
 
-	@InjectView(R2.id.lx_offer_location)
+	@BindView(R2.id.lx_offer_location)
 	TextView lxOfferLocation;
 
-	@InjectView(R2.id.free_cancellation_text)
+	@BindView(R2.id.free_cancellation_text)
 	TextView freeCancellationText;
 
-	@InjectView(R2.id.price_text)
+	@BindView(R2.id.price_text)
 	TextView tripTotalText;
 
-	@InjectView(R2.id.price_change_container)
+	@BindView(R2.id.price_change_container)
 	ViewGroup priceChangeContainer;
 
-	@InjectView(R2.id.price_change_text)
+	@BindView(R2.id.price_change_text)
 	TextView priceChangeText;
 
 	@Inject
@@ -81,7 +81,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 	}
 

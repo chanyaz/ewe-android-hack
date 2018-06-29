@@ -54,7 +54,7 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -68,52 +68,52 @@ public class LXResultsPresenter extends Presenter {
 	@Inject
 	LXState lxState;
 
-	@InjectView(R2.id.lx_search_results_widget)
+	@BindView(R2.id.lx_search_results_widget)
 	LXSearchResultsWidget searchResultsWidget;
 
 	Disposable searchSubscription;
 
-	@InjectView(R2.id.toolbar)
+	@BindView(R2.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R2.id.sort_filter_widget)
+	@BindView(R2.id.sort_filter_widget)
 	LXSortFilterWidget sortFilterWidget;
 
-	@InjectView(R2.id.sort_filter_button_container)
+	@BindView(R2.id.sort_filter_button_container)
 	FilterButtonWithCountWidget sortFilterButton;
 
 	// This is here just for an animation
-	@InjectView(R2.id.toolbar_background)
+	@BindView(R2.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R2.id.toolbar_search_text)
+	@BindView(R2.id.toolbar_search_text)
 	android.widget.TextView toolBarSearchText;
 
-	@InjectView(R2.id.toolbar_detail_text)
+	@BindView(R2.id.toolbar_detail_text)
 	android.widget.TextView toolBarDetailText;
 
-	@InjectView(R2.id.toolbar_subtitle_text)
+	@BindView(R2.id.toolbar_subtitle_text)
 	android.widget.TextView toolBarSubtitleText;
 
-	@InjectView(R2.id.toolbar_two)
+	@BindView(R2.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	@InjectView(R2.id.transparent_view)
+	@BindView(R2.id.transparent_view)
 	View transparentView;
 
-	@InjectView(R2.id.sort_filter_widget_animate_view)
+	@BindView(R2.id.sort_filter_widget_animate_view)
 	View sortFilterWidgetAnimateView;
 
-	@InjectView(R2.id.mip_srp_banner_image)
+	@BindView(R2.id.mip_srp_banner_image)
 	ImageView mipSrpBannerImage;
 
-	@InjectView(R2.id.mip_srp_banner_brand)
+	@BindView(R2.id.mip_srp_banner_brand)
 	android.widget.TextView mipSrpBannerBrand;
 
-	@InjectView(R2.id.mip_srp_banner_discount)
+	@BindView(R2.id.mip_srp_banner_discount)
 	android.widget.TextView mipSrpBannerDiscount;
 
-	@InjectView(R2.id.mip_srp_banner)
+	@BindView(R2.id.mip_srp_banner)
 	LinearLayout mipSrpBanner;
 
 	@OnClick(R2.id.transparent_view)

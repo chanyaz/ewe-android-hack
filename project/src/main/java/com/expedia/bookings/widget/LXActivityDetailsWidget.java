@@ -50,7 +50,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.subjects.PublishSubject;
 import kotlin.Unit;
@@ -59,82 +59,82 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public static final int DURATION = 500;
 
-	@InjectView(R2.id.activity_details_container)
+	@BindView(R2.id.activity_details_container)
 	LinearLayout activityContainer;
 
-	@InjectView(R2.id.activity_details)
+	@BindView(R2.id.activity_details)
 	LXDetailsScrollView activityDetailsContainer;
 
-	@InjectView(R2.id.gallery_container)
+	@BindView(R2.id.gallery_container)
 	FrameLayout galleryContainer;
 
-	@InjectView(R2.id.activity_gallery)
+	@BindView(R2.id.activity_gallery)
 	RecyclerGallery activityGallery;
 
-	@InjectView(R2.id.highlights)
+	@BindView(R2.id.highlights)
 	LXDetailSectionDataWidget highlights;
 
-	@InjectView(R2.id.mini_map_view)
+	@BindView(R2.id.mini_map_view)
 	LocationMapImageView miniMapView;
 
-	@InjectView(R2.id.map_divider)
+	@BindView(R2.id.map_divider)
 	View mapDivider;
 
-	@InjectView(R2.id.map_click_container)
+	@BindView(R2.id.map_click_container)
 	View miniMapContainer;
 
-	@InjectView(R2.id.offers)
+	@BindView(R2.id.offers)
 	LXOffersListWidget offers;
 
-	@InjectView(R2.id.description)
+	@BindView(R2.id.description)
 	LXDetailSectionDataWidget description;
 
-	@InjectView(R2.id.location)
+	@BindView(R2.id.location)
 	LXDetailSectionDataWidget location;
 
-	@InjectView(R2.id.event_location)
+	@BindView(R2.id.event_location)
 	LXDetailSectionDataWidget eventLocation;
 
-	@InjectView(R2.id.redemption_location)
+	@BindView(R2.id.redemption_location)
 	LXDetailSectionDataWidget redemptionLocation;
 
-	@InjectView(R2.id.offer_dates_container)
+	@BindView(R2.id.offer_dates_container)
 	LinearLayout offerDatesContainer;
 
-	@InjectView(R2.id.inclusions)
+	@BindView(R2.id.inclusions)
 	LXDetailSectionDataWidget inclusions;
 
-	@InjectView(R2.id.exclusions)
+	@BindView(R2.id.exclusions)
 	LXDetailSectionDataWidget exclusions;
 
-	@InjectView(R2.id.know_before_you_book)
+	@BindView(R2.id.know_before_you_book)
 	LXDetailSectionDataWidget knowBeforeYouBook;
 
-	@InjectView(R2.id.cancellation)
+	@BindView(R2.id.cancellation)
 	LXDetailSectionDataWidget cancellation;
 
-	@InjectView(R2.id.offer_dates_scroll_view)
+	@BindView(R2.id.offer_dates_scroll_view)
 	HorizontalScrollView offerDatesScrollView;
 
-	@InjectView(R2.id.discount_container)
+	@BindView(R2.id.discount_container)
 	LinearLayout discountContainer;
 
-	@InjectView(R2.id.discount_percentage)
+	@BindView(R2.id.discount_percentage)
 	TextView discountPercentageView;
 
-	@InjectView(R2.id.member_only_deal_tag)
+	@BindView(R2.id.member_only_deal_tag)
 	ImageView memberPricingTag;
 
-	@InjectView(R2.id.discount_text)
+	@BindView(R2.id.discount_text)
 	TextView memberPricingText;
 
-	@InjectView(R2.id.mip_infosite_image)
+	@BindView(R2.id.mip_infosite_image)
 	ImageView mipInfositeImage;
 
-	@InjectView(R2.id.mip_infosite_banner)
+	@BindView(R2.id.mip_infosite_banner)
 	LinearLayout mipInfositeBanner;
 
-	@InjectView(R2.id.mip_infosite_discount)
+	@BindView(R2.id.mip_infosite_discount)
 	android.widget.TextView mipInfositeDiscount;
 
 	@Inject
@@ -156,7 +156,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		highlights.setVisibility(View.GONE);

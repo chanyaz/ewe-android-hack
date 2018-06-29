@@ -14,7 +14,7 @@ import com.expedia.bookings.R2;
 import com.expedia.bookings.utils.AnimUtils;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class MapLoadingOverlayWidget extends FrameLayout {
 
@@ -23,16 +23,16 @@ public class MapLoadingOverlayWidget extends FrameLayout {
 		inflate(context, R.layout.map_loading_overlay, this);
 	}
 
-	@InjectView(R2.id.overlay_loading_text)
+	@BindView(R2.id.overlay_loading_text)
 	View loadingText;
 
-	@InjectView(R2.id.loading_overlay)
+	@BindView(R2.id.loading_overlay)
 	View loadingOverlay;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 	}
 
 	public void animate(boolean forward) {

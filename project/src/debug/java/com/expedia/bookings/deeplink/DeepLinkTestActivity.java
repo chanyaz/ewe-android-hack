@@ -11,11 +11,11 @@ import com.expedia.bookings.R2;
 
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class DeepLinkTestActivity extends AppCompatActivity {
 
-	@InjectView(R2.id.link_list)
+	@BindView(R2.id.link_list)
 	RecyclerView mRecycler;
 
 	@Override
@@ -24,7 +24,7 @@ public class DeepLinkTestActivity extends AppCompatActivity {
 
 		setContentView(R.layout.activity_deeplink_test);
 
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		mRecycler.setAdapter(new DeepLinksAdapter());
 	}

@@ -25,7 +25,7 @@ import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LxRulesWidget extends LinearLayout {
@@ -35,10 +35,10 @@ public class LxRulesWidget extends LinearLayout {
 		inflate(context, R.layout.widget_lx_rules, this);
 	}
 
-	@InjectView(R2.id.cancellation_policy_text_view)
+	@BindView(R2.id.cancellation_policy_text_view)
 	TextView cancellationPolicy;
 
-	@InjectView(R2.id.lx_rules_toolbar)
+	@BindView(R2.id.lx_rules_toolbar)
 	Toolbar toolbar;
 
 	private String tripId;
@@ -46,7 +46,7 @@ public class LxRulesWidget extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		setupToolbar();
 	}

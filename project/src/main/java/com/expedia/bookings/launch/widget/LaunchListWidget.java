@@ -41,7 +41,7 @@ public class LaunchListWidget extends RecyclerView {
 	@SuppressLint("InflateParams")
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 
 		StaggeredGridLayoutManager layoutManager = makeLayoutManager();
 		setLayoutManager(layoutManager);

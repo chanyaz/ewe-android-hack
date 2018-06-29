@@ -88,7 +88,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		summaryWidget = Ui.inflate(R.layout.lx_checkout_summary_widget, summaryContainer, false);

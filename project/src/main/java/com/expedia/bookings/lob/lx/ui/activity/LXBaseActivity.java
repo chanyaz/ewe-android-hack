@@ -31,15 +31,15 @@ import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import io.reactivex.Observable;
 
 public class LXBaseActivity extends AbstractAppCompatActivity {
 
-	@InjectView(R2.id.lx_base_presenter)
+	@BindView(R2.id.lx_base_presenter)
 	LXPresenter lxPresenter;
 
-	@InjectView(R2.id.details_map_view)
+	@BindView(R2.id.details_map_view)
 	MapView detailsMapView;
 
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;
@@ -58,7 +58,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 		Intent intent = getIntent();
 		setContentView(R.layout.lx_base_layout);
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
 		lxPresenter.setLOBForCheckout();
 		detailsMapView.onCreate(savedInstanceState);
 		Ui.showTransparentStatusBar(this);

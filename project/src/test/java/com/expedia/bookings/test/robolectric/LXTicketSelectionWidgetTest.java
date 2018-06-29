@@ -54,7 +54,7 @@ public class LXTicketSelectionWidgetTest {
 	@Test
 	public void testActivityTicketSelectionWidgetViews() {
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 
 		widget.bind(buildActivityOffer());
 		widget.buildTicketPickers(singleTicketAvailability());
@@ -98,7 +98,7 @@ public class LXTicketSelectionWidgetTest {
 	@Test
 	public void testGTTicketSelectionWidgetViews() {
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 
 		widget.bind(buildGTOffer());
 		widget.buildTicketPickers(singleTicketAvailability());
@@ -124,7 +124,7 @@ public class LXTicketSelectionWidgetTest {
 	@Test
 	public void testTicketSelectionWidgetWithOnlyDuration() {
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 
 		Offer offer = buildGTOffer();
 		offer.freeCancellation = false;
@@ -144,7 +144,7 @@ public class LXTicketSelectionWidgetTest {
 	@Test
 	public void testTicketSelectionWidgetWithDurationAndRedemption() {
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 
 		Offer offer = buildGTOffer();
 		offer.freeCancellation = false;
@@ -163,7 +163,7 @@ public class LXTicketSelectionWidgetTest {
 	@Test
 	public void testTicketSelectionWidgetWithFreeCancellationAndRedemption() {
 		assertNotNull(widget);
-		ButterKnife.inject(activity);
+		ButterKnife.bind(activity);
 
 		Offer offer = buildGTOffer();
 		offer.duration = null;
