@@ -1,8 +1,9 @@
 Feature: Package End To End
 
-  @Packages @PackageEtoE @Prod
-  Scenario: Validate bundle traveler info on all screens
+  @Packages @PackageEtoE @Prod @PackageEtoEInt
+  Scenario Outline: Validate bundle traveler info on all screens
     Given I launch the App
+    And I set the server to <server>
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source              | SEA                            |
@@ -81,6 +82,12 @@ Feature: Package End To End
       | start_date        | 15                |
       | end_date          | 20                |
       | totalTravelers    | 4 travelers       |
+
+    Examples:
+      | server |
+      | "Int"  |
+      | "Prod" |
+
 
   @Packages @PackageEtoE @Prod
   Scenario: Validate bundle traveler info on all screens after modifying search
