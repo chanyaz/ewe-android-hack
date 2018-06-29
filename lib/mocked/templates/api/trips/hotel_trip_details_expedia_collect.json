@@ -145,10 +145,6 @@
         "hotelPropertyInfo": {
           "address": {
             "addressLine1": "7750 Carondelet Avenue",
-            "city": "St. Louis",
-            "countrySubdivisionCode": "MO",
-            "postalCode": "63105",
-            "countryCode": "USA",
             "countryName": " United States of America",
             "fullAddress": "7750 Carondelet Avenue, St. Louis, MO, 63105 United States of America",
             "airportCode": "STL"
@@ -191,7 +187,6 @@
             "Airport shuttle service is available during limited hours. Contact the property in advance to get details. "
           ],
           "latitude": 38.648842,
-          "longitude": -90.336862,
           "isVipAccess": false,
           "googleMapsLink": "//maps.google.com/?q=63105+St.+Louis%2C+7750+Carondelet+Avenue+",
           "regionId": "3284"
