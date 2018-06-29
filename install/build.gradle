@@ -16,6 +16,48 @@ android {
 
     }
 
+    productFlavors {
+        expedia {
+            applicationId "com.expedia.bookings"
+        }
+
+        ebookers {
+            applicationId "com.ebookers"
+        }
+
+        voyages {
+            applicationId "com.expedia.bookings.vsc"
+        }
+
+        travelocity {
+            applicationId "com.travelocity.android"
+        }
+
+        airAsiaGo {
+            applicationId "com.airasiago.android"
+        }
+
+        wotif {
+            applicationId "com.wotif.android"
+        }
+
+        lastMinute {
+            applicationId "com.lastminute.android"
+        }
+
+        orbitz {
+            applicationId "com.orbitz"
+        }
+
+        cheapTickets {
+            applicationId "com.cheaptickets"
+        }
+
+        mrJet {
+            applicationId "se.mrjet"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
