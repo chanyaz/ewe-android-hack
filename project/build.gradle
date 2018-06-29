@@ -9,9 +9,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
-apply plugin: 'com.shazam.fork'
 apply from: '../jacoco.gradle'
-apply plugin: 'com.shazam.fork.reporter.jenkins'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
 repositories {
@@ -27,6 +25,9 @@ dependencies {
             'climobile.aar',
             'svg-android-1.0.0.aar'
     ])
+
+    application project(':install')
+
     implementation project(':lib:AndroidTime')
     implementation project(':lib:AndroidUtils')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
@@ -282,7 +283,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
             buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
-            applicationId "com.expedia.bookings"
 
             // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
             resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
@@ -293,7 +293,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"bukr\""
             buildConfigField "String", "USER_AGENT", "\"Ebookers\""
-            applicationId "com.ebookers"
 
             resConfigs "de", "en_GB", "fi", "fr"
         }
@@ -303,7 +302,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
             buildConfigField "String", "USER_AGENT", "\"VSC\""
-            applicationId "com.expedia.bookings.vsc"
 
             resConfigs "fr"
         }
@@ -313,7 +311,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"tvly\""
             buildConfigField "String", "USER_AGENT", "\"TVLY\""
-            applicationId "com.travelocity.android"
 
             resConfigs "en_CA", "fr_CA"
         }
@@ -323,7 +320,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"aago\""
             buildConfigField "String", "USER_AGENT", "\"AirAsiaGo\""
-            applicationId "com.airasiago.android"
 
             resConfigs "th", "zh", "zh_HK", "in", "ja"
         }
@@ -333,7 +329,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"wotf\""
             buildConfigField "String", "USER_AGENT", "\"Wotif\""
-            applicationId "com.wotif.android"
 
             resConfigs "en"
         }
@@ -343,7 +338,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"ltmn\""
             buildConfigField "String", "USER_AGENT", "\"LM\""
-            applicationId "com.lastminute.android"
 
             resConfigs "en"
         }
@@ -353,7 +347,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"obtz\""
             buildConfigField "String", "USER_AGENT", "\"Orbitz\""
-            applicationId "com.orbitz"
 
             resConfigs "en", "es"
         }
@@ -363,7 +356,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"hptk\""
             buildConfigField "String", "USER_AGENT", "\"CheapTickets\""
-            applicationId "com.cheaptickets"
 
             resConfigs "en"
         }
@@ -373,7 +365,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"mret\""
             buildConfigField "String", "USER_AGENT", "\"MrJet\""
-            applicationId "se.mrjet"
 
             resConfigs "sv"
         }
@@ -450,33 +441,6 @@ android {
         executable "../tools/create_dummy_file.sh"
         args "${buildDir}"
     }
-
-    fork {
-        testPackage = GradleUtil.getPropertyWithDefault(project, 'package', "com.expedia.bookings.test")
-        totalAllowedRetryQuota = 99
-        retryPerTestCaseQuota = 2
-        testOutputTimeout = 90000
-        // Workaround to run tests in parallel on all connected devices. It should run on all devices above api level 19.
-        poolingStrategy {
-            computed {
-                characteristic = "api"
-                groups {
-                    connected_devices = 19
-                }
-            }
-        }
-    }
-
-    forkJenkins {
-        reportTitle = "EBad UI tests Flakyness Report"
-        jenkinsUrl = "https://jenkins-ewe-mobile-android-master.tools.expedia.com"
-        jenkinsUsername = GradleUtil.getPropertyWithDefault(project, 'jenkinsUsername', "")
-        jenkinsPassword = GradleUtil.getPropertyWithDefault(project, 'jenkinsPassword', "")
-        jenkinsReportTitle = "Fork Report"
-        freestyleJob {
-            jobName = "EBad-PullRequests-UITests"
-        }
-    }
 }
 
 androidExtensions {
@@ -526,7 +490,7 @@ public class GradleUtil {
     static def isJenkinsBuild() {
         def buildNumber = "${System.env.BUILD_NUMBER}"
         def ci = "${System.env.CI}"
-        
+
         return isDefined(buildNumber) || isDefined(ci)
     }
 

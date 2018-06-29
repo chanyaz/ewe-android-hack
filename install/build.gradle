@@ -1,9 +1,12 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.shazam.fork'
+apply plugin: 'com.shazam.fork.reporter.jenkins'
+
 android {
     compileSdkVersion 27
 
-
+    flavorDimensions "default"
 
     defaultConfig {
         applicationId "com.abhi.personal.install"
@@ -65,13 +68,134 @@ android {
         }
     }
 
+    fork {
+        testPackage = GradleUtil.getPropertyWithDefault(project, 'package', "com.expedia.bookings.test")
+        totalAllowedRetryQuota = 99
+        retryPerTestCaseQuota = 2
+        testOutputTimeout = 90000
+        // Workaround to run tests in parallel on all connected devices. It should run on all devices above api level 19.
+        poolingStrategy {
+            computed {
+                characteristic = "api"
+                groups {
+                    connected_devices = 19
+                }
+            }
+        }
+    }
+
+    forkJenkins {
+        reportTitle = "EBad UI tests Flakyness Report"
+        jenkinsUrl = "https://jenkins-ewe-mobile-android-master.tools.expedia.com"
+        jenkinsUsername = GradleUtil.getPropertyWithDefault(project, 'jenkinsUsername', "")
+        jenkinsPassword = GradleUtil.getPropertyWithDefault(project, 'jenkinsPassword', "")
+        jenkinsReportTitle = "Fork Report"
+        freestyleJob {
+            jobName = "EBad-PullRequests-UITests"
+        }
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':project')
+
     implementation 'com.android.support:appcompat-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+public class GradleUtil {
+    static def isDefined(s) {
+        return s != null && !s.isEmpty() && s != "null"
+    }
+
+    static def shouldEnableProguard(Project project) {
+        return shouldEnableOnJenkinsOrIfManuallyEnabled(project, "runProguard")
+    }
+
+    static def shouldEnableTestCoverage(Project project) {
+        return shouldEnableOnJenkinsOrIfManuallyEnabled(project, "enableTestCoverage")
+    }
+
+    private static def shouldEnableOnJenkinsOrIfManuallyEnabled(Project project, String manualEnableKey) {
+        def boolean shouldEnable = false
+
+        if (isJenkinsBuild()) {
+            shouldEnable = true
+        }
+
+        // This setting supercedes BUILD_NUMBER
+        if (project.hasProperty(manualEnableKey)) {
+            shouldEnable = project.getProperty(manualEnableKey).toBoolean()
+        }
+
+        return shouldEnable
+    }
+
+    static def getPropertyWithDefault(Project project, String key, String defaultValue) {
+        if (project.hasProperty(key)) {
+            return project.getProperty(key).toString()
+        }
+
+        return defaultValue
+    }
+
+    static def getBuildIdentifier(Project project) {
+        return getPropertyWithDefault(project, "id", "debug")
+    }
+
+    static def isJenkinsBuild() {
+        def buildNumber = "${System.env.BUILD_NUMBER}"
+        def ci = "${System.env.CI}"
+
+        return isDefined(buildNumber) || isDefined(ci)
+    }
+
+    static def getAppName(Project project, variant) {
+        // Don't touch release builds
+        if (variant.buildType.name == "release" || isUsabilityBuild(project)) {
+            return null
+        }
+
+        def flavor = variant.productFlavors.get(0).name
+        flavor = flavor.capitalize()
+
+        def type = variant.buildType.name
+        if (type == "debug") {
+            type = getBuildIdentifier(project)
+        }
+        type = type.capitalize()
+
+        def appname = flavor + " " + type
+        return appname.tr('_', '.')
+    }
+
+    static def isUsabilityBuild(Project project) {
+        return getBuildIdentifier(project) == "usability"
+    }
+
+    static def getGitRevision() {
+        def hash = "git rev-parse --short HEAD".execute().text.trim()
+        def hasLocalChanges = "git diff --raw".execute().text
+        if (hasLocalChanges) {
+            hash = "!" + hash
+        }
+        return hash
+    }
+
+    static def versionCode(major, minor, patch, build) {
+        return major * 1000000 + minor * 10000 + patch * 100 + build
+    }
+
+    static def versionName(major, minor, patch, build) {
+        def name = "${major}.${minor}.${patch}"
+        if (build > 0) {
+            name = "${name}.${build}"
+        }
+        return name
+    }
 }
