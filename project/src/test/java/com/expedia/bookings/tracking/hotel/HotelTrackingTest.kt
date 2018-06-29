@@ -92,7 +92,7 @@ class HotelTrackingTest {
         AbacusTestUtils.unbucketTests(AbacusUtils.HotelMapSmallSoldOutPins, AbacusUtils.HotelResultsCellOnMapCarousel)
         HotelTracking.trackHotelMapLoad(false)
 
-        assertTrackHotelMapShown(null, "25410.0.0|26455.0.0")
+        assertTrackHotelPageShown("App.Hotels.Search.Map", null, mapOf(34 to "25410.0.0|26455.0.0"))
     }
 
     @Test
@@ -100,7 +100,7 @@ class HotelTrackingTest {
         AbacusTestUtils.unbucketTests(AbacusUtils.HotelMapSmallSoldOutPins, AbacusUtils.HotelResultsCellOnMapCarousel)
         HotelTracking.trackHotelMapLoad(true)
 
-        assertTrackHotelMapShown("event118", "25410.0.0|26455.0.0")
+        assertTrackHotelPageShown("App.Hotels.Search.Map", "event118", mapOf(34 to "25410.0.0|26455.0.0"))
     }
 
     @Test
@@ -108,7 +108,23 @@ class HotelTrackingTest {
         AbacusTestUtils.bucketTests(AbacusUtils.HotelMapSmallSoldOutPins, AbacusUtils.HotelResultsCellOnMapCarousel)
         HotelTracking.trackHotelMapLoad(false)
 
-        assertTrackHotelMapShown(null, "25410.0.1|26455.0.1")
+        assertTrackHotelPageShown("App.Hotels.Search.Map", null, mapOf(34 to "25410.0.1|26455.0.1"))
+    }
+
+    @Test
+    fun testTrackHotelFilter() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelGuestRatingFilter)
+        HotelTracking.trackHotelFilter()
+
+        assertTrackHotelPageShown("App.Hotels.Search.Filter", null, mapOf(34 to "25533.0.0"))
+    }
+
+    @Test
+    fun testTrackHotelFilterWithHotelGuestRatingFilter() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelGuestRatingFilter)
+        HotelTracking.trackHotelFilter()
+
+        assertTrackHotelPageShown("App.Hotels.Search.Filter", null, mapOf(34 to "25533.0.1"))
     }
 
     private fun assertTrackingRoomBookClickForNonIndiaPOS(test: ABTest, bucket: Boolean) {
@@ -131,11 +147,13 @@ class HotelTrackingTest {
                 mockAnalyticsProvider)
     }
 
-    private fun assertTrackHotelMapShown(eventsString: String?, thirtyFourTracking: String) {
-        val linkName = "App.Hotels.Search.Map"
-
-        val evar = mapOf(18 to linkName, 2 to "D=c2", 34 to thirtyFourTracking)
-        val prop = mapOf(2 to "hotels", 34 to thirtyFourTracking)
+    private fun assertTrackHotelPageShown(linkName: String, eventsString: String?,
+                                          extraEvar: Map<Int, String> = LinkedHashMap(), extraProp: Map<Int, String> = LinkedHashMap()) {
+        val evar = extraEvar.toMutableMap()
+        evar[18] = linkName
+        evar[2] = "D=c2"
+        val prop = extraProp.toMutableMap()
+        prop[2] = "hotels"
 
         if (eventsString.isNullOrBlank()) {
             assertStateTracked(linkName,
