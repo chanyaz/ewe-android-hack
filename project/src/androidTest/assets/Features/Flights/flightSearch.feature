@@ -391,7 +391,7 @@ Feature: Flights Search
       | lccAndMerchantFareCheckoutAllowed     | true                          |
       | sourceType                            | mobileapp                     |
     Then Validate the flight Search API request form data for following parameters
-      | maxOfferCount                         | 1600                          |
+      | maxOfferCount                         | 6400                          |
       | infantSeatingInLap                    | false                         |
       | departureAirport                      | SFO                           |
       | arrivalAirport                        | LAS                           |
@@ -410,7 +410,7 @@ Feature: Flights Search
       | lccAndMerchantFareCheckoutAllowed     | true                          |
       | sourceType                            | mobileapp                     |
     Then Validate the flight Search API request form data for following parameters
-      | maxOfferCount                         | 1600                          |
+      | maxOfferCount                         | 6400                          |
       | infantSeatingInLap                    | false                         |
       | departureAirport                      | SFO                           |
       | arrivalAirport                        | LAS                           |
