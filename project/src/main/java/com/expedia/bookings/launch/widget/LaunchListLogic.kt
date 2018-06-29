@@ -12,6 +12,7 @@ import com.expedia.bookings.data.trips.TripUtils
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.common.ItinLaunchScreenHelper
+import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.utils.Ui
 import java.util.ArrayList
 
@@ -54,6 +55,10 @@ open class LaunchListLogic {
 
     open fun getCustomerTrips(): List<Trip> {
         return ArrayList(ItineraryManager.getInstance().trips)
+    }
+
+    fun showLaunchHeaderItem(): Boolean {
+        return LaunchNavBucketCache.isBucketed(context)
     }
 
     fun showSignInCard(): Boolean {

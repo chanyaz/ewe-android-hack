@@ -11,6 +11,8 @@ import javax.inject.Singleton;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.expedia.account.util.AndroidNetworkConnectivity;
+import com.expedia.account.util.NetworkConnectivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.SatelliteRemoteFeatureResolver;
@@ -33,6 +35,8 @@ import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.itin.utils.StringProvider;
 import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.itin.utils.Toaster;
+import com.expedia.bookings.launch.displaylogic.LaunchListStateManager;
+import com.expedia.bookings.launch.widget.LaunchListLogic;
 import com.expedia.bookings.legacy.LegacyCurrentDomainSource;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.INotificationManager;
@@ -392,6 +396,20 @@ public class AppModule {
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getOfferServiceEndpoint();
 		return new OfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	NetworkConnectivity provideNetworkConnectivity(Context context) {
+		return new AndroidNetworkConnectivity(context);
+	}
+
+	@Provides
+	@Singleton
+	LaunchListStateManager provideLaunchListStateManager(NetworkConnectivity networkConnectivity,
+														 UserLoginStateChangedModel userLoginStateChangedModel,
+														 UserStateManager userStateManager) {
+		return new LaunchListStateManager(networkConnectivity, userLoginStateChangedModel, userStateManager, LaunchListLogic.getInstance());
 	}
 
 	@Provides

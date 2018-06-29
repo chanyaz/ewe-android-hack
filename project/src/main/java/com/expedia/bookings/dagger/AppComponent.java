@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import android.content.Context;
 
+import com.expedia.account.util.NetworkConnectivity;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.activity.SatelliteRemoteFeatureResolver;
@@ -21,6 +22,7 @@ import com.expedia.bookings.itin.utils.AbacusSource;
 import com.expedia.bookings.itin.utils.IToaster;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.itin.utils.StringSource;
+import com.expedia.bookings.launch.displaylogic.LaunchListStateManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -107,6 +109,10 @@ public interface AppComponent {
 	OfferService offerService();
 
 	UserStateManager userStateManager();
+
+	NetworkConnectivity networkConnectivity();
+
+	LaunchListStateManager launchListStateManager();
 
 	SearchLobToolbarCache searchLobToolbarCache();
 
