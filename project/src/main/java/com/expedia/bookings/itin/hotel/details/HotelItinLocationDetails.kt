@@ -49,13 +49,13 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             )
             mapView.setViewModel(mapVm)
             mapView.setOnClickListener {
-                val intent = ItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id, TripProducts.HOTEL.name)
+                val intent = ItinExpandedMapActivity.createIntent(context, itinCardDataHotel.tripId, TripProducts.HOTEL.name)
                 context.startActivity(intent)
                 TripsTracking.trackItinHotelExpandMap()
             }
             directionsButton.contentDescription = context.getString(R.string.itin_action_directions)
             directionsButton.setOnClickListener {
-                val intent = ItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id, TripProducts.HOTEL.name)
+                val intent = ItinExpandedMapActivity.createIntent(context, itinCardDataHotel.tripId, TripProducts.HOTEL.name)
                 context.startActivity(intent)
                 TripsTracking.trackItinHotelDirections()
             }

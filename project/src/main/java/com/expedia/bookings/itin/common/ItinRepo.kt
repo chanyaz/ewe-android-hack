@@ -29,7 +29,7 @@ class ItinRepo(private val itinId: String, private val jsonUtil: IJsonToItinUtil
         }
     }
 
-    private fun fetchItin(): Itin? {
+    fun fetchItin(): Itin? {
         return jsonUtil.getItin(itinId)
     }
 
