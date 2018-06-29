@@ -31,13 +31,17 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
     private val SAVED_INFO_FILENAME = "user.dat"
 
     private val accountType: String by lazy {
-        context.getString(R.string.expedia_account_type_identifier)
+        "someString"
+//        context.getString(R.string.expedia_account_type_identifier)
     }
     private val tokenType: String by lazy {
-        context.getString(R.string.expedia_account_token_type_tuid_identifier)
+        "someString"
+
+//        context.getString(R.string.expedia_account_token_type_tuid_identifier)
     }
     private val contentAuthority: String by lazy {
-        context.getString(R.string.authority_account_sync)
+        "someString"
+        //        context.getString(R.string.authority_account_sync)
     }
 
     @JvmOverloads

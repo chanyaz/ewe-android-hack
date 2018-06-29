@@ -26,6 +26,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        multiDexEnabled = true
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -276,3 +278,26 @@ public class GradleUtil {
         return name
     }
 }
+
+def sharedDataFilesToRemove(variant) {
+    List<String> filesToRemove = new ArrayList<String>()
+    android.productFlavors.all { flavor ->
+        if (flavor.name != variant.productFlavors.get(0).name) {
+            if (flavor.name == 'travelocity') {
+                filesToRemove.add('ExpediaSharedData/TravelocityPointOfSaleConfig.json')
+                filesToRemove.add('ExpediaSharedData/TVLYServerURLs.json')
+            }
+            else if (flavor.name == 'voyages') {
+                filesToRemove.add('ExpediaSharedData/VSCPointOfSaleConfig.json')
+                filesToRemove.add('ExpediaSharedData/VSCServerURLs.json')
+            }
+            else {
+                filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('PointOfSaleConfig.json'))
+                filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('ServerURLs.json'))
+            }
+        }
+    }
+    filesToRemove.add('ExpediaSharedData/validate.sh')
+    return filesToRemove
+}
+

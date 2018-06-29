@@ -552,7 +552,7 @@
 
         <provider
             android:name="com.expedia.bookings.account.AccountSyncContentProvider"
-            android:authorities="@string/authority_account_sync"
+            android:authorities="someString"
             android:exported="false" />
 
         <receiver android:name="com.expedia.bookings.itin.utils.ItinShareTargetBroadcastReceiver">
