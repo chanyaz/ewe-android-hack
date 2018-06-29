@@ -7,6 +7,7 @@ import com.expedia.bookings.utils.GuestsPickerUtils
 import com.expedia.bookings.utils.StrUtils
 import com.mobiata.android.Log
 import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.Locale
@@ -53,8 +54,8 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
 
         hotelDeepLink.hotelId = getQueryParameterIfExists(data, queryParameterNames, "hotelId")
         hotelDeepLink.selectedHotelId = getQueryParameterIfExists(data, queryParameterNames, "selected")
-        hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkInDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
-        hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkOutDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
+        hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkInDate", getDateTimeFormatterToUse(data, "checkInDate", queryParameterNames))
+        hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkOutDate", getDateTimeFormatterToUse(data, "checkOutDate", queryParameterNames))
         hotelDeepLink.sortType = getQueryParameterIfExists(data, queryParameterNames, "sortType")
         hotelDeepLink.numAdults = getIntegerParameterIfExists(data, queryParameterNames, "numAdults")
 
@@ -70,8 +71,8 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
 
         flightDeepLink.origin = getQueryParameterIfExists(data, queryParameterNames, "origin")
         flightDeepLink.destination = getQueryParameterIfExists(data, queryParameterNames, "destination")
-        flightDeepLink.departureDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "departureDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
-        flightDeepLink.returnDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "returnDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
+        flightDeepLink.departureDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "departureDate", getDateTimeFormatterToUse(data, "departureDate", queryParameterNames))
+        flightDeepLink.returnDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "returnDate", getDateTimeFormatterToUse(data, "returnDate", queryParameterNames))
         flightDeepLink.numAdults = getIntegerParameterIfExists(data, queryParameterNames, "numAdults")
 
         return flightDeepLink
@@ -95,7 +96,7 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
         val activityDeepLink = ActivityDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
 
-        activityDeepLink.startDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "startDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
+        activityDeepLink.startDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "startDate", getDateTimeFormatterToUse(data, "startDate", queryParameterNames))
         activityDeepLink.location = getQueryParameterIfExists(data, queryParameterNames, "location")
         activityDeepLink.activityID = getQueryParameterIfExists(data, queryParameterNames, "activityId")
         activityDeepLink.filters = getQueryParameterIfExists(data, queryParameterNames, "filters")
@@ -171,5 +172,14 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
         tripDeepLink.itinNum = getQueryParameterIfExists(data, queryParameterNames, "itinNum")
 
         return tripDeepLink
+    }
+
+    private fun getDateTimeFormatterToUse(data: Uri, parameterName: String, queryParameterNames: Set<String>): DateTimeFormatter {
+        val defaultDateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
+        val dateString = getQueryParameterIfExists(data, queryParameterNames, parameterName)
+        dateString?.let {
+            return if (dateString.length > 10) DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ") else defaultDateTimeFormat
+        }
+        return defaultDateTimeFormat
     }
 }

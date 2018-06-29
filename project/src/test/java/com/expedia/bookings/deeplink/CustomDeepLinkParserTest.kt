@@ -10,6 +10,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class CustomDeepLinkParserTest {
@@ -286,6 +288,35 @@ class CustomDeepLinkParserTest {
         val data = Uri.parse("expda://flightShare")
         val output = parser.parseDeepLink(data)
         Assert.assertTrue(output is FlightShareDeepLink)
+    }
+
+    @Test
+    fun testDeeplinkCheckInDateWithURICheckInDateInYYMMDDFormat() {
+        var hotelDeepLinkDate = parser.parseDeepLink(generateCustomDeepLinkWithCheckInDateQuery("2017-06-06"))
+
+        assertEquals((hotelDeepLinkDate as HotelDeepLink).checkInDate, LocalDate("2017-06-06"))
+    }
+
+    @Test
+    fun testDeeplinkCheckInDateWithURICheckInDateInISO8601DateTimeFormat() {
+        var hotelDeepLinkDate = parser.parseDeepLink(generateCustomDeepLinkWithCheckInDateQuery("2018-06-27T16:31:04Z"))
+
+        assertEquals((hotelDeepLinkDate as HotelDeepLink).checkInDate, LocalDate("2018-06-27"))
+    }
+
+    @Test
+    fun testDeeplinkCheckInDateWithNoCheckInDateQueryPassed() {
+        var hotelDeepLinkDate = parser.parseDeepLink(generateCustomDeepLinkWithCheckInDateQuery())
+
+        assertNull((hotelDeepLinkDate as HotelDeepLink).checkInDate)
+    }
+
+    private fun generateCustomDeepLinkWithCheckInDateQuery(date: String? = null): Uri {
+        var data = Uri.parse("expda://hotelSearch")
+        date?.let {
+            return data.buildUpon().appendQueryParameter("checkInDate", date).build()
+        }
+        return data
     }
 
     private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
