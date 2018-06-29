@@ -202,9 +202,6 @@ android {
 
     generatePureSplits = true
     splits {
-        abi {
-            enable = true
-        }
         density {
             enable = true
         }
