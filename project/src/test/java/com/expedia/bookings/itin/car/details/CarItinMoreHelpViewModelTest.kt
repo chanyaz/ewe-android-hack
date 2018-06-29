@@ -3,21 +3,15 @@ package com.expedia.bookings.itin.car.details
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.cars.details.CarItinMoreHelpViewModel
 import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
-import com.expedia.bookings.itin.helpers.MockCarRepo
 import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
-import com.expedia.bookings.itin.scopes.HasCarRepo
 import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.utils.StringSource
@@ -38,12 +32,12 @@ class CarItinMoreHelpViewModelTest {
     private lateinit var callButtonContentDescriptionTestObserver: TestObserver<String>
     private lateinit var helpTextTestObserver: TestObserver<String>
     private lateinit var confirmationNumberTestObserver: TestObserver<String>
-    private lateinit var confirmationNumberTextVisiblityTestObserver: TestObserver<Boolean>
+    private lateinit var confirmationNumberTextVisibilityTestObserver: TestObserver<Boolean>
     private lateinit var confirmationNumberContentDescriptionTestObserver: TestObserver<String>
 
     private lateinit var vm: CarItinMoreHelpViewModel<MockCarItinMoreHelpScope>
-    val noPhoneNumberJson = ItinMocker.carDetailsBadNameAndImage
-    val noConfirmationNumber = ItinMocker.carDetailsBadLocations
+    private val noPhoneNumberJson = ItinMocker.carDetailsBadNameAndImage
+    private val noConfirmationNumber = ItinMocker.carDetailsBadLocations
 
     @Before
     fun setup() {
@@ -51,7 +45,7 @@ class CarItinMoreHelpViewModelTest {
         callButtonContentDescriptionTestObserver = TestObserver()
         helpTextTestObserver = TestObserver()
         confirmationNumberTestObserver = TestObserver()
-        confirmationNumberTextVisiblityTestObserver = TestObserver()
+        confirmationNumberTextVisibilityTestObserver = TestObserver()
         confirmationNumberContentDescriptionTestObserver = TestObserver()
         setupViewModel()
     }
@@ -80,7 +74,7 @@ class CarItinMoreHelpViewModelTest {
         helpTextTestObserver.assertValue(helpText)
 
         confirmationNumberTestObserver.assertValue("8053084518926")
-        confirmationNumberTextVisiblityTestObserver.assertValue(true)
+        confirmationNumberTextVisibilityTestObserver.assertValue(true)
 
         val confirmationNumberContDesc = (R.string.itin_more_help_confirmation_number_content_description_TEMPLATE)
                 .toString().plus(mapOf("number" to "8053084518926"))
@@ -95,7 +89,7 @@ class CarItinMoreHelpViewModelTest {
         callButtonContentDescriptionTestObserver.assertEmpty()
 
         confirmationNumberTestObserver.assertValue("8053084518926")
-        confirmationNumberTextVisiblityTestObserver.assertValue(true)
+        confirmationNumberTextVisibilityTestObserver.assertValue(true)
 
         val confirmationNumberContDesc = (R.string.itin_more_help_confirmation_number_content_description_TEMPLATE)
                 .toString().plus(mapOf("number" to "8053084518926"))
@@ -107,7 +101,7 @@ class CarItinMoreHelpViewModelTest {
         vm.itinObserver.onChanged(noConfirmationNumber)
 
         confirmationNumberTestObserver.assertEmpty()
-        confirmationNumberTextVisiblityTestObserver.assertValue(false)
+        confirmationNumberTextVisibilityTestObserver.assertValue(false)
     }
 
     @Test
@@ -126,16 +120,14 @@ class CarItinMoreHelpViewModelTest {
         vm.callButtonContentDescriptionSubject.subscribe(callButtonContentDescriptionTestObserver)
         vm.helpTextSubject.subscribe(helpTextTestObserver)
         vm.confirmationNumberSubject.subscribe(confirmationNumberTestObserver)
-        vm.confirmationTitleVisibilitySubject.subscribe(confirmationNumberTextVisiblityTestObserver)
+        vm.confirmationTitleVisibilitySubject.subscribe(confirmationNumberTextVisibilityTestObserver)
         vm.confirmationNumberContentDescriptionSubject.subscribe(confirmationNumberContentDescriptionTestObserver)
     }
 
-    private class MockCarItinMoreHelpScope : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasCarRepo, HasItinRepo {
+    private class MockCarItinMoreHelpScope : HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasItinRepo {
         override val strings: StringSource = MockStringProvider()
-        override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         override val tripsTracking = MockTripsTracking()
-        override val itinCarRepo: ItinCarRepoInterface = MockCarRepo()
         override val itinRepo: ItinRepoInterface = MockItinRepo()
     }
 }

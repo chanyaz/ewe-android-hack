@@ -1,9 +1,9 @@
 package com.expedia.bookings.itin.cars.details
 
 import android.arch.lifecycle.LifecycleOwner
-import com.expedia.bookings.itin.cars.ItinCarRepoInterface
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
-import com.expedia.bookings.itin.scopes.HasCarRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasPhoneHandler
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -18,7 +18,7 @@ import com.expedia.bookings.tracking.ITripsTracking
 data class CarItinMapWidgetViewModelScope(override val strings: StringSource,
                                           override val tripsTracking: ITripsTracking,
                                           override val lifecycleOwner: LifecycleOwner,
-                                          override val itinCarRepo: ItinCarRepoInterface,
+                                          override val itinRepo: ItinRepoInterface,
                                           override val toaster: IToaster,
                                           override val phoneHandler: IPhoneHandler,
-                                          override val activityLauncher: IActivityLauncher) : HasCarRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasActivityLauncher
+                                          override val activityLauncher: IActivityLauncher) : HasItinRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasActivityLauncher

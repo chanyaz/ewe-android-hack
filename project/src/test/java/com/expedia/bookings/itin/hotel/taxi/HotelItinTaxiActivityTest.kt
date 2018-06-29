@@ -3,8 +3,8 @@ package com.expedia.bookings.itin.hotel.taxi
 import android.os.Bundle
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.helpers.MockHotelRepo
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.common.ItinRepoInterface
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -28,7 +28,7 @@ class HotelItinTaxiActivityTest {
     fun invalidItinShouldFinishTest() {
         val shadow = shadowOf(sut)
         assertFalse(shadow.isFinishing)
-        sut.repo.liveDataInvalidItin.postValue(Unit)
+        sut.repo.invalidDataSubject.onNext(Unit)
         assertTrue(shadow.isFinishing)
     }
 
@@ -72,7 +72,7 @@ class HotelItinTaxiActivityTest {
     }
 
     class TestHotelItinTaxiActivity : HotelItinTaxiActivity() {
-        override val repo: ItinHotelRepoInterface = MockHotelRepo()
+        override val repo: ItinRepoInterface = MockItinRepo()
         override fun onCreate(savedInstanceState: Bundle?) {
             setTheme(R.style.ItinTheme)
             super.onCreate(savedInstanceState)

@@ -3,15 +3,15 @@ package com.expedia.bookings.itin.lx.details
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
@@ -32,12 +32,12 @@ class LxItinRedeemVoucherViewModelTest {
     val rule = InstantTaskExecutorRule()
     private lateinit var sut: LxItinRedeemVoucherViewModel<MockRedeemVoucherViewModelScope>
     private lateinit var scope: MockRedeemVoucherViewModelScope
-    val showRedeemObserver = TestObserver<Unit>()
-    val lxHappy = ItinMocker.lxDetailsHappy
-    val lxNotHappy = ItinMocker.lxDetailsNoDetailsUrl
-    val noTripId = ItinMocker.lxDetailsNoTripID
-    val lxvoucherUrlReturned = ItinMocker.lxDetailsNoLat
-    val voucherUrlReturned = ItinMocker.lxDetailsAlsoHappy
+    private val showRedeemObserver = TestObserver<Unit>()
+    private val lxHappy = ItinMocker.lxDetailsHappy
+    private val lxNotHappy = ItinMocker.lxDetailsNoDetailsUrl
+    private val noTripId = ItinMocker.lxDetailsNoTripID
+    private val lxvoucherUrlReturned = ItinMocker.lxDetailsNoLat
+    private val voucherUrlReturned = ItinMocker.lxDetailsAlsoHappy
 
     @Before
     fun setup() {
@@ -114,12 +114,11 @@ class LxItinRedeemVoucherViewModelTest {
         assertEquals(tripId, scope.webViewLauncerMock.lastSeenTripId)
     }
 
-    private class MockRedeemVoucherViewModelScope : HasLifecycleOwner, HasLxRepo, HasTripsTracking, HasStringProvider, HasWebViewLauncher {
+    private class MockRedeemVoucherViewModelScope : HasLifecycleOwner, HasItinRepo, HasTripsTracking, HasStringProvider, HasWebViewLauncher {
         val mockTracking = MockTripsTracking()
         override val tripsTracking = mockTracking
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
-        val mockRepo = MockLxRepo(false)
-        override val itinLxRepo: ItinLxRepoInterface = mockRepo
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val strings: StringSource = MockStringProvider()
         val webViewLauncerMock = MockWebViewLauncher()
         override val webViewLauncher: IWebViewLauncher = webViewLauncerMock

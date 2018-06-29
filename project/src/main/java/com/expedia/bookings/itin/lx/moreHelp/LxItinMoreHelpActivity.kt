@@ -13,7 +13,6 @@ import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
-import com.expedia.bookings.itin.lx.ItinLxRepo
 import com.expedia.bookings.itin.scopes.ItinCustomerSupportWidgetViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinMoreHelpViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinToolbarScope
@@ -46,7 +45,6 @@ class LxItinMoreHelpActivity : AppCompatActivity() {
     val itinCustomerSupportWidget: ItinCustomerSupportWidget by bindView(R.id.widget_lx_itin_customer_support)
 
     lateinit var repo: ItinRepo
-    lateinit var lxRepo: ItinLxRepo
     lateinit var stringProvider: StringSource
     lateinit var moreHelpViewModel: LxItinMoreHelpViewModel<LxItinMoreHelpViewModelScope>
 
@@ -67,13 +65,12 @@ class LxItinMoreHelpActivity : AppCompatActivity() {
         stringProvider = Ui.getApplication(this).appComponent().stringProvider()
         val jsonUtil = Ui.getApplication(this).appComponent().jsonUtilProvider()
         repo = ItinRepo(intent.getStringExtra(LX_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
-        lxRepo = ItinLxRepo(intent.getStringExtra(LX_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
 
-        val moreHelpScope = LxItinMoreHelpViewModelScope(stringProvider, lxRepo, this, tripsTracking)
+        val moreHelpScope = LxItinMoreHelpViewModelScope(stringProvider, repo, this, tripsTracking)
         moreHelpViewModel = LxItinMoreHelpViewModel(moreHelpScope)
         lxItinMoreHelpWidget.viewModel = moreHelpViewModel
 
-        val toolbarScope = LxItinToolbarScope(stringProvider, lxRepo, this, POSInfoProvider())
+        val toolbarScope = LxItinToolbarScope(stringProvider, repo, this, POSInfoProvider())
         toolbarViewModel = LxItinMoreHelpToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
 
@@ -90,16 +87,16 @@ class LxItinMoreHelpActivity : AppCompatActivity() {
     }
 
     fun setRepoObservers() {
-        lxRepo.liveDataItin.observe(this, object : Observer<Itin> {
+        repo.liveDataItin.observe(this, object : Observer<Itin> {
             override fun onChanged(t: Itin?) {
                 t?.let {
                     val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(it, ItinOmnitureUtils.LOB.LX)
                     tripsTracking.trackItinLxMoreHelpPageLoad(omnitureValues)
                 }
-                lxRepo.liveDataItin.removeObserver(this)
+                repo.liveDataItin.removeObserver(this)
             }
         })
-        lxRepo.invalidDataSubject.subscribe {
+        repo.invalidDataSubject.subscribe {
             finish()
         }
     }

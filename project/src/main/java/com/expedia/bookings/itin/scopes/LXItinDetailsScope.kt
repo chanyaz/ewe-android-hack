@@ -2,9 +2,7 @@ package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.itin.common.ItinRepoInterface
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
-import com.expedia.bookings.itin.tripstore.data.ItinLOB
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
@@ -29,25 +27,25 @@ data class LXItinDetailsScope(
 
 data class LxItinToolbarScope(
         override val strings: StringSource,
-        override val itinLxRepo: ItinLxRepoInterface,
+        override val itinRepo: ItinRepoInterface,
         override val lifecycleOwner: LifecycleOwner,
         override val posInfoProvider: IPOSInfoProvider
-) : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasPOSProvider
+) : HasStringProvider, HasItinRepo, HasLifecycleOwner, HasPOSProvider
 
-data class LxLifeCycleObserverScope<T : ItinLOB>(override val strings: StringSource,
-                                                 override val webViewLauncher: IWebViewLauncher,
-                                                 override val activityLauncher: IActivityLauncher,
-                                                 override val jsonUtil: IJsonToItinUtil,
-                                                 override val id: String,
-                                                 override val manageBooking: ManageBookingWidgetViewModelSetter,
-                                                 override val toolbar: ToolBarViewModelSetter,
-                                                 override val tripsTracking: ITripsTracking,
-                                                 override val map: MapWidgetViewModelSetter<T>,
-                                                 override val redeemVoucher: RedeemVoucherViewModelSetter,
-                                                 override val toaster: IToaster,
-                                                 override val phoneHandler: IPhoneHandler,
-                                                 override val itinImage: ItinImageViewModelSetter<T>,
-                                                 override val itinTimings: ItinTimingsViewModelSetter<T>) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter<T>, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter<T>, HasItinTimingsViewModelSetter<T>
+data class LxLifeCycleObserverScope(override val strings: StringSource,
+                                    override val webViewLauncher: IWebViewLauncher,
+                                    override val activityLauncher: IActivityLauncher,
+                                    override val jsonUtil: IJsonToItinUtil,
+                                    override val id: String,
+                                    override val manageBooking: ManageBookingWidgetViewModelSetter,
+                                    override val toolbar: ToolBarViewModelSetter,
+                                    override val tripsTracking: ITripsTracking,
+                                    override val map: MapWidgetViewModelSetter,
+                                    override val redeemVoucher: RedeemVoucherViewModelSetter,
+                                    override val toaster: IToaster,
+                                    override val phoneHandler: IPhoneHandler,
+                                    override val itinImage: ItinImageViewModelSetter,
+                                    override val itinTimings: ItinTimingsViewModelSetter) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter, HasItinTimingsViewModelSetter
 
 class WebViewCardScope(override val strings: StringSource,
                        override val webViewLauncher: IWebViewLauncher,
@@ -57,54 +55,54 @@ class WebViewCardScope(override val strings: StringSource,
 
 class StringsActivityScope(override val strings: StringSource,
                            override val activityLauncher: IActivityLauncher,
-                           override val itinLxRepo: ItinLxRepoInterface,
-                           override val tripsTracking: ITripsTracking) : HasStringProvider, HasActivityLauncher, HasLxRepo, HasTripsTracking
+                           override val itinRepo: ItinRepoInterface,
+                           override val tripsTracking: ITripsTracking) : HasStringProvider, HasActivityLauncher, HasItinRepo, HasTripsTracking
 
 data class LxItinManageBookingWidgetScope(override val strings: StringSource,
                                           override val webViewLauncher: IWebViewLauncher,
                                           override val activityLauncher: IActivityLauncher,
-                                          override val itinLxRepo: ItinLxRepoInterface,
-                                          override val tripsTracking: ITripsTracking) : HasWebViewLauncher, HasActivityLauncher, HasLxRepo, HasStringProvider, HasTripsTracking
+                                          override val itinRepo: ItinRepoInterface,
+                                          override val tripsTracking: ITripsTracking) : HasWebViewLauncher, HasActivityLauncher, HasItinRepo, HasStringProvider, HasTripsTracking
 
-data class LxItinMapWidgetViewModelScope(override val itinLxRepo: ItinLxRepoInterface,
+data class LxItinMapWidgetViewModelScope(override val itinRepo: ItinRepoInterface,
                                          override val lifecycleOwner: LifecycleOwner,
                                          override val tripsTracking: ITripsTracking,
                                          override val toaster: IToaster,
                                          override val strings: StringSource,
                                          override val phoneHandler: IPhoneHandler,
-                                         override val activityLauncher: IActivityLauncher) : HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasActivityLauncher
+                                         override val activityLauncher: IActivityLauncher) : HasItinRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasActivityLauncher
 
 data class LxItinRedeemVoucherViewModelScope(
         override val strings: StringSource,
         override val webViewLauncher: IWebViewLauncher,
-        override val itinLxRepo: ItinLxRepoInterface,
+        override val itinRepo: ItinRepoInterface,
         override val lifecycleOwner: LifecycleOwner,
         override val tripsTracking: ITripsTracking
-) : HasStringProvider, HasTripsTracking, HasLifecycleOwner, HasWebViewLauncher, HasLxRepo
+) : HasStringProvider, HasTripsTracking, HasLifecycleOwner, HasWebViewLauncher, HasItinRepo
 
 data class LxItinImageViewModelScope(
         override val lifecycleOwner: LifecycleOwner,
-        override val itinLxRepo: ItinLxRepoInterface
-) : HasLxRepo, HasLifecycleOwner
+        override val itinRepo: ItinRepoInterface
+) : HasItinRepo, HasLifecycleOwner
 
 data class LxItinMoreHelpViewModelScope(override val strings: StringSource,
-                                        override val itinLxRepo: ItinLxRepoInterface,
-                                        override val lifecycleOwner: LifecycleOwner,
-                                        override val tripsTracking: ITripsTracking) : HasLxRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking
-
-data class ItinCustomerSupportWidgetViewModelScope(override val strings: StringSource,
                                         override val itinRepo: ItinRepoInterface,
                                         override val lifecycleOwner: LifecycleOwner,
-                                        override val tripsTracking: ITripsTracking,
-                                        override val webViewLauncher: IWebViewLauncher,
-                                        override val type: String
+                                        override val tripsTracking: ITripsTracking) : HasItinRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking
+
+data class ItinCustomerSupportWidgetViewModelScope(override val strings: StringSource,
+                                                   override val itinRepo: ItinRepoInterface,
+                                                   override val lifecycleOwner: LifecycleOwner,
+                                                   override val tripsTracking: ITripsTracking,
+                                                   override val webViewLauncher: IWebViewLauncher,
+                                                   override val type: String
 ) : HasItinRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType
 
 data class LxItinTimingsScope(
         override val lifecycleOwner: LifecycleOwner,
-        override val itinLxRepo: ItinLxRepoInterface,
+        override val itinRepo: ItinRepoInterface,
         override val strings: StringSource
-) : HasLxRepo, HasLifecycleOwner, HasStringProvider
+) : HasItinRepo, HasLifecycleOwner, HasStringProvider
 
 data class ItinExpandedMapViewModelScope(
         override val activityLauncher: IActivityLauncher,

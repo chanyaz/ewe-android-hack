@@ -4,28 +4,28 @@ import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinAdditionalInfoItem
 import com.expedia.bookings.itin.common.ItinPricingAdditionInfoViewModelInterface
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
-import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import io.reactivex.subjects.PublishSubject
 
-class HotelItinPricingAdditionalInfoViewModel<out S>(val scope: S) : ItinPricingAdditionInfoViewModelInterface where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo {
-    var hotelObserver: LiveDataObserver<ItinHotel>
+class HotelItinPricingAdditionalInfoViewModel<out S>(val scope: S) : ItinPricingAdditionInfoViewModelInterface where S : HasLifecycleOwner, S : HasStringProvider, S : HasItinRepo {
 
     override val toolbarTitleSubject: PublishSubject<String> = PublishSubject.create()
     override val additionalInfoItemSubject: PublishSubject<List<ItinAdditionalInfoItem>> = PublishSubject.create()
 
-    init {
-        hotelObserver = LiveDataObserver { hotel ->
+    val hotelObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
+        itin?.firstHotel()?.let { itinHotel ->
             toolbarTitleSubject.onNext(scope.strings.fetch(R.string.itin_hotel_details_price_summary_additional_info_button_text))
 
             val listOfInfoItems = mutableListOf<ItinAdditionalInfoItem>()
 
             //additional hotel fees
             var stringBuilder = StringBuilder()
-            val paymentsAndCreditFees = hotel?.paymentsAndCreditFees
-            val hotelPropertyInfo = hotel?.hotelPropertyInfo
+            val paymentsAndCreditFees = itinHotel.paymentsAndCreditFees
+            val hotelPropertyInfo = itinHotel.hotelPropertyInfo
 
             paymentsAndCreditFees?.paymentsHotelFeesAndDepositsDisclaimer?.let {
                 stringBuilder.append(it)
@@ -48,7 +48,7 @@ class HotelItinPricingAdditionalInfoViewModel<out S>(val scope: S) : ItinPricing
                 listOfInfoItems.add(additionalHotelFees)
             }
 
-            val rules = hotel?.rules
+            val rules = itinHotel.rules
 
             //taxes and fees
             stringBuilder = StringBuilder()
@@ -86,7 +86,9 @@ class HotelItinPricingAdditionalInfoViewModel<out S>(val scope: S) : ItinPricing
                 additionalInfoItemSubject.onNext(listOfInfoItems)
             }
         }
+    }
 
-        scope.itinHotelRepo.liveDataHotel.observe(scope.lifecycleOwner, hotelObserver)
+    init {
+        scope.itinRepo.liveDataItin.observe(scope.lifecycleOwner, hotelObserver)
     }
 }

@@ -8,6 +8,7 @@ import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.extensions.firstCruise
 import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import io.reactivex.subjects.PublishSubject
 
@@ -21,7 +22,7 @@ class CruiseItinToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel wher
     override val itinShareTextGeneratorSubject: PublishSubject<ItinShareTextGenerator> = PublishSubject.create()
 
     val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
-        itin?.cruises?.first()?.let { itinCruise ->
+        itin?.firstCruise()?.let { itinCruise ->
             itinCruise.destination?.let { destination ->
                 val toolbarTitle = scope.strings.fetchWithPhrase(R.string.itin_cruise_toolbar_title_TEMPLATE,
                         mapOf("destination" to destination))

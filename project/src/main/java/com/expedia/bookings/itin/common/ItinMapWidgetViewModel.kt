@@ -1,11 +1,11 @@
 package com.expedia.bookings.itin.common
 
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.itin.tripstore.data.ItinLOB
+import com.expedia.bookings.itin.tripstore.data.Itin
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.subjects.PublishSubject
 
-abstract class ItinMapWidgetViewModel<T : ItinLOB> {
+abstract class ItinMapWidgetViewModel {
     val carLocationTypeHeaderSubject: PublishSubject<String> = PublishSubject.create()
     val addressLineFirstSubject: PublishSubject<String> = PublishSubject.create()
     val addressLineSecondSubject: PublishSubject<String> = PublishSubject.create()
@@ -18,5 +18,5 @@ abstract class ItinMapWidgetViewModel<T : ItinLOB> {
     val phoneNumberContDescriptionSubject: PublishSubject<String> = PublishSubject.create()
     val phoneNumberClickSubject: PublishSubject<Unit> = PublishSubject.create()
 
-    abstract val itinLOBObserver: LiveDataObserver<T>
+    abstract val itinObserver: LiveDataObserver<Itin>
 }

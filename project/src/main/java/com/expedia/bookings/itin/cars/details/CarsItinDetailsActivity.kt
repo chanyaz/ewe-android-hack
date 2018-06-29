@@ -7,17 +7,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.itin.cars.ItinCarRepo
-import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinManageBookingWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinRepo
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.common.ItinTimingsWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.CarsMasterScope
-import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IToaster
@@ -58,10 +56,10 @@ class CarsItinDetailsActivity : AppCompatActivity() {
 
     val toolbar: ItinToolbar by bindView(R.id.widget_itin_toolbar)
     val manageBookingWidget: ItinManageBookingWidget by bindView(R.id.widget_manage_booking)
-    val pickupMapWidget: ItinMapWidget<ItinCar> by bindView(R.id.pickup_map_widget)
-    val dropOffMapWidget: ItinMapWidget<ItinCar> by bindView(R.id.dropOff_map_widget)
-    val imageWidget: ItinImageWidget<ItinCar> by bindView(R.id.itin_image_widget)
-    val timingsWidget: ItinTimingsWidget<ItinCar> by bindView(R.id.itin_timings_widget)
+    val pickupMapWidget: ItinMapWidget by bindView(R.id.pickup_map_widget)
+    val dropOffMapWidget: ItinMapWidget by bindView(R.id.dropOff_map_widget)
+    val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
+    val timingsWidget: ItinTimingsWidget by bindView(R.id.itin_timings_widget)
 
     var viewModel: CarItinDetailsViewModel<CarsMasterScope> by notNullAndObservable { vm ->
         vm.invalidSubject.subscribe {
@@ -81,7 +79,7 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         }
     }
 
-    lateinit var repo: ItinCarRepoInterface
+    lateinit var repo: ItinRepoInterface
     var tripsTracking: ITripsTracking = TripsTracking
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,10 +93,9 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         val tripsTracking = TripsTracking
         val phoneHandler = PhoneHandler(this)
 
-        repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
+        repo = ItinRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
 
-        val itinRepo = ItinRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
-        val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking, itinRepo, POSInfoProvider())
+        val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, toaster, phoneHandler, tripsTracking, repo, POSInfoProvider())
 
         viewModel = CarItinDetailsViewModel(scope)
         imageWidget.viewModel = CarItinImageViewModel(scope)
@@ -122,7 +119,6 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         super.finish()
         viewModel.finishSubject.onNext(Unit)
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
-        //remove when we move carRepo to itinRepo
         repo.dispose()
     }
 }

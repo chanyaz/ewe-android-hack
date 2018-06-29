@@ -3,10 +3,10 @@ package com.expedia.bookings.itin.lx.details
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.itin.common.ItinRepo
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
-import com.expedia.bookings.itin.lx.ItinLxRepo
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.lx.toolbar.LxItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasItinId
@@ -28,16 +28,15 @@ import com.expedia.bookings.itin.scopes.LxItinMapWidgetViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinRedeemVoucherViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinTimingsScope
 import com.expedia.bookings.itin.scopes.LxItinToolbarScope
-import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.utils.POSInfoProvider
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
 
-class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking, S : HasMapWidgetViewModelSetter<ItinLx>, S : HasRedeemVoucherViewModelSetter, S : HasToaster, S : HasPhoneHandler, S : HasItinImageViewModelSetter<ItinLx>, S : HasItinTimingsViewModelSetter<ItinLx> {
+class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking, S : HasMapWidgetViewModelSetter, S : HasRedeemVoucherViewModelSetter, S : HasToaster, S : HasPhoneHandler, S : HasItinImageViewModelSetter, S : HasItinTimingsViewModelSetter {
 
     val finishSubject = PublishSubject.create<Unit>()
-    var repo: ItinLxRepoInterface = ItinLxRepo(scope.id, scope.jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
+    var repo: ItinRepoInterface = ItinRepo(scope.id, scope.jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
 
     var toolbarViewModel: NewItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {

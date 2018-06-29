@@ -6,8 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.itin.tripstore.data.ItinLOB
-import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -17,15 +16,15 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class ItinTimingsWidgetTest {
-    lateinit var sut: ItinTimingsWidget<ItinLx>
-    private lateinit var mockVM: MockViewModel<ItinLx>
+    lateinit var sut: ItinTimingsWidget
+    private lateinit var mockVM: MockViewModel
     lateinit var context: Context
 
     @Before
     @Suppress("UNCHECKED_CAST")
     fun setup() {
         context = RuntimeEnvironment.application
-        sut = LayoutInflater.from(context).inflate(R.layout.test_itin_timings_widget, null) as ItinTimingsWidget<ItinLx>
+        sut = LayoutInflater.from(context).inflate(R.layout.test_itin_timings_widget, null) as ItinTimingsWidget
         mockVM = MockViewModel()
         sut.setupViewModel(mockVM)
     }
@@ -78,7 +77,7 @@ class ItinTimingsWidgetTest {
         assertEquals(endTime, sut.endTime.text)
     }
 
-    private class MockViewModel<T : ItinLOB> : ItinTimingsWidgetViewModel<T>() {
-        override val itinObserver: LiveDataObserver<T> = LiveDataObserver { }
+    private class MockViewModel : ItinTimingsWidgetViewModel() {
+        override val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { }
     }
 }

@@ -7,15 +7,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasItinType
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
@@ -195,13 +192,12 @@ class ItinCustomerSupportWidgetViewModelTest {
         vm.itineraryNumberContentDescriptionSubject.subscribe(itineraryNumberContentDescriptionTestObserver)
     }
 
-    private class MockCustomerSupportWidgetViewModelScope(lob: String) : HasStringProvider, HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType, HasItinRepo {
+    private class MockCustomerSupportWidgetViewModelScope(lob: String) : HasStringProvider, HasItinRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasItinType {
         override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val strings: StringSource = MockStringProvider()
         override val webViewLauncher = MockWebViewLauncher()
         override val tripsTracking = MockTripsTracking()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
-        override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
         override val type = lob
     }
 }

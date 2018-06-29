@@ -7,15 +7,15 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.lx.details.LxItinRedeemVoucherViewModel
 import com.expedia.bookings.itin.lx.details.LxItinRedeemVoucherWidget
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
@@ -70,14 +70,14 @@ class LxItinRedeemVoucherWidgetTest {
         redeemVoucherClickObserver.assertValue(Unit)
     }
 
-    class MockLxItinRedeemVoucherScope() : HasLxRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher {
-        val mockStrings = MockStringProvider()
+    class MockLxItinRedeemVoucherScope : HasItinRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher {
+        private val mockStrings = MockStringProvider()
         override val strings: StringSource = mockStrings
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
-        val redeemVoucherTracking = MockTripsTracking()
+        private val redeemVoucherTracking = MockTripsTracking()
         override val tripsTracking = redeemVoucherTracking
-        override val itinLxRepo = MockLxRepo()
-        val webLauncherMock = MockWebViewLauncher()
+        override val itinRepo = MockItinRepo()
+        private val webLauncherMock = MockWebViewLauncher()
         override val webViewLauncher: IWebViewLauncher = webLauncherMock
     }
 }

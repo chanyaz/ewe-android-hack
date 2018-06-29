@@ -3,13 +3,13 @@ package com.expedia.bookings.itin.lx.moreHelp
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
@@ -42,7 +42,7 @@ class LxItinMoreHelpToolbarViewModelTest {
 
     @Test
     fun testToolbarTitles() {
-        vm.itinLxObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.activities?.first())
+        vm.itinLxObserver.onChanged(ItinMocker.lxDetailsAlsoHappy)
 
         toolbarTitleTestObserver.assertValue(R.string.itin_lx_more_info_heading.toString())
         toolbarSubTitleTestObserver.assertValue("California Academy of Sciences General Admission: General Admission ")
@@ -58,9 +58,9 @@ class LxItinMoreHelpToolbarViewModelTest {
         vm.shareIconClickedSubject.subscribe(shareIconClickedTestObserver)
     }
 
-    private class MockLxItinToolbarScope : HasStringProvider, HasLxRepo, HasLifecycleOwner {
+    private class MockLxItinToolbarScope : HasStringProvider, HasItinRepo, HasLifecycleOwner {
         override val strings: StringSource = MockStringProvider()
-        override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     }
 }

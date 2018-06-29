@@ -4,13 +4,13 @@ import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockFeatureProvider
-import com.expedia.bookings.itin.helpers.MockHotelRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.scopes.HasFeatureProvider
-import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
@@ -119,12 +119,12 @@ class HotelItinViewReceiptViewModelTest {
     }
 }
 
-class MockHotelItinViewReceiptScope : HasHotelRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeatureProvider {
+class MockHotelItinViewReceiptScope : HasItinRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeatureProvider {
     override val strings: StringSource = MockStringProvider()
     override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     val viewReceiptTracking = MockTripsTracking()
     override val tripsTracking = viewReceiptTracking
-    override val itinHotelRepo = MockHotelRepo()
+    override val itinRepo = MockItinRepo()
     val webLauncherMock = MockWebViewLauncher()
     override val webViewLauncher: IWebViewLauncher = webLauncherMock
     val mockFeatureProvider = MockFeatureProvider()

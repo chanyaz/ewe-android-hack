@@ -4,15 +4,15 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
-import com.expedia.bookings.itin.helpers.MockLxRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
-import com.expedia.bookings.itin.scopes.HasLxRepo
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
@@ -53,10 +53,10 @@ class LxItinManageBookingWidgetViewModelTest {
         setupHappy()
         assertEquals((R.string.itin_hotel_details_price_summary_heading).toString(), sut.priceSummaryViewModel.headingText)
         assertNull(sut.priceSummaryViewModel.subheadingText)
-        assertNull(scope.webViewLauncerMock.lastSeenURL)
+        assertNull(scope.webViewLauncherMock.lastSeenURL)
 
         sut.priceSummaryViewModel.cardClickListener.invoke()
-        assertEquals("https://wwwexpediacom.trunk.sb.karmalab.net/trips/71196729802", scope.webViewLauncerMock.lastSeenURL)
+        assertEquals("https://wwwexpediacom.trunk.sb.karmalab.net/trips/71196729802", scope.webViewLauncherMock.lastSeenURL)
     }
 
     @Test
@@ -64,7 +64,7 @@ class LxItinManageBookingWidgetViewModelTest {
         scope = MockLxItinManageBookingWidgetViewModelScope(ItinMocker.lxDetailsNoTripID)
         sut = LxItinManageBookingWidgetViewModel(scope)
         sut.priceSummaryViewModel.cardClickListener.invoke()
-        assertNull(scope.webViewLauncerMock.lastSeenURL)
+        assertNull(scope.webViewLauncherMock.lastSeenURL)
     }
 
     @Test
@@ -72,7 +72,7 @@ class LxItinManageBookingWidgetViewModelTest {
         scope = MockLxItinManageBookingWidgetViewModelScope(ItinMocker.lxDetailsNoDetailsUrl)
         sut = LxItinManageBookingWidgetViewModel(scope)
         sut.priceSummaryViewModel.cardClickListener.invoke()
-        assertNull(scope.webViewLauncerMock.lastSeenURL)
+        assertNull(scope.webViewLauncherMock.lastSeenURL)
     }
 
     @Test
@@ -80,10 +80,10 @@ class LxItinManageBookingWidgetViewModelTest {
         setupHappy()
         assertEquals((R.string.itin_hotel_details_additional_info_heading).toString(), sut.additionalInfoViewModel.headingText)
         assertNull(sut.additionalInfoViewModel.subheadingText)
-        assertNull(scope.webViewLauncerMock.lastSeenURL)
+        assertNull(scope.webViewLauncherMock.lastSeenURL)
 
         sut.additionalInfoViewModel.cardClickListener.invoke()
-        assertEquals("https://wwwexpediacom.trunk.sb.karmalab.net/trips/71196729802", scope.webViewLauncerMock.lastSeenURL)
+        assertEquals("https://wwwexpediacom.trunk.sb.karmalab.net/trips/71196729802", scope.webViewLauncherMock.lastSeenURL)
     }
 
     @Test
@@ -91,7 +91,7 @@ class LxItinManageBookingWidgetViewModelTest {
         scope = MockLxItinManageBookingWidgetViewModelScope(ItinMocker.lxDetailsNoTripID)
         sut = LxItinManageBookingWidgetViewModel(scope)
         sut.additionalInfoViewModel.cardClickListener.invoke()
-        assertNull(scope.webViewLauncerMock.lastSeenURL)
+        assertNull(scope.webViewLauncherMock.lastSeenURL)
     }
 
     @Test
@@ -99,7 +99,7 @@ class LxItinManageBookingWidgetViewModelTest {
         scope = MockLxItinManageBookingWidgetViewModelScope(ItinMocker.lxDetailsNoDetailsUrl)
         sut = LxItinManageBookingWidgetViewModel(scope)
         sut.additionalInfoViewModel.cardClickListener.invoke()
-        assertNull(scope.webViewLauncerMock.lastSeenURL)
+        assertNull(scope.webViewLauncherMock.lastSeenURL)
     }
 
     @Test
@@ -109,18 +109,21 @@ class LxItinManageBookingWidgetViewModelTest {
         assertTrue(scope.tripsTracking.trackItinLxMoreHelpClicked)
     }
 
-    fun setupHappy() {
+    private fun setupHappy() {
         scope = MockLxItinManageBookingWidgetViewModelScope()
         sut = LxItinManageBookingWidgetViewModel(scope)
     }
 
-    class MockLxItinManageBookingWidgetViewModelScope(itin: Itin = ItinMocker.lxDetailsHappy) : HasWebViewLauncher, HasActivityLauncher, HasLxRepo, HasStringProvider, HasTripsTracking {
+    class MockLxItinManageBookingWidgetViewModelScope(itin: Itin = ItinMocker.lxDetailsHappy) : HasWebViewLauncher, HasActivityLauncher, HasItinRepo, HasStringProvider, HasTripsTracking {
         override val strings: StringSource = MockStringProvider()
-        val webViewLauncerMock = MockWebViewLauncher()
-        override val webViewLauncher: IWebViewLauncher = webViewLauncerMock
+        val webViewLauncherMock = MockWebViewLauncher()
+        override val webViewLauncher: IWebViewLauncher = webViewLauncherMock
         override val activityLauncher: IActivityLauncher = MockActivityLauncher()
-        val mockRepo = MockLxRepo(itin = itin)
-        override val itinLxRepo: ItinLxRepoInterface = mockRepo
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
         override val tripsTracking = MockTripsTracking()
+
+        init {
+            itinRepo.liveDataItin.value = itin
+        }
     }
 }

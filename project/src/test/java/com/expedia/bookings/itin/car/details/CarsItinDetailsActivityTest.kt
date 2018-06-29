@@ -2,7 +2,7 @@ package com.expedia.bookings.itin.car.details
 
 import android.content.Intent
 import com.expedia.bookings.itin.cars.details.CarsItinDetailsActivity
-import com.expedia.bookings.itin.helpers.MockCarRepo
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.mobiata.mocke3.getJsonStringFromMock
@@ -32,7 +32,7 @@ class CarsItinDetailsActivityTest {
 
     @Test
     fun toolbarBackExistTest() {
-        val mockRepo = MockCarRepo()
+        val mockRepo = MockItinRepo()
         activity.repo = mockRepo
         val shadow = Shadows.shadowOf(activity)
         assertFalse(shadow.isFinishing)
@@ -46,7 +46,7 @@ class CarsItinDetailsActivityTest {
 
     @Test
     fun testFinishActivity() {
-        val mockRepo = MockCarRepo()
+        val mockRepo = MockItinRepo()
         activity.repo = mockRepo
         val shadow = Shadows.shadowOf(activity)
         assertFalse(shadow.isFinishing)

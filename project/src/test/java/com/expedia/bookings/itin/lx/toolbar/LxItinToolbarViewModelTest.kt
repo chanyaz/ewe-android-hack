@@ -3,17 +3,16 @@ package com.expedia.bookings.itin.lx.toolbar
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockPOSInfoProvider
 import com.expedia.bookings.itin.helpers.MockStringProvider
-import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasPOSProvider
 import com.expedia.bookings.itin.scopes.HasStringProvider
-import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.utils.IPOSInfoProvider
 import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import com.expedia.bookings.itin.utils.StringSource
@@ -56,10 +55,10 @@ class LxItinToolbarViewModelTest {
 
     @Test
     fun testItinLxObserver() {
-        val lx = ItinMocker.lxDetailsHappy.firstLx()
+        val lx = ItinMocker.lxDetailsHappy
         sut.toolbarTitleSubject.subscribe(toolbarTitleTestObserver)
         toolbarTitleTestObserver.assertNoValues()
-        sut.itinLxObserver.onChanged(lx)
+        sut.itinObserver.onChanged(lx)
         toolbarTitleTestObserver.assertValue((R.string.itin_lx_toolbar_title_TEMPLATE).toString().plus(mapOf("location" to "San Francisco")))
     }
 
@@ -78,7 +77,7 @@ class LxItinToolbarViewModelTest {
         val shareTextGeneratorTestObserver = TestObserver<ItinShareTextGenerator>()
         sut.itinShareTextGeneratorSubject.subscribe(shareTextGeneratorTestObserver)
         toolbarTitleTestObserver.assertNoValues()
-        sut.itinLxObserver.onChanged(null)
+        sut.itinObserver.onChanged(null)
 
         toolbarTitleTestObserver.assertNoValues()
     }
@@ -86,11 +85,11 @@ class LxItinToolbarViewModelTest {
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testItinLxShareText() {
-        val lx = ItinMocker.lxDetailsAlsoHappy.firstLx()
+        val lx = ItinMocker.lxDetailsAlsoHappy
         val shareTextGeneratorTestObserver = TestObserver<ItinShareTextGenerator>()
         sut.itinShareTextGeneratorSubject.subscribe(shareTextGeneratorTestObserver)
         toolbarTitleTestObserver.assertNoValues()
-        sut.itinLxObserver.onChanged(lx)
+        sut.itinObserver.onChanged(lx)
 
         val textGenerator = shareTextGeneratorTestObserver.values().first()
         assertEquals("Activity", textGenerator.getLOBTypeString())
@@ -112,11 +111,11 @@ class LxItinToolbarViewModelTest {
 
     @Test
     fun testEmptyLxItinShareText() {
-        val itinLx = ItinMocker.lxDetailsMissingFields.firstLx()
+        val itinLx = ItinMocker.lxDetailsMissingFields
         val shareTextGeneratorTestObserver = TestObserver<ItinShareTextGenerator>()
         sut.itinShareTextGeneratorSubject.subscribe(shareTextGeneratorTestObserver)
         toolbarTitleTestObserver.assertNoValues()
-        sut.itinLxObserver.onChanged(itinLx)
+        sut.itinObserver.onChanged(itinLx)
 
         val textGenerator = shareTextGeneratorTestObserver.values().first() as LxItinShareTextGenerator
         assertEquals(null, textGenerator.travelers)
@@ -126,9 +125,9 @@ class LxItinToolbarViewModelTest {
     }
 }
 
-class MockItinLxToolbarScope : HasLxRepo, HasStringProvider, HasLifecycleOwner, HasPOSProvider {
+class MockItinLxToolbarScope : HasItinRepo, HasStringProvider, HasLifecycleOwner, HasPOSProvider {
     override val strings: StringSource = MockStringProvider()
     override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
-    override val itinLxRepo: ItinLxRepoInterface = MockLxRepo()
+    override val itinRepo: ItinRepoInterface = MockItinRepo()
     override val posInfoProvider: IPOSInfoProvider = MockPOSInfoProvider()
 }

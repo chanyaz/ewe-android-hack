@@ -6,7 +6,6 @@ import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.common.ItinRedeemVoucherViewModel
 import com.expedia.bookings.itin.common.ItinTimingsWidgetViewModel
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
-import com.expedia.bookings.itin.tripstore.data.ItinLOB
 
 interface ManageBookingWidgetViewModelSetter {
     fun setUpViewModel(vm: ItinManageBookingWidgetViewModel)
@@ -16,8 +15,8 @@ interface ToolBarViewModelSetter {
     fun setUpViewModel(vm: NewItinToolbarViewModel)
 }
 
-interface MapWidgetViewModelSetter<T : ItinLOB> {
-    fun setUpViewModel(vm: ItinMapWidgetViewModel<T>)
+interface MapWidgetViewModelSetter {
+    fun setUpViewModel(vm: ItinMapWidgetViewModel)
 }
 
 interface HasManageBookingWidgetViewModelSetter {
@@ -28,8 +27,8 @@ interface HasToolbarViewModelSetter {
     val toolbar: ToolBarViewModelSetter
 }
 
-interface HasMapWidgetViewModelSetter<T : ItinLOB> {
-    val map: MapWidgetViewModelSetter<T>
+interface HasMapWidgetViewModelSetter {
+    val map: MapWidgetViewModelSetter
 }
 
 interface RedeemVoucherViewModelSetter {
@@ -40,18 +39,18 @@ interface HasRedeemVoucherViewModelSetter {
     val redeemVoucher: RedeemVoucherViewModelSetter
 }
 
-interface HasItinImageViewModelSetter<T : ItinLOB> {
-    val itinImage: ItinImageViewModelSetter<T>
+interface HasItinImageViewModelSetter {
+    val itinImage: ItinImageViewModelSetter
 }
 
-interface ItinImageViewModelSetter<T : ItinLOB> {
-    fun setupViewModel(vm: ItinImageViewModel<T>)
+interface ItinImageViewModelSetter {
+    fun setupViewModel(vm: ItinImageViewModel)
 }
 
-interface ItinTimingsViewModelSetter<T : ItinLOB> {
-    fun setupViewModel(vm: ItinTimingsWidgetViewModel<T>)
+interface ItinTimingsViewModelSetter {
+    fun setupViewModel(vm: ItinTimingsWidgetViewModel)
 }
 
-interface HasItinTimingsViewModelSetter<T : ItinLOB> {
-    val itinTimings: ItinTimingsViewModelSetter<T>
+interface HasItinTimingsViewModelSetter {
+    val itinTimings: ItinTimingsViewModelSetter
 }
