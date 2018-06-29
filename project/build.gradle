@@ -13,6 +13,10 @@ apply from: '../jacoco.gradle'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 apply plugin: 'com.jakewharton.butterknife'
 
+crashlytics {
+    instantAppSupport true
+}
+
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
@@ -253,7 +257,7 @@ android {
         versionName GradleUtil.versionName(major, minor, patch, build)
 
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
@@ -536,6 +540,30 @@ public class GradleUtil {
     }
 }
 
+android.featureVariants.all { variant ->
+    // We released apps with the following tokens so we should maintain them so people don't get logged out
+    def token = "expedia"
+    if (!GradleUtil.isDefined(token)) {
+        token = "${variant.applicationId}.tuid"
+    }
+    variant.resValue "string", "expedia_account_token_type_tuid_identifier", "${token}"
+    variant.resValue "string", "expedia_account_type_identifier", "expedia"
+    variant.resValue "string", "authority_account_sync", "expedia"
+
+    def launcherName = GradleUtil.getAppName(project, variant)
+    if (!GradleUtil.isDefined(launcherName)) {
+        // Must be a release build, so we default to app_name
+        launcherName = "@string/app_name"
+    }
+    variant.resValue "string", "launcher_name", "${launcherName}"
+
+    variant.mergeAssets.doLast {
+        delete(fileTree(dir: variant.mergeAssets.outputDir, includes: sharedDataFilesToRemove(variant)))
+    }
+}
+
+
+
 afterEvaluate {
     android.featureVariants.all { variant ->
         if (variant.name == 'expediaDebug') {
@@ -545,4 +573,26 @@ afterEvaluate {
             generateDummyFileToHandleKotlinLintError.dependsOn generateSourcesTask
         }
     }
+}
+
+def sharedDataFilesToRemove(variant) {
+    List<String> filesToRemove = new ArrayList<String>()
+    android.productFlavors.all { flavor ->
+        if (flavor.name != variant.productFlavors.get(0).name) {
+            if (flavor.name == 'travelocity') {
+                filesToRemove.add('ExpediaSharedData/TravelocityPointOfSaleConfig.json')
+                filesToRemove.add('ExpediaSharedData/TVLYServerURLs.json')
+            }
+            else if (flavor.name == 'voyages') {
+                filesToRemove.add('ExpediaSharedData/VSCPointOfSaleConfig.json')
+                filesToRemove.add('ExpediaSharedData/VSCServerURLs.json')
+            }
+            else {
+                filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('PointOfSaleConfig.json'))
+                filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('ServerURLs.json'))
+            }
+        }
+    }
+    filesToRemove.add('ExpediaSharedData/validate.sh')
+    return filesToRemove
 }

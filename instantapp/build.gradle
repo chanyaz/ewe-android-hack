@@ -1,0 +1,51 @@
+apply plugin: 'com.android.instantapp'
+
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+
+    google()
+}
+
+
+dependencies {
+    implementation project(':project')
+}
+
+android {
+    flavorDimensions "default"
+
+    productFlavors {
+        expedia {
+        }
+
+        ebookers {
+        }
+
+        voyages {
+        }
+
+        travelocity {
+        }
+
+        airAsiaGo {
+        }
+
+        wotif {
+        }
+
+        lastMinute {
+        }
+
+        orbitz {
+        }
+
+        cheapTickets {
+        }
+
+        mrJet {
+        }
+    }
+}

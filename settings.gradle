@@ -1,5 +1,5 @@
 // Main projects
-include ':lib:ExpediaBookings', ':install'
+include ':lib:ExpediaBookings', ':install', ':instantapp'
 include ':project'
 
 // libraries, order does not matter
@@ -10,4 +10,4 @@ include ':lib:mocked:mocke3'
 include ':lib:AccountLib'
 
 // Sample Test Apps
-include ':testApp:AccountTestApp'
+//include ':testApp:AccountTestApp'
