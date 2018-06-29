@@ -64,7 +64,7 @@ class HotelServerFilterViewTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
-        AbacusTestUtils.bucketTests(AbacusUtils.HotelAmenityFilter, AbacusUtils.HotelGuestRatingFilter)
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelGuestRatingFilter)
     }
 
     @Test

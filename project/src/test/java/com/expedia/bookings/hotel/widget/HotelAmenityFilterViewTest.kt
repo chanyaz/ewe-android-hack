@@ -2,10 +2,8 @@ package com.expedia.bookings.hotel.widget
 
 import android.app.Activity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelServerFilterView
 import org.junit.Before
@@ -45,8 +43,6 @@ class HotelAmenityFilterViewTest {
             amenityGridItem.setOnHotelAmenityFilterChangedListener(listener)
         }
         listener.amenities.clear()
-
-        AbacusTestUtils.bucketTests(AbacusUtils.HotelAmenityFilter)
     }
 
     @Test
@@ -125,17 +121,17 @@ class HotelAmenityFilterViewTest {
         for (i in 0 until hotelServerFilterView.amenitiesGridView.childCount) {
             val amenityGridItem = hotelServerFilterView.amenitiesGridView.getChildAt(i) as HotelAmenityGridItem
 
-            assertFalse(amenityGridItem.isSelected)
+            assertFalse(amenityGridItem.icon.isSelected)
 
             amenityGridItem.icon.callOnClick()
 
-            assertTrue(amenityGridItem.isSelected)
+            assertTrue(amenityGridItem.icon.isSelected)
             assertTrue(listener.amenities[amenityGridItem.amenity]!!)
             assertTrue(listener.doTracking)
 
             amenityGridItem.icon.callOnClick()
 
-            assertFalse(amenityGridItem.isSelected)
+            assertFalse(amenityGridItem.icon.isSelected)
             assertFalse(listener.amenities[amenityGridItem.amenity]!!)
             assertTrue(listener.doTracking)
         }

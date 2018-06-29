@@ -21,14 +21,12 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelS
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelAmenityFilter)) {
-            amenitiesLabelView.visibility = View.VISIBLE
-            amenitiesGridView.visibility = View.VISIBLE
-            Amenity.getFilterAmenities().forEach { amenity ->
-                val gridItem = HotelAmenityGridItem(context, amenity)
-                amenitiesGridView.addView(gridItem)
-                amenityViews.add(gridItem)
-            }
+        amenitiesLabelView.visibility = View.VISIBLE
+        amenitiesGridView.visibility = View.VISIBLE
+        Amenity.getFilterAmenities().forEach { amenity ->
+            val gridItem = HotelAmenityGridItem(context, amenity)
+            amenitiesGridView.addView(gridItem)
+            amenityViews.add(gridItem)
         }
 
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelGuestRatingFilter)) {
