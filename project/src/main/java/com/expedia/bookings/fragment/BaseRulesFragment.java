@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;

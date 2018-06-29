@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.squareup.phrase.Phrase;
 

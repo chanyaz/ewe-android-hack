@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
@@ -63,18 +65,18 @@ public class LxRulesWidget extends LinearLayout {
 		updateCancellationPolicyDisplayText(event.activity.freeCancellationMinHours);
 	}
 
-	@OnClick(R.id.rules_and_restrictions)
+	@OnClick(R2.id.rules_and_restrictions)
 	public void showRulesAndRestrictions() {
 		String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 		showLegalPage(LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, tripId), R.string.rules_and_restrictions);
 	}
 
-	@OnClick(R.id.terms_and_conditions)
+	@OnClick(R2.id.terms_and_conditions)
 	public void showTermsAndConditions() {
 		showLegalPage(PointOfSale.getPointOfSale().getTermsAndConditionsUrl(), R.string.terms_and_conditions);
 	}
 
-	@OnClick(R.id.privacy_policy)
+	@OnClick(R2.id.privacy_policy)
 	public void showPrivacyPolicy() {
 		showLegalPage(PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), R.string.privacy_policy);
 	}

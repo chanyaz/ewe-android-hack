@@ -14,6 +14,8 @@ import android.support.v4.app.DialogFragment;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.mobiata.android.util.AndroidUtils;
 
 public class TerminalMapLegendDialogFragment extends DialogFragment {

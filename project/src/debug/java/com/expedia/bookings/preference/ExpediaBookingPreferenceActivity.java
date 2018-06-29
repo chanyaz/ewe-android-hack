@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.Log;
 import io.reactivex.subjects.PublishSubject;

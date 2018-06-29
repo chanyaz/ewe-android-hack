@@ -16,6 +16,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;

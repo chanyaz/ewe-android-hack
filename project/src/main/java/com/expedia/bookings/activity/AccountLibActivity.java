@@ -17,6 +17,8 @@ import com.expedia.account.NewAccountView;
 import com.expedia.account.PanningImageView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;

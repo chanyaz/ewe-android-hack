@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.view.KeyEvent;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.Log;

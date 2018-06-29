@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LobInfo;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;

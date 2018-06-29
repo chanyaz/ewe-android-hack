@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;

@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;

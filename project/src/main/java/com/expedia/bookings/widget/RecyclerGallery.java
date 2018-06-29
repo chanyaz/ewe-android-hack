@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;

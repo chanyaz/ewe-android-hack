@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TableLayout;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.Ui;
 
 public class CreditCardInputSection extends TableLayout implements View.OnClickListener {

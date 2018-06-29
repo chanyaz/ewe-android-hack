@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;

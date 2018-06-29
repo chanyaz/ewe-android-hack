@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;

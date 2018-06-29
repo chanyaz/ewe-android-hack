@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;

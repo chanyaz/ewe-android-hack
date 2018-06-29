@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;

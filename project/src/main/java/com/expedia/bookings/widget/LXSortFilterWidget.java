@@ -23,6 +23,8 @@ import android.widget.Space;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
@@ -192,7 +194,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		super.onDetachedFromWindow();
 	}
 
-	@OnClick(R.id.price_sort_button)
+	@OnClick(R2.id.price_sort_button)
 	public void onPriceSortClicked() {
 		popularitySortButton.setSelected(false);
 		priceSortButton.setSelected(true);
@@ -200,7 +202,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		OmnitureTracking.trackLinkLXSort(LXSortType.PRICE);
 	}
 
-	@OnClick(R.id.popularity_sort_button)
+	@OnClick(R2.id.popularity_sort_button)
 	public void onPopularitySortClicked() {
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);

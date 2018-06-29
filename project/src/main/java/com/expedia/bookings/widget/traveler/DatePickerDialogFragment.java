@@ -13,6 +13,8 @@ import android.view.Window;
 import android.widget.DatePicker;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePicker.OnDateChangedListener {

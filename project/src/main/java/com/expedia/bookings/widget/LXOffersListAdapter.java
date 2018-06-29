@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -118,12 +120,12 @@ public class LXOffersListAdapter extends BaseAdapter {
 		@InjectView(R.id.activity_price_summary_container)
 		LinearLayout priceSummaryContainer;
 
-		@OnClick(R.id.select_tickets)
+		@OnClick(R2.id.select_tickets)
 		public void offerExpanded() {
 			offerClickedSubject.onNext(offer);
 		}
 
-		@OnClick(R.id.lx_book_now)
+		@OnClick(R2.id.lx_book_now)
 		public void offerBooked() {
 			String promoType = promoDiscountType;
 			if (promoDiscountType != null && Constants.LX_AIR_MIP.equals(offer.discountType)) {

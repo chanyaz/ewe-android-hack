@@ -10,6 +10,8 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;

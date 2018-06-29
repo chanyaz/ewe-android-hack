@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -110,7 +112,7 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.mip_srp_banner)
 	LinearLayout mipSrpBanner;
 
-	@OnClick(R.id.transparent_view)
+	@OnClick(R2.id.transparent_view)
 	public void onTransparentViewClick() {
 		show(searchResultsWidget, FLAG_CLEAR_TOP);
 	}
@@ -126,7 +128,7 @@ public class LXResultsPresenter extends Presenter {
 	private boolean lxFilterTextSearchEnabled;
 	private boolean isMipEnabled;
 
-	@OnClick(R.id.sort_filter_button)
+	@OnClick(R2.id.sort_filter_button)
 	public void onSortFilterClicked() {
 		OmnitureTracking.trackAppLXSortAndFilterOpen();
 		show(sortFilterWidget);

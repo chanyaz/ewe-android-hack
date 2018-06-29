@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.otto.Events;
 import com.squareup.phrase.Phrase;

@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.PriceBreakdownItemType;
@@ -121,12 +123,12 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		}
 	}
 
-	@OnClick(R.id.free_cancellation_text)
+	@OnClick(R2.id.free_cancellation_text)
 	public void showLxRules() {
 		Events.post(new Events.LXShowRulesOnCheckout());
 	}
 
-	@OnClick(R.id.price_text)
+	@OnClick(R2.id.price_text)
 	public void showCostBreakdown() {
 		buildCostBreakdownDialog(getContext(), lxState.selectedTickets());
 	}

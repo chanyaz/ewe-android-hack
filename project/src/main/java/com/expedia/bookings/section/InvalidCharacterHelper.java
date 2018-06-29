@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.widget.EditText;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.dialog.TextViewDialog.OnDismissListener;
 import com.mobiata.android.Log;

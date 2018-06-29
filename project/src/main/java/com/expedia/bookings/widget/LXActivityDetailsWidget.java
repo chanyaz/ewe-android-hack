@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -203,7 +205,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 	}
 
-	@OnClick(R.id.transparent_view_over_mini_map)
+	@OnClick(R2.id.transparent_view_over_mini_map)
 	public void openFullMap() {
 		mapClickSubject.onNext(Unit.INSTANCE);
 	}

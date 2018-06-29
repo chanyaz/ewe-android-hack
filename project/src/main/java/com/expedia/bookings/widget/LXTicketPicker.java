@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -56,7 +58,7 @@ public class LXTicketPicker extends LinearLayout {
 	private int enabledTicketSelectorColor;
 	private int disabledTicketSelectorColor;
 
-	@OnClick(R.id.ticket_add)
+	@OnClick(R2.id.ticket_add)
 	public void onAddTicket() {
 		trackAddOrRemove("Add.");
 		if (ticket.prices != null) {
@@ -71,7 +73,7 @@ public class LXTicketPicker extends LinearLayout {
 		bind(ticket, offerId, ticket.count);
 	}
 
-	@OnClick(R.id.ticket_remove)
+	@OnClick(R2.id.ticket_remove)
 	public void onRemoveTicket() {
 		trackAddOrRemove("Remove.");
 		if (ticket.prices != null) {

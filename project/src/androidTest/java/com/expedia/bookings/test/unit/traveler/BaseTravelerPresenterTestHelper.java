@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewStub;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SuggestionV4;

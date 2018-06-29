@@ -11,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.SpannableBuilder;
 

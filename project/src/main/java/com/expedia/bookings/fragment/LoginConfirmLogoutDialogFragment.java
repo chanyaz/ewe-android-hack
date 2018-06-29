@@ -9,6 +9,8 @@ import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
