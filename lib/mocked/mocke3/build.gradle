@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation "com.squareup.okhttp3:mockwebserver:${okhttp_version}"
-    implementation 'joda-time:joda-time:2.8.1'
+    implementation 'joda-time:joda-time:2.9.9'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testImplementation "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     testImplementation "org.mockito:mockito-core:${mockito_version}"
