@@ -118,7 +118,7 @@ class HotelInfoToolbarViewModelTest {
         viewModelUnderTest.favoriteClickObserver.onNext(Unit)
 
         hotelFavoriteVisibilitySubscriber.assertValues(false, true)
-        hotelFavoriteResourceSubscriber.assertValues(R.drawable.ic_favorite_inactive, R.drawable.ic_favorite_active, R.drawable.ic_favorite_inactive)
+        hotelFavoriteResourceSubscriber.assertValues(R.drawable.ic_favorite_inactive, R.drawable.ic_favorite_active, R.drawable.ic_favorite_active, R.drawable.ic_favorite_inactive)
         hotelFavoriteToggleSubscriber.assertValues(true, false)
     }
 
@@ -145,5 +145,45 @@ class HotelInfoToolbarViewModelTest {
 
         hotelFavoriteResourceSubscriber.assertValueCount(0)
         hotelFavoriteToggleSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testCacheChangedSubject() {
+        val viewModelUnderTest = HotelInfoToolbarViewModel(context)
+        val hotelFavoriteResourceSubscriber = TestObserver.create<Int>()
+        viewModelUnderTest.hotelFavoriteIconResIdObserver.subscribe(hotelFavoriteResourceSubscriber)
+
+        viewModelUnderTest.bind(hotelOffer, true)
+
+        HotelFavoritesCache.saveFavoriteId(context, hotelOffer.hotelId)
+
+        hotelFavoriteResourceSubscriber.assertValueCount(2)
+        hotelFavoriteResourceSubscriber.assertValues(R.drawable.ic_favorite_inactive, R.drawable.ic_favorite_active)
+    }
+
+    @Test
+    fun testCacheChangedSubjectNotInCache() {
+        HotelFavoritesCache.saveFavoriteId(context, hotelOffer.hotelId)
+        val viewModelUnderTest = HotelInfoToolbarViewModel(context)
+        val hotelFavoriteResourceSubscriber = TestObserver.create<Int>()
+        viewModelUnderTest.hotelFavoriteIconResIdObserver.subscribe(hotelFavoriteResourceSubscriber)
+
+        viewModelUnderTest.bind(hotelOffer, true)
+
+        HotelFavoritesCache.clearFavorites(context)
+
+        hotelFavoriteResourceSubscriber.assertValueCount(2)
+        hotelFavoriteResourceSubscriber.assertValuesAndClear(R.drawable.ic_favorite_active, R.drawable.ic_favorite_inactive)
+    }
+
+    @Test
+    fun testCacheChangedSubjectNullOfferResponse() {
+        val viewModelUnderTest = HotelInfoToolbarViewModel(context)
+        val hotelFavoriteResourceSubscriber = TestObserver.create<Int>()
+        viewModelUnderTest.hotelFavoriteIconResIdObserver.subscribe(hotelFavoriteResourceSubscriber)
+
+        HotelFavoritesCache.cacheChangedSubject.onNext(setOf(hotelOffer.hotelId))
+
+        hotelFavoriteResourceSubscriber.assertEmpty()
     }
 }

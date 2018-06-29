@@ -12,6 +12,7 @@ import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -299,6 +300,10 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				.addToBackStack(ServerDebugTracingPreferenceFragment.class.getName())
 				.commit();
 			return true;
+		}
+		else if (getString(R.string.preference_clear_hotel_favorite_cache).equals(key)) {
+			HotelFavoritesCache.Companion.clearFavorites(activity);
+			Toast.makeText(activity, "Hotel favorite cache cleared", Toast.LENGTH_SHORT).show();
 		}
 
 		return super.onPreferenceTreeClick(preference);

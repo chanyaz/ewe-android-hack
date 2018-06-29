@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
 import com.expedia.bookings.hotel.util.HotelFavoritesCache.Companion.isFavoriteHotel
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -23,6 +24,12 @@ class HotelInfoToolbarViewModel(val context: Context) {
 
     init {
         favoriteClickObserver.subscribe { toggleFavoriteIcon() }
+
+        HotelFavoritesCache.cacheChangedSubject.subscribe {
+            offerResponse?.hotelId?.let { hotelId ->
+                hotelFavoriteIconResIdObserver.onNext(getFavoriteImageDrawableId(hotelId))
+            }
+        }
     }
 
     fun bind(offerResponse: HotelOffersResponse, showFavoriteIcon: Boolean = false) {
