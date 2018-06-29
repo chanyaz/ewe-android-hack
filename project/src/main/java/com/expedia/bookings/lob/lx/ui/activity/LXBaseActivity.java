@@ -10,6 +10,10 @@ import android.support.v4.content.ContextCompat;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -32,10 +36,10 @@ import io.reactivex.Observable;
 
 public class LXBaseActivity extends AbstractAppCompatActivity {
 
-	@InjectView(R.id.lx_base_presenter)
+	@InjectView(R2.id.lx_base_presenter)
 	LXPresenter lxPresenter;
 
-	@InjectView(R.id.details_map_view)
+	@InjectView(R2.id.details_map_view)
 	MapView detailsMapView;
 
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;

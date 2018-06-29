@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.AnimUtils;
 
 import butterknife.ButterKnife;
@@ -27,13 +31,13 @@ public class LXDetailSectionDataWidget extends LinearLayout implements View.OnCl
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.section_content)
+	@InjectView(R2.id.section_content)
 	TextView sectionContent;
 
-	@InjectView(R.id.section_title)
+	@InjectView(R2.id.section_title)
 	TextView sectionTitle;
 
-	@InjectView(R.id.read_more)
+	@InjectView(R2.id.read_more)
 	ImageButton readMoreView;
 
 	private int maxLineCount;

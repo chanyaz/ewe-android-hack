@@ -22,6 +22,10 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;
@@ -69,26 +73,26 @@ public class LXPresenter extends Presenter {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.search_params_widget)
+	@InjectView(R2.id.search_params_widget)
 	public LXSearchPresenter searchParamsWidget;
 
-	@InjectView(R.id.search_list_presenter)
+	@InjectView(R2.id.search_list_presenter)
 	public LXResultsPresenter resultsPresenter;
 
-	@InjectView(R.id.details_map_view)
+	@InjectView(R2.id.details_map_view)
 	MapView detailsMapView;
 
-	@InjectView(R.id.activity_details_presenter)
+	@InjectView(R2.id.activity_details_presenter)
 	public LXDetailsPresenter detailsPresenter;
 
-	@InjectView(R.id.details_loading_overlay)
+	@InjectView(R2.id.details_loading_overlay)
 	public LoadingOverlayWidget loadingOverlay;
 
-	@InjectView(R.id.confirmation)
+	@InjectView(R2.id.confirmation)
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	public LXConfirmationWidget confirmationWidget;
 
-	@InjectView(R.id.web_checkout_view_stub)
+	@InjectView(R2.id.web_checkout_view_stub)
 	ViewStub webCheckoutViewStub;
 
 	public LXCheckoutPresenter checkoutPresenter;
@@ -105,10 +109,10 @@ public class LXPresenter extends Presenter {
 		// ignore
 	}
 
-	@InjectView(R.id.overview_presenter)
+	@InjectView(R2.id.overview_presenter)
 	ViewStub overviewPresenterViewStub;
 
-	@InjectView(R.id.lx_checkout_presenter_stub)
+	@InjectView(R2.id.lx_checkout_presenter_stub)
 	ViewStub checkoutPresenterViewStub;
 
 	@Inject

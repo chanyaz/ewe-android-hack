@@ -17,6 +17,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Courier;

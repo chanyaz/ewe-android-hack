@@ -25,6 +25,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
@@ -70,43 +74,43 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private Button doneButton;
 
-	@InjectView(R.id.price_sort_button)
+	@InjectView(R2.id.price_sort_button)
 	Button priceSortButton;
 
-	@InjectView(R.id.popularity_sort_button)
+	@InjectView(R2.id.popularity_sort_button)
 	Button popularitySortButton;
 
-	@InjectView(R.id.filter_categories)
+	@InjectView(R2.id.filter_categories)
 	LinearLayout filterCategoriesContainer;
 
-	@InjectView(R.id.dynamic_feedback_container)
+	@InjectView(R2.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
 
-	@InjectView(R.id.dynamic_feedback_clear_button)
+	@InjectView(R2.id.dynamic_feedback_clear_button)
 	com.expedia.bookings.widget.TextView dynamicFeedbackClearButton;
 
-	@InjectView(R.id.toolbar_sort_filter)
+	@InjectView(R2.id.toolbar_sort_filter)
 	Toolbar toolbar;
 
-	@InjectView(R.id.toolbar_dropshadow)
+	@InjectView(R2.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
-	@InjectView(R.id.scroll_filter)
+	@InjectView(R2.id.scroll_filter)
 	android.widget.ScrollView scrollFilter;
 
-	@InjectView(R.id.space_below_filter_categories)
+	@InjectView(R2.id.space_below_filter_categories)
 	Space spaceBelowFilterCategories;
 
-	@InjectView(R.id.category_title)
+	@InjectView(R2.id.category_title)
 	TextView categoryTitle;
 
-	public @InjectView(R.id.filter_activity_name_edit_text)
+	public @InjectView(R2.id.filter_activity_name_edit_text)
 	EditText activityNameFilterEditText;
 
-	@InjectView(R.id.filter_by_text_container)
+	@InjectView(R2.id.filter_by_text_container)
 	LinearLayout activityNameFilterContainer;
 
-	@InjectView(R.id.filter_divider_line)
+	@InjectView(R2.id.filter_divider_line)
 	View filterDivider;
 
 	@Override

@@ -6,6 +6,10 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -21,10 +25,10 @@ public class DynamicFeedbackWidget extends CardView {
 		inflate(context, R.layout.dynamic_feedback_widget, this);
 	}
 
-	@InjectView(R.id.dynamic_feedback_counter)
+	@InjectView(R2.id.dynamic_feedback_counter)
 	android.widget.TextView dynamicFeedbackCounter;
 
-	@InjectView(R.id.dynamic_feedback_clear_button)
+	@InjectView(R2.id.dynamic_feedback_clear_button)
 	android.widget.TextView dynamicFeedbackClearButton;
 
 	@Override

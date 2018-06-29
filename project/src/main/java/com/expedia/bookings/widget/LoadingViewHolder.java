@@ -5,6 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -12,7 +16,7 @@ import butterknife.InjectView;
 public class LoadingViewHolder extends RecyclerView.ViewHolder {
 	private ValueAnimator animator;
 
-	@InjectView(R.id.background_image_view)
+	@InjectView(R2.id.background_image_view)
 	public View backgroundImageView;
 
 	public LoadingViewHolder(View view) {

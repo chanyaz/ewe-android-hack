@@ -20,6 +20,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.LXState;
@@ -132,7 +136,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-		@InjectView(R.id.lx_activity_count_header)
+		@InjectView(R2.id.lx_activity_count_header)
 		TextView activityCountText;
 
 		private HeaderViewHolder(View itemView) {
@@ -159,52 +163,52 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			lxMipTestEnabled = AbacusFeatureConfigManager.isBucketedForTest(itemView.getContext(), AbacusUtils.EBAndroidLXMIP);
 		}
 
-		@InjectView(R.id.activity_title)
+		@InjectView(R2.id.activity_title)
 		TextView activityTitle;
 
-		@InjectView(R.id.activity_image)
+		@InjectView(R2.id.activity_image)
 		ImageView activityImage;
 
-		@InjectView(R.id.activity_from_price_ticket_type)
+		@InjectView(R2.id.activity_from_price_ticket_type)
 		TextView fromPriceTicketType;
 
-		@InjectView(R.id.activity_price)
+		@InjectView(R2.id.activity_price)
 		TextView activityPrice;
 
-		@InjectView(R.id.activity_original_price)
+		@InjectView(R2.id.activity_original_price)
 		TextView activityOriginalPrice;
 
-		@InjectView(R.id.results_card_view)
+		@InjectView(R2.id.results_card_view)
 		CardView cardView;
 
-		@InjectView(R.id.activity_duration)
+		@InjectView(R2.id.activity_duration)
 		TextView duration;
 
-		@InjectView(R.id.gradient_mask)
+		@InjectView(R2.id.gradient_mask)
 		public View gradientMask;
 
-		@InjectView(R.id.urgency_message_layout_lx)
+		@InjectView(R2.id.urgency_message_layout_lx)
 		LinearLayout urgencyMessage;
 
-		@InjectView(R.id.activity_recommendation_rating)
+		@InjectView(R2.id.activity_recommendation_rating)
 		TextView recommendationScoreView;
 
-		@InjectView(R.id.activity_recommended_text)
+		@InjectView(R2.id.activity_recommended_text)
 		TextView recommendationTextView;
 
-		@InjectView(R.id.activity_discount_percentage)
+		@InjectView(R2.id.activity_discount_percentage)
 		TextView discountPercentageView;
 
-		@InjectView(R.id.activity_vbp_lowest_price_text)
+		@InjectView(R2.id.activity_vbp_lowest_price_text)
 		TextView activityVbpLowestPriceText;
 
-		@InjectView(R.id.mip_srp_tile_layout)
+		@InjectView(R2.id.mip_srp_tile_layout)
 		LinearLayout mipSrpTileLayout;
 
-		@InjectView(R.id.mip_srp_tile_image)
+		@InjectView(R2.id.mip_srp_tile_image)
 		ImageView mipSrpTileImage;
 
-		@InjectView(R.id.mip_srp_tile_discount)
+		@InjectView(R2.id.mip_srp_tile_discount)
 		TextView mipSrpTileDiscount;
 
 		@Inject

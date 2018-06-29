@@ -19,6 +19,10 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;
@@ -57,37 +61,37 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	public LXConfirmationWidgetViewModel viewModel;
 
-	@InjectView(R.id.confirmation_image_view)
+	@InjectView(R2.id.confirmation_image_view)
 	ImageView confirmationImageView;
 
-	@InjectView(R.id.confirmation_text)
+	@InjectView(R2.id.confirmation_text)
 	TextView confirmationText;
 
-	@InjectView(R.id.email_text)
+	@InjectView(R2.id.email_text)
 	TextView emailText;
 
-	@InjectView(R.id.title)
+	@InjectView(R2.id.title)
 	android.widget.TextView title;
 
-	@InjectView(R.id.location)
+	@InjectView(R2.id.location)
 	android.widget.TextView location;
 
-	@InjectView(R.id.tickets)
+	@InjectView(R2.id.tickets)
 	android.widget.TextView tickets;
 
-	@InjectView(R.id.date)
+	@InjectView(R2.id.date)
 	android.widget.TextView date;
 
-	@InjectView(R.id.toolbar)
+	@InjectView(R2.id.toolbar)
 	android.support.v7.widget.Toolbar toolbar;
 
-	@InjectView(R.id.text_container)
+	@InjectView(R2.id.text_container)
 	ViewGroup textContainer;
 
-	@InjectView(R.id.itin_number)
+	@InjectView(R2.id.itin_number)
 	TextView itineraryNumber;
 
-	@InjectView(R.id.reservation_confirmation_text)
+	@InjectView(R2.id.reservation_confirmation_text)
 	TextView reservationConfirmation;
 
 	@Inject

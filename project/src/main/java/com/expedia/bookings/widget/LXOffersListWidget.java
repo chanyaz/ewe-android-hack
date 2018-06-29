@@ -17,6 +17,10 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
@@ -41,13 +45,13 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 	@Inject
 	LXState lxState;
 
-	@InjectView(R.id.offer_show_more_container)
+	@InjectView(R2.id.offer_show_more_container)
 	android.widget.LinearLayout showMoreContainer;
 
-	@InjectView(R.id.offers_container)
+	@InjectView(R2.id.offers_container)
 	android.widget.LinearLayout offerContainer;
 
-	@InjectView(R.id.show_more_widget)
+	@InjectView(R2.id.show_more_widget)
 	ShowMoreWithCountWidget showMoreWithCountWidget;
 
 	private LXOffersListAdapter adapter = new LXOffersListAdapter();
@@ -111,7 +115,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 		}
 	}
 
-	@OnClick((R.id.offer_show_more_container))
+	@OnClick(R2.id.offer_show_more_container)
 	public void onShowMoreClicked() {
 		for (int position = offersListInitialMaxCount; position < availableOffers.size(); position++) {
 			View offerRow = adapter.getView(position, null, this);

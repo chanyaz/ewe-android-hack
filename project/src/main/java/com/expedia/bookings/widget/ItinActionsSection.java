@@ -13,6 +13,10 @@ import android.widget.PopupWindow;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.widget.itin.SummaryButton;
 import com.mobiata.android.util.Ui;

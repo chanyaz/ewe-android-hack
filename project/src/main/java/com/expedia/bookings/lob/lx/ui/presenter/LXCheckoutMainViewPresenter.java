@@ -11,6 +11,10 @@ import android.util.AttributeSet;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;

@@ -19,6 +19,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.Traveler;

@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.AnimUtils;
 
 import butterknife.ButterKnife;
@@ -19,10 +23,10 @@ public class MapLoadingOverlayWidget extends FrameLayout {
 		inflate(context, R.layout.map_loading_overlay, this);
 	}
 
-	@InjectView(R.id.overlay_loading_text)
+	@InjectView(R2.id.overlay_loading_text)
 	View loadingText;
 
-	@InjectView(R.id.loading_overlay)
+	@InjectView(R2.id.loading_overlay)
 	View loadingOverlay;
 
 	@Override

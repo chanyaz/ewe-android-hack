@@ -19,6 +19,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
@@ -36,19 +40,19 @@ public class LXErrorWidget extends FrameLayout {
 		inflate(context, R.layout.lx_error_widget, this);
 	}
 
-	@InjectView(R.id.error_main_container)
+	@InjectView(R2.id.error_main_container)
 	ViewGroup root;
 
-	@InjectView(R.id.error_image)
+	@InjectView(R2.id.error_image)
 	ImageView errorImage;
 
-	@InjectView(R.id.error_action_button)
+	@InjectView(R2.id.error_action_button)
 	Button errorButton;
 
-	@InjectView(R.id.error_text)
+	@InjectView(R2.id.error_text)
 	TextView errorText;
 
-	@InjectView(R.id.error_toolbar)
+	@InjectView(R2.id.error_toolbar)
 	Toolbar toolbar;
 
 	@Override

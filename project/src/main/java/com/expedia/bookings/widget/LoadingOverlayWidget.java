@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Ui;
 
@@ -21,13 +25,13 @@ public class LoadingOverlayWidget extends LinearLayout {
 		inflate(context, R.layout.loading_overlay, this);
 	}
 
-	@InjectView(R.id.overlay_loading_text)
+	@InjectView(R2.id.overlay_loading_text)
 	View loadingText;
 
-	@InjectView(R.id.overlay_title_container)
+	@InjectView(R2.id.overlay_title_container)
 	View overlayTitleContainer;
 
-	@InjectView(R.id.loading_overlay)
+	@InjectView(R2.id.loading_overlay)
 	View loadingOverlay;
 
 	@Override

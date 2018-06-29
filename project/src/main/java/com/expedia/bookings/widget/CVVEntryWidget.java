@@ -19,6 +19,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PaymentType;
@@ -65,10 +69,10 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		super(context, attrs, defStyleAttr);
 	}
 
-	@InjectView(R.id.cvv_toolbar)
+	@InjectView(R2.id.cvv_toolbar)
 	public Toolbar toolbar;
 
-	@InjectView(R.id.main_container)
+	@InjectView(R2.id.main_container)
 	RelativeLayout mainContainer;
 
 	public void setCVVEntryListener(CVVEntryFragmentListener listener) {

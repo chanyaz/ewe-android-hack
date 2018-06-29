@@ -10,6 +10,10 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 
 /**
  * This is a version of TextView that adds a checkmark when it is

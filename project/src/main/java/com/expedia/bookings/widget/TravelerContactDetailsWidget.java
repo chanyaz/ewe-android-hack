@@ -16,6 +16,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
@@ -48,43 +52,43 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		super(context, attr);
 	}
 
-	@InjectView(R.id.travelerStatusIcon)
+	@InjectView(R2.id.travelerStatusIcon)
 	ContactDetailsCompletenessStatusImageView driverCheckoutStatusRightImageView;
 
-	@InjectView(R.id.travelerNameIcon)
+	@InjectView(R2.id.travelerNameIcon)
 	ContactInitialsImageView driverCheckoutStatusLeftImageView;
 
-	@InjectView(R.id.section_traveler_info_container)
+	@InjectView(R2.id.section_traveler_info_container)
 	public SectionTravelerInfo sectionTravelerInfo;
 
-	@InjectView(R.id.enter_details_text)
+	@InjectView(R2.id.enter_details_text)
 	public TextView enterDetailsText;
 
-	@InjectView(R.id.traveler_phone_text)
+	@InjectView(R2.id.traveler_phone_text)
 	public TextView travelerPhoneText;
 
-	@InjectView(R.id.edit_first_name)
+	@InjectView(R2.id.edit_first_name)
 	public AccessibleEditText firstName;
 
-	@InjectView(R.id.edit_last_name)
+	@InjectView(R2.id.edit_last_name)
 	public AccessibleEditText lastName;
 
-	@InjectView(R.id.edit_email_address)
+	@InjectView(R2.id.edit_email_address)
 	public AccessibleEditText emailAddress;
 
-	@InjectView(R.id.edit_phone_number_country_code_spinner)
+	@InjectView(R2.id.edit_phone_number_country_code_spinner)
 	public TelephoneSpinner phoneSpinner;
 
-	@InjectView(R.id.edit_phone_number)
+	@InjectView(R2.id.edit_phone_number)
 	public AccessibleEditText phoneNumber;
 
-	@InjectView(R.id.traveler_contact_info_container)
+	@InjectView(R2.id.traveler_contact_info_container)
 	ViewGroup travelerContactInfoContainer;
 
-	@InjectView(R.id.traveler_button)
+	@InjectView(R2.id.traveler_button)
 	TravelerButton travelerButton;
 
-	@InjectView(R.id.merchandise_guest_opt_checkbox)
+	@InjectView(R2.id.merchandise_guest_opt_checkbox)
 	CheckBox merchandiseOptCheckBox;
 
 	public Boolean emailOptIn;

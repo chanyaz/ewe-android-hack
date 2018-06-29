@@ -5,13 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class DeepLinkTestActivity extends AppCompatActivity {
 
-	@InjectView(R.id.link_list)
+	@InjectView(R2.id.link_list)
 	RecyclerView mRecycler;
 
 	@Override

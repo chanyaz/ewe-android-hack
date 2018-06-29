@@ -10,6 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
@@ -45,43 +49,43 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.ticket_selectors_container)
+	@InjectView(R2.id.ticket_selectors_container)
 	LinearLayout ticketSelectorContainer;
 
-	@InjectView(R.id.selected_ticket_summary)
+	@InjectView(R2.id.selected_ticket_summary)
 	TextView ticketSummary;
 
-	@InjectView(R.id.lx_book_now)
+	@InjectView(R2.id.lx_book_now)
 	Button bookNow;
 
-	@InjectView(R.id.expanded_offer_title)
+	@InjectView(R2.id.expanded_offer_title)
 	com.expedia.bookings.widget.TextView title;
 
-	@InjectView(R.id.ticket_summary_container)
+	@InjectView(R2.id.ticket_summary_container)
 	LinearLayout ticketSummaryContainer;
 
-	@InjectView(R.id.offer_passengers)
+	@InjectView(R2.id.offer_passengers)
 	com.expedia.bookings.widget.TextView offerPassengers;
 
-	@InjectView(R.id.offer_bags)
+	@InjectView(R2.id.offer_bags)
 	com.expedia.bookings.widget.TextView offerBags;
 
-	@InjectViews({ R.id.offer_detail1, R.id.offer_detail2, R.id.offer_detail3 })
+	@InjectViews({ R2.id.offer_detail1, R2.id.offer_detail2, R2.id.offer_detail3 })
 	List<com.expedia.bookings.widget.TextView> offerDetails;
 
-	@InjectView(R.id.offer_description)
+	@InjectView(R2.id.offer_description)
 	LXOfferDescription offerDescription;
 
-	@InjectView(R.id.price_summary_container)
+	@InjectView(R2.id.price_summary_container)
 	LinearLayout priceSummaryContainer;
 
-	@InjectView(R.id.discount_percentage)
+	@InjectView(R2.id.discount_percentage)
 	TextView discountPercentageView;
 
-	@InjectView(R.id.strike_through_price)
+	@InjectView(R2.id.strike_through_price)
 	TextView strikeThroughPrice;
 
-	@InjectView(R.id.actual_price)
+	@InjectView(R2.id.actual_price)
 	TextView actualPrice;
 
 	@Inject

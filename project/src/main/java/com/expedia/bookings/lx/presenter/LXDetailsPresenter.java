@@ -22,6 +22,10 @@ import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
@@ -58,37 +62,37 @@ public class LXDetailsPresenter extends Presenter {
 
 	private ArrowXDrawable navIcon;
 
-	@InjectView(R.id.activity_details)
+	@InjectView(R2.id.activity_details)
 	LXActivityDetailsWidget details;
 
-	@InjectView(R.id.lx_maps_view)
+	@InjectView(R2.id.lx_maps_view)
 	LXMapView fullscreenMapView;
 
-	@InjectView(R.id.toolbar)
+	@InjectView(R2.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R.id.toolbar_background)
+	@InjectView(R2.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R.id.toolbar_dropshadow)
+	@InjectView(R2.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
 	@Inject
 	LXState lxState;
 
-	@InjectView(R.id.toolbar_search_text)
+	@InjectView(R2.id.toolbar_search_text)
 	android.widget.TextView toolBarSearchText;
 
-	@InjectView(R.id.toolbar_detail_text)
+	@InjectView(R2.id.toolbar_detail_text)
 	android.widget.TextView toolBarDetailText;
 
-	@InjectView(R.id.toolbar_subtitle_text)
+	@InjectView(R2.id.toolbar_subtitle_text)
 	android.widget.TextView toolBarSubtitleText;
 
-	@InjectView(R.id.toolbar_two)
+	@InjectView(R2.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	@InjectView(R.id.lx_details_gradient_top)
+	@InjectView(R2.id.lx_details_gradient_top)
 	View lxDetailsGradientTop;
 
 	private Disposable detailsSubscription;

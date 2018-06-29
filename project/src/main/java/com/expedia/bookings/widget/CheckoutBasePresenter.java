@@ -32,6 +32,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -77,66 +81,66 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		inflate(context, R.layout.widget_checkout_base, this);
 	}
 
-	@InjectView(R.id.checkout_scroll)
+	@InjectView(R2.id.checkout_scroll)
 	public ScrollView scrollView;
 
-	@InjectView(R.id.scroll_content)
+	@InjectView(R2.id.scroll_content)
 	public LinearLayout checkoutContent;
 
-	@InjectView(R.id.checkout_toolbar)
+	@InjectView(R2.id.checkout_toolbar)
 	public CheckoutToolbar toolbar;
 
-	@InjectView(R.id.main_contact_info_card_view)
+	@InjectView(R2.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
 
-	@InjectView(R.id.traveler_default_state_card_view)
+	@InjectView(R2.id.traveler_default_state_card_view)
 	public CardView travelerSummaryCardView;
 
-	@InjectView(R.id.traveler_default_state)
+	@InjectView(R2.id.traveler_default_state)
 	public TravelerSummaryCard travelerSummaryCard;
 
 	public AbstractTravelersPresenter travelersPresenter;
 
-	@InjectView(R.id.traveler_presenter_stub)
+	@InjectView(R2.id.traveler_presenter_stub)
 	public ViewStub travelerViewStub;
 
 	public ViewStub paymentStub;
 
 	public PaymentWidget paymentInfoCardView;
 
-	@InjectView(R.id.slide_to_purchase_layout)
+	@InjectView(R2.id.slide_to_purchase_layout)
 	public ViewGroup slideToContainer;
 
-	@InjectView(R.id.summary_container)
+	@InjectView(R2.id.summary_container)
 	public FrameLayout summaryContainer;
 
-	@InjectView(R.id.coupon_container)
+	@InjectView(R2.id.coupon_container)
 	public FrameLayout couponContainer;
 
 	public View mSummaryProgressLayout;
 
-	@InjectView(R.id.login_widget)
+	@InjectView(R2.id.login_widget)
 	public AccountButton loginWidget;
 
-	@InjectView(R.id.hint_container)
+	@InjectView(R2.id.hint_container)
 	ViewGroup hintContainer;
 
-	@InjectView(R.id.legal_information_text_view)
+	@InjectView(R2.id.legal_information_text_view)
 	public TextView legalInformationText;
 
-	@InjectView(R.id.disclaimer_text)
+	@InjectView(R2.id.disclaimer_text)
 	public TextView disclaimerText;
 
-	@InjectView(R.id.deposit_policy_text)
+	@InjectView(R2.id.deposit_policy_text)
 	public TextView depositPolicyText;
 
-	@InjectView(R.id.slide_to_purchase_widget)
+	@InjectView(R2.id.slide_to_purchase_widget)
 	public SlideToWidgetLL slideWidget;
 
-	@InjectView(R.id.purchase_total_text_view)
+	@InjectView(R2.id.purchase_total_text_view)
 	public TextView sliderTotalText;
 
-	@InjectView(R.id.spacer)
+	@InjectView(R2.id.spacer)
 	public Space space;
 
 	public MenuItem menuDone;

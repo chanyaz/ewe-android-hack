@@ -26,6 +26,10 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.abacus.AbacusUtils;
 
 import butterknife.ButterKnife;
@@ -229,9 +233,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	}
 
 	public static class DeepLinkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@InjectView(R.id.button)
+		@InjectView(R2.id.button)
 		Button button;
-		@InjectView(R.id.link)
+		@InjectView(R2.id.link)
 		TextView linkTextView;
 
 		public DeepLinkViewHolder(View itemView) {
@@ -278,7 +282,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	public static class DeepLinkWithPackageViewHolder extends DeepLinkViewHolder implements View.OnClickListener {
 
-		@InjectView(R.id.app_package_spinner)
+		@InjectView(R2.id.app_package_spinner)
 		Spinner packageSpinner;
 
 		public DeepLinkWithPackageViewHolder(View itemView) {
@@ -300,10 +304,10 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	public static class DeepLinkWithABTestsViewHolder extends DeepLinkViewHolder {
 
-		@InjectView(R.id.app_ab_tests_spinner)
+		@InjectView(R2.id.app_ab_tests_spinner)
 		Spinner abTestsSpinner;
 
-		@InjectView(R.id.test_variant_edit_text)
+		@InjectView(R2.id.test_variant_edit_text)
 		EditText testVariantEditText;
 
 		public DeepLinkWithABTestsViewHolder(View itemView) {

@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -14,7 +18,7 @@ public class ShowMoreWithCountWidget extends android.widget.LinearLayout {
 		inflate(context, R.layout.show_more_with_count_layout, this);
 	}
 
-	@InjectView(R.id.more_offer_count)
+	@InjectView(R2.id.more_offer_count)
 	android.widget.TextView moreOfferCount;
 
 	@Override

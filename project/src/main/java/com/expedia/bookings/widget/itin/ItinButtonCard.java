@@ -12,6 +12,10 @@ import android.widget.PopupMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;

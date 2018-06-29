@@ -10,6 +10,10 @@ import android.widget.AdapterView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.fragment.TerminalMapFragment;
 import com.expedia.bookings.fragment.TerminalMapLegendDialogFragment;
 import com.expedia.bookings.itin.common.ItinToolbarWithSpinner;

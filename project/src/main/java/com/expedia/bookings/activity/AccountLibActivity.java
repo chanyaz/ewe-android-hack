@@ -19,6 +19,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -57,22 +61,22 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	private static final String ARG_INITIAL_STATE = "ARG_INITIAL_STATE";
 	private static final String ARG_INITIAL_TAB = "ARG_INITIAL_TAB";
 
-	@InjectView(R.id.parallax_view)
+	@InjectView(R2.id.parallax_view)
 	public PanningImageView background;
 
-	@InjectView(R.id.white_background)
+	@InjectView(R2.id.white_background)
 	public View whiteBackground;
 
-	@InjectView(R.id.account_view)
+	@InjectView(R2.id.account_view)
 	public AccountView accountView;
 
-	@InjectView(R.id.new_account_view)
+	@InjectView(R2.id.new_account_view)
 	public NewAccountView newAccountView;
 
-	@InjectView(R.id.login_extension_container)
+	@InjectView(R2.id.login_extension_container)
 	public LinearLayout loginExtenderContainer;
 
-	@InjectView(R.id.extender_status)
+	@InjectView(R2.id.extender_status)
 	public TextView extenderStatus;
 
 	@Inject

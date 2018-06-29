@@ -18,6 +18,10 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -55,82 +59,82 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public static final int DURATION = 500;
 
-	@InjectView(R.id.activity_details_container)
+	@InjectView(R2.id.activity_details_container)
 	LinearLayout activityContainer;
 
-	@InjectView(R.id.activity_details)
+	@InjectView(R2.id.activity_details)
 	LXDetailsScrollView activityDetailsContainer;
 
-	@InjectView(R.id.gallery_container)
+	@InjectView(R2.id.gallery_container)
 	FrameLayout galleryContainer;
 
-	@InjectView(R.id.activity_gallery)
+	@InjectView(R2.id.activity_gallery)
 	RecyclerGallery activityGallery;
 
-	@InjectView(R.id.highlights)
+	@InjectView(R2.id.highlights)
 	LXDetailSectionDataWidget highlights;
 
-	@InjectView(R.id.mini_map_view)
+	@InjectView(R2.id.mini_map_view)
 	LocationMapImageView miniMapView;
 
-	@InjectView(R.id.map_divider)
+	@InjectView(R2.id.map_divider)
 	View mapDivider;
 
-	@InjectView(R.id.map_click_container)
+	@InjectView(R2.id.map_click_container)
 	View miniMapContainer;
 
-	@InjectView(R.id.offers)
+	@InjectView(R2.id.offers)
 	LXOffersListWidget offers;
 
-	@InjectView(R.id.description)
+	@InjectView(R2.id.description)
 	LXDetailSectionDataWidget description;
 
-	@InjectView(R.id.location)
+	@InjectView(R2.id.location)
 	LXDetailSectionDataWidget location;
 
-	@InjectView(R.id.event_location)
+	@InjectView(R2.id.event_location)
 	LXDetailSectionDataWidget eventLocation;
 
-	@InjectView(R.id.redemption_location)
+	@InjectView(R2.id.redemption_location)
 	LXDetailSectionDataWidget redemptionLocation;
 
-	@InjectView(R.id.offer_dates_container)
+	@InjectView(R2.id.offer_dates_container)
 	LinearLayout offerDatesContainer;
 
-	@InjectView(R.id.inclusions)
+	@InjectView(R2.id.inclusions)
 	LXDetailSectionDataWidget inclusions;
 
-	@InjectView(R.id.exclusions)
+	@InjectView(R2.id.exclusions)
 	LXDetailSectionDataWidget exclusions;
 
-	@InjectView(R.id.know_before_you_book)
+	@InjectView(R2.id.know_before_you_book)
 	LXDetailSectionDataWidget knowBeforeYouBook;
 
-	@InjectView(R.id.cancellation)
+	@InjectView(R2.id.cancellation)
 	LXDetailSectionDataWidget cancellation;
 
-	@InjectView(R.id.offer_dates_scroll_view)
+	@InjectView(R2.id.offer_dates_scroll_view)
 	HorizontalScrollView offerDatesScrollView;
 
-	@InjectView(R.id.discount_container)
+	@InjectView(R2.id.discount_container)
 	LinearLayout discountContainer;
 
-	@InjectView(R.id.discount_percentage)
+	@InjectView(R2.id.discount_percentage)
 	TextView discountPercentageView;
 
-	@InjectView(R.id.member_only_deal_tag)
+	@InjectView(R2.id.member_only_deal_tag)
 	ImageView memberPricingTag;
 
-	@InjectView(R.id.discount_text)
+	@InjectView(R2.id.discount_text)
 	TextView memberPricingText;
 
-	@InjectView(R.id.mip_infosite_image)
+	@InjectView(R2.id.mip_infosite_image)
 	ImageView mipInfositeImage;
 
-	@InjectView(R.id.mip_infosite_banner)
+	@InjectView(R2.id.mip_infosite_banner)
 	LinearLayout mipInfositeBanner;
 
-	@InjectView(R.id.mip_infosite_discount)
+	@InjectView(R2.id.mip_infosite_discount)
 	android.widget.TextView mipInfositeDiscount;
 
 	@Inject

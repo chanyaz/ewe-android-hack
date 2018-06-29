@@ -8,6 +8,10 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.widget.DeprecatedProgressDialog;
 
 public class ThrobberDialog extends DialogFragment {

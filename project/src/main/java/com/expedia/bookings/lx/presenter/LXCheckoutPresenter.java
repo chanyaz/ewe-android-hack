@@ -14,6 +14,10 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
@@ -56,16 +60,16 @@ public class LXCheckoutPresenter extends Presenter {
 	protected UserStateManager userStateManager;
 
 	@VisibleForTesting
-	@InjectView(R.id.checkout)
+	@InjectView(R2.id.checkout)
 	LXCheckoutMainViewPresenter checkout;
 
-	@InjectView(R.id.rules)
+	@InjectView(R2.id.rules)
 	LxRulesWidget rules;
 
-	@InjectView(R.id.cvv)
+	@InjectView(R2.id.cvv)
 	CVVEntryWidget cvv;
 
-	@InjectView(R.id.lx_checkout_error_widget)
+	@InjectView(R2.id.lx_checkout_error_widget)
 	LXErrorWidget errorScreen;
 
 	private LXCheckoutParams checkoutParams;

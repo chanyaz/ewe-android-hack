@@ -13,6 +13,10 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
@@ -31,10 +35,10 @@ public class LxRulesWidget extends LinearLayout {
 		inflate(context, R.layout.widget_lx_rules, this);
 	}
 
-	@InjectView(R.id.cancellation_policy_text_view)
+	@InjectView(R2.id.cancellation_policy_text_view)
 	TextView cancellationPolicy;
 
-	@InjectView(R.id.lx_rules_toolbar)
+	@InjectView(R2.id.lx_rules_toolbar)
 	Toolbar toolbar;
 
 	private String tripId;

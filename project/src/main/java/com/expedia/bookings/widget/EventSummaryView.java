@@ -14,6 +14,10 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;

@@ -11,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.squareup.phrase.Phrase;
 
@@ -25,16 +29,16 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 		inflate(context, R.layout.widget_filter_button_with_count, this);
 	}
 
-	@InjectView(R.id.sort_filter_button)
+	@InjectView(R2.id.sort_filter_button)
 	LinearLayout buttonContainer;
 
-	@InjectView(R.id.filter_number_text)
+	@InjectView(R2.id.filter_number_text)
 	TextView filterNumber;
 
-	@InjectView(R.id.filter_icon)
+	@InjectView(R2.id.filter_icon)
 	View filterIcon;
 
-	@InjectView(R.id.filter_text)
+	@InjectView(R2.id.filter_text)
 	TextView filterText;
 
 	@Override

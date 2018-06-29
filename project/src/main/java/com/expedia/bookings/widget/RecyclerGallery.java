@@ -26,6 +26,10 @@ import android.widget.ProgressBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
@@ -215,11 +219,11 @@ public class RecyclerGallery extends RecyclerView {
 		}
 
 		public class GalleryViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-			@InjectView(R.id.gallery_item_progress_bar)
+			@InjectView(R2.id.gallery_item_progress_bar)
 			public ProgressBar progressBar;
-			@InjectView(R.id.photo_count_textview)
+			@InjectView(R2.id.photo_count_textview)
 			public TextView photoCountTextView;
-			@InjectView(R.id.gallery_item_image_view)
+			@InjectView(R2.id.gallery_item_image_view)
 			public RecyclerGalleryImageView mImageView;
 
 			public GalleryViewHolder(View root) {

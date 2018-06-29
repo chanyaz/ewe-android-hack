@@ -16,6 +16,10 @@ import android.widget.ListPopupWindow;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
@@ -66,7 +70,7 @@ public class TravelerButton extends LinearLayout {
 		void onAddNewTravelerSelected();
 	}
 
-	@InjectView(R.id.select_traveler_button)
+	@InjectView(R2.id.select_traveler_button)
 	Button selectTraveler;
 
 	@OnClick(R2.id.select_traveler_button)

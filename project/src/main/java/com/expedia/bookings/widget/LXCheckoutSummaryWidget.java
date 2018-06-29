@@ -19,6 +19,10 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.PriceBreakdownItemType;
@@ -44,31 +48,31 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.lx_activity_title_text)
+	@InjectView(R2.id.lx_activity_title_text)
 	TextView lxActivityTitleText;
 
-	@InjectView(R.id.lx_offer_title_text)
+	@InjectView(R2.id.lx_offer_title_text)
 	TextView lxOfferTitleText;
 
-	@InjectView(R.id.lx_group_text)
+	@InjectView(R2.id.lx_group_text)
 	TextView lxGroupText;
 
-	@InjectView(R.id.lx_offer_date)
+	@InjectView(R2.id.lx_offer_date)
 	TextView lxOfferDate;
 
-	@InjectView(R.id.lx_offer_location)
+	@InjectView(R2.id.lx_offer_location)
 	TextView lxOfferLocation;
 
-	@InjectView(R.id.free_cancellation_text)
+	@InjectView(R2.id.free_cancellation_text)
 	TextView freeCancellationText;
 
-	@InjectView(R.id.price_text)
+	@InjectView(R2.id.price_text)
 	TextView tripTotalText;
 
-	@InjectView(R.id.price_change_container)
+	@InjectView(R2.id.price_change_container)
 	ViewGroup priceChangeContainer;
 
-	@InjectView(R.id.price_change_text)
+	@InjectView(R2.id.price_change_text)
 	TextView priceChangeText;
 
 	@Inject

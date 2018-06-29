@@ -11,6 +11,10 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.user.UserSource;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;

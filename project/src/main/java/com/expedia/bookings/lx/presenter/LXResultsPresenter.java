@@ -22,6 +22,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -64,52 +68,52 @@ public class LXResultsPresenter extends Presenter {
 	@Inject
 	LXState lxState;
 
-	@InjectView(R.id.lx_search_results_widget)
+	@InjectView(R2.id.lx_search_results_widget)
 	LXSearchResultsWidget searchResultsWidget;
 
 	Disposable searchSubscription;
 
-	@InjectView(R.id.toolbar)
+	@InjectView(R2.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R.id.sort_filter_widget)
+	@InjectView(R2.id.sort_filter_widget)
 	LXSortFilterWidget sortFilterWidget;
 
-	@InjectView(R.id.sort_filter_button_container)
+	@InjectView(R2.id.sort_filter_button_container)
 	FilterButtonWithCountWidget sortFilterButton;
 
 	// This is here just for an animation
-	@InjectView(R.id.toolbar_background)
+	@InjectView(R2.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R.id.toolbar_search_text)
+	@InjectView(R2.id.toolbar_search_text)
 	android.widget.TextView toolBarSearchText;
 
-	@InjectView(R.id.toolbar_detail_text)
+	@InjectView(R2.id.toolbar_detail_text)
 	android.widget.TextView toolBarDetailText;
 
-	@InjectView(R.id.toolbar_subtitle_text)
+	@InjectView(R2.id.toolbar_subtitle_text)
 	android.widget.TextView toolBarSubtitleText;
 
-	@InjectView(R.id.toolbar_two)
+	@InjectView(R2.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	@InjectView(R.id.transparent_view)
+	@InjectView(R2.id.transparent_view)
 	View transparentView;
 
-	@InjectView(R.id.sort_filter_widget_animate_view)
+	@InjectView(R2.id.sort_filter_widget_animate_view)
 	View sortFilterWidgetAnimateView;
 
-	@InjectView(R.id.mip_srp_banner_image)
+	@InjectView(R2.id.mip_srp_banner_image)
 	ImageView mipSrpBannerImage;
 
-	@InjectView(R.id.mip_srp_banner_brand)
+	@InjectView(R2.id.mip_srp_banner_brand)
 	android.widget.TextView mipSrpBannerBrand;
 
-	@InjectView(R.id.mip_srp_banner_discount)
+	@InjectView(R2.id.mip_srp_banner_discount)
 	android.widget.TextView mipSrpBannerDiscount;
 
-	@InjectView(R.id.mip_srp_banner)
+	@InjectView(R2.id.mip_srp_banner)
 	LinearLayout mipSrpBanner;
 
 	@OnClick(R2.id.transparent_view)

@@ -16,6 +16,10 @@ import android.widget.EditText;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;

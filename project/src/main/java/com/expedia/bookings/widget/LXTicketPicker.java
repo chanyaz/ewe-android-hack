@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -31,22 +35,22 @@ import butterknife.OnClick;
 
 public class LXTicketPicker extends LinearLayout {
 
-	@InjectView(R.id.traveler_type)
+	@InjectView(R2.id.traveler_type)
 	TextView travelerTypeView;
 
-	@InjectView(R.id.original_price)
+	@InjectView(R2.id.original_price)
 	TextView originalPriceView;
 
-	@InjectView(R.id.actual_price)
+	@InjectView(R2.id.actual_price)
 	TextView actualPriceView;
 
-	@InjectView(R.id.ticket_count)
+	@InjectView(R2.id.ticket_count)
 	TextView ticketCount;
 
-	@InjectView(R.id.ticket_add)
+	@InjectView(R2.id.ticket_add)
 	ImageButton ticketAdd;
 
-	@InjectView(R.id.ticket_remove)
+	@InjectView(R2.id.ticket_remove)
 	ImageButton ticketRemove;
 
 	private Ticket ticket;

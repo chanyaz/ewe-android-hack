@@ -25,6 +25,10 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper;
 import com.expedia.bookings.appstartup.persistence.SharedPreferencesSplashScreenAnimationProvider;
 import com.expedia.bookings.appstartup.persistence.SplashScreenAnimationProvider;
@@ -74,16 +78,16 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	@Inject
 	RouterToSignInTimeLogger routerToSignInTimeLogger;
 
-	@InjectView(R.id.root_layout)
+	@InjectView(R2.id.root_layout)
 	protected ConstraintLayout rootLayout;
 
-	@InjectView(R.id.start_animation_view)
+	@InjectView(R2.id.start_animation_view)
 	LottieAnimationView startAnimationView;
 
-	@InjectView(R.id.loop_animation_view)
+	@InjectView(R2.id.loop_animation_view)
 	LottieAnimationView loopAnimationView;
 
-	@InjectView(R.id.end_animation_view)
+	@InjectView(R2.id.end_animation_view)
 	LottieAnimationView endAnimationView;
 
 	protected SplashScreenAnimationProvider splashScreenAnimationProvider;

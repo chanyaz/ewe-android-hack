@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
@@ -31,10 +35,10 @@ public class LXSearchResultsWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 12;
 	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
 
-	@InjectView(R.id.lx_search_results_list)
+	@InjectView(R2.id.lx_search_results_list)
 	RecyclerView recyclerView;
 
-	@InjectView(R.id.lx_search_error_widget)
+	@InjectView(R2.id.lx_search_error_widget)
 	LXErrorWidget errorScreen;
 
 	public LXResultsListAdapter adapter;

@@ -28,6 +28,10 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;

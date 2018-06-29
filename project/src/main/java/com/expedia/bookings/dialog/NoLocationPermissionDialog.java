@@ -13,6 +13,10 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.squareup.phrase.Phrase;
 
 public class NoLocationPermissionDialog extends DialogFragment implements DialogInterface.OnClickListener {

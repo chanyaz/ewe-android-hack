@@ -11,6 +11,10 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.utils.navigation.NavUtils;
 
 public class NoLocationServicesDialog extends DialogFragment implements DialogInterface.OnClickListener {

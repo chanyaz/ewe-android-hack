@@ -10,6 +10,10 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
@@ -102,22 +106,22 @@ public class LXOffersListAdapter extends BaseAdapter {
 			itemView.setOnClickListener(this);
 		}
 
-		@InjectView(R.id.offer_title)
+		@InjectView(R2.id.offer_title)
 		TextView offerTitle;
 
-		@InjectView(R.id.select_tickets)
+		@InjectView(R2.id.select_tickets)
 		Button selectTickets;
 
-		@InjectView(R.id.offer_row)
+		@InjectView(R2.id.offer_row)
 		View offerRow;
 
-		@InjectView(R.id.offer_tickets_picker)
+		@InjectView(R2.id.offer_tickets_picker)
 		LXTicketSelectionWidget ticketSelectionWidget;
 
-		@InjectView(R.id.lx_book_now)
+		@InjectView(R2.id.lx_book_now)
 		Button bookNow;
 
-		@InjectView(R.id.activity_price_summary_container)
+		@InjectView(R2.id.activity_price_summary_container)
 		LinearLayout priceSummaryContainer;
 
 		@OnClick(R2.id.select_tickets)

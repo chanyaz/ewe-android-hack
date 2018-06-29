@@ -10,6 +10,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.otto.Events;
 import com.squareup.phrase.Phrase;
@@ -25,10 +29,10 @@ public class LXFilterCategoryWidget extends LinearLayout implements View.OnClick
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.category)
+	@InjectView(R2.id.category)
 	TextView categoryTitle;
 
-	@InjectView(R.id.category_check_box)
+	@InjectView(R2.id.category_check_box)
 	CheckBox categoryCheckBox;
 
 	@Override

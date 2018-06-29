@@ -13,6 +13,10 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.R2;
 
+import com.expedia.bookings.R2;
+
+import com.expedia.bookings.R2;
+
 import com.expedia.bookings.interfaces.ToolbarListener;
 
 public abstract class ExpandableCardView extends FrameLayout
