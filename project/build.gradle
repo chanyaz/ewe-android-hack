@@ -200,6 +200,20 @@ if (!project.ext.has("cucumberInstrumentation")) {
 android {
     baseFeature true
 
+    generatePureSplits = true
+    splits {
+        abi {
+            enable = true
+        }
+        density {
+            enable = true
+        }
+        language {
+            enable = true
+            include "es-rMX", "zh", "en"
+        }
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     useLibrary 'org.apache.http.legacy'
