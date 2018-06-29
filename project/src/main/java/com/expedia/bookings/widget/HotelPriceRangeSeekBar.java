@@ -46,16 +46,15 @@ public class HotelPriceRangeSeekBar extends FilterRangeSeekBar {
 
 		@Override
 		public boolean performAccessibilityAction(View host, int action, Bundle args) {
-			switch (action) {
-			case R.id.price_range_increase_min_price:
-			case R.id.price_range_increase_max_price:
+			if (action == R.id.price_range_increase_min_price || action == R.id.price_range_increase_max_price) {
 				updateValueBy(1, getThumb());
 				return true;
-			case R.id.price_range_decrease_min_price:
-			case R.id.price_range_decrease_max_price:
+			}
+			else if (action == R.id.price_range_decrease_min_price || action == R.id.price_range_decrease_max_price) {
 				updateValueBy(-1, getThumb());
 				return true;
-			default:
+			}
+			else {
 				return super.performAccessibilityAction(host, action, args);
 			}
 		}

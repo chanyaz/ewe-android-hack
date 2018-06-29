@@ -87,17 +87,15 @@ class DebugMenuImpl implements DebugMenu {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.debug_menu_settings: {
+		int i = item.getItemId();
+		if (i == R.id.debug_menu_settings) {
 			if (settingsActivityClass != null) {
 				Intent intent = new Intent(hostActivity, settingsActivityClass);
 				hostActivity.startActivityForResult(intent, Constants.REQUEST_SETTINGS);
 			}
 			return true;
 		}
-		case R.id.debug_menu_build_server:
-		case R.id.debug_menu_build_number:
-			// just consume the click
+		else if (i == R.id.debug_menu_build_server || i == R.id.debug_menu_build_number) {// just consume the click
 			return true;
 		}
 

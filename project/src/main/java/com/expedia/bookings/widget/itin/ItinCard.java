@@ -1011,43 +1011,40 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private final OnClickListener mOnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.close_image_button: {
+			int i = v.getId();
+			if (i == R.id.close_image_button) {
 				if (mOnItinCardClickListener != null) {
 					mOnItinCardClickListener.onCloseButtonClicked();
 				}
-				break;
 			}
-			case R.id.itin_overflow_image_button: {
+			else if (i == R.id.itin_overflow_image_button) {
 				onOverflowButtonClicked(v);
-				break;
 			}
-			case R.id.itin_share_button: {
+			else if (i == R.id.itin_share_button) {
 				showNativeShareDialog();
 				OmnitureTracking.trackItinShareStart(mItinContentGenerator.getType());
-				break;
 			}
-			case R.id.summary_section_layout: {
+			else if (i == R.id.summary_section_layout) {
 				if (mDisplayState.equals(DisplayState.EXPANDED) && mOnItinCardClickListener != null) {
 					mOnItinCardClickListener.onCloseButtonClicked();
 				}
-				break;
-			}
 			}
 		}
 	};
 
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.itin_card_share:
+		int i = item.getItemId();
+		if (i == R.id.itin_card_share) {
 			showNativeShareDialog();
 			OmnitureTracking.trackItinShareStart(mItinContentGenerator.getType());
 			return true;
-		case R.id.itin_card_add_to_calendar:
+		}
+		else if (i == R.id.itin_card_add_to_calendar) {
 			addToCalendar();
 			return true;
-		default:
+		}
+		else {
 			return false;
 		}
 	}

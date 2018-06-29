@@ -172,15 +172,14 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout
 
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.itin_button_hide: {
+		int i = item.getItemId();
+		if (i == R.id.itin_button_hide) {
 			hide();
 			return true;
 		}
-		case R.id.itin_button_hide_forever: {
+		else if (i == R.id.itin_button_hide_forever) {
 			hideForever();
 			return true;
-		}
 		}
 		return false;
 	}
@@ -193,15 +192,16 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout
 	private final OnClickListener mOnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.button_action_layout:
+			int i = v.getId();
+			if (i == R.id.button_action_layout) {
 				if (mItinButtonOnClickListener != null) {
 					mItinButtonOnClickListener.onClick(v);
 				}
-				break;
-			case R.id.dismiss_image_view:
+
+			}
+			else if (i == R.id.dismiss_image_view) {
 				showHidePopup();
-				break;
+
 			}
 		}
 	};

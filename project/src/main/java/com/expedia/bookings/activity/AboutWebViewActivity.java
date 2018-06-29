@@ -58,11 +58,10 @@ public class AboutWebViewActivity extends WebViewActivity {
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_email: {
+		int i = item.getItemId();
+		if (i == R.id.menu_email) {
 			sendSupportEmail();
 			return true;
-		}
 		}
 		return super.onOptionsItemSelected(item);
 	}

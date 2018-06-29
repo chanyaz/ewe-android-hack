@@ -340,14 +340,15 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 
 		@Override
 		public boolean performAccessibilityAction(View host, int action, Bundle args) {
-			switch (action) {
-			case AccessibilityNodeInfo.ACTION_SCROLL_FORWARD:
+			if (action == AccessibilityNodeInfo.ACTION_SCROLL_FORWARD) {
 				updateValueBy(1, getThumb());
 				return true;
-			case AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD:
+			}
+			else if (action == AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD) {
 				updateValueBy(-1, getThumb());
 				return true;
-			case R.id.seekbar_breakout_set_level:
+			}
+			else if (action == R.id.seekbar_breakout_set_level) {
 				post(new Runnable() {
 					@Override
 					public void run() {
@@ -355,7 +356,8 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 					}
 				});
 				return true;
-			default:
+			}
+			else {
 				return super.performAccessibilityAction(host, action, args);
 			}
 		}

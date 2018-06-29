@@ -15,14 +15,18 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     flavorDimensions "default"
 
     defaultConfig {
         applicationId "com.expedia.bookings.install"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 

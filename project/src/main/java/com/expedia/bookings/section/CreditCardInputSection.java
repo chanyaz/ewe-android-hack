@@ -96,44 +96,56 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
 		int code;
-		switch (v.getId()) {
-		case R.id.zero_button:
+		int i = v.getId();
+		if (i == R.id.zero_button) {
 			code = 0;
-			break;
-		case R.id.one_button:
+
+		}
+		else if (i == R.id.one_button) {
 			code = 1;
-			break;
-		case R.id.two_button:
+
+		}
+		else if (i == R.id.two_button) {
 			code = 2;
-			break;
-		case R.id.three_button:
+
+		}
+		else if (i == R.id.three_button) {
 			code = 3;
-			break;
-		case R.id.four_button:
+
+		}
+		else if (i == R.id.four_button) {
 			code = 4;
-			break;
-		case R.id.five_button:
+
+		}
+		else if (i == R.id.five_button) {
 			code = 5;
-			break;
-		case R.id.six_button:
+
+		}
+		else if (i == R.id.six_button) {
 			code = 6;
-			break;
-		case R.id.seven_button:
+
+		}
+		else if (i == R.id.seven_button) {
 			code = 7;
-			break;
-		case R.id.eight_button:
+
+		}
+		else if (i == R.id.eight_button) {
 			code = 8;
-			break;
-		case R.id.nine_button:
+
+		}
+		else if (i == R.id.nine_button) {
 			code = 9;
-			break;
-		case R.id.delete_button:
+
+		}
+		else if (i == R.id.delete_button) {
 			code = CODE_DELETE;
-			break;
-		case R.id.book_button:
+
+		}
+		else if (i == R.id.book_button) {
 			code = CODE_BOOK;
-			break;
-		default:
+
+		}
+		else {
 			throw new RuntimeException("How did you even get here?");
 		}
 

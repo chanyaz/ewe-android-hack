@@ -246,8 +246,8 @@ public class LXDetailsPresenter extends Presenter {
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
-				switch (menuItem.getItemId()) {
-				case R.id.menu_open_search:
+				int i = menuItem.getItemId();
+				if (i == R.id.menu_open_search) {
 					Events.post(new Events.LXSearchParamsOverlay());
 					return true;
 				}

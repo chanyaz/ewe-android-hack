@@ -155,15 +155,14 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.itin_button_hide: {
+		int i = item.getItemId();
+		if (i == R.id.itin_button_hide) {
 			hide();
 			return true;
 		}
-		case R.id.itin_button_hide_forever: {
+		else if (i == R.id.itin_button_hide_forever) {
 			hideForever();
 			return true;
-		}
 		}
 		return false;
 	}
