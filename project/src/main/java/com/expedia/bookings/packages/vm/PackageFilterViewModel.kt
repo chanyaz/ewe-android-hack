@@ -54,6 +54,10 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
             sortByObservable.subscribe(sortObserver)
             doneObservable.subscribe {
                 sortByObservable.onNext(userFilterChoices.userSort)
+                if (userFilterChoices.filterCount() > 0 && previousFilterChoices != userFilterChoices) {
+                    trackHotelFilterApplied()
+                    previousFilterChoices = userFilterChoices.copy()
+                }
             }
         }
 

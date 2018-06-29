@@ -10,6 +10,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
@@ -19,7 +20,6 @@ import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.widget.HotelClientFilterView
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -190,21 +190,29 @@ class PackageHotelResultsPresenterTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
         inflate()
         assertTrue(packageHotelResultsPresenter.filterView is PackageHotelServerFilterView)
+        val filterviewmodel = packageHotelResultsPresenter.createFilterViewModel()
+        packageHotelResultsPresenter.filterView.initViewModel(filterviewmodel)
+        filterviewmodel.userFilterChoices = UserFilterChoices()
+        filterviewmodel.userFilterChoices.name = "Test_Hotel"
+        filterviewmodel.userFilterChoices.isVipOnlyAccess = true
+        filterviewmodel.presetFilterOptionsUpdatedSubject.onNext(filterviewmodel.userFilterChoices)
         packageHotelResultsPresenter.filterView.doneButton.performClick()
+
         val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Filter.Apply")
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
-    fun testClientSideFilterDoneButtonTracking() {
+    fun testServerSideFilterDoneButtonTrackingNotDoneIfFiltersNotSet() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
-        inflate()
-        assertTrue(packageHotelResultsPresenter.filterView is HotelClientFilterView)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
+                null) as PackageHotelResultsPresenter
+        assertTrue(packageHotelResultsPresenter.filterView is PackageHotelServerFilterView)
+        val filterviewmodel = packageHotelResultsPresenter.createFilterViewModel()
+        packageHotelResultsPresenter.filterView.initViewModel(filterviewmodel)
         packageHotelResultsPresenter.filterView.doneButton.performClick()
-        val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Filter.Apply")
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkNotTracked("Search Results Sort", "App.Package.Hotels.Search.Filter.Apply", mockAnalyticsProvider)
     }
 
     @Test

@@ -1,6 +1,8 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -16,6 +18,7 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.StarRatingValue
 import org.junit.Before
@@ -36,6 +39,7 @@ class PackageFilterViewModelTest {
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
     lateinit var context: Context
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
@@ -420,6 +424,41 @@ class PackageFilterViewModelTest {
         vm.filterChoicesObservable.subscribe(testSubscriber)
         vm.doneObservable.onNext(Unit)
         assertEquals(testSubscriber.values()[0], vm.userFilterChoices)
+    }
+
+    @Test
+    fun testFilterAppliedTrackingFilterChoicesChangedClientSideFiltering() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        vm = PackageFilterViewModel(context)
+        vm.userFilterChoices = UserFilterChoices()
+        vm.userFilterChoices.name = "Test_Hotel"
+        vm.userFilterChoices.isVipOnlyAccess = true
+        vm.doneObservable.onNext(Unit)
+        val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Filter.Apply")
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testFilterAppliedNotTrackedFilterChoicesUnchangedClientSideFiltering() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        vm = PackageFilterViewModel(context)
+        vm.userFilterChoices = UserFilterChoices()
+        vm.userFilterChoices.name = "Test_Hotel"
+        vm.userFilterChoices.isVipOnlyAccess = true
+        vm.previousFilterChoices = vm.userFilterChoices
+        vm.doneObservable.onNext(Unit)
+        OmnitureTestUtils.assertLinkNotTracked("Search Results Sort", "App.Package.Hotels.Search.Filter.Apply", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testFilterAppliedNotTrackedFilterChoicesNotSetClientSideFiltering() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        vm = PackageFilterViewModel(context)
+        vm.doneObservable.onNext(Unit)
+        OmnitureTestUtils.assertLinkNotTracked("Search Results Sort", "App.Package.Hotels.Search.Filter.Apply", mockAnalyticsProvider)
     }
 
     @Test

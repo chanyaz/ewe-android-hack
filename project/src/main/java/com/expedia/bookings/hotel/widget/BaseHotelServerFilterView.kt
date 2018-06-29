@@ -45,6 +45,7 @@ open class BaseHotelServerFilterView(context: Context, attrs: AttributeSet?) : B
         vm.presetFilterOptionsUpdatedSubject.subscribe { newFilterOptions ->
             updatePresetFilterChoices(newFilterOptions)
             vm.previousFilterChoices = vm.userFilterChoices.copy()
+            vm.trackHotelFilterApplied()
         }
     }
 
