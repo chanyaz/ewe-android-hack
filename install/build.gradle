@@ -11,6 +11,8 @@ apply plugin: 'com.shazam.fork.reporter.jenkins'
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+
     google()
 }
 
