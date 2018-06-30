@@ -94,10 +94,10 @@
             android:targetActivity="com.expedia.bookings.activity.RouterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name= "default-url" android:value="https://www.expedia.com"></meta-data>
         </activity-alias>
 
         <activity
