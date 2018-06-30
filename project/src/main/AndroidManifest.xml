@@ -88,18 +88,14 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
-            tools:ignore="UnusedAttribute" />
-        <activity-alias
-            android:name="com.expedia.bookings.activity.SearchActivity"
-            android:targetActivity="com.expedia.bookings.activity.RouterActivity">
+            tools:ignore="UnusedAttribute" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <meta-data android:name= "default-url" android:value="https://www.expedia.com"></meta-data>
-        </activity-alias>
-
+        </activity>
         <activity
             android:name="com.expedia.bookings.onboarding.activity.OnboardingActivity"
             android:launchMode="singleTop"
