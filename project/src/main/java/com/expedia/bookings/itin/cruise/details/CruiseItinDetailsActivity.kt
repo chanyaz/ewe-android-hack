@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.common.ItinRepoInterface
+import com.expedia.bookings.itin.common.ItinTimingsWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.cruise.toolbar.CruiseItinToolbarViewModel
@@ -36,6 +38,8 @@ class CruiseItinDetailsActivity : AppCompatActivity() {
     }
 
     val toolbar: ItinToolbar by bindView(R.id.widget_itin_toolbar)
+    val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
+    val timingsWidget: ItinTimingsWidget by bindView(R.id.itin_timings_widget)
 
     lateinit var jsonUtil: IJsonToItinUtil
         @Inject set
@@ -63,6 +67,10 @@ class CruiseItinDetailsActivity : AppCompatActivity() {
 
         toolbarViewModel = CruiseItinToolbarViewModel(scope)
         toolbar.viewModel = toolbarViewModel
+
+        imageWidget.viewModel = CruiseItinImageViewModel(scope)
+
+        timingsWidget.viewModel = CruiseItinTimingsWidgetViewModel(scope)
     }
 
     override fun finish() {

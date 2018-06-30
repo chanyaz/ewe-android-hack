@@ -1586,6 +1586,10 @@
     <string name="itin_cruise_share_email_body_TEMPLATE">Hi,\n\nHere are the details of my cruise reservation:\n{reservation}\n\nItinerary #:\n{itin_number}\nCruise Line:\n{cruise_line}\nShip Name:\n{ship_name}\n\nEmbarkation:\n{embark_time} on {embark_date}, {departure_port}\nDisembarkation:\n{disembark_time} on {disembark_date}, {disembark_port}</string>
     <!--Itin cruise share sms template. (e.g. Details for:\n5 day Mediterranean Cruise\n\nDeparts at 6:15pm on May 17\nArrives at 9:45am on May 28\nItinerary #: 123412341234124\nCruise Line: MSC Cruises\nShip Name: MSC Fantasia)-->
     <string name="itin_cruise_share_sms_TEMPLATE">Details for:\n{reservation}\n\nDeparts at {depart_time} on {depart_date}\nArrives at {arrive_time} on {arrive_date}\nItinerary #: {itin_number}\nCruise Line: {cruise_line}\nShip Name: {ship_name}</string>
+    <!--Itin cruise embarkation title-->
+    <string name="itin_cruise_embarkation_title">Embarkation</string>
+    <!--Itin cruise disembarkation title-->
+    <string name="itin_cruise_disembarkation_title">Disembarkation</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>

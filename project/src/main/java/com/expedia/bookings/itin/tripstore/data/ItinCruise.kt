@@ -8,7 +8,8 @@ data class ItinCruise(
         val departurePort: Port?,
         val disembarkationPort: Port?,
         val startTime: ItinTime?,
-        val endTime: ItinTime?
+        val endTime: ItinTime?,
+        val shipImageUrl: String?
 ) : ItinLOB
 
 data class Port(
