@@ -17,6 +17,7 @@ import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.utils.ExpediaNetUtils;
@@ -42,6 +43,11 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 	@Before("@Prod")
 	public void setupForTestsOnProduction() throws Exception {
 		Settings.setServer("Production");
+	}
+
+	@Before("@SetLXTestComponent")
+	public void setLXTestComponent() throws Exception {
+		LxTestCase.setLxTestComponent();
 	}
 
 	@Before

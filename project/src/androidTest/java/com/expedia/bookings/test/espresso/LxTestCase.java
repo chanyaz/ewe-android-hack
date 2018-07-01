@@ -23,7 +23,11 @@ public class LxTestCase extends PhoneTestCase {
 	public void runTest() throws Throwable {
 		mLxIdlingResource = new LxIdlingResource();
 		mLxIdlingResource.register();
+		setLxTestComponent();
+		super.runTest();
+	}
 
+	public static void setLxTestComponent() {
 		if (Common.getApplication().lxTestComponent() == null) {
 			ApiError apiError = new ApiError(ApiError.Code.CURRENT_LOCATION_ERROR);
 			ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
@@ -37,7 +41,6 @@ public class LxTestCase extends PhoneTestCase {
 				.build();
 			Common.getApplication().setLXTestComponent(lxTestComponent);
 		}
-		super.runTest();
 	}
 
 	@Override

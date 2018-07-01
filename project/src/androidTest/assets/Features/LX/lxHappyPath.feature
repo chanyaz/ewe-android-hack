@@ -1,6 +1,6 @@
 Feature: Activity Happy Path
 
-  @LXEndToEnd @Prod
+  @LXEndToEnd @Prod @SetLXTestComponent
   Scenario: Verifying LX happy path
   Given I launch the App
   And I enable Satallite features flag for "lxMultipleDatesSearch"
