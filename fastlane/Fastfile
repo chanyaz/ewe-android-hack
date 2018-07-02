@@ -156,6 +156,29 @@ platform :android do
     )
     end
 
+  desc "Submit a new Beta Build to a test track"
+  # fastlane beta flavor:Expedia track:internal shouldBuild:false
+    lane :beta do |options|
+
+    if options[:shouldBuild]
+        gradle(task: 'clean')
+
+        gradle(
+            task: 'assemble',
+            flavor: options[:flavor],
+            build_type: 'Release'
+        )
+    end
+
+    upload_to_play_store(
+      track: 'internal',
+      #track: options[:track],
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+    end
+
   after_all do |lane|
     # This block is called, only if the executed lane was successful
 

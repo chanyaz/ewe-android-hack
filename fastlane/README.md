@@ -41,6 +41,11 @@ Create a new release branch and bump the version on the base branch. Optionally 
 fastlane android automation_integrationTests
 ```
 Runs tests with usage of emulator plugin
+### android beta
+```
+fastlane android beta
+```
+Submit a new Beta Build to a test track
 
 ----
 
