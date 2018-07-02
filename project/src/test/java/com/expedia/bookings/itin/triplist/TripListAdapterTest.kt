@@ -104,6 +104,8 @@ class TripListAdapterTest {
     @Test
     fun testUpcomingFoldersPassedOntoUpcomingTripListView() {
         val testObserver = TestObserver<List<TripFolder>>()
+        val viewGroup = FrameLayout(context)
+        adapter.instantiateItem(viewGroup, 0)
         adapter.upcomingTripListView.viewModel.foldersSubject.subscribe(testObserver)
         testObserver.assertNoValues()
 

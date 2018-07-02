@@ -5,12 +5,13 @@ import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.triplist.upcoming.TripListTabView
+import com.expedia.bookings.itin.triplist.tripfoldertab.TripFolderListTabView
+import com.expedia.bookings.itin.triplist.tripfoldertab.TripFolderListTabViewModel
 
 class TripListAdapter(val context: Context, val viewModel: ITripListAdapterViewModel) : PagerAdapter() {
-    val upcomingTripListView = TripListTabView(context, null)
-    val pastTripListView = TripListTabView(context, null)
-    val cancelledTripListView = TripListTabView(context, null)
+    val upcomingTripListView = TripFolderListTabView(context, null)
+    val pastTripListView = TripFolderListTabView(context, null)
+    val cancelledTripListView = TripFolderListTabView(context, null)
 
     init {
         viewModel.upcomingTripFoldersSubject.subscribe {
@@ -37,6 +38,7 @@ class TripListAdapter(val context: Context, val viewModel: ITripListAdapterViewM
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         when (position) {
             TripListTabs.UPCOMING_TAB.value -> {
+                upcomingTripListView.viewModel = TripFolderListTabViewModel()
                 container.addView(upcomingTripListView)
                 return upcomingTripListView
             }
@@ -53,9 +55,9 @@ class TripListAdapter(val context: Context, val viewModel: ITripListAdapterViewM
 
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
         when (position) {
-            TripListTabs.UPCOMING_TAB.value -> container.removeView(obj as TripListTabView)
-            TripListTabs.PAST_TAB.value -> container.removeView(obj as TripListTabView)
-            TripListTabs.CANCELLED_TAB.value -> container.removeView(obj as TripListTabView)
+            TripListTabs.UPCOMING_TAB.value -> container.removeView(obj as TripFolderListTabView)
+            TripListTabs.PAST_TAB.value -> container.removeView(obj as TripFolderListTabView)
+            TripListTabs.CANCELLED_TAB.value -> container.removeView(obj as TripFolderListTabView)
         }
     }
 }
