@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.trips
 
+import com.google.gson.annotations.SerializedName
+
 data class TripFolder(
         val tripFolderId: String,
         val title: String,
@@ -7,12 +9,12 @@ data class TripFolder(
         val endTime: TripFolderDateTime,
         val state: TripFolderState,
         val timing: TripFolderTiming,
-        val lobs: List<String>
+        val lobs: List<TripFolderProduct>
 )
 
 data class TripFolderDateTime(
         val raw: String,
-        val epochSeconds: Int,
+        val epochSeconds: Long,
         val timeZoneOffsetSeconds: Int
 )
 
@@ -24,4 +26,19 @@ enum class TripFolderState {
 enum class TripFolderTiming {
     UPCOMING,
     PAST
+}
+
+enum class TripFolderProduct {
+    @SerializedName("Hotel")
+    HOTEL,
+    @SerializedName("Flight")
+    FLIGHT,
+    @SerializedName("Car")
+    CAR,
+    @SerializedName("Activity")
+    ACTIVITY,
+    @SerializedName("Rail")
+    RAIL,
+    @SerializedName("Cruise")
+    CRUISE
 }
