@@ -1,12 +1,12 @@
-package com.expedia.bookings.itin.triplist.upcoming
+package com.expedia.bookings.itin.triplist.tripfoldertab
 
 import com.expedia.bookings.data.trips.TripFolder
 import io.reactivex.subjects.PublishSubject
 
-class TripListTabViewModel : ITripListTabViewModel {
+class TripFolderListTabViewModel : ITripFolderListTabViewModel {
     override val foldersSubject: PublishSubject<List<TripFolder>> = PublishSubject.create()
 }
 
-interface ITripListTabViewModel {
+interface ITripFolderListTabViewModel {
     val foldersSubject: PublishSubject<List<TripFolder>>
 }
