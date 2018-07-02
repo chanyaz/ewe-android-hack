@@ -1369,6 +1369,8 @@
     <string name="trip_folder_past_tab_title">Past</string>
     <!--Trip folder cancelled tab title-->
     <string name="trip_folder_cancelled_tab_title">Cancelled</string>
+    <!--Trip folder abbreviated date range for start and end times template. {startdate} - {enddate} (e.g., Jun 25 - 26)-->
+    <string name="trip_folder_abbreviated_date_range_TEMPLATE">{startdate} - {enddate}</string>
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Your room</string>
