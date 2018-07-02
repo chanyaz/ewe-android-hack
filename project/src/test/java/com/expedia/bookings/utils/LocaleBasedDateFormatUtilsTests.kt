@@ -106,4 +106,14 @@ class LocaleBasedDateFormatUtilsTests {
         val actual = LocaleBasedDateFormatUtils.formatBirthDate(2020, 6, 25)
         assertEquals(actual, "Jun 25, 2020")
     }
+
+    @Test
+    fun testDateTimeToMMMddyyyy() {
+        var actual = LocaleBasedDateFormatUtils.dateTimeToMMMddyyyy(dateTimeExpected)
+        assertEquals(actual, "Jun 25 2020")
+
+        val singleDigitDate = dateTimeExpected.withDayOfMonth(3)
+        actual = LocaleBasedDateFormatUtils.dateTimeToMMMddyyyy(singleDigitDate)
+        assertEquals(actual, "Jun 3 2020")
+    }
 }

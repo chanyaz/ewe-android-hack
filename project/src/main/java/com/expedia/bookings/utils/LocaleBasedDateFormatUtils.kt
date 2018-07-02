@@ -34,6 +34,10 @@ object LocaleBasedDateFormatUtils {
         return localDateToMMMd(date.toLocalDate())
     }
 
+    @JvmStatic fun dateTimeToMMMddyyyy(date: DateTime): String {
+        return formatDateTimeBasedOnLocale(date, "MMM d yyyy")
+    }
+
     @JvmStatic fun dateTimeToMMMdhmma(date: DateTime): String {
         return formatDateTimeBasedOnLocale(date, "MMM d, h:mm a")
     }
