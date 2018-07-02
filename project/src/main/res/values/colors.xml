@@ -287,6 +287,8 @@
     <color name="launch_screen_meso_ad_text_color">@color/blue5</color>
     <color name="launch_screen_placeholder_color">#A4ACAF</color>
     <color name="launch_screen_selected_tab_icon">#0947b2</color>
+    <color name="launch_screen_tab_base_icon">@color/gray500</color>
+    <color name="launch_screen_tab_base_text">@color/gray700</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">@color/app_primary</color>

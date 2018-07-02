@@ -266,8 +266,7 @@
     <color name="launch_screen_active_itin_bg">@color/neutral800</color>
     <color name="launch_screen_meso_ad_text_color">@color/neutral800</color>
     <color name="launch_screen_placeholder_color">@color/neutral600</color>
-    <color name="launch_screen_tab_selected_text">@color/accent2</color>
-    <color name="launch_screen_tab_selected_icon">@color/accent1</color>
+    <color name="launch_screen_selected_tab_icon">@color/accent1</color>
     <color name="launch_screen_tab_base_icon">@color/neutral500</color>
     <color name="launch_screen_tab_base_text">@color/neutral700</color>
 

@@ -14,8 +14,8 @@ class LaunchTabView(context: Context, iconId: Int, text: String) : LinearLayout(
 
     private val baseIconColor = ContextCompat.getColor(context, R.color.launch_screen_tab_base_icon)
     private val baseTextColor = ContextCompat.getColor(context, R.color.launch_screen_tab_base_text)
-    private val selectedIconColor = ContextCompat.getColor(context, R.color.launch_screen_tab_selected_icon)
-    private val selectedTextColor = ContextCompat.getColor(context, R.color.launch_screen_tab_selected_text)
+    private val selectedIconColor = ContextCompat.getColor(context, R.color.launch_screen_selected_tab_icon)
+    private val selectedTextColor = ContextCompat.getColor(context, R.color.launch_screen_selected_tab_icon)
     private val tabIcon: ImageView by bindView(R.id.tab_icon)
     private val tabText: TextView by bindView(R.id.tab_text)
 
