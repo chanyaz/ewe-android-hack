@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -64,23 +63,23 @@ class ItinExpandedMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleM
         }
     }
 
+    lateinit var toolbarViewModel: ItinExpandedMapToolbarViewModel
+
     var viewModel: ItinExpandedMapViewModel<ItinExpandedMapViewModelScope> by notNullAndObservable { vm ->
         vm.toolbarPairSubject.subscribe { pair ->
-            pair.first?.let {
-                toolbar.toolbarTitleText.text = pair.first
+            pair.first?.let { title ->
+                toolbarViewModel.toolbarTitleSubject.onNext(title)
             }
-            pair.second?.let {
-                toolbar.toolbarSubTitleText.text = pair.second
-                toolbar.toolbarSubTitleText.visibility = View.VISIBLE
+            pair.second?.let { subtitle ->
+                toolbarViewModel.toolbarSubTitleSubject.onNext(subtitle)
             }
 
-            toolbar.setNavigationOnClickListener {
+            toolbarViewModel.navigationBackPressedSubject.subscribe {
                 finish()
             }
-        }
-
-        vm.latLngSubject.subscribe { latLng ->
-            moveMap(latLng)
+            vm.moveMapSubject.subscribe { latLng ->
+                moveMap(latLng)
+            }
         }
 
         directionsButton.subscribeOnClick(vm.directionButtonClickSubject)
@@ -91,6 +90,8 @@ class ItinExpandedMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleM
     private fun moveMap(latLng: LatLng) {
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOM_LEVEL))
         addMarker(latLng)
+        startPosition = googleMap?.cameraPosition!!.target
+        currentZoom = MAP_ZOOM_LEVEL
     }
 
     lateinit var repo: ItinRepo
@@ -108,7 +109,8 @@ class ItinExpandedMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleM
 
         val scope = ItinExpandedMapViewModelScope(activityLauncher, this, repo, intent.getStringExtra(ITIN_TYPE), tripsTracking)
         viewModel = ItinExpandedMapViewModel(scope)
-
+        toolbarViewModel = ItinExpandedMapToolbarViewModel()
+        toolbar.viewModel = toolbarViewModel
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
         mapView.getMapAsync(this)
@@ -160,9 +162,7 @@ class ItinExpandedMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleM
         googleMap?.isMyLocationEnabled = havePermissionToAccessLocation(this)
         googleMap?.setOnCameraMoveStartedListener(this)
         googleMap?.setOnCameraIdleListener(this)
-        moveMap(viewModel.latLngSubject.value)
-        startPosition = googleMap?.cameraPosition!!.target
-        currentZoom = MAP_ZOOM_LEVEL
+        viewModel.mapReadySubject.onNext(Unit)
     }
 
     private fun addMarker(latLng: LatLng) {

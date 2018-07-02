@@ -1,7 +1,6 @@
 package com.expedia.bookings.itin.hotel.details
 
 import android.content.Context
-import android.support.v4.app.ActivityOptionsCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -9,11 +8,12 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.itin.common.GoogleMapsLiteViewModel
 import com.expedia.bookings.itin.common.GoogleMapsLiteMapView
+import com.expedia.bookings.itin.common.GoogleMapsLiteViewModel
+import com.expedia.bookings.itin.common.ItinExpandedMapActivity
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.hotel.taxi.HotelItinTaxiActivity
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
@@ -49,12 +49,14 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             )
             mapView.setViewModel(mapVm)
             mapView.setOnClickListener {
-                context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
+                val intent = ItinExpandedMapActivity.createIntent(context, itinCardDataHotel.tripId, TripProducts.HOTEL.name)
+                context.startActivity(intent)
                 TripsTracking.trackItinHotelExpandMap()
             }
             directionsButton.contentDescription = context.getString(R.string.itin_action_directions)
             directionsButton.setOnClickListener {
-                context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
+                val intent = ItinExpandedMapActivity.createIntent(context, itinCardDataHotel.tripId, TripProducts.HOTEL.name)
+                context.startActivity(intent)
                 TripsTracking.trackItinHotelDirections()
             }
         }

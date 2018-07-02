@@ -16,6 +16,7 @@ import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.tracking.ITripsTracking
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.observers.TestObserver
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertFalse
@@ -29,27 +30,65 @@ class ItinExpandedMapViewModelTest {
     var toolbarPairSubjectObserver = TestObserver<Pair<String?, String?>>()
     var latLngSubjectObserver = TestObserver<LatLng>()
     var directionButtonClickSubjectObserver = TestObserver<Unit>()
+    val happyPathHotel = ItinMocker.hotelDetailsHappy
+    val noTitleHotel = ItinMocker.hotelDetailsNoPriceDetails
+    val noAddressHotel = ItinMocker.hotelDetailsExpediaCollect
     val happyPathLx = ItinMocker.lxDetailsHappy
     val happyPathCar = ItinMocker.carDetailsHappy
     val noTitleLx = ItinMocker.lxDetailsNoLat
     val noTitleCar = ItinMocker.carDetailsBadNameAndImage
-    val noLng = ItinMocker.lxDetailsInvalidLatLong
+    val noLngHotel = ItinMocker.hotelDetailsExpediaCollect
+    val noLngLx = ItinMocker.lxDetailsInvalidLatLong
     val noLngCar = ItinMocker.carDetailsBadPickupAndTimes
-    val noLat = ItinMocker.lxDetailsNoDetailsUrl
+    val noLatHotel = ItinMocker.hotelDetailsNoPriceDetails
+    val noLatLx = ItinMocker.lxDetailsNoDetailsUrl
     val noLatCar = ItinMocker.carDetailsBadNameAndImage
     val noLatNoLng = ItinMocker.lxDetailsNoLatLong
     val noAddressCar = ItinMocker.carDetailsBadPickupAndTimes
     val noAddressLx = ItinMocker.lxDetailsNoDetailsUrl
     private lateinit var mockScope: MockItinExpandedMapViewModelScope
 
+    @After
+    fun tearDown() {
+        toolbarPairSubjectObserver.dispose()
+        latLngSubjectObserver.dispose()
+        directionButtonClickSubjectObserver.dispose()
+    }
+
     @Test
-    fun testNullItin() {
+    fun testNullItinHotel() {
+        setUpLOB(TripProducts.HOTEL.name)
+        toolbarPairSubjectObserver.assertNoValues()
+        sut.itinObserver.onChanged(null)
+
+        toolbarPairSubjectObserver.assertNoValues()
+    }
+
+    @Test
+    fun testNullItinLx() {
         setUpLOB(TripProducts.ACTIVITY.name)
         toolbarPairSubjectObserver.assertNoValues()
         sut.itinObserver.onChanged(null)
 
         toolbarPairSubjectObserver.assertNoValues()
-        toolbarPairSubjectObserver.dispose()
+    }
+
+    @Test
+    fun testNullItinCar() {
+        setUpLOB(TripProducts.CAR.name)
+        toolbarPairSubjectObserver.assertNoValues()
+        sut.itinObserver.onChanged(null)
+
+        toolbarPairSubjectObserver.assertNoValues()
+    }
+
+    @Test
+    fun testGetNamePairHappyPathHotel() {
+        setUpLOB(TripProducts.HOTEL.name)
+        toolbarPairSubjectObserver.assertNoValues()
+        sut.itinObserver.onChanged(happyPathHotel)
+
+        toolbarPairSubjectObserver.assertValue(Pair("Crest Hotel", "Bengaluru, Karnataka, IND, 560080"))
     }
 
     @Test
@@ -59,7 +98,6 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(happyPathLx)
 
         toolbarPairSubjectObserver.assertValue(Pair("California Academy of Sciences", "San Francisco, CA, USA, 94118"))
-        toolbarPairSubjectObserver.dispose()
     }
 
     @Test
@@ -70,7 +108,16 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(happyPathCar)
 
         toolbarPairSubjectObserver.assertValue(Pair("Thrifty", "Docklands, Victoria, AUS, 98188"))
-        toolbarPairSubjectObserver.dispose()
+    }
+
+    @Test
+    fun testGetNamePairNoNameHotel() {
+        setUpLOB(TripProducts.HOTEL.name)
+        toolbarPairSubjectObserver.assertNoValues()
+
+        sut.itinObserver.onChanged(noTitleHotel)
+
+        toolbarPairSubjectObserver.assertValue(Pair(null, "Moscow, RUS, 105613"))
     }
 
     @Test
@@ -81,7 +128,6 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(noTitleLx)
 
         toolbarPairSubjectObserver.assertValue(Pair(null, "San Francisco, CA, USA, 94118"))
-        toolbarPairSubjectObserver.dispose()
     }
 
     @Test
@@ -92,7 +138,16 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(noTitleCar)
 
         toolbarPairSubjectObserver.assertValue(Pair(null, "Docklands, Victoria, AUS, 98188"))
-        toolbarPairSubjectObserver.dispose()
+    }
+
+    @Test
+    fun testGetNamePairNoAddressHotel() {
+        setUpLOB(TripProducts.HOTEL.name)
+        toolbarPairSubjectObserver.assertNoValues()
+
+        sut.itinObserver.onChanged(noAddressHotel)
+
+        toolbarPairSubjectObserver.assertValue(Pair("Clayton Plaza Hotel", ""))
     }
 
     @Test
@@ -103,7 +158,6 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(noAddressLx)
 
         toolbarPairSubjectObserver.assertValue(Pair("California Academy of Sciences", ""))
-        toolbarPairSubjectObserver.dispose()
     }
 
     @Test
@@ -114,7 +168,16 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(noAddressCar)
 
         toolbarPairSubjectObserver.assertValue(Pair("Thrifty", ""))
-        toolbarPairSubjectObserver.dispose()
+    }
+
+    @Test
+    fun testPublishLatLongHappyPathHotel() {
+        setUpLOB(TripProducts.HOTEL.name)
+        latLngSubjectObserver.assertNoValues()
+
+        sut.itinObserver.onChanged(happyPathHotel)
+
+        latLngSubjectObserver.assertValue(LatLng(13.014492, 77.583052))
     }
 
     @Test
@@ -125,7 +188,6 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(happyPathLx)
 
         latLngSubjectObserver.assertValue(LatLng(37.76974, -122.46614))
-        toolbarPairSubjectObserver.dispose()
     }
 
     @Test
@@ -136,37 +198,46 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(happyPathCar)
 
         latLngSubjectObserver.assertValue(LatLng(-37.818294, 144.953432))
-        toolbarPairSubjectObserver.dispose()
     }
 
     @Test
     fun testNoLat() {
+        setUpLOB(TripProducts.HOTEL.name)
+        latLngSubjectObserver.assertNoValues()
+        sut.itinObserver.onChanged(noLatHotel)
+        latLngSubjectObserver.assertNoValues()
+        latLngSubjectObserver.dispose()
+
         setUpLOB(TripProducts.ACTIVITY.name)
         latLngSubjectObserver.assertNoValues()
-        sut.itinObserver.onChanged(noLat)
+        sut.itinObserver.onChanged(noLatLx)
         latLngSubjectObserver.assertNoValues()
+        latLngSubjectObserver.dispose()
 
         setUpLOB(TripProducts.CAR.name)
         latLngSubjectObserver.assertNoValues()
         sut.itinObserver.onChanged(noLatCar)
         latLngSubjectObserver.assertNoValues()
-
-        latLngSubjectObserver.dispose()
     }
 
     @Test
     fun testNoLng() {
+        setUpLOB(TripProducts.HOTEL.name)
+        latLngSubjectObserver.assertNoValues()
+        sut.itinObserver.onChanged(noLngHotel)
+        latLngSubjectObserver.assertNoValues()
+        latLngSubjectObserver.dispose()
+
         setUpLOB(TripProducts.ACTIVITY.name)
         latLngSubjectObserver.assertNoValues()
-        sut.itinObserver.onChanged(noLng)
+        sut.itinObserver.onChanged(noLngLx)
         latLngSubjectObserver.assertNoValues()
+        latLngSubjectObserver.dispose()
 
         setUpLOB(TripProducts.CAR.name)
         latLngSubjectObserver.assertNoValues()
         sut.itinObserver.onChanged(noLngCar)
         latLngSubjectObserver.assertNoValues()
-
-        latLngSubjectObserver.dispose()
     }
 
     @Test
@@ -178,7 +249,22 @@ class ItinExpandedMapViewModelTest {
         sut.itinObserver.onChanged(noLatNoLng)
 
         latLngSubjectObserver.assertNoValues()
-        latLngSubjectObserver.dispose()
+    }
+
+    @Test
+    fun testDirectionsButtonHotel() {
+        setUpLOB(TripProducts.HOTEL.name)
+        directionButtonClickSubjectObserver.assertNoValues()
+
+        sut.itinObserver.onChanged(happyPathHotel)
+
+        assertFalse(mockScope.mockTracking.trackItinMapDirectionsButtonCalled)
+        assertFalse(mockScope.mockActivity.externalMapActivityLaunched)
+
+        sut.directionButtonClickSubject.onNext(Unit)
+
+        assertTrue(mockScope.mockTracking.trackItinMapDirectionsButtonCalled)
+        assertTrue(mockScope.mockActivity.externalMapActivityLaunched)
     }
 
     @Test
