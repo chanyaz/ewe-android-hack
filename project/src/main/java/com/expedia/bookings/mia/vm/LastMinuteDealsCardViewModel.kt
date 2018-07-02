@@ -21,6 +21,8 @@ class LastMinuteDealsCardViewModel(context: Context, leadingHotel: DealsDestinat
 
     override val discountColors = DiscountColors.LAST_MINUTE_DEALS
 
+    override val strikeOutPriceText: String = ""
+
     private fun getLeadingHotelBackgroundImageUrl(): String? {
         val hotelImageUrl = leadingHotel.hotelInfo?.hotelImageUrl
         if (hotelImageUrl != null) {

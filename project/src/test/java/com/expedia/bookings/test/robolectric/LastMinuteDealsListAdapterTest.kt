@@ -3,9 +3,9 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
@@ -113,6 +113,14 @@ class LastMinuteDealsListAdapterTest {
 
         val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsCardViewHolder
         assertEquals("Some City", dealsDestinationViewHolderInPositionOne.dealsSubtitle.text)
+    }
+
+    @Test
+    fun strikeOutPriceIsEmpty_untilOfferServiceIsFixed() {
+        adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
+
+        val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsCardViewHolder
+        assertEquals("", dealsDestinationViewHolderInPositionOne.strikePriceView.text)
     }
 
     @Test

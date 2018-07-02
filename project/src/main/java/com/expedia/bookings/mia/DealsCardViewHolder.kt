@@ -34,7 +34,7 @@ class DealsCardViewHolder(private val view: View) : RecyclerView.ViewHolder(view
     val titleView: TextView by bindView(R.id.deals_title)
     private val dateView: TextView by bindView(R.id.deals_date)
     private val discountView: TextView by bindView(R.id.deals_discount_percentage)
-    private val strikePriceView: TextView by bindView(R.id.deals_strike_through_price)
+    val strikePriceView: TextView by bindView(R.id.deals_strike_through_price)
     private val priceView: TextView by bindView(R.id.deals_price_per_night)
     private val bgImageView: ImageView by bindView(R.id.deals_background)
     private val gradient: View by bindView(R.id.deals_foreground)

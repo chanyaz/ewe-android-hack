@@ -27,6 +27,7 @@ abstract class BaseDealsCardViewModel(protected val context: Context, protected 
     abstract val hotelId: String?
     abstract val prioritizedBackgroundImageUrls: List<String?>
     abstract val discountColors: DiscountColors
+    abstract val strikeOutPriceText: CharSequence
 
     val backgroundFallbackResId: Int = R.color.gray600
     val backgroundPlaceHolderResId: Int = R.drawable.results_list_placeholder
@@ -71,10 +72,6 @@ abstract class BaseDealsCardViewModel(protected val context: Context, protected 
         } else {
             getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.averagePriceValue, false)
         }
-    }
-
-    val strikeOutPriceText: CharSequence by lazy {
-        getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.crossOutPriceValue, true)
     }
 
     open fun getCardContentDescription(): String {
@@ -134,7 +131,7 @@ abstract class BaseDealsCardViewModel(protected val context: Context, protected 
         return LocalDate(intDate[0], intDate[1], intDate[2])
     }
 
-    private fun getFormattedPriceText(resources: Resources, price: Double?, strikeOut: Boolean): CharSequence {
+    protected fun getFormattedPriceText(resources: Resources, price: Double?, strikeOut: Boolean): CharSequence {
         if (price == null || price == 0.00) {
             return ""
         }
