@@ -46,7 +46,6 @@ class BaseDealsCardViewModelTest {
         assertEquals("-50%", vm.percentSavingsText)
         assertEquals("50%", vm.discountPercent)
         assertEquals("$130", vm.priceText.toString())
-        assertEquals("$260", vm.strikeOutPriceText.toString())
     }
 
     @Test

@@ -20,6 +20,10 @@ class MemberDealsCardViewModel(context: Context, leadingHotel: DealsDestination.
 
     override val discountColors = if (isBrandColorEnabled(context)) DiscountColors.MEMBER_DEALS else DiscountColors.DEFAULT
 
+    override val strikeOutPriceText: CharSequence by lazy {
+        getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.crossOutPriceValue, true)
+    }
+
     override fun getCardContentDescription(): String {
         return super.getCardContentDescription() + context.getString(R.string.deals_hotel_only)
     }

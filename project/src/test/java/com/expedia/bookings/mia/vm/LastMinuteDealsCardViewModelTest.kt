@@ -93,7 +93,7 @@ class LastMinuteDealsCardViewModelTest {
     fun cardContentDescription_isCorrect() {
         hotel.hotelInfo?.localizedHotelName = "Fancy Resort"
         setupSystemUnderTest()
-        assertEquals("Fancy Resort. Mon May 08, 2017 to Tue May 09, 2017 Original price discounted 50%. Regularly \$260, now \$130. ", vm.getCardContentDescription())
+        assertEquals("Fancy Resort. Mon May 08, 2017 to Tue May 09, 2017 Original price discounted 50%. Price \$130. ", vm.getCardContentDescription())
     }
 
     private fun setupSystemUnderTest() {

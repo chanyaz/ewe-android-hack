@@ -91,6 +91,12 @@ class MemberDealsCardViewModelTest {
     }
 
     @Test
+    fun strikeOutPrice_isCorrect() {
+        setupSystemUnderTest()
+        assertEquals("$260", vm.strikeOutPriceText.toString())
+    }
+
+    @Test
     fun cardContentDescription_isCorrect() {
         setupSystemUnderTest()
         assertEquals("Paris. Mon May 08, 2017 to Tue May 09, 2017 Original price discounted 50%. Regularly \$260, now \$130. Hotel Only", vm.getCardContentDescription())
