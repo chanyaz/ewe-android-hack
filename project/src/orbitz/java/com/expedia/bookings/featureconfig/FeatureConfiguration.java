@@ -1,7 +1,7 @@
 package com.expedia.bookings.featureconfig;
 
 
-import javax.annotation.Nonnull;
+import android.support.annotation.NonNull;
 
 import org.joda.time.DateTime;
 
@@ -71,7 +71,7 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 	}
 
 	@Override
-	public RecyclerView.ViewHolder getJoinRewardsViewHolder(@Nonnull AppCompatActivity appCompatActivity, @Nonnull ViewGroup parent) {
+	public RecyclerView.ViewHolder getJoinRewardsViewHolder(@NonNull AppCompatActivity appCompatActivity, @NonNull ViewGroup parent) {
 		View view = LayoutInflater.from(appCompatActivity).inflate(R.layout.join_rewards_launch_card, parent, false);
 		return new JoinRewardsLaunchViewHolder(view, appCompatActivity);
 	}
