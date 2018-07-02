@@ -93,6 +93,7 @@
     <color name="itin_text_white_color">@color/white</color>
     <color name="itin_selected_tab_color">@color/white</color>
     <color name="itin_taxi_background_color">@color/gray800</color>
+    <color name="itin_taxi_secondary_background_color">@color/gray800</color>
     <color name="itin_link_off_card_chevron">@color/gray600</color>
     <color name="itin_action_vertical_divider_color">@color/gray200</color>
     <color name="itin_map_pin_color">@color/app_primary</color>
