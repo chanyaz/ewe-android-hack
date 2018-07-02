@@ -77,8 +77,9 @@
     <color name="itin_link_off_card_chevron">@color/neutral600</color>
     <color name="itin_action_vertical_divider_color">@color/neutral200</color>
     <color name="itin_map_pin_color">@color/accent2</color>
-    <color name="itin_message_hotel_icon_color">@color/accent2</color>
+    <color name="itin_icon_color">@color/accent2</color>
     <color name="itin_booking_info_color">@color/neutral700</color>
+    <color name="itin_toolbar_color">@color/accent2</color>
 
     <!-- Old Flights colors -->
     <!-- TODO: Delete all of this? -->
