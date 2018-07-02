@@ -226,7 +226,7 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("../common/debug.keystore")
+            storeFile file("/Users/abtripathi/Documents/debug.keystore")
         }
 
         release {
