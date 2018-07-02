@@ -38,8 +38,8 @@ class CarItinManageBookingWidgetViewModelTest {
 
     @Test
     fun itinMoreHelpCardViewModelTest() {
-        assertEquals((R.string.itin_lx_more_info_heading).toString(), sut.moreHelpViewModel.headingText)
-        assertEquals((R.string.itin_lx_more_info_subheading).toString(), sut.moreHelpViewModel.subheadingText)
+        assertEquals((R.string.itin_more_help_text).toString(), sut.moreHelpViewModel.headingText)
+        assertEquals((R.string.itin_customer_support_info_text).toString(), sut.moreHelpViewModel.subheadingText)
     }
 
     class CarItinManageBookingWidgetViewModelScope : HasWebViewLauncher, HasItinRepo, HasStringProvider, HasTripsTracking, HasActivityLauncher {

@@ -44,7 +44,7 @@ class LxItinMoreHelpToolbarViewModelTest {
     fun testToolbarTitles() {
         vm.itinLxObserver.onChanged(ItinMocker.lxDetailsAlsoHappy)
 
-        toolbarTitleTestObserver.assertValue(R.string.itin_lx_more_info_heading.toString())
+        toolbarTitleTestObserver.assertValue(R.string.itin_more_help_text.toString())
         toolbarSubTitleTestObserver.assertValue("California Academy of Sciences General Admission: General Admission ")
     }
 

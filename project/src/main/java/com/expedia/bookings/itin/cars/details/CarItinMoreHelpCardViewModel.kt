@@ -9,8 +9,8 @@ import com.expedia.bookings.itin.scopes.HasTripsTracking
 
 class CarItinMoreHelpCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasStringProvider, S : HasItinRepo, S : HasActivityLauncher, S : HasTripsTracking {
     override val iconImage: Int = R.drawable.ic_itin_manage_booking_icon
-    override val headingText: String = scope.strings.fetch(R.string.itin_lx_more_info_heading)
-    override val subheadingText: String? = scope.strings.fetch(R.string.itin_lx_more_info_subheading)
+    override val headingText: String = scope.strings.fetch(R.string.itin_more_help_text)
+    override val subheadingText: String? = scope.strings.fetch(R.string.itin_customer_support_info_text)
     override val cardClickListener: () -> Unit = {
         val itin = scope.itinRepo.liveDataItin.value!!
         itin.tripId?.let { tripId ->

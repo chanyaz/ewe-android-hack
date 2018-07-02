@@ -1396,8 +1396,6 @@
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotel address. {address}. Click to copy to clipboard. Button</string>
     <!--Hotel itin card manage booking subheading-->
     <string name="itin_hotel_details_manage_booking_subheading">Change, cancel and support</string>
-    <!--Hotel itin card price summary heading-->
-    <string name="itin_hotel_details_price_summary_heading">Price summary</string>
     <!--Hotel itin card price summary and rewards heading-->
     <string name="itin_hotel_details_price_summary_rewards_heading">Pricing and rewards</string>
     <!--Hotel itin card price summary line item label for room price-->
@@ -1536,8 +1534,6 @@
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
     <string name="itin_lx_toolbar_title_TEMPLATE">Activity in {location}</string>
-    <string name="itin_lx_more_info_heading">More help</string>
-    <string name="itin_lx_more_info_subheading">Customer support information</string>
     <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Activity address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_lx_details_address_copy_content_description_TEMPLATE">Activity address. {address}. Click to copy to clipboard. Button</string>
     <!--Activity itin manage booking call hotel button content description. Activity is the LOB. Call activity at {phonenumber}. Button (eg., Call activity at +18055437700. Button)-->
@@ -1577,6 +1573,7 @@
     <!--Itin car share email body. Details of my {reservation}.\n{vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPickup Location: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nDrop Off Location: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code} (eg., Details of my Awesome Car Rental.\nCompact Car\nPickup on May 29 at 12:00pm\nDrop off on May 30 at 2:00pm\nPickup Location: 12345 Blah Ave., San Jose, CA 94012\nDrop Off Location: 12345 Blah Ave., San Jose, CA 94012)-->
     <string name="itin_car_share_sms_body_TEMPLATE">Details of my {reservation}.\n{vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPickup Location: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nDrop Off Location: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}</string>
 
+    <!--Generic itin strings-->
     <!--Itin cruise redesign-->
     <!--Itin cruise toolbar title template. (e.g. Cruise to Hawaii)-->
     <string name="itin_cruise_toolbar_title_TEMPLATE">Cruise to {destination}</string>
@@ -1611,6 +1608,12 @@
     <string name="itin_customer_support_site_button_content_description_TEMPLATE">{brand} customer support link button</string>
     <!--Itin customer support webview heading-->
     <string name="itin_customer_service_webview_heading">Customer service</string>
+    <!--Itin more help text-->
+    <string name="itin_more_help_text">More help</string>
+    <!--Itin customer support information text-->
+    <string name="itin_customer_support_info_text">Customer support information</string>
+    <!--Itin price summary text-->
+    <string name="itin_price_summary_text">Price summary</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->

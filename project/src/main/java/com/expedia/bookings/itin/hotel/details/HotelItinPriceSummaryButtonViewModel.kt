@@ -52,7 +52,7 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
             if (scope.abacus.isBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelPricing) && tripId != null) {
                 scope.activityLauncher.launchActivity(HotelItinPricingRewardsActivity, tripId)
             } else if (detailsUrl != null && tripNumber != null) {
-                scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber, isGuest = isGuest)
+                scope.webViewLauncher.launchWebViewActivity(R.string.itin_price_summary_text, detailsUrl, "price-header", tripNumber, isGuest = isGuest)
             }
             scope.tripsTracking.trackHotelItinPricingRewardsClick()
         }

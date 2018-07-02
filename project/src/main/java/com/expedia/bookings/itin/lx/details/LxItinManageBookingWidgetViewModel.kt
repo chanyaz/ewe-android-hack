@@ -20,7 +20,7 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) : ItinManageBookingWidgetV
     override val additionalInfoViewModel: ItinBookingInfoCardViewModel
 
     init {
-        val stringsWebViewScope = WebViewCardScope(scope.strings, scope.webViewLauncher, scope.itinRepo.liveDataItin.value!!, TripProducts.ACTIVITY.name, scope.tripsTracking)
+        val stringsWebViewScope = WebViewCardScope(scope.strings, scope.webViewLauncher, scope.itinRepo, TripProducts.ACTIVITY.name, scope.tripsTracking, "price")
         val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher, scope.itinRepo, scope.tripsTracking)
         moreHelpViewModel = LxItinMoreHelpCardViewModel(stringsActivityScope)
         priceSummaryViewModel = ItinPriceSummaryCardViewModel(stringsWebViewScope)

@@ -69,8 +69,8 @@ class FlightItinBookingInfoViewModelTest {
 
     @Test
     fun testIntentForPriceSummary() {
-        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary", tripId)!!
-        assertEquals(context.getString(R.string.itin_hotel_details_price_summary_heading), intent.extras.getString("ARG_TITLE"))
+        val intent = sut.buildWebViewIntent(R.string.itin_price_summary_text, url, "price-summary", tripId)!!
+        assertEquals(context.getString(R.string.itin_price_summary_text), intent.extras.getString("ARG_TITLE"))
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
         assertTrue(intent.extras.getString("ARG_URL").endsWith("#price-summary"))
         assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), tripId)

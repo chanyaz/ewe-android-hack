@@ -56,11 +56,11 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
         ))
 
         priceSummaryCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(
-                context.getString(R.string.itin_hotel_details_price_summary_heading),
+                context.getString(R.string.itin_price_summary_text),
                 null,
                 false,
                 R.drawable.ic_itin_credit_card_icon,
-                buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary", tripId)
+                buildWebViewIntent(R.string.itin_price_summary_text, url, "price-summary", tripId)
         ))
     }
 

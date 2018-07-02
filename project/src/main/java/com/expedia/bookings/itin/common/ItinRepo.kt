@@ -34,8 +34,9 @@ class ItinRepo(private val itinId: String, private val jsonUtil: IJsonToItinUtil
     }
 
     init {
-        if (fetchItin() != null) {
-            liveDataItin.value = fetchItin()
+        val itin = fetchItin()
+        if (itin != null) {
+            liveDataItin.value = itin
             observable.subscribe(syncObserver)
         } else {
             invalidDataSubject.onNext(Unit)
