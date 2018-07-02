@@ -377,6 +377,7 @@ android {
             applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
 
             minifyEnabled shouldRunProguard
+            shrinkResources shouldRunProguard
             proguardFile file('proguard.cfg')
             testProguardFile file('proguard.cfg')
 
@@ -394,6 +395,7 @@ android {
             }
 
             minifyEnabled true
+            shrinkResources true
             proguardFile file('proguard.cfg')
             zipAlignEnabled true
             signingConfig signingConfigs.release
