@@ -3,7 +3,7 @@ package com.expedia.bookings.featureconfig;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import android.support.annotation.NonNull;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
@@ -109,7 +109,7 @@ public abstract class BaseFeatureConfiguration {
 		return 0;
 	}
 
-	public RecyclerView.ViewHolder getJoinRewardsViewHolder(@Nonnull AppCompatActivity appCompatActivity, @Nonnull ViewGroup parent) {
+	public RecyclerView.ViewHolder getJoinRewardsViewHolder(@NonNull AppCompatActivity appCompatActivity, @NonNull ViewGroup parent) {
 		return new RecyclerView.ViewHolder(new View(appCompatActivity)) {
 		};
 	}
