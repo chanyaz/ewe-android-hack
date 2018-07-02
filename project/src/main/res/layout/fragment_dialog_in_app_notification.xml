@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textColor="@color/soft_prompt_text_color"
+            android:textColor="@color/prompt_dialog_text_color"
             android:gravity="center"
             style="@style/Core.Text.500"/>
 
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Core.Text.300"
-            android:textColor="@color/soft_prompt_text_color"
+            android:textColor="@color/prompt_dialog_text_color"
             android:gravity="center"
             android:layout_marginTop="4dp"/>
 

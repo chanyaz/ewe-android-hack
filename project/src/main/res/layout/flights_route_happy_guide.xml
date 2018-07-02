@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/flight_route_happy_guide_title_v3"
-        android:textColor="@color/soft_prompt_text_color"
+        android:textColor="@color/prompt_dialog_text_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/rich_content_animation_dots" />
@@ -115,7 +115,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/flight_route_happy_guide_info"
-        android:textColor="@color/soft_prompt_text_color"
+        android:textColor="@color/prompt_dialog_text_color"
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -127,7 +127,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/flight_route_happy_guide_more_info"
-        android:textColor="@color/soft_prompt_text_color"
+        android:textColor="@color/prompt_dialog_text_color"
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/info" />
@@ -139,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/soft_prompt_enable_button"
+        android:background="@drawable/prompt_dialog_enable_button"
         android:gravity="center"
         android:text="@string/flight_route_happy_guide_button_label"
         android:textColor="@color/white"
