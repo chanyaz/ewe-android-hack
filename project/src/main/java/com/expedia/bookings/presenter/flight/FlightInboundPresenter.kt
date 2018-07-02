@@ -38,11 +38,11 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
     }
 
     override fun trackFlightOverviewLoad(flight: FlightLeg) {
-        FlightsV2Tracking.trackFlightOverview(false, true, flight, getAmenitiesString(context, flight))
+        FlightsV2Tracking.trackFlightOverview(false, flightOfferViewModel.tripTypeSearchSubject.value, flight, getAmenitiesString(context, flight))
     }
 
     override fun trackFlightScrollDepth(scrollDepth: Int) {
-        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, false, true, flightOfferViewModel.totalInboundResults)
+        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, false, flightOfferViewModel.tripTypeSearchSubject.value, flightOfferViewModel.totalInboundResults)
     }
 
     override fun trackFlightSortFilterLoad() {

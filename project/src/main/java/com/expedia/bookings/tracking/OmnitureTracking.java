@@ -64,6 +64,8 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
+import com.expedia.bookings.data.flights.FlightSearchParams;
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.data.flights.KrazyglueResponse;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -5779,11 +5781,9 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(link.toString(), FLIGHTS_V2_TRAVELER_LINK_NAME);
 	}
 
-	public static void trackFlightSRPScrollDepth(int scrollDepth, boolean isOutboundFlight, boolean isRoundTrip,
+	public static void trackFlightSRPScrollDepth(int scrollDepth, boolean isOutboundFlight, TripType tripType,
 		int totalCount) {
-		String pageName = !isRoundTrip ? FLIGHTS_V2_SEARCH_ONEWAY :
-			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHT_SEARCH_ROUNDTRIP_IN;
-		StringBuilder link = new StringBuilder(pageName);
+		StringBuilder link = new StringBuilder(getFlightResultsPageName(isOutboundFlight, tripType));
 		link.append(".Scroll.").append(scrollDepth);
 		AppAnalytics s = createTrackLinkEvent(link.toString());
 		String event = new StringBuilder("event245=").append(totalCount).toString();
@@ -5903,10 +5903,9 @@ public class OmnitureTracking {
 		return layoverDuration;
 	}
 
-	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip, FlightLeg flight, String amenities) {
-		String pageName = !isRoundTrip ? FLIGHT_SEARCH_ONE_WAY_DETAILS :
-			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
-		AppAnalytics s = createTrackPageLoadEventBase(pageName);
+	public static void trackFlightOverview(Boolean isOutboundFlight, TripType tripType, FlightLeg flight,
+		String amenities) {
+		AppAnalytics s = createTrackPageLoadEventBase(getFlightResultsPageName(isOutboundFlight, tripType));
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
 		if (isOutboundFlight) {
@@ -5918,6 +5917,24 @@ public class OmnitureTracking {
 		}
 		appendEmptyFareRulesTracking(s, flight);
 		s.track();
+	}
+
+	private static String getFlightResultsPageName(Boolean isOutboundFlight, TripType tripType) {
+		String pageName = "";
+		switch (tripType) {
+		case RETURN: {
+			pageName = isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
+			break;
+		}
+		case ONE_WAY: {
+			pageName = FLIGHT_SEARCH_ONE_WAY_DETAILS;
+			break;
+		}
+		case MULTI_DEST: {
+			//need to be implemented
+		}
+		}
+		return pageName;
 	}
 
 	public static void trackRouteHappyEmptyResults(Boolean isOutboundFlight, Boolean isRoundTrip) {

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.flights.utils.FlightServicesManager
@@ -383,14 +384,14 @@ class FlightInboundPresenterTest {
 
     private fun prepareFlightResultObservables(flightSearchParams: FlightSearchParams, travellerCountSubscriber: TestObserver<Int>) {
         val flightSelectedSubject = PublishSubject.create<FlightLeg>()
-        val isRoundTripSubject = BehaviorSubject.create<Boolean>()
-        isRoundTripSubject.onNext(false)
+        val tripTypeSubject = BehaviorSubject.create<TripType>()
+        tripTypeSubject.onNext(TripType.ONE_WAY)
         val flightCabinClassSubject = BehaviorSubject.create<String>()
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         val isNonStopSubject = BehaviorSubject.createDefault(false)
         val isRefundableSubject = BehaviorSubject.createDefault(false)
         val isOutboundSearch = false
-        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
+        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, tripTypeSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         flightInboundPresenter.resultsPresenter.setAdapter(flightListAdapter)
 
         Db.setFlightSearchParams(flightSearchParams)

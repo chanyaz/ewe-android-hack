@@ -8,9 +8,11 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.extensions.isRoundTrip
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -46,7 +48,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val retrySearchObservable = PublishSubject.create<Unit>()
     val ticketsLeftObservable = PublishSubject.create<Int>()
 
-    val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
+    val tripTypeSearchSubject = BehaviorSubject.createDefault<TripType>(TripType.RETURN)
     val flightCabinClassSubject = BehaviorSubject.create<String>()
     val nonStopSearchFilterAppliedSubject = BehaviorSubject.create<Boolean>()
     val greedyOutboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
@@ -61,7 +63,6 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     var isSubPub = false
     var isGreedyCallAborted = false
 
-    protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
 
     protected var flightSearchSubscription: Disposable? = null
@@ -97,7 +98,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         }
 
         searchParamsObservable.subscribe { params ->
-            isRoundTripSearchSubject.onNext(params.isRoundTrip())
+            tripTypeSearchSubject.onNext(params.tripType!!)
             params.flightCabinClass?.let {
                 flightCabinClassSubject.onNext(it)
             }
@@ -132,10 +133,6 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
         }
 
-        isRoundTripSearchSubject.subscribe {
-            isRoundTripSearch = it
-        }
-
         setupFlightSelectionObservables()
 
         flightOfferSelected.subscribe { selectedOffer ->
@@ -160,14 +157,22 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     protected fun setupFlightSelectionObservables() {
         confirmedOutboundFlightSelection.subscribe { flight ->
-            if (isRoundTripSearch) {
-                selectOutboundFlight(flight.legId)
-            } else {
-                // one-way flights
-                val outboundLegId = flight.legId
-                val inboundLegId = flight.legId // yes, they are the same. It will get us the flight offer
-                selectFlightOffer(outboundLegId, inboundLegId)
-                ticketsLeftObservable.onNext(flight.packageOfferModel.urgencyMessage.ticketsLeft)
+            when(tripTypeSearchSubject.value) {
+                TripType.RETURN -> {
+                    selectOutboundFlight(flight.legId)
+                }
+                TripType.ONE_WAY -> {
+                    val outboundLegId = flight.legId
+                    val inboundLegId = flight.legId // yes, they are the same. It will get us the flight offer
+                    selectFlightOffer(outboundLegId, inboundLegId)
+                    ticketsLeftObservable.onNext(flight.packageOfferModel.urgencyMessage.ticketsLeft)
+                }
+                TripType.MULTI_DEST -> {
+
+                }
+
+                else -> { //do nothing
+                }
             }
         }
 

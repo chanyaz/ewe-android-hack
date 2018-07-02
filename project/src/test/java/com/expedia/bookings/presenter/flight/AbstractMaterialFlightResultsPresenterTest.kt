@@ -13,6 +13,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.flights.utils.FlightServicesManager
 import com.expedia.bookings.interceptors.MockInterceptor
@@ -164,8 +165,8 @@ class AbstractMaterialFlightResultsPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         sut = TestFlightResultsPresenter(activity, null, isOutboundPresenter)
         sut.flightOfferViewModel = FlightOffersViewModel(activity, FlightServicesManager(service))
-        sut.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
-        sut.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(sut.flightOfferViewModel.isRoundTripSearchSubject.value).build())
+        sut.flightOfferViewModel.tripTypeSearchSubject.onNext(TripType.ONE_WAY)
+        sut.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(false).build())
         sut.setupComplete()
     }
 

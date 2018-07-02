@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -46,7 +47,7 @@ class AbstractFlightListAdapterTest {
     val activity: FlightActivity = Robolectric.buildActivity(FlightActivity::class.java).create().get()
     lateinit var sut: AbstractFlightListAdapter
     private lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
-    private lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
+    private lateinit var tripTypeSubject: BehaviorSubject<TripType>
     private lateinit var flightCabinClassSubject: BehaviorSubject<String>
     private lateinit var isNonStopSubject: BehaviorSubject<Boolean>
     private lateinit var isRefundableSubject: BehaviorSubject<Boolean>
@@ -55,7 +56,7 @@ class AbstractFlightListAdapterTest {
     @Before
     fun setup() {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
-        isRoundTripSubject = BehaviorSubject.create()
+        tripTypeSubject = BehaviorSubject.create()
         isNonStopSubject = BehaviorSubject.createDefault(false)
         isRefundableSubject = BehaviorSubject.createDefault(false)
         flightCabinClassSubject = BehaviorSubject.create()
@@ -63,17 +64,17 @@ class AbstractFlightListAdapterTest {
     }
 
     private fun createTestFlightListAdapter() {
-        isRoundTripSubject.onNext(false)
+        tripTypeSubject.onNext(TripType.ONE_WAY)
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
-        sut = TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
+        sut = TestFlightListAdapter(activity, flightSelectedSubject, tripTypeSubject)
     }
 
     private fun activatePackageBannerWidget() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
-        isRoundTripSubject.onNext(true)
+        tripTypeSubject.onNext(TripType.RETURN)
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, tripTypeSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         sut.adjustPosition()
         createFlightLegWithThreeAirlines()
         sut.setNewFlights(listOf(flightLeg))
@@ -82,7 +83,7 @@ class AbstractFlightListAdapterTest {
     private fun preProcessForPackageBannerWidget() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
-        isRoundTripSubject.onNext(true)
+        tripTypeSubject.onNext(TripType.RETURN)
     }
 
     private fun postProcessForPackageBannerWidget() {
@@ -94,8 +95,8 @@ class AbstractFlightListAdapterTest {
     @Test
     fun testPackageBannerWidgetVisibilityForOneway() {
         preProcessForPackageBannerWidget()
-        isRoundTripSubject.onNext(false)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
+        tripTypeSubject.onNext(TripType.ONE_WAY)
+        sut = FlightListAdapter(activity, flightSelectedSubject, tripTypeSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -104,7 +105,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityWithoutFlagInPOS() {
         preProcessForPackageBannerWidget()
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_locale_test_config.json")
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, tripTypeSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -113,7 +114,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityForFirstClassCabinPreference() {
         preProcessForPackageBannerWidget()
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.FIRST.name)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, tripTypeSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -242,7 +243,7 @@ class AbstractFlightListAdapterTest {
         assertTrue(pos.isEarnMessageEnabledForFlights)
 
         //If it is a one way trip with pos supporting earn messaging, then earn message is visible in place of round trip text view
-        isRoundTripSubject.onNext(false)
+        tripTypeSubject.onNext(TripType.ONE_WAY)
         val flightViewHolder = bindFlightViewHolderAndModel()
         assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.VISIBLE)
         // This will be tested for MB against different currency eg Orbucks
@@ -255,7 +256,7 @@ class AbstractFlightListAdapterTest {
 
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
         //If it is a round trip with pos supporting earn messaging with one airline, then airline Text View will not show Multiple Carriers for more than 2 airlines
-        isRoundTripSubject.onNext(true)
+        tripTypeSubject.onNext(TripType.RETURN)
         createFlightLegWithOneAirline()
         val flightViewHolder = bindFlightViewHolderAndModel()
         val airlineView = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
@@ -404,8 +405,8 @@ class AbstractFlightListAdapterTest {
         return sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal) as AbstractFlightListAdapter.FlightViewHolder
     }
 
-    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
-            AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, tripTypeSubject: BehaviorSubject<TripType>) :
+            AbstractFlightListAdapter(context, flightSelectedSubject, tripTypeSubject) {
         override fun getPriceDescriptorMessageIdForFSR(): Int? = null
 
         override fun isShowOnlyNonStopSearch(): Boolean = false

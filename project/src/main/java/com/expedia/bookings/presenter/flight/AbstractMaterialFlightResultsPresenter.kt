@@ -24,7 +24,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     }
 
     open fun setupComplete() {
-        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject,
+        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.tripTypeSearchSubject,
                 isOutboundResultsPresenter(), flightOfferViewModel.flightCabinClassSubject, flightOfferViewModel.nonStopSearchFilterAppliedSubject,
                 flightOfferViewModel.refundableFilterAppliedSearchSubject)
 

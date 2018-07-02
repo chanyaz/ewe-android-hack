@@ -272,8 +272,8 @@ class FlightTestUtil {
             return richContent
         }
 
-        class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
-                AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+        class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, tripTypeSubject: BehaviorSubject<FlightSearchParams.TripType>) :
+                AbstractFlightListAdapter(context, flightSelectedSubject, tripTypeSubject) {
             override fun getPriceDescriptorMessageIdForFSR(): Int? = null
 
             override fun isShowOnlyNonStopSearch(): Boolean = false
