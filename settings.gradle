@@ -11,3 +11,4 @@ include ':lib:AccountLib'
 
 // Sample Test Apps
 include ':testApp:AccountTestApp'
+include ':lib:LayoutTestAndroid'
