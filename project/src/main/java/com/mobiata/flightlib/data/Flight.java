@@ -101,6 +101,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 	private String mConfirmationNumber;
 	private String tripItSeats;
 	private String mCabinCode;
+	private String mBookingCode;
 
 	private String mUniqueFlightId = null;
 	//list of Seats for flight
@@ -325,6 +326,14 @@ public class Flight implements Comparable<Flight>, JSONable {
 
 	public void setCabinCode(String mCabinCode) {
 		this.mCabinCode = mCabinCode;
+	}
+
+	public String getBookingCode() {
+		return mBookingCode;
+	}
+
+	public void setBookingCode(String mBookingCode) {
+		this.mBookingCode = mBookingCode;
 	}
 
 	public void setOriginWaypoint(Waypoint origin) {
@@ -623,6 +632,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 			obj.putOpt("userLabel", mUserLabel);
 			obj.putOpt("userNotes", mUserNotes);
 			obj.putOpt("cabinCodeLocalized", mCabinCode);
+			obj.putOpt("bookingCode", mBookingCode);
 
 			obj.putOpt("distanceToTravel", mDistanceToTravel);
 			obj.putOpt("distanceTraveled", mDistanceTraveled);
@@ -745,6 +755,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 			mUserLabel = obj.optString("userLabel", null);
 			mUserNotes = obj.optString("userNotes", null);
 			mCabinCode = obj.optString("cabinCodeLocalized", null);
+			mBookingCode = obj.optString("bookingCode", null);
 
 			seatList = JSONUtils.getJSONableList(obj, "seatList", Seat.class);
 

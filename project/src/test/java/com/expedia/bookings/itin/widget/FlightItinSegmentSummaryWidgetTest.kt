@@ -88,6 +88,7 @@ class FlightItinSegmentSummaryWidgetTest {
         sut.viewModel.createSeatingWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
                 "21A, 23B, 25C",
                 "• Economy / Coach",
+                null,
                 "Confirm or change seats with airline"
 
         ))
@@ -102,11 +103,12 @@ class FlightItinSegmentSummaryWidgetTest {
         sut.viewModel.createSeatingWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
                 "No seats selected",
                 "• Economy / Coach",
+                "E",
                 null
 
         ))
         assertEquals("No seats selected", sut.seats.text)
-        assertEquals("• Economy / Coach", sut.cabin.text)
+        assertEquals("• Economy / Coach (E)", sut.cabin.text)
         assertEquals(View.GONE, sut.seatConfirmation.visibility)
         assertEquals("", sut.seatConfirmation.text)
     }

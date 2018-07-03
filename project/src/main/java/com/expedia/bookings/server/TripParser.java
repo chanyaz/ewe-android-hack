@@ -556,6 +556,7 @@ public class TripParser {
 				segment.setDestinationWaypoint(parseWaypoint(segmentJson, Waypoint.F_ARRIVAL));
 
 				segment.setCabinCode(segmentJson.optString("cabinCodeLocalized"));
+				segment.setBookingCode(segmentJson.optString("bookingCode"));
 				segment.setIsSeatMapAvailable(segmentJson.optBoolean("isSeatMapAvailable"));
 				JSONArray seatsArr = segmentJson.optJSONArray("seatList");
 				if (seatsArr != null && seatsArr.length() > 0) {

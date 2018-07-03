@@ -105,6 +105,7 @@ class FlightItinSegmentSummaryViewModelTest {
         createSeatingWidgetSubscriber.assertValue(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
                 "No seats selected",
                 "Economy / Coach",
+                null,
                 null
         ))
     }
@@ -285,6 +286,7 @@ class FlightItinSegmentSummaryViewModelTest {
                 "Economy / Coach",
                 null,
                 null,
+                null,
                 "",
                 null,
                 null
@@ -308,6 +310,7 @@ class FlightItinSegmentSummaryViewModelTest {
                 null,
                 "No seats selected",
                 "Economy / Coach",
+                null,
                 null,
                 "+1",
                 "",
