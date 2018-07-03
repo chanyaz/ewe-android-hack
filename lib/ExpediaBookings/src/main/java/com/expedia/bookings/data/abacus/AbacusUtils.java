@@ -112,6 +112,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppAccountsAPIKongEndPoint = new ABTest(24860, true);
 	public static final ABTest EBAndroidAppAccountsEditWebView = new ABTest(25566, true);
 	public static final ABTest EBAndroidAppAccountNewSignIn = new ABTest(24581, true);
+	public static final ABTest EBAndroidAppAccountGoogleSignin = new ABTest(26723, true);
 
 	// Launch
 	public static final ABTest MesoAd = new ABTest(25552, true);
@@ -212,6 +213,7 @@ public class AbacusUtils {
 		testIDs.add(HotelShortlist.getKey());
 		testIDs.add(HotelUGCReviewsBoxRatingDesign.getKey());
 		testIDs.add(EBAndroidAppFlightsContentHighlightInTypeahead.getKey());
+		testIDs.add(EBAndroidAppAccountGoogleSignin.getKey());
 		testIDs.add(EBAndroidAppAccountNewSignIn.getKey());
 		testIDs.add(HotelMapSmallSoldOutPins.getKey());
 		testIDs.add(EBAndroidAppLxWebCheckoutView.getKey());

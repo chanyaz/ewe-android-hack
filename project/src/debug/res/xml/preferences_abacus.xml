@@ -523,6 +523,13 @@
             android:key="24581"
             android:title="New Single Page Sign In - 24581" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="26723"
+            android:title="Google Sign In - 26723" />
     </PreferenceCategory>
 
 
