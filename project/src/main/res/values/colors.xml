@@ -100,6 +100,7 @@
     <color name="itin_booking_info_color">@color/gray900</color>
     <color name="itin_icon_color">@color/blue2</color>
     <color name="itin_toolbar_color">@color/exp_launch_blue</color>
+    <color name="itin_seat_color">@color/gray700</color>
 
     <!-- Old Flights colors -->
     <color name="flight_trip">#0D6599</color>

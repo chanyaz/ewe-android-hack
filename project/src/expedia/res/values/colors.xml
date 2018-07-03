@@ -81,6 +81,7 @@
     <color name="itin_icon_color">@color/accent2</color>
     <color name="itin_booking_info_color">@color/neutral700</color>
     <color name="itin_toolbar_color">@color/accent2</color>
+    <color name="itin_seat_color">@color/neutral900</color>
 
     <!-- Old Flights colors -->
     <!-- TODO: Delete all of this? -->
