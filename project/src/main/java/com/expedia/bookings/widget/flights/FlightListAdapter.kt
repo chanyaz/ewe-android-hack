@@ -6,7 +6,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.data.flights.isRoundTrip
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
@@ -15,10 +17,10 @@ import com.expedia.bookings.flights.vm.FlightViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isRoundTripSearchSubject: BehaviorSubject<Boolean>,
+open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val tripTypeSearchSubject: BehaviorSubject<TripType>,
                              val isOutboundSearch: Boolean, val flightCabinClassSubject: BehaviorSubject<String>,
                              val nonStopSearchFilterAppliedSubject: BehaviorSubject<Boolean>, val refundableFilterAppliedSearchSubject: BehaviorSubject<Boolean> )
-                            : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+                            : AbstractFlightListAdapter(context, flightSelectedSubject, tripTypeSearchSubject) {
 
     val ScrollDepth1 = 25
     val ScrollDepth2 = 60
@@ -59,7 +61,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
             (context as FlightActivity).intent.getStringExtra(Codes.SEARCH_PARAMS)?.isEmpty() ?: true)
 
     private fun showCrossSellPackageBannerCell(): Boolean {
-        return (shouldShowCrossSellPackageBanner() && isRoundTripSearchSubject.value && isOutboundSearch &&
+        return (shouldShowCrossSellPackageBanner() && tripTypeSearchSubject.value.isRoundTrip() && isOutboundSearch &&
                 (flightCabinClassSubject.value == FlightServiceClassType.CabinCode.COACH.name))
     }
 

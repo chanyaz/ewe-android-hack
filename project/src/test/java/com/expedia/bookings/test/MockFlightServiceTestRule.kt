@@ -17,6 +17,7 @@ class MockFlightServiceTestRule : ServicesRule<FlightServices>(FlightServices::c
         val startDate = LocalDate.now()
         val endDate = startDate.plusDays(2)
         val paramsBuilder = FlightSearchParams.Builder(26, 500)
+                .tripType(FlightSearchParams.TripType.RETURN)
                 .origin(origin)
                 .destination(destination)
                 .startDate(startDate)
@@ -24,6 +25,7 @@ class MockFlightServiceTestRule : ServicesRule<FlightServices>(FlightServices::c
 
         if (roundTrip) {
             paramsBuilder.endDate(endDate)
+            paramsBuilder.tripType(FlightSearchParams.TripType.RETURN)
         }
         return paramsBuilder.build()
     }

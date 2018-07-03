@@ -6,6 +6,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
@@ -34,7 +35,7 @@ class FlightListAdapterTest {
     val activity = Robolectric.buildActivity(FlightActivity::class.java).create().get()
     lateinit var sut: FlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
-    lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
+    lateinit var tripTypeSubject: BehaviorSubject<TripType>
     lateinit var flightCabinClassSubject: BehaviorSubject<String>
     var isOutboundSearch: Boolean by Delegates.notNull<Boolean>()
     lateinit var isNonStopSubject: BehaviorSubject<Boolean>
@@ -44,8 +45,8 @@ class FlightListAdapterTest {
     @Before
     fun setup() {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
-        isRoundTripSubject = BehaviorSubject.create<Boolean>()
-        isRoundTripSubject.onNext(false)
+        tripTypeSubject = BehaviorSubject.create<TripType>()
+        givenOneWayFlight()
         isNonStopSubject = BehaviorSubject.createDefault(false)
         isRefundableSubject = BehaviorSubject.createDefault(false)
         flightCabinClassSubject = BehaviorSubject.create()
@@ -54,12 +55,12 @@ class FlightListAdapterTest {
     }
 
     fun createSystemUnderTest() {
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, tripTypeSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
     }
 
     @Test
     fun allFlightsHeaderNotShownForFlightsLOB() {
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, tripTypeSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         sut.setNewFlights(emptyList())
 
         val itemViewType = sut.getItemViewType(1)
@@ -124,7 +125,7 @@ class FlightListAdapterTest {
     @Test
     fun flightResultsAdvanceSearchFilterHeader() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
-        isRoundTripSubject.onNext(true)
+        givenRoundTripFlight()
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()
         //When Non Stop and Refundable both are not chosen
@@ -183,11 +184,11 @@ class FlightListAdapterTest {
     }
 
     private fun givenOneWayFlight() {
-        isRoundTripSubject.onNext(false)
+        tripTypeSubject.onNext(TripType.ONE_WAY)
     }
 
     private fun givenRoundTripFlight() {
-        isRoundTripSubject.onNext(true)
+        tripTypeSubject.onNext(TripType.RETURN)
     }
 
     private fun configurePointOfSale() {
@@ -202,7 +203,7 @@ class FlightListAdapterTest {
     fun testAdjustPositionShowingPackageBanner() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
         configurePointOfSale()
-        isRoundTripSubject.onNext(true)
+        givenRoundTripFlight()
         isOutboundSearch = true
         createSystemUnderTest()
         assertEquals(2, sut.adjustPosition())

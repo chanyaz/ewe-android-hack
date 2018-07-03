@@ -444,7 +444,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     .format().toString())
         }
         viewModel.confirmedOutboundFlightSelection.subscribe {
-            if (isByotEnabled && viewModel.isRoundTripSearchSubject.value) {
+            if (isByotEnabled && viewModel.tripTypeSearchSubject.value.isRoundTrip()) {
                 inboundPresenter.showResults()
                 showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
@@ -471,10 +471,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     }
         }
 
-        ObservableOld.combineLatest(viewModel.isRoundTripSearchSubject, viewModel.mayChargePaymentFeesSubject, {
-            isRoundTripSearch, mayChargePaymentFees ->
+        ObservableOld.combineLatest(viewModel.tripTypeSearchSubject, viewModel.mayChargePaymentFeesSubject, {
+            tripType, mayChargePaymentFees ->
             outBoundPresenter.displayPaymentFeeHeaderInfo(mayChargePaymentFees)
-            if (isRoundTripSearch) {
+            if (tripType.isRoundTrip()) {
                 inboundPresenter.displayPaymentFeeHeaderInfo(mayChargePaymentFees)
             }
         }).subscribe()

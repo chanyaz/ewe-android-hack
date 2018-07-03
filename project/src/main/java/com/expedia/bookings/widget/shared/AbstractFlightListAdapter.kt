@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.isRoundTrip
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.flights.widget.PackageBannerWidget
 import com.expedia.bookings.utils.AnimUtils
@@ -42,9 +44,9 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         FLIGHT_CELL_VIEW
     }
 
-    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
-            this(context, flightSelectedSubject, isRoundTripSearchSubject.value) {
-        isRoundTripSearchSubject.subscribe({ isRoundTripSearch = it })
+    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, tripTypeSearchSubject: BehaviorSubject<FlightSearchParams.TripType>) :
+            this(context, flightSelectedSubject, tripTypeSearchSubject.value.isRoundTrip()) {
+        tripTypeSearchSubject.subscribe({ isRoundTripSearch = it.isRoundTrip() })
     }
 
     protected abstract fun showAllFlightsHeader(): Boolean

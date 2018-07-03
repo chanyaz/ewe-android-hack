@@ -59,7 +59,7 @@ class FlightPresenterTest {
         val mockPerfData = Mockito.mock(AbstractSearchTrackingData.PerformanceData::class.java)
         Mockito.`when`(mockPerfData.getPageLoadTime()).thenReturn("1.0")
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
-        flightPresenter.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
+        flightPresenter.flightOfferViewModel.tripTypeSearchSubject.onNext(FlightSearchParams.TripType.ONE_WAY)
 
         val flightLeg = FlightLeg()
         flightLeg.legId = "leg1"
@@ -89,7 +89,7 @@ class FlightPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testInboundFlightWidgetVisibilty() {
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
-        flightPresenter.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
+        flightPresenter.flightOfferViewModel.tripTypeSearchSubject.onNext(FlightSearchParams.TripType.ONE_WAY)
 
         flightPresenter.searchViewModel.tripTypeSearchObservable.onNext(FlightSearchParams.TripType.RETURN)
         assertEquals(View.VISIBLE, flightPresenter.flightOverviewPresenter.flightSummary.inboundFlightWidget.visibility)

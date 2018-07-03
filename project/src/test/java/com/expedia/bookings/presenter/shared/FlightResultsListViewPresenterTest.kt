@@ -12,6 +12,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.flights.vm.FlightResultsViewModel
 import com.expedia.bookings.interceptors.MockInterceptor
@@ -58,7 +59,7 @@ class FlightResultsListViewPresenterTest {
     lateinit var sut: FlightResultsListViewPresenter
     lateinit var testFlightAdapter: AbstractFlightListAdapter
     private lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
-    private lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
+    private lateinit var tripTypeSubject: BehaviorSubject<TripType>
     private lateinit var activity: Activity
     private lateinit var kongServiceFlight: FlightRichContentService
     var server: MockWebServer = MockWebServer()
@@ -80,7 +81,7 @@ class FlightResultsListViewPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
 
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
-        isRoundTripSubject = BehaviorSubject.create()
+        tripTypeSubject = BehaviorSubject.create()
     }
 
     fun inflateAndSetViewModel() {
@@ -101,8 +102,8 @@ class FlightResultsListViewPresenterTest {
     }
 
     private fun createTestFlightListAdapter() {
-        isRoundTripSubject.onNext(false)
-        testFlightAdapter = FlightTestUtil.Companion.TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
+        tripTypeSubject.onNext(TripType.ONE_WAY)
+        testFlightAdapter = FlightTestUtil.Companion.TestFlightListAdapter(activity, flightSelectedSubject, tripTypeSubject)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.TRAVELOCITY, MultiBrand.CHEAPTICKETS))

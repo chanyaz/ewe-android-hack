@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.isOneWay
 import com.expedia.bookings.flights.utils.FlightServicesManager
 import java.util.HashMap
 import java.util.LinkedHashSet
@@ -26,13 +27,13 @@ class FlightOffersViewModelByot(context: Context, flightServicesManager: FlightS
         val outBoundFlights: LinkedHashSet<FlightLeg> = LinkedHashSet()
         val offers = response.offers
         val legs = response.legs
-        if (!isRoundTripSearch) {
+        if (tripTypeSearchSubject.value.isOneWay()) {
             flightOfferModels = HashMap<String, FlightTripDetails.FlightOffer>()
         }
         offers.forEach { offer ->
             val outboundId = offer.legIds.first()
             val outboundLeg = legs.find { it.legId == outboundId }
-            if (!isRoundTripSearch) {
+            if (tripTypeSearchSubject.value.isOneWay()) {
                 flightOfferModels.put(makeFlightOfferKey(outboundId, outboundId), offer)
             }
             if (outboundLeg != null) {

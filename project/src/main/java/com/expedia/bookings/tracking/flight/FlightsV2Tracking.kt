@@ -26,8 +26,8 @@ object FlightsV2Tracking {
         CarnivalUtils.getInstance().trackFlightSearch(flightSearchParams.destination?.regionNames?.fullName, flightSearchParams.adults, flightSearchParams.departureDate)
     }
 
-    fun trackSRPScrollDepth(scrollDepth: Int, isOutboundFlight: Boolean, isRoundTrip: Boolean, totalCount: Int) {
-        OmnitureTracking.trackFlightSRPScrollDepth(scrollDepth, isOutboundFlight, isRoundTrip, totalCount)
+    fun trackSRPScrollDepth(scrollDepth: Int, isOutboundFlight: Boolean, tripType: FlightSearchParams.TripType, totalCount: Int) {
+        OmnitureTracking.trackFlightSRPScrollDepth(scrollDepth, isOutboundFlight, tripType, totalCount)
     }
 
     fun trackSearchPageLoad() {
@@ -60,8 +60,8 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Search(trackingData)
     }
 
-    fun trackFlightOverview(isOutboundFlight: Boolean, isRoundTrip: Boolean, flight: FlightLeg, amenities: String) {
-        OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip, flight, amenities)
+    fun trackFlightOverview(isOutboundFlight: Boolean, tripType: FlightSearchParams.TripType, flight: FlightLeg, amenities: String) {
+        OmnitureTracking.trackFlightOverview(isOutboundFlight, tripType, flight, amenities)
     }
 
     fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData, outboundSelectedAndTotalLegRank: Pair<Int, Int>) {

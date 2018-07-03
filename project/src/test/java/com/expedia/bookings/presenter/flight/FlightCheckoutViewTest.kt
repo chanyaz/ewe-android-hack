@@ -31,6 +31,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightCreateTripResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -885,12 +886,12 @@ class FlightCheckoutViewTest {
     }
 
     private fun setupTestToOpenInFlightInboundPresenter() {
-        flightPresenter.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
+        flightPresenter.flightOfferViewModel.tripTypeSearchSubject.onNext(TripType.ONE_WAY)
         flightPresenter.show(flightPresenter.inboundPresenter)
     }
 
     private fun setupTestToOpenInFlightOutboundPresenter() {
-        flightPresenter.flightOfferViewModel.isRoundTripSearchSubject.onNext(true)
+        flightPresenter.flightOfferViewModel.tripTypeSearchSubject.onNext(TripType.RETURN)
         flightPresenter.show(flightPresenter.outBoundPresenter)
     }
 
