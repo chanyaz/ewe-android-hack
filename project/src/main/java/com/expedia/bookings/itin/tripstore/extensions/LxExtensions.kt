@@ -4,20 +4,23 @@ import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.google.android.gms.maps.model.LatLng
 
 fun ItinLx.buildSecondaryAddress(): String {
-    val nullableArray = arrayOf(redemptionLocations?.firstOrNull()?.city, redemptionLocations?.firstOrNull()?.countrySubdivisionCode, redemptionLocations?.firstOrNull()?.countryCode, redemptionLocations?.firstOrNull()?.postalCode)
+    val redemptionLocation = redemptionLocations?.firstOrNull()
+    val nullableArray = arrayOf(redemptionLocation?.city, redemptionLocation?.countrySubdivisionCode, redemptionLocation?.countryCode, redemptionLocation?.postalCode)
     val nonNullArray = nullableArray.filterNot { it.isNullOrBlank() }
     return nonNullArray.joinToString()
 }
 
 fun ItinLx.buildFullAddress(): String {
-    val nullableArray = arrayOf(redemptionLocations?.firstOrNull()?.addressLine1, redemptionLocations?.firstOrNull()?.city, redemptionLocations?.firstOrNull()?.countrySubdivisionCode, redemptionLocations?.firstOrNull()?.countryCode, redemptionLocations?.firstOrNull()?.postalCode)
+    val redemptionLocation = redemptionLocations?.firstOrNull()
+    val nullableArray = arrayOf(redemptionLocation?.addressLine1, redemptionLocation?.city, redemptionLocation?.countrySubdivisionCode, redemptionLocation?.countryCode, redemptionLocation?.postalCode)
     val nonNullArray = nullableArray.filterNot { it.isNullOrBlank() }
     return nonNullArray.joinToString()
 }
 
 fun ItinLx.getLatLng(): LatLng? {
-    val lat = redemptionLocations?.firstOrNull()?.latitude
-    val long = redemptionLocations?.firstOrNull()?.longitude
+    val redemptionLocation = redemptionLocations?.firstOrNull()
+    val lat = redemptionLocation?.latitude
+    val long = redemptionLocation?.longitude
     return if (lat != null && long != null) {
         LatLng(lat, long)
     } else {
