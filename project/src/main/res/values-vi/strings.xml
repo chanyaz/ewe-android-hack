@@ -1454,6 +1454,8 @@
     <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} điểm tiêu chuẩn cho chuyến đi này</string>
     <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
     <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} điểm tiêu chuẩn cho {program}</string>
+    <!--Hotel itin card price summary rewards pending points button text-->
+    <string name="itin_hotel_details_price_summary_rewards_pending_points_button">Điểm của tôi ở đâu?</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Thông tin bổ sung</string>
     <!--Hotel itin checkin text-->
@@ -1568,6 +1570,22 @@
     <string name="itin_car_location_type_heading_pick_up">Địa điểm nhận xe:</string>
     <!--Itin car drop off location heading-->
     <string name="itin_car_location_type_heading_drop_off">Địa điểm trả xe:</string>
+    <!--Itin car share email subject. My {reservation}. (eg., My Alamo Car Rental)-->
+    <string name="itin_car_share_email_subject_TEMPLATE">{reservation} của tôi</string>
+    <!--Itin car share email body. Hi,\n\nHere are the details of my {reservation}.\n\nItinerary #: {itin_number}\nVehicle: {vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPhone Number: {phone_number}\n\nPickup Location:\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nDrop off Location:\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free {brand} app\n{link} (eg., Hi,\n\nHere are the details of my Cool Car Rental.\n\nItinerary #: 344123412\nVehicle: Compact Car\nPickup on Thurs, May 5 at 8:00am\nDrop off on Friday, May 6 at 2:00pm\nPhone Number: 222-222-2222\n\nPickup Location:\nCool Rentals\n1234 Blah St., San Jose, CA 95130\n\nDrop off Location:\n1234 Blah St., San Jose, CA 95130\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free Expedia app\nwww.expedia.com)-->
+    <string name="itin_car_share_email_body_TEMPLATE">Xin chào,\n\nĐây là chi tiết {reservation} của tôi.\n\nSố lịch trình #: {itin_number}\nPhương tiện: {vehicle_type}\nNhận xe vào {pickup_date} lúc {pickup_time}\nTrả xe vào {drop_off_date} lúc {drop_off_time}\nSố điện thoại: {phone_number}\n\nĐịa điểm nhận xe:\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nĐịa điểm trả xe:\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nĐặt phòng khách sạn, chuyến bay, xem &amp; chia sẻ lịch trình của quý vị.\nTải app {brand} miễn phí\n{link}</string>
+    <!--Itin car share email body. Details of my {reservation}.\n{vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPickup Location: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nDrop Off Location: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code} (eg., Details of my Awesome Car Rental.\nCompact Car\nPickup on May 29 at 12:00pm\nDrop off on May 30 at 2:00pm\nPickup Location: 12345 Blah Ave., San Jose, CA 94012\nDrop Off Location: 12345 Blah Ave., San Jose, CA 94012)-->
+    <string name="itin_car_share_sms_body_TEMPLATE">Chi tiết {reservation} của tôi.\n{vehicle_type}\nNhận xe vào {pickup_date} lúc {pickup_time}\nTrả xe vào {drop_off_date} lúc {drop_off_time}\nĐịa điểm nhận xe: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nĐịa điểm trả xe: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}</string>
+
+    <!--Itin cruise redesign-->
+    <!--Itin cruise toolbar title template. (e.g. Cruise to Hawaii)-->
+    <string name="itin_cruise_toolbar_title_TEMPLATE">Du thuyền đến {destination}</string>
+    <!--Itin cruise share email subject-->
+    <string name="itin_cruise_share_email_subject">Đặt chỗ du thuyền của tôi</string>
+    <!--Itin cruise share email body template. (e.g. Hi,\n\nHere are the details of my cruise reservation:\n8 Day Cruise to Hawaii\n\nItinerary #:\n12341234\nCruise Line:\nAwesome Cruise\nShip Name:\nCool Ship\n\nEmbarkation:\n2:00pm on Friday, March 28, San Jose, USA\nDisembarkation:\n4:00pm on Monday, April 20, Barcelona, Spain-->
+    <string name="itin_cruise_share_email_body_TEMPLATE">Xin chào,\n\nĐây là chi tiết đặt du thuyền của tôi:\n{reservation}\n\nSố lịch trình #:\n{itin_number}\nHãng du thuyền:\n{cruise_line}\nTên tàu:\n{ship_name}\n\nNgày khởi hành:\n{embark_time} vào {embark_date}, {departure_port}\nNgày cập bến:\n{disembark_time} vào {disembark_date}, {disembark_port}</string>
+    <!--Itin cruise share sms template. (e.g. Details for:\n5 day Mediterranean Cruise\n\nDeparts at 6:15pm on May 17\nArrives at 9:45am on May 28\nItinerary #: 123412341234124\nCruise Line: MSC Cruises\nShip Name: MSC Fantasia)-->
+    <string name="itin_cruise_share_sms_TEMPLATE">Chi tiết của:\n{reservation}\n\nKhởi hành lúc {depart_time} vào {depart_date}\nCập bến lúc {arrive_time} vào {arrive_date}\nSố lịch trình #: {itin_number}\nHãng du thuyền: {cruise_line}\nTên tàu: {ship_name}</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Chia sẻ hành trình</string>
@@ -2179,8 +2197,6 @@
     <string name="payment_through_card_and_pwp_points">Quý vị đang sử dụng {points} ({amount}) điểm Expedia Rewards\nSẽ thu {dueamount} từ thẻ của quý vị</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Hoàn tất việc đặt</string>
-    <!-- Our price gaurentee string -->
-    <string name="price_guarantee">Đảm bảo giá</string>
     <!-- Sign out -->
     <string name="sign_out">Thoát</string>
     <!-- You'll earn points for this trip -->
@@ -2248,8 +2264,6 @@
     <!-- Flight -->
     <string name="flight">Chuyến\nbay</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Thêm khách</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Khách chính</string>
     <!-- Heading for selecting travelers on flights and packages -->
@@ -2261,8 +2275,6 @@
     <string name="select_traveler">Chọn khách</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Thêm khách mới</string>
-    <!-- Add Guest for hotels -->
-    <string name="guest_details">Chi tiết khách</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">Tên khách phải trùng với giấy tờ tùy thân hợp lệ do chính phủ cấp.</string>
     <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
@@ -2762,10 +2774,6 @@
 
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
-    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate">$$</string>
-    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive">$$$</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -3176,8 +3184,6 @@
     <string name="sign_out_confirmation_TEMPLATE">Quý vị có chắc chắn muốn thoát khỏi tài khoản {brand} không?</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Đang tải tài khoản {brand}</string>
-    <!-- Label for coupon code hint -->
-    <string name="optional">Tùy chọn</string>
     <!-- Label applying a coupon -->
     <string name="apply">Áp dụng</string>
     <!-- Google Account Change -->
@@ -3951,8 +3957,6 @@
 
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Thu hẹp phạm vi tìm kiếm</string>
-    <!-- Prompt to try new filter after scrolling hotel results  -->
-    <string name="new_filters_available">Bộ lọc mới!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Có thể áp dụng phụ phí, tùy phương thức thanh toán của quý vị.</string>

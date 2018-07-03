@@ -1454,6 +1454,8 @@
     <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} 个行程基本积分</string>
     <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
     <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} 个“{program}”奖励积分</string>
+    <!--Hotel itin card price summary rewards pending points button text-->
+    <string name="itin_hotel_details_price_summary_rewards_pending_points_button">我的积分在何处？</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">其他信息</string>
     <!--Hotel itin checkin text-->
@@ -1568,6 +1570,22 @@
     <string name="itin_car_location_type_heading_pick_up">取车地点：</string>
     <!--Itin car drop off location heading-->
     <string name="itin_car_location_type_heading_drop_off">还车地点：</string>
+    <!--Itin car share email subject. My {reservation}. (eg., My Alamo Car Rental)-->
+    <string name="itin_car_share_email_subject_TEMPLATE">我的{reservation}</string>
+    <!--Itin car share email body. Hi,\n\nHere are the details of my {reservation}.\n\nItinerary #: {itin_number}\nVehicle: {vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPhone Number: {phone_number}\n\nPickup Location:\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nDrop off Location:\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free {brand} app\n{link} (eg., Hi,\n\nHere are the details of my Cool Car Rental.\n\nItinerary #: 344123412\nVehicle: Compact Car\nPickup on Thurs, May 5 at 8:00am\nDrop off on Friday, May 6 at 2:00pm\nPhone Number: 222-222-2222\n\nPickup Location:\nCool Rentals\n1234 Blah St., San Jose, CA 95130\n\nDrop off Location:\n1234 Blah St., San Jose, CA 95130\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free Expedia app\nwww.expedia.com)-->
+    <string name="itin_car_share_email_body_TEMPLATE">您好，\n\n这是我的{reservation}的详细信息。\n\n行程编号：{itin_number}\n车辆：{vehicle_type}\n取车时间：{pickup_date} {pickup_time}\n还车时间：{drop_off_date} {drop_off_time}\n电话号码：{phone_number}\n\n取车地点：\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\n还车地点：\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\n预订酒店、机票，查看并分享您的行程。\n下载免费 {brand} App\n{link}</string>
+    <!--Itin car share email body. Details of my {reservation}.\n{vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPickup Location: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nDrop Off Location: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code} (eg., Details of my Awesome Car Rental.\nCompact Car\nPickup on May 29 at 12:00pm\nDrop off on May 30 at 2:00pm\nPickup Location: 12345 Blah Ave., San Jose, CA 94012\nDrop Off Location: 12345 Blah Ave., San Jose, CA 94012)-->
+    <string name="itin_car_share_sms_body_TEMPLATE">我的{reservation}详细信息。\n{vehicle_type}\n取车时间：{pickup_date} {pickup_time}\n还车时间：{drop_off_date} {drop_off_time}\n取车地点：{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n还车地点：{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}</string>
+
+    <!--Itin cruise redesign-->
+    <!--Itin cruise toolbar title template. (e.g. Cruise to Hawaii)-->
+    <string name="itin_cruise_toolbar_title_TEMPLATE">前往{destination}的游轮</string>
+    <!--Itin cruise share email subject-->
+    <string name="itin_cruise_share_email_subject">我的游轮预订</string>
+    <!--Itin cruise share email body template. (e.g. Hi,\n\nHere are the details of my cruise reservation:\n8 Day Cruise to Hawaii\n\nItinerary #:\n12341234\nCruise Line:\nAwesome Cruise\nShip Name:\nCool Ship\n\nEmbarkation:\n2:00pm on Friday, March 28, San Jose, USA\nDisembarkation:\n4:00pm on Monday, April 20, Barcelona, Spain-->
+    <string name="itin_cruise_share_email_body_TEMPLATE">您好，\n\n这是我的游轮预订详细信息：\n{reservation}\n\n行程编号：\n{itin_number}\n游轮公司：\n{cruise_line}\n游轮名称：\n{ship_name}\n\n登船时间：\n{embark_date} {embark_time}，{departure_port}\n上岸时间：\n{disembark_date}{disembark_time}，{disembark_port}</string>
+    <!--Itin cruise share sms template. (e.g. Details for:\n5 day Mediterranean Cruise\n\nDeparts at 6:15pm on May 17\nArrives at 9:45am on May 28\nItinerary #: 123412341234124\nCruise Line: MSC Cruises\nShip Name: MSC Fantasia)-->
+    <string name="itin_cruise_share_sms_TEMPLATE">行程详细信息：\n{reservation}\n\n出发时间：{depart_date} {depart_time}\n到达时间：{arrive_date} {arrive_time}\n行程编号：{itin_number}\n游轮公司：{cruise_line}\n游轮名称：{ship_name}</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">分享行程</string>
@@ -2179,8 +2197,6 @@
     <string name="payment_through_card_and_pwp_points">您使用了 {points} 个 Expedia Rewards 积分（价值 {amount}）\n您的卡将被收取 {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成预订</string>
-    <!-- Our price gaurentee string -->
-    <string name="price_guarantee">价格保证</string>
     <!-- Sign out -->
     <string name="sign_out">退出</string>
     <!-- You'll earn points for this trip -->
@@ -2248,8 +2264,6 @@
     <!-- Flight -->
     <string name="flight">机票</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">添加旅客</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">主要旅客</string>
     <!-- Heading for selecting travelers on flights and packages -->
@@ -2261,8 +2275,6 @@
     <string name="select_traveler">选择联系人</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">添加新旅客</string>
-    <!-- Add Guest for hotels -->
-    <string name="guest_details">住客详细信息</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">旅客姓名必须与政府签发的带照片的身份证件完全相符。</string>
     <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
@@ -2762,10 +2774,6 @@
 
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
-    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate">$$</string>
-    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive">$$$</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -3176,8 +3184,6 @@
     <string name="sign_out_confirmation_TEMPLATE">确定要退出您的 {brand} 帐户？</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">正在加载 {brand} 帐户</string>
-    <!-- Label for coupon code hint -->
-    <string name="optional">可选</string>
     <!-- Label applying a coupon -->
     <string name="apply">应用</string>
     <!-- Google Account Change -->
@@ -3951,8 +3957,6 @@
 
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">缩小搜索范围</string>
-    <!-- Prompt to try new filter after scrolling hotel results  -->
-    <string name="new_filters_available">新筛选条件可用！</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">根据您的付款方式，可能会有额外收费。</string>
@@ -5112,7 +5116,7 @@
     <string name="book_now_savings_for_booking_together">立即预订！一起订，享优惠</string>
 
     <string name="flight_route_happy_guide_button_label">知道了</string>
-    <string name="flight_route_happy_guide_wifi_label">WiFi</string>
+    <string name="flight_route_happy_guide_wifi_label">Wi-Fi</string>
     <string name="flight_route_happy_guide_entertainment_label">娱乐</string>
     <string name="flight_route_happy_guide_power_label">电源</string>
     <string name="flight_route_happy_guide_rating_label">9/10 - 极好！</string>

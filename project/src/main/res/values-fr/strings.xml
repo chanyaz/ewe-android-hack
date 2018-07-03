@@ -1454,6 +1454,8 @@
     <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} points de base pour ce voyage</string>
     <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
     <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} points bonus pour {program}</string>
+    <!--Hotel itin card price summary rewards pending points button text-->
+    <string name="itin_hotel_details_price_summary_rewards_pending_points_button">Où sont mes points ?</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Informations supplémentaires</string>
     <!--Hotel itin checkin text-->
@@ -1568,6 +1570,22 @@
     <string name="itin_car_location_type_heading_pick_up">Lieu de prise en charge :</string>
     <!--Itin car drop off location heading-->
     <string name="itin_car_location_type_heading_drop_off">Lieu de restitution :</string>
+    <!--Itin car share email subject. My {reservation}. (eg., My Alamo Car Rental)-->
+    <string name="itin_car_share_email_subject_TEMPLATE">Ma {reservation}</string>
+    <!--Itin car share email body. Hi,\n\nHere are the details of my {reservation}.\n\nItinerary #: {itin_number}\nVehicle: {vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPhone Number: {phone_number}\n\nPickup Location:\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nDrop off Location:\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free {brand} app\n{link} (eg., Hi,\n\nHere are the details of my Cool Car Rental.\n\nItinerary #: 344123412\nVehicle: Compact Car\nPickup on Thurs, May 5 at 8:00am\nDrop off on Friday, May 6 at 2:00pm\nPhone Number: 222-222-2222\n\nPickup Location:\nCool Rentals\n1234 Blah St., San Jose, CA 95130\n\nDrop off Location:\n1234 Blah St., San Jose, CA 95130\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free Expedia app\nwww.expedia.com)-->
+    <string name="itin_car_share_email_body_TEMPLATE">Bonjour,\n\nVoici les détails de ma {reservation}.\n\nN° de voyage : {itin_number}\nVéhicule : {vehicle_type}\nPrise en charge le {pickup_date} à {pickup_time}\nRestitution le {drop_off_date} à {drop_off_time}\nNuméro de téléphone : {phone_number}\n\nLieu de prise en charge :\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nLieu de restitution : \n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nRéservez des hôtels et des billets d\&apos;avion. Consultez et partagez vos voyages.\nTéléchargez l\&apos;appli {brand} gratuitement\n{link}</string>
+    <!--Itin car share email body. Details of my {reservation}.\n{vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPickup Location: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nDrop Off Location: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code} (eg., Details of my Awesome Car Rental.\nCompact Car\nPickup on May 29 at 12:00pm\nDrop off on May 30 at 2:00pm\nPickup Location: 12345 Blah Ave., San Jose, CA 94012\nDrop Off Location: 12345 Blah Ave., San Jose, CA 94012)-->
+    <string name="itin_car_share_sms_body_TEMPLATE">Détails de ma {reservation}.\n{vehicle_type}\nPrise en charge le {pickup_date} à {pickup_time}\nRestitution le {drop_off_date} à {drop_off_time}\nLieu de prise en charge : {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nLieu de restitution : {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}</string>
+
+    <!--Itin cruise redesign-->
+    <!--Itin cruise toolbar title template. (e.g. Cruise to Hawaii)-->
+    <string name="itin_cruise_toolbar_title_TEMPLATE">Croisière à {destination}</string>
+    <!--Itin cruise share email subject-->
+    <string name="itin_cruise_share_email_subject">Ma réservation de croisière</string>
+    <!--Itin cruise share email body template. (e.g. Hi,\n\nHere are the details of my cruise reservation:\n8 Day Cruise to Hawaii\n\nItinerary #:\n12341234\nCruise Line:\nAwesome Cruise\nShip Name:\nCool Ship\n\nEmbarkation:\n2:00pm on Friday, March 28, San Jose, USA\nDisembarkation:\n4:00pm on Monday, April 20, Barcelona, Spain-->
+    <string name="itin_cruise_share_email_body_TEMPLATE">Bonjour,\n\nVoici les détails de ma réservation de croisière : \n{reservation}\n\nN° de voyage : \n{itin_number}\nCompagnie maritime : \n{cruise_line}\nNom du bateau : \n{ship_name}\n\nEmbarquement : \n{embark_time} le {embark_date}, {departure_port}\nDébarquement : \n{disembark_time} le {disembark_date}, {disembark_port}</string>
+    <!--Itin cruise share sms template. (e.g. Details for:\n5 day Mediterranean Cruise\n\nDeparts at 6:15pm on May 17\nArrives at 9:45am on May 28\nItinerary #: 123412341234124\nCruise Line: MSC Cruises\nShip Name: MSC Fantasia)-->
+    <string name="itin_cruise_share_sms_TEMPLATE">Détails pour : \n{reservation}\n\nDépart à {depart_time} le {depart_date}\nArrivée à {arrive_time} le {arrive_date}\nN° de voyage : {itin_number}\nCompagnie maritime : {cruise_line}\nNom du bateau : {ship_name}</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Partager votre voyage</string>
@@ -2179,8 +2197,6 @@
     <string name="payment_through_card_and_pwp_points">Vous allez utiliser {points} points Expedia Rewards ({amount})\nUn montant de {dueamount} sera facturé sur votre carte.</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finaliser la réservation</string>
-    <!-- Our price gaurentee string -->
-    <string name="price_guarantee">Garantie de prix</string>
     <!-- Sign out -->
     <string name="sign_out">Se déconnecter</string>
     <!-- You'll earn points for this trip -->
@@ -2248,8 +2264,6 @@
     <!-- Flight -->
     <string name="flight">Vol</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Ajouter un voyageur</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Voyageur principal</string>
     <!-- Heading for selecting travelers on flights and packages -->
@@ -2261,8 +2275,6 @@
     <string name="select_traveler">Sélectionner un contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Ajouter un nouveau voyageur</string>
-    <!-- Add Guest for hotels -->
-    <string name="guest_details">Informations du client</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">Le nom complet du voyageur doit correspondre exactement à celui figurant sur la pièce d\&apos;identité.</string>
     <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
@@ -2762,10 +2774,6 @@
 
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
-    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate">$$</string>
-    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive">$$$</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -3176,8 +3184,6 @@
     <string name="sign_out_confirmation_TEMPLATE">Êtes-vous sûr de vouloir vous déconnecter de votre compte {brand} ?</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Chargement de votre compte {brand}</string>
-    <!-- Label for coupon code hint -->
-    <string name="optional">Facultatif</string>
     <!-- Label applying a coupon -->
     <string name="apply">Appliquer</string>
     <!-- Google Account Change -->
@@ -3951,8 +3957,6 @@
 
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Cibler vos résultats</string>
-    <!-- Prompt to try new filter after scrolling hotel results  -->
-    <string name="new_filters_available">Nouveaux filtres disponibles !</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Des frais supplémentaires peuvent s\&apos;appliquer en fonction du moyen de paiement utilisé.</string>

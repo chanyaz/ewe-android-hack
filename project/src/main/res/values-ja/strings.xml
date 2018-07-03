@@ -1454,6 +1454,8 @@
     <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 このご旅行の基本ポイント - {points}</string>
     <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
     <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {program}のボーナスポイント - {points}</string>
+    <!--Hotel itin card price summary rewards pending points button text-->
+    <string name="itin_hotel_details_price_summary_rewards_pending_points_button">ポイントはどこで確認できますか ?</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">追加情報</string>
     <!--Hotel itin checkin text-->
@@ -1568,6 +1570,22 @@
     <string name="itin_car_location_type_heading_pick_up">借出場所 :</string>
     <!--Itin car drop off location heading-->
     <string name="itin_car_location_type_heading_drop_off">返却場所 :</string>
+    <!--Itin car share email subject. My {reservation}. (eg., My Alamo Car Rental)-->
+    <string name="itin_car_share_email_subject_TEMPLATE">{reservation}予約について</string>
+    <!--Itin car share email body. Hi,\n\nHere are the details of my {reservation}.\n\nItinerary #: {itin_number}\nVehicle: {vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPhone Number: {phone_number}\n\nPickup Location:\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nDrop off Location:\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free {brand} app\n{link} (eg., Hi,\n\nHere are the details of my Cool Car Rental.\n\nItinerary #: 344123412\nVehicle: Compact Car\nPickup on Thurs, May 5 at 8:00am\nDrop off on Friday, May 6 at 2:00pm\nPhone Number: 222-222-2222\n\nPickup Location:\nCool Rentals\n1234 Blah St., San Jose, CA 95130\n\nDrop off Location:\n1234 Blah St., San Jose, CA 95130\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free Expedia app\nwww.expedia.com)-->
+    <string name="itin_car_share_email_body_TEMPLATE">こんにちは。\n\n{reservation}の詳細をお知らせします。\n\n旅程番号 : {itin_number}\n車種 : {vehicle_type}\n借出{pickup_date} : {pickup_time}\n返却{drop_off_date} : {drop_off_time}\n電話番号 : {phone_number}\n\n借出場所 :\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\n返却場所 :\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nホテル、航空券の予約から、旅程の確認やシェアまでこれひとつ ! \n無料の{brand}アプリをダウンロード\n{link}</string>
+    <!--Itin car share email body. Details of my {reservation}.\n{vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPickup Location: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nDrop Off Location: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code} (eg., Details of my Awesome Car Rental.\nCompact Car\nPickup on May 29 at 12:00pm\nDrop off on May 30 at 2:00pm\nPickup Location: 12345 Blah Ave., San Jose, CA 94012\nDrop Off Location: 12345 Blah Ave., San Jose, CA 94012)-->
+    <string name="itin_car_share_sms_body_TEMPLATE">{reservation} の詳細\n{vehicle_type}\n借出日時 : {pickup_date} {pickup_time}\n返却日時 : {drop_off_date} {drop_off_time}\n借出場所 : {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n返却場所 : {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}</string>
+
+    <!--Itin cruise redesign-->
+    <!--Itin cruise toolbar title template. (e.g. Cruise to Hawaii)-->
+    <string name="itin_cruise_toolbar_title_TEMPLATE">{destination}行きクルーズ</string>
+    <!--Itin cruise share email subject-->
+    <string name="itin_cruise_share_email_subject">クルーズ予約</string>
+    <!--Itin cruise share email body template. (e.g. Hi,\n\nHere are the details of my cruise reservation:\n8 Day Cruise to Hawaii\n\nItinerary #:\n12341234\nCruise Line:\nAwesome Cruise\nShip Name:\nCool Ship\n\nEmbarkation:\n2:00pm on Friday, March 28, San Jose, USA\nDisembarkation:\n4:00pm on Monday, April 20, Barcelona, Spain-->
+    <string name="itin_cruise_share_email_body_TEMPLATE">こんにちは。\n\nクルーズ予約の詳細をお知らせします。\n{reservation}\n\n旅程番号 :\n{itin_number}\nクルーズ会社 :\n{cruise_line}\n船名 :\n{ship_name}\n\n乗船 : \n{embark_date} {embark_time}、 {departure_port}\n下船 :\n{disembark_date} {disembark_time}、{disembark_port}</string>
+    <!--Itin cruise share sms template. (e.g. Details for:\n5 day Mediterranean Cruise\n\nDeparts at 6:15pm on May 17\nArrives at 9:45am on May 28\nItinerary #: 123412341234124\nCruise Line: MSC Cruises\nShip Name: MSC Fantasia)-->
+    <string name="itin_cruise_share_sms_TEMPLATE">クルーズの詳細 : \n{reservation}\n\n出発 : {depart_date} {depart_time} \n到着 : {arrive_date} {arrive_time}\n旅程番号 : {itin_number}\nクルーズ会社 : {cruise_line}\n船名 : {ship_name}</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">旅程をシェアする</string>
@@ -2179,8 +2197,6 @@
     <string name="payment_through_card_and_pwp_points">{points} エクスペディア会員プログラム ポイント ({amount} 相当) を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">予約を完了する</string>
-    <!-- Our price gaurentee string -->
-    <string name="price_guarantee">価格保証</string>
     <!-- Sign out -->
     <string name="sign_out">ログアウト</string>
     <!-- You'll earn points for this trip -->
@@ -2248,8 +2264,6 @@
     <!-- Flight -->
     <string name="flight">航空券</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">旅行者情報を入力</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">代表者</string>
     <!-- Heading for selecting travelers on flights and packages -->
@@ -2261,8 +2275,6 @@
     <string name="select_traveler">代表者を選択</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">新しい旅行者情報を追加</string>
-    <!-- Add Guest for hotels -->
-    <string name="guest_details">ゲストの詳細</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">旅行者の氏名は、パスポートに記載されている氏名と一致している必要があります。</string>
     <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
@@ -2762,10 +2774,6 @@
 
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
-    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate">$$</string>
-    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive">$$$</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -3176,8 +3184,6 @@
     <string name="sign_out_confirmation_TEMPLATE">{brand}のアカウントからログアウトしてもよろしいですか ?</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">{brand}アカウントを読み込み中</string>
-    <!-- Label for coupon code hint -->
-    <string name="optional">オプション</string>
     <!-- Label applying a coupon -->
     <string name="apply">適用</string>
     <!-- Google Account Change -->
@@ -3951,8 +3957,6 @@
 
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">検索結果を絞り込む</string>
-    <!-- Prompt to try new filter after scrolling hotel results  -->
-    <string name="new_filters_available">新しい絞り込み条件登場 !</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">お支払い方法に応じて追加手数料が課金される場合があります。</string>

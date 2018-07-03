@@ -723,7 +723,7 @@
     <!-- Label indicating the price include hotel, flight-->
     <string name="package_prices_roundtrip_person_minimum_fsr_label">Prijs per persoon voor hotel en retourvlucht vanaf…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
-    <string name="trip_bucket_sold_out">Uitverkocht</string>
+    <string name="trip_bucket_sold_out">Uitverkocht bij Expedia</string>
     <!-- Label indicating that package the price is Per person and includes hotel + flights -->
     <string name="pacakge_price_per_person_includes_hotel_and_flight_message">Per persoon (hotel + vluchten)</string>
     <!-- Label indicating that the price includes taxes and fees -->
@@ -1454,6 +1454,8 @@
     <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} basispunten voor deze reis</string>
     <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
     <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} bonuspunten voor {program}</string>
+    <!--Hotel itin card price summary rewards pending points button text-->
+    <string name="itin_hotel_details_price_summary_rewards_pending_points_button">Waar kan ik mijn punten vinden?</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Extra info</string>
     <!--Hotel itin checkin text-->
@@ -1568,6 +1570,22 @@
     <string name="itin_car_location_type_heading_pick_up">Ophaallocatie:</string>
     <!--Itin car drop off location heading-->
     <string name="itin_car_location_type_heading_drop_off">Afleverlocatie:</string>
+    <!--Itin car share email subject. My {reservation}. (eg., My Alamo Car Rental)-->
+    <string name="itin_car_share_email_subject_TEMPLATE">Mijn {reservation}</string>
+    <!--Itin car share email body. Hi,\n\nHere are the details of my {reservation}.\n\nItinerary #: {itin_number}\nVehicle: {vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPhone Number: {phone_number}\n\nPickup Location:\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nDrop off Location:\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free {brand} app\n{link} (eg., Hi,\n\nHere are the details of my Cool Car Rental.\n\nItinerary #: 344123412\nVehicle: Compact Car\nPickup on Thurs, May 5 at 8:00am\nDrop off on Friday, May 6 at 2:00pm\nPhone Number: 222-222-2222\n\nPickup Location:\nCool Rentals\n1234 Blah St., San Jose, CA 95130\n\nDrop off Location:\n1234 Blah St., San Jose, CA 95130\n\nBook hotels, flights and view &amp; share your itineraries.\nDownload the free Expedia app\nwww.expedia.com)-->
+    <string name="itin_car_share_email_body_TEMPLATE">Hallo,\n\nDit zijn de gegevens van mijn {reservation}.\n\nReisplannr.: {itin_number}\nVoertuig: {vehicle_type}\nOphalen op {pickup_date} om {pickup_time}\nAfleveren op {drop_off_date} om {drop_off_time}\nTelefoonnummer: {phone_number}\n\nOphaallocatie:\n{vendor}\n{pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\n\nAfleverlocatie:\n{drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}\n\nBoek hotels, vluchten en bekijk &amp; deel je reisplannen.\nDownload de gratis {brand}-app\n{link}</string>
+    <!--Itin car share email body. Details of my {reservation}.\n{vehicle_type}\nPickup on {pickup_date} at {pickup_time}\nDrop off on {drop_off_date} at {drop_off_time}\nPickup Location: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nDrop Off Location: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code} (eg., Details of my Awesome Car Rental.\nCompact Car\nPickup on May 29 at 12:00pm\nDrop off on May 30 at 2:00pm\nPickup Location: 12345 Blah Ave., San Jose, CA 94012\nDrop Off Location: 12345 Blah Ave., San Jose, CA 94012)-->
+    <string name="itin_car_share_sms_body_TEMPLATE">Details van mijn {reservation}.\n{vehicle_type}\nOphalen op {pickup_date} om {pickup_time}\nAfleveren op {drop_off_date} om {drop_off_time}\nOphaallocatie: {pickup_address}, {pickup_city}, {pickup_state} {pickup_postal_code}\nAfleverlocatie: {drop_off_address}, {drop_off_city}, {drop_off_state} {drop_off_postal_code}</string>
+
+    <!--Itin cruise redesign-->
+    <!--Itin cruise toolbar title template. (e.g. Cruise to Hawaii)-->
+    <string name="itin_cruise_toolbar_title_TEMPLATE">Cruise naar {destination}</string>
+    <!--Itin cruise share email subject-->
+    <string name="itin_cruise_share_email_subject">Mijn cruiseboeking</string>
+    <!--Itin cruise share email body template. (e.g. Hi,\n\nHere are the details of my cruise reservation:\n8 Day Cruise to Hawaii\n\nItinerary #:\n12341234\nCruise Line:\nAwesome Cruise\nShip Name:\nCool Ship\n\nEmbarkation:\n2:00pm on Friday, March 28, San Jose, USA\nDisembarkation:\n4:00pm on Monday, April 20, Barcelona, Spain-->
+    <string name="itin_cruise_share_email_body_TEMPLATE">Hallo!\n\nDit zijn de details van mijn cruiseboeking:\n{reservation}\n\nreisplannr.:\n{itin_number}\nCruisemaatschappij:\n{cruise_line}\nNaam van het schip:\n{ship_name}\n\nAan boord gaan:\n{embark_time} op {embark_date}, {departure_port}\nVan boord gaan: \n{disembark_time} op {disembark_date}, {disembark_port}</string>
+    <!--Itin cruise share sms template. (e.g. Details for:\n5 day Mediterranean Cruise\n\nDeparts at 6:15pm on May 17\nArrives at 9:45am on May 28\nItinerary #: 123412341234124\nCruise Line: MSC Cruises\nShip Name: MSC Fantasia)-->
+    <string name="itin_cruise_share_sms_TEMPLATE">Details van:\n{reservation}\n\nVertrek om {depart_time} op {depart_date}\nAankomst om {arrive_time} op {arrive_date}\nreisplannr.: {itin_number}\nCruisemaatschappij: {cruise_line}\nNaam van het schip: {ship_name}</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Deel reisplan</string>
@@ -1978,7 +1996,7 @@
     <!-- Flights Sold out error screen:- warning message -->
     <string name="flight_sold_out_warning">Het spijt ons! Deze vlucht is uitverkocht bij Expedia.</string>
     <!-- Flights Sold out error screen:- toolbar title -->
-    <string name="flight_sold_out_toolbar_title">Uitverkocht</string>
+    <string name="flight_sold_out_toolbar_title">Uitverkocht bij Expedia</string>
     <!-- Flight Unavailable error screen:- toolbar title -->
     <string name="flight_unavailable_toolbar_title">Vlucht niet beschikbaar</string>
     <!-- Flight Unavailable error screen:- warning -->
@@ -2179,8 +2197,6 @@
     <string name="payment_through_card_and_pwp_points">Je gebruikt {points} ({amount}) Expedia Rewards-punten\nOp je kaart wordt {dueamount} in rekening gebracht</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Boeking voltooien</string>
-    <!-- Our price gaurentee string -->
-    <string name="price_guarantee">Prijsgarantie</string>
     <!-- Sign out -->
     <string name="sign_out">Afmelden</string>
     <!-- You'll earn points for this trip -->
@@ -2248,8 +2264,6 @@
     <!-- Flight -->
     <string name="flight">Vlucht</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Reiziger toevoegen</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Hoofdreiziger</string>
     <!-- Heading for selecting travelers on flights and packages -->
@@ -2261,8 +2275,6 @@
     <string name="select_traveler">Selecteer contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Nieuwe reiziger toevoegen</string>
-    <!-- Add Guest for hotels -->
-    <string name="guest_details">Reizigersinfo</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">De reizigersnaam dient exact overeen te komen met de naam op het identiteitsbewijs.</string>
     <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
@@ -2762,10 +2774,6 @@
 
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">€</string>
-    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate">€€</string>
-    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive">€€€</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -2773,7 +2781,7 @@
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Selecteer een andere kamer</string>
     <!-- Message displayed when room is sold out -->
-    <string name="error_room_sold_out">Deze kamer is uitverkocht.</string>
+    <string name="error_room_sold_out">Deze kamer is uitverkocht bij Expedia.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">Sorry, dit hotel is niet meer beschikbaar bij {brand}.</string>
 
@@ -2813,7 +2821,7 @@
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">In deze buurt zoeken</string>
     <!-- Map pin text for sold out hotel(s)-->
-    <string name="sold_out">Uitverkocht</string>
+    <string name="sold_out">Uitverkocht bij Expedia</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s hotels</string>
     <!-- Map cluster text for number of packages-->
@@ -3176,8 +3184,6 @@
     <string name="sign_out_confirmation_TEMPLATE">Ben je zeker dat je je wilt afmelden bij je {brand}-account?</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Bezig met laden van {brand}-account</string>
-    <!-- Label for coupon code hint -->
-    <string name="optional">Optioneel</string>
     <!-- Label applying a coupon -->
     <string name="apply">Toepassen</string>
     <!-- Google Account Change -->
@@ -3951,8 +3957,6 @@
 
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Verfijn je resultaten</string>
-    <!-- Prompt to try new filter after scrolling hotel results  -->
-    <string name="new_filters_available">Nieuwe filters beschikbaar!</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Mogelijk gelden er transactiekosten op basis van je betalingsmethode.</string>
@@ -4576,9 +4580,9 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">Wijziging mislukt</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Sorry, &lt;b&gt;{fare_family_name}&lt;/b&gt; is nu uitverkocht. Probeer opnieuw met een andere boekingsklasse. We hebben voorlopig je originele keuze weer gebruikt.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Sorry, &lt;b&gt;{fare_family_name}&lt;/b&gt; is nu uitverkocht bij Expedia. Probeer opnieuw met een andere boekingsklasse. We hebben voorlopig je originele keuze weer gebruikt.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Sorry, &lt;b&gt;{fare_family_name}&lt;/b&gt; is nu uitverkocht. Probeer opnieuw met een andere boekingsklasse. We hebben voorlopig je originele keuze weer gebruikt.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Sorry, &lt;b&gt;{fare_family_name}&lt;/b&gt; is nu uitverkocht bij Expedia. Probeer opnieuw met een andere boekingsklasse. We hebben voorlopig je originele keuze weer gebruikt.</string>
     <!-- Label for fare family upgrade option. Example. You've selected Comfort+  -->
     <string name="flight_fare_family_fare_label_TEMPLATE">Je hebt {fare_family_name} geselecteerd</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -5112,7 +5116,7 @@
     <string name="book_now_savings_for_booking_together">Boek nu! Boek samen en bespaar</string>
 
     <string name="flight_route_happy_guide_button_label">OK</string>
-    <string name="flight_route_happy_guide_wifi_label">wifi</string>
+    <string name="flight_route_happy_guide_wifi_label">Wifi</string>
     <string name="flight_route_happy_guide_entertainment_label">Entertainment</string>
     <string name="flight_route_happy_guide_power_label">Stroom</string>
     <string name="flight_route_happy_guide_rating_label">9/10 - Uitstekend!</string>
