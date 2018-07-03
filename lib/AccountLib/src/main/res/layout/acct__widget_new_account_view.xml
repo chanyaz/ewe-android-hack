@@ -5,29 +5,29 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/new_account_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationContentDescription="@string/acct__Toolbar_nav_close_icon_cont_desc"/>
+            app:navigationContentDescription="@string/acct__Toolbar_nav_close_icon_cont_desc" />
 
         <FrameLayout
             android:id="@+id/new_account_tabs_container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" >
+            android:layout_height="?attr/actionBarSize">
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/new_account_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
-                app:tabTextAppearance="@style/acct__TabTextAppearance"
                 app:tabGravity="fill"
-                app:tabMode="fixed" />
+                app:tabMode="fixed"
+                app:tabTextAppearance="@style/acct__TabTextAppearance" />
 
         </FrameLayout>
 
@@ -54,7 +54,7 @@
         android:id="@+id/new_account_facebook_link_accounts_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <FrameLayout
         android:id="@+id/new_account_loading_view"

@@ -21,6 +21,17 @@
             android:focusableInTouchMode="true">
 
             <Button
+                android:id="@+id/sign_in_with_google_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/acct__new_account_btn_padding"
+                android:backgroundTint="@color/acct__btn_facebook_normal"
+                android:textColor="@color/acct__btn_facebook_text"
+                android:text="@string/acct__Sign_In_with_Google"
+                android:textSize="14sp"
+                android:textAllCaps="false"/>
+
+            <Button
                 android:id="@+id/new_signin_with_facebook_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -15,6 +15,7 @@ import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.NewAccountView;
 import com.expedia.account.PanningImageView;
+import com.expedia.account.newsignin.NewSignInLayout;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -43,6 +44,11 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.TextView;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 import javax.inject.Inject;
 import butterknife.ButterKnife;
@@ -274,12 +280,31 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		if(requestCode == NewSignInLayout.GOOGLE_SIGN_IN){
+			Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+			handleSignInResult(task);
+
+		}
 		// Required for Facebook
-		if (isNewSignInEnabled) {
+		else if (isNewSignInEnabled) {
 			newAccountView.onActivityResult(requestCode, resultCode, data);
 		}
 		else {
 			accountView.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+		try {
+			GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+			Log.e("**********Account ID Token\n" + account.getIdToken());
+			Log.e("**********Account Auth Code\n" + account.getServerAuthCode());
+
+			// Signed in successfully, show authenticated UI.
+		} catch (ApiException e) {
+			// The ApiException status code indicates the detailed failure reason.
+			// Please refer to the GoogleSignInStatusCodes class reference for more information.
+			Log.e("**********Account failed Token\"=" + e.getStatusCode());
 		}
 	}
 

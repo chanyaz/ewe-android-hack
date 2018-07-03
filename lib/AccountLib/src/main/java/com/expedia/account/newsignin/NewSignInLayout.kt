@@ -1,5 +1,6 @@
 package com.expedia.account.newsignin
 
+import android.app.Activity
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
@@ -15,9 +16,14 @@ import com.expedia.account.input.rules.ExpediaPasswordSignInInputRule
 import com.expedia.account.singlepage.SinglePageInputTextPresenter
 import com.expedia.account.util.CombiningFakeObservable
 import com.expedia.account.util.Events
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import io.reactivex.subjects.BehaviorSubject
 
 class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
+
+
+    private val googleSignInButton: Button by lazy { findViewById<Button>(R.id.sign_in_with_google_button) }
 
     @VisibleForTesting val signInWithFacebookButton: Button by lazy { findViewById<Button>(R.id.new_signin_with_facebook_button) }
     private val emailInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_email_address) }
@@ -29,9 +35,15 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
 
     @VisibleForTesting lateinit var config: Config
 
+    companion object {
+        @JvmField
+        val GOOGLE_SIGN_IN = 2021
+    }
+
     init {
         View.inflate(context, R.layout.acct__widget_new_account_signin_view, this)
         allFieldsValidSubject.onNext(false)
+
         signInButton.setOnClickListener {
             config.analyticsListener.signInButtonClicked()
             if (allFieldsValidSubject.value) {
@@ -57,6 +69,17 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
         super.onFinishInflate()
         emailInput.setValidator(object : InputValidator(ExpediaEmailInputRule()) {})
         passwordInput.setValidator(object : InputValidator(ExpediaPasswordSignInInputRule()) {})
+
+        googleSignInButton.setOnClickListener {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken("438585675236-93h05ph3kn76s1fspqke46b18i8h2b6o.apps.googleusercontent.com")
+                    .requestServerAuthCode("438585675236-93h05ph3kn76s1fspqke46b18i8h2b6o.apps.googleusercontent.com")
+                    .build()
+            val mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
+            val signInIntent = mGoogleSignInClient.signInIntent
+            (context as Activity).startActivityForResult(signInIntent, GOOGLE_SIGN_IN)
+        }
+
         passwordInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 passwordInput.doneCheck()

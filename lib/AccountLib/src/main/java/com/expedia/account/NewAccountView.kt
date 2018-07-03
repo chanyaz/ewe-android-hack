@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.res.TypedArray
 import android.support.annotation.VisibleForTesting
 import android.support.design.widget.TabLayout
+import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -15,6 +16,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.account.handler.NewCreateAccountHandler
 import com.expedia.account.handler.NewSignInHandler
@@ -28,8 +30,12 @@ import com.expedia.account.util.Events
 import com.expedia.account.util.NewFacebookHelper
 import com.expedia.account.util.Utils
 import com.expedia.account.view.FacebookLinkAccountsLayout
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+
+
 
 open class NewAccountView(context: Context, attrs: AttributeSet) :
         FrameLayout(context, attrs), ViewWithLoadingIndicator, CreateAccountErrorRecoveryActions {
@@ -45,6 +51,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
     @VisibleForTesting val viewPager: SwipeDisabledViewPager by lazy { findViewById<SwipeDisabledViewPager>(R.id.new_account_viewpager) }
     private val signInLayout: NewSignInLayout by lazy { findViewById<NewSignInLayout>(R.id.new_account_signin_view) }
     private val createAccountLayout: NewCreateAccountLayout by lazy { findViewById<NewCreateAccountLayout>(R.id.new_account_create_view) }
+
     private val facebookLinkAccountsLayout: FacebookLinkAccountsLayout by lazy { findViewById<FacebookLinkAccountsLayout>(R.id.new_account_facebook_link_accounts_view) }
     private val loadingView: FrameLayout by lazy { findViewById<FrameLayout>(R.id.new_account_loading_view) }
 
