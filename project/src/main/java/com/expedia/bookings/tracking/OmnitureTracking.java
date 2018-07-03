@@ -3632,6 +3632,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
 		trackAbacusTest(s, AbacusUtils.HomeScreenDisplayLogic);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountGoogleSignin);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountNewSignIn);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppBottomNavTabs);
 		if (PointOfSale.getPointOfSale().shouldShowJoinRewardsCard()) {
