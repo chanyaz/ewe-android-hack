@@ -39,39 +39,39 @@ class LxExtensionsTest {
     @Test
     fun getLatLongHappyPathTest() {
         val happyItin = ItinMocker.lxDetailsHappy.activities?.first()
-        assertEquals(37.76974, happyItin?.activityLocation?.latitude)
-        assertEquals(-122.46614, happyItin?.activityLocation?.longitude)
+        assertEquals(37.76974, happyItin?.redemptionLocations?.firstOrNull()?.latitude)
+        assertEquals(-122.46614, happyItin?.redemptionLocations?.firstOrNull()?.longitude)
         assertNotNull(happyItin?.getLatLng())
     }
 
     @Test
     fun getLatLongOnlyLongReturnedTest() {
         val itinWithNoLat = ItinMocker.lxDetailsNoDetailsUrl.activities?.first()
-        assertNull(itinWithNoLat?.activityLocation?.latitude)
-        assertEquals(-122.46614, itinWithNoLat?.activityLocation?.longitude)
+        assertNull(itinWithNoLat?.redemptionLocations?.firstOrNull()?.latitude)
+        assertEquals(-122.46614, itinWithNoLat?.redemptionLocations?.firstOrNull()?.longitude)
         assertNull(itinWithNoLat?.getLatLng())
     }
 
     @Test
     fun getLatLongOnlyLatReturnedTest() {
         val itinWithNoLng = ItinMocker.lxDetailsInvalidLatLong.activities?.first()
-        assertEquals(37.76974, itinWithNoLng?.activityLocation?.latitude)
-        assertNull(itinWithNoLng?.activityLocation?.longitude)
+        assertEquals(37.76974, itinWithNoLng?.redemptionLocations?.firstOrNull()?.latitude)
+        assertNull(itinWithNoLng?.redemptionLocations?.firstOrNull()?.longitude)
         assertNull(itinWithNoLng?.getLatLng())
     }
 
     @Test
     fun getLatLongWhenBothAreNullTest() {
         val itinWithNoLatLng = ItinMocker.lxDetailsNoLatLong.activities?.first()
-        assertNull(itinWithNoLatLng?.activityLocation?.latitude)
-        assertNull(itinWithNoLatLng?.activityLocation?.longitude)
+        assertNull(itinWithNoLatLng?.redemptionLocations?.firstOrNull()?.latitude)
+        assertNull(itinWithNoLatLng?.redemptionLocations?.firstOrNull()?.longitude)
         assertNull(itinWithNoLatLng?.getLatLng())
     }
 
     @Test
     fun getNameLocationPairHappyPathTest() {
         val happyItin = ItinMocker.lxDetailsHappy.activities?.first()
-        assertEquals("California Academy of Sciences", happyItin?.activityLocation?.name1)
+        assertEquals("California Academy of Sciences", happyItin?.redemptionLocations?.firstOrNull()?.name1)
         assertEquals("San Francisco, CA, USA, 94118", happyItin?.buildSecondaryAddress())
         assertEquals(happyItin?.getNameLocationPair(), Pair("California Academy of Sciences", "San Francisco, CA, USA, 94118"))
     }
@@ -79,7 +79,7 @@ class LxExtensionsTest {
     @Test
     fun getNameLocationPairNameNotReturnedTest() {
         val happyItin = ItinMocker.lxDetailsNoLat.activities?.first()
-        assertNull(happyItin?.activityLocation?.name1)
+        assertNull(happyItin?.redemptionLocations?.firstOrNull()?.name1)
         assertEquals("San Francisco, CA, USA, 94118", happyItin?.buildSecondaryAddress())
         assertEquals(happyItin?.getNameLocationPair(), Pair(null, "San Francisco, CA, USA, 94118"))
     }
@@ -87,7 +87,7 @@ class LxExtensionsTest {
     @Test
     fun getNameLocationPairLocationNotReturnedTest() {
         val happyItin = ItinMocker.lxDetailsNoDetailsUrl.activities?.first()
-        assertEquals("California Academy of Sciences", happyItin?.activityLocation?.name1)
+        assertEquals("California Academy of Sciences", happyItin?.redemptionLocations?.firstOrNull()?.name1)
         assertTrue(happyItin?.buildSecondaryAddress().isNullOrEmpty())
         assertEquals(happyItin?.getNameLocationPair(), Pair("California Academy of Sciences", ""))
     }

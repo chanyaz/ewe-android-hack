@@ -33,7 +33,7 @@ class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel() where
             }
         }
         itin?.firstLx()?.let { itinLx ->
-            val location = itinLx.activityLocation
+            val location = itinLx.redemptionLocations?.firstOrNull()
             if (location?.addressLine1 != null) {
                 addressLineFirstSubject.onNext(location.addressLine1)
             }

@@ -28,6 +28,6 @@ class ItinLxParsingTest {
         val lx = itin?.activities?.first()
         assertNotNull(lx)
         assertEquals("200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736", lx?.uniqueID)
-        assertEquals("San Francisco", lx?.activityLocation?.city)
+        assertEquals("San Francisco", lx?.redemptionLocations?.firstOrNull()?.city)
     }
 }

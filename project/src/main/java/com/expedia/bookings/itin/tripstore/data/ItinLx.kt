@@ -2,7 +2,7 @@ package com.expedia.bookings.itin.tripstore.data
 
 data class ItinLx(
         val uniqueID: String?,
-        val activityLocation: ActivityLocation?,
+        val redemptionLocations: List<RedemptionLocations>?,
         val activityId: String?,
         val travelerCount: String?,
         val travelers: List<Traveler>?,
@@ -16,7 +16,7 @@ data class ItinLx(
         val endTime: ItinTime?
 ) : ItinLOB
 
-data class ActivityLocation(
+data class RedemptionLocations(
         val name1: String?,
         val city: String?,
         val addressLine1: String?,

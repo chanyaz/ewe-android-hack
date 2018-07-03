@@ -27,7 +27,7 @@ class LxItinToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel where S 
         }
         itin?.firstLx()?.let { itinLx ->
             val stringProvider = scope.strings
-            val lxCity = itinLx.activityLocation?.city
+            val lxCity = itinLx.redemptionLocations?.firstOrNull()?.city
             if (lxCity != null) {
                 val title = stringProvider.fetchWithPhrase(R.string.itin_lx_toolbar_title_TEMPLATE, mapOf("location" to lxCity))
                 toolbarTitleSubject.onNext(title)
