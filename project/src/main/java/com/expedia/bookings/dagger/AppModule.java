@@ -422,7 +422,7 @@ public class AppModule {
 	@Singleton
 	SatelliteServices provideSatelliteServices(EndpointProvider endpointProvider, OkHttpClient client,
 		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
-		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
+		return new SatelliteServices(endpointProvider.getE3EndpointUrl(), client, interceptor,
 			satelliteInterceptor,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
