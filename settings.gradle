@@ -8,6 +8,3 @@ include ':lib:AndroidUtils'
 include ':lib:AndroidTime'
 include ':lib:mocked:mocke3'
 include ':lib:AccountLib'
-
-// Sample Test Apps
-include ':testApp:AccountTestApp'

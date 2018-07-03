@@ -10,8 +10,6 @@
     <color name="brand_primary">@color/brand2</color>
     <color name="brand_secondary">@color/brand1</color>
 
-    <color name="canvas_color">@color/neutral200</color>
-
     <color name="app_divider_on_white">@color/neutral300</color>
     <color name="app_divider_on_gray">@color/neutral400</color>
 
@@ -72,16 +70,11 @@
     <color name="itin_text_sub_color">@color/neutral700</color>
     <color name="itin_text_common_color">@color/neutral900</color>
     <color name="itin_text_white_color">@color/neutralWhite</color>
-    <color name="itin_selected_tab_color">@color/neutralWhite</color>
     <color name="itin_taxi_background_color">@color/neutral800</color>
     <color name="itin_taxi_secondary_background_color">@color/neutral600</color>
     <color name="itin_link_off_card_chevron">@color/neutral600</color>
     <color name="itin_action_vertical_divider_color">@color/neutral200</color>
-    <color name="itin_map_pin_color">@color/accent2</color>
     <color name="itin_icon_color">@color/accent2</color>
-    <color name="itin_booking_info_color">@color/neutral700</color>
-    <color name="itin_toolbar_color">@color/accent2</color>
-    <color name="itin_seat_color">@color/neutral900</color>
 
     <!-- Old Flights colors -->
     <!-- TODO: Delete all of this? -->

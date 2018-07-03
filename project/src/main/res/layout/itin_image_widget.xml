@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:padding="16dp"
-            android:textColor="@color/itin_standard_text_color"
+            android:textColor="@color/itin_text_common_color"
             android:textSize="16sp"
             android:visibility="gone"
             android:textStyle="bold"

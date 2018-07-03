@@ -34,7 +34,7 @@ class GoogleMapsLiteMapView(context: Context, attributeSet: AttributeSet) : Fram
     private val DEFAULT_ZOOM = 14f
     private val DEFAULT_ICON = R.drawable.map_marker_blue
     private val AIRPORT_ICON = R.drawable.flight_itin_map_airport_icon
-    private val PIN_COLOR = R.color.itin_map_pin_color
+    private val PIN_COLOR = R.color.itin_icon_color
     private lateinit var viewModel: GoogleMapsLiteViewModel
 
     init {

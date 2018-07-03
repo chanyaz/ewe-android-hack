@@ -20,25 +20,23 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.data.HotelAdapterItem
+import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
+import com.expedia.bookings.hotel.widget.viewholder.AddOnAttachViewHolder
 import com.expedia.bookings.hotel.widget.viewholder.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.viewholder.HotelUrgencyViewHolder
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 import com.expedia.util.endlessObserver
-import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
-import com.expedia.bookings.hotel.widget.viewholder.AddOnAttachViewHolder
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.hotel_review_row.view.*
 import java.util.ArrayList
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,

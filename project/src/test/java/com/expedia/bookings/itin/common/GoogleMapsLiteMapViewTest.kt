@@ -22,7 +22,7 @@ class GoogleMapsLiteMapViewTest {
     lateinit var mockDrawable: Drawable
 
     private val AIRPORT_ICON = R.drawable.flight_itin_map_airport_icon
-    private val PIN_COLOR = R.color.itin_map_pin_color
+    private val PIN_COLOR = R.color.itin_icon_color
 
     @Before
     fun setup() {

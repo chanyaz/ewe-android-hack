@@ -21,7 +21,7 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
             android:focusable="true"
-            android:tint="@color/itin_standard_text_color"
+            android:tint="@color/itin_text_common_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
