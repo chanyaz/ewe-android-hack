@@ -26,7 +26,6 @@ class TripFolderLobIconViewTest {
         view.viewModel = TripFolderLobIconViewModel()
         testObserver = TestObserver()
         view.viewModel.tripFolderProductSubject.subscribe(testObserver)
-
     }
 
     @After

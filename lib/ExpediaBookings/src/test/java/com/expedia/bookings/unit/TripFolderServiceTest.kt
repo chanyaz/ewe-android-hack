@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit
 
 import com.expedia.bookings.data.trips.TripFolder
+import com.expedia.bookings.data.trips.TripFolderProduct
 import com.expedia.bookings.data.trips.TripFolderState
 import com.expedia.bookings.data.trips.TripFolderTiming
 import com.expedia.bookings.interceptors.MockInterceptor
@@ -64,6 +65,6 @@ class TripFolderServiceTest {
         assertEquals(-25200, actualFolder.endTime.timeZoneOffsetSeconds)
         assertEquals(TripFolderState.BOOKED, actualFolder.state)
         assertEquals(TripFolderTiming.UPCOMING, actualFolder.timing)
-        assertEquals(listOf("Hotel"), actualFolder.lobs)
+        assertEquals(listOf(TripFolderProduct.HOTEL), actualFolder.lobs)
     }
 }
