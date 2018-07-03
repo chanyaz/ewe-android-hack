@@ -204,16 +204,18 @@
         "lxVoucherPrintURL": "https://www.expedia.com/things-to-do/voucher/?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0",
         "destinationRegionId": "6023769",
         "unbookedPackageV2": false,
-        "activityLocation": {
-          "latitude": 37.76974,
-          "longitude": -122.46614,
-          "addressLine1": "55 Music Concourse Drive",
-          "city": "San Francisco",
-          "countrySubdivisionCode": "CA",
-          "postalCode": "94118",
-          "countryCode": "USA",
-          "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
-        }
+        "redemptionLocations": [
+          {
+            "latitude": 37.76974,
+            "longitude": -122.46614,
+            "addressLine1": "55 Music Concourse Drive",
+            "city": "San Francisco",
+            "countrySubdivisionCode": "CA",
+            "postalCode": "94118",
+            "countryCode": "USA",
+            "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
+          }
+        ]
       }
     ],
     "totalTripPrice": {
