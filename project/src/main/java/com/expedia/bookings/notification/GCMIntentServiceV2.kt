@@ -11,7 +11,7 @@ import com.mobiata.android.Log
 import org.json.JSONObject
 import javax.inject.Inject
 
-class GCMIntentServiceV2 : IntentService("GCMIntentServiceV2: " + PushNotificationUtils.SENDER_ID) {
+class GCMIntentServiceV2 : IntentService("GCMIntentServiceV2: " + PushNotificationUtilsV2.SENDER_ID) {
     var intenaryManager: ItineraryManagerInterface = ItineraryManager.getInstance()
     private val LOGGING_TAG = "GCMIntentServiceV2"
 
