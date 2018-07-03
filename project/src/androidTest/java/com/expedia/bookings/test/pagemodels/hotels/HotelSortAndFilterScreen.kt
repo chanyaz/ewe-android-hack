@@ -20,7 +20,7 @@ class HotelSortAndFilterScreen {
 
         @JvmStatic
         fun clickSortFilter() {
-            onView(withId(R.id.sort_filter_button_container)).perform(click())
+            onView(withId(R.id.fap_filter_button)).perform(click())
         }
 
         @JvmStatic

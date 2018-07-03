@@ -53,8 +53,10 @@ import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransi
 import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.map.HotelResultsMapWidget
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.expedia.bookings.hotel.vm.BaseHotelResultsViewModel
-import com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
+import com.expedia.bookings.hotel.widget.HotelResultsSortFaqWebView
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -65,12 +67,10 @@ import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelListRecyclerView
-import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.hotel.widget.HotelResultsSortFaqWebView
+import com.expedia.bookings.widget.shared.SortFilterFloatingActionPill
 import com.expedia.util.endlessObserver
-import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.mobiata.android.BackgroundDownloader
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
@@ -144,7 +144,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     private val ANIMATION_DURATION_FILTER = 500
 
-    protected var sortFilterButtonTransition: VerticalTranslateTransition? = null
     private var toolbarTitleTransition: VerticalTranslateTransition? = null
     private var subTitleTransition: VerticalFadeTransition? = null
     private var mapCarouselTransition: HorizontalTranslateTransition? = null
@@ -869,13 +868,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     toolbarTitleTransition?.toOrigin(f)
                     subTitleTransition?.fadeIn(f)
                 }
-                sortFilterButtonTransition?.toOrigin(f)
             } else {
                 if (shouldAnimateTitleSubtitle) {
                     toolbarTitleTransition?.toTarget(f)
                     subTitleTransition?.fadeOut(f)
                 }
-                sortFilterButtonTransition?.toTarget(f)
             }
         }
 
@@ -907,12 +904,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 recyclerView.translationY = getRecyclerYTranslation()
                 mapWidget.translationY = -mapListSplitAnchor.toFloat()
                 mapWidget.toSplitView(getRequiredMapPadding())
-
-                sortFilterButtonTransition?.jumpToOrigin()
             } else {
                 mapWidget.translationY = 0f
                 recyclerView.translationY = screenHeight.toFloat()
-                sortFilterButtonTransition?.jumpToTarget()
 
                 mapWidget.toFullScreen()
             }
@@ -1091,13 +1085,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     open fun hideBundlePriceOverview(hide: Boolean) {
-        //
     }
 
     open fun shouldDisplayPriceOverview(): Boolean = true
-
-    fun shouldUsePill(): Boolean = (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSearchResultsFloatingActionPill) && getLineOfBusiness() == LineOfBusiness.HOTELS) ||
-            (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter) && getLineOfBusiness() == LineOfBusiness.PACKAGES)
 
     fun showFilterMenuItem(isResults: Boolean) {
         if (shouldUsePill()) {
@@ -1121,7 +1111,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     open fun showChangeDateBanner() {
-        //
     }
 
     // Classes for state
@@ -1194,4 +1183,5 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
     abstract fun getHotelMapCarouselAdapter(): HotelMapCarouselAdapter
     protected abstract fun getScrollListener(): BaseHotelResultsScrollListener
+    abstract fun shouldUsePill(): Boolean
 }

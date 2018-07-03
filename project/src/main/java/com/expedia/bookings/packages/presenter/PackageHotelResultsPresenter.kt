@@ -16,6 +16,8 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
+import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
 import com.expedia.bookings.packages.vm.PackageFilterViewModel
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.packages.widget.PackageHotelServerFilterView
@@ -27,8 +29,6 @@ import com.expedia.bookings.utils.isServerSideFilteringEnabledForPackages
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelClientFilterView
-import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
-import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.squareup.phrase.Phrase
@@ -48,9 +48,12 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         floatingPill.setFilterCount(numberOfFilters)
     }
 
-    @VisibleForTesting val mapPricePerPersonMessage: TextView by bindView(R.id.package_map_price_includes_text)
-    @VisibleForTesting val mapPriceIncludesTaxesTopMessage: TextView by bindView(R.id.package_map_price_includes_texes_fees_text_top)
-    @VisibleForTesting val mapPriceIncludesTaxesBottomMessage: TextView by bindView(R.id.package_map_price_includes_taxes_fees_text_bottom)
+    @VisibleForTesting
+    val mapPricePerPersonMessage: TextView by bindView(R.id.package_map_price_includes_text)
+    @VisibleForTesting
+    val mapPriceIncludesTaxesTopMessage: TextView by bindView(R.id.package_map_price_includes_texes_fees_text_top)
+    @VisibleForTesting
+    val mapPriceIncludesTaxesBottomMessage: TextView by bindView(R.id.package_map_price_includes_taxes_fees_text_bottom)
 
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
@@ -198,6 +201,8 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override fun getScrollListener(): BaseHotelResultsScrollListener {
         return BaseHotelResultsScrollListener()
     }
+
+    override fun shouldUsePill(): Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesHighlightSortFilter)
 
     override fun toggleMapDetailedPriceMessaging(shouldShow: Boolean) {
         val bucketedToShowResultsCellOnMap = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelResultsCellOnMapCarousel)

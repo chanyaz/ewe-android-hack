@@ -2,10 +2,8 @@ package com.expedia.bookings.presenter.hotel
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.PorterDuff
-import android.graphics.Rect
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -13,7 +11,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
-import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
@@ -22,10 +19,8 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.extensions.setTypeface
 import com.expedia.bookings.extensions.subscribeContentDescription
-import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AnimationRunner
-import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
@@ -45,7 +40,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelResultsChangeDateView
 import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.TextView
@@ -64,15 +58,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     private val hotelResultChangeDateView: HotelResultsChangeDateView by bindView(R.id.hotel_result_change_date_container)
     private val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
-    val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
-    override val searchThisArea: TextView by bindView(if (shouldUsePill()) R.id.search_this_area_pill else R.id.search_this_area)
+    override val searchThisArea: TextView by bindView(R.id.search_this_area_pill)
     private var narrowFilterPromptSubscription: Disposable? = null
     private var swpEnabled = false
     private var isSearchThisAreaJustTapped = false
 
     val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
-        filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
         floatingPill.setFilterCount(numberOfFilters)
     }
 
@@ -125,26 +117,12 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         initSortFilterCallToAction()
 
         vm.hotelResultsObservable.subscribe {
-            if (shouldUsePill()) {
-                floatingPill.visibility = View.VISIBLE
-            }
-            if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
-                showSortAndFilter()
-            } else {
-                fab.isEnabled = true
-            }
+            floatingPill.visibility = View.VISIBLE
         }
 
         vm.filterResultsObservable.subscribe(listResultsObserver)
         vm.filterResultsObservable.subscribe {
-            if (shouldUsePill()) {
-                floatingPill.visibility = View.VISIBLE
-            }
-            if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
-                showSortAndFilter()
-            } else {
-                fab.isEnabled = true
-            }
+            floatingPill.visibility = View.VISIBLE
         }
 
         vm.titleSubject.subscribe { titleString ->
@@ -190,15 +168,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.guestStringSubject.subscribe(hotelResultChangeDateView.guestStringSubject)
     }
 
-    private fun showSortAndFilter() {
-        val anim = ValueAnimator.ofFloat(0f, 1f).setDuration(500)
-        anim.interpolator = DecelerateInterpolator(2f)
-        anim.addUpdateListener({ animation ->
-            sortFilterButtonTransition?.toOrigin(animation.animatedValue as Float)
-        })
-        anim.start()
-    }
-
     private fun initSortFilterCallToAction() {
         narrowResultsPromptView.setText(R.string.narrow_your_results)
 
@@ -206,9 +175,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             narrowResultsPromptView.visibility = View.GONE
             narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
                 val animationRunner = AnimationRunner(narrowResultsPromptView, context)
-                if (!shouldUsePill()) {
-                    narrowResultsPromptView.visibility = View.VISIBLE
-                }
                 animationRunner.animIn(R.anim.filter_prompt_in)
                         .animOut(R.anim.filter_prompt_out)
                         .afterAction({ narrowResultsPromptView.visibility = View.GONE })
@@ -230,14 +196,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         val iconColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
         searchThisArea.setTypeface(Font.ROBOTO_MEDIUM)
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
-        if (shouldUsePill()) {
-            searchThisArea.compoundDrawables[0]?.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
-        } else {
-            val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin)!!.mutate()
-            icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
-            icon.bounds = Rect(icon.bounds.left, icon.bounds.top, (icon.bounds.right * 1.1).toInt(), (icon.bounds.bottom * 1.1).toInt())
-            searchThisArea.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
-        }
+        searchThisArea.compoundDrawables[0]?.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
 
         //We don't want to show the searchThisArea button unless the map has just moved.
         searchThisArea.visibility = View.GONE
@@ -252,17 +211,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
-        if (shouldUsePill()) {
-            filterBtnWithCountWidget.visibility = View.GONE
-        } else {
-            sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
-            sortFilterButtonTransition?.reachedTargetSubject?.subscribe {
-                narrowResultsPromptView.clearAnimation()
-                narrowResultsPromptView.visibility = View.GONE
-            }
-        }
-
-        filterBtnWithCountWidget.subscribeOnClick(filterButtonOnClickObservable)
         filterViewModel.filterCountObservable.subscribe(filterCountObserver)
 
         mapWidget.cameraChangeSubject.subscribe {
@@ -299,7 +247,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun showLoading() {
         super.showLoading()
         resetListOffset()
-        sortFilterButtonTransition?.jumpToTarget()
         narrowResultsPromptView.visibility = View.GONE
         narrowResultsPromptView.clearAnimation()
     }
@@ -378,6 +325,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun getScrollListener(): BaseHotelResultsScrollListener {
         return HotelResultsScrollListener()
     }
+
+    override fun shouldUsePill(): Boolean = true
 
     fun handleSoldOutHotel(hotelId: String) {
         // When createTrip/CKO give sold out update everywhere, this is stupid. I hate the people that built this into our product.

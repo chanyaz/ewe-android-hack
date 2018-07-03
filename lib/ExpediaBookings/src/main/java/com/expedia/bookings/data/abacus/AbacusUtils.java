@@ -82,7 +82,6 @@ public class AbacusUtils {
 	public static final ABTest HotelEarn2xMessaging = new ABTest(24742, true);
 	public static final ABTest HotelSatelliteSearch = new ABTest(25534, true);
 	public static final ABTest HotelGuestRatingFilter = new ABTest(25533, true);
-	public static final ABTest HotelSearchResultsFloatingActionPill = new ABTest(25531, true);
 	public static final ABTest HotelUGCTranslations = new ABTest(25532, true);
 	public static final ABTest HotelShortlist = new ABTest(25630, true);
 	public static final ABTest HotelUGCReviewsBoxRatingDesign = new ABTest(25455, true);
@@ -215,7 +214,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSeatsLeftUrgencyMessaging.getKey());
 		testIDs.add(EBAndroidAppPackagesWebviewFHC.getKey());
 		testIDs.add(HotelGuestRatingFilter.getKey());
-		testIDs.add(HotelSearchResultsFloatingActionPill.getKey());
 		testIDs.add(HotelUGCTranslations.getKey());
 		testIDs.add(EBAndroidAppGrowthSocialSharing.getKey());
 		testIDs.add(HotelShortlist.getKey());

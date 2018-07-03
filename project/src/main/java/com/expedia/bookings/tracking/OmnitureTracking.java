@@ -691,7 +691,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.HotelUrgencyV2);
 		trackAbacusTest(s, AbacusUtils.HotelHideMiniMapOnResult);
 		trackAbacusTest(s, AbacusUtils.HotelSoldOutOnHSRTreatment);
-		trackAbacusTest(s, AbacusUtils.HotelSearchResultsFloatingActionPill);
 		// Send the tracking data
 		s.track();
 	}

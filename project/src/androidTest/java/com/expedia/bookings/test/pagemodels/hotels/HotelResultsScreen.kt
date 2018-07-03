@@ -33,6 +33,11 @@ class HotelResultsScreen {
         }
 
         @JvmStatic
+        fun filterButton(): ViewInteraction {
+            return onView(withId(R.id.fap_filter_button))
+        }
+
+        @JvmStatic
         fun hotelResultsToolbar(): ViewInteraction {
             return onView(withId(R.id.hotel_results_toolbar))
         }

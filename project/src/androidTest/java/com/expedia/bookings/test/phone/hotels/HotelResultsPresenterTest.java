@@ -1,14 +1,11 @@
 package com.expedia.bookings.test.phone.hotels;
 
-import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
@@ -16,15 +13,14 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.Common.pressBack;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
@@ -87,19 +83,15 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		SearchScreenActions.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		SearchScreenActions.chooseDatesWithDialog(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		SearchScreen.searchButton().perform(click());
-		HotelResultsScreen.mapFab().perform(click());
-		onView(withId(R.id.filter_btn)).perform(click());
+		HotelResultsScreen.filterButton().perform(click());
 		onView(allOf(withId(R.id.hotel_filter_rating_four), isDescendantOfA(withId(R.id.hotel_filter_view)))).perform(click());
 		onView(allOf(withId(R.id.hotel_filter_rating_two), isDescendantOfA(withId(R.id.hotel_filter_view)))).perform(click());
 		pressBack();
-		assertViewWithTextIsDisplayed(R.id.filter_count_text, "2");
-		onView(allOf(withId(R.id.filter_text), isDescendantOfA(withId(R.id.filter_btn)))).check(matches(isDisplayed()));
+		assertViewWithTextIsDisplayed(R.id.fap_filter_number_text, "2");
 	}
 
 	@Test
 	public void testFloatingPillToggle() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.HotelSearchResultsFloatingActionPill);
-
 		getSearchResults();
 		assertViewWithTextIsDisplayed(R.string.hotel_results_map_button);
 
@@ -109,8 +101,6 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 
 	@Test
 	public void testFloatingPillFilter() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.HotelSearchResultsFloatingActionPill);
-
 		getSearchResults();
 		assertViewWithTextIsDisplayed(R.string.hotel_results_filters_button);
 
@@ -130,18 +120,18 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 	private void assertViewNotDisplayedAtPosition(int position, int id) {
 		HotelResultsScreen.hotelResultsList().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), not(isDisplayed())))));
+				allOf(withId(id), not(isDisplayed())))));
 	}
 
 	private void assertViewIsDisplayedAtPosition(int position, int id) {
 		HotelResultsScreen.hotelResultsList().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed()))));
+				allOf(withId(id), isDisplayed()))));
 	}
 
 	private void assertViewWithTextIsDisplayedAtPosition(int position, int id, String text) {
 		HotelResultsScreen.hotelResultsList().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
+				allOf(withId(id), isDisplayed(), withText(text)))));
 	}
 }

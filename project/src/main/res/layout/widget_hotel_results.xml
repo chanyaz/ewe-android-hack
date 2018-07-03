@@ -86,29 +86,6 @@
             android:layout_height="@dimen/toolbar_dropshadow_height"
             android:background="@drawable/tb_shadow" />
 
-        <!-- Do not be fooled, this textStyle does not yet function - but it's a reminder that we WANT it to do that -->
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/search_this_area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="7dp"
-            android:background="?attr/secondary_ripple_button_drawable"
-            android:drawableLeft="@drawable/ic_material_location_pin"
-            android:drawablePadding="8dp"
-            android:minHeight="0dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="8dp"
-            android:text="@string/Search_this_area"
-            android:textAllCaps="false"
-            android:textColor="?attr/primary_color"
-            android:textSize="12sp"
-            android:elevation="4dp"
-            android:visibility="gone"/>
-
         <com.expedia.bookings.widget.TextView
             android:id="@+id/search_this_area_pill"
             android:layout_width="wrap_content"
@@ -128,17 +105,9 @@
             android:elevation="5dp"
             android:textSize="16sp"
             android:visibility="gone"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
     </LinearLayout>
-
-    <com.expedia.bookings.widget.FilterButtonWithCountWidget
-        android:id="@+id/sort_filter_button_container"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/hotel_filter_height"
-        android:layout_gravity="bottom"
-        android:orientation="vertical" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/narrow_result_prompt"
