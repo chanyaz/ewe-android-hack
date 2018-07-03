@@ -6,6 +6,8 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 abstract class BaseResultsViewModel {
+    private var legNumber = 0
+
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val isOutboundResults = BehaviorSubject.create<Boolean>()
     val airlineChargesFeesSubject = PublishSubject.create<Boolean>()
@@ -18,4 +20,12 @@ abstract class BaseResultsViewModel {
     val abortRichContentInboundObservable = PublishSubject.create<Unit>()
     abstract fun getLineOfBusiness(): LineOfBusiness
     var isRoutehappyOmnitureTrigerred = false
+
+    fun setLegNo(legNo: Int) {
+        this.legNumber = legNo
+    }
+
+    fun getLegNo(): Int{
+        return legNumber
+    }
 }

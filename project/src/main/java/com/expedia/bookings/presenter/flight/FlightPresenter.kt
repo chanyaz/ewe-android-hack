@@ -170,6 +170,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val viewStub = findViewById<ViewStub>(R.id.outbound_presenter)
         val presenter = viewStub.inflate() as FlightOutboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
+        presenter.resultsPresenter.resultsViewModel.setLegNo(0)
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.toolbarViewModel.regionNames.onNext(Optional(params.arrivalAirport.regionNames))
             presenter.toolbarViewModel.country.onNext(Optional(params.arrivalAirport.hierarchyInfo?.country?.name))
@@ -178,10 +179,16 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
         }
-        presenter.flightOfferViewModel.outboundResultsObservable.subscribe {
-            searchTrackingBuilder.markResultsProcessed()
-            searchTrackingBuilder.searchResponse(it)
-        }
+        presenter.flightOfferViewModel.searchResultsObservable
+                .filter { it.first == presenter.resultsPresenter.resultsViewModel.getLegNo() }
+                .map { it.second }
+                .subscribe {
+                    searchTrackingBuilder.markResultsProcessed()
+                    searchTrackingBuilder.searchResponse(it)
+                    announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
+                            .put("city", StrUtils.formatCity(presenter.flightOfferViewModel.searchParamsObservable.value.arrivalAirport))
+                            .format().toString())
+                }
         presenter.menuSearch.setOnMenuItemClickListener({
             show(searchPresenter)
             flightOfferViewModel.isGreedyCallAborted = true
@@ -225,6 +232,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val viewStub = findViewById<ViewStub>(R.id.inbound_presenter)
         val presenter = viewStub.inflate() as FlightInboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
+        presenter.resultsPresenter.resultsViewModel.setLegNo(1)
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.toolbarViewModel.regionNames.onNext(Optional(params.departureAirport.regionNames))
             presenter.toolbarViewModel.country.onNext(Optional(params.departureAirport.hierarchyInfo?.country?.name))
@@ -240,17 +248,23 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             true
         })
         presenter.setupComplete()
-        presenter.flightOfferViewModel.inboundResultsObservable.subscribe {
-            searchTrackingBuilder.markResultsProcessed()
-            searchTrackingBuilder.searchResponse(it)
-        }
+        presenter.flightOfferViewModel.searchResultsObservable
+                .filter { it.first == presenter.resultsPresenter.resultsViewModel.getLegNo() }
+                .map { it.second }
+                .subscribe {
+                    searchTrackingBuilder.markResultsProcessed()
+                    searchTrackingBuilder.searchResponse(it)
+                    if (!isByotEnabled) {
+                        showInboundPresenter(flightOfferViewModel.searchParamsObservable.value.departureAirport)
+                    }
+                }
 
         (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
             searchTrackingBuilder.markResultsUsable()
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
                 FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank,
-                        flightOfferViewModel.totalOutboundResults))
+                        flightOfferViewModel.totalResultCount[presenter.resultsPresenter.resultsViewModel.getLegNo() - 1]))
             }
         }
         presenter
@@ -318,11 +332,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
             presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable)
-            presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalOutboundResults)
+            presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalResultCount[0])
             presenter.viewModel.inboundSelectedAndTotalLegRank = null
         }
         flightOfferViewModel.confirmedInboundFlightSelection.subscribe {
-            presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalInboundResults)
+            presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalResultCount[1])
         }
         flightOfferViewModel.ticketsLeftObservable.subscribe(checkoutViewModel.seatsRemainingObservable)
         flightOfferViewModel.flightOfferSelected.subscribe { flightOffer ->
@@ -425,20 +439,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
             }
         }
-
-        viewModel.outboundResultsObservable.subscribe {
-            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
-                    .put("city", StrUtils.formatCity(viewModel.searchParamsObservable.value.arrivalAirport))
-                    .format().toString())
-        }
         viewModel.confirmedOutboundFlightSelection.subscribe {
             if (isByotEnabled && viewModel.isRoundTripSearchSubject.value) {
                 inboundPresenter.showResults()
-                showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
-            }
-        }
-        viewModel.inboundResultsObservable.subscribe {
-            if (!isByotEnabled) {
                 showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
         }
@@ -588,7 +591,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 if (!it.hasUserClickedSearch) {
                     delayMillis = 700L
                 }
-                postDelayed({ flightOfferViewModel.outboundResultsObservable.onNext(it.results) }, delayMillis)
+                postDelayed({ flightOfferViewModel.searchResultsObservable.onNext(Pair(Db.getFlightSearchParams().currentLeg, it.results)) }, delayMillis)
             }
             searchViewModel.cancelGreedyCallObservable.subscribe {
                 flightOfferViewModel.cancelGreedySearchObservable.onNext(Unit)
@@ -600,7 +603,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         if (isRecentSearchesForFlightsEnabled(context)) {
-            flightOfferViewModel.outboundResultsObservable.map({ offers -> offers.first().packageOfferModel.price.averageTotalPricePerTicket }).subscribe {
+            flightOfferViewModel.searchResultsObservable.filter { it.first == 0 }.map({ offers -> offers.second.first().packageOfferModel.price.averageTotalPricePerTicket }).subscribe {
                 searchPresenter.recentSearchWidgetContainer.viewModel.saveRecentSearchObservable.onNext(it)
             }
         }

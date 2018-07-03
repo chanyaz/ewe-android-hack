@@ -2,7 +2,10 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RichContentUtils.getAmenitiesString
@@ -17,6 +20,7 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
 
     init {
         Ui.getApplication(context).flightComponent().inject(this)
+        addDefaultTransition(defaultTransition)
     }
 
     override fun back(): Boolean {
@@ -32,7 +36,6 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
         flightOfferViewModel.searchParamsObservable.subscribe {
             resultsPresenter.setLoadingState()
         }
-        flightOfferViewModel.outboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
         detailsPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedOutboundFlightSelection)
         detailsPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.outboundSelected)
     }
@@ -51,7 +54,7 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
     }
 
     override fun trackFlightScrollDepth(scrollDepth: Int) {
-        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, true, flightOfferViewModel.isRoundTripSearchSubject.value, flightOfferViewModel.totalOutboundResults)
+        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, true, flightOfferViewModel.isRoundTripSearchSubject.value, flightOfferViewModel.totalResultCount[resultsPresenter.resultsViewModel.getLegNo()])
     }
 
     override fun trackFlightResultsLoad() {

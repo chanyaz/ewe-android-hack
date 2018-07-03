@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -38,8 +39,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val offerSelectedChargesObFeesSubject = BehaviorSubject.create<String>()
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val flightProductId = PublishSubject.create<String>()
-    val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
-    val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
+    val searchResultsObservable = BehaviorSubject.create<Pair<Int, List<FlightLeg>>>()
+//    val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
+//    val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
     val cancelGreedySearchObservable = PublishSubject.create<Unit>()
@@ -56,6 +58,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val mayChargePaymentFeesSubject = PublishSubject.create<Boolean>()
 
     var isOutboundSearch = true
+    val totalResultCount = ArrayList<Int>()
     var totalOutboundResults = 0
     var totalInboundResults = 0
     var isSubPub = false
@@ -146,8 +149,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
         }
 
-        outboundResultsObservable.subscribe { totalOutboundResults = it.size }
-        inboundResultsObservable.subscribe { totalInboundResults = it.size }
+        searchResultsObservable.subscribe {
+            totalResultCount.add(it.first, it.second.size)
+        }
     }
 
     protected fun selectFlightOffer(outboundLegId: String, inboundLegId: String) {
@@ -249,7 +253,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
             hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
         } else if (searchParamsObservable.value != null) {
-            outboundResultsObservable.onNext(outBoundFlights.toList())
+            searchResultsObservable.onNext(Pair(Db.getFlightSearchParams().currentLeg, outBoundFlights.toList()))
         }
     }
 

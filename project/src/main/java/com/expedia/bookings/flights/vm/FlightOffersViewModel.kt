@@ -2,6 +2,7 @@ package com.expedia.bookings.flights.vm
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
@@ -17,7 +18,7 @@ class FlightOffersViewModel(context: Context, flightServicesManager: FlightServi
     lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
 
     override fun selectOutboundFlight(legId: String) {
-        inboundResultsObservable.onNext(findInboundFlights(legId))
+        searchResultsObservable.onNext(Pair(Db.getFlightSearchParams().currentLeg, findInboundFlights(legId)))
     }
 
     override fun createFlightMap(type: FlightSearchType, response: FlightSearchResponse) {

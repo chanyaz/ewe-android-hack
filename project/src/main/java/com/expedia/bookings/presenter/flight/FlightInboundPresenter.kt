@@ -25,7 +25,6 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)
         detailsPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedInboundFlightSelection)
         detailsPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.inboundSelected)
-        flightOfferViewModel.inboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)) {
             flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
                 resultsPresenter.setLoadingState()
@@ -42,7 +41,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
     }
 
     override fun trackFlightScrollDepth(scrollDepth: Int) {
-        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, false, true, flightOfferViewModel.totalInboundResults)
+        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, false, true, flightOfferViewModel.totalResultCount[resultsPresenter.resultsViewModel.getLegNo()])
     }
 
     override fun trackFlightSortFilterLoad() {
@@ -51,7 +50,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
 
     override fun trackFlightResultsLoad() {
         val trackingData = searchTrackingBuilder.build()
-        FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank, flightOfferViewModel.totalOutboundResults))
+        FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank, flightOfferViewModel.totalResultCount[resultsPresenter.resultsViewModel.getLegNo() - 1]))
     }
 
     class FlightInboundMissingTransitionException(exceptionMessage: String) : RuntimeException(exceptionMessage)

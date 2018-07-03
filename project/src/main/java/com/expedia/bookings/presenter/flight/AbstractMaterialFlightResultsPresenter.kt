@@ -13,10 +13,17 @@ import com.expedia.bookings.flights.vm.FlightResultsViewModel
 import com.expedia.bookings.flights.vm.FlightToolbarViewModel
 import com.expedia.bookings.flights.vm.BaseFlightOffersViewModel
 import com.expedia.bookings.flights.vm.FlightOverviewViewModel
+import com.expedia.bookings.presenter.Presenter
 
 abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: AttributeSet?) : BaseFlightPresenter(context, attrs) {
 
     lateinit var flightOfferViewModel: BaseFlightOffersViewModel
+
+    protected val defaultTransition = object : Presenter.DefaultTransition(FlightOutboundPresenter::class.java.name) {
+        override fun endTransition(forward: Boolean) {
+            Db.getFlightSearchParams().currentLeg = resultsPresenter.resultsViewModel.getLegNo()
+        }
+    }
 
     init {
         toolbarViewModel = FlightToolbarViewModel(context)
@@ -27,6 +34,11 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject,
                 isOutboundResultsPresenter(), flightOfferViewModel.flightCabinClassSubject, flightOfferViewModel.nonStopSearchFilterAppliedSubject,
                 flightOfferViewModel.refundableFilterAppliedSearchSubject)
+
+        flightOfferViewModel.searchResultsObservable
+                .filter { it.first == resultsPresenter.resultsViewModel.getLegNo() }
+                .map { it.second }
+                .subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
 
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             val travelerParams = Db.getFlightSearchParams()

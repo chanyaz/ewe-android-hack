@@ -19,6 +19,9 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         MULTI_DEST
     }
 
+    var currentLeg = 0
+    var latestSelectedOfferInfo: FlightSelectedOfferInfo = FlightSelectedOfferInfo()
+
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
         private var flightCabinClass: String? = null
         private var legNo: Int? = null

@@ -66,7 +66,7 @@ class FlightOffersViewModelByot(context: Context, flightServicesManager: FlightS
                 inboundLeg.legRank = inboundFlights.size
             }
         }
-        inboundResultsObservable.onNext(inboundFlights.toList())
+        searchResultsObservable.onNext(Pair(Db.getFlightSearchParams().currentLeg, inboundFlights.toList()))
     }
 
     override fun makeFlightOffer(type: FlightSearchType, response: FlightSearchResponse) {
