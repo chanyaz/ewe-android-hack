@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
@@ -115,6 +116,11 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
         val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch() ?: false
+        resultsPresenter.resultsViewModel.richContentGuide
+                .filter { isOutboundSearch }.subscribe {
+            val abacusVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppPackagesRichContent)
+            showRichContentGuideDialog(abacusVariant)
+        }
         val bestPlusAllFlights = Db.getPackageResponse().getFlightLegs().filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list

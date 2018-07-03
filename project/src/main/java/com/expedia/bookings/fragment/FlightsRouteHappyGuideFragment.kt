@@ -16,15 +16,25 @@ import android.widget.Button
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FlightV2Utils
 
 class FlightsRouteHappyGuideFragment : DialogFragment() {
 
-    private val abacusVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRichContent)
+    private val ABACUS_VARIANT = "abacusVariant"
+    private val LINE_OF_BUSINESS = "lineOfBusiness"
+
+    fun newInstance(abacusVariant: Int, lob: LineOfBusiness): FlightsRouteHappyGuideFragment {
+        val dialogFragment = FlightsRouteHappyGuideFragment()
+        val args = Bundle()
+        args.putInt(ABACUS_VARIANT, abacusVariant)
+        args.putString(LINE_OF_BUSINESS, lob.name)
+        dialogFragment.arguments = args
+        return dialogFragment
+    }
+
     @VisibleForTesting
     internal lateinit var wifiLabel: TextView
     @VisibleForTesting
@@ -68,12 +78,31 @@ class FlightsRouteHappyGuideFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val sharedPref = FlightV2Utils.getRichContentSharedPref(requireContext())
         val counter = sharedPref.getInt("counter", 1) - 1
+        val args = arguments
+        val lob = args?.getString(LINE_OF_BUSINESS) ?: "FLIGHTS_V2"
+        val abacusVariant = args?.getInt(ABACUS_VARIANT) ?: 3
         dismissButton.setOnClickListener {
             dismiss()
+            trackGuideScreenClosed(counter, lob)
+        }
+        richGuideAnimation(abacusVariant)
+        trackGuideScreenShown(counter, lob)
+    }
+
+    private fun trackGuideScreenClosed(counter: Int, lob: String) {
+        if (lob == "PACKAGES") {
+            // TODO: implement tracking for packages
+        } else {
             FlightsV2Tracking.trackGuideScreenClosed(counter)
         }
-        richGuideAnimation()
-        FlightsV2Tracking.trackGuideScreenShown(counter)
+    }
+
+    private fun trackGuideScreenShown(counter: Int, lob: String) {
+        if (lob == "PACKAGES") {
+            // TODO: implement tracking for packages
+        } else {
+            FlightsV2Tracking.trackGuideScreenShown(counter)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -87,7 +116,7 @@ class FlightsRouteHappyGuideFragment : DialogFragment() {
         return dialog
     }
 
-    private fun richGuideAnimation() {
+    private fun richGuideAnimation(abacusVariant: Int) {
         val fadeInAnimator = fadeInAnimator()
         val fadeOutAnimator = fadeOutAnimator()
         val amenitiesFadeInAnimator = amenitiesFadeInAnimator()

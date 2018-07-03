@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -33,7 +32,6 @@ import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.flights.utils.FlightServicesManager
-import com.expedia.bookings.fragment.FlightsRouteHappyGuideFragment
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -203,12 +201,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
         }
 
-        presenter.resultsPresenter.resultsViewModel.richContentGuide.subscribe {
-            if (backStack.peek() is FlightOutboundPresenter) {
-                val dialogFragment = FlightsRouteHappyGuideFragment()
-                val fragmentManager = (context as FragmentActivity).supportFragmentManager
-                dialogFragment.show(fragmentManager, "flight_route_happy_guide")
-            }
+        presenter.resultsPresenter.resultsViewModel.richContentGuide
+                .filter { backStack.peek() is FlightOutboundPresenter }.subscribe {
+            val abacusVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRichContent)
+            presenter.showRichContentGuideDialog(abacusVariant)
         }
         presenter
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.annotation.CallSuper
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
@@ -17,6 +18,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.setFocusForView
+import com.expedia.bookings.fragment.FlightsRouteHappyGuideFragment
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.FlightDetailsPresenter
@@ -283,6 +285,12 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     fun backToOutboundResults() {
         back()
+    }
+
+    fun showRichContentGuideDialog(abacusVariant: Int) {
+        val dialogFragment = FlightsRouteHappyGuideFragment().newInstance(abacusVariant, getLineOfBusiness())
+        val fragmentManager = (context as FragmentActivity).supportFragmentManager
+        dialogFragment.show(fragmentManager, "flight_route_happy_guide")
     }
 
     override fun back(): Boolean {
