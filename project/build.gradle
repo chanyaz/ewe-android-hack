@@ -154,11 +154,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-core-utils'
     })
 
-    def espressoVersion = '3.0.1'
-    androidTestImplementation ('com.android.support.test:runner:1.0.1') {
+    def espressoVersion = '3.0.2'
+    androidTestImplementation ('com.android.support.test:runner:1.0.2') {
         exclude group: 'com.android.support'
     }
-    androidTestImplementation ('com.android.support.test:rules:1.0.1') {
+    androidTestImplementation ('com.android.support.test:rules:1.0.2') {
         exclude group: 'com.android.support'
     }
     androidTestImplementation ("com.android.support.test.espresso:espresso-core:${espressoVersion}"){
