@@ -66,7 +66,7 @@ import com.squareup.otto.Bus;
 public class Events {
 
 	private static final String TAG = "ExpediaOtto";
-	private static final Bus sBus = new BetterBus();
+	private static Bus sBus = new BetterBus();
 
 	private Events() {
 		// Singleton - Cannot be instantiated
@@ -85,6 +85,10 @@ public class Events {
 	public static void post(Object obj) {
 		Log.v(TAG, "Posting event: " + obj);
 		sBus.post(obj);
+	}
+
+	public static void resetBus() {
+		sBus = new BetterBus();
 	}
 
 	private static class BetterBus extends Bus {

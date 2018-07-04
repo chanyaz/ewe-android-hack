@@ -29,6 +29,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.google.gson.GsonBuilder
 import org.joda.time.LocalDate
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -56,6 +57,11 @@ class LXPresenterTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultLXComponents()
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_LX)
+    }
+
+    @After
+    fun tearDown() {
+        Events.resetBus()
     }
 
     @Test
