@@ -9,7 +9,7 @@ import com.expedia.bookings.features.Features
 import com.expedia.bookings.lx.presenter.LXSearchPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
+import com.expedia.bookings.lx.vm.LXSearchViewModel
 import com.expedia.bookings.utils.FeatureTestUtils
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.shared.SearchInputTextView

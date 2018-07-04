@@ -1,4 +1,4 @@
-package com.expedia.bookings.lob.lx.ui.viewmodel
+package com.expedia.bookings.lx.vm
 
 import android.content.Context
 import android.text.style.RelativeSizeSpan

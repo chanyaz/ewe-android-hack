@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.lx.vm.LXSearchViewModel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils

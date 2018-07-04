@@ -349,7 +349,7 @@
         <!-- LX activity -->
 
         <activity
-            android:name="com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity"
+            android:name="com.expedia.bookings.lx.activity.LXBaseActivity"
             android:label="Activities"
             android:launchMode="singleTop"
             android:resizeableActivity="false"

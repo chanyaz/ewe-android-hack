@@ -5,7 +5,7 @@ import com.expedia.bookings.dagger.LXFakeCurrentLocationSuggestionModule;
 import com.expedia.bookings.dagger.LXTestComponent;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
-import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
+import com.expedia.bookings.lx.activity.LXBaseActivity;
 
 public class LxTestCase extends PhoneTestCase {
 

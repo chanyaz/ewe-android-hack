@@ -30,7 +30,7 @@ import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.lx.LXCreateTripResponseV2;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.dialog.DialogFactory;
-import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
+import com.expedia.bookings.lx.vm.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
