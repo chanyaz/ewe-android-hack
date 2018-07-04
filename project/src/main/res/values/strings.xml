@@ -2896,6 +2896,19 @@
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
     <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - Poor!</string>
 
+    <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
+    <string name="route_score_excellent_superlative_cont_desc_TEMPLATE">. Rated {route_score} out of 10. Excellent</string>
+    <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
+    <string name="route_score_very_good_superlative_cont_desc_TEMPLATE">. Rated {route_score} out of 10. Very Good</string>
+    <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
+    <string name="route_score_good_superlative_cont_desc_TEMPLATE">. Rated {route_score} out of 10. Good</string>
+    <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
+    <string name="route_score_okay_superlative_cont_desc_TEMPLATE">. Rated {route_score} out of 10. Okay</string>
+    <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
+    <string name="route_score_fair_superlative_cont_desc_TEMPLATE">. Rated {route_score} out of 10. Fair</string>
+    <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
+    <string name="route_score_poor_superlative_cont_desc_TEMPLATE">. Rated {route_score} out of 10. Poor</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -5129,6 +5142,10 @@
     <string name="flight_route_happy_guide_title_v3">Flight amenities &amp; score</string>
     <string name="flight_route_happy_guide_info">Now you can choose a flight by amenity, like in-flight Wi-Fi, onboard charging, a movie selection, and more.</string>
     <string name="flight_route_happy_guide_more_info">We have now added flight scores, which rate flights by duration, aircraft type, onboard perks, and other factors.</string>
+    <string name="flight_amenity_entertainment_cont_desc_TEMPLATE">. \u0020 In-Flight {entertainment}</string>
+    <string name="flight_amenity_power_cont_desc_accessibility">. \u0020 charging point</string>
+    <string name="flight_amenities_cont_desc_accessibility">. \u0020 includes {amenities}</string>
+    <string name="flight_amenities_and_cont_desc_accessibility"> . \u0020 and</string>
 
     <!-- Accessibility announcement for when widget is expanded -->
     <string name="widget_expanded_announcement">Expanded</string>

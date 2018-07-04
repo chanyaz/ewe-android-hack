@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
+import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 
@@ -68,6 +71,12 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
             result.append(Phrase.from(context, R.string.flight_detail_cabin_class_desc_TEMPLATE)
                     .put("class", updateflightCabinPreferenceObservable.value).format().toString())
         }
+        if (isRichContentShowAmenityEnabled() && flightLeg.richContent != null) {
+            result.append(getRichContentAccessibilityForAmenities(flightLeg.richContent))
+        }
+        if (isRichContentShowRouteScoreEnabled() && flightLeg.richContent != null) {
+            result.append(getRichContentAccessibilityForRouteScore(flightLeg.richContent))
+        }
         if (getUrgencyMessageVisibility(seatsLeftUrgencyMessage)) {
             val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
             result.append(Phrase.from(context.resources.getQuantityString(R.plurals.flight_detail_urgency_message_cont_desc_TEMPLATE, seatsLeft))
@@ -88,5 +97,13 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
 
     open fun appendAccessibilityContentDescription(): String {
         return context.getString(R.string.accessibility_cont_desc_role_button)
+    }
+
+    open fun getRichContentAccessibilityForAmenities(richContent: RichContent): String {
+        return ""
+    }
+
+    open fun getRichContentAccessibilityForRouteScore(richContent: RichContent): String {
+        return ""
     }
 }

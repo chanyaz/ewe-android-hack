@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.flights.RichContentDetail
 import com.expedia.bookings.data.flights.RichContentDetail.RichContentInfo
 import com.expedia.bookings.data.flights.RichContentFlightCriteria
@@ -25,17 +26,18 @@ import com.expedia.bookings.data.flights.RichContentRequestInfo
 import com.expedia.bookings.data.flights.TravelerCode
 import com.expedia.bookings.data.flights.TripType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.squareup.phrase.Phrase
 import java.util.ArrayList
 
 object RichContentUtils {
 
-    enum class ScoreExpression(val stringResId: Int) {
-        EXCELLENT(R.string.route_score_excellent_superlative_TEMPLATE),
-        VERY_GOOD(R.string.route_score_very_good_superlative_TEMPLATE),
-        GOOD(R.string.route_score_good_superlative_TEMPLATE),
-        OKAY(R.string.route_score_okay_superlative_TEMPLATE),
-        FAIR(R.string.route_score_fair_superlative_TEMPLATE),
-        POOR(R.string.route_score_poor_superlative_TEMPLATE)
+    enum class ScoreExpression(val stringResId: Int, val contDesc: Int) {
+        EXCELLENT(R.string.route_score_excellent_superlative_TEMPLATE, R.string.route_score_excellent_superlative_cont_desc_TEMPLATE),
+        VERY_GOOD(R.string.route_score_very_good_superlative_TEMPLATE, R.string.route_score_very_good_superlative_cont_desc_TEMPLATE),
+        GOOD(R.string.route_score_good_superlative_TEMPLATE, R.string.route_score_good_superlative_cont_desc_TEMPLATE),
+        OKAY(R.string.route_score_okay_superlative_TEMPLATE, R.string.route_score_okay_superlative_cont_desc_TEMPLATE),
+        FAIR(R.string.route_score_fair_superlative_TEMPLATE, R.string.route_score_fair_superlative_cont_desc_TEMPLATE),
+        POOR(R.string.route_score_poor_superlative_TEMPLATE, R.string.route_score_poor_superlative_cont_desc_TEMPLATE)
     }
 
     @JvmStatic
@@ -66,6 +68,48 @@ object RichContentUtils {
         } else {
             return listAmenities.joinToString(",").format()
         }
+    }
+
+    @JvmStatic
+    fun getAmenitiesAccessibilityString(context: Context, richContent: RichContent): String {
+        val listAmenities = ArrayList<String>()
+        val amenitiesContDescription = Phrase.from(context, R.string.flight_amenities_cont_desc_accessibility)
+        richContent.legAmenities?.let {
+            if (it.wifi) {
+                listAmenities.add(context.resources.getString(R.string.flight_route_happy_guide_wifi_label))
+            }
+            if (it.entertainment) {
+                val entertainmentContDesc = Phrase.from(context, R.string.flight_amenity_entertainment_cont_desc_TEMPLATE)
+                        .put("entertainment", context.resources.getString(R.string.flight_route_happy_guide_entertainment_label))
+                        .format()
+                        .toString()
+                listAmenities.add(entertainmentContDesc)
+            }
+            if (it.power) {
+                listAmenities.add(context.resources.getString(R.string.flight_amenity_power_cont_desc_accessibility))
+            }
+        }
+        if (listAmenities.isEmpty()) {
+            return ""
+        } else {
+            val amenitiesBuilder = StringBuilder()
+            listAmenities.forEachIndexed { index, amenity ->
+                if (index > 0 && index == listAmenities.size - 1) {
+                    amenitiesBuilder.append(context.resources.getString(R.string.flight_amenities_and_cont_desc_accessibility))
+                }
+                amenitiesBuilder.append(amenity)
+            }
+            return amenitiesContDescription.put("amenities", amenitiesBuilder.toString())
+                    .format().toString()
+        }
+    }
+
+    @JvmStatic
+    fun getAccessibilityForRouteScore(context: Context, richContent: RichContent): String {
+        val routeScoreContDesc = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(richContent.scoreExpression).contDesc)
+                .put("route_score", richContent.score.toString())
+                .format().toString()
+        return routeScoreContDesc
     }
 
     private fun getRequestInfo(context: Context): RichContentRequestInfo {

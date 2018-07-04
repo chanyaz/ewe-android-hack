@@ -4,12 +4,15 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.RichContentUtils
+import com.expedia.bookings.utils.RichContentUtils.getAccessibilityForRouteScore
+import com.expedia.bookings.utils.RichContentUtils.getAmenitiesAccessibilityString
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isRichContentEnabled
-import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
+import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.expedia.vm.AbstractFlightViewModel
 import com.squareup.phrase.Phrase
 
@@ -47,6 +50,14 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
 
     override fun getFlightDetailCardContDescriptionStringID(): Int {
         return R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE
+    }
+
+    override fun getRichContentAccessibilityForAmenities(richContent: RichContent): String {
+        return getAmenitiesAccessibilityString(context, richContent)
+    }
+
+    override fun getRichContentAccessibilityForRouteScore(richContent: RichContent): String {
+        return getAccessibilityForRouteScore(context, richContent)
     }
 
     private fun setRichContentVisibility() {
