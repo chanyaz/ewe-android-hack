@@ -4,11 +4,11 @@ import android.content.Context
 import com.activeandroid.ActiveAndroid
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
-import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -38,7 +38,7 @@ class PushNotificationUtilsV2Test {
         val nID = "123"
         val type = "S_PUSH_BLAH_BLAH"
         assertFalse(mockManager.sheduleNotificationCalled)
-        sut.generateFlightAlertWithNoLocalizationNotification(mockManager, body, title, nID, null, type)
+        sut.generateFlightAlertNotification(mockManager, body, title, nID, null, type)
         assertTrue(mockManager.sheduleNotificationCalled)
 
         val notification = mockManager.notification
@@ -51,6 +51,33 @@ class PushNotificationUtilsV2Test {
         assertEquals(body, notification.body)
         assertEquals(body, notification.ticker)
         assertEquals(title, notification.title)
+        assertEquals("-1", notification.itinId)
+        assertEquals("S_PUSH_BLAH_BLAH", notification.templateName)
+    }
+
+    @Test
+    fun generateFlightAlertNotificationWithItinCard() {
+        val mockManager = MockNotifcationManager()
+        val body = "BODY"
+        val title = "TITLE"
+        val nID = "123"
+        val itinId = "1234"
+        val type = "S_PUSH_BLAH_BLAH"
+        assertFalse(mockManager.sheduleNotificationCalled)
+        val data = ItinCardDataFlightBuilder().build(itinId = itinId)
+        sut.generateFlightAlertNotification(mockManager, body, title, nID, data, type)
+        assertTrue(mockManager.sheduleNotificationCalled)
+
+        val notification = mockManager.notification
+        assertEquals("Push_123", notification.uniqueId)
+        assertEquals(Notification.NotificationType.FLIGHT_ALERT, notification.notificationType)
+        assertEquals(Notification.FLAG_PUSH, notification.flags)
+        assertEquals(R.drawable.ic_stat_flight, notification.iconResId)
+        assertEquals(Notification.ImageType.NONE, notification.imageType)
+        assertEquals(body, notification.body)
+        assertEquals(body, notification.ticker)
+        assertEquals(title, notification.title)
+        assertEquals(itinId, notification.itinId)
         assertEquals("S_PUSH_BLAH_BLAH", notification.templateName)
     }
 
@@ -102,6 +129,14 @@ class PushNotificationUtilsV2Test {
         assertFalse(mockOldAccessor.wasGenerateDesktopBookingNotificationCalled)
         sut.generateNotification(context, 1, "body", emptyArray<String>(), "", "1", "", MockItineraryManagerInterface(), mockNotificationManager, mockOldAccessor)
         assertTrue(mockOldAccessor.wasGenerateDesktopBookingNotificationCalled)
+    }
+
+    @Test
+    fun testNotificationDisplayedForBookingNonValid() {
+        val mockNotificationManager = MockNotifcationManager()
+        assertFalse(mockOldAccessor.wasGenerateDesktopBookingNotificationCalled)
+        sut.generateNotification(context, 1, "body", emptyArray<String>(), "", "1", "", MockItineraryManagerInterface(), mockNotificationManager, mockOldAccessor)
+        assertFalse(mockOldAccessor.wasGenerateDesktopBookingNotificationCalled)
     }
 
     private fun buildString(maxCount: Int): String {
@@ -198,17 +233,8 @@ class PushNotificationUtilsV2Test {
     }
 
     class MockAccessor : IPushNotifcationUtilAccessor {
-        var hasLocKeyForNewFlightAlertsReturn = false
         var locKeyForDesktopBooking = false
-        var wasGenerateFlightAlertNotificationCalled = false
         var wasGenerateDesktopBookingNotificationCalled = false
-        override fun hasLocKeyForNewFlightAlerts(locKey: String): Boolean {
-            return hasLocKeyForNewFlightAlertsReturn
-        }
-
-        override fun generateFlightAlertNotification(context: Context, fhid: Int, locKey: String, locKeyArgs: Array<String>?, titleArg: String, nID: String, data: ItinCardDataFlight) {
-            wasGenerateFlightAlertNotificationCalled = true
-        }
 
         override fun locKeyForDesktopBooking(locKey: String): Boolean {
             return locKeyForDesktopBooking

@@ -29,11 +29,11 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
@@ -179,11 +179,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 	private boolean isValidTripForScheduledNotification(Collection<Trip> trips, final Notification finalNotification) {
 		for (Trip trip : trips) {
 			for (TripComponent tripComponent : trip.getTripComponents()) {
-				boolean isPushNotification = PushNotificationUtils
-					.isFlightAlertsNotification(finalNotification);
 				boolean isValidTripForNotification = finalNotification.getUniqueId()
 					.contains(tripComponent.getUniqueId());
-				if (isValidTripForNotification || isPushNotification) {
+				if (isValidTripForNotification) {
 					return true;
 				}
 			}

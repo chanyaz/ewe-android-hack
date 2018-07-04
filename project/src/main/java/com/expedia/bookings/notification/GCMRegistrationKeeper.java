@@ -130,7 +130,7 @@ public class GCMRegistrationKeeper implements JSONable {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					String regId = InstanceID.getInstance(context).getToken(PushNotificationUtils.SENDER_ID, INSTANCE_ID_SCOPE);
+					String regId = InstanceID.getInstance(context).getToken(PushNotificationUtilsV2.SENDER_ID, INSTANCE_ID_SCOPE);
 					setRegistrationId(context, regId);
 				}
 				catch (IOException e) {

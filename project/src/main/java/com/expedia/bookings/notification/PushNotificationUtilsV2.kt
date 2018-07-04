@@ -12,13 +12,13 @@ import com.mobiata.android.Log
 class PushNotificationUtilsV2 {
     companion object {
         private val LOGGING_TAG = "PushNotificationUtilsV2"
-        @JvmStatic
+        const val SENDER_ID = "895052546820"
+
         fun sendConfirmationNotificationReceived(service: TNSServices, notificationId: String) {
             service.notificationReceivedConfirmation(notificationId)
         }
 
-        @JvmStatic
-        fun generateFlightAlertWithNoLocalizationNotification(notificationManager: INotificationManager, body: String, title: String, nID: String, dataFlight: ItinCardDataFlight?, type: String) {
+        fun generateFlightAlertNotification(notificationManager: INotificationManager, body: String, title: String, nID: String, dataFlight: ItinCardDataFlight?, type: String) {
             val itinId: String
             if (dataFlight != null) {
                 itinId = dataFlight.id
@@ -46,6 +46,7 @@ class PushNotificationUtilsV2 {
             notificationManager.scheduleNotification(notification)
         }
 
+        @JvmStatic
         fun sanitizeUniqueId(uniqueId: String): String {
             var retStr = uniqueId.replace("\\W".toRegex(), "")
             if (retStr.length > 1024) {
@@ -60,24 +61,15 @@ class PushNotificationUtilsV2 {
                                  itinManager: ItineraryManagerInterface = ItineraryManager.getInstance(),
                                  notificationManager: INotificationManager = Ui.getApplication(context).appComponent().notificationManager(),
                                  oldAccessor: IPushNotifcationUtilAccessor = PushNotifcationUtilAccessor) {
-            if (fhid < 0) {
-                Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification FlightHistoryId must be >= 0")
+            val data = itinManager.getItinCardDataFromFlightHistoryId(fhid) as ItinCardDataFlight?
+            if (type.isNotEmpty()) {
+                generateFlightAlertNotification(notificationManager, locKey, titleArg, nID, data, type)
             } else {
-                val data = itinManager.getItinCardDataFromFlightHistoryId(fhid) as ItinCardDataFlight?
-                if (type.isNotEmpty()) {
-                    generateFlightAlertWithNoLocalizationNotification(notificationManager, locKey, titleArg, nID, data, type)
-                } else if (data != null) {
-                    if (oldAccessor.hasLocKeyForNewFlightAlerts(locKey)) {
-                        oldAccessor.generateFlightAlertNotification(context, fhid, locKey,
-                                locKeyArgs, titleArg, nID, data)
-                    }
-                } else {
-                    // There is not any data from a desktop booking notification,
-                    // so we check the locKey to see if it indicates that the message
-                    // is related to a desktop booking. If so, we generate it.
-                    if (oldAccessor.locKeyForDesktopBooking(locKey)) {
-                        oldAccessor.generateDesktopBookingNotification(context, fhid, locKey, locKeyArgs)
-                    }
+                // There is not any data from a desktop booking notification,
+                // so we check the locKey to see if it indicates that the message
+                // is related to a desktop booking. If so, we generate it.
+                if (oldAccessor.locKeyForDesktopBooking(locKey)) {
+                    oldAccessor.generateDesktopBookingNotification(context, fhid, locKey, locKeyArgs)
                 }
             }
         }

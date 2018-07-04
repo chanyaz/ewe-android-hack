@@ -16,8 +16,11 @@ class ItinCardDataFlightBuilder {
     val startTime: DateTime = now.plusDays(30)
     private val endTime = startTime.plusDays(7)
 
-    fun build(airAttachEnabled: Boolean = false, multiSegment: Boolean = false, confirmationNumber: String? = null, isShared: Boolean = false): ItinCardDataFlight {
+    fun build(airAttachEnabled: Boolean = false, multiSegment: Boolean = false, confirmationNumber: String? = null, isShared: Boolean = false, itinId: String = "0"): ItinCardDataFlight {
         val itinCardDataFlight = makeFlight(multiSegment)
+        if (itinId != "0") {
+            itinCardDataFlight.id = itinId
+        }
         itinCardDataFlight.setShowAirAttach(airAttachEnabled)
         if (isShared) {
             itinCardDataFlight.isSharedItin
