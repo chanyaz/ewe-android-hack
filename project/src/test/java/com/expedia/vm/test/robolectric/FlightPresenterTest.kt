@@ -2,6 +2,7 @@ package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
@@ -82,6 +83,19 @@ class FlightPresenterTest {
 
         OmnitureTracking.trackResultInBoundFlights(trackingData, Pair(1, 2))
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event220,event221=1.0"), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testInboundFlightWidgetVisibilty() {
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+        flightPresenter.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
+
+        flightPresenter.searchViewModel.tripTypeSearchObservable.onNext(FlightSearchParams.TripType.RETURN)
+        assertEquals(View.VISIBLE, flightPresenter.flightOverviewPresenter.flightSummary.inboundFlightWidget.visibility)
+
+        flightPresenter.searchViewModel.tripTypeSearchObservable.onNext(FlightSearchParams.TripType.ONE_WAY)
+        assertEquals(View.GONE, flightPresenter.flightOverviewPresenter.flightSummary.inboundFlightWidget.visibility)
     }
 
     private fun setupFlightSearchParams(): FlightSearchParams {

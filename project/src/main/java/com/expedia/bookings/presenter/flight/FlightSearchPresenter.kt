@@ -19,6 +19,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
@@ -357,21 +358,21 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                val isRoundTripSearch = tab.position == 0
-                roundTripChanged(isRoundTripSearch)
+                val tripType = if (tab.position == 0) TripType.RETURN else TripType.ONE_WAY
+                roundTripChanged(tripType)
             }
         })
     }
 
-    private fun roundTripChanged(roundTrip: Boolean) {
+    private fun roundTripChanged(tripType: TripType) {
         if (isFlightGreedySearchEnabled(context) && searchViewModel.isGreedyCallStarted) {
             searchViewModel.abortGreedyCallObservable.onNext(Unit)
         }
-        searchViewModel.isRoundTripSearchObservable.onNext(roundTrip)
-        if (roundTrip) {
-            announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_roundtrip))
-        } else {
-            announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_oneway))
+        searchViewModel.tripTypeSearchObservable.onNext(tripType)
+        when (tripType) {
+            TripType.RETURN -> announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_roundtrip))
+            TripType.ONE_WAY -> announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_oneway))
+            TripType.MULTI_DEST -> throw RuntimeException("needs to be implemented with multidest")
         }
         searchViewModel.trackFieldChange("SearchType.Edit")
     }

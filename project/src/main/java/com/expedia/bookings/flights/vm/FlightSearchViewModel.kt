@@ -33,6 +33,7 @@ import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.bookings.data.flights.FlightSearchParams.TripType
+import com.expedia.bookings.data.flights.isRoundTrip
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
@@ -47,7 +48,7 @@ import javax.inject.Inject
 
 class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun getCalendarRules(): CalendarRules {
-        return if (isRoundTripSearchObservable.value) roundTripRules else oneWayRules
+        return if (tripTypeSearchObservable.value.isRoundTrip()) roundTripRules else oneWayRules
     }
     lateinit var holidayCalendarService: HolidayCalendarService
     lateinit var travelerValidator: TravelerValidator
@@ -59,7 +60,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<Optional<LocalDate>>()
-    val isRoundTripSearchObservable = BehaviorSubject.createDefault<Boolean>(true)
+    val tripTypeSearchObservable = BehaviorSubject.createDefault<TripType>(TripType.RETURN)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     var hasPreviousSearchParams = false
@@ -149,22 +150,22 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             getHolidayInfo()
         }
 
-        isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
-            if (isRoundTripSearch) getParamsBuilder().tripType(TripType.RETURN) else getParamsBuilder().tripType(TripType.ONE_WAY)
+        tripTypeSearchObservable.subscribe { tripType ->
+            getParamsBuilder().tripType(tripType)
             getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
             if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)) {
-                getParamsBuilder().legNo(if (isRoundTripSearch) 0 else null)
+                getParamsBuilder().legNo(if (tripType.isRoundTrip()) 0 else null)
             }
             if (selectedDates.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value?.value
-                if (isRoundTripSearch && cachedEndDate != null && (startDate()?.isBefore(cachedEndDate) ?: false || startDate()?.equals(cachedEndDate) ?: false)) {
+                if (tripType.isRoundTrip() && cachedEndDate != null && (startDate()?.isBefore(cachedEndDate) ?: false || startDate()?.equals(cachedEndDate) ?: false)) {
                     datesUpdated(startDate(), cachedEndDate)
                 } else {
                     cachedEndDateObservable.onNext(Optional(endDate()))
                     datesUpdated(startDate(), null)
                 }
             } else {
-                dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
+                dateTextObservable.onNext(context.resources.getString(if (tripType.isRoundTrip()) R.string.select_dates else R.string.select_departure_date))
             }
             searchTravelerParamsObservable.subscribe { searchParam ->
                 performDeepLinkFlightSearch(searchParam)
@@ -180,7 +181,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
 
         if (isFlightGreedySearchEnabled(context)) {
-            Observable.merge(dateSetObservable, isRoundTripSearchObservable).filter { getParamsBuilder().hasValidDates() }
+            Observable.merge(dateSetObservable, tripTypeSearchObservable).filter { getParamsBuilder().hasValidDates() }
                     .map { Unit }.subscribe(validDateSetObservable)
 
             flightGreedySearchSubscription = ObservableOld.combineLatest(formattedOriginObservable, formattedDestinationObservable,
@@ -202,7 +203,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                         if (selectedDates.first != null) {
                             isStartDateSelectionChanged = !selectedDates.first!!.isEqual(combination.searchParams.startDate)
                         }
-                        if (isRoundTripSearchObservable.value && combination.searchParams.endDate != null && selectedDates.second != null) {
+                        if (combination.searchParams.isRoundTrip() && combination.searchParams.endDate != null && selectedDates.second != null) {
                             isEndDateSelectionChanged = !selectedDates.second!!.isEqual(combination.searchParams.endDate)
                         }
                         if ((isStartDateSelectionChanged || isEndDateSelectionChanged) || (!combination.searchParams.departureAirport.equals(combination.origin)) ||
@@ -285,8 +286,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (isFlightGreedySearchEnabled(context)) {
             abortGreedyCallObservable.onNext(Unit)
         }
-        val oneWay = searchParams.departureDate != null && searchParams.returnDate == null
-        isRoundTripSearchObservable.onNext(!oneWay)
+        val tripType = if (searchParams.departureDate != null && searchParams.returnDate == null) TripType.ONE_WAY else TripType.RETURN
+        tripTypeSearchObservable.onNext(tripType)
         datesUpdated(searchParams.departureDate, searchParams.returnDate)
         val departureSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.departureLocation?.destinationId)
         if (departureSuggestion != null) {
@@ -333,7 +334,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         dateSetObservable.onNext(Unit)
         cachedEndDateObservable.onNext(Optional(pastSearchParams.returnDate))
-        isRoundTripSearchObservable.onNext(pastSearchParams.isRoundTrip())
+        when (pastSearchParams.isRoundTrip()) {
+            true -> tripTypeSearchObservable.onNext(TripType.RETURN)
+            false -> tripTypeSearchObservable.onNext(TripType.ONE_WAY)
+        }
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -343,14 +347,14 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
         dateInstructionObservable.onNext(getDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
-        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end, isRoundTripSearchObservable.value))
+        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end, tripTypeSearchObservable.value.isRoundTrip()))
 
         if (!getCalendarRules().isStartDateOnlyAllowed()) {
             if (start != null && end == null) {
                 end = start.plusDays(1)
             }
         }
-        val hasValidDates = when (isRoundTripSearchObservable.value) {
+        val hasValidDates = when (tripTypeSearchObservable.value.isRoundTrip()) {
             true -> start != null && end != null
             false -> start != null
         }
@@ -373,7 +377,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
-        if (isRoundTripSearchObservable.value && end == null) {
+        if (tripTypeSearchObservable.value.isRoundTrip() && end == null) {
             return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
         }
         return context.getString(R.string.calendar_drag_to_modify)
@@ -387,7 +391,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
-        if (isRoundTripSearchObservable.value) {
+        if (tripTypeSearchObservable.value.isRoundTrip()) {
             val dateString = Phrase.from(context.resources, R.string.select_return_date_TEMPLATE)
                     .put("startdate", getFormattedDate(start))
                     .format().toString()

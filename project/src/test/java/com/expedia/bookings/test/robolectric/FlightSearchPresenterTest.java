@@ -39,6 +39,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightSearchParams;
+import com.expedia.bookings.data.flights.FlightSearchParams.TripType;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.data.flights.RecentSearch;
 import com.expedia.bookings.data.flights.RecentSearchDAO;
@@ -159,10 +160,10 @@ public class FlightSearchPresenterTest {
 		FlightSearchViewModel flightSearchViewModel = new FlightSearchViewModel(activity);
 		calendarCard.setViewModel(flightSearchViewModel);
 
-		flightSearchViewModel.isRoundTripSearchObservable().onNext(true);
+		flightSearchViewModel.getTripTypeSearchObservable().onNext(FlightSearchParams.TripType.RETURN);
 		assertEquals(activity.getResources().getString(R.string.select_dates), calendarCard.getText().toString());
 
-		flightSearchViewModel.isRoundTripSearchObservable().onNext(false);
+		flightSearchViewModel.getTripTypeSearchObservable().onNext(FlightSearchParams.TripType.ONE_WAY);
 		assertEquals(activity.getResources().getString(R.string.select_departure_date),
 			calendarCard.getText().toString());
 	}
@@ -385,20 +386,20 @@ public class FlightSearchPresenterTest {
 	public void testTabsOneWayTripTab() {
 		initializeWidget();
 		selectRoundTripTabAtIndex(1);
-		TestObserver<Boolean> isRoundTripSearchSubscriber = new TestObserver<>();
-		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
+		TestObserver<TripType> tripTypeSearchSubscriber = new TestObserver<>();
+		widget.getSearchViewModel().getTripTypeSearchObservable().subscribe(tripTypeSearchSubscriber);
 
-		isRoundTripSearchSubscriber.assertValue(false);
+		tripTypeSearchSubscriber.assertValue(TripType.ONE_WAY);
 	}
 
 	@Test
 	public void testRoundTripTabs() {
 		initializeWidget();
 		selectRoundTripTabAtIndex(0);
-		TestObserver<Boolean> isRoundTripSearchSubscriber = new TestObserver<>();
-		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
+		TestObserver<TripType> tripTypeSearchSubscriber = new TestObserver<>();
+		widget.getSearchViewModel().getTripTypeSearchObservable().subscribe(tripTypeSearchSubscriber);
 
-		isRoundTripSearchSubscriber.assertValue(true);
+		tripTypeSearchSubscriber.assertValue(TripType.RETURN);
 	}
 
 	private SuggestionV4 getSuggestion(String airportCode, String displayName) {
@@ -508,7 +509,7 @@ public class FlightSearchPresenterTest {
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
 		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestSubscriber);
-		vm.isRoundTripSearchObservable().onNext(false);
+		vm.getTripTypeSearchObservable().onNext(TripType.ONE_WAY);
 
 		//When dates are not selected
 		vm.datesUpdated(null, null);
