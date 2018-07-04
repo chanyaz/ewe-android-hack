@@ -84,7 +84,9 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         val filterCount = userFilterChoices.filterCount()
         val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
-        doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
+        if (isClientSideFiltering()) {
+            doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
+        }
     }
 
     override fun isFilteredToZeroResults(): Boolean {

@@ -167,6 +167,38 @@ class PackageFilterViewModelTest {
     }
 
     @Test
+    fun doneButtonEnableClientFiltering() {
+        vm.originalResponse = fakeFilteredResponse()
+        val testSubscriber = TestObserver.create<Boolean>()
+        vm.doneButtonEnableObservable.subscribe(testSubscriber)
+        var str = "Hil"
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
+        assertTrue(testSubscriber.values()[0])
+    }
+
+    @Test
+    fun doneButtonDisableClientFiltering() {
+        vm.originalResponse = fakeFilteredResponse()
+        val testSubscriber = TestObserver.create<Boolean>()
+        vm.doneButtonEnableObservable.subscribe(testSubscriber)
+        var str = "junk"
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
+        assertFalse(testSubscriber.values()[0])
+    }
+
+    @Test
+    fun doneButtonEnabledServerSideFiltering() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        val testSubscriber = TestObserver.create<Boolean>()
+        vm.doneButtonEnableObservable.subscribe(testSubscriber)
+        vm.doneButtonEnableObservable.onNext(true)
+        vm.originalResponse = fakeFilteredResponse()
+        var str = "junk"
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
+        assertTrue(testSubscriber.values()[0])
+    }
+
+    @Test
     fun emptyFilters() {
         vm.doneObservable.onNext(Unit)
         assertEquals(0, vm.filteredResponse.hotelList.size)
