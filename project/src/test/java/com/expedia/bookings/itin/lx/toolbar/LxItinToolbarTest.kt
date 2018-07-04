@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.lx.toolbar
 
 import android.app.Activity
 import android.view.LayoutInflater
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.helpers.MockItinToolbarViewModel
@@ -10,8 +11,6 @@ import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.tripstore.data.Traveler
 import com.expedia.bookings.itin.utils.ItinShareTextGenerator
 import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -45,7 +44,6 @@ class LxItinToolbarTest {
     }
 
     @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testCorrectTextGenerated() {
         val testObserver = TestObserver<ItinShareTextGenerator>()
         sut.viewModel.itinShareTextGeneratorSubject.subscribe(testObserver)
@@ -59,7 +57,7 @@ class LxItinToolbarTest {
                 mapOf("trip" to "Trip title")), textGenerator.getEmailSubject())
         assertEquals(stringProvider.fetchWithPhrase(R.string.itin_lx_share_email_body_TEMPLATE,
                 mapOf("trip" to "Trip title", "startdate" to "Monday, May 5", "enddate" to "Tuesday, May 6",
-                        "travelers" to "Bob Smith, John Smith", "brand" to "Expedia", "link" to "app.info.url")),
+                        "travelers" to "Bob Smith, John Smith", "brand" to BuildConfig.brand, "link" to "app.info.url")),
                 textGenerator.getEmailBody())
         assertEquals(stringProvider.fetchWithPhrase(R.string.itin_lx_share_sms_body_TEMPLATE,
                 mapOf("trip" to "Trip title", "startdate" to "Monday, May 5", "enddate" to "Tuesday, May 6",

@@ -287,21 +287,7 @@ class HotelViewModelTest {
 
         assertUrgencyMessage(R.drawable.ic_member_only_tag,
                 R.color.member_pricing_bg_color,
-                "Member Pricing",
-                R.color.member_pricing_text_color)
-    }
-
-    @Test
-    @RunForBrands(brands = [MultiBrand.ORBITZ])
-    fun testUrgencyMessageInsiderPricesHasSecondPriority() {
-        givenHotelWithMemberDeal()
-        givenHotelWithFewRoomsLeft()
-        givenHotelWithTonightOnly()
-        givenHotelWithMobileExclusive()
-
-        assertUrgencyMessage(R.drawable.ic_member_only_tag,
-                R.color.member_pricing_bg_color,
-                "Insider Prices",
+                context.resources.getString(R.string.member_pricing),
                 R.color.member_pricing_text_color)
     }
 
