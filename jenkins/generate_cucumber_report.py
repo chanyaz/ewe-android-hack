@@ -3,6 +3,7 @@ import json
 import os.path
 import sys
 import traceback
+import re
 from sets import Set
 
 def write_to_error_file(string_to_write):
@@ -311,6 +312,7 @@ def generateCompleteReportHTML(allFeatureTestCases):
 
 def main():
     allConnectedDevicesStr = sys.argv[1].strip()
+    allConnectedDevicesStr = re.sub(r"\s+", "", allConnectedDevicesStr, flags=re.UNICODE)
     allFeatureResults = []
     failed_test_case_count = 0
 
