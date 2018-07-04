@@ -21,6 +21,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.lx.presenter.LXPresenter;
 import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.ApiDateUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.AbstractAppCompatActivity;
 import com.google.android.gms.maps.MapView;
@@ -114,8 +115,10 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 					return true;
 				}
 				if (navigateToSearch) {
-					LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location(location).startDate(startDate).endDate(endDate).build();
-					lxPresenter.searchParamsWidget.getSearchParamsToFillFormObserver().onNext(searchParams);
+					if (Strings.isNotEmpty(location)) {
+						LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location(location).startDate(startDate).endDate(endDate).build();
+						lxPresenter.searchParamsWidget.getSearchParamsToFillFormObserver().onNext(searchParams);
+					}
 					lxPresenter.showSearchWidget();
 					return true;
 				}
