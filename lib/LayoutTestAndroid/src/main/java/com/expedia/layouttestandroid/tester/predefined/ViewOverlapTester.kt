@@ -1,5 +1,6 @@
 package com.expedia.layouttestandroid.tester.predefined
 
+import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.layouttestandroid.extension.getVisibleChildViews
@@ -35,8 +36,8 @@ class ViewOverlapTester : LayoutTester {
                             val view1 = childViews[i]
                             val view2 = childViews[j]
 
-                            if (shouldTestOverlap(view1, view2)) {
-                                doViewsOverlap(view1, view2)
+                            if (shouldTestOverlap(view1, view2) && doViewsOverlap(view1, view2)) {
+                                throw LayoutTestException(createException(view1, view2), arrayListOf(view1, view2))
                             }
                         }
             }
@@ -62,25 +63,17 @@ class ViewOverlapTester : LayoutTester {
         }
     }
 
-    private fun doViewsOverlap(view1: View, view2: View) {
-        val view1Bounds = Rectangle(view1.x, view1.y, view1.width.toFloat(), view1.height.toFloat())
-        val view2Bounds = Rectangle(view2.x, view2.y, view2.width.toFloat(), view2.height.toFloat())
+    private fun doViewsOverlap(view1: View, view2: View): Boolean {
+        val view1Rect = Rect()
+        val view2Rect = Rect()
 
-        if (doRectanglesOverlap(view1Bounds, view2Bounds)) {
-            throw LayoutTestException(createException(view1, view2), arrayListOf(view1, view2))
-        }
+        view1.getGlobalVisibleRect(view1Rect)
+        view2.getGlobalVisibleRect(view2Rect)
+
+        return Rect.intersects(view1Rect, view2Rect)
     }
 
     private fun createException(view1: View, view2: View): String {
         return "View: ${view1.toDisplayString()} is overlapping with ${view2.toDisplayString()}"
     }
-
-    private fun doRectanglesOverlap(r1: Rectangle, r2: Rectangle): Boolean {
-        return !(r1.left >= r2.right ||
-                r1.right <= r2.left ||
-                r1.top >= r2.bottom ||
-                r1.bottom <= r2.top)
-    }
-
-    private data class Rectangle(val left: Float, val top: Float, val right: Float, val bottom: Float)
 }

@@ -409,6 +409,7 @@ android {
     sourceSets {
 
         debug {
+            res.srcDirs += ['src/layoutTest/res/layout', 'src/layoutTest/res']
             assets.srcDirs += '../lib/mocked/templates'
         }
 
@@ -418,9 +419,8 @@ android {
         }
 
         androidTest {
-            assets.srcDirs = ['src/androidTest/assets']
             java.srcDir 'src/layoutTest/kotlin'
-            resources.srcDirs = ['src/layoutTest/res/layout', 'src/layoutTest/res']
+            assets.srcDirs = ['src/androidTest/assets']
         }
     }
 

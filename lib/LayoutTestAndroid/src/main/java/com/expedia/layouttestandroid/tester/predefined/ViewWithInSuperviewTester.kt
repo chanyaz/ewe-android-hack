@@ -1,5 +1,6 @@
 package com.expedia.layouttestandroid.tester.predefined
 
+import android.graphics.Rect
 import android.support.annotation.IdRes
 import android.view.View
 import android.view.ViewGroup
@@ -41,9 +42,7 @@ class ViewWithInSuperviewTester : LayoutTester {
                         var errorString: String? = null
                         if (isWidthOrHeightZero(childView)) {
                             errorString = createChildViewWidthOrHeightZeroException(childView, parentView)
-                        } else if (!isViewWithinSuperview(
-                                        Rectangle(parentView.x, parentView.y, parentView.x + parentView.width.toFloat(), parentView.y + parentView.height.toFloat()),
-                                        Rectangle(childView.x, childView.y, childView.x + childView.width.toFloat(), childView.y + childView.height.toFloat()))) {
+                        } else if (!isViewWithinSuperview(parentView, childView)) {
                             errorString = createException(childView, parentView)
                         }
                         errorString?.let {
@@ -77,12 +76,13 @@ class ViewWithInSuperviewTester : LayoutTester {
         return childView.width == 0 || childView.height == 0
     }
 
-    private fun isViewWithinSuperview(parentView: Rectangle, childView: Rectangle): Boolean {
-        return parentView.left <= childView.left &&
-                parentView.top <= childView.top &&
-                parentView.right >= childView.right &&
-                parentView.bottom >= childView.bottom
-    }
+    private fun isViewWithinSuperview(parentView: View, childView: View): Boolean {
+        val parentRect = Rect()
+        val childRect = Rect()
 
-    private data class Rectangle(val left: Float, val top: Float, val right: Float, val bottom: Float)
+        parentView.getGlobalVisibleRect(parentRect)
+        childView.getGlobalVisibleRect(childRect)
+
+        return parentRect.contains(childRect)
+    }
 }

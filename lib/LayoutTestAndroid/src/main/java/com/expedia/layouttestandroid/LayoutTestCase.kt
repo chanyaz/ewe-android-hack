@@ -67,7 +67,7 @@ abstract class LayoutTestCase {
         }
         if (allTestExceptions.size > 0) {
             exportReport(packageName, testClass)
-            throw AssertionError("Found layout exceptions: pull report using \$adb pull /sdcard/layoutTests .")
+            throw AssertionError("Found layout exceptions: pull report using \$sh tools/pull_layout_test_report.sh $packageName $testClass")
         }
     }
 
@@ -122,7 +122,7 @@ abstract class LayoutTestCase {
         val combinationsOfDataSpec: List<Map<String, Any?>> = TestCombinations.getAllCombinationsOfDataSpec(dataSpecForTest)
         val dataSpecAndSizes = ArrayList<DataSpecAndSize>()
 
-        val sizesForViewWithAtLeastOneValue = if (sizesForView.isEmpty()) arrayOf(LayoutViewSize(null, null)) else sizesForView
+        val sizesForViewWithAtLeastOneValue = if (sizesForView.isEmpty()) arrayOf(LayoutViewSize.GooglePixelXL) else sizesForView
 
         sizesForViewWithAtLeastOneValue.forEach { size ->
             if (combinationsOfDataSpec.isEmpty()) {

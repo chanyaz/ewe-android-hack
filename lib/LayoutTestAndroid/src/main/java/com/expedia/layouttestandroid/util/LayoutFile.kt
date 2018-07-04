@@ -37,7 +37,7 @@ object LayoutFile {
             <div class="screenshot_description">${'$'}{testName}</div>
             <div class="flex-wrapper">
                 <div class="img-wrapper">
-                    <img src="${'$'}{testName}.png" style="width:${'$'}{size.width/4}px;height:${'$'}{size.height/4}px"/>
+                    <img src="${'$'}{testName}.png" style="width:${'$'}{size.width/4}px;height:${'$'}{size.height/4}px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"/>
                     <div class="hierarchy-overlay">
                         <div class="hierarchy-node" style="left:${'$'}{hierarchyDump.left/4}px;top:${'$'}{hierarchyDump.top/4}px;width:${'$'}{hierarchyDump.width/4 - 4}px;height:${'$'}{hierarchyDump.height/4 - 4}px;" id="node-${'$'}{hierarchyDump.class.replace(/\./g, '-')}-${'$'}{hierarchyDump.hashCode}"></div>
                         {{tmpl(hierarchyDump) "#hierarchyDumpTemplate"}}
