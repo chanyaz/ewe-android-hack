@@ -49,6 +49,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private lateinit var flightListAdapter: AbstractFlightListAdapter
     var trackScrollDepthSubscription: Disposable? = null
+    var anim: ProgressBarAnimation? = null
 
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
@@ -172,7 +173,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
                 if (resultsViewModel.showRichContent) {
-                    progressBarAnimation(1000, flightProgressBar.progress.toFloat(), 540f, true, false)
+                    progressBarAnimation(2000, flightProgressBar.progress.toFloat(), 580f, true, false)
                 } else {
                     progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true, true)
                 }
@@ -196,11 +197,12 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun progressBarAnimation(duration: Long, fromProgress: Float, toProgress: Float, resultsReceived: Boolean, hideProgressBar: Boolean) {
-        val anim = ProgressBarAnimation(flightProgressBar, fromProgress, toProgress)
-        anim.duration = duration
+        anim?.cancel()
+        anim = ProgressBarAnimation(flightProgressBar, fromProgress, toProgress)
+        anim?.duration = duration
         flightProgressBar.startAnimation(anim)
         if (resultsReceived) {
-            anim.setAnimationListener(object : AnimationListenerAdapter() {
+            anim?.setAnimationListener(object : AnimationListenerAdapter() {
                 override fun onAnimationEnd(animation: Animation?) {
                     super.onAnimationEnd(animation)
                     if (hideProgressBar) {
