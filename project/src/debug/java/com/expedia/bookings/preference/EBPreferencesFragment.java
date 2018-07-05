@@ -24,7 +24,6 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.fragment.SelectLanguageDialogFragment;
 import com.expedia.bookings.hotel.util.HotelFavoritesCache;
-import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.TNSServices;
@@ -227,8 +226,6 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 		else if ("PREF_FIRST_LAUNCH".equals(key)) {
 			userStateManager.signOut();
-			SettingUtils.save(getContext(), PhoneLaunchActivity.PREF_USER_ENTERS_FROM_SIGNIN, false);
-			SettingUtils.save(getContext(), PhoneLaunchActivity.PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0);
 		}
 		else if (getString(R.string.preference_which_lang_to_use_key).equals(key)) {
 			final SelectLanguageDialogFragment dialogFragment = new SelectLanguageDialogFragment();

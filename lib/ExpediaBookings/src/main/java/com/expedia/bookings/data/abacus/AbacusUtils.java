@@ -125,9 +125,6 @@ public class AbacusUtils {
 	// Growth
 	public static final ABTest EBAndroidAppGrowthSocialSharing = new ABTest(26166, true);
 
-	// Soft Prompt
-	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
-
 	public enum LaunchScreenAirAttachVariant {
 		CONTROL,
 		UP_TO_XX_PERCENT_OFF,
@@ -172,7 +169,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel.getKey());
 		testIDs.add(EBAndroidAppCarsAATest.getKey());
 		testIDs.add(EBAndroidAppFlightRateDetailsFromCache.getKey());
-		testIDs.add(EBAndroidAppSoftPromptLocation.getKey());
 		testIDs.add(EBAndroidAppLXOfferLevelCancellationPolicySupport.getKey());
 		testIDs.add(EBAndroidAppAllowUnknownCardTypes.getKey());
 		testIDs.add(EBAndroidAppHotelCheckinCheckoutDatesInline.getKey());

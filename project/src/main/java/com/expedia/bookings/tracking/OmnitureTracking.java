@@ -3237,8 +3237,6 @@ public class OmnitureTracking {
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
 	private static final String LAUNCH_SCREEN_GLOBAL_NAVIGATION = "App.Global";
 	private static final String LAUNCH_SCREEN_EXPANDED_LOB = "App.LS.Srch.ExpandSrch";
-	private static final String LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_ACCEPT = "App.LS.LocPermSP.Accept";
-	private static final String LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_CANCEL = "App.LS.LocPermSP.Cancel";
 	private static final String LAUNCH_SCREEN_LOCATION_NATIVE_PROMPT_ACCEPT = "App.DeviceLocation.Ok";
 	private static final String LAUNCH_SCREEN_LOCATION_NATIVE_PROMPT_CANCEL = "App.DeviceLocation.Opt-Out";
 	private static final String LOGIN_SCREEN = "App.Account.SignIn";
@@ -3351,17 +3349,6 @@ public class OmnitureTracking {
 			useExisting ? LOGIN_EMAIL_PROMPT_EXISTING : LOGIN_EMAIL_PROMPT_NEW);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink("Accounts");
-	}
-
-	public static void trackLocationSoftPrompt(boolean accept) {
-		AppAnalytics s;
-		if (accept) {
-			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_ACCEPT);
-		}
-		else {
-			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_CANCEL);
-		}
-		s.trackLink("Soft Prompt");
 	}
 
 	public static void trackLocationNativePrompt(boolean accept) {
@@ -3625,7 +3612,6 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(s, AbacusUtils.DisableSignInPageAsFirstScreen);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
 		trackAbacusTest(s, AbacusUtils.HotelEarn2xMessaging);
 		trackAbacusTest(s, AbacusUtils.MesoAd);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppBrandColors);
