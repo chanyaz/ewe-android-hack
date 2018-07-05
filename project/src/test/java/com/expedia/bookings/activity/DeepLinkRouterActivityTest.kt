@@ -4,16 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.FlightSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.features.Feature
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.packages.activity.PackageActivity
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -31,14 +32,13 @@ import org.robolectric.android.controller.ActivityController
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class DeepLinkRouterActivityTest {
 
     val context: Context = RuntimeEnvironment.application
 
     @Test
     fun hotelSearchDeepLink() {
-        val hotelSearchUrl = "expda://hotelSearch"
+        val hotelSearchUrl = "${BuildConfig.DEEPLINK_SCHEME}://hotelSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(hotelSearchUrl)
 
         val params = DeprecatedHotelSearchParams()
@@ -54,7 +54,7 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun retrieveCarnivalMessageIsCalledOnPushNotificationTap() {
-        val homeUrl = "expda://home"
+        val homeUrl = "${BuildConfig.DEEPLINK_SCHEME}://home"
 
         val intent = createIntent(homeUrl)
 
@@ -83,7 +83,7 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun flightSearchDeepLink() {
-        val hotelSearchUrl = "expda://flightSearch"
+        val hotelSearchUrl = "${BuildConfig.DEEPLINK_SCHEME}://flightSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(hotelSearchUrl)
 
         val params = FlightSearchParams()
@@ -96,7 +96,7 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun homeDeepLink() {
-        val homeUrl = "expda://home"
+        val homeUrl = "${BuildConfig.DEEPLINK_SCHEME}://home"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(homeUrl)
 
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
@@ -107,7 +107,7 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun webDeepLinkWithFeatureOn() {
-        val url = "https://www.expedia.com/mobile/deeplink/mobileTest"
+        val url = "https://www." + PointOfSale.getPointOfSale().getUrl() + "/mobile/deeplink/mobileTest"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(url, true)
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         assertIntentForActivity(DeepLinkWebViewActivity::class.java, startedIntent)
@@ -116,7 +116,7 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun webDeepLinkWithFeatureOff() {
-        val url = "https://www.expedia.com/mobile/deeplink/mobileTest"
+        val url = "https://www." + PointOfSale.getPointOfSale().getUrl() + "/mobile/deeplink/mobileTest"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(url, false)
 
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
@@ -127,42 +127,42 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun forceBucketDeepLink() {
-        val forceBucketUrl = "expda://forceBucket?key=1111&value=0"
+        val forceBucketUrl = "${BuildConfig.DEEPLINK_SCHEME}://forceBucket?key=1111&value=0"
         getDeepLinkRouterActivity(forceBucketUrl)
         assertEquals(0, ForceBucketPref.getForceBucketedTestValue(context, 1111, -1))
     }
 
     @Test
     fun memberPricingDeepLink() {
-        val memberPricingUrl = "https://www.expedia.com/mobile/deeplink/member-pricing"
+        val memberPricingUrl = "https://www." + PointOfSale.getPointOfSale().getUrl() + "/mobile/deeplink/member-pricing"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(memberPricingUrl)
         assertEquals(1, deepLinkRouterActivity.memberPricingCount)
     }
 
     @Test
     fun signInDeepLink() {
-        val signInUrl = "expda://signIn"
+        val signInUrl = "${BuildConfig.DEEPLINK_SCHEME}://signIn"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(signInUrl)
         assertEquals(1, deepLinkRouterActivity.signInCallsCount)
     }
 
     @Test
     fun signInDeepLinkVariations() {
-        val signInUrl = "https://www.expedia.com/mobile/deeplink/anything/signin"
+        val signInUrl = "https://www." + PointOfSale.getPointOfSale().getUrl() + "/mobile/deeplink/anything/signin"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(signInUrl)
         assertEquals(1, deepLinkRouterActivity.signInCallsCount)
     }
 
     @Test
     fun supportEmailDeepLink() {
-        val supportEmailUrl = "expda://supportEmail"
+        val supportEmailUrl = "${BuildConfig.DEEPLINK_SCHEME}://supportEmail"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(supportEmailUrl)
         assertEquals(1, deepLinkRouterActivity.supportEmailCallsCount)
     }
 
     @Test
     fun sharedItineraryDeepLink() {
-        val sharedItinUrl = "https://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
+        val sharedItinUrl = "https://www." + PointOfSale.getPointOfSale().getUrl() + "/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
         val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(sharedItinUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
@@ -176,8 +176,8 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun shortUrlDeepLink() {
-        val shortUrl = "http://e.xpda.co/0y5Ht7LVY1gqSwdrngvC0MCAdQKn"
-        val sharedItinUrl = "http://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
+        val shortUrl = "https://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl() + "/0y5Ht7LVY1gqSwdrngvC0MCAdQKn"
+        val sharedItinUrl = "https://www." + PointOfSale.getPointOfSale().getUrl() + "/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j"
         val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(shortUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
@@ -190,7 +190,7 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun tripDeepLink() {
-        val tripUrl = "expda://trips?itinNum=7238447666975"
+        val tripUrl = "${BuildConfig.DEEPLINK_SCHEME}://trips?itinNum=7238447666975"
         val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(tripUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
@@ -203,7 +203,7 @@ class DeepLinkRouterActivityTest {
 
     @Test
     fun packageSearchDeeplink() {
-        val packageSearchUrl = "expda://packageSearch"
+        val packageSearchUrl = "${BuildConfig.DEEPLINK_SCHEME}://packageSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(packageSearchUrl)
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         assertIntentForActivity(PackageActivity::class.java, startedIntent)
@@ -278,7 +278,7 @@ class DeepLinkRouterActivityTest {
         override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? = null
 
         override fun goFetchSharedItinWithShortUrl(shortUrl: String, runnable: OnSharedItinUrlReceiveListener) {
-            runnable.onSharedItinUrlReceiveListener("http://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j")
+            runnable.onSharedItinUrlReceiveListener("https://www." + PointOfSale.getPointOfSale().getUrl() + "/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j")
         }
 
         override fun retrieveCarnivalMessage() {
