@@ -14,6 +14,10 @@ class TripListAdapter(val context: Context, val viewModel: ITripListAdapterViewM
     val cancelledTripListView = TripFolderListTabView(context, null)
 
     init {
+        upcomingTripListView.viewModel = TripFolderListTabViewModel()
+        pastTripListView.viewModel = TripFolderListTabViewModel()
+        cancelledTripListView.viewModel = TripFolderListTabViewModel()
+
         viewModel.upcomingTripFoldersSubject.subscribe {
             upcomingTripListView.viewModel.foldersSubject.onNext(it)
         }
@@ -38,7 +42,6 @@ class TripListAdapter(val context: Context, val viewModel: ITripListAdapterViewM
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         when (position) {
             TripListTabs.UPCOMING_TAB.value -> {
-                upcomingTripListView.viewModel = TripFolderListTabViewModel()
                 container.addView(upcomingTripListView)
                 return upcomingTripListView
             }

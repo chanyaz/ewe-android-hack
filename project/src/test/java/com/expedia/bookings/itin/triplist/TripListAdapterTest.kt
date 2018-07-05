@@ -15,6 +15,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -104,8 +105,7 @@ class TripListAdapterTest {
     @Test
     fun testUpcomingFoldersPassedOntoUpcomingTripListView() {
         val testObserver = TestObserver<List<TripFolder>>()
-        val viewGroup = FrameLayout(context)
-        adapter.instantiateItem(viewGroup, 0)
+        assertNotNull(adapter.upcomingTripListView.viewModel)
         adapter.upcomingTripListView.viewModel.foldersSubject.subscribe(testObserver)
         testObserver.assertNoValues()
 
