@@ -12,13 +12,18 @@ import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.trips.TripFolder
+import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.mobiata.android.util.SettingUtils
+import com.google.gson.Gson
 import io.reactivex.subjects.PublishSubject
+import java.io.InputStreamReader
 
 class TripsScenarioSelectFragment : Fragment() {
     private val recyclerView: RecyclerView by bindView(R.id.trip_scenarios_select_recycler_view)
     private val scenarios: MutableList<TripMockScenarios.Scenarios> = mutableListOf()
+    lateinit var fileUtils: ITripsJsonFileUtils
     val viewModel: TripScenariosViewModel by lazy {
         TripScenariosViewModel()
     }
@@ -38,6 +43,9 @@ class TripsScenarioSelectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Ui.getApplication(context).defaultTripComponents()
+        fileUtils = Ui.getApplication(context).tripComponent().tripFolderJsonFileUtils()
+
         viewModel.closeFragmentSubject.subscribe {
             viewModel.restartAppSubject.onNext(Unit)
             activity?.onBackPressed()
@@ -45,12 +53,12 @@ class TripsScenarioSelectFragment : Fragment() {
         recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = TripsScenariosAdapter(context, scenarios, viewModel)
+            adapter = TripsScenariosAdapter(context, scenarios, viewModel, fileUtils)
         }
     }
 }
 
-class TripsScenariosAdapter(private val context: Context, private val scenarios: List<TripMockScenarios.Scenarios>, private val viewModel: TripScenariosViewModel) : RecyclerView.Adapter<TripsScenariosAdapter.ViewHolder>() {
+class TripsScenariosAdapter(private val context: Context, private val scenarios: List<TripMockScenarios.Scenarios>, private val viewModel: TripScenariosViewModel, private val fileUtils: ITripsJsonFileUtils) : RecyclerView.Adapter<TripsScenariosAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val textView = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_selectable_list_item, parent, false) as CheckedTextView
@@ -62,9 +70,18 @@ class TripsScenariosAdapter(private val context: Context, private val scenarios:
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = scenarios[position].name
+        val scenario = scenarios[position]
+        holder.textView.text = scenario.name
         holder.itemView.setOnClickListener {
-            SettingUtils.save(context, TripMockScenarios.TRIP_SCENARIOS_FILENAME_KEY, scenarios[position].filename)
+
+            fileUtils.deleteAllFiles()
+
+            val gson = Gson()
+            val arrayOfFolders = gson.fromJson(InputStreamReader(context.assets.open("api/trips/tripfolders/${scenario.filename}.json")), Array<TripFolder>::class.java).toList()
+            arrayOfFolders.forEach { folder ->
+                fileUtils.writeToFile(folder.tripFolderId, gson.toJson(folder))
+            }
+
             showAlertDialogForAppRestart(position)
         }
     }
