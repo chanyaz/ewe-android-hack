@@ -19,7 +19,10 @@ import io.reactivex.subjects.BehaviorSubject
 
 class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
-    @VisibleForTesting val signInWithFacebookButton: Button by lazy { findViewById<Button>(R.id.new_signin_with_facebook_button) }
+    @VisibleForTesting
+    val signInWithFacebookButton: Button by lazy { findViewById<Button>(R.id.new_signin_with_facebook_button) }
+    @VisibleForTesting
+    val multipleSignInOptionsLayout: MulitipleSignInOptionsLayout by lazy { findViewById<MulitipleSignInOptionsLayout>(R.id.multiple_signin_options_layout) }
     private val emailInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_email_address) }
     private val passwordInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_password) }
     private val forgotPassword: View by lazy { findViewById<View>(R.id.new_signin_forgot_password) }

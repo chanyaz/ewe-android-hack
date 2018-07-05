@@ -29,7 +29,14 @@
                 android:textColor="@color/acct__btn_facebook_text"
                 android:text="@string/acct__Sign_In_with_Facebook"
                 android:textSize="14sp"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false"
+                android:visibility="gone"/>
+
+            <com.expedia.account.newsignin.MulitipleSignInOptionsLayout
+                android:id="@+id/multiple_signin_options_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="wrap_content"

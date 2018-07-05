@@ -92,6 +92,8 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	private Boolean isNewSignInEnabled = false;
 
+	private Boolean isGoogleSignInEnabled = false;
+
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
 		if (bundle != null) {
@@ -143,6 +145,8 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 		isNewSignInEnabled = FeatureUtilKt.isNewSignInEnabled(this);
 
+		isGoogleSignInEnabled = FeatureUtilKt.isNewSignInEnabled(this);
+
 		CarnivalUtils.getInstance().toggleNotifications(false);
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
@@ -176,6 +180,12 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	private void setupAccountViewBasedOnBucketing() {
 		if (isNewSignInEnabled) {
+
+			newAccountView.getSignInLayout().getSignInWithFacebookButton()
+				.setVisibility(isGoogleSignInEnabled ? View.GONE : View.VISIBLE);
+			newAccountView.getSignInLayout().getMultipleSignInOptionsLayout()
+				.setVisibility(isGoogleSignInEnabled ?View.VISIBLE : View.GONE);
+
 			newAccountView.setVisibility(View.VISIBLE);
 			newAccountView.setNavigationOnClickListener(navigationListener);
 			getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
