@@ -1569,8 +1569,8 @@
 
     <!--Generic itin strings-->
     <!--Itin cruise redesign-->
-    <!--Itin cruise toolbar title template. (e.g. Cruise to Hawaii)-->
-    <string name="itin_cruise_toolbar_title_TEMPLATE">Cruise to {destination}</string>
+    <!--Itin cruise toolbar title template. (e.g. Cruise from Seattle)-->
+    <string name="itin_cruise_toolbar_title_TEMPLATE">Cruise from {city}</string>
     <!--Itin cruise share email subject-->
     <string name="itin_cruise_share_email_subject">My Cruise Reservation</string>
     <!--Itin cruise share email body template. (e.g. Hi,\n\nHere are the details of my cruise reservation:\n8 Day Cruise to Hawaii\n\nItinerary #:\n12341234\nCruise Line:\nAwesome Cruise\nShip Name:\nCool Ship\n\nEmbarkation:\n2:00pm on Friday, March 28, San Jose, USA\nDisembarkation:\n4:00pm on Monday, April 20, Barcelona, Spain-->

@@ -5,6 +5,8 @@ data class ItinCruise(
         val destination: String?,
         val cruiseLineName: String?,
         val shipName: String?,
+        val departureDateAbbreviated: String?,
+        val returnDateAbbreviated: String?,
         val departurePort: Port?,
         val disembarkationPort: Port?,
         val startTime: ItinTime?,
