@@ -35,7 +35,7 @@
                 android:layout_marginLeft="12dp"
                 android:paddingBottom="12dp"
                 android:paddingTop="20dp"
-                android:text="@string/itin_hotel_details_price_summary_heading"
+                android:text="@string/itin_price_summary_text"
                 android:textColor="@color/gray750"
                 android:textSize="18sp"
                 app:textStyle="medium" />

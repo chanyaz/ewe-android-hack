@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.common.ItinImageWidget
+import com.expedia.bookings.itin.common.ItinManageBookingWidget
 import com.expedia.bookings.itin.common.ItinRepo
 import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.common.ItinTimingsWidget
@@ -17,6 +18,7 @@ import com.expedia.bookings.itin.scopes.CruiseScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.StringSource
+import com.expedia.bookings.itin.utils.WebViewLauncher
 import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
@@ -40,6 +42,7 @@ class CruiseItinDetailsActivity : AppCompatActivity() {
     val toolbar: ItinToolbar by bindView(R.id.widget_itin_toolbar)
     val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
     val timingsWidget: ItinTimingsWidget by bindView(R.id.itin_timings_widget)
+    val manageBookingWidget: ItinManageBookingWidget by bindView(R.id.widget_manage_booking)
 
     lateinit var jsonUtil: IJsonToItinUtil
         @Inject set
@@ -63,7 +66,7 @@ class CruiseItinDetailsActivity : AppCompatActivity() {
 
         val itinId = intent.getStringExtra(CRUISE_ITIN_ID)
         repo = ItinRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
-        val scope = CruiseScope(repo, stringProvider, this, tripsTracking)
+        val scope = CruiseScope(repo, stringProvider, this, tripsTracking, WebViewLauncher(this))
 
         toolbarViewModel = CruiseItinToolbarViewModel(scope)
         toolbar.viewModel = toolbarViewModel
@@ -71,6 +74,8 @@ class CruiseItinDetailsActivity : AppCompatActivity() {
         imageWidget.viewModel = CruiseItinImageViewModel(scope)
 
         timingsWidget.viewModel = CruiseItinTimingsWidgetViewModel(scope)
+
+        manageBookingWidget.viewModel = CruiseItinManageBookingWidgetViewModel(scope)
     }
 
     override fun finish() {

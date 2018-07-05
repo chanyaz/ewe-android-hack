@@ -47,7 +47,7 @@ class HotelItinPriceSummaryButtonViewModelTest {
         viewModel.cardClickListener.invoke()
         assertEquals("7331281600686", scope.mockWebViewLauncher.lastSeenTripId)
         assertEquals("https://www.expedia.com/trips/7331281600686", scope.mockWebViewLauncher.lastSeenURL)
-        assertEquals(R.string.itin_hotel_details_price_summary_heading, scope.mockWebViewLauncher.lastSeenTitle)
+        assertEquals(R.string.itin_price_summary_text, scope.mockWebViewLauncher.lastSeenTitle)
         assertTrue(scope.mockTripsTracking.trackHotelItinPricingRewardsClicked)
     }
 
@@ -66,7 +66,7 @@ class HotelItinPriceSummaryButtonViewModelTest {
         viewModel.cardClickListener.invoke()
         assertEquals("7280999576135", scope.mockWebViewLauncher.lastSeenTripId)
         assertEquals("https://www.expedia.com/trips/7280999576135", scope.mockWebViewLauncher.lastSeenURL)
-        assertEquals(R.string.itin_hotel_details_price_summary_heading, scope.mockWebViewLauncher.lastSeenTitle)
+        assertEquals(R.string.itin_price_summary_text, scope.mockWebViewLauncher.lastSeenTitle)
         assertTrue(scope.mockTripsTracking.trackHotelItinPricingRewardsClicked)
     }
 

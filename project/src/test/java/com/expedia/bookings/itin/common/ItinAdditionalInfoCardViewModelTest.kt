@@ -3,10 +3,11 @@ package com.expedia.bookings.itin.common
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockItinRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
-import com.expedia.bookings.itin.scopes.HasItin
+import com.expedia.bookings.itin.scopes.HasItinRepo
 import com.expedia.bookings.itin.scopes.HasItinType
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
@@ -50,11 +51,16 @@ class ItinAdditionalInfoCardViewModelTest {
         assertTrue(scope.mockTracking.trackItinActivityAdditionalInfoClicked)
     }
 
-    private class MockScope(override val itin: Itin, lobType: String) : HasStringProvider, HasWebViewLauncher, HasItin, HasItinType, HasTripsTracking {
+    private class MockScope(itin: Itin, lobType: String) : HasStringProvider, HasWebViewLauncher, HasItinRepo, HasItinType, HasTripsTracking {
         val mockTracking = MockTripsTracking()
         override val strings: StringSource = MockStringProvider()
         override val tripsTracking: ITripsTracking = mockTracking
         override val webViewLauncher = MockWebViewLauncher()
         override val type = lobType
+        override val itinRepo: ItinRepoInterface = MockItinRepo()
+
+        init {
+            itinRepo.liveDataItin.value = itin
+        }
     }
 }

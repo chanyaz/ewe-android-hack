@@ -56,7 +56,7 @@ class FlightItinBookingDetailsWidgetTest {
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
         sut.priceSummaryCard.performClick()
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.PriceSummary", mockAnalyticsProvider)
-        assertEquals(context.getString(R.string.itin_hotel_details_price_summary_heading), sut.priceSummaryCard.getHeadingText())
+        assertEquals(context.getString(R.string.itin_price_summary_text), sut.priceSummaryCard.getHeadingText())
         assertEquals(View.GONE, sut.priceSummaryCard.getSubheadingVisibility())
     }
 

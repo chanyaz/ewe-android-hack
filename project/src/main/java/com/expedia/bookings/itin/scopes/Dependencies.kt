@@ -87,3 +87,7 @@ interface HasPhoneHandler {
 interface HasPOSProvider {
     val posInfoProvider: IPOSInfoProvider
 }
+
+interface HasURLAnchor {
+    val urlAnchor: String
+}

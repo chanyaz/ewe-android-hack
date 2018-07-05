@@ -22,7 +22,7 @@ class LxItinMoreHelpToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel 
 
     val itinLxObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
         itin?.firstLx()?.let { itinLx ->
-            toolbarTitleSubject.onNext(scope.strings.fetch(R.string.itin_lx_more_info_heading))
+            toolbarTitleSubject.onNext(scope.strings.fetch(R.string.itin_more_help_text))
 
             itinLx.activityTitle?.let { title ->
                 toolbarSubTitleSubject.onNext(title)

@@ -44,14 +44,14 @@ class LxItinManageBookingWidgetViewModelTest {
     @Test
     fun itinMoreHelpCardViewModelTest() {
         setupHappy()
-        assertEquals((R.string.itin_lx_more_info_heading).toString(), sut.moreHelpViewModel.headingText)
-        assertEquals((R.string.itin_lx_more_info_subheading).toString(), sut.moreHelpViewModel.subheadingText)
+        assertEquals((R.string.itin_more_help_text).toString(), sut.moreHelpViewModel.headingText)
+        assertEquals((R.string.itin_customer_support_info_text).toString(), sut.moreHelpViewModel.subheadingText)
     }
 
     @Test
     fun itinLxPriceSummaryCardViewModelHappyTest() {
         setupHappy()
-        assertEquals((R.string.itin_hotel_details_price_summary_heading).toString(), sut.priceSummaryViewModel.headingText)
+        assertEquals((R.string.itin_price_summary_text).toString(), sut.priceSummaryViewModel.headingText)
         assertNull(sut.priceSummaryViewModel.subheadingText)
         assertNull(scope.webViewLauncherMock.lastSeenURL)
 
