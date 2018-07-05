@@ -2,7 +2,6 @@ package com.expedia.bookings.mia.activity
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -19,7 +18,6 @@ import com.expedia.bookings.presenter.DealsErrorPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 
 open class LastMinuteDealsActivity : AppCompatActivity() {
@@ -69,10 +67,6 @@ open class LastMinuteDealsActivity : AppCompatActivity() {
     private fun setupToolbar() {
         toolBar.setNavigationOnClickListener {
             onBackPressed()
-        }
-        if (isBrandColorEnabled(this@LastMinuteDealsActivity)) {
-            toolBar.setBackgroundColor(ContextCompat.getColor(this@LastMinuteDealsActivity, R.color.brand_primary))
-            window.statusBarColor = ContextCompat.getColor(this@LastMinuteDealsActivity, R.color.brand_primary_dark)
         }
     }
 

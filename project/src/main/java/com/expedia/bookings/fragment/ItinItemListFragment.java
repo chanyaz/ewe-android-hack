@@ -180,7 +180,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mOldEmptyView =  Ui.findView(view, R.id.old_sign_in_view);
 		itinHeader =  Ui.findView(view, R.id.trips_toolbar);
 
-		handleToolbarBackgroundColor();
 		handleToolbarVisibility();
 
 		View guestItinView = inflater.inflate(R.layout.add_guest_itin, mItinListView, false);
@@ -242,12 +241,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mFindItineraryButton.setVisibility(View.GONE);
 
 		return view;
-	}
-
-	private void handleToolbarBackgroundColor() {
-		if (FeatureUtilKt.isBrandColorEnabled(getContext())) {
-			itinHeader.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.brand_primary));
-		}
 	}
 
 	private void handleToolbarVisibility() {

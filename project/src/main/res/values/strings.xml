@@ -817,10 +817,6 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} Expedia Rewards points button</string>
     <!-- or -->
     <string name="or">or</string>
-    <!--Create Account -->
-    <string name="Create_Account">CREATE AN ACCOUNT</string>
-    <!-- Earn rewards and unlock exclusive deals -->
-    <string name="earn_rewards_and_unlock_deals">Earn rewards and unlock exclusive deals.</string>
     <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
     <string name="member_prices_signin">With member prices, you could save an average of 17% more right now on thousands of hotels.</string>
     <!--Sign in or create an account-->
@@ -2207,10 +2203,6 @@
     <string name="you_are_a_valued_member">You are a valued member!</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">Shop as an {brand} member!</string>
-    <!-- Launch screen 2x messaging signed-out title-->
-    <string name="launch_screen_sign_in_2x_title">Sign in for better shopping!</string>
-    <!-- Launch screen 2x messaging for signed-out subtitle-->
-    <string name="launch_screen_sign_in_2x_subtitle">With member prices, you could save an average of 17% more right now on thousands of hotels. Plus you\'ll earn double points for all booking in app!</string>
     <!-- Launch screen 2x banner messaging for signed-in users -->
     <string name="launch_screen_2x_banner">You\'ll earn double points for all bookings in app!</string>
     <!-- Checkout sign in button for 2x messaging -->

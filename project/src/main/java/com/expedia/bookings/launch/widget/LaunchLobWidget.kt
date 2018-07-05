@@ -17,7 +17,6 @@ import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
@@ -102,9 +101,6 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 val topMargin = (cardView.layoutParams as MarginLayoutParams).topMargin
                 layoutParams.height = (cardView.height + topMargin) / 2
                 backGroundView.requestLayout()
-                if (isBrandColorEnabled(context)) {
-                    backGroundView.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
-                }
                 return false
             }
         })

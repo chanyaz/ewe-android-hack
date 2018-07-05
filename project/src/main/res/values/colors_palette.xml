@@ -71,12 +71,7 @@
     <color name="exp_launch_yellow">#FFED18</color>
 
     <!-- Colors on new launch screen-->
-    <color name="exp_launch_hotel_green">#8BC349</color>
-    <color name="exp_launch_flights_blue">#4FC3F7</color>
-    <color name="exp_launch_car_pink">#CC6595</color>
     <color name="exp_launch_lx_orange">#EE9449</color>
-    <color name="exp_launch_packages_blue">#43A2E0</color>
-    <color name="exp_launch_rail_teal">#2BB07F</color>
     <color name="exp_launch_dark_teal">#3E6A85</color> <!-- TODO wtf to call this color -->
     <color name="exp_launch_secondary">#005199</color>
     <color name="air_attach_orange">#FD8126</color>

@@ -8,7 +8,6 @@ import com.expedia.bookings.activity.DeepLinkWebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertLinkTracked
-import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateNotTracked
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -119,15 +118,6 @@ class PhoneLaunchActivityTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun brandColorsIsTrackedOnLaunchScreen_whenBucketed() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen(null)
-        assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(15846), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun displayLogicIsTrackedOnLaunchScreen_whenBucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTests(AbacusUtils.HomeScreenDisplayLogic)
@@ -198,19 +188,9 @@ class PhoneLaunchActivityTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun brandColorsIsNotTrackedOnLaunchScreen_whenUnbucketed() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen(null)
-        assertStateNotTracked(withAbacusTestBucketed(15846), mockAnalyticsProvider)
-    }
-
-    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ))
     fun testRewardLaunchTileIsTrackedOnOmniture() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
         OmnitureTracking.trackPageLoadLaunchScreen(null)
         assertStateTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
     }

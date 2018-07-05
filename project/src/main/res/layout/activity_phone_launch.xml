@@ -12,7 +12,7 @@
         style="@style/LaunchActionBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/launch_toolbar_background_color"
+        android:background="@color/brand_primary"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp" />
 

@@ -49,10 +49,6 @@ fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging)
 }
 
-fun isBrandColorEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)
-}
-
 fun isHotelMaterialForms(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelMaterialForms)
 }

@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.enums.DiscountColors
-import com.expedia.bookings.utils.isBrandColorEnabled
 
 class MemberDealsCardViewModel(context: Context, leadingHotel: DealsDestination.Hotel, currency: String?) : BaseDealsCardViewModel(context, leadingHotel, currency) {
 
@@ -18,7 +17,7 @@ class MemberDealsCardViewModel(context: Context, leadingHotel: DealsDestination.
 
     override val prioritizedBackgroundImageUrls = listOf(getDestinationBackgroundImageUrl())
 
-    override val discountColors = if (isBrandColorEnabled(context)) DiscountColors.MEMBER_DEALS else DiscountColors.DEFAULT
+    override val discountColors = DiscountColors.MEMBER_DEALS
 
     override val strikeOutPriceText: CharSequence by lazy {
         getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.crossOutPriceValue, true)

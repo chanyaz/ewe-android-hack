@@ -21,7 +21,6 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.DeprecatedHotelSearchParams;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -29,7 +28,6 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
@@ -51,8 +49,8 @@ import com.expedia.bookings.utils.LaunchNavBucketCache;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelAttachCardViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.expedia.bookings.widget.LaunchScreenHotelAttachCard;
 import com.expedia.bookings.widget.LaunchScreenAddOnHotMIPCard;
+import com.expedia.bookings.widget.LaunchScreenHotelAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.Optional;
 import com.expedia.util.PermissionsUtils;
@@ -61,7 +59,6 @@ import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
 import com.expedia.vm.launch.CustomerFirstLaunchHolderViewModel;
 import com.expedia.vm.launch.LaunchScreenHotelAttachViewModel;
 import com.expedia.vm.launch.RecommendedHotelViewModel;
-import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
@@ -190,14 +187,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
-			if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
-				View view = LayoutInflater.from(context).inflate(R.layout.signin_prompt_card, parent, false);
-				return new BrandSignInLaunchCard(view, context);
-			}
-			else {
-				View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
-				return new SignInPlaceholderCard(view, context);
-			}
+			View view = LayoutInflater.from(context).inflate(R.layout.signin_prompt_card, parent, false);
+			return new BrandSignInLaunchCard(view, context);
 		}
 
 		if (viewType == LaunchDataItem.HOTEL_MIP_ATTACH_VIEW) {
@@ -223,12 +214,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
 
-			int memberDealsDrawable = R.drawable.ic_member_deals_icon;
-			if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBrandColors)) {
-				memberDealsDrawable = R.drawable.ic_member_only_tag_bg;
-			}
-
-			BigImageLaunchViewModel vm = getDealViewModel(memberDealsDrawable,
+			BigImageLaunchViewModel vm = getDealViewModel(R.drawable.ic_member_only_tag_bg,
 				R.color.member_deals_background_gradient,
 				R.string.member_deal_title, R.string.member_deal_subtitle);
 			vm.setBackgroundUrl(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl()));
@@ -305,9 +291,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			lobWidget
 				.setViewModel(
 					new LaunchLobViewModel(context, hasInternetConnectionChangeSubject, posSubject));
-		}
-		else if (holder instanceof SignInPlaceholderCard) {
-			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
 		else if (holder instanceof CustomerFirstLaunchViewHolder) {
 			((CustomerFirstLaunchViewHolder) holder).bind(makeCustomerFirstLaunchHolderViewModel());
@@ -543,20 +526,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private String getBrandForSignInView() {
 		return Phrase.from(context, R.string.shop_as_a_member_TEMPLATE)
 			.putOptional("brand", BuildConfig.brand).format().toString();
-	}
-
-	private SignInPlaceHolderViewModel makeSignInPlaceholderViewModel() {
-		if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelEarn2xMessaging)) {
-			return new SignInPlaceHolderViewModel(
-				context.getString(R.string.launch_screen_sign_in_2x_title),
-				context.getString(R.string.launch_screen_sign_in_2x_subtitle),
-				context.getString(R.string.sign_in),
-				context.getString(R.string.Create_Account));
-		}
-		return new SignInPlaceHolderViewModel(getBrandForSignInView(),
-			context.getString(R.string.earn_rewards_and_unlock_deals),
-			context.getString(R.string.sign_in),
-			context.getString(R.string.Create_Account));
 	}
 
 	private BrandSignInLaunchHolderViewModel makeSignInLaunchHolderViewModel() {
