@@ -55,9 +55,9 @@ class PackageConfirmationPresenterLayoutTest : LayoutTestCase() {
         }
     }
 
-    private class ValueInjector() {
-
-    }
+//    private class ValueInjector() {
+//
+//    }
 
     private class ValueExtractor(dataSpec: Map<String, Any?>) {
         val itinNumber: String by ExtractValue(dataSpec)

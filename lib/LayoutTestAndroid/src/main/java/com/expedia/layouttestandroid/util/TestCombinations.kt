@@ -1,7 +1,7 @@
 package com.expedia.layouttestandroid.util
 
-import com.expedia.layouttestandroid.extension.combine
 import com.expedia.layouttestandroid.dataspecs.LayoutDataSpecValues
+import com.expedia.layouttestandroid.extension.combine
 
 object TestCombinations {
 

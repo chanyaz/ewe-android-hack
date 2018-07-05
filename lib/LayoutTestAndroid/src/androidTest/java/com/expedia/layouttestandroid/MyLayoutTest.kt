@@ -20,13 +20,13 @@ import org.junit.runner.RunWith
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
 @RunWith(AndroidJUnit4::class)
-class MyLayoutTest: LayoutTestCase() {
+class MyLayoutTest : LayoutTestCase() {
     @Test
     fun testMyLayout() {
         runLayoutTests(MyLayoutProvider())
     }
 
-    class MyLayoutProvider: LayoutViewProvider() {
+    class MyLayoutProvider : LayoutViewProvider() {
         override fun getView(context: Context, dataSpec: Map<String, Any?>, size: LayoutViewSize, reuseView: View?): View {
             val rootView = View.inflate(context, R.layout.my_layout, null)
             val searchBox: EditText = rootView.findViewById(R.id.search_box)
@@ -47,7 +47,7 @@ class MyLayoutTest: LayoutTestCase() {
             configurator.addTester(MyTester())
         }
 
-        class MyTester: LayoutTester {
+        class MyTester : LayoutTester {
             override fun runTest(view: View, dataSpec: Map<String, Any?>, size: LayoutViewSize) {
                 assertView(view.visibility == View.VISIBLE, "View is visible", listOf(view))
                 assertTextViewNoTextWrap(view.findViewById(R.id.search_box))
