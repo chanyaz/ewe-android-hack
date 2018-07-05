@@ -74,7 +74,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		TripDetailsScreen.FlightSummary.verifyArrivalTime("6:04 pm");
 		TripDetailsScreen.FlightSummary.verifyArrivalAirport("Detroit (DTW)");
 		TripDetailsScreen.FlightSummary.verifySeating("No seats selected");
-		TripDetailsScreen.FlightSummary.verifyCabinClass(" • Economy / Coach");
+		TripDetailsScreen.FlightSummary.verifyCabinClass(" • Economy / Coach (V)");
 
 		TripDetailsScreen.FlightDuration.verifyFlightDuration("Total duration: 4h 32m");
 
@@ -149,7 +149,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		TripDetailsScreen.FlightSummary.verifyArrivalAirport("Las Vegas (LAS)");
 		TripDetailsScreen.FlightSummary.verifyArrivalTerminalGate("Terminal 3");
 		TripDetailsScreen.FlightSummary.verifySeating("No seats selected");
-		TripDetailsScreen.FlightSummary.verifyCabinClass(" • Economy / Coach");
+		TripDetailsScreen.FlightSummary.verifyCabinClass(" • Economy / Coach (B)");
 
 		TripDetailsScreen.FlightDuration.verifyFlightDuration("Total duration: 1h 36m");
 
