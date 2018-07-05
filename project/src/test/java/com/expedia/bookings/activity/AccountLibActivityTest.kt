@@ -52,12 +52,37 @@ class AccountLibActivityTest {
         return intent.putExtra("ARG_BUNDLE", bundle)
     }
 
+    private fun givenGoogleSignInEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppAccountGoogleSignin, AbacusUtils.EBAndroidAppAccountNewSignIn)
+    }
+
+    private fun givenGoogleSignInDisabled() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAccountNewSignIn)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppAccountGoogleSignin, 0)
+    }
+
     private fun givenNewSignInEnabled() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppAccountNewSignIn)
     }
 
     private fun givenNewSignInDisabled() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppAccountNewSignIn, 0)
+    }
+
+    @Test
+    fun testFacebookSignInButtonLayoutNotVisibleWhenGoogleSignInEnabled() {
+        givenGoogleSignInEnabled()
+        activityController.create().start().visible()
+        assertEquals(View.VISIBLE, activity.newAccountView.signInLayout.multipleSignInOptionsLayout.visibility)
+        assertEquals(View.GONE, activity.newAccountView.signInLayout.signInWithFacebookButton.visibility)
+    }
+
+    @Test
+    fun testFacebookSignInButtonLayoutVisibleWhenGoogleSignInNotEnabled() {
+        givenGoogleSignInDisabled()
+        activityController.create().start().visible()
+        assertEquals(View.VISIBLE, activity.newAccountView.signInLayout.signInWithFacebookButton.visibility)
+        assertEquals(View.GONE, activity.newAccountView.signInLayout.multipleSignInOptionsLayout.visibility)
     }
 
     @Test

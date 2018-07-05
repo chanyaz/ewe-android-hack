@@ -42,8 +42,10 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
     private val toolBar: Toolbar by lazy { findViewById<Toolbar>(R.id.new_account_toolbar) }
     private val tabs: TabLayout by lazy { findViewById<TabLayout>(R.id.new_account_tabs) }
     private val tabsContainer: FrameLayout by lazy { findViewById<FrameLayout>(R.id.new_account_tabs_container) }
-    @VisibleForTesting val viewPager: SwipeDisabledViewPager by lazy { findViewById<SwipeDisabledViewPager>(R.id.new_account_viewpager) }
-    private val signInLayout: NewSignInLayout by lazy { findViewById<NewSignInLayout>(R.id.new_account_signin_view) }
+    @VisibleForTesting
+    val viewPager: SwipeDisabledViewPager by lazy { findViewById<SwipeDisabledViewPager>(R.id.new_account_viewpager) }
+    @VisibleForTesting
+    val signInLayout: NewSignInLayout by lazy { findViewById<NewSignInLayout>(R.id.new_account_signin_view) }
     private val createAccountLayout: NewCreateAccountLayout by lazy { findViewById<NewCreateAccountLayout>(R.id.new_account_create_view) }
     private val facebookLinkAccountsLayout: FacebookLinkAccountsLayout by lazy { findViewById<FacebookLinkAccountsLayout>(R.id.new_account_facebook_link_accounts_view) }
     private val loadingView: FrameLayout by lazy { findViewById<FrameLayout>(R.id.new_account_loading_view) }
