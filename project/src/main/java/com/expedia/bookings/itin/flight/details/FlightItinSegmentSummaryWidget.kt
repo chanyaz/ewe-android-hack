@@ -113,7 +113,9 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
 
         vm.createSeatingWidgetSubject.subscribe { params ->
             seats.text = params.seats
-            cabin.text = params.cabinCode
+            val bookingCode = params.bookingCode
+            val cabinText = if (bookingCode.isNullOrEmpty()) params.cabinCodeLocalized else "${params.cabinCodeLocalized} (${params.bookingCode})"
+            cabin.text = cabinText
             if (params.seatConfirmation != null) {
                 seatConfirmation.visibility = View.VISIBLE
                 seatConfirmation.text = params.seatConfirmation

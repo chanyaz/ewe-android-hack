@@ -26,7 +26,8 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
             var arrivalTerminal: String?,
             var arrivalGate: String?,
             val seats: String,
-            val cabinCode: String,
+            val cabinCodeLocalized: String,
+            val bookingCode: String?,
             val seatConfirmation: String?,
             val redEyeDays: String?,
             val flightStatus: String,
@@ -60,7 +61,8 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
 
     data class SeatingWidgetParams(
             val seats: String,
-            val cabinCode: String,
+            val cabinCodeLocalized: String?,
+            val bookingCode: String?,
             val seatConfirmation: String?
     )
 
@@ -122,7 +124,8 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
 
         createSeatingWidgetSubject.onNext(SeatingWidgetParams(
                 summaryWidgetParams.seats,
-                summaryWidgetParams.cabinCode,
+                summaryWidgetParams.cabinCodeLocalized,
+                summaryWidgetParams.bookingCode,
                 summaryWidgetParams.seatConfirmation
         ))
 

@@ -111,6 +111,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
             for (segment in segments) {
                 val primaryFlightCode = segment.primaryFlightCode
                 val operatingFlightCode = segment.operatingFlightCode
+                val bookingCode = segment.bookingCode
                 var redEyeDaysSB: StringBuilder?
                 var redEyeDays: String? = null
                 var operatedBy: String? = null
@@ -175,6 +176,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                             arrivalGate,
                             seats,
                             cabinCodeBuilder.toString(),
+                            bookingCode,
                             confirmSeats,
                             redEyeDays,
                             segment.mStatusCode,
@@ -198,6 +200,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                             arrivalGate,
                             seats,
                             cabinCodeBuilder.toString(),
+                            bookingCode,
                             confirmSeats,
                             redEyeDays,
                             segment.mStatusCode,
