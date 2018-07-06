@@ -92,8 +92,6 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	private Boolean isNewSignInEnabled = false;
 
-	private Boolean isGoogleSignInEnabled = false;
-
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
 		if (bundle != null) {
@@ -144,8 +142,6 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		isNewSignInEnabled = FeatureUtilKt.isNewSignInEnabled(this);
-
-		isGoogleSignInEnabled = AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppAccountGoogleSignin) && ProductFlavorFeatureConfiguration.getInstance().isGoogleSignInEnabled();
 
 		CarnivalUtils.getInstance().toggleNotifications(false);
 		Intent intent = getIntent();
@@ -209,18 +205,22 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 				.showUserRewardsEnrollmentCheck();
 		if (isNewSignInEnabled) {
 			config = Config.build()
-					.setInitialTab(initialTab)
-					.setService(ServicesUtil.generateAccountService(this))
-					.setPOSEnableSpamByDefault(false)
-					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
-					.setEnableGoogleSignIn(isGoogleSignInEnabled)
-					.setEnableFacebookSignIn(
-							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
-					.setListener(listener)
-					.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
-					.setAnalyticsListener(analyticsListener)
-					.setFacebookAppId(getString(R.string.facebook_app_id))
-					.setNewTermsText(shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateRewardCombinedTextWithLegalLink(this) : StrUtils.generateNonRewardTextWithLegalLink(this));
+				.setInitialTab(initialTab)
+				.setService(ServicesUtil.generateAccountService(this))
+				.setPOSEnableSpamByDefault(false)
+				.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+				.setEnableGoogleSignIn(
+					AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppAccountGoogleSignin)
+						&& ProductFlavorFeatureConfiguration.getInstance().isGoogleSignInEnabled())
+				.setEnableFacebookSignIn(
+					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
+				.setListener(listener)
+				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
+				.setAnalyticsListener(analyticsListener)
+				.setFacebookAppId(getString(R.string.facebook_app_id))
+				.setNewTermsText(
+					shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateRewardCombinedTextWithLegalLink(this)
+						: StrUtils.generateNonRewardTextWithLegalLink(this));
 		}
 		else {
 
