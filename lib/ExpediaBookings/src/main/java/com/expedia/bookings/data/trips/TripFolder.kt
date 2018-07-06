@@ -7,7 +7,7 @@ data class TripFolder(
         val title: String,
         val startTime: TripFolderDateTime,
         val endTime: TripFolderDateTime,
-        val state: TripFolderState,
+        val bookingStatus: TripFolderState,
         val timing: TripFolderTiming,
         val lobs: List<TripFolderProduct>
 )

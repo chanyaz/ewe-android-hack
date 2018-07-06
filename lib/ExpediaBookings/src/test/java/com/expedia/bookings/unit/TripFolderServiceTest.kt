@@ -63,7 +63,7 @@ class TripFolderServiceTest {
         assertEquals("2018-06-10T11:00:00-07:00", actualFolder.endTime.raw)
         assertEquals(1528653600, actualFolder.endTime.epochSeconds)
         assertEquals(-25200, actualFolder.endTime.timeZoneOffsetSeconds)
-        assertEquals(TripFolderState.BOOKED, actualFolder.state)
+        assertEquals(TripFolderState.BOOKED, actualFolder.bookingStatus)
         assertEquals(TripFolderTiming.UPCOMING, actualFolder.timing)
         assertEquals(listOf(TripFolderProduct.HOTEL), actualFolder.lobs)
     }
