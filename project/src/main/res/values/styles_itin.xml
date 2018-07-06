@@ -67,12 +67,6 @@
         <item name="android:textColor">@color/room_tab_indicator_color</item>
     </style>
 
-    <style name="TravelerTabWidget">
-        <item name="android:textSize">14sp</item>
-        <item name="textStyle">normal</item>
-        <item name="android:textColor">@color/traveler_tab_indicator_color</item>
-    </style>
-
     <style name="TripFolderTabs">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>

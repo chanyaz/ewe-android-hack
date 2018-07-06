@@ -43,6 +43,7 @@
     <color name="placeholder_card_button_text_color">@color/exp_launch_blue</color>
     <color name="launch_list_header_title_color">@color/gray700</color>
     <color name="brand_primary_dark">@color/blue6</color>
+    <color name="brand_status_bar_color">@color/brand_primary_dark</color>
 
     <!--Splash-->
     <color name="splash_screen_bg">@color/exp_yellow</color>

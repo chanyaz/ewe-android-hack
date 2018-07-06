@@ -35,6 +35,7 @@
     <color name="placeholder_card_button_text_color">@color/accent2</color>
     <color name="launch_list_header_title_color">@color/neutral600</color>
     <color name="brand_primary_dark">@color/accent2</color>
+    <color name="brand_status_bar_color">@color/brand2</color>
 
     <!--Splash-->
     <color name="splash_screen_bg">@color/brand1</color>
@@ -58,7 +59,7 @@
     <color name="itin_refresh_warning_button_background_color">@color/accent2</color>
     <color name="itin_warning_color">@color/accent5</color>
     <color name="itin_find_button_color">@color/accent2</color>
-    <color name="itin_find_toolbar_color">@color/accent2</color>
+    <color name="itin_find_toolbar_color">@color/itin_sign_in_toolbar_color</color>
     <color name="itin_summary_button_text_color">@color/accent2</color>
     <color name="itin_card_action_item_text_color">@color/accent2</color>
     <color name="itin_add_guest_text_button_color">@color/accent2</color>
@@ -179,7 +180,7 @@
 
     <color name="hotel_details_separator">@color/neutral400</color>
     <color name="legal_info_blue">@color/accent2</color>
-    <color name="nav_dropdown_dividers">#26ffffff</color> <!-- TODO: REVISIT WITH TRANSPARANCY WORK -->
+    <!--<color name="nav_dropdown_dividers">#26ffffff</color>TODO: REVISIT WITH TRANSPARANCY WORK-->
     <color name="action_bar_flight_text_color">@color/neutral100</color>
     <color name="confirmation_header_divider_flight">@color/neutral600</color>
     <color name="confirmation_header_divider_hotel">@color/gray400</color>
@@ -280,7 +281,6 @@
     <color name="lx_dates_disabled_text_color">@color/neutral200</color>
     <color name="lx_dates_container_border_color">@color/neutral200</color>
 
-    <color name="lx_search_result_info_text_color">@color/neutral600</color>
     <color name="lx_sort_filter_pressed">@color/neutral200</color>
     <color name="lx_sort_filter_pressed_row_color">@color/neutral200</color>
 

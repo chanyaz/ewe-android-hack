@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/itin_sign_in_toolbar_color"
+            android:background="@color/itin_find_toolbar_color"
             android:minHeight="?attr/actionBarSize"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_close_white_24dp"
