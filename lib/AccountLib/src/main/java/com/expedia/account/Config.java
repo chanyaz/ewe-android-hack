@@ -114,6 +114,14 @@ public class Config {
 		return this;
 	}
 
+	public boolean getIsFacebookSignInEnabled() {
+		return enableFacebookSignIn;
+	}
+
+	public boolean getIsGoogleSignInEnabled() {
+		return enableGoogleSignIn;
+	}
+
 	public Config setEnableSignInMessaging(boolean enableSignInMessaging) {
 		this.enableSignInMessaging = enableSignInMessaging;
 		return this;

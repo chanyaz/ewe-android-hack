@@ -14,6 +14,8 @@
     <string name="acct__or">or</string>
     <!-- Button text for Sign In -->
     <string name="acct__Sign_In">Sign in</string>
+    <!-- Button text for Sign in With Google -->
+    <string name="acct__sign_in_with_google">Sign in with Google</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Sign in with Facebook</string>
     <!-- Back button content description -->

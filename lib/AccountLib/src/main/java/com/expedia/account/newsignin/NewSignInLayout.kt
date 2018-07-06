@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.TextView
 import com.expedia.account.Config
 import com.expedia.account.R
 import com.expedia.account.input.InputValidator
@@ -21,8 +22,14 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
 
     @VisibleForTesting
     val signInWithFacebookButton: Button by lazy { findViewById<Button>(R.id.new_signin_with_facebook_button) }
+
+    val signInWithGoogleButton: Button by lazy { findViewById<Button>(R.id.new_signin_with_google_button) }
+
+    val orTextView: TextView by lazy { findViewById<TextView>(R.id.or) }
+
     @VisibleForTesting
     val multipleSignInOptionsLayout: MulitipleSignInOptionsLayout by lazy { findViewById<MulitipleSignInOptionsLayout>(R.id.multiple_signin_options_layout) }
+
     private val emailInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_email_address) }
     private val passwordInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_password) }
     private val forgotPassword: View by lazy { findViewById<View>(R.id.new_signin_forgot_password) }
@@ -79,11 +86,6 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
         super.onDetachedFromWindow()
     }
 
-    fun configurePOS(enableFacebookSignIn: Boolean, enableGoogleSignIn: Boolean) {
-        signInWithFacebookButton.visibility = if (enableFacebookSignIn && !enableGoogleSignIn) View.VISIBLE else View.GONE
-        multipleSignInOptionsLayout.visibility = if (enableGoogleSignIn) View.VISIBLE else View.GONE
-    }
-
     fun setEnable(enable: Boolean) {
         signInWithFacebookButton.isEnabled = enable
         emailInput.isEnabled = enable
@@ -95,5 +97,21 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
 
     fun setupConfig(config: Config) {
         this.config = config
+        refresh()
+    }
+
+    private fun refresh() {
+        val enableGoogleSignIn = config.isGoogleSignInEnabled
+        val enableFacebookSignIn = config.isFacebookSignInEnabled
+
+        val isMultipleSignInOptionsViewEnabled = enableFacebookSignIn && enableGoogleSignIn
+
+        multipleSignInOptionsLayout.visibility = if (isMultipleSignInOptionsViewEnabled) View.VISIBLE else View.GONE
+
+        signInWithFacebookButton.visibility = if (!isMultipleSignInOptionsViewEnabled && enableFacebookSignIn) View.VISIBLE else View.GONE
+
+        signInWithGoogleButton.visibility = if (!isMultipleSignInOptionsViewEnabled && enableGoogleSignIn) View.VISIBLE else View.GONE
+
+        orTextView.visibility = if(!enableFacebookSignIn && !enableGoogleSignIn) View.GONE else View.VISIBLE
     }
 }
