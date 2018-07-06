@@ -15,7 +15,7 @@
         android:textSize="14sp"
         android:textStyle="normal" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -25,13 +25,13 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="12dp"
-            android:src="@drawable/facebook_sign_in_rectangle" />
+            android:src="@drawable/acct__facebook_sign_in_rectangle" />
 
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="12dp"
-            android:src="@drawable/google_sign_in_rectangle" />
+            android:src="@drawable/acct__google_sign_in_rectangle" />
     </LinearLayout>
 
 </LinearLayout>
