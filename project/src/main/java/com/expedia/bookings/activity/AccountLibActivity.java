@@ -210,8 +210,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 				.setPOSEnableSpamByDefault(false)
 				.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
 				.setEnableGoogleSignIn(
-					AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppAccountGoogleSignin)
-						&& ProductFlavorFeatureConfiguration.getInstance().isGoogleSignInEnabled())
+					isGoogleSignInEnabled())
 				.setEnableFacebookSignIn(
 					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 				.setListener(listener)
@@ -245,6 +244,11 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 			config.setEnableRecaptcha(true).setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
 		}
 		return config;
+	}
+
+	private boolean isGoogleSignInEnabled() {
+		return AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppAccountGoogleSignin)
+			&& ProductFlavorFeatureConfiguration.getInstance().isGoogleSignInEnabled();
 	}
 
 	private boolean shouldEnableRecaptcha() {

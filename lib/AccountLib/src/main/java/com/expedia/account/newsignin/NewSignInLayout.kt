@@ -97,10 +97,10 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
 
     fun setupConfig(config: Config) {
         this.config = config
-        refresh()
+        setUpViews()
     }
 
-    private fun refresh() {
+    private fun setUpViews() {
         val enableGoogleSignIn = config.isGoogleSignInEnabled
         val enableFacebookSignIn = config.isFacebookSignInEnabled
 
