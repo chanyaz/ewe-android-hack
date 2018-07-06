@@ -28,20 +28,22 @@ class FlightItinLegsDetailsAdapterTest {
 
     @Test
     fun testTitle() {
-        val viewHolder = flightItinLegsDetailAdapter.ViewHolder(adapterView)
+        val viewHolder = flightItinLegsDetailAdapter.FlightItinLegsDetailViewHolder(adapterView)
         flightItinLegsDetailAdapter.onBindViewHolder(viewHolder, 0)
         val title = Phrase.from(context, R.string.itin_flight_leg_detail_widget_title_TEMPLATE).put("departure", "SFO").put("arrival", "SEA").format().toString()
+        assertEquals(View.VISIBLE, viewHolder.title.visibility)
         assertEquals(title, viewHolder.title.text.toString())
     }
 
     @Test
     fun testSubtitleForZeroStop() {
-        val viewHolder = flightItinLegsDetailAdapter.ViewHolder(adapterView)
+        val viewHolder = flightItinLegsDetailAdapter.FlightItinLegsDetailViewHolder(adapterView)
         flightItinLegsDetailAdapter.legsDetailList.clear()
         flightItinLegsDetailAdapter.legsDetailList.add(getLegsDetailList("0").get(0))
         flightItinLegsDetailAdapter.onBindViewHolder(viewHolder, 0)
 
         val subtitle = "Dec 13 11:39pm - 12:19pm · Nonstop"
+        assertEquals(View.VISIBLE, viewHolder.subtitle.visibility)
         assertEquals(subtitle, viewHolder.subtitle.text.toString())
 
         val contentDescriptionText = "Dec 13 11:39pm to 12:19pm · Nonstop"
@@ -50,12 +52,13 @@ class FlightItinLegsDetailsAdapterTest {
 
     @Test
     fun testSubtitleforOneStop() {
-        val viewHolder = flightItinLegsDetailAdapter.ViewHolder(adapterView)
+        val viewHolder = flightItinLegsDetailAdapter.FlightItinLegsDetailViewHolder(adapterView)
         flightItinLegsDetailAdapter.legsDetailList.clear()
         flightItinLegsDetailAdapter.legsDetailList.add(getLegsDetailList("1").get(0))
         flightItinLegsDetailAdapter.onBindViewHolder(viewHolder, 0)
 
         val subtitle = "Dec 13 11:39pm - 12:19pm · 1 stop"
+        assertEquals(View.VISIBLE, viewHolder.subtitle.visibility)
         assertEquals(subtitle, viewHolder.subtitle.text.toString())
 
         val contentDescriptionText = "Dec 13 11:39pm to 12:19pm · 1 stop"
@@ -64,22 +67,49 @@ class FlightItinLegsDetailsAdapterTest {
 
     @Test
     fun testSubtitleforMoreThanOneStop() {
-        val viewHolder = flightItinLegsDetailAdapter.ViewHolder(adapterView)
+        val viewHolder = flightItinLegsDetailAdapter.FlightItinLegsDetailViewHolder(adapterView)
         flightItinLegsDetailAdapter.legsDetailList.clear()
         flightItinLegsDetailAdapter.legsDetailList.add(getLegsDetailList("2").get(0))
         flightItinLegsDetailAdapter.onBindViewHolder(viewHolder, 0)
 
         val subtitle = "Dec 13 11:39pm - 12:19pm · 2 stops"
+        assertEquals(View.VISIBLE, viewHolder.subtitle.visibility)
         assertEquals(subtitle, viewHolder.subtitle.text.toString())
 
         val contentDescriptionText = "Dec 13 11:39pm to 12:19pm · 2 stops"
         assertEquals(contentDescriptionText, viewHolder.subtitle.contentDescription.toString())
     }
 
+    @Test
+    fun testTitleGone() {
+        flightItinLegsDetailAdapter = FlightItinLegsDetailAdapter(context, getFaultyLegDetailList())
+        val viewHolder = flightItinLegsDetailAdapter.FlightItinLegsDetailViewHolder(adapterView)
+        flightItinLegsDetailAdapter.onBindViewHolder(viewHolder, 0)
+
+        assertEquals(View.GONE, viewHolder.title.visibility)
+    }
+
+    @Test
+    fun testSubtitleGone() {
+        flightItinLegsDetailAdapter = FlightItinLegsDetailAdapter(context, getFaultyLegDetailList())
+        val viewHolder = flightItinLegsDetailAdapter.FlightItinLegsDetailViewHolder(adapterView)
+        flightItinLegsDetailAdapter.onBindViewHolder(viewHolder, 0)
+
+        assertEquals(View.GONE, viewHolder.subtitle.visibility)
+    }
+
     private fun getLegsDetailList(numbOfStop: String): ArrayList<FlightItinLegsDetailData> {
         val list = ArrayList<FlightItinLegsDetailData>()
         val imgPath = "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif"
         val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, "SFO", "SEA", "Dec 13", "11:39pm", "Dec 14", "12:19pm", numbOfStop)
+        list.add(flightItinLegsDetailData)
+        return list
+    }
+
+    private fun getFaultyLegDetailList(): ArrayList<FlightItinLegsDetailData> {
+        val list = ArrayList<FlightItinLegsDetailData>()
+        val imgPath = "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif"
+        val flightItinLegsDetailData = FlightItinLegsDetailData(imgPath, "", "", "", "", "", "", "0")
         list.add(flightItinLegsDetailData)
         return list
     }

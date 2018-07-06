@@ -17,7 +17,7 @@ import com.expedia.util.notNullAndObservable
 
 class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    private val recyclerView: RecyclerView by bindView<RecyclerView>(R.id.flight_leg_recycler_view)
+    private val recyclerView: RecyclerView by bindView(R.id.flight_leg_recycler_view)
     val rulesAndRegulation by bindView<TextView>(R.id.flight_itin_rules_and_restriction)
     val rulesAndRegulationDivider by bindView<View>(R.id.flight_itin_rules_and_restriction_divider)
     val splitTicketDividerView by bindView<View>(R.id.flight_itin_leg_split_ticket_divider)
@@ -50,8 +50,8 @@ class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : Line
     private fun setUpRecyclerView(list: ArrayList<FlightItinLegsDetailData>) {
         val mAdapter = FlightItinLegsDetailAdapter(context, list)
         val mLayoutManager = LinearLayoutManager(context)
-        recyclerView.setLayoutManager(mLayoutManager)
-        recyclerView.setAdapter(mAdapter)
+        recyclerView.layoutManager = mLayoutManager
+        recyclerView.adapter = mAdapter
     }
 
     private fun showRulesAndRestrictionDialog(value: String) {

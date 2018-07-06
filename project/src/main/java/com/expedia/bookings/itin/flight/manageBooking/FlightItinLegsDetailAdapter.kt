@@ -12,10 +12,10 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
 
-class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: ArrayList<FlightItinLegsDetailData>) : RecyclerView.Adapter<FlightItinLegsDetailAdapter.ViewHolder>() {
+class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: ArrayList<FlightItinLegsDetailData>) : RecyclerView.Adapter<FlightItinLegsDetailAdapter.FlightItinLegsDetailViewHolder>() {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        PicassoHelper.Builder(holder.image).build().load(legsDetailList.get(position).imagePath)
+    override fun onBindViewHolder(holder: FlightItinLegsDetailViewHolder, position: Int) {
+        PicassoHelper.Builder(holder.image).build().load(legsDetailList[position].imagePath)
 
         val titleText = getTitle(position)
         if (titleText.isNotEmpty()) {
@@ -36,17 +36,16 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
         return legsDetailList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(context)
-                .inflate(R.layout.flight_itin_leg_view, parent, false)
-        return ViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlightItinLegsDetailViewHolder {
+        val itemView = LayoutInflater.from(context).inflate(R.layout.flight_itin_leg_view, parent, false)
+        return FlightItinLegsDetailViewHolder(itemView)
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView by bindView<ImageView>(R.id.flight_itin_leg_view_icon)
-        val title: TextView by bindView<TextView>(R.id.flight_itin_leg_view_title)
-        val subtitle: TextView by bindView<TextView>(R.id.flight_itin_leg_view_subtitle)
-        val divider: View by bindView<View>(R.id.flight_itin_leg_view_divider_line)
+    inner class FlightItinLegsDetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val image: ImageView by bindView(R.id.flight_itin_leg_view_icon)
+        val title: TextView by bindView(R.id.flight_itin_leg_view_title)
+        val subtitle: TextView by bindView(R.id.flight_itin_leg_view_subtitle)
+        val divider: View by bindView(R.id.flight_itin_leg_view_divider_line)
     }
 
     private fun getTitle(position: Int): String {
@@ -61,11 +60,11 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
 
     private fun getSubTitle(position: Int): String {
         var subtitle = ""
-        val departureTime = legsDetailList.get(position).departureTime
-        val departureDate = legsDetailList.get(position).departureMonthDay
-        val arrivalTime = legsDetailList.get(position).arrivalTime
-        val stops = Integer.parseInt(legsDetailList.get(position).stopNumber)
-        val numberOfStops = if (isZero(legsDetailList.get(position).stopNumber)) context.getString(R.string.itin_flight_leg_detail_widget_nonstop) else context.resources.getQuantityString(R.plurals.itin_flight_leg_detail_widget_stops_TEMPLATE, stops, stops)
+        val departureTime = legsDetailList[position].departureTime
+        val departureDate = legsDetailList[position].departureMonthDay
+        val arrivalTime = legsDetailList[position].arrivalTime
+        val stops = Integer.parseInt(legsDetailList[position].stopNumber)
+        val numberOfStops = if (isZero(legsDetailList[position].stopNumber)) context.getString(R.string.itin_flight_leg_detail_widget_nonstop) else context.resources.getQuantityString(R.plurals.itin_flight_leg_detail_widget_stops_TEMPLATE, stops, stops)
         if (departureTime.isNotBlank() && departureDate.isNotBlank() && arrivalTime.isNotBlank()) {
             val departureDateTime = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE).put("date", departureDate).put("time", departureTime).format().toString()
             subtitle = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_TEMPLATE).put("departure_date_time", departureDateTime).put("arrival_date_time", arrivalTime).put("stops", numberOfStops).format().toString()
@@ -77,7 +76,7 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
     private fun isZero(value: String?): Boolean {
         if (value != null && value.isNotEmpty()) {
             try {
-                return if (Integer.parseInt(value) == 0) true else false
+                return Integer.parseInt(value) == 0
             } catch (ex: NumberFormatException) {
                 return false
             }
