@@ -32,6 +32,19 @@
                 android:textAllCaps="false"
                 android:visibility="gone"/>
 
+            <Button
+                android:id="@+id/new_signin_with_google_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/acct__new_account_btn_padding"
+                android:backgroundTint="@color/acct__btn_facebook_normal"
+                android:textColor="@color/acct__btn_facebook_text"
+                android:text="@string/acct__sign_in_with_google"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:visibility="gone"/>
+
+
             <com.expedia.account.newsignin.MulitipleSignInOptionsLayout
                 android:id="@+id/multiple_signin_options_layout"
                 android:layout_width="match_parent"
@@ -39,6 +52,7 @@
                 android:visibility="gone"/>
 
             <TextView
+                android:id="@+id/or"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
