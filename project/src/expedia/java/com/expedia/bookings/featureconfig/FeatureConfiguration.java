@@ -167,4 +167,9 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 		return true;
 	}
 
+	@Override
+	public boolean isGoogleSignInEnabled() {
+		return true;
+	}
+
 }

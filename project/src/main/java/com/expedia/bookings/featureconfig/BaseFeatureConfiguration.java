@@ -72,6 +72,10 @@ public abstract class BaseFeatureConfiguration {
 		return true;
 	}
 
+	public boolean isGoogleSignInEnabled() {
+		return false;
+	}
+
 	public boolean isFacebookShareIntegrationEnabled() {
 		return true;
 	}

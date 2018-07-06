@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.AccountView
+import com.expedia.account.Config
 import com.expedia.account.NewAccountView
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
@@ -70,19 +71,21 @@ class AccountLibActivityTest {
     }
 
     @Test
-    fun testFacebookSignInButtonLayoutNotVisibleWhenGoogleSignInEnabled() {
+    fun testMultipleSignInButtonLayoutVisibleWhenGoogleSignInEnabled() {
         givenGoogleSignInEnabled()
         activityController.create().start().visible()
+        assertEquals(View.VISIBLE, activity.newAccountView.visibility)
         assertEquals(View.VISIBLE, activity.newAccountView.signInLayout.multipleSignInOptionsLayout.visibility)
         assertEquals(View.GONE, activity.newAccountView.signInLayout.signInWithFacebookButton.visibility)
     }
 
     @Test
-    fun testFacebookSignInButtonLayoutVisibleWhenGoogleSignInNotEnabled() {
+    fun testMultipleSignInButtonLayoutNotVisibleWhenGoogleSignInDisabled() {
         givenGoogleSignInDisabled()
         activityController.create().start().visible()
-        assertEquals(View.VISIBLE, activity.newAccountView.signInLayout.signInWithFacebookButton.visibility)
+        assertEquals(View.VISIBLE, activity.newAccountView.visibility)
         assertEquals(View.GONE, activity.newAccountView.signInLayout.multipleSignInOptionsLayout.visibility)
+        assertEquals(View.VISIBLE, activity.newAccountView.signInLayout.signInWithFacebookButton.visibility)
     }
 
     @Test

@@ -168,6 +168,21 @@ class FeatureConfigurationTest {
     }
 
     @Test
+    fun testIsGoogleSignInEnabled() {
+        when (brand) {
+            "airAsiaGo" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+            "cheapTickets" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+            "ebookers" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+            "expedia" -> assertTrue(featureConfig.isGoogleSignInEnabled)
+            "lastMinute" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+            "mrJet" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+            "orbitz" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+            "travelocity" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+            "wotif" -> assertFalse(featureConfig.isGoogleSignInEnabled)
+        }
+    }
+
+    @Test
     fun testIsFacebookLoginIntegrationEnabled() {
         when (brand) {
             "airAsiaGo" -> assertFalse(featureConfig.isFacebookLoginIntegrationEnabled)
