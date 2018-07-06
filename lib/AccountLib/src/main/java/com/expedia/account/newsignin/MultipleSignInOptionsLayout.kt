@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import com.expedia.account.R
+import com.expedia.account.newsignin.viewmodel.MultipleSignInOptionsLayoutViewModel
 
 class MultipleSignInOptionsLayout(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
