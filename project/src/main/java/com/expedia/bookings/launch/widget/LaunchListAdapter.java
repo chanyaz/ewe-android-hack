@@ -32,6 +32,7 @@ import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.launch.displaylogic.LaunchListStateManager;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
 import com.expedia.bookings.marketing.meso.MesoDestinationViewHolder;
@@ -48,11 +49,12 @@ import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Font;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LaunchNavBucketCache;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelAttachCardViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.expedia.bookings.widget.LaunchScreenHotelAttachCard;
 import com.expedia.bookings.widget.LaunchScreenAddOnHotMIPCard;
+import com.expedia.bookings.widget.LaunchScreenHotelAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.Optional;
 import com.expedia.util.PermissionsUtils;
@@ -72,9 +74,12 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import kotlin.Unit;
 
+import static com.expedia.bookings.utils.FeatureUtilKt.isDisplayLogicEnabled;
+
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 	private final int contentStartPosition;
+	private final LaunchListStateManager launchListStateManager;
 
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
@@ -115,6 +120,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	protected LaunchListLogic launchListLogic;
 
 	public LaunchListAdapter(Context context, View header, LaunchListLogic launchListLogic) {
+		launchListStateManager = Ui.getApplication(context).appComponent().launchListStateManager();
 		this.context = context;
 		this.launchListLogic = launchListLogic;
 		contentStartPosition = 1;
@@ -128,7 +134,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				.put("description", context.getString(R.string.nearby_deals_expand)).format().toString());
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
 		Font.ROBOTO_MEDIUM.setTypefaceOnTextView(launchListTitle);
-		setListData(new ArrayList<LaunchDataItem>(), "");
+		if (!isDisplayLogicEnabled(context)) {
+			setListData(new ArrayList<LaunchDataItem>(), "");
+		}
 	}
 
 	@Override
@@ -414,7 +422,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	public void updateState() {
-		setListData(dynamicCards, launchListTitle.getText().toString());
+		if (isDisplayLogicEnabled(context)) {
+			launchListStateManager.updateLaunchListState();
+		}
+		else {
+			setListData(dynamicCards, launchListTitle.getText().toString());
+		}
 		notifyDataSetChanged();
 	}
 
@@ -474,6 +487,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		listData.addAll(staticCards);
 		listData.addAll(dynamicCards);
 		setSeeAllButtonVisibility(objects, headerTitle);
+		notifyDataSetChanged();
+	}
+
+	public void setListDataFromStateChange(List<LaunchDataItem> staticCards) {
+		listData = new ArrayList<>();
+		listData.addAll(staticCards);
 		notifyDataSetChanged();
 	}
 

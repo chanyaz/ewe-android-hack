@@ -182,6 +182,10 @@ fun isRichContentForPackagesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppPackagesRichContent)
 }
 
+fun isDisplayLogicEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HomeScreenDisplayLogic)
+}
+
 fun isRichContentShowAmenityForPackagesEnabled(): Boolean {
     val richContentVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppPackagesRichContent)
     return (richContentVariant == AbacusVariant.ONE.value || richContentVariant == AbacusVariant.THREE.value)

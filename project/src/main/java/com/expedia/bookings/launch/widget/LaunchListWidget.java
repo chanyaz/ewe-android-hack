@@ -16,7 +16,9 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.SlideInItemAnimator;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
+import com.expedia.bookings.launch.displaylogic.LaunchListState;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -89,7 +91,9 @@ public class LaunchListWidget extends RecyclerView {
 		for (int i = 0; i < event.topHotels.size(); i++) {
 			hotelDataItemList.add(new LaunchHotelDataItem(event.topHotels.get(i)));
 		}
-		adapter.setListData(hotelDataItemList, headerTitle);
+		if (!FeatureUtilKt.isDisplayLogicEnabled(getContext())) {
+			adapter.setListData(hotelDataItemList, headerTitle);
+		}
 	}
 
 	@Subscribe
@@ -99,13 +103,17 @@ public class LaunchListWidget extends RecyclerView {
 		for (int i = 0; i < event.collection.locations.size(); i++) {
 			collectionDataItemList.add(new LaunchCollectionDataItem(event.collection.locations.get(i)));
 		}
-		adapter.setListData(collectionDataItemList, headerTitle);
+		if (!FeatureUtilKt.isDisplayLogicEnabled(getContext())) {
+			adapter.setListData(collectionDataItemList, headerTitle);
+		}
 	}
 
 	public void showListLoadingAnimation() {
 		List<LaunchDataItem> elements = createListForLoading();
 		String headerTitle = getResources().getString(R.string.loading_header);
-		adapter.setListData(elements, headerTitle);
+		if (!FeatureUtilKt.isDisplayLogicEnabled(getContext())) {
+			adapter.setListData(elements, headerTitle);
+		}
 	}
 
 	// Create list to show cards for loading animation
@@ -124,6 +132,10 @@ public class LaunchListWidget extends RecyclerView {
 
 	public void onHasInternetConnectionChange(boolean enabled) {
 		adapter.onHasInternetConnectionChange(enabled);
+	}
+
+	public void onHasStateChanged(LaunchListState launchListState) {
+		adapter.setListDataFromStateChange(launchListState.getLaunchItemList());
 	}
 
 	public void notifyDataSetChanged() {

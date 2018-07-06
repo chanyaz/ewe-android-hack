@@ -17,12 +17,17 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
+import com.expedia.bookings.extensions.LiveDataObserver
+import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.launch.displaylogic.LaunchListState
+import com.expedia.bookings.launch.displaylogic.LaunchListStateManager
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.launch.widget.PhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isDisplayLogicEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.mobiata.android.Log
 import com.mobiata.android.util.NetUtils
@@ -36,6 +41,8 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     private val phoneLaunchWidget: PhoneLaunchWidget by bindView(R.id.new_phone_launch_widget)
     private var locSubscription: Disposable? = null
     private var wasOffline = false
+    private lateinit var launchListStateManager: LaunchListStateManager
+    private lateinit var launchListStateObserver: android.arch.lifecycle.Observer<LaunchListState>
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
@@ -44,12 +51,22 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         Events.register(this)
         if (context is LaunchFragmentListener) {
             val listener: LaunchFragmentListener = context
             listener.onLaunchFragmentAttached(this)
+        }
+
+        launchListStateManager = Ui.getApplication(context).appComponent().launchListStateManager()
+        launchListStateObserver = LiveDataObserver {
+            if (it != null) {
+                phoneLaunchWidget.onHasStateChanged(it)
+            }
+        }
+        if (isDisplayLogicEnabled(context)) {
+            launchListStateManager.launchListStateLiveData.observe(this, launchListStateObserver)
         }
     }
 
@@ -65,6 +82,7 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     override fun onResume() {
         super.onResume()
         phoneLaunchWidget.refreshState()
+        launchListStateManager.updateLaunchListState()
         Events.post(Events.PhoneLaunchOnResume())
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         activity?.registerReceiver(broadcastReceiver, filter)

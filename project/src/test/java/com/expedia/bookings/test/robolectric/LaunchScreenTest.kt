@@ -15,13 +15,13 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.widget.CollectionViewHolder
 import com.expedia.bookings.widget.HotelViewHolder
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import java.util.ArrayList
 import kotlin.properties.Delegates
-import org.junit.Assert.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class LaunchScreenTest {

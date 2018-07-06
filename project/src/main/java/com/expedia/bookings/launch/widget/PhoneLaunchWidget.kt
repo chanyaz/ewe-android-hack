@@ -24,6 +24,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
+import com.expedia.bookings.launch.displaylogic.LaunchListState
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
@@ -435,5 +436,9 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
 
     fun refreshState() {
         launchListWidget.notifyDataSetChanged()
+    }
+
+    fun onHasStateChanged(launchListState: LaunchListState) {
+        launchListWidget.onHasStateChanged(launchListState)
     }
 }
