@@ -1,5 +1,6 @@
 package com.expedia.account.newsignin
 
+import com.expedia.account.extensions.subscribeOnClick
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -24,6 +25,6 @@ class MultipleSignInOptionsLayout(context: Context, attrs: AttributeSet) : Frame
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        facebookSignInButton.subscribeOnClick(viewModel.facebookSignInButtonClickObservable)
     }
 }
-
