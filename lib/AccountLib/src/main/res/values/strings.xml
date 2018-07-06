@@ -149,4 +149,5 @@
     <string name="acct__new_create_account_text">Create my account</string>
     <string name="acct__new_create_account_tab_text">Create account</string>
     <string name="acct__new_facebook_link_accounts_text">Link accounts</string>
+    <string name="acct__sign_in_with_other_accounts">Sign in with other accounts</string>
 </resources>
