@@ -28,7 +28,7 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
     val orTextView: TextView by lazy { findViewById<TextView>(R.id.or) }
 
     @VisibleForTesting
-    val multipleSignInOptionsLayout: MulitipleSignInOptionsLayout by lazy { findViewById<MulitipleSignInOptionsLayout>(R.id.multiple_signin_options_layout) }
+    val multipleSignInOptionsLayout: MultipleSignInOptionsLayout by lazy { findViewById<MultipleSignInOptionsLayout>(R.id.multiple_signin_options_layout) }
 
     private val emailInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_email_address) }
     private val passwordInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_password) }
@@ -112,6 +112,6 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
 
         signInWithGoogleButton.visibility = if (!isMultipleSignInOptionsViewEnabled && enableGoogleSignIn) View.VISIBLE else View.GONE
 
-        orTextView.visibility = if(!enableFacebookSignIn && !enableGoogleSignIn) View.GONE else View.VISIBLE
+        orTextView.visibility = if (!enableFacebookSignIn && !enableGoogleSignIn) View.GONE else View.VISIBLE
     }
 }

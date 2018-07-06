@@ -75,7 +75,6 @@ class NewSignInLayoutTest {
         assertEquals(View.GONE, signInLayout.multipleSignInOptionsLayout.visibility)
     }
 
-
     @Test
     fun analyticsIsCalledWhenFacebookSignInButtonIsClicked() {
         signInLayout.signInWithFacebookButton.performClick()

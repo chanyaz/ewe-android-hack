@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.AccountView
-import com.expedia.account.Config
 import com.expedia.account.NewAccountView
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider

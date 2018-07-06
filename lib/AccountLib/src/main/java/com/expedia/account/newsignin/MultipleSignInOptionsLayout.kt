@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.FrameLayout
 import com.expedia.account.R
 
-class MulitipleSignInOptionsLayout(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class MultipleSignInOptionsLayout(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
-    init{
+    init {
         View.inflate(context, R.layout.acct__widget_multiple_signin_options, this)
     }
 }
