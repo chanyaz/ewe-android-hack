@@ -54,6 +54,7 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
         forgotPassword.setOnClickListener {
             Events.post(Events.NewForgotPasswordButtonClicked())
         }
+
         signInWithFacebookButton.setOnClickListener {
             config.analyticsListener.facebookSignInButtonClicked()
             Events.post(Events.NewSignInWithFacebookButtonClicked())

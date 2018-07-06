@@ -22,12 +22,14 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/facebook_sign_in_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="12dp"
             android:src="@drawable/facebook_sign_in_rectangle" />
 
         <ImageButton
+            android:id="@+id/google_sign_in_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="12dp"
