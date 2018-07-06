@@ -40,6 +40,8 @@ public class Config {
 
 	WeakReference<PanningImageView> background;
 
+	boolean enabledMultipleSignInLayout = false;
+
 	boolean showSpamOptIn = false;
 	boolean enableSpamByDefault = false;
 	boolean enableFacebookButton = true;
@@ -86,6 +88,11 @@ public class Config {
 
 	public Config setBackgroundImageView(PanningImageView background) {
 		this.background = background == null ? null : new WeakReference<>(background);
+		return this;
+	}
+
+	public Config setEnableMultipleSignInLayout(boolean enabledMultipleSignInLayout) {
+		this.enabledMultipleSignInLayout = enabledMultipleSignInLayout;
 		return this;
 	}
 

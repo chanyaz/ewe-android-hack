@@ -145,7 +145,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 		isNewSignInEnabled = FeatureUtilKt.isNewSignInEnabled(this);
 
-		isGoogleSignInEnabled = FeatureUtilKt.isNewSignInEnabled(this);
+		isGoogleSignInEnabled = AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppAccountGoogleSignin) && ProductFlavorFeatureConfiguration.getInstance().isGoogleSignInEnabled();
 
 		CarnivalUtils.getInstance().toggleNotifications(false);
 		Intent intent = getIntent();
@@ -180,12 +180,6 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	private void setupAccountViewBasedOnBucketing() {
 		if (isNewSignInEnabled) {
-
-			newAccountView.getSignInLayout().getSignInWithFacebookButton()
-				.setVisibility(isGoogleSignInEnabled ? View.GONE : View.VISIBLE);
-			newAccountView.getSignInLayout().getMultipleSignInOptionsLayout()
-				.setVisibility(isGoogleSignInEnabled ?View.VISIBLE : View.GONE);
-
 			newAccountView.setVisibility(View.VISIBLE);
 			newAccountView.setNavigationOnClickListener(navigationListener);
 			getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
@@ -219,6 +213,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setService(ServicesUtil.generateAccountService(this))
 					.setPOSEnableSpamByDefault(false)
 					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+					.setEnableMultipleSignInLayout(isGoogleSignInEnabled)
 					.setEnableFacebookButton(
 							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 					.setListener(listener)
