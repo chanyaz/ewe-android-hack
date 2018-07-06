@@ -286,6 +286,10 @@ public class MockAccountLibActivity extends FragmentActivity {
 		public void facebookSignInButtonClicked() { }
 
 		@Override
+		public void googleSignInButtonClicked() {
+		}
+
+		@Override
 		public void createButtonClicked() { }
 
 		@Override

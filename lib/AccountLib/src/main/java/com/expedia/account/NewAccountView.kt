@@ -41,6 +41,11 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
         CREATE_ACCOUNT
     }
 
+    companion object {
+        @JvmField
+        val GOOGLE_SIGN_IN_REQUEST_CODE = 1234
+    }
+
     private val toolBar: Toolbar by lazy { findViewById<Toolbar>(R.id.new_account_toolbar) }
     private val tabs: TabLayout by lazy { findViewById<TabLayout>(R.id.new_account_tabs) }
     private val tabsContainer: FrameLayout by lazy { findViewById<FrameLayout>(R.id.new_account_tabs_container) }
@@ -234,7 +239,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
                 .build()
         val mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
         val signInIntent = mGoogleSignInClient.signInIntent
-        (context as Activity).startActivityForResult(signInIntent, 1234)
+        (context as Activity).startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE)
     }
 
     @Suppress("UNUSED_PARAMETER")

@@ -43,6 +43,11 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.TextView;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 import javax.inject.Inject;
 import butterknife.ButterKnife;
@@ -279,14 +284,35 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		// Required for Facebook
-		if (isNewSignInEnabled) {
+		if (requestCode == NewAccountView.GOOGLE_SIGN_IN_REQUEST_CODE) {
+			Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+			handleGoogleSignIn(task);
+		}
+		else if (isNewSignInEnabled) {
 			newAccountView.onActivityResult(requestCode, resultCode, data);
 		}
 		else {
 			accountView.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+		try {
+			GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+			Log.e("**********Account ID Token\n" + account.getIdToken());
+			Log.e("**********Account Auth Code\n" + account.getServerAuthCode());
+
+			// Signed in successfully, show authenticated UI.
+		}
+		catch (ApiException e) {
+			// The ApiException status code indicates the detailed failure reason.
+			// Please refer to the GoogleSignInStatusCodes class reference for more information.
+			Log.e("**********Account failed Token\"=" + e.getStatusCode());
+		}
+	}
+
+	private void handleGoogleSignIn(Task<GoogleSignInAccount> task) {
+
 	}
 
 	// TODO - talk to Mohit (as he is the tracking dude) about this. Doesn't seem right
