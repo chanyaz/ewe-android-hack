@@ -23,10 +23,17 @@ class CruiseItinToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel wher
 
     val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
         itin?.firstCruise()?.let { itinCruise ->
-            itinCruise.destination?.let { destination ->
+            itinCruise.departurePort?.portName?.let { portName ->
+                val city = portName.split(",")[0]
                 val toolbarTitle = scope.strings.fetchWithPhrase(R.string.itin_cruise_toolbar_title_TEMPLATE,
-                        mapOf("destination" to destination))
+                        mapOf("city" to city))
                 toolbarTitleSubject.onNext(toolbarTitle)
+            }
+            val startDate = itinCruise.departureDateAbbreviated
+            val endDate = itinCruise.returnDateAbbreviated
+            if (startDate != null && endDate != null) {
+                val subtitle = "$startDate - $endDate"
+                toolbarSubTitleSubject.onNext(subtitle)
             }
             shareIconVisibleSubject.onNext(true)
             val shareTextGenerator = CruiseItinShareTextGenerator(itin.title ?: "", itin.tripNumber ?: "", itinCruise, scope.strings)

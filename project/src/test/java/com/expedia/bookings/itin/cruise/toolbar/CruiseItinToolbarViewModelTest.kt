@@ -24,22 +24,26 @@ import kotlin.test.assertTrue
 
 class CruiseItinToolbarViewModelTest {
 
-    lateinit var toolbarTitleTestObserver: TestObserver<String>
-    lateinit var shareTextGeneratorTestObserver: TestObserver<ItinShareTextGenerator>
-    lateinit var viewModel: CruiseItinToolbarViewModel<MockScope>
+    private lateinit var toolbarTitleTestObserver: TestObserver<String>
+    private lateinit var toolbarSubtitleTestObserver: TestObserver<String>
+    private lateinit var shareTextGeneratorTestObserver: TestObserver<ItinShareTextGenerator>
+    private lateinit var viewModel: CruiseItinToolbarViewModel<MockScope>
 
     @Before
     fun setup() {
         toolbarTitleTestObserver = TestObserver()
         shareTextGeneratorTestObserver = TestObserver()
+        toolbarSubtitleTestObserver = TestObserver()
         viewModel = CruiseItinToolbarViewModel(MockScope())
         viewModel.toolbarTitleSubject.subscribe(toolbarTitleTestObserver)
         viewModel.itinShareTextGeneratorSubject.subscribe(shareTextGeneratorTestObserver)
+        viewModel.toolbarSubTitleSubject.subscribe(toolbarSubtitleTestObserver)
     }
 
     @After
     fun dispose() {
         toolbarTitleTestObserver.dispose()
+        toolbarSubtitleTestObserver.dispose()
         shareTextGeneratorTestObserver.dispose()
     }
 
@@ -48,7 +52,8 @@ class CruiseItinToolbarViewModelTest {
         viewModel.itinObserver.onChanged(ItinMocker.cruiseDetailsHappy)
 
         toolbarTitleTestObserver.assertValue(R.string.itin_cruise_toolbar_title_TEMPLATE.toString()
-                .plus(mapOf("destination" to "Alaska")))
+                .plus(mapOf("city" to "Seattle")))
+        toolbarSubtitleTestObserver.assertValue("Sep 23 - Sep 30")
 
         assertTrue(shareTextGeneratorTestObserver.valueCount() == 1)
         val textGenerator = shareTextGeneratorTestObserver.values()[0]
@@ -74,6 +79,7 @@ class CruiseItinToolbarViewModelTest {
         viewModel.itinObserver.onChanged(ItinMocker.emptyTrip)
 
         toolbarTitleTestObserver.assertNoValues()
+        toolbarSubtitleTestObserver.assertNoValues()
 
         assertTrue(shareTextGeneratorTestObserver.valueCount() == 1)
         val textGenerator = shareTextGeneratorTestObserver.values()[0]
