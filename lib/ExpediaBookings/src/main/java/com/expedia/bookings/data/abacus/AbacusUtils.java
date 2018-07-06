@@ -87,6 +87,7 @@ public class AbacusUtils {
 	public static final ABTest HotelUGCReviewsBoxRatingDesign = new ABTest(25455, true);
 	public static final ABTest HotelMapSmallSoldOutPins = new ABTest(25410, true);
 	public static final ABTest HotelReviewSelectRoomCta = new ABTest(25777, true);
+	public static final ABTest HotelMiniMapToolbar = new ABTest(26832, true);
 	public static final ABTest HotelUGCSearch = new ABTest(25501, true);
 	public static final ABTest HotelResultsCellOnMapCarousel = new ABTest(26455, true);
 
@@ -225,6 +226,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppPackagesSearchFormRenameToFrom.getKey());
 		testIDs.add(EBAndroidAppPackagesHighlightSortFilter.getKey());
 		testIDs.add(HotelResultsCellOnMapCarousel.getKey());
+		testIDs.add(HotelMiniMapToolbar.getKey());
 		testIDs.add(EBAndroidAppPackagesRichContent.getKey());
 		return testIDs;
 	}

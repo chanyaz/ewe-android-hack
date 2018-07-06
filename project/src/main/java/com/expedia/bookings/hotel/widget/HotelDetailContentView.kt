@@ -33,7 +33,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
@@ -55,6 +54,8 @@ import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
+import com.expedia.bookings.hotel.map.HotelMapLiteWidget
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.expedia.bookings.hotel.vm.HotelReviewsSummaryBoxRatingViewModel
 import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.model.HotelStayDates
@@ -73,13 +74,12 @@ import com.expedia.bookings.widget.HotelInfoView
 import com.expedia.bookings.widget.HotelRoomCardView
 import com.expedia.bookings.widget.HotelRoomDetailView
 import com.expedia.bookings.widget.HotelRoomHeaderView
-import com.expedia.bookings.widget.LocationMapImageView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
-import com.expedia.bookings.hotel.vm.HotelDetailViewModel
+import com.google.android.gms.maps.model.LatLng
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
@@ -133,9 +133,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val readMoreView: ImageButton by bindView(R.id.read_more)
     private val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     private val amenityEtpDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
-
-    private val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
-    private val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
+    private val liteMapView: HotelMapLiteWidget by bindView(R.id.hotel_lite_details_map)
 
     private val roomRateHeader: LinearLayout by bindView(R.id.room_rate_header)
     private val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
@@ -252,7 +250,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             roomRateRegularLoyaltyAppliedView.visibility = View.VISIBLE
         }
 
-        transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
+        liteMapView.hotelMapClickedSubject.subscribe(vm.mapClickedSubject)
         vm.renovationObservable.subscribeVisibility(renovationContainer)
         vm.renovationObservable.subscribeVisibility(renovationBottomDivider)
 
@@ -276,7 +274,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         setUpReviewsSubscriptions(vm)
 
         vm.hotelLatLngObservable.subscribe { values ->
-            miniMapView.setLocation(LatLong(values[0], values[1]))
+            liteMapView.setLocation(LatLng(values[0], values[1]))
         }
 
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
@@ -374,12 +372,10 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         roomContainer.removeAllViews()
         recycleRoomImageViews()
+        liteMapView.reset()
     }
 
-    fun handleScrollWithOffset(scrollOffset: Int, toolbarOffset: Float) {
-        miniMapView.translationY = scrollOffset * 0.15f
-        transparentViewOverMiniMap.translationY = miniMapView.translationY
-
+    fun handleScrollWithOffset(toolbarOffset: Float) {
         priceContainer.getLocationOnScreen(priceContainerLocation)
         val priceAlpha = AlphaCalculator.fadeOutAlpha(startPoint = toolbarOffset, endPoint = (toolbarOffset / 2),
                 currentPoint = priceContainerLocation[1].toFloat())

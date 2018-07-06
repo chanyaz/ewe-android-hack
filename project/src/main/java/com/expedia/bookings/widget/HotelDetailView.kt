@@ -246,11 +246,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun setViewVisibilities() {
-        val yoffset = detailContainer.scrollY
-
         hotelDetailsToolbar.toolBarBackground.alpha = AlphaCalculator.fadeInAlpha(startPoint = toolbarHeightOffset,
                 endPoint = toolbarHeightOffset / 2, currentPoint = contentView.getPriceContainerYScreenLocation().toFloat())
-        contentView.handleScrollWithOffset(yoffset, toolbarHeightOffset)
+        contentView.handleScrollWithOffset(toolbarHeightOffset)
 
         showToolbarGradient()
         val shouldShowResortFee = shouldShowResortView()

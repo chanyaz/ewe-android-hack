@@ -1676,6 +1676,7 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.HotelUGCReviewsBoxRatingDesign);
+		trackAbacusTest(s, AbacusUtils.HotelMiniMapToolbar);
 		return s;
 	}
 

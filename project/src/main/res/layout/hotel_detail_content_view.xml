@@ -483,40 +483,20 @@
         android:layout_below="@+id/hotel_description_container"
         android:background="@color/white" />
 
-    <FrameLayout
-        android:id="@+id/map_click_container"
-        android:layout_width="wrap_content"
+    <com.expedia.bookings.hotel.map.HotelMapLiteWidget
+        android:id="@+id/hotel_lite_details_map"
+        android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_below="@id/map_divider"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:importantForAccessibility="no">
-
-        <com.expedia.bookings.widget.LocationMapImageView
-            android:id="@+id/mini_map_view"
-            android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:layout_gravity="center"
-            android:importantForAccessibility="no"
-            android:paddingBottom="160dp"
-            android:scaleType="centerCrop" />
-
-        <View
-            android:id="@+id/transparent_view_over_mini_map"
-            android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:contentDescription="@string/hotel_map_view_cont_desc"
-            android:paddingBottom="160dp" />
-
-    </FrameLayout>
+        android:layout_gravity="center"
+        android:contentDescription="@string/hotel_map_view_cont_desc" />
 
     <com.expedia.bookings.hotel.widget.PayNowPayLaterTabs
         android:id="@+id/pay_now_pay_later_tabs"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/map_click_container"
+        android:layout_below="@id/hotel_lite_details_map"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"

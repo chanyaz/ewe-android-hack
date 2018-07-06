@@ -396,7 +396,7 @@ object HotelInfoSiteScreen {
 
     @JvmStatic
     fun clickDetailsMiniMap() {
-        onView(withId(R.id.map_click_container)).perform(scrollTo(), click())
+        onView(withId(R.id.lite_map_view)).perform(scrollTo(), click())
     }
 
     @JvmStatic

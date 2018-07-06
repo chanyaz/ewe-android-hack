@@ -125,6 +125,14 @@
             android:summary="%s"
             android:title="Show hotel results cell on map carousel - 26455" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="26832"
+            android:summary="%s"
+            android:title="Show toolbar on infosite minimap - 26832" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
