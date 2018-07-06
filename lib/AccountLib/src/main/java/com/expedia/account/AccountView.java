@@ -50,11 +50,9 @@ import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 public class AccountView extends BufferedPresenter {
 
@@ -129,7 +127,7 @@ public class AccountView extends BufferedPresenter {
 			mConfig.rewardsText);
 
 		vSignInLayout.configurePOS(
-			mConfig.enableFacebookButton);
+			mConfig.enableFacebookSignIn);
 
 		if (mConfig.signupString != null) {
 			vSignInLayout.configureAccountCreationString(mConfig.signupString);

@@ -214,7 +214,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setPOSEnableSpamByDefault(false)
 					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
 					.setEnableGoogleSignIn(isGoogleSignInEnabled)
-					.setEnableFacebookButton(
+					.setEnableFacebookSignIn(
 							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 					.setListener(listener)
 					.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
@@ -229,7 +229,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setBackgroundImageView(background)
 					.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
 					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
-					.setEnableFacebookButton(
+					.setEnableFacebookSignIn(
 							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 					.setListener(listener)
 					.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
