@@ -11,14 +11,13 @@ import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
-import org.joda.time.LocalDate
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
                              interceptor: Interceptor, hotelShortlistInterceptor: Interceptor,
-                             val observeOn: Scheduler, val subscribeOn: Scheduler) {
+                             val observeOn: Scheduler, val subscribeOn: Scheduler) : HotelShortlistServicesInterface {
 
     private val CONFIG_ID = "hotel"
     private val PAGE_NAME = "scratchpad"
@@ -34,45 +33,25 @@ class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
         adapter.create(HotelShortlistApi::class.java)
     }
 
-    fun fetchFavoriteHotels(observer: Observer<HotelShortlistResponse<HotelShortlistItem>>): Disposable {
+    override fun fetchFavoriteHotels(observer: Observer<HotelShortlistResponse<HotelShortlistItem>>): Disposable {
         return hotelShortListApi.fetch(CONFIG_ID)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(observer)
     }
 
-    fun saveFavoriteHotel(hotelId: String, checkIn: LocalDate, checkOut: LocalDate, adults: Int, children: List<Int>, observer: Observer<HotelShortlistResponse<ShortlistItem>>): Disposable {
-        val roomConfiguration = formatRoomConfig(adults, children)
-        val metadata = ShortlistItemMetadata().apply {
-            this.hotelId = hotelId
-            this.chkIn = checkIn.toString("yyyyMMdd")
-            this.chkOut = checkOut.toString("yyyyMMdd")
-            this.roomConfiguration = roomConfiguration
-        }
-        return saveFavoriteHotel(hotelId, metadata, observer)
-    }
-
-    fun saveFavoriteHotel(hotelId: String, metadata: ShortlistItemMetadata, observer: Observer<HotelShortlistResponse<ShortlistItem>>): Disposable {
+    override fun saveFavoriteHotel(hotelId: String, metadata: ShortlistItemMetadata, observer: Observer<HotelShortlistResponse<ShortlistItem>>): Disposable {
         return hotelShortListApi.save(metadata, hotelId, CONFIG_ID, PAGE_NAME)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(observer)
     }
 
-    fun removeFavoriteHotel(hotelId: String, observer: Observer<ResponseBody>): Disposable {
+    override fun removeFavoriteHotel(hotelId: String, observer: Observer<ResponseBody>): Disposable {
         val metadata = ShortlistItemMetadata()
         return hotelShortListApi.remove(metadata, hotelId, CONFIG_ID, PAGE_NAME)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(observer)
-    }
-
-    private fun formatRoomConfig(adults: Int, children: List<Int>): String {
-        if (children.isEmpty()) {
-            return adults.toString()
-        }
-
-        val childrenString = children.joinToString("-")
-        return listOf(adults.toString(), childrenString).joinToString("|")
     }
 }

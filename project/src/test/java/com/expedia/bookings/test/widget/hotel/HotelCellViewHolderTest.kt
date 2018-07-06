@@ -218,14 +218,14 @@ class HotelCellViewHolderTest {
 
         val hotel = makeHotel()
         hotelViewHolder.bindHotelData(hotel)
-        var errorImageDrawable = Shadows.shadowOf(hotelViewHolder.favoriteIcon.drawable)
-        Assert.assertEquals(R.drawable.ic_favorite_inactive, errorImageDrawable.createdFromResId)
+        var imageDrawable = Shadows.shadowOf(hotelViewHolder.favoriteIcon.drawable)
+        Assert.assertEquals(R.drawable.ic_favorite_inactive, imageDrawable.createdFromResId)
 
         HotelFavoritesCache.saveFavoriteId(getContext(), hotel.hotelId)
         hotelViewHolder.bindHotelData(hotel)
 
-        errorImageDrawable = Shadows.shadowOf(hotelViewHolder.favoriteIcon.drawable)
-        Assert.assertEquals(R.drawable.ic_favorite_active, errorImageDrawable.createdFromResId)
+        imageDrawable = Shadows.shadowOf(hotelViewHolder.favoriteIcon.drawable)
+        Assert.assertEquals(R.drawable.ic_favorite_active, imageDrawable.createdFromResId)
     }
 
     @Test

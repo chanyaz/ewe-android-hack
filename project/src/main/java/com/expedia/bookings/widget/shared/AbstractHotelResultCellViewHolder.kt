@@ -107,13 +107,17 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
         favoriteTouchTarget.setVisibility(viewModel.shouldShowFavoriteIcon())
 
         if (viewModel.shouldShowFavoriteIcon()) {
-            favoriteIcon.setImageDrawable(ContextCompat.getDrawable(root.context, viewModel.getFavoriteImageDrawableId()))
+            if (viewModel.isFavoriteHotel()) {
+                favoriteIcon.setImageDrawable(favoriteActiveDrawable)
+            } else {
+                favoriteIcon.setImageDrawable(favoriteInactiveDrawable)
+            }
             favoriteTouchTarget.setOnClickListener { toggleFavoriteHotel() }
         }
     }
 
     private fun toggleFavoriteHotel() {
-        if (viewModel.isFavoriteHotel()) {
+        if (favoriteIcon.drawable == favoriteActiveDrawable) {
             favoriteRemovedSubject.onNext(hotelId)
             favoriteIcon.setImageDrawable(favoriteInactiveDrawable)
         } else {

@@ -209,13 +209,6 @@ open class HotelViewModel(private val context: Context,
         return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelShortlist) && userStateManager.isUserAuthenticated()
     }
 
-    fun getFavoriteImageDrawableId(): Int {
-        if (isFavoriteHotel()) {
-            return R.drawable.ic_favorite_active
-        }
-        return R.drawable.ic_favorite_inactive
-    }
-
     fun getRatingContentDesc(hotel: Hotel): String {
         val phrase: Phrase
         val hotelStarRatingContentDescription = HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toDouble())

@@ -14,7 +14,6 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
-import org.joda.time.LocalDate
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -78,21 +77,6 @@ class HotelShortlistServicesTest {
     @Test
     fun testSaveShortlistHappyResponse() {
         val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
-        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), 1, emptyList(), testObserver)
-
-        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
-        testObserver.assertValueCount(1)
-
-        val response = testObserver.values()[0]
-        assertNotNull(response)
-
-        assertEquals(1, response.results.size)
-        assertTrue(response.results[0].items.isNotEmpty())
-    }
-
-    @Test
-    fun testSaveShortlistWithMetadata() {
-        val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
         val metadata = ShortlistItemMetadata().apply {
             hotelId = ""
             chkIn = "20180617"
@@ -116,8 +100,14 @@ class HotelShortlistServicesTest {
     @Test
     fun hotelSaveShortlistServicesHitAllInterceptors() {
         val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
+        val metadata = ShortlistItemMetadata().apply {
+            hotelId = ""
+            chkIn = "20180617"
+            chkOut = "20180616"
+            roomConfiguration = "1"
+        }
 
-        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), 1, emptyList(), testObserver)
+        service.saveFavoriteHotel("", metadata, testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()
