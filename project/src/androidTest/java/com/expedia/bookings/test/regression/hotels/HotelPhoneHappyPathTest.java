@@ -124,6 +124,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		Common.delay(1);
 		HotelInfoSiteScreen.clickDetailsMiniMap();
 		Common.delay(1);
+		assertViewIsDisplayed(R.id.hotel_map_select_a_room_bar);
 		HotelInfoSiteScreen.clickSelectARoomInFullMap();
 	}
 
