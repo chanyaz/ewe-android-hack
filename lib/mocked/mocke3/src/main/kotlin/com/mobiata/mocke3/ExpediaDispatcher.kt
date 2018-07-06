@@ -415,7 +415,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings
                 "PACKAGES" -> {
                     if (request.path.startsWith("/api/v4/typeahead/del?")) {
                         return makeResponse("/api/v4/suggestion_packages_del.json")
-                    } else if (request.path.startsWith("/api/v4/typeahead/sfo?")) {
+                    } else if (request.path.startsWith("/api/v4/typeahead/s?") || request.path.startsWith("/api/v4/typeahead/sf?") || request.path.startsWith("/api/v4/typeahead/sfo?")) {
                         return makeResponse("/api/v4/suggestion_sfo.json")
                     } else
                         return makeResponse("/api/v4/suggestion.json")
