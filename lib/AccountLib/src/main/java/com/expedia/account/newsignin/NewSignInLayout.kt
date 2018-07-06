@@ -56,8 +56,7 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
         }
 
         signInWithFacebookButton.setOnClickListener {
-            config.analyticsListener.facebookSignInButtonClicked()
-            Events.post(Events.NewSignInWithFacebookButtonClicked())
+            onFacebookSignInClick()
         }
         validationObservable.addSource(emailInput.statusObservable)
         validationObservable.addSource(passwordInput.statusObservable)
@@ -66,6 +65,11 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+
+        multipleSignInOptionsLayout.viewModel.facebookSignInButtonClickObservable.subscribe{
+            onFacebookSignInClick()
+        }
+
         emailInput.setValidator(object : InputValidator(ExpediaEmailInputRule()) {})
         passwordInput.setValidator(object : InputValidator(ExpediaPasswordSignInInputRule()) {})
         passwordInput.setOnEditorActionListener { _, actionId, _ ->
@@ -75,6 +79,11 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
             }
             false
         }
+    }
+
+    private fun onFacebookSignInClick() {
+        config.analyticsListener.facebookSignInButtonClicked()
+        Events.post(Events.NewSignInWithFacebookButtonClicked())
     }
 
     override fun onAttachedToWindow() {
