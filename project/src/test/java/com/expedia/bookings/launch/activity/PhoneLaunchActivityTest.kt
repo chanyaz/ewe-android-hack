@@ -188,14 +188,6 @@ class PhoneLaunchActivityTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ))
-    fun testRewardLaunchTileIsTrackedOnOmniture() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackPageLoadLaunchScreen(null)
-        assertStateTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
-    }
-
-    @Test
     fun testRefreshUserInfoCalledWhenAccountTabSelected() {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
 
