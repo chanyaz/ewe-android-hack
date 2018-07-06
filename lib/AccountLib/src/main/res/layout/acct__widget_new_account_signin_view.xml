@@ -45,7 +45,7 @@
                 android:visibility="gone"/>
 
 
-            <com.expedia.account.newsignin.MulitipleSignInOptionsLayout
+            <com.expedia.account.newsignin.MultipleSignInOptionsLayout
                 android:id="@+id/multiple_signin_options_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
