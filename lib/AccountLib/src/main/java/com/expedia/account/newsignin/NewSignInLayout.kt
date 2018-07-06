@@ -42,6 +42,11 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
     init {
         View.inflate(context, R.layout.acct__widget_new_account_signin_view, this)
         allFieldsValidSubject.onNext(false)
+
+        signInWithGoogleButton.setOnClickListener {
+            onGoogleSignInClicked()
+        }
+
         signInButton.setOnClickListener {
             config.analyticsListener.signInButtonClicked()
             if (allFieldsValidSubject.value) {
@@ -70,6 +75,10 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
             onFacebookSignInClick()
         }
 
+        multipleSignInOptionsLayout.viewModel.googleSignInButtonObservable.subscribe{
+            onGoogleSignInClicked()
+        }
+
         emailInput.setValidator(object : InputValidator(ExpediaEmailInputRule()) {})
         passwordInput.setValidator(object : InputValidator(ExpediaPasswordSignInInputRule()) {})
         passwordInput.setOnEditorActionListener { _, actionId, _ ->
@@ -84,6 +93,11 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
     private fun onFacebookSignInClick() {
         config.analyticsListener.facebookSignInButtonClicked()
         Events.post(Events.NewSignInWithFacebookButtonClicked())
+    }
+
+    private fun onGoogleSignInClicked() {
+        config.analyticsListener.googleSignInButtonClicked()
+        Events.post(Events.NewSignInWithGoogleButtonClicked())
     }
 
     override fun onAttachedToWindow() {

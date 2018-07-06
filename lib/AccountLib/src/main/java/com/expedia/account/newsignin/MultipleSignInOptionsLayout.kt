@@ -26,5 +26,6 @@ class MultipleSignInOptionsLayout(context: Context, attrs: AttributeSet) : Frame
     override fun onFinishInflate() {
         super.onFinishInflate()
         facebookSignInButton.subscribeOnClick(viewModel.facebookSignInButtonClickObservable)
+        googleSignInButton.subscribeOnClick(viewModel.googleSignInButtonObservable)
     }
 }

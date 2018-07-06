@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Development Facebook app id -->
+    <string name="google_client_id">438585675236-93h05ph3kn76s1fspqke46b18i8h2b6o.apps.googleusercontent.com</string>
+
     <!-- Development Facebook app id -->
     <string name="facebook_app_id">131538103586818</string>
 

@@ -3563,6 +3563,10 @@ public class OmnitureTracking {
 		s.trackLink("Accounts");
 	}
 
+	public static void trackGoogoleSignInClicked() {
+
+	}
+
 	public static void trackSignInTabClicked() {
 		AppAnalytics s = getFreshTrackingObject();
 

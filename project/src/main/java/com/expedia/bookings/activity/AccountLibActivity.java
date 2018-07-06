@@ -217,6 +217,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 				.setListener(listener)
 				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
 				.setAnalyticsListener(analyticsListener)
+				.setGoogleClientID(getString(R.string.google_client_id))
 				.setFacebookAppId(getString(R.string.facebook_app_id))
 				.setNewTermsText(
 					shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateRewardCombinedTextWithLegalLink(this)
@@ -338,6 +339,11 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		@Override
 		public void facebookSignInButtonClicked() {
 			OmnitureTracking.trackFacebookSignInClicked();
+		}
+
+		@Override
+		public void googleSignInButtonClicked() {
+			OmnitureTracking.trackGoogoleSignInClicked();
 		}
 
 		@Override

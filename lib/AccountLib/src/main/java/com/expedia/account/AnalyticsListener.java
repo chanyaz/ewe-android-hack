@@ -6,6 +6,8 @@ public interface AnalyticsListener {
 
 	void facebookSignInButtonClicked();
 
+	void googleSignInButtonClicked();
+
 	void createButtonClicked();
 
 	void newSignInTabClicked();

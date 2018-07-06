@@ -2,6 +2,8 @@ package com.expedia.account;
 
 import java.lang.ref.WeakReference;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Holds the configuration for AccountView. Config uses a builder pattern:
  * <p/>
@@ -57,6 +59,8 @@ public class Config {
 
 	String facebookAppId;
 	String recaptchaAPIKey;
+
+	String googleClientID;
 
 	private AnalyticsListener analyticsListener;
 	private AccountSignInListener accountSignInListener;
@@ -174,6 +178,11 @@ public class Config {
 
 	public Config setFacebookAppId(String appId) {
 		this.facebookAppId = appId;
+		return this;
+	}
+
+	public Config setGoogleClientID(String googleClientID) {
+		this.googleClientID = googleClientID;
 		return this;
 	}
 

@@ -28,6 +28,8 @@ import com.expedia.account.util.Events
 import com.expedia.account.util.NewFacebookHelper
 import com.expedia.account.util.Utils
 import com.expedia.account.view.FacebookLinkAccountsLayout
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 
@@ -221,6 +223,18 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
             handler.doCreateAccount(null)
             Log.i("RECAPTCHA", "Not Enabled -> From TOS Button Click")
         }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    @Subscribe
+    open fun otto(e: Events.NewSignInWithGoogleButtonClicked) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(config.googleClientID)
+                .requestServerAuthCode(config.googleClientID)
+                .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
+        val signInIntent = mGoogleSignInClient.signInIntent
+        (context as Activity).startActivityForResult(signInIntent, 1234)
     }
 
     @Suppress("UNUSED_PARAMETER")

@@ -144,6 +144,9 @@ public class Events {
 	public static class NewSignInWithFacebookButtonClicked {
 	}
 
+	public static class NewSignInWithGoogleButtonClicked {
+	}
+
 	public static class NewLinkFromFacebookFired {
 	}
 
