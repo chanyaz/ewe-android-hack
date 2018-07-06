@@ -3,12 +3,11 @@ package com.expedia.bookings.featureconfig;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.support.annotation.NonNull;
-
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -20,9 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
 public abstract class BaseFeatureConfiguration {
@@ -43,10 +40,6 @@ public abstract class BaseFeatureConfiguration {
 		return true;
 	}
 
-	public boolean shouldUseDotlessDomain(EndPoint endpoint) {
-		return endpoint != EndPoint.PRODUCTION;
-	}
-
 	public String touchupE3EndpointUrlIfRequired(String e3EndpointUrl) {
 		return e3EndpointUrl;
 	}
@@ -62,10 +55,6 @@ public abstract class BaseFeatureConfiguration {
 				context.startActivity(builder.getIntent());
 			}
 		};
-	}
-
-	public boolean isTuneEnabled() {
-		return true;
 	}
 
 	public boolean isFacebookLoginIntegrationEnabled() {
@@ -95,10 +84,6 @@ public abstract class BaseFeatureConfiguration {
 
 	public String getPOSSpecificBrandName(Context context) {
 		return BuildConfig.brand;
-	}
-
-	public boolean isFacebookTrackingEnabled() {
-		return true;
 	}
 
 	public boolean isAbacusTestEnabled() {
@@ -224,10 +209,6 @@ public abstract class BaseFeatureConfiguration {
 		return true;
 	}
 
-	public boolean shouldShowUserReview() {
-		return true;
-	}
-
 	public boolean shouldShowVIPLoyaltyMessage() {
 		return false;
 	}
@@ -236,24 +217,12 @@ public abstract class BaseFeatureConfiguration {
 		return R.drawable.app_copyright_logo;
 	}
 
-	public String getPosURLToShow(String posUrl) {
-		return posUrl;
-	}
-
 	public boolean isFirebaseEnabled() {
 		return false;
 	}
 
-	public boolean isCarnivalEnabled() {
-		return true;
-	}
-
 	public boolean isRecaptchaEnabled() {
 		return false;
-	}
-
-	public void contactUsViaWeb(Context context) {
-		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getBookingSupportUrl(), true);
 	}
 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
@@ -265,15 +234,6 @@ public abstract class BaseFeatureConfiguration {
 
 	public String getCopyrightLogoUrl(Context context) {
 		return PointOfSale.getPointOfSale().getWebsiteUrl();
-	}
-
-	/**
-	 * This flag is only meant for AAG as AB tests cannot be enabled for it.
-	 * Rest all brands completely depend on the Abacus Server for the configuration.
-	 * @return Whether MID API is forcefully enabled for Packages.
-	 */
-	public boolean shouldForceEnableMIDAPIForPackages() {
-		return false;
 	}
 
 	public abstract String getServerEndpointsConfigurationPath();

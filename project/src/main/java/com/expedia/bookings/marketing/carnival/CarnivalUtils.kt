@@ -138,34 +138,32 @@ open class CarnivalUtils {
     fun initialize(context: Context, persistenceProvider: CarnivalPersistenceProvider) {
         appContext = context
         CarnivalUtils.persistenceProvider = persistenceProvider
-        if (isCarnivalEnabled()) {
-            initialized = true
+        initialized = true
 
-            Carnival.setOnInAppNotificationDisplayListener { message ->
-                val carnivalMessage = CarnivalMessage(message.imageURL, message.title, message.attributes, message.text)
-                carnivalMessage.messageData = message
+        Carnival.setOnInAppNotificationDisplayListener { message ->
+            val carnivalMessage = CarnivalMessage(message.imageURL, message.title, message.attributes, message.text)
+            carnivalMessage.messageData = message
 
-                if (!message.imageURL.isNullOrEmpty()) {
-                    Picasso.with(appContext).load(message.imageURL).fetch(object : com.squareup.picasso.Callback {
-                        override fun onSuccess() = createInAppNotification(supportFragmentManager, carnivalMessage)
+            if (!message.imageURL.isNullOrEmpty()) {
+                Picasso.with(appContext).load(message.imageURL).fetch(object : com.squareup.picasso.Callback {
+                    override fun onSuccess() = createInAppNotification(supportFragmentManager, carnivalMessage)
 
-                        override fun onError() {
-                            Log.d("Carnival Failure", "Image load failed for in-app messaging.")
-                        }
-                    })
-                } else {
-                    createInAppNotification(supportFragmentManager, carnivalMessage)
-                }
-                false
+                    override fun onError() {
+                        Log.d("Carnival Failure", "Image load failed for in-app messaging.")
+                    }
+                })
+            } else {
+                createInAppNotification(supportFragmentManager, carnivalMessage)
             }
-            Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_key))
-
-            Carnival.addNotificationReceivedListener(CustomCarnivalListener())
+            false
         }
+        Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_key))
+
+        Carnival.addNotificationReceivedListener(CustomCarnivalListener())
     }
 
     fun setupListener(fragManager: FragmentManager) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             supportFragmentManager = fragManager
             checkForStaleMessages()
         }
@@ -203,7 +201,7 @@ open class CarnivalUtils {
     }
 
     fun trackLaunch(isLocationEnabled: Boolean, isSignedIn: Boolean, traveler: Traveler?, bookedProducts: MutableCollection<Trip>, loyaltyTier: LoyaltyMembershipTier?, latitude: Double?, longitude: Double?, posUrl: String) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             val coordinates = latitude.toString() + ", " + longitude.toString()
             val bookedTrips = bookedProducts
@@ -225,7 +223,7 @@ open class CarnivalUtils {
     }
 
     fun trackFlightSearch(destination: String?, adults: Int, departure_date: LocalDate) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(SEARCH_FLIGHT_DESTINATION, destination)
             attributes.putInt(SEARCH_FLIGHT_NUMBER_OF_ADULTS, adults)
@@ -235,7 +233,7 @@ open class CarnivalUtils {
     }
 
     fun trackFlightCheckoutStart(destination: String?, adults: Int, departure_date: LocalDate, outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(CHECKOUT_START_FLIGHT_DESTINATION, destination)
             attributes.putStringArray(CHECKOUT_START_FLIGHT_AIRLINE, getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
@@ -248,7 +246,7 @@ open class CarnivalUtils {
     }
 
     fun trackFlightCheckoutConfirmation(destination: String?, adults: Int, departure_date: LocalDate, outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(CONFIRMATION_FLIGHT_DESTINATION, destination)
             attributes.putStringArray(CONFIRMATION_FLIGHT_AIRLINE, getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
@@ -261,7 +259,7 @@ open class CarnivalUtils {
     }
 
     fun trackHotelSearch(searchParams: HotelSearchParams) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(SEARCH_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName ?: searchParams.suggestion.regionNames.displayName)
             attributes.putInt(SEARCH_HOTEL_NUMBER_OF_ADULTS, searchParams.adults)
@@ -272,7 +270,7 @@ open class CarnivalUtils {
     }
 
     fun trackHotelInfoSite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(PRODUCT_VIEW_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName ?: searchParams.suggestion.regionNames.displayName)
             attributes.putString(PRODUCT_VIEW_HOTEL_HOTEL_NAME, hotelOffersResponse.hotelName)
@@ -284,7 +282,7 @@ open class CarnivalUtils {
     }
 
     fun trackHotelCheckoutStart(hotelCreateTripResponse: HotelCreateTripResponse, hotelSearchParams: HotelSearchParams) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(CHECKOUT_START_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName ?: hotelSearchParams.suggestion.regionNames.displayName)
             attributes.putString(CHECKOUT_START_HOTEL_HOTEL_NAME, hotelCreateTripResponse.newHotelProductResponse.getHotelName())
@@ -296,7 +294,7 @@ open class CarnivalUtils {
     }
 
     fun trackHotelConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, hotelSearchParams: HotelSearchParams) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(CONFIRMATION_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName ?: hotelSearchParams.suggestion.regionNames.displayName)
             attributes.putString(CONFIRMATION_HOTEL_HOTEL_NAME, hotelCheckoutResponse.checkoutResponse.productResponse.hotelName)
@@ -308,7 +306,7 @@ open class CarnivalUtils {
     }
 
     fun trackLxConfirmation(activityTitle: String, activityDate: String) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(CONFIRMATION_LX_ACTIVITY_NAME, activityTitle)
             attributes.putDate(CONFIRMATION_LX_DATE_OF_ACTIVITY, ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate())
@@ -317,7 +315,7 @@ open class CarnivalUtils {
     }
 
     fun trackPackagesConfirmation(packageParams: PackageSearchParams) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             attributes.putString(CONFIRMATION_PKG_DESTINATION, packageParams.destination?.regionNames?.fullName)
             attributes.putDate(CONFIRMATION_PKG_DEPARTURE_DATE, packageParams.startDate.toDate())
@@ -327,7 +325,7 @@ open class CarnivalUtils {
     }
 
     fun trackRailConfirmation(railCheckoutResponse: RailCheckoutResponse) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             val attributes = AttributeMap()
             val railLeg = railCheckoutResponse.railDomainProduct.railOffer.railProductList.first()?.legOptionList?.first()
             attributes.putString(CONFIRMATION_RAIL_DESTINATION, railLeg?.arrivalStation?.stationDisplayName + ", " + railLeg?.arrivalStation?.stationCity)
@@ -335,8 +333,6 @@ open class CarnivalUtils {
             setAttributes(attributes, CONFIRMATION_RAIL)
         }
     }
-
-    private fun isCarnivalEnabled(): Boolean = ProductFlavorFeatureConfiguration.getInstance().isCarnivalEnabled
 
     open fun setAttributes(attributes: AttributeMap, eventName: String) {
         Carnival.logEvent(eventName)
@@ -357,7 +353,7 @@ open class CarnivalUtils {
     }
 
     open fun setUserInfo(userId: String?, userEmail: String?) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             Carnival.setUserId(userId, object : CarnivalHandler<Void> {
                 override fun onSuccess(value: Void) {
                     Log.d(tag, "Carnival UserId set successfully.")
@@ -381,7 +377,7 @@ open class CarnivalUtils {
     }
 
     fun toggleNotifications(enableNotifications: Boolean) {
-        if (isCarnivalEnabled() && initialized) {
+        if (initialized) {
             Carnival.setInAppNotificationsEnabled(enableNotifications)
         }
     }

@@ -150,7 +150,7 @@ public class AboutUtils {
 			items[1] = getActivity().getString(R.string.contact_expedia_website);
 			actions[1] = new Runnable() {
 				public void run() {
-					ProductFlavorFeatureConfiguration.getInstance().contactUsViaWeb(getActivity());
+					AboutUtils.openWebsite(getActivity(), PointOfSale.getPointOfSale().getBookingSupportUrl(), true);
 				}
 			};
 
@@ -206,7 +206,7 @@ public class AboutUtils {
 			for (int a = 0; a < len; a++) {
 				PointOfSale info = poses.get(a);
 				entries[a] = getActivity().getString(info.getCountryNameResId());
-				entrySubText[a] = ProductFlavorFeatureConfiguration.getInstance().getPosURLToShow(info.getUrl());
+				entrySubText[a] = info.getUrl();
 				entryValues[a] = info.getPointOfSaleId().getId();
 				entriesFlags[a] = info.getCountryFlagResId();
 			}

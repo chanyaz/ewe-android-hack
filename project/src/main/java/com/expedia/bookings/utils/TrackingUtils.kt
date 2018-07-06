@@ -15,21 +15,23 @@ object TrackingUtils {
     fun initializeTracking(app: Application) {
         if (!isAutomation()) {
             FacebookEvents.init(app)
-
-            if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled) {
-                app.registerActivityLifecycleCallbacks(TuneActivityLifecycleCallbacks())
-                val advertiserID = app.getString(R.string.tune_sdk_app_advertiser_id)
-                val conversionKey = app.getString(R.string.tune_sdk_app_conversion_key)
-
-                val tune = Tune.init(app, advertiserID, conversionKey)
-                val userStateManager = Ui.getApplication(app.applicationContext).appComponent().userStateManager()
-                val shouldSetExistingUser = ProductFlavorFeatureConfiguration.getInstance().shouldSetExistingUserForTune()
-
-                val provider = TuneTrackingProviderImpl(tune, app, userStateManager, shouldSetExistingUser)
-
-                TuneUtils.init(provider)
-            }
+            initializeTuneTracking(app)
         }
+    }
+
+    @JvmStatic
+    private fun initializeTuneTracking(app: Application) {
+        app.registerActivityLifecycleCallbacks(TuneActivityLifecycleCallbacks())
+        val advertiserID = app.getString(R.string.tune_sdk_app_advertiser_id)
+        val conversionKey = app.getString(R.string.tune_sdk_app_conversion_key)
+
+        val tune = Tune.init(app, advertiserID, conversionKey)
+        val userStateManager = Ui.getApplication(app.applicationContext).appComponent().userStateManager()
+        val shouldSetExistingUser = ProductFlavorFeatureConfiguration.getInstance().shouldSetExistingUserForTune()
+
+        val provider = TuneTrackingProviderImpl(tune, app, userStateManager, shouldSetExistingUser)
+
+        TuneUtils.init(provider)
     }
 
     @JvmStatic

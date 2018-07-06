@@ -110,9 +110,4 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 	public boolean showHotelLoyaltyEarnMessage() {
 		return false;
 	}
-
-	@Override
-	public boolean shouldForceEnableMIDAPIForPackages() {
-		return true;
-	}
 }

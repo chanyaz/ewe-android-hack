@@ -21,7 +21,6 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.extensions.safePrint
 import com.expedia.bookings.extensions.safePutInt
 import com.expedia.bookings.extensions.safePutString
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
@@ -80,7 +79,6 @@ class FacebookEvents {
 
         private fun isFacebookTrackingEnabled(): Boolean {
             return Features.all.facebookAdTracking.enabled()
-                    && ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled
         }
 
         private fun track(event: String, parameters: Bundle) {

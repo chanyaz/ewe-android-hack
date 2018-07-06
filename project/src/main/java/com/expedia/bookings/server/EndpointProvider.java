@@ -112,7 +112,7 @@ public class EndpointProvider implements EndpointProviderInterface {
 		if (Strings.isNotEmpty(urlTemplate)) {
 			String protocol = "https";
 
-			if (ProductFlavorFeatureConfiguration.getInstance().shouldUseDotlessDomain(endPoint)) {
+			if (shouldUseDotlessDomain(endPoint)) {
 				domain = Strings.joinWithoutEmpties("", Arrays.asList(domain.split("\\.")));
 			}
 
@@ -127,6 +127,10 @@ public class EndpointProvider implements EndpointProviderInterface {
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
 		}
+	}
+
+	private boolean shouldUseDotlessDomain(EndPoint endpoint) {
+		return endpoint != EndPoint.PRODUCTION;
 	}
 
 	public String getKongEndpointUrl() {
