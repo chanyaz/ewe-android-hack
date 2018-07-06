@@ -20,15 +20,6 @@
             android:key="24741"
             android:title="HSR Urgency Message V2 - 24741" />
 
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="16255"
-            android:summary="%s"
-            android:title="Hide mini map on HSR - 16255" />
-
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"

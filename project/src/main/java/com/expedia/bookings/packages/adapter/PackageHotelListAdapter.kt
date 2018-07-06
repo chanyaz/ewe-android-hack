@@ -31,8 +31,4 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
             return R.string.package_hotel_results_header_TEMPLATE
         }
     }
-
-    override fun getHeaderTopPadding(context: Context, currentPadding: Int): Int {
-        return currentPadding
-    }
 }

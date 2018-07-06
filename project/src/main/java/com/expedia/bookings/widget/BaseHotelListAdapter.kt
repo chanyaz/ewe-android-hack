@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -10,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
@@ -28,7 +26,6 @@ import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 import com.expedia.util.endlessObserver
@@ -45,7 +42,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
     abstract fun getPriceDescriptorMessageIdForHSR(context: Context): Int?
-    abstract fun getHeaderTopPadding(context: Context, currentPadding: Int): Int
 
     var firstHotelIndex = 0
     val FILTER_PROMPT_POSITION = 15
@@ -206,7 +202,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         if (viewType == HotelAdapterItem.TRANSPARENT_MAPVIEW) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (isHideMiniMapOnResultBucketed(parent.context) || ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else AndroidUtils.getScreenSize(parent.context).y
+            lp.height = if (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else AndroidUtils.getScreenSize(parent.context).y
             header.layoutParams = lp
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
         } else if (viewType == HotelAdapterItem.LOADING) {
@@ -223,12 +219,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         } else if (viewType == HotelAdapterItem.SPACER) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            if (isHideMiniMapOnResultBucketed(parent.context)) {
-                lp.height = parent.context.resources.getDimensionPixelSize(R.dimen.hotel_results_last_price_buffer_hide_mini_map)
-                header.setBackgroundColor((ContextCompat.getColor(parent.context, R.color.gray100)))
-            } else {
-                lp.height = parent.context.resources.getDimensionPixelSize(R.dimen.hotel_results_last_price_buffer)
-            }
+            lp.height = parent.context.resources.getDimensionPixelSize(R.dimen.hotel_results_last_price_buffer)
             header.layoutParams = lp
             return EndOfListViewHolder(header)
         } else if (viewType == HotelAdapterItem.URGENCY) {
@@ -273,20 +264,13 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
-        val resultsDescriptionContainer: RelativeLayout by bindView(R.id.results_description_container)
         val resultsDescriptionHeader: TextView by bindView(R.id.results_description_header)
         val loyaltyPointsAppliedHeader: TextView by bindView(R.id.loyalty_points_applied_message)
         val shadow: View by bindView(R.id.drop_shadow)
 
         init {
-            if (isHideMiniMapOnResultBucketed(root.context) || ExpediaBookingApp.isDeviceShitty()) {
+            if (ExpediaBookingApp.isDeviceShitty()) {
                 shadow.visibility = View.GONE
-            }
-
-            val offset = getHeaderTopPadding(root.context, resultsDescriptionContainer.paddingTop)
-            if (offset != resultsDescriptionContainer.paddingTop) {
-                resultsDescriptionContainer.setPadding(resultsDescriptionContainer.paddingLeft, offset,
-                        resultsDescriptionContainer.paddingRight, resultsDescriptionContainer.paddingBottom)
             }
 
             val faqUrl = PointOfSale.getPointOfSale().hotelsResultsSortFaqUrl
