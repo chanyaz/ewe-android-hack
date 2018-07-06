@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
  * .setPOSEnableSpamByDefault(true)
  * .setPOSShowSpamOptIn(true)
  * .setUserRewardsEnrollmentCheck(true)
- * .setEnableFacebookButton(true)
+ * .setEnableFacebookSignIn(true)
  * .setMarketingString(getString(R.string.marketing_string))
  * .setListener(mAccountViewListener)
  * .setAnalyticsListener(mAnalyticsListener)
@@ -42,7 +42,7 @@ public class Config {
 
 	boolean showSpamOptIn = false;
 	boolean enableSpamByDefault = false;
-	boolean enableFacebookButton = true;
+	boolean enableFacebookSignIn = true;
 	boolean enableSignInMessaging = false;
 	boolean hasUserRewardsEnrollmentCheck = false;
 	boolean enableRecaptcha = false;
@@ -109,8 +109,8 @@ public class Config {
 		return this;
 	}
 
-	public Config setEnableFacebookButton(boolean enableFacebookButton) {
-		this.enableFacebookButton = enableFacebookButton;
+	public Config setEnableFacebookSignIn(boolean enableFacebookSignIn) {
+		this.enableFacebookSignIn = enableFacebookSignIn;
 		return this;
 	}
 

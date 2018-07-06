@@ -118,7 +118,7 @@ public class MockAccountLibActivity extends FragmentActivity {
 			.setPOSEnableSpamByDefault(true)
 			.setPOSShowSpamOptIn(true)
 			.setUserRewardsEnrollmentCheck(true)
-			.setEnableFacebookButton(true)
+			.setEnableFacebookSignIn(true)
 			.setEnableSignInMessaging(true)
 			.setTOSText(Html.fromHtml(getString(R.string.terms_of_service)))
 			.setMarketingText(getString(R.string.agree_to_spam))

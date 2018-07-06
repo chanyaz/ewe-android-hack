@@ -79,9 +79,9 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
         super.onDetachedFromWindow()
     }
 
-    fun configurePOS(enableFacebookButton: Boolean, enableMultipleSignInLayout: Boolean) {
-        signInWithFacebookButton.visibility = if (enableFacebookButton && !enableMultipleSignInLayout) View.VISIBLE else View.GONE
-        multipleSignInOptionsLayout.visibility = if (enableMultipleSignInLayout) View.VISIBLE else View.GONE
+    fun configurePOS(enableFacebookSignIn: Boolean, enableGoogleSignIn: Boolean) {
+        signInWithFacebookButton.visibility = if (enableFacebookSignIn && !enableGoogleSignIn) View.VISIBLE else View.GONE
+        multipleSignInOptionsLayout.visibility = if (enableGoogleSignIn) View.VISIBLE else View.GONE
     }
 
     fun setEnable(enable: Boolean) {
