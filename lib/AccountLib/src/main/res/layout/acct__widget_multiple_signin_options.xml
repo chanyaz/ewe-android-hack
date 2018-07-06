@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:lineSpacingExtra="4sp"
         android:padding="12dp"
-        android:text="Sign in with other accounts"
+        android:text="@string/acct__sign_in_with_other_accounts"
         android:textColor="@color/acct__black"
         android:textSize="14sp"
         android:textStyle="normal" />
