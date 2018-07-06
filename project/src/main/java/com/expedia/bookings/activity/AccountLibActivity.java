@@ -213,7 +213,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setService(ServicesUtil.generateAccountService(this))
 					.setPOSEnableSpamByDefault(false)
 					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
-					.setEnableMultipleSignInLayout(isGoogleSignInEnabled)
+					.setEnableGoogleSignIn(isGoogleSignInEnabled)
 					.setEnableFacebookButton(
 							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 					.setListener(listener)

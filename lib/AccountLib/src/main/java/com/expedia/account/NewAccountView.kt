@@ -112,7 +112,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) :
         this.config = config
         signInLayout.setupConfig(config)
         createAccountLayout.setupConfig(config)
-        signInLayout.configurePOS(config.enableFacebookButton, config.enabledMultipleSignInLayout)
+        signInLayout.configurePOS(config.enableFacebookButton, config.enableGoogleSignIn)
         createAccountLayout.configurePOS(
                 config.showSpamOptIn,
                 config.enableSpamByDefault,

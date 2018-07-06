@@ -2,8 +2,6 @@ package com.expedia.account;
 
 import java.lang.ref.WeakReference;
 
-import okhttp3.OkHttpClient;
-
 /**
  * Holds the configuration for AccountView. Config uses a builder pattern:
  * <p/>
@@ -40,7 +38,7 @@ public class Config {
 
 	WeakReference<PanningImageView> background;
 
-	boolean enabledMultipleSignInLayout = false;
+	boolean enableGoogleSignIn = false;
 
 	boolean showSpamOptIn = false;
 	boolean enableSpamByDefault = false;
@@ -91,8 +89,8 @@ public class Config {
 		return this;
 	}
 
-	public Config setEnableMultipleSignInLayout(boolean enabledMultipleSignInLayout) {
-		this.enabledMultipleSignInLayout = enabledMultipleSignInLayout;
+	public Config setEnableGoogleSignIn(boolean enableGoogleSignIn) {
+		this.enableGoogleSignIn = enableGoogleSignIn;
 		return this;
 	}
 
