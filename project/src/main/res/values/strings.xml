@@ -5121,4 +5121,7 @@
     <string name="widget_expanded_announcement">Expanded</string>
     <!-- Accessibility announcement for when widget is collapsed -->
     <string name="widget_collapsed_announcement">Collapsed</string>
+    <string name="opt_in_lower_price">Opt-in for lower price</string>
+    <string name="opt_in_lower_price_details">As per previous Expedia trends hotel prices 70% of cases hotel prices are expected to vary.Expedia Opt-in provides you option to book on best prices even after booking completed.If hotel price reduces, difference amount will be credited to your Expedia account as reward points.</string>
+    <string name="opt_in_price_title">Opt-in price</string>
 </resources>

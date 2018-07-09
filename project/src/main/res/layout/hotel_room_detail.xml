@@ -200,6 +200,39 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/price_change_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.shared.FormCheckBoxWidget
+                android:id="@+id/price_check_box"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/pot_in_text_view"
+                style="@style/Core.Text.200.LightColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/opt_in_lower_price"
+                android:layout_marginLeft="2dp" />
+
+            <ImageView
+                android:id="@+id/price_info_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="14dp"
+                android:contentDescription="@string/room_information_button_cont_desc"
+                android:src="@drawable/details_info" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </merge>

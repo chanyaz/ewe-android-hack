@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.ColorFilter
 import android.graphics.Paint
@@ -19,6 +20,7 @@ import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.shared.FormCheckBoxWidget
 import com.expedia.vm.HotelRoomDetailViewModel
 import io.reactivex.subjects.PublishSubject
 
@@ -42,6 +44,9 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val roomLeftContainer: LinearLayout by bindView(R.id.room_left_container)
     private val urgencyIcon: ImageView by bindView(R.id.urgency_icon)
     private val roomLeftTextView: TextView by bindView(R.id.room_left_text_view)
+    private val priceChangeContainer: LinearLayout by bindView(R.id.price_change_container)
+    private val priceInfoIcon: ImageView by bindView(R.id.price_info_icon)
+    private val priceCheckBox: FormCheckBoxWidget by bindView(R.id.price_check_box)
 
     val depositTermsClickedSubject = PublishSubject.create<Unit>()
     val hotelRoomRowClickedSubject = PublishSubject.create<Unit>()
@@ -111,7 +116,32 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         }
 
         roomLeftContainer.setInverseVisibility(viewModel.roomLeftString.isNullOrBlank())
+        priceChangeContainer.setVisibility(viewModel.hotelRoomResponse.hasFreeCancellation)
+        priceCheckBox.setIsChecked(true)
+        priceCheckBox.setIsEnabled(true)
+        priceInfoIcon.setOnClickListener {
+            showPriceDescriptionDialog(roomInfo = context.getString(R.string.opt_in_lower_price_details))
+        }
         roomLeftTextView.setTextAndVisibility(viewModel.roomLeftString)
+    }
+
+    private fun showPriceDescriptionDialog(roomInfo: String?) {
+        if (roomInfo.isNullOrBlank()) {
+            return
+        }
+        val roomTextView = View.inflate(context, R.layout.room_description_dialog, null) as android.widget.TextView
+        roomTextView.text = roomInfo
+
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.opt_in_price_title)
+        builder.setView(roomTextView)
+        builder.setCancelable(false)
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
+            dialog.dismiss()
+        })
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun createValueAddTextView(valueAdd: HotelValueAdd, filter: ColorFilter, viewGroup: ViewGroup) {

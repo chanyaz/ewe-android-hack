@@ -50,6 +50,21 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
         adapter.create(HotelApi::class.java)
     }
 
+    private val hotelPredictionApi: HotelPredictionApi by lazy {
+        val gson = GsonBuilder()
+                .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
+                .create()
+
+        val adapter = Retrofit.Builder()
+                .baseUrl("http://localhost:8080")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .build()
+
+        adapter.create(HotelPredictionApi::class.java)
+    }
+
     private val hotelSatelliteApi: HotelSatelliteApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
@@ -80,6 +95,14 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
     }
 
     open fun search(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
+        return if (bucketedForHotelSatelliteSearch) {
+            fastSearch(params, resultsResponseReceivedObservable)
+        } else {
+            legacySearch(params, resultsResponseReceivedObservable)
+        }
+    }
+
+    open fun searchPrediction(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
         return if (bucketedForHotelSatelliteSearch) {
             fastSearch(params, resultsResponseReceivedObservable)
         } else {
