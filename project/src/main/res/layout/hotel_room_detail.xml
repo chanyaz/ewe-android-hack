@@ -227,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="14dp"
+                android:layout_marginRight="0dp"
                 android:contentDescription="@string/room_information_button_cont_desc"
                 android:src="@drawable/details_info" />
 
