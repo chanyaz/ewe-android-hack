@@ -1,0 +1,24 @@
+{
+	"name": "Re-book before price drop",
+	"enabled": true,
+	"icon": 140,
+	"team": "Zero",
+	"team-email": "no-reply@expedia.com",
+	"slack-channel": "#<team-slack-channel>",
+	"tag-line": "Not yet decided",
+	"links": [
+		{
+			"name": "Add any link that helps document or demo your project. DO NOT put your github repo, we will do that for you.",
+			"url": "http://<link_url>"
+		}
+	],
+	"tags": [
+		"Hackathon 7.0"
+	],
+	"contributors": [
+		"amohdi",
+		"dhasharma",
+		"somgupta",
+		"bsachdeva"
+	]
+}
