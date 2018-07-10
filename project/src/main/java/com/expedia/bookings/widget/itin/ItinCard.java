@@ -391,14 +391,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		}
 	}
 
+	@SuppressLint("SetTextI18n")
 	private void showPriceDescriptionDialog() {
 
 		Context context = getContext();
 		TextView roomTextView = (TextView) View.inflate(context, R.layout.room_description_dialog, null);
-		roomTextView.setText(R.string.opt_in_lower_price_details);
+		roomTextView.setText(Html.fromHtml("Your hotel price just went down by <b>$29</b>\nCongratulation, we have credited these as reward points into your account"));
 
 		View titleView = View.inflate(context, R.layout.opt_in_dialog, null);
-
+		((TextView)titleView.findViewById(R.id.pot_in_text_view)).setText("Congratulation!");
 		new AlertDialog.Builder(context).setCustomTitle(titleView)
 		.setView(roomTextView)
 		.setCancelable(false)
