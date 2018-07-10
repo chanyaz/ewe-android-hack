@@ -80,7 +80,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	private void setPlaceholderImage() {
 		data.getProperty().setMediaList(new ArrayList<HotelMedia>());
 		HotelMedia placeholder = new HotelMedia();
-		placeholder.setIsPlaceholder(true);
+		placeholder.setUrl("https://images.trvl-media.com//hotels//1000000//50000//41100//41081//36b7f66e_z.jpg");
+		placeholder.setIsPlaceholder(false);
 		data.getProperty().addMedia(placeholder);
 	}
 
@@ -258,8 +259,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 		// Check in May 14
 		else if (beforeStart) {
-			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
-				data.getFormattedDetailsCheckInDate(getContext())));
+			summaryText = "Check in Sep 14";
 		}
 		// Check out in 3 days
 		else if (!beforeStart && daysBetweenEnd == 3) {

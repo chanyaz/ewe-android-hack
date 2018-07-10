@@ -269,10 +269,13 @@
                             android:src="?attr/itin_card_list_chevron_drawable" />
                     </LinearLayout>
 
+                    <include android:id="@+id/opt_in_layout" layout="@layout/trip_opt_in" />
+
                     <View
                         android:id="@+id/summary_divider_view"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:background="?attr/itin_card_summary_divider_color"

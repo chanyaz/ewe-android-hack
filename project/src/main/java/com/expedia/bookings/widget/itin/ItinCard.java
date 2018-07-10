@@ -10,13 +10,17 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MenuInflater;
@@ -107,6 +111,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mHeaderTextLayout;
 	protected ViewGroup mSummarySectionLayout;
 	private ViewGroup mSummaryLayout;
+	private ViewGroup mOptInLayout;
 	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
 	private ItinActionsSection mActionButtonLayout;
@@ -161,6 +166,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderTextLayout = Ui.findView(this, R.id.header_text_layout);
 		mSummarySectionLayout = Ui.findView(this, R.id.summary_section_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
+		mOptInLayout = Ui.findView(this, R.id.opt_in_layout);
 		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
@@ -286,6 +292,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mOnItinCardClickListener = onItinCardClickListener;
 	}
 
+	@SuppressLint("SetTextI18n")
 	public void bind(final T itinCardData) {
 		if (mItinContentGenerator != null && mItinContentGenerator.getType() != itinCardData.getTripComponentType()) {
 			throw new RuntimeException("Attempted to reuse an ItinCard for two different types of cards!"
@@ -350,6 +357,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mSummaryLayout.addView(mSummaryView);
 		}
 
+//		View roomTextView = View.inflate(getContext(), R.layout.trip_opt_in, null);
+		((TextView)mOptInLayout.findViewById(R.id.pot_in_text_view)).setText(Html.fromHtml("<b>29 Reward points</b> have been credited to your account"));
+		mOptInLayout.findViewById(R.id.price_info_icon).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showPriceDescriptionDialog();
+			}
+		});
+//		mSummaryLayout.addView(roomTextView);
+
 		// Buttons
 		mActionButtonLayout.bind(mItinContentGenerator.getSummaryLeftButton(),
 			mItinContentGenerator.getSummaryRightButton());
@@ -372,6 +389,27 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mHeaderGallery.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
 			mChevronImageView.setRotation(-90f);
 		}
+	}
+
+	private void showPriceDescriptionDialog() {
+
+		Context context = getContext();
+		TextView roomTextView = (TextView) View.inflate(context, R.layout.room_description_dialog, null);
+		roomTextView.setText(R.string.opt_in_lower_price_details);
+
+		View titleView = View.inflate(context, R.layout.opt_in_dialog, null);
+
+		new AlertDialog.Builder(context).setCustomTitle(titleView)
+		.setView(roomTextView)
+		.setCancelable(false)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+					}
+				})
+		.create()
+		.show();
 	}
 
 	private boolean isExpanded() {

@@ -57,7 +57,7 @@ public class LXAttachItinContentGenerator extends ItinButtonContentGenerator<Iti
 		if (property != null && Strings.isNotEmpty(property.getLocation().getCity())) {
 
 			buttonText = getContext().getString(R.string.add_lx_TEMPLATE,
-				property.getLocation().getCity());
+				"Las Vegas");
 		}
 		else {
 			buttonText = getContext().getString(R.string.add_lx_fallback);

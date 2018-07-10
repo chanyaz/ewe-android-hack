@@ -262,111 +262,17 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings
 
         // Common to all trips
         // NOTE: using static hour offset so that daylight savings doesn't muck with the data
-        val pacificTimeZone = DateTimeZone.forID("America/Los_Angeles")
-        val easternTimeZone = DateTimeZone.forID("America/New_York")
-        val startOfTodayPacific = DateTime.now().withZone(pacificTimeZone).withTimeAtStartOfDay()
-        val startOfTodayEastern = DateTime.now().withZone(easternTimeZone).withTimeAtStartOfDay()
 
-        // Inject hotel DateTimes
+        val pacificTimeZone = DateTimeZone.forID("America/Los_Angeles")
+        val startOfTodayPacific = DateTime.now().withZone(pacificTimeZone).withTimeAtStartOfDay()
+
         val hotelCheckIn = startOfTodayPacific.plusDays(10).withHourOfDay(11).withMinuteOfHour(32)
         val hotelCheckOut = startOfTodayPacific.plusDays(12).withHourOfDay(18).withMinuteOfHour(4)
+
         params.put("hotelCheckInEpochSeconds", "" + hotelCheckIn.millis / 1000)
         params.put("hotelCheckInTzOffset", "" + pacificTimeZone.getOffset(hotelCheckIn.millis) / 1000)
         params.put("hotelCheckOutEpochSeconds", "" + hotelCheckOut.millis / 1000)
         params.put("hotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(hotelCheckOut.millis) / 1000)
-
-        // Inject flight DateTimes
-        val outboundFlightDeparture = startOfTodayPacific.plusDays(14).withHourOfDay(11).withMinuteOfHour(32)
-        val outboundFlightArrival = startOfTodayEastern.plusDays(14).withHourOfDay(18).withMinuteOfHour(4)
-        val inboundFlightDeparture = startOfTodayEastern.plusDays(22).withHourOfDay(18).withMinuteOfHour(59)
-        val inboundFlightArrival = startOfTodayPacific.plusDays(22).withHourOfDay(22).withMinuteOfHour(11)
-        params.put("outboundFlightDepartureEpochSeconds", "" + outboundFlightDeparture.millis / 1000)
-        params.put("outboundFlightDepartureTzOffset", "" + pacificTimeZone.getOffset(outboundFlightDeparture.millis) / 1000)
-        params.put("outboundFlightArrivalEpochSeconds", "" + outboundFlightArrival.millis / 1000)
-        params.put("outboundFlightArrivalTzOffset", "" + easternTimeZone.getOffset(outboundFlightArrival.millis) / 1000)
-        params.put("inboundFlightDepartureEpochSeconds", "" + inboundFlightDeparture.millis / 1000)
-        params.put("inboundFlightDepartureTzOffset", "" + easternTimeZone.getOffset(inboundFlightDeparture.millis) / 1000)
-        params.put("inboundFlightArrivalEpochSeconds", "" + inboundFlightArrival.millis / 1000)
-        params.put("inboundFlightArrivalTzOffset", "" + pacificTimeZone.getOffset(inboundFlightArrival.millis) / 1000)
-
-        // Inject air attach times
-        var airAttachExpiry = startOfTodayPacific.plusDays(1)
-        // near midnight, during standard time, this can get stretched to 2 days (25 hours), but test expects 1 day
-        // NOTE: this is all because we force the timezones in the test to daylight savings time, even during standard time periods
-        while (Days.daysBetween(DateTime.now().toLocalDate(), airAttachExpiry.toLocalDate()).days > 1) {
-            airAttachExpiry = airAttachExpiry.minusHours(1)
-        }
-
-        while (Days.daysBetween(DateTime.now().toLocalDate(), airAttachExpiry.toLocalDate()).days < 1) {
-            airAttachExpiry = airAttachExpiry.plusHours(1)
-        }
-
-        params.put("airAttachOfferExpiresEpochSeconds", "" + airAttachExpiry.millis / 1000)
-        params.put("airAttachOfferExpiresTzOffset", "" + pacificTimeZone.getOffset(airAttachExpiry.millis) / 1000)
-
-        // Inject car DateTimes
-        val carPickup = startOfTodayEastern.plusDays(14).withHourOfDay(11).withMinuteOfHour(32)
-        val carDropoff = startOfTodayEastern.plusDays(22).withHourOfDay(18).withMinuteOfHour(29)
-        params.put("carPickupEpochSeconds", "" + carPickup.millis / 1000)
-        params.put("carPickupTzOffset", "" + easternTimeZone.getOffset(carPickup.millis) / 1000)
-        params.put("carDropoffEpochSeconds", "" + carDropoff.millis / 1000)
-        params.put("carDropoffTzOffset", "" + easternTimeZone.getOffset(carDropoff.millis) / 1000)
-
-        // Inject lx DateTimes
-        val lxStart = startOfTodayPacific.plusDays(25).withHourOfDay(11)
-        val lxEnd = startOfTodayPacific.plusDays(25).withHourOfDay(17)
-        params.put("lxStartEpochSeconds", "" + lxStart.millis / 1000)
-        params.put("lxStartTzOffset", "" + pacificTimeZone.getOffset(lxStart.millis) / 1000)
-        params.put("lxEndEpochSeconds", "" + lxEnd.millis / 1000)
-        params.put("lxEndTzOffset", "" + pacificTimeZone.getOffset(lxEnd.millis) / 1000)
-
-
-        // Inject package DateTimes
-        val pckgStart = startOfTodayPacific.plusDays(35).withHourOfDay(4)
-        val pckgEnd = startOfTodayPacific.plusDays(41).withHourOfDay(12)
-        val pckgHotelCheckIn = startOfTodayPacific.plusDays(35).withHourOfDay(8).withMinuteOfHour(0)
-        val pckgHotelCheckOut = try {
-            startOfTodayPacific.plusDays(40).withHourOfDay(2).withMinuteOfHour(0)
-        } catch (e: IllegalArgumentException) {
-            startOfTodayPacific.plusDays(40).withHourOfDay(3).withMinuteOfHour(0)
-        }
-
-        val pckgOutboundFlightDeparture = startOfTodayPacific.plusDays(35).withHourOfDay(4)
-        val pckgOutboundFlightArrival = startOfTodayPacific.plusDays(35).withHourOfDay(6).withMinuteOfHour(4)
-        val pckgInboundFlightDeparture = startOfTodayPacific.plusDays(40).withHourOfDay(10)
-        val pckgInboundFlightArrival = startOfTodayPacific.plusDays(40).withHourOfDay(12)
-        params.put("pckgStartEpochSeconds", "" + pckgStart.millis / 1000)
-        params.put("pckgStartTzOffset", "" + pacificTimeZone.getOffset(pckgStart.millis) / 1000)
-        params.put("pckgEndEpochSeconds", "" + pckgEnd.millis / 1000)
-        params.put("pckgEndTzOffset", "" + pacificTimeZone.getOffset(pckgEnd.millis) / 1000)
-        params.put("pckgOutboundFlightDepartureEpochSeconds", "" + pckgOutboundFlightDeparture.millis / 1000)
-        params.put("pckgOutboundFlightDepartureTzOffset", "" + pacificTimeZone.getOffset(pckgOutboundFlightDeparture.millis) / 1000)
-        params.put("pckgOutboundFlightArrivalEpochSeconds", "" + pckgOutboundFlightArrival.millis / 1000)
-        params.put("pckgOutboundFlightArrivalTzOffset", "" + pacificTimeZone.getOffset(pckgOutboundFlightArrival.millis) / 1000)
-        params.put("pckgInboundFlightDepartureEpochSeconds", "" + pckgInboundFlightDeparture.millis / 1000)
-        params.put("pckgInboundFlightDepartureTzOffset", "" + pacificTimeZone.getOffset(pckgInboundFlightDeparture.millis) / 1000)
-        params.put("pckgInboundFlightArrivalEpochSeconds", "" + pckgInboundFlightArrival.millis / 1000)
-        params.put("pckgInboundFlightArrivalTzOffset", "" + pacificTimeZone.getOffset(pckgInboundFlightArrival.millis) / 1000)
-        params.put("pckgHotelCheckInEpochSeconds", "" + pckgHotelCheckIn.millis / 1000)
-        params.put("pckgHotelCheckInTzOffset", "" + pacificTimeZone.getOffset(pckgHotelCheckIn.millis) / 1000)
-        params.put("pckgHotelCheckOutEpochSeconds", "" + pckgHotelCheckOut.millis / 1000)
-        params.put("pckgHotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(pckgHotelCheckOut.millis) / 1000)
-
-        // Inject rails DateTimes
-        val railStart = startOfTodayPacific.plusDays(44).withHourOfDay(4)
-        val railEnd = startOfTodayPacific.plusDays(48).withHourOfDay(12)
-        params.put("railStartEpochSeconds", "" + railStart.millis / 1000)
-        params.put("railStartTzOffset", "" + pacificTimeZone.getOffset(railStart.millis) / 1000)
-        params.put("railEndEpochSeconds", "" + railEnd.millis / 1000)
-        params.put("railEndTzOffset", "" + pacificTimeZone.getOffset(railEnd.millis) / 1000)
-
-        // Inject Pending flight DateTimes
-        val pendingFlightStart = startOfTodayPacific.plusDays(50).withHourOfDay(20)
-        val pendingFlightEnd = startOfTodayPacific.plusDays(50).withHourOfDay(22)
-        params.put("pendingFlightStartEpochSeconds", "" + pendingFlightStart.millis / 1000)
-        params.put("pendingFlightStartTzOffset", "" + pacificTimeZone.getOffset(pendingFlightStart.millis) / 1000)
-        params.put("pendingFlightEndEpochSeconds", "" + pendingFlightEnd.millis / 1000)
-        params.put("pendingFlightEndTzOffset", "" + pacificTimeZone.getOffset(pendingFlightEnd.millis) / 1000)
 
         return makeResponse("/api/trips/happy.json", params)
     }
