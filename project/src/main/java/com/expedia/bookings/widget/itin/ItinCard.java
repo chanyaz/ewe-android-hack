@@ -396,10 +396,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 		Context context = getContext();
 		TextView roomTextView = (TextView) View.inflate(context, R.layout.room_description_dialog, null);
-		roomTextView.setText(Html.fromHtml("Your hotel price just went down by <b>$29</b>\nCongratulation, we have credited these as reward points into your account"));
+		roomTextView.setText(Html.fromHtml("Your hotel price just went down by <b>$29</b>\nCongratulations, we have credited these as reward points into your account"));
 
 		View titleView = View.inflate(context, R.layout.opt_in_dialog, null);
-		((TextView)titleView.findViewById(R.id.pot_in_text_view)).setText("Congratulation!");
+		((TextView)titleView.findViewById(R.id.pot_in_text_view)).setText("Congratulations!");
 		new AlertDialog.Builder(context).setCustomTitle(titleView)
 		.setView(roomTextView)
 		.setCancelable(false)
