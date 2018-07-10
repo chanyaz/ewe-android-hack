@@ -132,8 +132,12 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         val roomTextView = View.inflate(context, R.layout.room_description_dialog, null) as android.widget.TextView
         roomTextView.text = roomInfo
 
+        val titleView = View.inflate(context, R.layout.opt_in_dialog, null)
+
         val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.opt_in_price_title)
+        builder.setCustomTitle(titleView)
+//        builder.setTitle(R.string.opt_in_price_title)
+//        builder.setIcon(R.drawable.money)
         builder.setView(roomTextView)
         builder.setCancelable(false)
         builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->

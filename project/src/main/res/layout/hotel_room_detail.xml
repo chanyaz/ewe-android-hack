@@ -229,7 +229,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="0dp"
                 android:contentDescription="@string/room_information_button_cont_desc"
-                android:src="@drawable/details_info" />
+                android:src="@drawable/info" />
 
         </LinearLayout>
 

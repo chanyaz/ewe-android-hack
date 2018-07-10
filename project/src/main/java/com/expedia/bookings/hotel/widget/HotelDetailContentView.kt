@@ -9,11 +9,13 @@ import android.content.Intent
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.os.Build
 import android.os.Handler
 import android.support.annotation.VisibleForTesting
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
+import android.text.Html
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -592,6 +594,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             return
         }
         val roomTextView = View.inflate(context, R.layout.room_description_dialog, null) as android.widget.TextView
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            roomTextView.text = Html.fromHtml(roomInfo, Html.FROM_HTML_MODE_COMPACT);
+//        } else {
+//            roomTextView.text = Html.fromHtml(roomInfo);
+//        }
         roomTextView.text = roomInfo
 
         val builder = AlertDialog.Builder(context)
